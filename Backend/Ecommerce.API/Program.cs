@@ -1,5 +1,9 @@
 using System.Text;
+using BankingAPI.Services;
 using Ecommerce.Data;
+using Ecommerce.Repositories.Interfaces;
+using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -60,6 +64,10 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddScoped<IUserRepsository,UserRepsository>();
+
+builder.Services.AddScoped<IAuthentication,AuthenticationService>();
+builder.Services.AddScoped<ITokenService,TokenService>();
 
 var app = builder.Build();
 
