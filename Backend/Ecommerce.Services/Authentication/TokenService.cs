@@ -6,7 +6,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 
-namespace BankingAPI.Services
+namespace Ecommerce.Services
 {
     public class TokenService : ITokenService
     {
