@@ -61,6 +61,27 @@ public class EcommerceContext : DbContext
             s.HasData(new ApprovalStatus() { ApprovalStatusId = 3, ApprovalStatusName = "Rejected" });
         });
 
+        // Product Status Is Added 
+        modelBuilder.Entity<ProductStatus>(s =>
+        {
+            s.HasKey(s => s.ProductStatusId).HasName("PK_Product_Status");
+            s.Property(s => s.ProductStatusName).IsRequired().HasMaxLength(50);
+            s.HasIndex(s => s.ProductStatusName).IsUnique();
+            s.HasData(new ProductStatus() { ProductStatusId = 1, ProductStatusName = "Draft" });
+            s.HasData(new ProductStatus() { ProductStatusId = 2, ProductStatusName = "Active" });
+            s.HasData(new ProductStatus() { ProductStatusId = 3, ProductStatusName = "Temporarily_Not_Available" });
+            s.HasData(new ProductStatus() { ProductStatusId = 4, ProductStatusName = "Archived" });
+        });
+        modelBuilder.Entity<ProductVariantStatus>(s =>
+        {
+            s.HasKey(s => s.ProductVariantStatusId).HasName("PK_Product_Variant_Status");
+            s.Property(s => s.ProductVariantStatusName).IsRequired().HasMaxLength(50);
+            s.HasIndex(s => s.ProductVariantStatusName).IsUnique();
+            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 1, ProductVariantStatusName = "Temporarily_Not_Available" });
+            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 2, ProductVariantStatusName = "Active" });
+            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 4, ProductVariantStatusName = "Archived" });
+        });
+        
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
             r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
@@ -203,25 +224,7 @@ public class EcommerceContext : DbContext
             rr.HasData(new ReturnReason() { ReturnReasonId = 11, ReturnReasonDescription = "Quality Not Satisfactory" });
             rr.HasData(new ReturnReason() { ReturnReasonId = 12, ReturnReasonDescription = "Changed Mind" });
         });
-        modelBuilder.Entity<ProductStatus>(s =>
-        {
-            s.HasKey(s => s.ProductStatusId).HasName("PK_Product_Status");
-            s.Property(s => s.ProductStatusName).IsRequired().HasMaxLength(50);
-            s.HasIndex(s => s.ProductStatusName).IsUnique();
-            s.HasData(new ProductStatus() { ProductStatusId = 1, ProductStatusName = "Draft" });
-            s.HasData(new ProductStatus() { ProductStatusId = 2, ProductStatusName = "Active" });
-            s.HasData(new ProductStatus() { ProductStatusId = 3, ProductStatusName = "Temporarily_Not_Available" });
-            s.HasData(new ProductStatus() { ProductStatusId = 4, ProductStatusName = "Archived" });
-        });
-        modelBuilder.Entity<ProductVariantStatus>(s =>
-        {
-            s.HasKey(s => s.ProductVariantStatusId).HasName("PK_Product_Variant_Status");
-            s.Property(s => s.ProductVariantStatusName).IsRequired().HasMaxLength(50);
-            s.HasIndex(s => s.ProductVariantStatusName).IsUnique();
-            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 1, ProductVariantStatusName = "Temporarily_Not_Available" });
-            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 2, ProductVariantStatusName = "Active" });
-            s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 4, ProductVariantStatusName = "Archived" });
-        });
+        
         modelBuilder.Entity<User>(u =>
         {
             u.HasKey(u => u.UserId).HasName("PK_User_Id");
