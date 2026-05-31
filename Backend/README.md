@@ -18,7 +18,7 @@
 - dotnet add Ecommerce.Services reference Ecommerce.Repositories
 - dotnet add Ecommerce.API reference Ecommerce.Services 
 
-- dotnet add package Swashbuckle.AspNetCore
+- dotnet add package Swashbuckle.AspNetCore --version 6.6.2
 
 ## Models Added
 
@@ -38,3 +38,4 @@
 - dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 - dotnet add package Microsoft.EntityFrameworkCore.Tools
 - dotnet add package Microsoft.EntityFrameworkCore.Design
+
