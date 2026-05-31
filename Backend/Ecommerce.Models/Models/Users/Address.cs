@@ -7,6 +7,7 @@ public class Address
     public string ContactName {get;set;} = string.Empty; // for deliver 
     public string ContactPhoneNumber {get;set;} = string.Empty; // for delivery
     public string AddressLine {get;set;} = string.Empty;
+    public string LandMark {get;set;} = string.Empty;
     public string City {get;set;} = string.Empty;
     public string State {get;set;} = string.Empty;
     public string Country {get;set;} = string.Empty;
