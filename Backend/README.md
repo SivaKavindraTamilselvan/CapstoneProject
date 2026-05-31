@@ -47,4 +47,11 @@
 - dotnet add package Serilog.Enrichers.Thread
 
 - dotnet add package AutoMapper (added the mapper)
+- dotnet add Ecommerce.Services package Microsoft.EntityFrameworkCore.Relational --version 10.0.8
 
+- rm -rf Ecommerce.API/bin Ecommerce.API/obj
+- rm -rf Ecommerce.Data/bin Ecommerce.Data/obj
+- rm -rf Ecommerce.Repositories/bin Ecommerce.Repositories/obj
+- rm -rf Ecommerce.Services/bin Ecommerce.Services/obj
+- dotnet restore
+- dotnet build
