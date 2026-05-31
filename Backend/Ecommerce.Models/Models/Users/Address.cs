@@ -4,8 +4,8 @@ public class Address
     public int AddressId {get;set;}
     public int UserId {get;set;}
     public User? User {get;set;}
-    public string Name {get;set;} = string.Empty; // for deliver 
-    public string PhoneNumber {get;set;} = string.Empty; // for delivery
+    public string ContactName {get;set;} = string.Empty; // for deliver 
+    public string ContactPhoneNumber {get;set;} = string.Empty; // for delivery
     public string AddressLine {get;set;} = string.Empty;
     public string City {get;set;} = string.Empty;
     public string State {get;set;} = string.Empty;
