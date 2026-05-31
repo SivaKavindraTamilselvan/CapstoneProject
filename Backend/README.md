@@ -32,10 +32,19 @@
 - dotnet ef database update --project Ecommerce.Data --startup-project Ecommerce.API
 - dotnet ef migrations remove --project Ecommerce.Data --startup-project Ecommerce.API
 
-## INSTALLATION
+## Installation
 
 - dotnet add package Microsoft.EntityFrameworkCore
 - dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
 - dotnet add package Microsoft.EntityFrameworkCore.Tools
 - dotnet add package Microsoft.EntityFrameworkCore.Design
+
+- dotnet add package Serilog.AspNetCore
+- dotnet add package Serilog.Settings.Configuration
+- dotnet add package Serilog.Sinks.Console
+- dotnet add package Serilog.Sinks.File
+- dotnet add package Serilog.Enrichers.Environment
+- dotnet add package Serilog.Enrichers.Thread
+
+- dotnet add package AutoMapper (added the mapper)
 

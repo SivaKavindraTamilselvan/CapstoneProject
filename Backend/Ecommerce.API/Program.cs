@@ -1,5 +1,5 @@
 using System.Text;
-using BankingAPI.Services;
+using Ecommerce.Services;
 using Ecommerce.Data;
 using Ecommerce.Mappers;
 using Ecommerce.Repositories.Interfaces;
@@ -15,9 +15,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 Log.Logger = new LoggerConfiguration()
 .ReadFrom.Configuration(builder.Configuration)
-.Enrich.FromLogContext()
-.WriteTo.Console()
-.WriteTo.File("logs/MyAppLog.txt")
 .CreateLogger();
 
 builder.Host.UseSerilog();
