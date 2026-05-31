@@ -17,7 +17,7 @@ public class EcommerceContext : DbContext
         // roles
         modelBuilder.Entity<Role>(r =>
         {
-            r.HasKey(r => r.RoleId).HasName("PK_Role_Id");
+            r.HasKey(r => r.RoleId).HasName("PK_Role");
             r.HasIndex(r => r.RoleName).IsUnique();
             r.HasData(new Role() { RoleId = 1, RoleName = "Admin" });
             r.HasData(new Role() { RoleId = 2, RoleName = "User" });
@@ -81,16 +81,7 @@ public class EcommerceContext : DbContext
             s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 2, ProductVariantStatusName = "Active" });
             s.HasData(new ProductVariantStatus() { ProductVariantStatusId = 4, ProductVariantStatusName = "Archived" });
         });
-        
-        modelBuilder.Entity<ModeOfPayment>(r =>
-        {
-            r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
-            r.HasIndex(r => r.ModeOfPaymentName).IsUnique();
-            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 1, ModeOfPaymentName = "Cash On Delivery" });
-            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 2, ModeOfPaymentName = "Credit Card" });
-            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 3, ModeOfPaymentName = "Debit Card" });
-            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 4, ModeOfPaymentName = "UPI" });
-        });
+        // display order for the product image
         modelBuilder.Entity<DisplayOrder>(r =>
         {
             r.HasKey(r => r.DisplayOrderId).HasName("PK_Display_Order");
@@ -101,7 +92,250 @@ public class EcommerceContext : DbContext
             r.HasData(new DisplayOrder() { DisplayOrderId = 4, DisplayOrderName = "Right" });
         });
 
-        
+        // product category and subcategory
+        modelBuilder.Entity<ProductCategory>(p =>
+        {
+            p.HasKey(p => p.ProductCategoryId).HasName("PK_Product_Category");
+            p.Property(p => p.ProductCategoryName).IsRequired();
+            p.HasIndex(p => p.ProductCategoryName).IsUnique();
+            p.HasData(new ProductCategory { ProductCategoryId = 1, ProductCategoryName = "Electronics" });
+            p.HasData(new ProductCategory { ProductCategoryId = 2, ProductCategoryName = "Fashion" });
+            p.HasData(new ProductCategory { ProductCategoryId = 3, ProductCategoryName = "Beauty & Personal Care" });
+            p.HasData(new ProductCategory { ProductCategoryId = 4, ProductCategoryName = "Home & Kitchen" });
+            p.HasData(new ProductCategory { ProductCategoryId = 5, ProductCategoryName = "Books" });
+            p.HasData(new ProductCategory { ProductCategoryId = 6, ProductCategoryName = "Sports & Fitness" });
+        });
+        modelBuilder.Entity<ProductSubCategory>(p =>
+        {
+            p.HasKey(p => p.ProductSubCategoryId).HasName("PK_Product_Sub_Category");
+            p.Property(p => p.ProductSubCategoryName).IsRequired();
+            p.HasIndex(p => new { p.ProductCategoryId, p.ProductSubCategoryName }).IsUnique();
+            p.HasOne(p => p.ProductCategory).WithMany(p => p.ProductSubCategories).HasForeignKey(p => p.ProductCategoryId).HasConstraintName("FK_Product_Category");
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 1, ProductSubCategoryName = "Mobile Phones", ProductCategoryId = 1 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 2, ProductSubCategoryName = "Laptops", ProductCategoryId = 1 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 3, ProductSubCategoryName = "Tablets", ProductCategoryId = 1 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 4, ProductSubCategoryName = "Smart Watches", ProductCategoryId = 1 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 5, ProductSubCategoryName = "Headphones", ProductCategoryId = 1 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 6, ProductSubCategoryName = "Speakers", ProductCategoryId = 1 });
+
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 7, ProductSubCategoryName = "T-Shirts", ProductCategoryId = 2 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 8, ProductSubCategoryName = "Shirts", ProductCategoryId = 2 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 9, ProductSubCategoryName = "Jeans", ProductCategoryId = 2 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 10, ProductSubCategoryName = "Trousers", ProductCategoryId = 2 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 11, ProductSubCategoryName = "Shoes", ProductCategoryId = 2 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 12, ProductSubCategoryName = "Sandals", ProductCategoryId = 2 });
+
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 13, ProductSubCategoryName = "Face Wash", ProductCategoryId = 3 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 14, ProductSubCategoryName = "Moisturizer", ProductCategoryId = 3 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 15, ProductSubCategoryName = "Shampoo", ProductCategoryId = 3 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 16, ProductSubCategoryName = "Conditioner", ProductCategoryId = 3 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 17, ProductSubCategoryName = "Sunscreen", ProductCategoryId = 3 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 18, ProductSubCategoryName = "Perfumes", ProductCategoryId = 3 });
+
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 19, ProductSubCategoryName = "Cookware", ProductCategoryId = 4 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 20, ProductSubCategoryName = "Furniture", ProductCategoryId = 4 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 21, ProductSubCategoryName = "Storage Containers", ProductCategoryId = 4 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 22, ProductSubCategoryName = "Home Decor", ProductCategoryId = 4 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 23, ProductSubCategoryName = "Bedsheets", ProductCategoryId = 4 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 24, ProductSubCategoryName = "Kitchen Appliances", ProductCategoryId = 4 });
+
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 25, ProductSubCategoryName = "Academic Books", ProductCategoryId = 5 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 26, ProductSubCategoryName = "Novels", ProductCategoryId = 5 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 27, ProductSubCategoryName = "Comics", ProductCategoryId = 5 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 28, ProductSubCategoryName = "Biographies", ProductCategoryId = 5 });
+
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 29, ProductSubCategoryName = "Cricket Equipment", ProductCategoryId = 6 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 30, ProductSubCategoryName = "Football Equipment", ProductCategoryId = 6 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 31, ProductSubCategoryName = "Gym Equipment", ProductCategoryId = 6 });
+            p.HasData(new ProductSubCategory { ProductSubCategoryId = 32, ProductSubCategoryName = "Yoga Accessories", ProductCategoryId = 6 });
+        });
+        modelBuilder.Entity<AttributeMaster>(a =>
+        {
+            a.HasKey(a => a.AttributeMasterId).HasName("PK_Product_Attribute_Master");
+            a.Property(a => a.AttributeName).IsRequired();
+            a.HasIndex(a => a.AttributeName).IsUnique();
+            a.HasData(new AttributeMaster { AttributeMasterId = 1, AttributeName = "Brand" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 2, AttributeName = "Color" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 3, AttributeName = "Size" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 4, AttributeName = "Storage" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 5, AttributeName = "RAM" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 6, AttributeName = "Screen Size" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 7, AttributeName = "Volume" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 8, AttributeName = "Material" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 9, AttributeName = "Weight" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 10, AttributeName = "Skin Type" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 11, AttributeName = "Capacity" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 12, AttributeName = "Processor" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 13, AttributeName = "Operating System" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 14, AttributeName = "Display Type" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 15, AttributeName = "Battery Capacity" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 16, AttributeName = "Gender" });
+            a.HasData(new AttributeMaster { AttributeMasterId = 17, AttributeName = "Author" });
+        });
+        modelBuilder.Entity<ProductSubCategoryAttribute>(psa =>
+        {
+            psa.HasKey(psa => psa.ProductSubCategoryAttributeId).HasName("PK_Product_Sub_Category_Attribute");
+            psa.HasOne(psa => psa.ProductSubCategory).WithMany(psc => psc.ProductSubCategoryAttributes).HasForeignKey(psa => psa.ProductSubCategoryId).HasConstraintName("FK_ProductSubCategoryAttribute_ProductSubCategory");
+            psa.HasOne(psa => psa.AttributeMaster).WithMany(a => a.ProductSubCategoryAttributes).HasForeignKey(psa => psa.AttributeMasterId).HasConstraintName("FK_ProductSubCategoryAttribute_AttributeMaster");
+            psa.HasIndex(psa => new { psa.ProductSubCategoryId, psa.AttributeMasterId }).IsUnique();
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 1, ProductSubCategoryId = 1, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 2, ProductSubCategoryId = 1, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 3, ProductSubCategoryId = 1, AttributeMasterId = 4 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 4, ProductSubCategoryId = 1, AttributeMasterId = 5 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 5, ProductSubCategoryId = 1, AttributeMasterId = 6 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 6, ProductSubCategoryId = 1, AttributeMasterId = 15 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 7, ProductSubCategoryId = 2, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 8, ProductSubCategoryId = 2, AttributeMasterId = 4 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 9, ProductSubCategoryId = 2, AttributeMasterId = 5 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 10, ProductSubCategoryId = 2, AttributeMasterId = 12 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 11, ProductSubCategoryId = 2, AttributeMasterId = 13 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 12, ProductSubCategoryId = 3, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 13, ProductSubCategoryId = 3, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 14, ProductSubCategoryId = 3, AttributeMasterId = 4 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 15, ProductSubCategoryId = 3, AttributeMasterId = 5 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 16, ProductSubCategoryId = 3, AttributeMasterId = 6 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 17, ProductSubCategoryId = 3, AttributeMasterId = 13 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 18, ProductSubCategoryId = 3, AttributeMasterId = 15 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 19, ProductSubCategoryId = 4, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 20, ProductSubCategoryId = 4, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 21, ProductSubCategoryId = 4, AttributeMasterId = 15 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 22, ProductSubCategoryId = 5, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 23, ProductSubCategoryId = 5, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 24, ProductSubCategoryId = 5, AttributeMasterId = 9 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 25, ProductSubCategoryId = 5, AttributeMasterId = 15 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 26, ProductSubCategoryId = 6, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 27, ProductSubCategoryId = 6, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 28, ProductSubCategoryId = 6, AttributeMasterId = 9 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 29, ProductSubCategoryId = 6, AttributeMasterId = 15 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 30, ProductSubCategoryId = 7, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 31, ProductSubCategoryId = 7, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 32, ProductSubCategoryId = 7, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 33, ProductSubCategoryId = 7, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 34, ProductSubCategoryId = 7, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 35, ProductSubCategoryId = 8, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 36, ProductSubCategoryId = 8, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 37, ProductSubCategoryId = 8, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 38, ProductSubCategoryId = 8, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 39, ProductSubCategoryId = 8, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 40, ProductSubCategoryId = 9, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 41, ProductSubCategoryId = 9, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 42, ProductSubCategoryId = 9, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 43, ProductSubCategoryId = 9, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 44, ProductSubCategoryId = 9, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 45, ProductSubCategoryId = 10, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 46, ProductSubCategoryId = 10, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 47, ProductSubCategoryId = 10, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 48, ProductSubCategoryId = 10, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 49, ProductSubCategoryId = 10, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 50, ProductSubCategoryId = 11, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 51, ProductSubCategoryId = 11, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 52, ProductSubCategoryId = 11, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 53, ProductSubCategoryId = 11, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 54, ProductSubCategoryId = 11, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 55, ProductSubCategoryId = 12, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 56, ProductSubCategoryId = 12, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 57, ProductSubCategoryId = 12, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 58, ProductSubCategoryId = 12, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 59, ProductSubCategoryId = 12, AttributeMasterId = 16 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 60, ProductSubCategoryId = 13, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 61, ProductSubCategoryId = 13, AttributeMasterId = 7 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 62, ProductSubCategoryId = 13, AttributeMasterId = 10 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 63, ProductSubCategoryId = 14, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 64, ProductSubCategoryId = 14, AttributeMasterId = 7 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 65, ProductSubCategoryId = 14, AttributeMasterId = 10 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 66, ProductSubCategoryId = 15, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 67, ProductSubCategoryId = 15, AttributeMasterId = 7 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 68, ProductSubCategoryId = 16, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 69, ProductSubCategoryId = 16, AttributeMasterId = 7 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 70, ProductSubCategoryId = 17, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 71, ProductSubCategoryId = 17, AttributeMasterId = 7 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 72, ProductSubCategoryId = 17, AttributeMasterId = 10 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 73, ProductSubCategoryId = 18, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 74, ProductSubCategoryId = 18, AttributeMasterId = 7 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 75, ProductSubCategoryId = 19, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 76, ProductSubCategoryId = 19, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 77, ProductSubCategoryId = 19, AttributeMasterId = 11 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 78, ProductSubCategoryId = 20, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 79, ProductSubCategoryId = 20, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 80, ProductSubCategoryId = 20, AttributeMasterId = 9 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 81, ProductSubCategoryId = 21, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 82, ProductSubCategoryId = 21, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 83, ProductSubCategoryId = 21, AttributeMasterId = 11 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 84, ProductSubCategoryId = 22, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 85, ProductSubCategoryId = 22, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 86, ProductSubCategoryId = 22, AttributeMasterId = 2 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 87, ProductSubCategoryId = 23, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 88, ProductSubCategoryId = 23, AttributeMasterId = 2 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 89, ProductSubCategoryId = 23, AttributeMasterId = 3 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 90, ProductSubCategoryId = 23, AttributeMasterId = 8 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 91, ProductSubCategoryId = 24, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 92, ProductSubCategoryId = 24, AttributeMasterId = 9 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 93, ProductSubCategoryId = 24, AttributeMasterId = 11 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 94, ProductSubCategoryId = 25, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 95, ProductSubCategoryId = 25, AttributeMasterId = 17 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 96, ProductSubCategoryId = 26, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 97, ProductSubCategoryId = 26, AttributeMasterId = 17 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 98, ProductSubCategoryId = 27, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 99, ProductSubCategoryId = 27, AttributeMasterId = 17 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 100, ProductSubCategoryId = 28, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 101, ProductSubCategoryId = 28, AttributeMasterId = 17 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 102, ProductSubCategoryId = 29, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 103, ProductSubCategoryId = 29, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 104, ProductSubCategoryId = 29, AttributeMasterId = 9 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 105, ProductSubCategoryId = 30, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 106, ProductSubCategoryId = 30, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 107, ProductSubCategoryId = 30, AttributeMasterId = 9 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 108, ProductSubCategoryId = 31, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 109, ProductSubCategoryId = 31, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 110, ProductSubCategoryId = 31, AttributeMasterId = 9 });
+
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 111, ProductSubCategoryId = 32, AttributeMasterId = 1 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 112, ProductSubCategoryId = 32, AttributeMasterId = 8 });
+            psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 113, ProductSubCategoryId = 32, AttributeMasterId = 9 });
+        });
+
+
+        modelBuilder.Entity<ModeOfPayment>(r =>
+        {
+            r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
+            r.HasIndex(r => r.ModeOfPaymentName).IsUnique();
+            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 1, ModeOfPaymentName = "Cash On Delivery" });
+            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 2, ModeOfPaymentName = "Credit Card" });
+            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 3, ModeOfPaymentName = "Debit Card" });
+            r.HasData(new ModeOfPayment() { ModeOfPaymentId = 4, ModeOfPaymentName = "UPI" });
+        });
+
         modelBuilder.Entity<OrderItemStatus>(os =>
         {
             os.HasKey(os => os.OrderItemStatusId).HasName("PK_Order_Items_Status");
@@ -224,7 +458,7 @@ public class EcommerceContext : DbContext
             rr.HasData(new ReturnReason() { ReturnReasonId = 11, ReturnReasonDescription = "Quality Not Satisfactory" });
             rr.HasData(new ReturnReason() { ReturnReasonId = 12, ReturnReasonDescription = "Changed Mind" });
         });
-        
+
         modelBuilder.Entity<User>(u =>
         {
             u.HasKey(u => u.UserId).HasName("PK_User_Id");
@@ -308,19 +542,7 @@ public class EcommerceContext : DbContext
             s.Property(s => s.CreatedAt).HasColumnType("timestamp without time zone");
             s.Property(s => s.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
-        modelBuilder.Entity<ProductCategory>(p =>
-        {
-            p.HasKey(p => p.ProductCategoryId).HasName("PK_Product_Category");
-            p.Property(p => p.ProductCategoryName).IsRequired();
-            p.HasIndex(p => p.ProductCategoryName).IsUnique();
-        });
-        modelBuilder.Entity<ProductSubCategory>(p =>
-        {
-            p.HasKey(p => p.ProductSubCategoryId).HasName("PK_Product_Sub_Category");
-            p.Property(p => p.ProductSubCategoryName).IsRequired();
-            p.HasIndex(p => p.ProductSubCategoryName).IsUnique();
-            p.HasOne(p => p.ProductCategory).WithMany(p => p.ProductSubCategories).HasForeignKey(p => p.ProductCategoryId).HasConstraintName("FK_Product_Category");
-        });
+
         modelBuilder.Entity<Product>(p =>
         {
             p.HasKey(p => p.ProductId).HasName("PK_Product");
@@ -342,8 +564,6 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.AvailableQuantity).HasDefaultValue(0);
             pv.Property(pv => pv.SKU).IsRequired();
             pv.HasIndex(pv => pv.SKU).IsUnique();
-            pv.Property(pv => pv.Size).IsRequired().HasMaxLength(15);
-            pv.Property(pv => pv.Color).IsRequired().HasMaxLength(50);
             pv.Property(pv => pv.LengthInCm).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.WidthInCm).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.WeightInKgs).IsRequired().HasMaxLength(15);
