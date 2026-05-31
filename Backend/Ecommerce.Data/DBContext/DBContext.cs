@@ -51,7 +51,16 @@ public class EcommerceContext : DbContext
             vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Coupon_Manager" });
         });
 
-        
+        // Approval Status For Vendor and Product
+        modelBuilder.Entity<ApprovalStatus>(s =>
+        {
+            s.HasKey(s => s.ApprovalStatusId).HasName("PK_Approval_Status");
+            s.HasIndex(s => s.ApprovalStatusName).IsUnique();
+            s.HasData(new ApprovalStatus() { ApprovalStatusId = 1, ApprovalStatusName = "Pending" });
+            s.HasData(new ApprovalStatus() { ApprovalStatusId = 2, ApprovalStatusName = "Accepted" });
+            s.HasData(new ApprovalStatus() { ApprovalStatusId = 3, ApprovalStatusName = "Rejected" });
+        });
+
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
             r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
@@ -71,14 +80,7 @@ public class EcommerceContext : DbContext
             r.HasData(new DisplayOrder() { DisplayOrderId = 4, DisplayOrderName = "Right" });
         });
 
-        modelBuilder.Entity<ApprovalStatus>(s =>
-        {
-            s.HasKey(s => s.ApprovalStatusId).HasName("PK_Approval_Status");
-            s.HasIndex(s => s.ApprovalStatusName).IsUnique();
-            s.HasData(new ApprovalStatus() { ApprovalStatusId = 1, ApprovalStatusName = "Pending" });
-            s.HasData(new ApprovalStatus() { ApprovalStatusId = 2, ApprovalStatusName = "Accepted" });
-            s.HasData(new ApprovalStatus() { ApprovalStatusId = 3, ApprovalStatusName = "Rejected" });
-        });
+        
         modelBuilder.Entity<OrderItemStatus>(os =>
         {
             os.HasKey(os => os.OrderItemStatusId).HasName("PK_Order_Items_Status");
