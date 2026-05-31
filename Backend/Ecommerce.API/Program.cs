@@ -3,14 +3,23 @@ using BankingAPI.Services;
 using Ecommerce.Data;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+Log.Logger = new LoggerConfiguration()
+.ReadFrom.Configuration(builder.Configuration)
+.Enrich.FromLogContext()
+.WriteTo.Console()
+.WriteTo.File("logs/MyAppLog.txt")
+.CreateLogger();
+
+builder.Host.UseSerilog();
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
@@ -59,7 +68,7 @@ builder.Services.AddAuthentication(options =>
         ValidIssuer              = builder.Configuration["JWT:Issuer"],
         ValidateIssuerSigningKey = true,
         IssuerSigningKey         = new SymmetricSecurityKey(
-                                       Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"])),
+                                       Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"] ?? "")),
         ValidateLifetime         = true
     };
 });
@@ -78,6 +87,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
