@@ -31,3 +31,10 @@
 - dotnet ef migrations add InitialCreate --project Ecommerce.Data --startup-project Ecommerce.API
 - dotnet ef database update --project Ecommerce.Data --startup-project Ecommerce.API
 - dotnet ef migrations remove --project Ecommerce.Data --startup-project Ecommerce.API
+
+## INSTALLATION
+
+- dotnet add package Microsoft.EntityFrameworkCore
+- dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+- dotnet add package Microsoft.EntityFrameworkCore.Tools
+- dotnet add package Microsoft.EntityFrameworkCore.Design
