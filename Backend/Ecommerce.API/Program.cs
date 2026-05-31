@@ -1,6 +1,7 @@
 using System.Text;
 using BankingAPI.Services;
 using Ecommerce.Data;
+using Ecommerce.Mappers;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -72,6 +73,11 @@ builder.Services.AddAuthentication(options =>
         ValidateLifetime         = true
     };
 });
+
+#region Mappers
+builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
+#endregion
+
 
 builder.Services.AddScoped<IUserRepsository,UserRepsository>();
 
