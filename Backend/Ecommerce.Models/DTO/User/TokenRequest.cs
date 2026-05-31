@@ -8,5 +8,6 @@ public class TokenRequest
     public string FirstName { get; set; } = string.Empty;
     public string LastName { get; set; } = string.Empty;
     public int? AdminRoleId {get;set;}
+    public int? VendorRoleId {get;set;}
 }
 
