@@ -459,9 +459,10 @@ public class EcommerceContext : DbContext
             rr.HasData(new ReturnReason() { ReturnReasonId = 12, ReturnReasonDescription = "Changed Mind" });
         });
 
+        // Users Tables
         modelBuilder.Entity<User>(u =>
         {
-            u.HasKey(u => u.UserId).HasName("PK_User_Id");
+            u.HasKey(u => u.UserId).HasName("PK_User");
             u.HasIndex(u => u.Email).IsUnique();
             u.HasIndex(u => u.PhoneNumber).IsUnique();
             u.Property(u => u.FirstName).IsRequired().HasMaxLength(100);
@@ -480,6 +481,8 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<Address>(a =>
         {
             a.HasKey(a => a.AddressId).HasName("PK_Address");
+            a.Property(a => a.ContactName).IsRequired().HasMaxLength(100);
+            a.Property(a => a.ContactPhoneNumber).IsRequired().HasMaxLength(10);
             a.Property(a => a.AddressLine).IsRequired().HasMaxLength(300);
             a.Property(a => a.City).IsRequired().HasMaxLength(100);
             a.Property(a => a.State).IsRequired().HasMaxLength(100);
@@ -489,7 +492,7 @@ public class EcommerceContext : DbContext
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone");
             a.Property(a => a.UpdatedAt).HasColumnType("timestamp without time zone");
             a.Property(a => a.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            a.HasOne(u => u.User).WithMany(a => a.Addresses).HasForeignKey(a => a.UserId).HasConstraintName("FK_Address_User").OnDelete(DeleteBehavior.Restrict);
+            a.HasOne(u => u.User).WithMany(a => a.Addresses).HasForeignKey(a => a.UserId).HasConstraintName("FK_User_Address").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<AdminUser>(au =>
         {
@@ -526,7 +529,7 @@ public class EcommerceContext : DbContext
             vu.Property(vu => vu.IsActive).HasDefaultValue(true);
             vu.Property(vu => vu.CreatedAt).HasColumnType("timestamp without time zone");
             vu.Property(vu => vu.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            vu.HasOne(vu => vu.Vendor).WithMany(v => v.VendorUsers).HasForeignKey(vu => vu.VendorId).HasConstraintName("FK_Vendor_VendorUser");
+            vu.HasOne(vu => vu.Vendor).WithMany(v => v.VendorUsers).HasForeignKey(vu => vu.VendorId).HasConstraintName("FK_Vendor");
             vu.HasOne(vu => vu.User).WithOne(u => u.VendorUser).HasForeignKey<VendorUser>(vu => vu.UserId).HasConstraintName("FK_Vendor_User");
             vu.HasOne(vu => vu.VendorRole).WithMany(a => a.VendorUsers).HasForeignKey(v => v.VendorRoleId).HasConstraintName("FK_Vendor_User_Role");
             vu.HasOne(v => v.AddedByVendor).WithMany().HasForeignKey(v => v.AddedByVendorUserId).HasConstraintName("FK_Vendor_User_Review");
@@ -543,6 +546,7 @@ public class EcommerceContext : DbContext
             s.Property(s => s.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
 
+        // Product
         modelBuilder.Entity<Product>(p =>
         {
             p.HasKey(p => p.ProductId).HasName("PK_Product");
