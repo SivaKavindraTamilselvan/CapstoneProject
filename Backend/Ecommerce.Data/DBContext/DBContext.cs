@@ -14,6 +14,7 @@ public class EcommerceContext : DbContext
     {
         // master tables
 
+        // roles
         modelBuilder.Entity<Role>(r =>
         {
             r.HasKey(r => r.RoleId).HasName("PK_Role_Id");
@@ -22,6 +23,35 @@ public class EcommerceContext : DbContext
             r.HasData(new Role() { RoleId = 2, RoleName = "User" });
             r.HasData(new Role() { RoleId = 3, RoleName = "Vendor" });
         });
+        modelBuilder.Entity<AdminRole>(ar =>
+        {
+            ar.HasKey(ar => ar.AdminRoleId).HasName("PK_Admin_Role");
+            ar.HasIndex(ar => ar.AdminRoleName).IsUnique();
+            ar.HasData(new AdminRole() { AdminRoleId = 1, AdminRoleName = "Overall_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 2, AdminRoleName = "Vendor_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 3, AdminRoleName = "Product_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 4, AdminRoleName = "Order_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 5, AdminRoleName = "Coupons_Logistic_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 6, AdminRoleName = "Return_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 7, AdminRoleName = "Refund_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 8, AdminRoleName = "Exchange_Admin" });
+            ar.HasData(new AdminRole() { AdminRoleId = 9, AdminRoleName = "Payment_Admin" });
+        });
+        modelBuilder.Entity<VendorRole>(vr =>
+        {
+            vr.HasKey(vr => vr.VendorRoleId).HasName("PK_Vendor_Role");
+            vr.HasIndex(vr => vr.VendorRoleName).IsUnique();
+            vr.HasData(new VendorRole() { VendorRoleId = 1, VendorRoleName = "Owner" });
+            vr.HasData(new VendorRole() { VendorRoleId = 2, VendorRoleName = "Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 3, VendorRoleName = "Product_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 4, VendorRoleName = "Order_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Return_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Refund_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Inventory_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Coupon_Manager" });
+        });
+
+        
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
             r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
@@ -40,18 +70,7 @@ public class EcommerceContext : DbContext
             r.HasData(new DisplayOrder() { DisplayOrderId = 3, DisplayOrderName = "Left" });
             r.HasData(new DisplayOrder() { DisplayOrderId = 4, DisplayOrderName = "Right" });
         });
-        modelBuilder.Entity<AdminRole>(ar =>
-        {
-            ar.HasKey(ar => ar.AdminRoleId).HasName("PK_Admin_Role");
-            ar.HasIndex(ar => ar.AdminRoleName).IsUnique();
-            ar.HasData(new AdminRole() { AdminRoleId = 1, AdminRoleName = "Overall_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 2, AdminRoleName = "Vendor_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 3, AdminRoleName = "Product_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 4, AdminRoleName = "Order_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 5, AdminRoleName = "Customer_Care_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 6, AdminRoleName = "Return_Admin" });
-            ar.HasData(new AdminRole() { AdminRoleId = 7, AdminRoleName = "Refund_Admin" });
-        });
+
         modelBuilder.Entity<ApprovalStatus>(s =>
         {
             s.HasKey(s => s.ApprovalStatusId).HasName("PK_Approval_Status");
@@ -114,16 +133,7 @@ public class EcommerceContext : DbContext
             p.HasData(new RefundStatus() { RefundStatusId = 4, RefundStatusName = "Cancelled" });
             p.HasData(new RefundStatus() { RefundStatusId = 5, RefundStatusName = "Completed" });
         });
-        modelBuilder.Entity<VendorRole>(vr =>
-        {
-            vr.HasKey(vr => vr.VendorRoleId).HasName("PK_Vendor_Role");
-            vr.HasIndex(vr => vr.VendorRoleName).IsUnique();
-            vr.HasData(new VendorRole() { VendorRoleId = 1, VendorRoleName = "Owner" });
-            vr.HasData(new VendorRole() { VendorRoleId = 2, VendorRoleName = "Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 3, VendorRoleName = "Product_Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 4, VendorRoleName = "Order_Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Staff_Manager" });
-        });
+
         modelBuilder.Entity<ReviewDescription>(rd =>
         {
             rd.HasKey(rd => rd.ReviewDescriptionId).HasName("PK_Review_Description");
@@ -312,7 +322,7 @@ public class EcommerceContext : DbContext
             p.Property(p => p.ProductName).IsRequired().HasMaxLength(100);
             p.Property(p => p.Description).IsRequired().HasMaxLength(1000);
             p.Property(p => p.ProductStatusId).HasDefaultValue(1);
-            p.Property(p=>p.ApprovalStatusId).HasDefaultValue(1);
+            p.Property(p => p.ApprovalStatusId).HasDefaultValue(1);
             p.HasOne(p => p.Vendor).WithMany(v => v.Products).HasForeignKey(p => p.VendorId).HasConstraintName("FK_Vendor_Products");
             p.HasOne(p => p.ProductSubCategory).WithMany(ps => ps.Products).HasForeignKey(p => p.ProductSubCategoryId).HasConstraintName("FK_Product_Sub_Category");
             p.HasOne(p => p.ApprovalStatus).WithMany(p => p.Products).HasForeignKey(p => p.ApprovalStatusId).HasConstraintName("FK_Product_Approval_Status");
