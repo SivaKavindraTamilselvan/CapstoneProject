@@ -7,4 +7,5 @@ public class ProductSubCategory
     public int ProductCategoryId {get;set;}
     public ProductCategory? ProductCategory {get;set;}
     public ICollection<Product> Products {get;set;} = new List<Product>();
+    public ICollection<ProductSubCategoryAttribute> ProductSubCategoryAttributes { get; set; } = new List<ProductSubCategoryAttribute>();
 }
