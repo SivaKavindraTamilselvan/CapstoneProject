@@ -464,34 +464,35 @@ public class EcommerceContext : DbContext
         {
             u.HasKey(u => u.UserId).HasName("PK_User");
             u.HasIndex(u => u.Email).IsUnique();
-            u.HasIndex(u => u.PhoneNumber).IsUnique();
-            u.Property(u => u.FirstName).IsRequired().HasMaxLength(100);
-            u.Property(u => u.LastName).IsRequired().HasMaxLength(100);
             u.Property(u => u.Email).IsRequired();
+            u.HasIndex(u => u.PhoneNumber).IsUnique();
             u.Property(u => u.PhoneNumber).IsRequired().HasMaxLength(10);
+            u.Property(u => u.FirstName).IsRequired().HasMaxLength(50);
+            u.Property(u => u.LastName).IsRequired().HasMaxLength(50);
             u.Property(u => u.Password).IsRequired();
             u.Property(u => u.HashedKey).IsRequired();
             u.Property(u => u.IsActive).HasDefaultValue(true);
+            u.Property(u => u.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             u.Property(u => u.CreatedAt).HasColumnType("timestamp without time zone");
             u.Property(u => u.UpdatedAt).HasColumnType("timestamp without time zone");
-            u.Property(u => u.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             u.HasOne(u => u.Role).WithMany(r => r.Users).HasForeignKey(u => u.RoleId).HasConstraintName("FK_User_Role").OnDelete(DeleteBehavior.Restrict);
             u.HasData(new User() { UserId = 1, FirstName = "Siva Kavindra", LastName = "TamilSelvan", Email = "admin@gmail.com", PhoneNumber = "9442378188", Password = Convert.FromBase64String("Jili2T5b6MMERzrBRREEqsE1Jm0ZBiCOsPzG2GWx34Y="), HashedKey = Convert.FromBase64String("eB4WjX9SBhbbtZHCpLMIhR8LTREGduA6dSGxBVdO2P7Rk05aKpnkH6RwypmDELECQpiPbrS251487Z5bVsUFtg=="), RoleId = 1, CreatedAt = new DateTime(2026, 5, 25), IsActive = true });
         });
         modelBuilder.Entity<Address>(a =>
         {
             a.HasKey(a => a.AddressId).HasName("PK_Address");
-            a.Property(a => a.ContactName).IsRequired().HasMaxLength(100);
+            a.Property(a => a.ContactName).IsRequired().HasMaxLength(50);
             a.Property(a => a.ContactPhoneNumber).IsRequired().HasMaxLength(10);
             a.Property(a => a.AddressLine).IsRequired().HasMaxLength(300);
+            a.Property(a => a.LandMark).IsRequired().HasMaxLength(150);
             a.Property(a => a.City).IsRequired().HasMaxLength(100);
             a.Property(a => a.State).IsRequired().HasMaxLength(100);
-            a.Property(a => a.Country).IsRequired().HasMaxLength(100);
-            a.Property(a => a.PinCode).IsRequired().HasMaxLength(100);
+            a.Property(a => a.Country).IsRequired().HasDefaultValue("India");
+            a.Property(a => a.PinCode).IsRequired().HasMaxLength(6);
             a.Property(a => a.IsDefault).HasDefaultValue(false);
+            a.Property(a => a.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone");
             a.Property(a => a.UpdatedAt).HasColumnType("timestamp without time zone");
-            a.Property(a => a.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             a.HasOne(u => u.User).WithMany(a => a.Addresses).HasForeignKey(a => a.UserId).HasConstraintName("FK_User_Address").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<AdminUser>(au =>
