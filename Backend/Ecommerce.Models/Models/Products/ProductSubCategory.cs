@@ -1,0 +1,10 @@
+namespace Ecommerce.Models;
+
+public class ProductSubCategory
+{
+    public int ProductSubCategoryId {get;set;}
+    public string ProductSubCategoryName {get;set;} = string.Empty;
+    public int ProductCategoryId {get;set;}
+    public ProductCategory? ProductCategory {get;set;}
+    public ICollection<Product> Products {get;set;} = new List<Product>();
+}
