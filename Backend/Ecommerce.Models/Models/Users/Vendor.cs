@@ -8,7 +8,7 @@ public class Vendor
     public string CompanyPhoneNumber { get; set; } = string.Empty;
     public string VendorCompanyName { get; set; } = string.Empty;
     public string GSTNumber { get; set; } = string.Empty;
-    public int ApprovalStatusId { get; set; }
+    public int ApprovalStatusId { get; set; } = 1;
     public ApprovalStatus? ApprovalStatus { get; set; }
     public int? ReviewedByAdminId { get; set; }
     public AdminUser? ReviwedByAdmin { get; set; }
