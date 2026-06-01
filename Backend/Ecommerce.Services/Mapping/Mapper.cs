@@ -18,6 +18,10 @@ namespace Ecommerce.Mappers
             CreateMap<User, ResponseRegisterUserDTO>();
 
             CreateMap<RequestLoginUserDTO, User>();
+
+            CreateMap<User, TokenRequest>()
+            .ForMember(dest => dest.AdminRoleId, opt => opt.MapFrom(src => src.AdminUsers != null ? src.AdminUsers.AdminRoleId : (int?)null))
+            .ForMember(dest => dest.VendorRoleId, opt => opt.MapFrom(src => src.VendorUser != null ? src.VendorUser.VendorRoleId : (int?)null));
         }
     }
 }
