@@ -21,16 +21,8 @@ public partial class AuthenticationService : IAuthentication
             if (userHashPassword[i] != result.Password[i])
                 throw new InvalidCredentialException("Invalid username or password");
         
-        string token = _tokenService.CreateNewToken(new TokenRequest
-        {
-            UserId = result.UserId,
-            Email = result.Email,
-            RoleId = result.RoleId,
-            FirstName = result.FirstName,
-            LastName = result.LastName,
-            AdminRoleId = result.AdminUsers?.AdminRoleId,
-            VendorRoleId = result.VendorUser?.VendorRoleId
-        });
+        
+        string token = _tokenService.CreateNewToken(_mapper.Map<TokenRequest>(result));
         return new ResponseLoginUserDTO
         {
             UserId = result.UserId,
