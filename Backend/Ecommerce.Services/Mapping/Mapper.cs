@@ -17,7 +17,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<User, ResponseRegisterUserDTO>();
 
-            CreateMap<RequestLoginUserDTO, User>();
+            CreateMap<User, ResponseLoginUserDTO>()
+            .ForMember(dest => dest.Token, opt => opt.Ignore());
 
             CreateMap<User, TokenRequest>()
             .ForMember(dest => dest.AdminRoleId, opt => opt.MapFrom(src => src.AdminUsers != null ? src.AdminUsers.AdminRoleId : (int?)null))
