@@ -2,7 +2,6 @@ using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
 using Ecommerce.DTOs;
-using Ecommerce.Models;
 using Ecommerce.Services.Interfaces;
 
 public partial class AuthenticationService : IAuthentication
@@ -23,17 +22,9 @@ public partial class AuthenticationService : IAuthentication
         
         
         string token = _tokenService.CreateNewToken(_mapper.Map<TokenRequest>(result));
-        return new ResponseLoginUserDTO
-        {
-            UserId = result.UserId,
-            Email = result.Email,
-            FirstName = result.FirstName,
-            LastName = result.LastName,
-            PhoneNumber = result.PhoneNumber,
-            RoleId = result.RoleId,
-            IsActive = result.IsActive,
-            Token = token
-        };
+        var response = _mapper.Map<ResponseLoginUserDTO>(result);
+        response.Token = token;
+        return response;
     }
 
 }
