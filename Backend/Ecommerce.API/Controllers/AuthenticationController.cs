@@ -19,6 +19,12 @@ public class AuthenticationController : ControllerBase
         var result = await _authentication.Register(requestRegisterUserDTO);
         return Ok(result);
     }
+    [HttpPost("RegisterVendor")]
+    public async Task<ActionResult<ResponseRegisterVendorDTO>> RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO)
+    {
+        var result = await _authentication.RegisterVendor(requestRegisterVendorDTO);
+        return Ok(result);
+    }
     [HttpPost("Login")]
     public async Task<ActionResult<ResponseLoginUserDTO>> CustomerLogin(RequestLoginUserDTO requestLoginUserDTO)
     {
