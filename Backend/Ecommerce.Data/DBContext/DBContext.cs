@@ -46,9 +46,9 @@ public class EcommerceContext : DbContext
             vr.HasData(new VendorRole() { VendorRoleId = 3, VendorRoleName = "Product_Manager" });
             vr.HasData(new VendorRole() { VendorRoleId = 4, VendorRoleName = "Order_Manager" });
             vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Return_Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Refund_Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Inventory_Manager" });
-            vr.HasData(new VendorRole() { VendorRoleId = 5, VendorRoleName = "Coupon_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 6, VendorRoleName = "Refund_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 7, VendorRoleName = "Inventory_Manager" });
+            vr.HasData(new VendorRole() { VendorRoleId = 8, VendorRoleName = "Coupon_Manager" });
         });
 
         // Approval Status For Vendor and Product
