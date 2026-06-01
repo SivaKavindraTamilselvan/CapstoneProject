@@ -77,6 +77,9 @@ builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
 
 
 builder.Services.AddScoped<IUserRepsository,UserRepsository>();
+builder.Services.AddScoped<IAdminUserRepsository,AdminRepsository>();
+builder.Services.AddScoped<IVendorRepsository,VendorRepsository>();
+builder.Services.AddScoped<IVendorUserRepsository,VendorUserRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
