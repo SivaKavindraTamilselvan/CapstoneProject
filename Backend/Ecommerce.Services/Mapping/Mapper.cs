@@ -8,7 +8,7 @@ namespace Ecommerce.Mappers
     {
         public MappingProfile()
         {
-            CreateMap<RequestRegisterUserDTO, User>();
+            CreateMap<RequestRegisterUserDTO, User>().ForMember(dest => dest.Password, opt => opt.Ignore()).ForMember(dest => dest.HashedKey, opt => opt.Ignore());
             CreateMap<User,ResponseRegisterUserDTO>();
 
             CreateMap<RequestLoginUserDTO, User>();
