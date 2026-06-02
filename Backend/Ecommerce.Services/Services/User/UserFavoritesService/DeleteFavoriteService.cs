@@ -13,10 +13,4 @@ public partial class UserFavoritesService : IUserFavoriteService
         await _favoriteItemsRepsository.Delete(favoritesItems.FavoritesItemsId);
         return _mapper.Map<ResponseFavoriteItemsDTO>(favoritesItems);
     }
-    public async Task<List<ResponseFavoriteItemsDTO>> DeleteAllFavorite()
-    {
-        var favoritesItems = await _favoriteItemsRepsository.GetAll();
-        await _favoriteItemsRepsository.DeleteAll();
-        return _mapper.Map<List<ResponseFavoriteItemsDTO>>(favoritesItems);
-    }
 }
