@@ -11,9 +11,11 @@ namespace Ecommerce.API.Controllers;
 public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
-    public ProductController(IProductService productService)
+    private readonly IVendorProductService _vendorProductService;
+    public ProductController(IProductService productService,IVendorProductService vendorProductService)
     {
         _productService = productService;
+        _vendorProductService = vendorProductService;
     }
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -21,21 +23,21 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProduct>> AddProduct(RequestAddProduct requestAddProduct)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _productService.AddProduct(requestAddProduct, vendorUserId);
+        var result = await _vendorProductService.AddProduct(requestAddProduct, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProductImage")]
     public async Task<ActionResult<ResponseAddProductImage>> AddProductImage(RequestAddProductImage requestAddProductImage)
     {
-        var result = await _productService.AddProductImage(requestAddProductImage); 
+        var result = await _vendorProductService.AddProductImage(requestAddProductImage); 
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProductVariant")]
     public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductImage(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
-        var result = await _productService.AddProductVariant(requestAddProductVariantDTO); 
+        var result = await _vendorProductService.AddProductVariant(requestAddProductVariantDTO); 
         return Ok(result);
     }
 }

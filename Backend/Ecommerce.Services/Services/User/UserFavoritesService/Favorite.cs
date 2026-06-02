@@ -1,4 +1,5 @@
 using Ecommerce.Models;
+using Ecommerce.Services.Interfaces;
 
 public partial class UserFavoritesService : IUserFavoriteService
 {

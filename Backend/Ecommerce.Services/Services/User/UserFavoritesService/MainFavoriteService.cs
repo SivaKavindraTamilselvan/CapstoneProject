@@ -1,5 +1,6 @@
 using AutoMapper;
 using Ecommerce.Repositories.Interfaces;
+using Ecommerce.Services.Interfaces;
 
 public partial class UserFavoritesService : IUserFavoriteService
 {
