@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repositories.Interfaces;
 
-public class AbstractRepository<K,T> : IRepository<K,T> where T : class
+public class AbstractRepository<K, T> : IRepository<K, T> where T : class
 {
     protected readonly EcommerceContext _ecommerceContext;
     public AbstractRepository(EcommerceContext ecommerceContext)
@@ -20,16 +20,16 @@ public class AbstractRepository<K,T> : IRepository<K,T> where T : class
     {
         var result = await _ecommerceContext.FindAsync<T>(key);
         return result;
-    } 
+    }
     public async Task<List<T>> GetAll()
     {
         var result = await _ecommerceContext.Set<T>().ToListAsync();
         return result;
     }
-    public async Task<T?> Update(K key,T item)
+    public async Task<T?> Update(K key, T item)
     {
         var result = await Get(key);
-        if(result == null)
+        if (result == null)
         {
             throw new Exception("No such item is found");
         }
@@ -41,12 +41,24 @@ public class AbstractRepository<K,T> : IRepository<K,T> where T : class
     public async Task<T?> Delete(K key)
     {
         var result = await Get(key);
-        if(result == null)
+        if (result == null)
         {
             throw new Exception("No such item is found");
         }
         _ecommerceContext.Remove(result);
         await _ecommerceContext.SaveChangesAsync();
         return result;
+    }
+
+    public async Task<List<T>> DeleteAll()
+    {
+        var items = await _ecommerceContext.Set<T>().ToListAsync();
+        if (items.Count == 0)
+        {
+            return items;
+        }
+        _ecommerceContext.Set<T>().RemoveRange(items);
+        await _ecommerceContext.SaveChangesAsync();
+        return items;
     }
 }

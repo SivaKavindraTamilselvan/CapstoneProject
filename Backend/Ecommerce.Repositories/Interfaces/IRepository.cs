@@ -7,4 +7,5 @@ public interface IRepository<K,T> where T : class
     public Task<T?> Get(K key);
     public Task<T?> Update(K key,T item);
     public Task<T?> Delete(K key);
+    public Task<List<T>> DeleteAll();
 }
