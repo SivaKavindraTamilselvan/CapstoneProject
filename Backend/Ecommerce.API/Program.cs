@@ -136,6 +136,7 @@ builder.Services.AddScoped<ICartRepsository,CartRepsository>();
 builder.Services.AddScoped<ICartItemsRepsository,CartItemsRepsository>();
 builder.Services.AddScoped<IFavoriteRepsository,FavoriteRepsository>();
 builder.Services.AddScoped<IFavoriteItemsRepsository,FavoriteItemsRepsository>();
+builder.Services.AddScoped<IProductVariantRepsository,ProductVariantRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
