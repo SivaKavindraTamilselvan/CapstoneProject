@@ -3,7 +3,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserCartService : IUserCartService
 {
-    public async Task<ResponseCartItemsDTO> UpdateCart(RequestUpdateCartItemsDTO requestUpdateCartItemsDTO,int userId)
+    public async Task<ResponseCartItemsDTO> UpdateCart(RequestUpdateCartItemsDTO requestUpdateCartItemsDTO)
     {
         var cartItems = (await _cartItemsRepsository.GetAll()).FirstOrDefault(c=>c.CartItemsId == requestUpdateCartItemsDTO.CartItemsId);
         if(cartItems ==null)
