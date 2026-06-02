@@ -8,11 +8,11 @@ public class Product
     public int ProductSubCategoryId {get;set;}
     public ProductSubCategory? ProductSubCategory {get;set;}
     public string Description {get;set;} = string.Empty;
-    public int ApprovalStatusId {get;set;}
+    public int ApprovalStatusId {get;set;} = 1;
     public ApprovalStatus? ApprovalStatus {get;set;}
     public int? ReviewedByAdminId {get;set;}
     public AdminUser? ReviewedByAdmin {get;set;}
-    public int ProductStatusId {get;set;}
+    public int ProductStatusId {get;set;} = 1;
     public ProductStatus? ProductStatus {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public DateTime? ApprovedAt {get;set;}
