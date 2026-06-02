@@ -33,4 +33,12 @@ public class AdminController : ControllerBase
 
         return Ok(result);
     }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("ReviewProduct")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.ReviewProduct(requestReviewOfProductDTO,adminUserId);
+        return Ok(result);
+    }
 }
