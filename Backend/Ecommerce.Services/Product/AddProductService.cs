@@ -5,19 +5,37 @@ using Ecommerce.Services.Interfaces;
 
 public partial class ProductService : IProductService
 {
-    public async Task<ResponseAddProduct> AddProduct(RequestAddProduct requestAddProduct,int vendorUserId)
+    public async Task<ResponseAddProductVariantDTO> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
-        var vendorUser = (await _vendorUserRepsository.GetAll()).FirstOrDefault(v=>v.UserId == vendorUserId);
-        if(vendorUser == null)
+        var product = (await _productRepsository.GetAll()).FirstOrDefault(p => p.ProductId == requestAddProductVariantDTO.ProductId);
+        if (product == null)
+        {
+            throw new DataNotFoundException("Product Not Found");
+        }
+        ProductVariant productVariant = new ProductVariant();
+        productVariant.AvailableQuantity = requestAddProductVariantDTO.AvailableQuantity;
+        productVariant.ProductId = requestAddProductVariantDTO.ProductId;
+        productVariant.Price = requestAddProductVariantDTO.Price;
+        productVariant.WeightInKgs = requestAddProductVariantDTO.WeightInKgs;
+        productVariant.WidthInCm = requestAddProductVariantDTO.WidthInCm;
+        productVariant.LengthInCm = requestAddProductVariantDTO.LengthInCm;
+        productVariant.HeightInCm = requestAddProductVariantDTO.HeightInCm;
+        await _productVariantRepsository.Create(productVariant);
+        return _mapper.Map<ResponseAddProductVariantDTO>(productVariant);
+    }
+    public async Task<ResponseAddProduct> AddProduct(RequestAddProduct requestAddProduct, int vendorUserId)
+    {
+        var vendorUser = (await _vendorUserRepsository.GetAll()).FirstOrDefault(v => v.UserId == vendorUserId);
+        if (vendorUser == null)
         {
             throw new DataNotFoundException("Vendor User Not Found");
         }
-        var vendor = (await _vendorRepository.GetAll()).FirstOrDefault(v=>v.VendorId == vendorUser.VendorId);
-        if(vendor == null)
+        var vendor = (await _vendorRepository.GetAll()).FirstOrDefault(v => v.VendorId == vendorUser.VendorId);
+        if (vendor == null)
         {
             throw new DataNotFoundException("Vendor Not Found");
         }
-        if(vendor.ApprovalStatusId != 2)
+        if (vendor.ApprovalStatusId != 2)
         {
             throw new Exception("The Vendor Is Not Approved Yet");
         }
@@ -27,15 +45,16 @@ public partial class ProductService : IProductService
         product.ProductName = requestAddProduct.ProductName;
         product.ProductSubCategoryId = requestAddProduct.ProductSubCategoryId;
         await _productRepsository.Create(product);
-        foreach(var list in requestAddProduct.Images)
-        {
-            ProductImage productImage = new ProductImage();
-            productImage.ProductId = product.ProductId;
-            productImage.DisplayOrderId = list.DisplayOrderId;
-            productImage.ImageUrl = list.ImageUrl;
-            productImage.IsMainImage = list.IsMainImage;
-            await _productImageRepsository.Create(productImage);
-        }
         return _mapper.Map<ResponseAddProduct>(product);
+    }
+    public async Task<ResponseAddProductImage> AddProductImage(RequestAddProductImage requestAddProductImage)
+    {
+        ProductImage productImage = new ProductImage();
+        productImage.ProductId = requestAddProductImage.ProductId;
+        productImage.DisplayOrderId = requestAddProductImage.DisplayOrderId;
+        productImage.ImageUrl = requestAddProductImage.ImageUrl;
+        productImage.IsMainImage = requestAddProductImage.IsMainImage;
+        await _productImageRepsository.Create(productImage);
+        return _mapper.Map<ResponseAddProductImage>(productImage);
     }
 }
