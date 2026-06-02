@@ -20,12 +20,6 @@ public partial class AdminVendorService : IAdminVendorService
         vendor.ReviewedByAdminId = adminUser.AdminUserId;
         vendor.ReviewedAt = DateTime.Now;
         await _vendorRepsository.Update(requestReviewOfVendorDTO.VendorId,vendor);        
-        return new ResponseReviewOfVendorDTO
-        {
-            VendorId = vendor.VendorId,
-            ApprovalStatusId = vendor.ApprovalStatusId,
-            ReviewedByAdminId = vendor.ReviewedByAdminId,
-            ReviewedAt = vendor.ReviewedAt
-        };
+        return _mapper.Map<ResponseReviewOfVendorDTO>(vendor);
     }
 }

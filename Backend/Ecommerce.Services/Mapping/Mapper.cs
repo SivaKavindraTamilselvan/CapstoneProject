@@ -45,6 +45,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<ProductVariant,ResponseAddProductVariantDTO>();
             CreateMap<ProductImage,RequestAddProductImage>();
+
+            CreateMap<Vendor,ResponseReviewOfVendorDTO>();
         }
     }
 }
