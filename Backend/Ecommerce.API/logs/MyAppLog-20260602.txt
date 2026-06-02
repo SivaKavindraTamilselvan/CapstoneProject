@@ -1262,3 +1262,9 @@ RETURNING "FavoritesItemsId";
 2026-06-02 21:00:34.613 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-02 21:00:34.656 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 43.2494ms
 2026-06-02 21:00:41.939 +05:30 [INF] Application is shutting down...
+2026-06-02 23:23:28.119 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-02 23:23:28.208 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-02 23:23:28.209 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-02 23:23:28.209 +05:30 [INF] Hosting environment: Development
+2026-06-02 23:23:28.209 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-02 23:39:53.826 +05:30 [INF] Application is shutting down...

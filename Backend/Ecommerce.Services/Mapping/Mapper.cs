@@ -41,7 +41,7 @@ namespace Ecommerce.Mappers
             CreateMap<ProductSubCategoryAttribute,ResponseAddProductSubCategoryAttributeDTO>();
 
             CreateMap<FavoritesItems,ResponseAddFavoriteItemsDTO>();
-            CreateMap<CartItems,ResponseAddCartItemsDTO>();
+            CreateMap<CartItems,ResponseCartItemsDTO>();
 
             CreateMap<ProductVariant,ResponseAddProductVariantDTO>();
             CreateMap<ProductImage,RequestAddProductImage>();
