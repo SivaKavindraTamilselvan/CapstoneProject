@@ -643,7 +643,7 @@ public class EcommerceContext : DbContext
         {
             ci.HasKey(ci => ci.FavoritesItemsId).HasName("PK_Favorites_Items");
             ci.HasIndex(ci => new { ci.FavoritesId, ci.ProductVariantId }).IsUnique();
-            ci.HasOne(ci => ci.Favorites).WithMany(c => c.FavoritesItems).HasForeignKey(ci => ci.FavoritesItemsId).HasConstraintName("FK_Favorites_Items_Cart").OnDelete(DeleteBehavior.Cascade);
+            ci.HasOne(ci => ci.Favorites).WithMany(c => c.FavoritesItems).HasForeignKey(ci => ci.FavoritesId).HasConstraintName("FK_Favorites").OnDelete(DeleteBehavior.Cascade);
             ci.HasOne(ci => ci.ProductVariant).WithMany(pv => pv.FavoritesItems).HasForeignKey(ci => ci.ProductVariantId).HasConstraintName("FK_Favorites_Items_Product_Variant").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<Payment>(p =>
