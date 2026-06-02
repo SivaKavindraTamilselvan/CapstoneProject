@@ -11,7 +11,7 @@ public class ProductVariant
     public decimal LengthInCm {get;set;}
     public decimal WidthInCm {get;set;}
     public decimal HeightInCm { get; set; }
-    public int ProductVariantStatusId {get;set;}
+    public int ProductVariantStatusId {get;set;} = 1;
     public ProductVariantStatus? ProductVariantStatus {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public ICollection<ProductVariantAttribute> ProductVariantAttributes { get; set; } = new List<ProductVariantAttribute>();
