@@ -37,7 +37,7 @@ public partial class ProductService : IProductService
         }
         if (vendor.ApprovalStatusId != 2)
         {
-            throw new Exception("The Vendor Is Not Approved Yet");
+            throw new DataApprovalStatusException("The Vendor Is Not Approved Yet");
         }
         Product product = new Product();
         product.VendorId = vendor.VendorId;
