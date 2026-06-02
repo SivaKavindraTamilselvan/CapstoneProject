@@ -13,10 +13,9 @@ public partial class UserCartService : IUserCartService
         await _cartItemsRepsository.Delete(cartItems.CartItemsId);
         return _mapper.Map<ResponseCartItemsDTO>(cartItems);
     }
-    public async Task<List<ResponseCartItemsDTO>> DeleteAllCart()
+    public async Task<List<ResponseCartItemsDTO>> DeleteAllCart(int userId)
     {
-        var cartItems = await _cartItemsRepsository.GetAll();
-        await _cartItemsRepsository.DeleteAll();
+        var cartItems = await _cartItemsRepsository.DeleteCartItemsByUserId(userId);
         return _mapper.Map<List<ResponseCartItemsDTO>>(cartItems);
     }
 }
