@@ -25,6 +25,12 @@ public partial class AuthenticationService : IAuthentication
             var adminUser = (await _adminRepository.GetAll()).FirstOrDefault(a => a.UserId == result.UserId); ;
             adminRoleId = adminUser?.AdminRoleId;
         }
+        int? vendorRoleId = null;
+        if (result.RoleId == 2)
+        {
+            var vendorUser = (await _vendorUserRepsository.GetAll()).FirstOrDefault(a => a.UserId == result.UserId); ;
+            vendorRoleId = vendorUser?.VendorRoleId;
+        }
         string token = _tokenService.CreateNewToken(_mapper.Map<TokenRequest>(result));
         var response = _mapper.Map<ResponseLoginUserDTO>(result);
         response.Token = token;
