@@ -21,7 +21,7 @@ public class AdminController : ControllerBase
     public async Task<ActionResult<ResponseRegisterUserDTO>> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminService.RegisterAdmin(requestRegisterAdminDTO,adminUserId);
+        var result = await _adminService.RegisterAdmin(requestRegisterAdminDTO, adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
@@ -38,7 +38,35 @@ public class AdminController : ControllerBase
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminService.ReviewProduct(requestReviewOfProductDTO,adminUserId);
+        var result = await _adminService.ReviewProduct(requestReviewOfProductDTO, adminUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("AddProductCategory")]
+    public async Task<ActionResult<ResponseAddProductCategoryDTO>> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
+    {
+        var result = await _adminService.AddProductCategory(requestAddProductCategoryDTO);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("AddProductSubCategory")]
+    public async Task<ActionResult<ResponseAddProductSubCategoryDTO>> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
+    {
+        var result = await _adminService.AddProductSubCategory(requestAddProductSubCategoryDTO);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("AddProductSubCategoryAttribute")]
+    public async Task<ActionResult<ResponseAddProductSubCategoryAttributeDTO>> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
+    {
+        var result = await _adminService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("AddAttribute")]
+    public async Task<ActionResult<ResponseAddAttributeDTO>> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
+    {
+        var result = await _adminService.AddAttribute(requestAddAttributeDTO);
         return Ok(result);
     }
 }
