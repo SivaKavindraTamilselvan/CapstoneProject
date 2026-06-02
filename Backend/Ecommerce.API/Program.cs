@@ -90,6 +90,15 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim("VendorRoleId",  "1");
+    });
+});
+
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
 #endregion
@@ -103,6 +112,7 @@ builder.Services.AddScoped<IVendorUserRepsository,VendorUserRepsository>();
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IAdminService,AdminService>();
+builder.Services.AddScoped<IVendorService,VendorService>();
 
 var app = builder.Build();
 
