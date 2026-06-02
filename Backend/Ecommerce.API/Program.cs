@@ -128,6 +128,10 @@ builder.Services.AddScoped<IVendorRepsository,VendorRepsository>();
 builder.Services.AddScoped<IVendorUserRepsository,VendorUserRepsository>();
 builder.Services.AddScoped<IProductRepsository,ProductRepsository>();
 builder.Services.AddScoped<IProductImageRepsository,ProductImageRepsository>();
+builder.Services.AddScoped<IProductCategoryRepsository,ProductCategoryRepsository>();
+builder.Services.AddScoped<IProductSubCategoryRepsository,ProductSubCategoryRepsository>();
+builder.Services.AddScoped<IProductSubCategoryAttributeRepsository,ProductSubCategoryAttributeRepsository>();
+builder.Services.AddScoped<IAttributeRepsository,AttributeRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
