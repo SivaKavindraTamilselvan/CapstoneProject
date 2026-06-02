@@ -92,10 +92,19 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("VendorAdminOnly", policy =>
+    options.AddPolicy("VendorOwnerOnly", policy =>
     {
         policy.RequireClaim(ClaimTypes.Role, "2");
         policy.RequireClaim("VendorRoleId",  "1");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorOnwerAndProductVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim("VendorRoleId",  "1","3");
     });
 });
 
@@ -108,11 +117,14 @@ builder.Services.AddScoped<IUserRepsository,UserRepsository>();
 builder.Services.AddScoped<IAdminUserRepsository,AdminRepsository>();
 builder.Services.AddScoped<IVendorRepsository,VendorRepsository>();
 builder.Services.AddScoped<IVendorUserRepsository,VendorUserRepsository>();
+builder.Services.AddScoped<IProductRepsository,ProductRepsository>();
+builder.Services.AddScoped<IProductImageRepsository,ProductImageRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IAdminService,AdminService>();
 builder.Services.AddScoped<IVendorService,VendorService>();
+builder.Services.AddScoped<IProductService,ProductService>();
 
 var app = builder.Build();
 
