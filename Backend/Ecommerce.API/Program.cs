@@ -92,6 +92,15 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("ProductAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "3");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
     options.AddPolicy("VendorOwnerOnly", policy =>
     {
         policy.RequireClaim(ClaimTypes.Role, "2");
