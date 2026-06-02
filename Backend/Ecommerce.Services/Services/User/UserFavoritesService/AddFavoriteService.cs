@@ -3,7 +3,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserFavoritesService : IUserFavoriteService
 {
-    public async Task<ResponseAddFavoriteItemsDTO> AddFavorite(RequestAddFavoriteItemsDTO requestAddFavoriteItemsDTO,int userId)
+    public async Task<ResponseFavoriteItemsDTO> AddFavorite(RequestAddFavoriteItemsDTO requestAddFavoriteItemsDTO,int userId)
     {
         var favorite = (await _favoriteRepsository.GetAll()).FirstOrDefault(f=>f.UserId == userId);
         if(favorite == null)
@@ -19,7 +19,7 @@ public partial class UserFavoritesService : IUserFavoriteService
         favoritesItems.FavoritesId = favorite.FavoritesId;
         favoritesItems.ProductVariantId = requestAddFavoriteItemsDTO.ProductVariantId;
         await _favoriteItemsRepsository.Create(favoritesItems);
-        return _mapper.Map<ResponseAddFavoriteItemsDTO>(favoritesItems);
+        return _mapper.Map<ResponseFavoriteItemsDTO>(favoritesItems);
 
     }
 }
