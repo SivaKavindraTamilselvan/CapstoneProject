@@ -3,7 +3,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
-public partial class AdminService : IAdminService
+public partial class AdminProductService : IAdminProductService
 {
     private readonly IAuthentication _authentication;
     private readonly IVendorRepsository _vendorRepsository;
@@ -15,7 +15,7 @@ public partial class AdminService : IAdminService
     private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
     private readonly IAttributeRepsository _attributeRepsository;
     private readonly IMapper _mapper;
-    public AdminService(IAuthentication authentication,IMapper mapper,IVendorRepsository vendorRepsository,IAdminUserRepsository adminUserRepsository,IProductRepsository productRepsository,IVendorUserRepsository vendorUserRepsository,IProductCategoryRepsository productCategoryRepsository,IProductSubCategoryRepsository productSubCategoryRepsository,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    public AdminProductService(IAuthentication authentication,IMapper mapper,IVendorRepsository vendorRepsository,IAdminUserRepsository adminUserRepsository,IProductRepsository productRepsository,IVendorUserRepsository vendorUserRepsository,IProductCategoryRepsository productCategoryRepsository,IProductSubCategoryRepsository productSubCategoryRepsository,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
         _authentication = authentication;
         _vendorRepsository = vendorRepsository;
@@ -27,10 +27,5 @@ public partial class AdminService : IAdminService
         _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
         _attributeRepsository = attributeRepsository;
         _mapper = mapper;
-    }
-    public async Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO,int adminUserId)
-    {
-        var result = await _authentication.RegisterAdmin(requestRegisterAdminDTO,adminUserId);
-        return result;
     }
 }

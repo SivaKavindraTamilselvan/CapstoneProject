@@ -2,7 +2,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 
-public partial class AdminService : IAdminService
+public partial class AdminVendorService : IAdminVendorService
 {
     public async Task<ResponseReviewOfVendorDTO> ReviewVendor(RequestReviewOfVendorDTO requestReviewOfVendorDTO,int userId)
     {

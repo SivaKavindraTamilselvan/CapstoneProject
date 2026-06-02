@@ -2,7 +2,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Services.Interfaces;
 
-public partial class AdminService : IAdminService
+public partial class AdminProductService : IAdminProductService
 {
     public async Task<ResponseAddProductCategoryDTO> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
     {

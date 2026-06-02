@@ -1,22 +1,9 @@
-using AutoMapper;
 using Ecommerce.Models;
-using Ecommerce.Repositories.Interfaces;
 
-public class UserFavoritesService : IUserFavoriteService
+public partial class UserFavoritesService : IUserFavoriteService
 {
-    private readonly IFavoriteRepsository _favoriteRepsository;
-    private readonly IFavoriteItemsRepsository _favoriteItemsRepsository;
-    private readonly IMapper _mapper;
-
-    public UserFavoritesService(IFavoriteRepsository favoriteRepsository,IFavoriteItemsRepsository favoriteItemsRepsository,IMapper mapper)
-    {
-        _favoriteRepsository = favoriteRepsository;
-        _favoriteItemsRepsository = favoriteItemsRepsository;
-        _mapper = mapper;
-    }
     public async Task<ResponseAddFavoriteItemsDTO> AddFavorite(RequestAddFavoriteItemsDTO requestAddFavoriteItemsDTO,int userId)
     {
-        Console.WriteLine(userId);
         var favorite = (await _favoriteRepsository.GetAll()).FirstOrDefault(f=>f.UserId == userId);
         if(favorite == null)
         {
