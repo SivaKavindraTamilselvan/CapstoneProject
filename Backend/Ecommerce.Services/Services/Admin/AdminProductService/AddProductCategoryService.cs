@@ -1,5 +1,6 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 
 public partial class AdminProductService : IAdminProductService
@@ -9,7 +10,7 @@ public partial class AdminProductService : IAdminProductService
         var product = (await _productCategoryRepsository.GetAll()).FirstOrDefault(p=>p.ProductCategoryName == requestAddProductCategoryDTO.ProductCategoryName);
         if(product !=null)
         {
-            throw new Exception("Already The Product Category Is Registered");
+            throw new DataAlreadyRegisteredException("Already The Product Category Is Registered");
         }
         ProductCategory productCategory = new ProductCategory();
         productCategory.ProductCategoryName = requestAddProductCategoryDTO.ProductCategoryName;
@@ -21,7 +22,7 @@ public partial class AdminProductService : IAdminProductService
         var product = (await _productSubCategoryRepsository.GetAll()).FirstOrDefault(p=>p.ProductSubCategoryName == requestAddProductSubCategoryDTO.ProductSubCategoryName && p.ProductCategoryId == requestAddProductSubCategoryDTO.ProductCategoryId);
         if(product !=null)
         {
-            throw new Exception("Already The Product Sub Category Is Registered");
+            throw new DataAlreadyRegisteredException("Already The Product Sub Category Is Registered");
         }
         ProductSubCategory productSubCategory = new ProductSubCategory();
         productSubCategory.ProductCategoryId = requestAddProductSubCategoryDTO.ProductCategoryId;
@@ -34,7 +35,7 @@ public partial class AdminProductService : IAdminProductService
         var attribute = (await _attributeRepsository.GetAll()).FirstOrDefault(p=>p.AttributeName == requestAddAttributeDTO.AttributeName);
         if(attribute !=null)
         {
-            throw new Exception("Already The Attribute Name Is Registered");
+            throw new DataAlreadyRegisteredException("Already The Attribute Name Is Registered");
         }
         AttributeMaster createAttribute = new AttributeMaster();
         createAttribute.AttributeName = requestAddAttributeDTO.AttributeName;
@@ -46,7 +47,7 @@ public partial class AdminProductService : IAdminProductService
         var product = (await _productSubCategoryAttributeRepsository.GetAll()).FirstOrDefault(p=>p.ProductSubCategoryId == requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId && p.AttributeMasterId == requestAddProductSubCategoryAttributeDTO.AttributeMasterId);
         if(product !=null)
         {
-            throw new Exception("Already The Product Sub Category Attribute Is Registered");
+            throw new DataAlreadyRegisteredException("Already The Product Sub Category Attribute Is Registered");
         }
         ProductSubCategoryAttribute productSubCategoryAttribute = new ProductSubCategoryAttribute();
         productSubCategoryAttribute.AttributeMasterId = requestAddProductSubCategoryAttributeDTO.AttributeMasterId;
