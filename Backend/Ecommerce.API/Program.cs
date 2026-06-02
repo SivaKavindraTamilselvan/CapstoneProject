@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
+using System.Security.Claims;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -71,6 +72,15 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("SuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",   "1");
+    });
+});
+
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
 #endregion
@@ -83,6 +93,7 @@ builder.Services.AddScoped<IVendorUserRepsository,VendorUserRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
+builder.Services.AddScoped<IAdminService,AdminService>();
 
 var app = builder.Build();
 
