@@ -132,12 +132,18 @@ builder.Services.AddScoped<IProductCategoryRepsository,ProductCategoryRepsositor
 builder.Services.AddScoped<IProductSubCategoryRepsository,ProductSubCategoryRepsository>();
 builder.Services.AddScoped<IProductSubCategoryAttributeRepsository,ProductSubCategoryAttributeRepsository>();
 builder.Services.AddScoped<IAttributeRepsository,AttributeRepsository>();
+builder.Services.AddScoped<ICartRepsository,CartRepsository>();
+builder.Services.AddScoped<ICartItemsRepsository,CartItemsRepsository>();
+builder.Services.AddScoped<IFavoriteRepsository,FavoriteRepsository>();
+builder.Services.AddScoped<IFavoriteItemsRepsository,FavoriteItemsRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IAdminService,AdminService>();
 builder.Services.AddScoped<IVendorService,VendorService>();
 builder.Services.AddScoped<IProductService,ProductService>();
+builder.Services.AddScoped<IUserCartService,UserCartService>();
+builder.Services.AddScoped<IUserFavoriteService,UserFavoritesService>();
 
 var app = builder.Build();
 
