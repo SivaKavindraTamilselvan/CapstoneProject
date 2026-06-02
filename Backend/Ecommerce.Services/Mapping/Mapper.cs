@@ -34,6 +34,11 @@ namespace Ecommerce.Mappers
 
             CreateMap<Product, ResponseAddProduct>();
             CreateMap<Product,ResponseReviewOfProductDTO>();
+
+            CreateMap<ProductCategory,ResponseAddProductCategoryDTO>();
+            CreateMap<ProductSubCategory,ResponseAddProductSubCategoryDTO>();
+            CreateMap<AttributeMaster,ResponseAddAttributeDTO>();
+            CreateMap<ProductSubCategoryAttribute,ResponseAddProductSubCategoryAttributeDTO>();
         }
     }
 }
