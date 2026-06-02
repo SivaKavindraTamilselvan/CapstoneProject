@@ -6,6 +6,6 @@ public interface IAuthentication
 {
     public Task<ResponseRegisterUserDTO> Register(RequestRegisterUserDTO requestRegisterUserDTO);
     public Task<ResponseLoginUserDTO> Login(RequestLoginUserDTO requestLoginUserDTO);
-    //public Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO);
+    public Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO,int adminUserId);
     public Task<ResponseRegisterVendorDTO> RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO);
 }

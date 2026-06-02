@@ -7,9 +7,8 @@ using Microsoft.Extensions.Logging;
 
 public partial class AuthenticationService : IAuthentication
 {
-    public async Task<ResponseRegisterUserDTO> Register(RequestRegisterUserDTO requestRegisterUserDTO)
+    private async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
     {
-        _logger.LogInformation("User registration started for {Email}", requestRegisterUserDTO.Email);
         var existingUser = await _userRepsository.GetUserByEmail(requestRegisterUserDTO.Email);
         if (existingUser != null)
         {
@@ -19,31 +18,34 @@ public partial class AuthenticationService : IAuthentication
         HMACSHA256 hMACSHA256 = new HMACSHA256();
         user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterUserDTO.Password));
         user.HashedKey = hMACSHA256.Key;
-        user.RoleId = 3;
+        user.RoleId = RoleId;
         await _userRepsository.Create(user);
+        return _mapper.Map<ResponseRegisterUserDTO>(user);
+    }
+    public async Task<ResponseRegisterUserDTO> Register(RequestRegisterUserDTO requestRegisterUserDTO)
+    {
+        _logger.LogInformation("User registration started for {Email}", requestRegisterUserDTO.Email);
+        var user = await RegisterUser(requestRegisterUserDTO, 3);
         _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
         return _mapper.Map<ResponseRegisterUserDTO>(user);
-
     }
-    public async Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO)
+    public async Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO, int adminUserId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
-            var requestUser = _mapper.Map<RequestRegisterUserDTO>(requestRegisterAdminDTO);
-            HMACSHA256 hMACSHA256 = new HMACSHA256();
-            requestUser.Password = requestRegisterAdminDTO.FirstName + "@12345";
-            var user = _mapper.Map<User>(requestUser);
-            user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestUser.Password));
-            user.HashedKey = hMACSHA256.Key;
-            user.RoleId = 1;
-            await _userRepsository.Create(user);
-
-            var adminUser = _mapper.Map<AdminUser>(requestRegisterAdminDTO);
+            var user = await RegisterUser(requestRegisterAdminDTO.requestRegisterUserDTO, 1);
+            var assignedAdmin = (await _adminRepository.GetAll()).FirstOrDefault(u => u.AdminUserId == adminUserId);
+            if (assignedAdmin == null)
+            {
+                throw new Exception("Admin not found");
+            }
+            AdminUser adminUser = new AdminUser();
+            adminUser.AdminRoleId = requestRegisterAdminDTO.AdminRoleId;
             adminUser.UserId = user.UserId;
+            adminUser.AssignedByAdminUserId = assignedAdmin.AdminUserId;
             await _adminRepository.Create(adminUser);
             await transaction.CommitAsync();
-
             return _mapper.Map<ResponseRegisterAdminDTO>(adminUser);
         }
         catch
@@ -57,13 +59,7 @@ public partial class AuthenticationService : IAuthentication
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
-            User user = _mapper.Map<User>(requestRegisterVendorDTO.requestRegisterUserDTO);
-            HMACSHA256 hMACSHA256 = new HMACSHA256();
-            user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterVendorDTO.requestRegisterUserDTO.Password));
-            user.HashedKey = hMACSHA256.Key;
-            user.RoleId = 2;
-            await _userRepsository.Create(user);
-
+            var user = await RegisterUser(requestRegisterVendorDTO.requestRegisterUserDTO, 2);
             var vendor = _mapper.Map<Vendor>(requestRegisterVendorDTO);
             await _vendorRepsository.Create(vendor);
 
@@ -71,7 +67,6 @@ public partial class AuthenticationService : IAuthentication
             vendorUser.VendorId = vendor.VendorId;
             vendorUser.UserId = user.UserId;
             vendorUser.VendorRoleId = 1;
-
             await _vendorUserRepsository.Create(vendorUser);
             await transaction.CommitAsync();
             return _mapper.Map<ResponseRegisterVendorDTO>(vendor);
