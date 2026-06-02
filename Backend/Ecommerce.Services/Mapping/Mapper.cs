@@ -29,6 +29,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestRegisterVendorDTO, Vendor>();
             CreateMap<Vendor, ResponseRegisterVendorDTO>();
+
+            CreateMap<VendorUser,ResponseRegisterVendorUserDTO>();
         }
     }
 }
