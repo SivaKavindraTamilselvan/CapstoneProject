@@ -25,16 +25,10 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.AdminRoleId, opt => opt.MapFrom(src => src.AdminUsers != null ? src.AdminUsers.AdminRoleId : (int?)null))
             .ForMember(dest => dest.VendorRoleId, opt => opt.MapFrom(src => src.VendorUser != null ? src.VendorUser.VendorRoleId : (int?)null));
 
-            CreateMap<RequestRegisterAdminDTO, RequestRegisterUserDTO>()
-            .ForMember(dest => dest.Password, opt => opt.Ignore())
-            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.Trim().ToLower()))
-            .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName.Trim()))
-            .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName.Trim()));
+            CreateMap<AdminUser, ResponseRegisterAdminDTO>();
 
-            CreateMap<RequestRegisterAdminDTO,AdminUser>();
-
-            CreateMap<RequestRegisterVendorDTO,Vendor>();
-            CreateMap<Vendor,ResponseRegisterVendorDTO>();
+            CreateMap<RequestRegisterVendorDTO, Vendor>();
+            CreateMap<Vendor, ResponseRegisterVendorDTO>();
         }
     }
 }
