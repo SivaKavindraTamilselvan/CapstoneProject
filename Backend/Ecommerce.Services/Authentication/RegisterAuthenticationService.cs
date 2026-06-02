@@ -7,7 +7,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AuthenticationService : IAuthentication
 {
-    private async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
+    public async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
     {
         var existingUser = await _userRepsository.GetUserByEmail(requestRegisterUserDTO.Email);
         if (existingUser != null)
