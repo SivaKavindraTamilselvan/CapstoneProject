@@ -24,4 +24,13 @@ public class AdminController : ControllerBase
         var result = await _adminService.RegisterAdmin(requestRegisterAdminDTO,adminUserId);
         return Ok(result);
     }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("ReviewVendor")]
+    public async Task<ActionResult<ResponseReviewOfVendorDTO>> ReviewVendor(RequestReviewOfVendorDTO dto)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.ReviewVendor(dto, adminUserId);
+
+        return Ok(result);
+    }
 }
