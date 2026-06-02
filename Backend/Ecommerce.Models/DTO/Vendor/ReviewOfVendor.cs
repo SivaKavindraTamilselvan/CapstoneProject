@@ -4,7 +4,10 @@ namespace Ecommerce.DTOs;
 
 public class RequestReviewOfVendorDTO
 {
+    [Required(ErrorMessage = "Vendor Id Needed")]
+    [Range(1, int.MaxValue, ErrorMessage = "Vendor Id Should Be Greater Than 0")]
     public int VendorId { get; set; }
+
     [Required(ErrorMessage = "Approval Status Cannot Be Empty")]
     [RegularExpression(@"^[1-5]+$",ErrorMessage = "Only can enter the registered Approval Status Id")]
     public int ApprovalStatusId { get; set; }

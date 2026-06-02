@@ -12,6 +12,10 @@ public partial class VendorProductService : IVendorProductService
         {
             throw new DataNotFoundException("Product Not Found");
         }
+        if(product.ApprovalStatusId !=2 )
+        {
+            throw new DataApprovalStatusException("Product Not Approved. Product Needed To Be Approved By Product Admin Or Super Admin");
+        }
         ProductVariant productVariant = new ProductVariant();
         productVariant.AvailableQuantity = requestAddProductVariantDTO.AvailableQuantity;
         productVariant.ProductId = requestAddProductVariantDTO.ProductId;
@@ -37,7 +41,7 @@ public partial class VendorProductService : IVendorProductService
         }
         if (vendor.ApprovalStatusId != 2)
         {
-            throw new Exception("The Vendor Is Not Approved Yet");
+            throw new DataApprovalStatusException("Vendor Not Approved. Vendor Needed To Be Approved By Vendor Admin Or SuperAdmin");
         }
         Product product = new Product();
         product.VendorId = vendor.VendorId;
