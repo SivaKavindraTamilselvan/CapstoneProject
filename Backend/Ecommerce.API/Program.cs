@@ -81,6 +81,15 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "2");
+    });
+});
+
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
 #endregion
