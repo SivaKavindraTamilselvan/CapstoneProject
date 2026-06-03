@@ -17,6 +17,7 @@ namespace Ecommerce.Mappers
             CreateMap<RequestAddProductVariantDTO,ProductVariant>();
             CreateMap<ProductVariant, ResponseAddProductVariantDTO>();
 
+            CreateMap<RequestAddProductVariantAttributeDTO, ProductVariantAttribute>();
             CreateMap<ProductVariantAttribute, ResponseAddProductVariantAttributeDTO>();
 
             CreateMap<Product, ResponseReviewOfProductDTO>();
