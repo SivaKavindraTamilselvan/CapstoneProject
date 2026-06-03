@@ -119,7 +119,8 @@ builder.Services.AddAuthorization(options =>
 });
 
 #region Mappers
-builder.Services.AddAutoMapper(m=> m.AddProfile(new MappingProfile()));
+builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 #endregion
 
 

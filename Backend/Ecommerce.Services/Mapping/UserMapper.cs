@@ -4,9 +4,9 @@ using Ecommerce.DTOs;
 
 namespace Ecommerce.Mappers
 {
-    public class MappingProfile : Profile
+    public class UserMappingProfile : Profile
     {
-        public MappingProfile()
+        public UserMappingProfile()
         {
             CreateMap<RequestRegisterUserDTO, User>()
             .ForMember(dest => dest.Password, opt => opt.Ignore())
@@ -15,8 +15,12 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email.Trim().ToLower()))
             .ForMember(dest => dest.FirstName, opt => opt.MapFrom(src => src.FirstName.Trim()))
             .ForMember(dest => dest.LastName, opt => opt.MapFrom(src => src.LastName.Trim()));
-
             CreateMap<User, ResponseRegisterUserDTO>();
+
+            CreateMap<RequestRegisterVendorDTO, Vendor>();
+            CreateMap<Vendor, ResponseRegisterVendorDTO>();
+
+            CreateMap<VendorUser, ResponseRegisterVendorUserDTO>();
 
             CreateMap<User, ResponseLoginUserDTO>()
             .ForMember(dest => dest.Token, opt => opt.Ignore());
@@ -26,30 +30,10 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.VendorRoleId, opt => opt.MapFrom(src => src.VendorUser != null ? src.VendorUser.VendorRoleId : (int?)null));
 
             CreateMap<AdminUser, ResponseRegisterAdminDTO>();
+            CreateMap<FavoritesItems, ResponseFavoriteItemsDTO>();
+            CreateMap<CartItems, ResponseCartItemsDTO>();
 
-            CreateMap<RequestRegisterVendorDTO, Vendor>();
-            CreateMap<Vendor, ResponseRegisterVendorDTO>();
-
-            CreateMap<VendorUser,ResponseRegisterVendorUserDTO>();
-
-            CreateMap<Product, ResponseAddProduct>();
-            CreateMap<Product,ResponseReviewOfProductDTO>();
-
-            CreateMap<ProductCategory,ResponseAddProductCategoryDTO>();
-            CreateMap<ProductSubCategory,ResponseAddProductSubCategoryDTO>();
-            CreateMap<AttributeMaster,ResponseAddAttributeDTO>();
-            CreateMap<ProductSubCategoryAttribute,ResponseAddProductSubCategoryAttributeDTO>();
-
-            CreateMap<FavoritesItems,ResponseFavoriteItemsDTO>();
-            CreateMap<CartItems,ResponseCartItemsDTO>();
-
-            CreateMap<ProductVariant,ResponseAddProductVariantDTO>();
-            CreateMap<ProductImage,RequestAddProductImage>();
-
-            CreateMap<Vendor,ResponseReviewOfVendorDTO>();
-            CreateMap<ProductVariantAttribute,ResponseAddProductVariantAttributeDTO>();
-
-            CreateMap<ProductImage,ResponseAddProductImage>();
+            CreateMap<Vendor, ResponseReviewOfVendorDTO>();
         }
     }
 }
