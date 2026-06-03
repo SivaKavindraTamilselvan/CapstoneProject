@@ -621,8 +621,8 @@ public class EcommerceContext : DbContext
             entity.Property(ah => ah.EntityId).IsRequired();
             entity.Property(ah => ah.Remarks).HasMaxLength(500);
             entity.Property(ah => ah.ReviewedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
-            entity.HasOne(ah => ah.PreviousStatus).WithMany().HasForeignKey(ah => ah.PreviousStatusId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(ah => ah.NewStatus).WithMany().HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(ah => ah.PreviousStatus).WithMany(ps=>ps.PreviousApprovalHistories).HasForeignKey(ah => ah.PreviousStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(ah => ah.NewStatus).WithMany(ps=>ps.NewApprovalHistories).HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(ah => ah.ReviewedByAdmin).WithMany().HasForeignKey(ah => ah.ReviewedByAdminId).OnDelete(DeleteBehavior.Restrict);
         });
 

@@ -142,6 +142,7 @@ builder.Services.AddScoped<IFavoriteRepsository,FavoriteRepsository>();
 builder.Services.AddScoped<IFavoriteItemsRepsository,FavoriteItemsRepsository>();
 builder.Services.AddScoped<IProductVariantRepsository,ProductVariantRepsository>();
 builder.Services.AddScoped<IProductVariantAttributeRepsository,ProductVariantAttributeRepsository>();
+builder.Services.AddScoped<IApprovalHistoryRepsository,ApprovalHistoryRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
