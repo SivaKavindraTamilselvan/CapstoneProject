@@ -22,7 +22,7 @@ public partial class VendorProductService : IVendorProductService
     {
         var vendorUser = await _vendorValidation.ValidateVendorUser(vendorUserId);
         var vendor = await _vendorValidation.ValidateVendorIfApproved(vendorUser.VendorId);
-        await _productValidation.ValidateSubCategory(requestAddProduct.ProductSubCategoryId);
+        await _productCategoryValidation.ValidateSubCategory(requestAddProduct.ProductSubCategoryId);
         var product = _mapper.Map<Product>(requestAddProduct);
         product.VendorId = vendor.VendorId;
         product.AddedByVendorUserId = vendorUser.VendorUserId;
@@ -45,7 +45,7 @@ public partial class VendorProductService : IVendorProductService
 
     public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, int productVariantId,int productSubCategoryId)
     {
-        await _productValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,productSubCategoryId);
+        await _productCategoryValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,productSubCategoryId);
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
         productVariantAttribute.ProductVariantId = productVariantId;
         await _productVariantAttributeRepsository.Create(productVariantAttribute);

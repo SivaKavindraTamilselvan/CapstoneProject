@@ -9,21 +9,12 @@ public class ProductValidation : IProductValidation
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductSubCategoryRepsository _productSubCategoryRepsository;
     private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
-    public ProductValidation(IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    public ProductValidation(IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
         _productSubCategoryRepsository = productSubCategoryRepsository;
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
         _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
-    }
-    public async Task<ProductSubCategory> ValidateSubCategory(int subCategoryId)
-    {
-        var subCategory = await _productSubCategoryRepsository.Get(subCategoryId);
-        if (subCategory == null)
-        {
-            throw new DataNotFoundException("Product Sub Category Is Not Found");
-        }
-        return subCategory;
     }
     public async Task<Product> ValidateProduct(int productId)
     {
@@ -51,14 +42,5 @@ public class ProductValidation : IProductValidation
             throw new DataNotFoundException("Product Variant Not Found");
         }
         return productVariant;
-    }
-    public async Task<ProductSubCategoryAttribute> ValidateProductSubCategoryAttribute(int productSubCategoryAttributeId,int productSubCategoryId)
-    {
-        var attribute = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(productSubCategoryAttributeId,productSubCategoryId);
-        if (attribute == null)
-        {
-            throw new DataNotFoundException("Product Sub Category Attribute Not Found For This Product Sub Category");
-        }
-        return attribute;
     }
 }
