@@ -59,4 +59,13 @@ public class UserController : ControllerBase
         var result = await _userCartService.DeleteAllCart(UserId);
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpPost("GetCartByUserId")]
+    public async Task<ActionResult<ResponseCartItemsDTO>> GetCartByUserId()
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCartService.GetCartByUserId(UserId);
+        return Ok(result);
+    }
 }

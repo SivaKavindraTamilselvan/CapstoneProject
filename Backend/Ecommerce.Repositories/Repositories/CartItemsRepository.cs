@@ -22,4 +22,14 @@ public class CartItemsRepsository : AbstractRepository<int, CartItems>, ICartIte
         return items;
     }
 
+    public async Task<List<CartItems>> GetCartItemsByUserId(int userId)
+    {
+        var items = await _ecommerceContext.CartItems.Include(c => c.Cart).Where(u => u.Cart != null && u.Cart.UserId == userId).ToListAsync();
+        if (items.Count == 0)
+        {
+            return new List<CartItems>();
+        }
+        return items;
+    }
+
 }

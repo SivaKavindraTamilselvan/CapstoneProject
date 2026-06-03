@@ -6,5 +6,5 @@ public interface IUserCartService
     public Task<List<ResponseCartItemsDTO>> DeleteAllCart(int userId);
     public Task<ResponseCartItemsDTO> DeleteCart(RequestDeleteCartItemsDTO requestDeleteCartItemsDTO);
     public Task<ResponseCartItemsDTO> UpdateCart(RequestUpdateCartItemsDTO requestUpdateCartItemsDTO);
-
+    public Task<ResponseCartItemsDTO> GetCartByUserId(int userId);
 }
