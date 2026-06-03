@@ -7,4 +7,5 @@ public class ProductVariantAttribute
     public int AttributeMasterId { get; set; }
     public AttributeMaster? AttributeMaster { get; set; }
     public string AttributeValue { get; set; } = string.Empty;
+    public DateTime CreatedAt {get;set;} = DateTime.Now;
 }

@@ -10,6 +10,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Security.Claims;
+using BankingAPI.Middlewares;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -137,6 +138,7 @@ builder.Services.AddScoped<ICartItemsRepsository,CartItemsRepsository>();
 builder.Services.AddScoped<IFavoriteRepsository,FavoriteRepsository>();
 builder.Services.AddScoped<IFavoriteItemsRepsository,FavoriteItemsRepsository>();
 builder.Services.AddScoped<IProductVariantRepsository,ProductVariantRepsository>();
+builder.Services.AddScoped<IProductVariantAttributeRepsository,ProductVariantAttributeRepsository>();
 
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
@@ -145,6 +147,7 @@ builder.Services.AddScoped<IVendorService,VendorService>();
 builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IUserCartService,UserCartService>();
 builder.Services.AddScoped<IUserFavoriteService,UserFavoritesService>();
+builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 
 var app = builder.Build();
 
@@ -153,6 +156,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 

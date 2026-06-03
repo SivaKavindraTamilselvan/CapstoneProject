@@ -591,6 +591,7 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.ProductVariantStatusId).HasDefaultValue(1);
             pv.Property(p => p.ProductApprovalStatusId).HasDefaultValue(1);
             pv.HasOne(p => p.ProductApprovalStatus).WithMany(p => p.ProductVariants).HasForeignKey(p => p.ProductApprovalStatusId).HasConstraintName("FK_Product_Approval_Status").OnDelete(DeleteBehavior.Restrict);
+            pv.HasOne(p => p.AddedByVendorUser).WithMany(a => a.ProductVariants).HasForeignKey(p => p.AddedByVendorUserId).HasConstraintName("FK_Product_Variant_Added_Vendor_User").OnDelete(DeleteBehavior.Restrict);
             pv.Property(pv => pv.CreatedAt).HasColumnType("timestamp without time zone");
             pv.Property(pv => pv.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             pv.Property(pv => pv.UpdatedAt).HasColumnType("timestamp without time zone");
@@ -621,6 +622,16 @@ public class EcommerceContext : DbContext
             entity.HasOne(ah => ah.PreviousStatus).WithMany().HasForeignKey(ah => ah.PreviousStatusId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(ah => ah.NewStatus).WithMany().HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(ah => ah.ReviewedByAdmin).WithMany().HasForeignKey(ah => ah.ReviewedByAdminId).OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<ProductVariantAttribute>(pva =>
+        {
+            pva.HasKey(pva => pva.ProductVariantAttributeId);
+            pva.Property(pva => pva.AttributeValue).IsRequired().HasMaxLength(100);
+            pva.Property(pva => pva.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            pva.HasOne(pva => pva.ProductVariant).WithMany(pv => pv.ProductVariantAttributes).HasForeignKey(pva => pva.ProductVariantId).OnDelete(DeleteBehavior.Restrict);
+            pva.HasOne(pva => pva.AttributeMaster).WithMany(am => am.ProductVariantAttributes).HasForeignKey(pva => pva.AttributeMasterId).OnDelete(DeleteBehavior.Restrict);
+            pva.HasIndex(pva => new{pva.ProductVariantId,pva.AttributeMasterId}).IsUnique();
         });
 
         // Orders

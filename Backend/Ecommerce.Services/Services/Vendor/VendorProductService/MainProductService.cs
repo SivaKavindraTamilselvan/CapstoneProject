@@ -9,16 +9,20 @@ public partial class VendorProductService : IVendorProductService
     private readonly IProductRepsository _productRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductImageRepsository _productImageRepsository;
+    private readonly IProductVariantAttributeRepsository _productVariantAttributeRepsository;
+
     private readonly IMapper _mapper;
 
 
-    public VendorProductService(IMapper mapper,IVendorUserRepsository vendorUserRepsository,IVendorRepsository vendorRepsository,IProductRepsository productRepsository,IProductVariantRepsository productVariantRepsository,IProductImageRepsository productImageRepsository)
+    public VendorProductService(IMapper mapper, IVendorUserRepsository vendorUserRepsository, IVendorRepsository vendorRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository)
     {
         _vendorUserRepsository = vendorUserRepsository;
         _vendorRepsository = vendorRepsository;
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
         _productImageRepsository = productImageRepsository;
+        _productVariantAttributeRepsository = productVariantAttributeRepsository;
+
         _mapper = mapper;
     }
 }

@@ -12,6 +12,8 @@ public class ProductVariant
     public decimal LengthInCm { get; set; }
     public decimal WidthInCm { get; set; }
     public decimal HeightInCm { get; set; }
+    public int AddedByVendorUserId {get;set;}
+    public VendorUser? AddedByVendorUser {get;set;}
     public int ProductVariantStatusId { get; set; } = 1;
     public ProductVariantStatus? ProductVariantStatus { get; set; }
     public int ProductApprovalStatusId {get;set;} = 1;

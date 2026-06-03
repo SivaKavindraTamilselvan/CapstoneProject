@@ -12,7 +12,7 @@ public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
     private readonly IVendorProductService _vendorProductService;
-    public ProductController(IProductService productService,IVendorProductService vendorProductService)
+    public ProductController(IProductService productService, IVendorProductService vendorProductService)
     {
         _productService = productService;
         _vendorProductService = vendorProductService;
@@ -30,14 +30,16 @@ public class ProductController : ControllerBase
     [HttpPost("AddProductImage")]
     public async Task<ActionResult<ResponseAddProductImage>> AddProductImage(RequestAddProductImage requestAddProductImage)
     {
-        var result = await _vendorProductService.AddProductImage(requestAddProductImage); 
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.AddProductImage(requestAddProductImage,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProductVariant")]
-    public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductImage(RequestAddProductVariantDTO requestAddProductVariantDTO)
+    public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
-        var result = await _vendorProductService.AddProductVariant(requestAddProductVariantDTO); 
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
         return Ok(result);
     }
 }

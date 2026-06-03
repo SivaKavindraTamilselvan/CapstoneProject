@@ -45,6 +45,9 @@ namespace BankingAPI.Middlewares
                 case InvalidCredentialException:
                     statusCode = HttpStatusCode.Unauthorized;
                     break;
+                case DataApprovalStatusException:
+                    statusCode = HttpStatusCode.Conflict;
+                    break;
                 case EmailException:
                 case NameException:
                 case PhoneNumberException:
