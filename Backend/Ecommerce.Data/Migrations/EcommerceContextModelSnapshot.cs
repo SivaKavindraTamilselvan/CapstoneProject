@@ -316,6 +316,16 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.HasKey("AttributeMasterId")
                         .HasName("PK_Product_Attribute_Master");
 
@@ -323,93 +333,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("AttributeMaster");
-
-                    b.HasData(
-                        new
-                        {
-                            AttributeMasterId = 1,
-                            AttributeName = "Brand"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 2,
-                            AttributeName = "Color"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 3,
-                            AttributeName = "Size"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 4,
-                            AttributeName = "Storage"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 5,
-                            AttributeName = "RAM"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 6,
-                            AttributeName = "Screen Size"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 7,
-                            AttributeName = "Volume"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 8,
-                            AttributeName = "Material"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 9,
-                            AttributeName = "Weight"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 10,
-                            AttributeName = "Skin Type"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 11,
-                            AttributeName = "Capacity"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 12,
-                            AttributeName = "Processor"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 13,
-                            AttributeName = "Operating System"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 14,
-                            AttributeName = "Display Type"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 15,
-                            AttributeName = "Battery Capacity"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 16,
-                            AttributeName = "Gender"
-                        },
-                        new
-                        {
-                            AttributeMasterId = 17,
-                            AttributeName = "Author"
-                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Cart", b =>
@@ -1183,9 +1106,6 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("ProductSubCategoryId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProductVariantStatusId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp without time zone");
 
@@ -1204,8 +1124,6 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("ProductStatusId");
 
                     b.HasIndex("ProductSubCategoryId");
-
-                    b.HasIndex("ProductVariantStatusId");
 
                     b.HasIndex("VendorId");
 
@@ -1257,6 +1175,11 @@ namespace Ecommerce.Data.Migrations
                         {
                             ProductApprovalStatusId = 5,
                             ProductApprovalStatusName = "Admin_Rejected"
+                        },
+                        new
+                        {
+                            ProductApprovalStatusId = 6,
+                            ProductApprovalStatusName = "Deleted_By_Admin"
                         });
                 });
 
@@ -1267,6 +1190,16 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductCategoryId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<string>("ProductCategoryName")
                         .IsRequired()
@@ -1279,38 +1212,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductCategory");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductCategoryId = 1,
-                            ProductCategoryName = "Electronics"
-                        },
-                        new
-                        {
-                            ProductCategoryId = 2,
-                            ProductCategoryName = "Fashion"
-                        },
-                        new
-                        {
-                            ProductCategoryId = 3,
-                            ProductCategoryName = "Beauty & Personal Care"
-                        },
-                        new
-                        {
-                            ProductCategoryId = 4,
-                            ProductCategoryName = "Home & Kitchen"
-                        },
-                        new
-                        {
-                            ProductCategoryId = 5,
-                            ProductCategoryName = "Books"
-                        },
-                        new
-                        {
-                            ProductCategoryId = 6,
-                            ProductCategoryName = "Sports & Fitness"
-                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductImage", b =>
@@ -1338,9 +1239,7 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("character varying(1000)");
 
                     b.Property<bool>("IsMainImage")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(false);
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ProductId")
                         .HasColumnType("integer");
@@ -1420,6 +1319,16 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductSubCategoryId"));
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("ProductCategoryId")
                         .HasColumnType("integer");
 
@@ -1434,200 +1343,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductSubCategory");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductSubCategoryId = 1,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Mobile Phones"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 2,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Laptops"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 3,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Tablets"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 4,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Smart Watches"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 5,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Headphones"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 6,
-                            ProductCategoryId = 1,
-                            ProductSubCategoryName = "Speakers"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 7,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "T-Shirts"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 8,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "Shirts"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 9,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "Jeans"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 10,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "Trousers"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 11,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "Shoes"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 12,
-                            ProductCategoryId = 2,
-                            ProductSubCategoryName = "Sandals"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 13,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Face Wash"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 14,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Moisturizer"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 15,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Shampoo"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 16,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Conditioner"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 17,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Sunscreen"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 18,
-                            ProductCategoryId = 3,
-                            ProductSubCategoryName = "Perfumes"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 19,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Cookware"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 20,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Furniture"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 21,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Storage Containers"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 22,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Home Decor"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 23,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Bedsheets"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 24,
-                            ProductCategoryId = 4,
-                            ProductSubCategoryName = "Kitchen Appliances"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 25,
-                            ProductCategoryId = 5,
-                            ProductSubCategoryName = "Academic Books"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 26,
-                            ProductCategoryId = 5,
-                            ProductSubCategoryName = "Novels"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 27,
-                            ProductCategoryId = 5,
-                            ProductSubCategoryName = "Comics"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 28,
-                            ProductCategoryId = 5,
-                            ProductSubCategoryName = "Biographies"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 29,
-                            ProductCategoryId = 6,
-                            ProductSubCategoryName = "Cricket Equipment"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 30,
-                            ProductCategoryId = 6,
-                            ProductSubCategoryName = "Football Equipment"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 31,
-                            ProductCategoryId = 6,
-                            ProductSubCategoryName = "Gym Equipment"
-                        },
-                        new
-                        {
-                            ProductSubCategoryId = 32,
-                            ProductCategoryId = 6,
-                            ProductSubCategoryName = "Yoga Accessories"
-                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductSubCategoryAttribute", b =>
@@ -1641,6 +1356,16 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("AttributeMasterId")
                         .HasColumnType("integer");
 
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("ProductSubCategoryId")
                         .HasColumnType("integer");
 
@@ -1653,686 +1378,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductSubCategoryAttribute");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 1,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 2,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 3,
-                            AttributeMasterId = 4,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 4,
-                            AttributeMasterId = 5,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 5,
-                            AttributeMasterId = 6,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 6,
-                            AttributeMasterId = 15,
-                            ProductSubCategoryId = 1
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 7,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 2
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 8,
-                            AttributeMasterId = 4,
-                            ProductSubCategoryId = 2
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 9,
-                            AttributeMasterId = 5,
-                            ProductSubCategoryId = 2
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 10,
-                            AttributeMasterId = 12,
-                            ProductSubCategoryId = 2
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 11,
-                            AttributeMasterId = 13,
-                            ProductSubCategoryId = 2
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 12,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 13,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 14,
-                            AttributeMasterId = 4,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 15,
-                            AttributeMasterId = 5,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 16,
-                            AttributeMasterId = 6,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 17,
-                            AttributeMasterId = 13,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 18,
-                            AttributeMasterId = 15,
-                            ProductSubCategoryId = 3
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 19,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 4
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 20,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 4
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 21,
-                            AttributeMasterId = 15,
-                            ProductSubCategoryId = 4
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 22,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 5
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 23,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 5
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 24,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 5
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 25,
-                            AttributeMasterId = 15,
-                            ProductSubCategoryId = 5
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 26,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 6
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 27,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 6
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 28,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 6
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 29,
-                            AttributeMasterId = 15,
-                            ProductSubCategoryId = 6
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 30,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 7
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 31,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 7
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 32,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 7
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 33,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 7
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 34,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 7
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 35,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 8
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 36,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 8
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 37,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 8
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 38,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 8
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 39,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 8
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 40,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 9
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 41,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 9
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 42,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 9
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 43,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 9
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 44,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 9
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 45,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 10
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 46,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 10
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 47,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 10
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 48,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 10
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 49,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 10
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 50,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 11
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 51,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 11
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 52,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 11
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 53,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 11
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 54,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 11
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 55,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 12
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 56,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 12
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 57,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 12
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 58,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 12
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 59,
-                            AttributeMasterId = 16,
-                            ProductSubCategoryId = 12
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 60,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 13
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 61,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 13
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 62,
-                            AttributeMasterId = 10,
-                            ProductSubCategoryId = 13
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 63,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 14
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 64,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 14
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 65,
-                            AttributeMasterId = 10,
-                            ProductSubCategoryId = 14
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 66,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 15
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 67,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 15
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 68,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 16
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 69,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 16
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 70,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 17
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 71,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 17
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 72,
-                            AttributeMasterId = 10,
-                            ProductSubCategoryId = 17
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 73,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 18
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 74,
-                            AttributeMasterId = 7,
-                            ProductSubCategoryId = 18
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 75,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 19
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 76,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 19
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 77,
-                            AttributeMasterId = 11,
-                            ProductSubCategoryId = 19
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 78,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 20
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 79,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 20
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 80,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 20
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 81,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 21
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 82,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 21
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 83,
-                            AttributeMasterId = 11,
-                            ProductSubCategoryId = 21
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 84,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 22
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 85,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 22
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 86,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 22
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 87,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 23
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 88,
-                            AttributeMasterId = 2,
-                            ProductSubCategoryId = 23
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 89,
-                            AttributeMasterId = 3,
-                            ProductSubCategoryId = 23
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 90,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 23
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 91,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 24
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 92,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 24
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 93,
-                            AttributeMasterId = 11,
-                            ProductSubCategoryId = 24
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 94,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 25
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 95,
-                            AttributeMasterId = 17,
-                            ProductSubCategoryId = 25
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 96,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 26
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 97,
-                            AttributeMasterId = 17,
-                            ProductSubCategoryId = 26
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 98,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 27
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 99,
-                            AttributeMasterId = 17,
-                            ProductSubCategoryId = 27
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 100,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 28
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 101,
-                            AttributeMasterId = 17,
-                            ProductSubCategoryId = 28
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 102,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 29
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 103,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 29
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 104,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 29
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 105,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 30
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 106,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 30
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 107,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 30
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 108,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 31
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 109,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 31
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 110,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 31
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 111,
-                            AttributeMasterId = 1,
-                            ProductSubCategoryId = 32
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 112,
-                            AttributeMasterId = 8,
-                            ProductSubCategoryId = 32
-                        },
-                        new
-                        {
-                            ProductSubCategoryAttributeId = 113,
-                            AttributeMasterId = 9,
-                            ProductSubCategoryId = 32
-                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariant", b =>
@@ -2357,6 +1402,7 @@ namespace Ecommerce.Data.Migrations
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
                     b.Property<decimal>("HeightInCm")
+                        .HasMaxLength(15)
                         .HasColumnType("numeric");
 
                     b.Property<decimal>("LengthInCm")
@@ -2429,11 +1475,19 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
+
                     b.Property<int>("ProductSubCategoryAttributeId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ProductVariantId")
                         .HasColumnType("integer");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("timestamp without time zone");
 
                     b.HasKey("ProductVariantAttributeId");
 
@@ -2443,45 +1497,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("ProductVariantAttribute");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.ProductVariantStatus", b =>
-                {
-                    b.Property<int>("ProductVariantStatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductVariantStatusId"));
-
-                    b.Property<string>("ProductVariantStatusName")
-                        .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
-
-                    b.HasKey("ProductVariantStatusId")
-                        .HasName("PK_Product_Variant_Status");
-
-                    b.HasIndex("ProductVariantStatusName")
-                        .IsUnique();
-
-                    b.ToTable("ProductVariantStatus");
-
-                    b.HasData(
-                        new
-                        {
-                            ProductVariantStatusId = 1,
-                            ProductVariantStatusName = "Temporarily_Not_Available"
-                        },
-                        new
-                        {
-                            ProductVariantStatusId = 2,
-                            ProductVariantStatusName = "Active"
-                        },
-                        new
-                        {
-                            ProductVariantStatusId = 4,
-                            ProductVariantStatusName = "Archived"
-                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Refund", b =>
@@ -3911,8 +2926,9 @@ namespace Ecommerce.Data.Migrations
                     b.HasOne("Ecommerce.Models.ProductStatus", "ProductStatus")
                         .WithMany("Products")
                         .HasForeignKey("ProductStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_Status");
 
                     b.HasOne("Ecommerce.Models.ProductSubCategory", "ProductSubCategory")
                         .WithMany("Products")
@@ -3920,10 +2936,6 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Product_Sub_Category");
-
-                    b.HasOne("Ecommerce.Models.ProductVariantStatus", null)
-                        .WithMany("Products")
-                        .HasForeignKey("ProductVariantStatusId");
 
                     b.HasOne("Ecommerce.Models.Vendor", "Vendor")
                         .WithMany("Products")
@@ -4033,14 +3045,16 @@ namespace Ecommerce.Data.Migrations
                     b.HasOne("Ecommerce.Models.Product", "Product")
                         .WithMany("ProductVariants")
                         .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_Variant_Product");
 
-                    b.HasOne("Ecommerce.Models.ProductVariantStatus", "ProductVariantStatus")
-                        .WithMany()
+                    b.HasOne("Ecommerce.Models.ProductStatus", "ProductVariantStatus")
+                        .WithMany("ProductVariants")
                         .HasForeignKey("ProductVariantStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_Variant_Status");
 
                     b.Navigation("AddedByVendorUser");
 
@@ -4497,6 +3511,8 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductStatus", b =>
                 {
+                    b.Navigation("ProductVariants");
+
                     b.Navigation("Products");
                 });
 
@@ -4527,11 +3543,6 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ProductImages");
 
                     b.Navigation("ProductVariantAttributes");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.ProductVariantStatus", b =>
-                {
-                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Refund", b =>

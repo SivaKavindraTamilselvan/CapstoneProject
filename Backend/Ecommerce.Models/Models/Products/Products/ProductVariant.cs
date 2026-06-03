@@ -15,7 +15,7 @@ public class ProductVariant
     public int AddedByVendorUserId {get;set;}
     public VendorUser? AddedByVendorUser {get;set;}
     public int ProductVariantStatusId { get; set; } = 1;
-    public ProductVariantStatus? ProductVariantStatus { get; set; }
+    public ProductStatus? ProductVariantStatus { get; set; }
     public int ProductApprovalStatusId {get;set;} = 1;
     public ProductApprovalStatus? ProductApprovalStatus {get;set;}
     public DateTime CreatedAt { get; set; } = DateTime.Now;

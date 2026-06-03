@@ -7,5 +7,7 @@ public class ProductVariantAttribute
     public int ProductSubCategoryAttributeId { get; set; }
     public ProductSubCategoryAttribute? ProductSubCategoryAttribute { get; set; }
     public string AttributeValue { get; set; } = string.Empty;
+    public bool IsActive { get; set; } = true;
     public DateTime CreatedAt {get;set;} = DateTime.Now;
+    public DateTime? UpdatedAt { get; set; }
 }

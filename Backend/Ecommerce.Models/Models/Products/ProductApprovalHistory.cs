@@ -12,6 +12,5 @@ public class ApprovalHistory
     public int ReviewedByAdminId { get; set; }
     public AdminUser? ReviewedByAdmin {get;set;}
     public string? Remarks { get; set; }
-
     public DateTime ReviewedAt { get; set; } = DateTime.Now;
 }

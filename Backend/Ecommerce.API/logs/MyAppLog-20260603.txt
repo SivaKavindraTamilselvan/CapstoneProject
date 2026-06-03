@@ -2375,3 +2375,4 @@ RETURNING "ApprovalHistoryId";
 2026-06-03 22:50:38.515 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API) in 1154.4663ms
 2026-06-03 22:50:38.516 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API)'
 2026-06-03 22:50:38.520 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewProduct - 200 null application/json; charset=utf-8 1234.9008ms
+2026-06-03 22:56:56.703 +05:30 [INF] Application is shutting down...

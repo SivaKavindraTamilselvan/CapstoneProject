@@ -46,7 +46,9 @@ namespace Ecommerce.Data.Migrations
                 {
                     AttributeMasterId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    AttributeName = table.Column<string>(type: "text", nullable: false)
+                    AttributeName = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -139,12 +141,27 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ProductApprovalStatus",
+                columns: table => new
+                {
+                    ProductApprovalStatusId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ProductApprovalStatusName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ProductApprovalStatus", x => x.ProductApprovalStatusId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductCategory",
                 columns: table => new
                 {
                     ProductCategoryId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductCategoryName = table.Column<string>(type: "text", nullable: false)
+                    ProductCategoryName = table.Column<string>(type: "text", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -162,19 +179,6 @@ namespace Ecommerce.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product_Status", x => x.ProductStatusId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ProductVariantStatus",
-                columns: table => new
-                {
-                    ProductVariantStatusId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProductVariantStatusName = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product_Variant_Status", x => x.ProductVariantStatusId);
                 });
 
             migrationBuilder.CreateTable(
@@ -289,7 +293,9 @@ namespace Ecommerce.Data.Migrations
                     ProductSubCategoryId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductSubCategoryName = table.Column<string>(type: "text", nullable: false),
-                    ProductCategoryId = table.Column<int>(type: "integer", nullable: false)
+                    ProductCategoryId = table.Column<int>(type: "integer", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -337,7 +343,9 @@ namespace Ecommerce.Data.Migrations
                     ProductSubCategoryAttributeId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductSubCategoryId = table.Column<int>(type: "integer", nullable: false),
-                    AttributeMasterId = table.Column<int>(type: "integer", nullable: false)
+                    AttributeMasterId = table.Column<int>(type: "integer", nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
                 {
@@ -752,62 +760,6 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Product",
-                columns: table => new
-                {
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    VendorId = table.Column<int>(type: "integer", nullable: false),
-                    ProductName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    ProductSubCategoryId = table.Column<int>(type: "integer", nullable: false),
-                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
-                    ApprovalStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    ReviewedByAdminId = table.Column<int>(type: "integer", nullable: true),
-                    ProductStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    ApprovedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    ProductVariantStatusId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Product", x => x.ProductId);
-                    table.ForeignKey(
-                        name: "FK_Product_Approval_Status",
-                        column: x => x.ApprovalStatusId,
-                        principalTable: "ApprovalStatus",
-                        principalColumn: "ApprovalStatusId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_ProductStatus_ProductStatusId",
-                        column: x => x.ProductStatusId,
-                        principalTable: "ProductStatus",
-                        principalColumn: "ProductStatusId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Product_ProductVariantStatus_ProductVariantStatusId",
-                        column: x => x.ProductVariantStatusId,
-                        principalTable: "ProductVariantStatus",
-                        principalColumn: "ProductVariantStatusId");
-                    table.ForeignKey(
-                        name: "FK_Product_Review_By_Admin",
-                        column: x => x.ReviewedByAdminId,
-                        principalTable: "AdminUser",
-                        principalColumn: "AdminUserId");
-                    table.ForeignKey(
-                        name: "FK_Product_Sub_Category",
-                        column: x => x.ProductSubCategoryId,
-                        principalTable: "ProductSubCategory",
-                        principalColumn: "ProductSubCategoryId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vendor_Products",
-                        column: x => x.VendorId,
-                        principalTable: "Vendor",
-                        principalColumn: "VendorId",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "VendorUser",
                 columns: table => new
                 {
@@ -925,6 +877,63 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Product",
+                columns: table => new
+                {
+                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    VendorId = table.Column<int>(type: "integer", nullable: false),
+                    ProductName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Description = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
+                    ProductSubCategoryId = table.Column<int>(type: "integer", nullable: false),
+                    ProductApprovalStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    AddedByVendorUserId = table.Column<int>(type: "integer", nullable: false),
+                    ProductStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    AdminUserId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Product", x => x.ProductId);
+                    table.ForeignKey(
+                        name: "FK_Product_Added_Vendor_User",
+                        column: x => x.AddedByVendorUserId,
+                        principalTable: "VendorUser",
+                        principalColumn: "VendorUserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_AdminUser_AdminUserId",
+                        column: x => x.AdminUserId,
+                        principalTable: "AdminUser",
+                        principalColumn: "AdminUserId");
+                    table.ForeignKey(
+                        name: "FK_Product_Approval_Status",
+                        column: x => x.ProductApprovalStatusId,
+                        principalTable: "ProductApprovalStatus",
+                        principalColumn: "ProductApprovalStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Status",
+                        column: x => x.ProductStatusId,
+                        principalTable: "ProductStatus",
+                        principalColumn: "ProductStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Sub_Category",
+                        column: x => x.ProductSubCategoryId,
+                        principalTable: "ProductSubCategory",
+                        principalColumn: "ProductSubCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Vendor_Products",
+                        column: x => x.VendorId,
+                        principalTable: "Vendor",
+                        principalColumn: "VendorId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CouponsProduct",
                 columns: table => new
                 {
@@ -963,25 +972,89 @@ namespace Ecommerce.Data.Migrations
                     WeightInKgs = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
                     LengthInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
                     WidthInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
-                    HeightInCm = table.Column<decimal>(type: "numeric", nullable: false),
+                    HeightInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
+                    AddedByVendorUserId = table.Column<int>(type: "integer", nullable: false),
                     ProductVariantStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    ProductApprovalStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Product_Variant", x => x.ProductVariantId);
                     table.ForeignKey(
-                        name: "FK_ProductVariant_ProductVariantStatus_ProductVariantStatusId",
-                        column: x => x.ProductVariantStatusId,
-                        principalTable: "ProductVariantStatus",
-                        principalColumn: "ProductVariantStatusId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Product_Approval_Status",
+                        column: x => x.ProductApprovalStatusId,
+                        principalTable: "ProductApprovalStatus",
+                        principalColumn: "ProductApprovalStatusId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_ProductVariant_Product_ProductId",
+                        name: "FK_Product_Variant_Added_Vendor_User",
+                        column: x => x.AddedByVendorUserId,
+                        principalTable: "VendorUser",
+                        principalColumn: "VendorUserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Variant_Product",
                         column: x => x.ProductId,
                         principalTable: "Product",
                         principalColumn: "ProductId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Variant_Status",
+                        column: x => x.ProductVariantStatusId,
+                        principalTable: "ProductStatus",
+                        principalColumn: "ProductStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ApprovalHistory",
+                columns: table => new
+                {
+                    ApprovalHistoryId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    EntityType = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    EntityId = table.Column<int>(type: "integer", nullable: false),
+                    PreviousStatusId = table.Column<int>(type: "integer", nullable: false),
+                    NewStatusId = table.Column<int>(type: "integer", nullable: false),
+                    ReviewedByAdminId = table.Column<int>(type: "integer", nullable: false),
+                    Remarks = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    ReviewedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    ProductId = table.Column<int>(type: "integer", nullable: true),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ApprovalHistory", x => x.ApprovalHistoryId);
+                    table.ForeignKey(
+                        name: "FK_ApprovalHistory_AdminUser_ReviewedByAdminId",
+                        column: x => x.ReviewedByAdminId,
+                        principalTable: "AdminUser",
+                        principalColumn: "AdminUserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ApprovalHistory_ProductApprovalStatus_NewStatusId",
+                        column: x => x.NewStatusId,
+                        principalTable: "ProductApprovalStatus",
+                        principalColumn: "ProductApprovalStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ApprovalHistory_ProductApprovalStatus_PreviousStatusId",
+                        column: x => x.PreviousStatusId,
+                        principalTable: "ProductApprovalStatus",
+                        principalColumn: "ProductApprovalStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_ApprovalHistory_ProductVariant_ProductVariantId",
+                        column: x => x.ProductVariantId,
+                        principalTable: "ProductVariant",
+                        principalColumn: "ProductVariantId");
+                    table.ForeignKey(
+                        name: "FK_ApprovalHistory_Product_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Product",
+                        principalColumn: "ProductId");
                 });
 
             migrationBuilder.CreateTable(
@@ -1015,7 +1088,8 @@ namespace Ecommerce.Data.Migrations
                 name: "FavoritesItems",
                 columns: table => new
                 {
-                    FavoritesItemsId = table.Column<int>(type: "integer", nullable: false),
+                    FavoritesItemsId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     FavoritesId = table.Column<int>(type: "integer", nullable: false),
                     ProductVariantId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -1023,8 +1097,8 @@ namespace Ecommerce.Data.Migrations
                 {
                     table.PrimaryKey("PK_Favorites_Items", x => x.FavoritesItemsId);
                     table.ForeignKey(
-                        name: "FK_Favorites_Items_Cart",
-                        column: x => x.FavoritesItemsId,
+                        name: "FK_Favorites",
+                        column: x => x.FavoritesId,
                         principalTable: "Favorites",
                         principalColumn: "FavoritesId",
                         onDelete: ReferentialAction.Cascade);
@@ -1111,8 +1185,10 @@ namespace Ecommerce.Data.Migrations
                     ProductVariantId = table.Column<int>(type: "integer", nullable: true),
                     ImageUrl = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: false),
                     DisplayOrderId = table.Column<int>(type: "integer", nullable: false),
-                    IsMainImage = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    IsMainImage = table.Column<bool>(type: "boolean", nullable: false),
+                    AddedByVendorUserId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -1135,6 +1211,12 @@ namespace Ecommerce.Data.Migrations
                         principalTable: "ProductVariant",
                         principalColumn: "ProductVariantId",
                         onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Product_Images_Added_Vendor_User",
+                        column: x => x.AddedByVendorUserId,
+                        principalTable: "VendorUser",
+                        principalColumn: "VendorUserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1144,24 +1226,27 @@ namespace Ecommerce.Data.Migrations
                     ProductVariantAttributeId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductVariantId = table.Column<int>(type: "integer", nullable: false),
-                    AttributeMasterId = table.Column<int>(type: "integer", nullable: false),
-                    AttributeValue = table.Column<string>(type: "text", nullable: false)
+                    ProductSubCategoryAttributeId = table.Column<int>(type: "integer", nullable: false),
+                    AttributeValue = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ProductVariantAttribute", x => x.ProductVariantAttributeId);
                     table.ForeignKey(
-                        name: "FK_ProductVariantAttribute_AttributeMaster_AttributeMasterId",
-                        column: x => x.AttributeMasterId,
-                        principalTable: "AttributeMaster",
-                        principalColumn: "AttributeMasterId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_ProductVariantAttribute_ProductSubCategoryAttribute_Product~",
+                        column: x => x.ProductSubCategoryAttributeId,
+                        principalTable: "ProductSubCategoryAttribute",
+                        principalColumn: "ProductSubCategoryAttributeId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_ProductVariantAttribute_ProductVariant_ProductVariantId",
                         column: x => x.ProductVariantId,
                         principalTable: "ProductVariant",
                         principalColumn: "ProductVariantId",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1307,30 +1392,6 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "AttributeMaster",
-                columns: new[] { "AttributeMasterId", "AttributeName" },
-                values: new object[,]
-                {
-                    { 1, "Brand" },
-                    { 2, "Color" },
-                    { 3, "Size" },
-                    { 4, "Storage" },
-                    { 5, "RAM" },
-                    { 6, "Screen Size" },
-                    { 7, "Volume" },
-                    { 8, "Material" },
-                    { 9, "Weight" },
-                    { 10, "Skin Type" },
-                    { 11, "Capacity" },
-                    { 12, "Processor" },
-                    { 13, "Operating System" },
-                    { 14, "Display Type" },
-                    { 15, "Battery Capacity" },
-                    { 16, "Gender" },
-                    { 17, "Author" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "DisplayOrder",
                 columns: new[] { "DisplayOrderId", "DisplayOrderName" },
                 values: new object[,]
@@ -1391,16 +1452,16 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductCategory",
-                columns: new[] { "ProductCategoryId", "ProductCategoryName" },
+                table: "ProductApprovalStatus",
+                columns: new[] { "ProductApprovalStatusId", "ProductApprovalStatusName" },
                 values: new object[,]
                 {
-                    { 1, "Electronics" },
-                    { 2, "Fashion" },
-                    { 3, "Beauty & Personal Care" },
-                    { 4, "Home & Kitchen" },
-                    { 5, "Books" },
-                    { 6, "Sports & Fitness" }
+                    { 1, "Pending" },
+                    { 2, "Vendor_Approved" },
+                    { 3, "Vendor_Rejected" },
+                    { 4, "Admin_Approved" },
+                    { 5, "Admin_Rejected" },
+                    { 6, "Deleted_By_Admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -1411,16 +1472,6 @@ namespace Ecommerce.Data.Migrations
                     { 1, "Draft" },
                     { 2, "Active" },
                     { 3, "Temporarily_Not_Available" },
-                    { 4, "Archived" }
-                });
-
-            migrationBuilder.InsertData(
-                table: "ProductVariantStatus",
-                columns: new[] { "ProductVariantStatusId", "ProductVariantStatusName" },
-                values: new object[,]
-                {
-                    { 1, "Temporarily_Not_Available" },
-                    { 2, "Active" },
                     { 4, "Archived" }
                 });
 
@@ -1546,45 +1597,6 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "ProductSubCategory",
-                columns: new[] { "ProductSubCategoryId", "ProductCategoryId", "ProductSubCategoryName" },
-                values: new object[,]
-                {
-                    { 1, 1, "Mobile Phones" },
-                    { 2, 1, "Laptops" },
-                    { 3, 1, "Tablets" },
-                    { 4, 1, "Smart Watches" },
-                    { 5, 1, "Headphones" },
-                    { 6, 1, "Speakers" },
-                    { 7, 2, "T-Shirts" },
-                    { 8, 2, "Shirts" },
-                    { 9, 2, "Jeans" },
-                    { 10, 2, "Trousers" },
-                    { 11, 2, "Shoes" },
-                    { 12, 2, "Sandals" },
-                    { 13, 3, "Face Wash" },
-                    { 14, 3, "Moisturizer" },
-                    { 15, 3, "Shampoo" },
-                    { 16, 3, "Conditioner" },
-                    { 17, 3, "Sunscreen" },
-                    { 18, 3, "Perfumes" },
-                    { 19, 4, "Cookware" },
-                    { 20, 4, "Furniture" },
-                    { 21, 4, "Storage Containers" },
-                    { 22, 4, "Home Decor" },
-                    { 23, 4, "Bedsheets" },
-                    { 24, 4, "Kitchen Appliances" },
-                    { 25, 5, "Academic Books" },
-                    { 26, 5, "Novels" },
-                    { 27, 5, "Comics" },
-                    { 28, 5, "Biographies" },
-                    { 29, 6, "Cricket Equipment" },
-                    { 30, 6, "Football Equipment" },
-                    { 31, 6, "Gym Equipment" },
-                    { 32, 6, "Yoga Accessories" }
-                });
-
-            migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "UserId", "CreatedAt", "Email", "FirstName", "HashedKey", "IsActive", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt" },
                 values: new object[] { 1, new DateTime(2026, 5, 25, 0, 0, 0, 0, DateTimeKind.Unspecified), "admin@gmail.com", "Siva Kavindra", new byte[] { 120, 30, 22, 141, 127, 82, 6, 22, 219, 181, 145, 194, 164, 179, 8, 133, 31, 11, 77, 17, 6, 118, 224, 58, 117, 33, 177, 5, 87, 78, 216, 254, 209, 147, 78, 90, 42, 153, 228, 31, 164, 112, 202, 153, 131, 16, 177, 2, 66, 152, 143, 110, 180, 182, 231, 94, 60, 237, 158, 91, 86, 197, 5, 182 }, true, "TamilSelvan", new byte[] { 38, 41, 98, 217, 62, 91, 232, 195, 4, 71, 58, 193, 69, 17, 4, 170, 193, 53, 38, 109, 25, 6, 32, 142, 176, 252, 198, 216, 101, 177, 223, 134 }, "9442378188", 1, null });
@@ -1593,126 +1605,6 @@ namespace Ecommerce.Data.Migrations
                 table: "AdminUser",
                 columns: new[] { "AdminUserId", "AdminRoleId", "AssignedByAdminUserId", "CreatedAt", "IsActive", "UserId" },
                 values: new object[] { 1, 1, null, new DateTime(2026, 5, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), true, 1 });
-
-            migrationBuilder.InsertData(
-                table: "ProductSubCategoryAttribute",
-                columns: new[] { "ProductSubCategoryAttributeId", "AttributeMasterId", "ProductSubCategoryId" },
-                values: new object[,]
-                {
-                    { 1, 1, 1 },
-                    { 2, 2, 1 },
-                    { 3, 4, 1 },
-                    { 4, 5, 1 },
-                    { 5, 6, 1 },
-                    { 6, 15, 1 },
-                    { 7, 1, 2 },
-                    { 8, 4, 2 },
-                    { 9, 5, 2 },
-                    { 10, 12, 2 },
-                    { 11, 13, 2 },
-                    { 12, 1, 3 },
-                    { 13, 2, 3 },
-                    { 14, 4, 3 },
-                    { 15, 5, 3 },
-                    { 16, 6, 3 },
-                    { 17, 13, 3 },
-                    { 18, 15, 3 },
-                    { 19, 1, 4 },
-                    { 20, 2, 4 },
-                    { 21, 15, 4 },
-                    { 22, 1, 5 },
-                    { 23, 2, 5 },
-                    { 24, 9, 5 },
-                    { 25, 15, 5 },
-                    { 26, 1, 6 },
-                    { 27, 2, 6 },
-                    { 28, 9, 6 },
-                    { 29, 15, 6 },
-                    { 30, 1, 7 },
-                    { 31, 2, 7 },
-                    { 32, 3, 7 },
-                    { 33, 8, 7 },
-                    { 34, 16, 7 },
-                    { 35, 1, 8 },
-                    { 36, 2, 8 },
-                    { 37, 3, 8 },
-                    { 38, 8, 8 },
-                    { 39, 16, 8 },
-                    { 40, 1, 9 },
-                    { 41, 2, 9 },
-                    { 42, 3, 9 },
-                    { 43, 8, 9 },
-                    { 44, 16, 9 },
-                    { 45, 1, 10 },
-                    { 46, 2, 10 },
-                    { 47, 3, 10 },
-                    { 48, 8, 10 },
-                    { 49, 16, 10 },
-                    { 50, 1, 11 },
-                    { 51, 2, 11 },
-                    { 52, 3, 11 },
-                    { 53, 8, 11 },
-                    { 54, 16, 11 },
-                    { 55, 1, 12 },
-                    { 56, 2, 12 },
-                    { 57, 3, 12 },
-                    { 58, 8, 12 },
-                    { 59, 16, 12 },
-                    { 60, 1, 13 },
-                    { 61, 7, 13 },
-                    { 62, 10, 13 },
-                    { 63, 1, 14 },
-                    { 64, 7, 14 },
-                    { 65, 10, 14 },
-                    { 66, 1, 15 },
-                    { 67, 7, 15 },
-                    { 68, 1, 16 },
-                    { 69, 7, 16 },
-                    { 70, 1, 17 },
-                    { 71, 7, 17 },
-                    { 72, 10, 17 },
-                    { 73, 1, 18 },
-                    { 74, 7, 18 },
-                    { 75, 1, 19 },
-                    { 76, 8, 19 },
-                    { 77, 11, 19 },
-                    { 78, 1, 20 },
-                    { 79, 8, 20 },
-                    { 80, 9, 20 },
-                    { 81, 1, 21 },
-                    { 82, 8, 21 },
-                    { 83, 11, 21 },
-                    { 84, 1, 22 },
-                    { 85, 8, 22 },
-                    { 86, 2, 22 },
-                    { 87, 1, 23 },
-                    { 88, 2, 23 },
-                    { 89, 3, 23 },
-                    { 90, 8, 23 },
-                    { 91, 1, 24 },
-                    { 92, 9, 24 },
-                    { 93, 11, 24 },
-                    { 94, 1, 25 },
-                    { 95, 17, 25 },
-                    { 96, 1, 26 },
-                    { 97, 17, 26 },
-                    { 98, 1, 27 },
-                    { 99, 17, 27 },
-                    { 100, 1, 28 },
-                    { 101, 17, 28 },
-                    { 102, 1, 29 },
-                    { 103, 8, 29 },
-                    { 104, 9, 29 },
-                    { 105, 1, 30 },
-                    { 106, 8, 30 },
-                    { 107, 9, 30 },
-                    { 108, 1, 31 },
-                    { 109, 8, 31 },
-                    { 110, 9, 31 },
-                    { 111, 1, 32 },
-                    { 112, 8, 32 },
-                    { 113, 9, 32 }
-                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Address_UserId",
@@ -1740,6 +1632,31 @@ namespace Ecommerce.Data.Migrations
                 table: "AdminUser",
                 column: "UserId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApprovalHistory_NewStatusId",
+                table: "ApprovalHistory",
+                column: "NewStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApprovalHistory_PreviousStatusId",
+                table: "ApprovalHistory",
+                column: "PreviousStatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApprovalHistory_ProductId",
+                table: "ApprovalHistory",
+                column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApprovalHistory_ProductVariantId",
+                table: "ApprovalHistory",
+                column: "ProductVariantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ApprovalHistory_ReviewedByAdminId",
+                table: "ApprovalHistory",
+                column: "ReviewedByAdminId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ApprovalStatus_ApprovalStatusName",
@@ -1944,9 +1861,19 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ApprovalStatusId",
+                name: "IX_Product_AddedByVendorUserId",
                 table: "Product",
-                column: "ApprovalStatusId");
+                column: "AddedByVendorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_AdminUserId",
+                table: "Product",
+                column: "AdminUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Product_ProductApprovalStatusId",
+                table: "Product",
+                column: "ProductApprovalStatusId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Product_ProductStatusId",
@@ -1959,25 +1886,26 @@ namespace Ecommerce.Data.Migrations
                 column: "ProductSubCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Product_ProductVariantStatusId",
-                table: "Product",
-                column: "ProductVariantStatusId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Product_ReviewedByAdminId",
-                table: "Product",
-                column: "ReviewedByAdminId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Product_VendorId",
                 table: "Product",
                 column: "VendorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductApprovalStatus_ProductApprovalStatusName",
+                table: "ProductApprovalStatus",
+                column: "ProductApprovalStatusName",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductCategory_ProductCategoryName",
                 table: "ProductCategory",
                 column: "ProductCategoryName",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductImage_AddedByVendorUserId",
+                table: "ProductImage",
+                column: "AddedByVendorUserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ProductImage_DisplayOrderId",
@@ -2024,6 +1952,16 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_ProductVariant_AddedByVendorUserId",
+                table: "ProductVariant",
+                column: "AddedByVendorUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ProductVariant_ProductApprovalStatusId",
+                table: "ProductVariant",
+                column: "ProductApprovalStatusId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductVariant_ProductId",
                 table: "ProductVariant",
                 column: "ProductId");
@@ -2040,19 +1978,14 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductVariantAttribute_AttributeMasterId",
+                name: "IX_ProductVariantAttribute_ProductSubCategoryAttributeId",
                 table: "ProductVariantAttribute",
-                column: "AttributeMasterId");
+                column: "ProductSubCategoryAttributeId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductVariantAttribute_ProductVariantId",
+                name: "IX_ProductVariantAttribute_ProductVariantId_ProductSubCategory~",
                 table: "ProductVariantAttribute",
-                column: "ProductVariantId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ProductVariantStatus_ProductVariantStatusName",
-                table: "ProductVariantStatus",
-                column: "ProductVariantStatusName",
+                columns: new[] { "ProductVariantId", "ProductSubCategoryAttributeId" },
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2306,6 +2239,9 @@ namespace Ecommerce.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "ApprovalHistory");
+
+            migrationBuilder.DropTable(
                 name: "CartItems");
 
             migrationBuilder.DropTable(
@@ -2333,9 +2269,6 @@ namespace Ecommerce.Data.Migrations
                 name: "ProductImage");
 
             migrationBuilder.DropTable(
-                name: "ProductSubCategoryAttribute");
-
-            migrationBuilder.DropTable(
                 name: "ProductVariantAttribute");
 
             migrationBuilder.DropTable(
@@ -2352,9 +2285,6 @@ namespace Ecommerce.Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "ShipmentTracking");
-
-            migrationBuilder.DropTable(
-                name: "VendorUser");
 
             migrationBuilder.DropTable(
                 name: "Cart");
@@ -2375,7 +2305,7 @@ namespace Ecommerce.Data.Migrations
                 name: "DisplayOrder");
 
             migrationBuilder.DropTable(
-                name: "AttributeMaster");
+                name: "ProductSubCategoryAttribute");
 
             migrationBuilder.DropTable(
                 name: "Refund");
@@ -2396,7 +2326,7 @@ namespace Ecommerce.Data.Migrations
                 name: "Shipment");
 
             migrationBuilder.DropTable(
-                name: "VendorRole");
+                name: "AttributeMaster");
 
             migrationBuilder.DropTable(
                 name: "RefundStatus");
@@ -2432,16 +2362,22 @@ namespace Ecommerce.Data.Migrations
                 name: "OrderStatus");
 
             migrationBuilder.DropTable(
-                name: "ProductStatus");
+                name: "VendorUser");
 
             migrationBuilder.DropTable(
-                name: "ProductVariantStatus");
+                name: "ProductApprovalStatus");
+
+            migrationBuilder.DropTable(
+                name: "ProductStatus");
 
             migrationBuilder.DropTable(
                 name: "ProductSubCategory");
 
             migrationBuilder.DropTable(
                 name: "Vendor");
+
+            migrationBuilder.DropTable(
+                name: "VendorRole");
 
             migrationBuilder.DropTable(
                 name: "ProductCategory");
