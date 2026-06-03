@@ -123,6 +123,8 @@ builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 #endregion
 
+builder.Services.AddScoped<IVendorValidation,VendorValidation>();
+builder.Services.AddScoped<IProductValidation,ProductValidation>();
 
 builder.Services.AddScoped<IUserRepsository,UserRepsository>();
 builder.Services.AddScoped<IAdminUserRepsository,AdminRepsository>();
