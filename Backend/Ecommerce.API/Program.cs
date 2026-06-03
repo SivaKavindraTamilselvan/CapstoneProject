@@ -125,6 +125,7 @@ builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 
 builder.Services.AddScoped<IVendorValidation,VendorValidation>();
 builder.Services.AddScoped<IProductValidation,ProductValidation>();
+builder.Services.AddScoped<IProductCategoryValidation,ProductCategoryValidation>();
 
 builder.Services.AddScoped<IUserRepsository,UserRepsository>();
 builder.Services.AddScoped<IAdminUserRepsository,AdminRepsository>();
