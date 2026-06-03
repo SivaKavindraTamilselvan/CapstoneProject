@@ -4,5 +4,4 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IProductVariantAttributeRepsository : IRepository<int,ProductVariantAttribute>
 {
-    
 }
