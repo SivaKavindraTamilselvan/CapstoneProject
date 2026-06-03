@@ -13,4 +13,8 @@ public class VendorUser
     public VendorUser? AddedByVendor { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public ICollection<Product> Products {get;set;} = new List<Product>();
+    public ICollection<ProductVariant> ProductVariants {get;set;} = new List<ProductVariant>();
+    public ICollection<ProductImage> ProductImages {get;set;} = new List<ProductImage>();
 }

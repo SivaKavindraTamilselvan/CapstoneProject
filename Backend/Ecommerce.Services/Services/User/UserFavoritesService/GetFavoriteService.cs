@@ -5,7 +5,7 @@ public partial class UserFavoritesService : IUserFavoriteService
 {
     public async Task<ResponseFavoriteItemsDTO> GetFavoriteByUserId(int userId)
     {
-        var cartItems = await 
+        var cartItems = await _favoriteItemsRepsository.GetAll();
         if(cartItems.Count == 0)
         {
             throw new DataNotFoundException("Cart Items Is Not Found");

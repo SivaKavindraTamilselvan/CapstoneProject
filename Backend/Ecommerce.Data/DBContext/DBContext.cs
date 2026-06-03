@@ -10,9 +10,9 @@ public class EcommerceContext : DbContext
 
     }
     public DbSet<User> User { get; set; }
-    public DbSet<Cart> Cart {get;set;}
-    public DbSet<CartItems> CartItems {get;set;}
-    public DbSet<FavoritesItems> FavoritesItems {get;set;}
+    public DbSet<Cart> Cart { get; set; }
+    public DbSet<CartItems> CartItems { get; set; }
+    public DbSet<FavoritesItems> FavoritesItems { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -328,6 +328,18 @@ public class EcommerceContext : DbContext
             psa.HasData(new ProductSubCategoryAttribute { ProductSubCategoryAttributeId = 113, ProductSubCategoryId = 32, AttributeMasterId = 9 });
         });
 
+        modelBuilder.Entity<ProductApprovalStatus>(entity =>
+        {
+            entity.HasKey(p => p.ProductApprovalStatusId);
+            entity.Property(p => p.ProductApprovalStatusName).IsRequired().HasMaxLength(50);
+            entity.HasIndex(p => p.ProductApprovalStatusName).IsUnique();
+            entity.HasData(new ProductApprovalStatus { ProductApprovalStatusId = 1, ProductApprovalStatusName = "Pending" });
+            entity.HasData(new ProductApprovalStatus { ProductApprovalStatusId = 2, ProductApprovalStatusName = "Vendor_Approved" });
+            entity.HasData(new ProductApprovalStatus { ProductApprovalStatusId = 3, ProductApprovalStatusName = "Vendor_Rejected" });
+            entity.HasData(new ProductApprovalStatus { ProductApprovalStatusId = 4, ProductApprovalStatusName = "Admin_Approved" });
+            entity.HasData(new ProductApprovalStatus { ProductApprovalStatusId = 5, ProductApprovalStatusName = "Admin_Rejected" });
+        });
+
 
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
@@ -557,14 +569,14 @@ public class EcommerceContext : DbContext
             p.Property(p => p.ProductName).IsRequired().HasMaxLength(100);
             p.Property(p => p.Description).IsRequired().HasMaxLength(1000);
             p.Property(p => p.ProductStatusId).HasDefaultValue(1);
-            p.Property(p => p.ApprovalStatusId).HasDefaultValue(1);
-            p.HasOne(p => p.Vendor).WithMany(v => v.Products).HasForeignKey(p => p.VendorId).HasConstraintName("FK_Vendor_Products");
-            p.HasOne(p => p.ProductSubCategory).WithMany(ps => ps.Products).HasForeignKey(p => p.ProductSubCategoryId).HasConstraintName("FK_Product_Sub_Category");
-            p.HasOne(p => p.ApprovalStatus).WithMany(p => p.Products).HasForeignKey(p => p.ApprovalStatusId).HasConstraintName("FK_Product_Approval_Status");
-            p.HasOne(p => p.ReviewedByAdmin).WithMany(au => au.Products).HasForeignKey(p => p.ReviewedByAdminId).HasConstraintName("FK_Product_Review_By_Admin");
+            p.Property(p => p.ProductApprovalStatusId).HasDefaultValue(1);
+            p.HasOne(p => p.Vendor).WithMany(v => v.Products).HasForeignKey(p => p.VendorId).HasConstraintName("FK_Vendor_Products").OnDelete(DeleteBehavior.Restrict);
+            p.HasOne(p => p.ProductSubCategory).WithMany(ps => ps.Products).HasForeignKey(p => p.ProductSubCategoryId).HasConstraintName("FK_Product_Sub_Category").OnDelete(DeleteBehavior.Restrict);
+            p.HasOne(p => p.ProductApprovalStatus).WithMany(p => p.Products).HasForeignKey(p => p.ProductApprovalStatusId).HasConstraintName("FK_Product_Approval_Status").OnDelete(DeleteBehavior.Restrict);
+            p.HasOne(p => p.AddedByVendorUser).WithMany(a => a.Products).HasForeignKey(p => p.AddedByVendorUserId).HasConstraintName("FK_Product_Added_Vendor_User").OnDelete(DeleteBehavior.Restrict);
             p.Property(p => p.CreatedAt).HasColumnType("timestamp without time zone");
             p.Property(p => p.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            p.Property(p => p.ApprovedAt).HasColumnType("timestamp without time zone");
+            p.Property(p => p.UpdatedAt).HasColumnType("timestamp without time zone");
         });
         modelBuilder.Entity<ProductVariant>(pv =>
         {
@@ -577,8 +589,12 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.WeightInKgs).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.Price).IsRequired();
             pv.Property(pv => pv.ProductVariantStatusId).HasDefaultValue(1);
+            pv.Property(p => p.ProductApprovalStatusId).HasDefaultValue(1);
+            pv.HasOne(p => p.ProductApprovalStatus).WithMany(p => p.ProductVariants).HasForeignKey(p => p.ProductApprovalStatusId).HasConstraintName("FK_Product_Approval_Status").OnDelete(DeleteBehavior.Restrict);
             pv.Property(pv => pv.CreatedAt).HasColumnType("timestamp without time zone");
             pv.Property(pv => pv.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            pv.Property(pv => pv.UpdatedAt).HasColumnType("timestamp without time zone");
+
         });
         modelBuilder.Entity<ProductImage>(pi =>
         {
@@ -588,9 +604,23 @@ public class EcommerceContext : DbContext
             pi.Property(pi => pi.IsMainImage).HasDefaultValue(false);
             pi.Property(pi => pi.CreatedAt).HasColumnType("timestamp without time zone");
             pi.Property(pi => pi.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            pi.Property(pi => pi.UpdatedAt).HasColumnType("timestamp without time zone");
             pi.HasOne(pi => pi.Product).WithMany(p => p.ProductImages).HasForeignKey(pi => pi.ProductId).HasConstraintName("FK_Product_Image_Product").OnDelete(DeleteBehavior.Restrict);
             pi.HasOne(pi => pi.ProductVariant).WithMany(pv => pv.ProductImages).HasForeignKey(pi => pi.ProductVariantId).HasConstraintName("FK_Product_Image_Product_Variant").OnDelete(DeleteBehavior.Restrict);
             pi.HasOne(pi => pi.DisplayOrder).WithMany(d => d.ProductImages).HasForeignKey(pi => pi.DisplayOrderId).HasConstraintName("FK_Product_Image_Display_Order").OnDelete(DeleteBehavior.Restrict);
+            pi.HasOne(pi => pi.AddedByVendorUser).WithMany(a => a.ProductImages).HasForeignKey(p => p.AddedByVendorUserId).HasConstraintName("FK_Product_Images_Added_Vendor_User").OnDelete(DeleteBehavior.Restrict);
+        });
+
+        modelBuilder.Entity<ApprovalHistory>(entity =>
+        {
+            entity.HasKey(ah => ah.ApprovalHistoryId);
+            entity.Property(ah => ah.EntityType).IsRequired().HasMaxLength(50);
+            entity.Property(ah => ah.EntityId).IsRequired();
+            entity.Property(ah => ah.Remarks).HasMaxLength(500);
+            entity.Property(ah => ah.ReviewedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.HasOne(ah => ah.PreviousStatus).WithMany().HasForeignKey(ah => ah.PreviousStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(ah => ah.NewStatus).WithMany().HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(ah => ah.ReviewedByAdmin).WithMany().HasForeignKey(ah => ah.ReviewedByAdminId).OnDelete(DeleteBehavior.Restrict);
         });
 
         // Orders

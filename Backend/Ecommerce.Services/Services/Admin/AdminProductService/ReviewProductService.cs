@@ -16,9 +16,7 @@ public partial class AdminProductService : IAdminProductService
         {
             throw new DataNotFoundException("Admin Not Found");
         }
-        product.ApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
-        product.ReviewedByAdminId = adminUser.AdminUserId;
-        product.ApprovedAt = DateTime.Now;
+        product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         await _productRepsository.Update(product.ProductId,product);
         return _mapper.Map<ResponseReviewOfProductDTO>(product);
     }

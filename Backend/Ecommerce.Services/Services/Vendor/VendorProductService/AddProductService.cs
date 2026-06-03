@@ -12,7 +12,7 @@ public partial class VendorProductService : IVendorProductService
         {
             throw new DataNotFoundException("Product Not Found");
         }
-        if(product.ApprovalStatusId !=2 )
+        if(product.ProductApprovalStatusId !=5 )
         {
             throw new DataApprovalStatusException("Product Not Approved. Product Needed To Be Approved By Product Admin Or Super Admin");
         }
