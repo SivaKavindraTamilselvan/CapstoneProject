@@ -2419,9 +2419,6 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductVariantAttributeId"));
 
-                    b.Property<int>("AttributeMasterId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("AttributeValue")
                         .IsRequired()
                         .HasMaxLength(100)
@@ -2432,14 +2429,17 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
+                    b.Property<int>("ProductSubCategoryAttributeId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ProductVariantId")
                         .HasColumnType("integer");
 
                     b.HasKey("ProductVariantAttributeId");
 
-                    b.HasIndex("AttributeMasterId");
+                    b.HasIndex("ProductSubCategoryAttributeId");
 
-                    b.HasIndex("ProductVariantId", "AttributeMasterId")
+                    b.HasIndex("ProductVariantId", "ProductSubCategoryAttributeId")
                         .IsUnique();
 
                     b.ToTable("ProductVariantAttribute");
@@ -4053,9 +4053,9 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariantAttribute", b =>
                 {
-                    b.HasOne("Ecommerce.Models.AttributeMaster", "AttributeMaster")
+                    b.HasOne("Ecommerce.Models.ProductSubCategoryAttribute", "ProductSubCategoryAttribute")
                         .WithMany("ProductVariantAttributes")
-                        .HasForeignKey("AttributeMasterId")
+                        .HasForeignKey("ProductSubCategoryAttributeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -4065,7 +4065,7 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("AttributeMaster");
+                    b.Navigation("ProductSubCategoryAttribute");
 
                     b.Navigation("ProductVariant");
                 });
@@ -4396,8 +4396,6 @@ namespace Ecommerce.Data.Migrations
             modelBuilder.Entity("Ecommerce.Models.AttributeMaster", b =>
                 {
                     b.Navigation("ProductSubCategoryAttributes");
-
-                    b.Navigation("ProductVariantAttributes");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Cart", b =>
@@ -4503,6 +4501,11 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ProductSubCategoryAttributes");
 
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ProductSubCategoryAttribute", b =>
+                {
+                    b.Navigation("ProductVariantAttributes");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariant", b =>
