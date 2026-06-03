@@ -10,11 +10,12 @@ public partial class VendorProductService : IVendorProductService
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductImageRepsository _productImageRepsository;
     private readonly IProductVariantAttributeRepsository _productVariantAttributeRepsository;
-
+    private readonly IVendorValidation _vendorValidation;
+    private readonly IProductValidation _productValidation;
     private readonly IMapper _mapper;
 
 
-    public VendorProductService(IMapper mapper, IVendorUserRepsository vendorUserRepsository, IVendorRepsository vendorRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository)
+    public VendorProductService(IMapper mapper, IVendorUserRepsository vendorUserRepsository, IVendorRepsository vendorRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IVendorValidation vendorValidation,IProductValidation productValidation)
     {
         _vendorUserRepsository = vendorUserRepsository;
         _vendorRepsository = vendorRepsository;
@@ -22,7 +23,8 @@ public partial class VendorProductService : IVendorProductService
         _productVariantRepsository = productVariantRepsository;
         _productImageRepsository = productImageRepsository;
         _productVariantAttributeRepsository = productVariantAttributeRepsository;
-
+        _vendorValidation = vendorValidation;
+        _productValidation = productValidation;
         _mapper = mapper;
     }
 }
