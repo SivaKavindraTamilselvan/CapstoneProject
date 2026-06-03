@@ -10,6 +10,7 @@ public class EcommerceContext : DbContext
 
     }
     public DbSet<User> User { get; set; }
+    public DbSet<VendorUser> VendorUser { get; set; }
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
@@ -631,7 +632,7 @@ public class EcommerceContext : DbContext
             pva.Property(pva => pva.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             pva.HasOne(pva => pva.ProductVariant).WithMany(pv => pv.ProductVariantAttributes).HasForeignKey(pva => pva.ProductVariantId).OnDelete(DeleteBehavior.Restrict);
             pva.HasOne(pva => pva.AttributeMaster).WithMany(am => am.ProductVariantAttributes).HasForeignKey(pva => pva.AttributeMasterId).OnDelete(DeleteBehavior.Restrict);
-            pva.HasIndex(pva => new{pva.ProductVariantId,pva.AttributeMasterId}).IsUnique();
+            pva.HasIndex(pva => new { pva.ProductVariantId, pva.AttributeMasterId }).IsUnique();
         });
 
         // Orders
