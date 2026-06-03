@@ -8,9 +8,15 @@ namespace Ecommerce.Mappers
     {
         public ProductMappingProfile()
         {
+            CreateMap<RequestAddProduct,Product>();
             CreateMap<Product, ResponseAddProduct>();
+
+            CreateMap<RequestAddProductImage,ProductImage>();
             CreateMap<ProductImage, RequestAddProductImage>();
+
+            CreateMap<RequestAddProductVariantDTO,ProductVariant>();
             CreateMap<ProductVariant, ResponseAddProductVariantDTO>();
+
             CreateMap<ProductVariantAttribute, ResponseAddProductVariantAttributeDTO>();
 
             CreateMap<Product, ResponseReviewOfProductDTO>();
