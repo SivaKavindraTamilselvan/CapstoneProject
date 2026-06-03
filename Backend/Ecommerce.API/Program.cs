@@ -151,6 +151,8 @@ builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IUserCartService,UserCartService>();
 builder.Services.AddScoped<IUserFavoriteService,UserFavoritesService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
+builder.Services.AddScoped<IAdminProductService,AdminProductService>();
+builder.Services.AddScoped<IAdminVendorService,AdminVendorService>();
 
 var app = builder.Build();
 
