@@ -14,7 +14,7 @@ public partial class VendorProductService : IVendorProductService
         await _productVariantRepsository.Create(productVariant);
         foreach (var list in requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs)
         {
-            await AddProductVariantAttribute(list, productVariant.ProductVariantId);
+            await AddProductVariantAttribute(list, productVariant.ProductVariantId,product.ProductSubCategoryId);
         }
         return _mapper.Map<ResponseAddProductVariantDTO>(productVariant);
     }
@@ -43,8 +43,9 @@ public partial class VendorProductService : IVendorProductService
         return _mapper.Map<ResponseAddProductImage>(productImage);
     }
 
-    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, int productVariantId)
+    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, int productVariantId,int productSubCategoryId)
     {
+        await _productValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,productSubCategoryId);
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
         productVariantAttribute.ProductVariantId = productVariantId;
         await _productVariantAttributeRepsository.Create(productVariantAttribute);

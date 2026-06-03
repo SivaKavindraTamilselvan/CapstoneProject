@@ -7,4 +7,6 @@ public class ProductSubCategoryAttribute
     public ProductSubCategory? ProductSubCategory { get; set; }
     public int AttributeMasterId { get; set; }
     public AttributeMaster? AttributeMaster { get; set; }
+    public ICollection<ProductVariantAttribute> ProductVariantAttributes { get; set; } = new List<ProductVariantAttribute>();
+
 }
