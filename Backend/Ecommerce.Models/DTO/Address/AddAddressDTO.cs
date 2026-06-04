@@ -4,9 +4,6 @@ namespace Ecommerce.DTOs;
 
 public class RequestAddAddressDTO
 {
-    [Required(ErrorMessage = "User Id Is Needed")]
-    [Range(1, int.MaxValue, ErrorMessage = "User Id Can Be Only Positive")]
-    public int UserId { get; set; }
     [Required(ErrorMessage = "Contact Person Name is Needed")]
     [MaxLength(50)]
     public string ContactName { get; set; } = string.Empty;
