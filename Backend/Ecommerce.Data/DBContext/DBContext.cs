@@ -21,6 +21,7 @@ public class EcommerceContext : DbContext
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
+    public DbSet<Coupons> Coupons {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
