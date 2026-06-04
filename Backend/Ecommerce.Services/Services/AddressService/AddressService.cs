@@ -15,10 +15,11 @@ public class AddressService : IAddressService
         _userValidation = userValidation;
         _mapper = mapper;
     }
-    public async Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO)
+    public async Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO,int UserId)
     {
-        var user = _userValidation.ValidateUser(requestAddAddressDTO.UserId);
+        var user = _userValidation.ValidateUser(UserId);
         var address = _mapper.Map<Address>(requestAddAddressDTO);
+        address.UserId = UserId;
         await _addressRepsository.Create(address);
         return _mapper.Map<ResponseAddAddressDTO>(address);
     }
