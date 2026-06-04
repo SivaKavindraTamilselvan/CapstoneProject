@@ -11,17 +11,17 @@ public class EcommerceContext : DbContext
     }
     public DbSet<User> User { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
-    public DbSet<Address> Address {get;set;}
-    public DbSet<ProductCategory> ProductCategory {get;set;}
-    public DbSet<ProductSubCategory> ProductSubCategory {get;set;}
+    public DbSet<Address> Address { get; set; }
+    public DbSet<ProductCategory> ProductCategory { get; set; }
+    public DbSet<ProductSubCategory> ProductSubCategory { get; set; }
     public DbSet<ProductSubCategoryAttribute> ProductSubCategoryAttribute { get; set; }
-    public DbSet<Product> Product {get;set;}
-    public DbSet<ProductVariant> ProductVariant {get;set;}
-    public DbSet<AttributeMaster> AttributeMaster {get;set;}
+    public DbSet<Product> Product { get; set; }
+    public DbSet<ProductVariant> ProductVariant { get; set; }
+    public DbSet<AttributeMaster> AttributeMaster { get; set; }
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
-    public DbSet<Coupons> Coupons {get;set;}
+    public DbSet<Coupons> Coupons { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -142,7 +142,7 @@ public class EcommerceContext : DbContext
             a.Property(a => a.IsActive).IsRequired().HasDefaultValue(true);
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
-        
+
 
 
         modelBuilder.Entity<ModeOfPayment>(r =>
@@ -457,7 +457,7 @@ public class EcommerceContext : DbContext
             pva.Property(pva => pva.ProductSubCategoryAttributeId).IsRequired();
             pva.HasOne(pva => pva.ProductSubCategoryAttribute).WithMany(am => am.ProductVariantAttributes).HasForeignKey(pva => pva.ProductSubCategoryAttributeId).OnDelete(DeleteBehavior.Restrict);
 
-            pva.Property(pva=>pva.IsActive).IsRequired().HasDefaultValue(true);
+            pva.Property(pva => pva.IsActive).IsRequired().HasDefaultValue(true);
             pva.Property(pva => pva.AttributeValue).IsRequired().HasMaxLength(100);
             pva.Property(pva => pva.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             pva.Property(pva => pva.UpdatedAt).HasColumnType("timestamp without time zone");
@@ -661,10 +661,13 @@ public class EcommerceContext : DbContext
             c.Property(c => c.MinimumOrderAmount).HasDefaultValue(0);
             c.Property(c => c.MinimumNumberOfUsage).HasDefaultValue(1);
             c.Property(c => c.IsActive).HasDefaultValue(true);
+            c.Property(c => c.CouponDescription).IsRequired().HasMaxLength(150);
             c.Property(c => c.StartDate).HasColumnType("timestamp without time zone");
             c.Property(c => c.EndDate).HasColumnType("timestamp without time zone");
-            c.Property(c => c.CreatedAt).HasColumnType("timestamp without time zone");
-            c.Property(c => c.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
+            c.Property(c => c.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            c.Property(c => c.UpdatedAt).HasColumnType("timestamp without time zone");
+            c.HasOne(c => c.CreatedByAdminUser).WithMany().HasForeignKey(c => c.CreatedByAdminUserId).HasConstraintName("FK_Coupons_Created_By_Admin_User").OnDelete(DeleteBehavior.Restrict);
+            c.HasOne(c => c.CreatedByVendorUser).WithMany().HasForeignKey(c => c.CreatedByVendorUserId).HasConstraintName("FK_Coupons_Created_By_Vendor_User").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<CouponUsage>(cu =>
         {
@@ -679,15 +682,12 @@ public class EcommerceContext : DbContext
         {
             cp.HasKey(cp => cp.CouponsProductId).HasName("PK_Coupons_Product");
             cp.HasIndex(cp => new { cp.CouponId, cp.ProductId }).IsUnique();
+            cp.Property(cp => cp.IsActive).HasDefaultValue(true);
+            cp.Property(cp => cp.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            cp.Property(cp => cp.UpdatedAt).HasColumnType("timestamp without time zone");
             cp.HasOne(cp => cp.Coupons).WithMany(c => c.CouponsProducts).HasForeignKey(cp => cp.CouponId).HasConstraintName("FK_Coupons_Product_Coupon").OnDelete(DeleteBehavior.Cascade);
             cp.HasOne(cp => cp.Product).WithMany(p => p.CouponsProducts).HasForeignKey(cp => cp.ProductId).HasConstraintName("FK_Coupons_Product_Product").OnDelete(DeleteBehavior.Restrict);
-        });
-        modelBuilder.Entity<CouponsVendor>(cv =>
-        {
-            cv.HasKey(cv => cv.CouponsVendorId).HasName("PK_Coupons_Vendor");
-            cv.HasIndex(cv => new { cv.CouponId, cv.VendorId }).IsUnique();
-            cv.HasOne(cv => cv.Coupons).WithMany(c => c.CouponsVendors).HasForeignKey(cv => cv.CouponId).HasConstraintName("FK_Coupons_Vendor_Coupon").OnDelete(DeleteBehavior.Cascade);
-            cv.HasOne(cv => cv.Vendor).WithMany(v => v.CouponsVendors).HasForeignKey(cv => cv.VendorId).HasConstraintName("FK_Coupons_Vendor_Vendor").OnDelete(DeleteBehavior.Restrict);
+            cp.HasOne(cp => cp.AddedByVendorUser).WithMany().HasForeignKey(cp => cp.AddedByVendorUserId).HasConstraintName("FK_Coupons_Product_Added_By_Vendor_User").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<LogChanges>(lc =>
         {

@@ -162,7 +162,6 @@ builder.Services.AddScoped<IProductVariantRepsository,ProductVariantRepsository>
 builder.Services.AddScoped<IProductVariantAttributeRepsository,ProductVariantAttributeRepsository>();
 builder.Services.AddScoped<IApprovalHistoryRepsository,ApprovalHistoryRepsository>();
 builder.Services.AddScoped<ICouponProductRepsository,CouponProductRepsository>();
-builder.Services.AddScoped<ICouponVendorRepsository,CouponVendorRepsository>();
 builder.Services.AddScoped<ICouponRepsository,CouponRepsository>();
 builder.Services.AddScoped<ICouponUsageRepsository,CouponUsageRepsository>();
 builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();

@@ -12,8 +12,14 @@ public class RequestAddCouponDTO
 
 public class RequestAddCouponProductDTO
 {
-    public RequestAddCouponDTO requestAddCouponDTO {get;set;} = new();
+    public int CouponId {get;set;}
     public int ProductId {get;set;}
+}
+
+public class ResponseAddCouponProductDTO
+{
+    public int CouponsProductId {get;set;}
+    public DateTime CreatedAt {get;set;}
 }
 
 public class ResponseAddCouponDTO

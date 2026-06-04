@@ -17,5 +17,4 @@ public class Vendor
     public DateTime? ReviewedAt { get; set; }
     public ICollection<VendorUser> VendorUsers { get; set; } = new List<VendorUser>();
     public ICollection<Product> Products { get; set; } = new List<Product>();
-    public ICollection<CouponsVendor> CouponsVendors { get; set; } = new List<CouponsVendor>();
 }

@@ -26,16 +26,7 @@ public class VendorController : ControllerBase
         var result = await _vendorService.RegisterVendorUser(requestRegisterVendorUserDTO, vendorUserId);
         return Ok(result);
     }
-
-    [Authorize("VendorOnwerAndCouponVendorOnly")]
-    [HttpPost("AddVendorCoupon")]
-    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddVendorCoupon(RequestAddCouponDTO requestAddCouponDTO)
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorCouponService.AddVendorCoupon(requestAddCouponDTO,vendorUserId);
-        return Ok(result);
-    }
-
+    /*
     [Authorize("VendorOnwerAndCouponVendorOnly")]
     [HttpPost("AddProductCoupon")]
     public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddProductCoupon(RequestAddCouponProductDTO requestAddCouponProductDTO)
@@ -43,4 +34,5 @@ public class VendorController : ControllerBase
         var result = await _vendorCouponService.AddProductCoupon(requestAddCouponProductDTO);
         return Ok(result);
     }
+    */
 }
