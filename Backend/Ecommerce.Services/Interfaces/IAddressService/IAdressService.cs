@@ -4,5 +4,5 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IAddressService
 {
-    public Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO);
+    public Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO,int UserId);
 }
