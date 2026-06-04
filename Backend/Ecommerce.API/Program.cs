@@ -181,7 +181,7 @@ builder.Services.AddScoped<IAdminProductService,AdminProductService>();
 builder.Services.AddScoped<IAdminVendorService,AdminVendorService>();
 builder.Services.AddScoped<IAddressService,AddressService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
-builder.Services.AddScoped<IInventoryService,IInventoryService>();
+builder.Services.AddScoped<IInventoryService,InventoryService>();
 #endregion
 
 var app = builder.Build();
