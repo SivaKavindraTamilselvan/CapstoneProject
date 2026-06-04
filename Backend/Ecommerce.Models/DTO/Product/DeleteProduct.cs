@@ -1,11 +1,12 @@
-
+using System.ComponentModel.DataAnnotations;
 namespace Ecommerce.DTOs;
 
-public class RequestDeleteProduct
+public class RequestDeleteProductDTO
 {
-    public int ProductId {get;set;}
+    [Required(ErrorMessage = "Product Id is required.")]
+    [Range(1, int.MaxValue, ErrorMessage = "Product Id must be greater than 0.")]
+    public int ProductId { get; set; }
 }
-
 public class ResponseDeleteProduct
 {
     public int ProductId {get;set;}

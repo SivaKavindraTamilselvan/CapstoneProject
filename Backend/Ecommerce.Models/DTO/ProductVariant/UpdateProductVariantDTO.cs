@@ -2,7 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.DTOs;
 
-public class RequestAddProductVariantDTO
+public class RequestUpdateProductVariantDTO
 {
     [Required(ErrorMessage = "Product Id Needed")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Id Should Be Greater Than 0")]
@@ -31,13 +31,4 @@ public class RequestAddProductVariantDTO
     [Required(ErrorMessage = "Height Of The Product Needed For Shippement")]
     [Range(typeof(decimal), "0.01", "1000000", ErrorMessage = "Height must be greater than 0")]
     public decimal HeightInCm { get; set; }
-
-    public List<RequestAddProductVariantAttributeDTO> requestAddProductVariantAttributeDTOs { get; set; } = new List<RequestAddProductVariantAttributeDTO>();
-
-}
-
-public class ResponseAddProductVariantDTO
-{
-    public int ProductId { get; set; }
-    public DateTime CreatedAt { get; set; }
 }

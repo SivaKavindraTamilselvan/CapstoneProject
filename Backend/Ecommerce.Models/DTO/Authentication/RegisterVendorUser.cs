@@ -8,6 +8,7 @@ public class RequestRegisterVendorUserDTO
     public RequestRegisterUserDTO requestRegisterUserDTO {get;set;} = new();
 
     [Required(ErrorMessage = "Vendor Role Cannot Be Empty")]
+    [Range(1,8,ErrorMessage = "Vendor Role Id Must Be Between 1 and 8")]
     public int VendorRoleId {get;set;}
 }
 
