@@ -11,9 +11,11 @@ namespace Ecommerce.API.Controllers;
 public class VendorController : ControllerBase
 {
     private readonly IVendorService _vendorService;
-    public VendorController(IVendorService vendorService)
+    private readonly IVendorCouponService _vendorCouponService;
+    public VendorController(IVendorService vendorService,IVendorCouponService vendorCouponService)
     {
         _vendorService = vendorService;
+        _vendorCouponService = vendorCouponService;
     }
 
     [Authorize(Policy = "VendorAdminOnly")]
@@ -21,8 +23,24 @@ public class VendorController : ControllerBase
     public async Task<ActionResult<ResponseRegisterVendorUserDTO>> RegisterVendorUser(RequestRegisterVendorUserDTO requestRegisterVendorUserDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorService.RegisterVendorUser(requestRegisterVendorUserDTO,vendorUserId);
+        var result = await _vendorService.RegisterVendorUser(requestRegisterVendorUserDTO, vendorUserId);
         return Ok(result);
     }
-    
+
+    [Authorize("VendorOnwerAndCouponVendorOnly")]
+    [HttpPost("AddVendorCoupon")]
+    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddVendorCoupon(RequestAddCouponDTO requestAddCouponDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorCouponService.AddVendorCoupon(requestAddCouponDTO,vendorUserId);
+        return Ok(result);
+    }
+
+    [Authorize("VendorOnwerAndCouponVendorOnly")]
+    [HttpPost("AddProductCoupon")]
+    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddProductCoupon(RequestAddCouponProductDTO requestAddCouponProductDTO)
+    {
+        var result = await _vendorCouponService.AddProductCoupon(requestAddCouponProductDTO);
+        return Ok(result);
+    }
 }
