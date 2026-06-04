@@ -8,11 +8,13 @@ public class ProductCategoryValidation : IProductCategoryValidation
     private readonly IProductCategoryRepsository _productCategoryRepsository;
     private readonly IProductSubCategoryRepsository _productSubCategoryRepsository;
     private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
-    public ProductCategoryValidation(IProductCategoryRepsository productCategoryRepsository,IProductSubCategoryRepsository productSubCategoryRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    private readonly IAttributeRepsository _attributeRepsository;
+    public ProductCategoryValidation(IProductCategoryRepsository productCategoryRepsository, IProductSubCategoryRepsository productSubCategoryRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository, IAttributeRepsository attributeRepsository)
     {
         _productCategoryRepsository = productCategoryRepsository;
         _productSubCategoryRepsository = productSubCategoryRepsository;
         _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
+        _attributeRepsository = attributeRepsository;
     }
     public async Task<ProductSubCategory> ValidateSubCategory(int subCategoryId)
     {
@@ -35,7 +37,7 @@ public class ProductCategoryValidation : IProductCategoryValidation
     public async Task<ProductCategory?> ValidateProductCategoryName(string ProductCategoryName)
     {
         var product = await _productCategoryRepsository.CheckUniqueProductCategory(ProductCategoryName);
-        if(product !=null)
+        if (product != null)
         {
             throw new DataAlreadyRegisteredException("Already The Product Category Name Is Registered");
         }
@@ -44,19 +46,28 @@ public class ProductCategoryValidation : IProductCategoryValidation
     public async Task<ProductSubCategory?> ValidateProductSubCategoryName(string ProductSubCategoryName)
     {
         var product = await _productSubCategoryRepsository.CheckUniqueProductSubCategory(ProductSubCategoryName);
-        if(product !=null)
+        if (product != null)
         {
             throw new DataAlreadyRegisteredException("Already The Product Sub Category Name Is Registered");
         }
         return product;
     }
-    public async Task<ProductSubCategoryAttribute> ValidateProductSubCategoryAttributeForAdmin(int productSubCategoryId,int AttributeId)
+    public async Task<ProductSubCategoryAttribute> ValidateProductSubCategoryAttributeForAdmin(int productSubCategoryId, int AttributeId)
     {
-        var result = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(AttributeId,productSubCategoryId);
-        if(result == null)
+        var result = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(AttributeId, productSubCategoryId);
+        if (result == null)
         {
             throw new DataNotFoundException("The Sub Category is not mapped to the Attribute");
         }
         return result;
+    }
+    public async Task<AttributeMaster> ValidateAttributeName(string name)
+    {
+        var attribute = await _attributeRepsository.GetTheAttributeByName(name);
+        if (attribute == null)
+        {
+            throw new DataAlreadyRegisteredException("Already The Attribute Name Is Registered");
+        }
+        return attribute;
     }
 }

@@ -24,11 +24,7 @@ public partial class AdminProductService : IAdminProductService
     }
     public async Task<ResponseAddAttributeDTO> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
     {
-        var attribute = (await _attributeRepsository.GetAll()).FirstOrDefault(p=>p.AttributeName == requestAddAttributeDTO.AttributeName);
-        if(attribute !=null)
-        {
-            throw new DataAlreadyRegisteredException("Already The Attribute Name Is Registered");
-        }
+        var attribute = await _productCategoryValidation.ValidateAttributeName(requestAddAttributeDTO.AttributeName);
         AttributeMaster createAttribute = new AttributeMaster();
         createAttribute.AttributeName = requestAddAttributeDTO.AttributeName;
         await _attributeRepsository.Create(createAttribute);
