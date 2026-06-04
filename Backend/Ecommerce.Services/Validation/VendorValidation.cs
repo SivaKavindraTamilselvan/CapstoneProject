@@ -7,10 +7,12 @@ public class VendorValidation :IVendorValidation
 {
     private readonly IVendorUserRepsository _vendorUserRepsository;
     private readonly IVendorRepsository _vendorRepsository;
-    public VendorValidation(IVendorUserRepsository vendorUserRepsository,IVendorRepsository vendorRepsository)
+    private readonly IInventoryRepsository _inventoryRepsository;
+    public VendorValidation(IVendorUserRepsository vendorUserRepsository,IVendorRepsository vendorRepsository,IInventoryRepsository inventoryRepsository)
     {
         _vendorUserRepsository = vendorUserRepsository;
         _vendorRepsository = vendorRepsository;
+        _inventoryRepsository = inventoryRepsository;
     }
     public async Task<VendorUser> ValidateVendorUser(int vendorUserId)
     {
@@ -40,5 +42,15 @@ public class VendorValidation :IVendorValidation
             throw new DataApprovalStatusException("The Vendor Is Not Approved Yet");
         }
         return vendor;
+    }
+
+    public async Task<Inventory> ValidateInventory(int inventoryId)
+    {
+        var inventory = await _inventoryRepsository.Get(inventoryId);
+        if(inventory == null)
+        {
+            throw new DataNotFoundException("Inventory Is Not Found");
+        }
+        return inventory;
     }
 }
