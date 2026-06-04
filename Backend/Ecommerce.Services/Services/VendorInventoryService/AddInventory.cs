@@ -5,7 +5,7 @@ using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
-public class InventoryService
+public class InventoryService : IInventoryService
 {
     private readonly IProductValidation _productValidation;
     private readonly IAddressRepsository _addressRepsository;
@@ -13,7 +13,7 @@ public class InventoryService
     private readonly IVendorValidation _vendorValidation;
 
     private readonly IMapper _mapper;
-    public InventoryService(IProductValidation productValidation,IAddressRepsository addressRepsository,IMapper mapper,IInventoryRepsository inventoryRepsository,IVendorValidation vendorValidation)
+    public InventoryService(IProductValidation productValidation, IAddressRepsository addressRepsository, IMapper mapper, IInventoryRepsository inventoryRepsository, IVendorValidation vendorValidation)
     {
         _productValidation = productValidation;
         _addressRepsository = addressRepsository;
@@ -25,7 +25,7 @@ public class InventoryService
     {
         var product = await _productValidation.ValidateProductVariant(requestAddInventoryDTO.ProductVariantId);
         var address = await _addressRepsository.Get(requestAddInventoryDTO.AddressId);
-        if(address == null)
+        if (address == null)
         {
             throw new DataNotFoundException("Address is Not Found For This User");
         }
@@ -38,7 +38,7 @@ public class InventoryService
     {
         var inventory = await _vendorValidation.ValidateInventory(requestUpdateInventoryDTO.InventoryId);
         var updateInventory = _mapper.Map<Inventory>(requestUpdateInventoryDTO);
-        await _inventoryRepsository.Update(inventory.InventoryId,updateInventory);
+        await _inventoryRepsository.Update(inventory.InventoryId, updateInventory);
         return _mapper.Map<ResponseUpdateInventoryDTO>(updateInventory);
     }
 }

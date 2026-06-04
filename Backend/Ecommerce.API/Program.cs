@@ -123,10 +123,14 @@ builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 #endregion
 
+#region Validation
 builder.Services.AddScoped<IVendorValidation,VendorValidation>();
 builder.Services.AddScoped<IProductValidation,ProductValidation>();
 builder.Services.AddScoped<IProductCategoryValidation,ProductCategoryValidation>();
+builder.Services.AddScoped<IUserValidation,UserValidation>();
+#endregion
 
+#region Repository
 builder.Services.AddScoped<IUserRepsository,UserRepsository>();
 builder.Services.AddScoped<IAdminUserRepsository,AdminRepsository>();
 builder.Services.AddScoped<IVendorRepsository,VendorRepsository>();
@@ -144,7 +148,27 @@ builder.Services.AddScoped<IFavoriteItemsRepsository,FavoriteItemsRepsository>()
 builder.Services.AddScoped<IProductVariantRepsository,ProductVariantRepsository>();
 builder.Services.AddScoped<IProductVariantAttributeRepsository,ProductVariantAttributeRepsository>();
 builder.Services.AddScoped<IApprovalHistoryRepsository,ApprovalHistoryRepsository>();
+builder.Services.AddScoped<ICouponProductRepsository,CouponProductRepsository>();
+builder.Services.AddScoped<ICouponVendorRepsository,CouponVendorRepsository>();
+builder.Services.AddScoped<ICouponRepsository,CouponRepsository>();
+builder.Services.AddScoped<ICouponUsageRepsository,CouponUsageRepsository>();
+builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
+builder.Services.AddScoped<IOrderRepsository,OrderRepsository>();
+builder.Services.AddScoped<IOrderItemRepsository,OrderItemRepsository>();
+builder.Services.AddScoped<IPaymentRepsository,PaymentRepsository>();
+builder.Services.AddScoped<IRefundItemRepsository,RefundItemsRepsository>();
+builder.Services.AddScoped<IRefundRepsository,RefundRepsository>();
+builder.Services.AddScoped<IReturnItemRepsository,ReturnItemsRepsository>();
+builder.Services.AddScoped<IReturnRepsository,ReturnRepsository>();
+builder.Services.AddScoped<IReviewRepsository,ReviewRepsository>();
+builder.Services.AddScoped<IShipmentItemsRepsository,ShipmentItemRepsository>();
+builder.Services.AddScoped<IShipmentRepsository,ShipmentRepsository>();
+builder.Services.AddScoped<IShipmentTrackingRepsository,ShipmentTrackingRepsository>();
+builder.Services.AddScoped<IAddressRepsository,AddressRepsository>();
+builder.Services.AddScoped<IShipperRepsository,ShipperRepsository>();
+#endregion
 
+#region Services
 builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IAdminService,AdminService>();
@@ -155,6 +179,10 @@ builder.Services.AddScoped<IUserFavoriteService,UserFavoritesService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IAdminProductService,AdminProductService>();
 builder.Services.AddScoped<IAdminVendorService,AdminVendorService>();
+builder.Services.AddScoped<IAddressService,AddressService>();
+builder.Services.AddScoped<IVendorProductService,VendorProductService>();
+builder.Services.AddScoped<IInventoryService,IInventoryService>();
+#endregion
 
 var app = builder.Build();
 
