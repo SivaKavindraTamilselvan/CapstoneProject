@@ -1,8 +1,10 @@
 using AutoMapper;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 public class VendorCouponService : IVendorCouponService
 {
@@ -36,5 +38,18 @@ public class VendorCouponService : IVendorCouponService
         }
         await _couponRepsository.Create(coupon);
         return _mapper.Map<ResponseAddCouponDTO>(coupon);
+    }
+
+    public async Task<ResponseAddCouponProductDTO> AddCouponProduct(RequestAddCouponProductDTO requestAddCouponProductDTO,int UserId)
+    {
+        var coupon = await _couponRepsository.Get(requestAddCouponProductDTO.CouponId);
+        if(coupon == null)
+        {
+            throw new DataNotFoundException("Coupon Not Found");
+        }
+        var createdCoupon = _mapper.Map<CouponsProduct>(coupon);
+        createdCoupon.AddedByVendorUserId = UserId;
+        await _couponProductRepsository.Create(createdCoupon);
+        return _mapper.Map<ResponseAddCouponProductDTO>(createdCoupon);
     }
 }

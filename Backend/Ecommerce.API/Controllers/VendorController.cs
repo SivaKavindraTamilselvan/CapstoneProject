@@ -12,7 +12,7 @@ public class VendorController : ControllerBase
 {
     private readonly IVendorService _vendorService;
     private readonly IVendorCouponService _vendorCouponService;
-    public VendorController(IVendorService vendorService,IVendorCouponService vendorCouponService)
+    public VendorController(IVendorService vendorService, IVendorCouponService vendorCouponService)
     {
         _vendorService = vendorService;
         _vendorCouponService = vendorCouponService;
@@ -26,13 +26,4 @@ public class VendorController : ControllerBase
         var result = await _vendorService.RegisterVendorUser(requestRegisterVendorUserDTO, vendorUserId);
         return Ok(result);
     }
-    /*
-    [Authorize("VendorOnwerAndCouponVendorOnly")]
-    [HttpPost("AddProductCoupon")]
-    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddProductCoupon(RequestAddCouponProductDTO requestAddCouponProductDTO)
-    {
-        var result = await _vendorCouponService.AddProductCoupon(requestAddCouponProductDTO);
-        return Ok(result);
-    }
-    */
 }

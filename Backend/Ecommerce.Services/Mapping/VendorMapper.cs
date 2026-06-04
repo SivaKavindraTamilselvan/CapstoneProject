@@ -16,6 +16,9 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestAddCouponDTO,Coupons>();
             CreateMap<Coupons,ResponseAddCouponDTO>();
+
+            CreateMap<RequestAddCouponProductDTO,CouponsProduct>();
+            CreateMap<Coupons,ResponseAddCouponProductDTO>();
             
         }
     }

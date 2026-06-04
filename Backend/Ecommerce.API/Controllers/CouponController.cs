@@ -16,12 +16,21 @@ public class CouponController : ControllerBase
         _vendorCouponService = vendorCouponService;
     }
     [Authorize("CouponPolicy")]
-    [HttpPost("AddProductCoupon")]
+    [HttpPost("AddCoupon")]
     public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddCoupon(RequestAddCouponDTO requestAddCouponDTO)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         int roleId = int.Parse(User.FindFirst(ClaimTypes.Role)!.Value);
         var result = await _vendorCouponService.AddCoupon(requestAddCouponDTO, roleId, UserId);
+        return Ok(result);
+    }
+
+    [Authorize("VendorOnwerAndCouponVendorOnly")]
+    [HttpPost("AddProductCoupon")]
+    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddProductCoupon(RequestAddCouponProductDTO requestAddCouponProductDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorCouponService.AddCouponProduct(requestAddCouponProductDTO,vendorUserId);
         return Ok(result);
     }
 }
