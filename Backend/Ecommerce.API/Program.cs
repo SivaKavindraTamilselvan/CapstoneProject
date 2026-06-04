@@ -114,13 +114,25 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("VendorOnwerAndProductVendorOnly", policy =>
     {
         policy.RequireClaim(ClaimTypes.Role, "2");
-        policy.RequireClaim("VendorRoleId",  "1","3");
+        policy.RequireClaim("VendorRoleId",  "1","3","2");
     });
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorOnwerAndCouponVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim("VendorRoleId",  "1","8","2");
+    });
+});
+
 
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
+
 #endregion
 
 #region Validation
@@ -128,6 +140,7 @@ builder.Services.AddScoped<IVendorValidation,VendorValidation>();
 builder.Services.AddScoped<IProductValidation,ProductValidation>();
 builder.Services.AddScoped<IProductCategoryValidation,ProductCategoryValidation>();
 builder.Services.AddScoped<IUserValidation,UserValidation>();
+builder.Services.AddScoped<ICouponValidation,CouponValidation>();
 #endregion
 
 #region Repository
@@ -182,6 +195,7 @@ builder.Services.AddScoped<IAdminVendorService,AdminVendorService>();
 builder.Services.AddScoped<IAddressService,AddressService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
+builder.Services.AddScoped<IVendorCouponService,VendorCouponService>();
 #endregion
 
 var app = builder.Build();
