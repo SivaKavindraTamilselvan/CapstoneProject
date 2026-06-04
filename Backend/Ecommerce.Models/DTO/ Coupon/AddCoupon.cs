@@ -8,6 +8,7 @@ public class RequestAddCouponDTO
     public DateTime StartDate {get;set;}
     public DateTime EndDate {get;set;}
     public int MinimumNumberOfUsage {get;set;}
+    public string CouponDescription {get;set;} = string.Empty;
 }
 
 public class RequestAddCouponProductDTO

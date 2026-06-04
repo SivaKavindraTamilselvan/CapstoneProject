@@ -120,13 +120,21 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("VendorOnwerAndCouponVendorOnly", policy =>
+    options.AddPolicy("CouponPolicy", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
-        policy.RequireClaim("VendorRoleId",  "1","8","2");
+        policy.RequireAssertion(context =>
+        {
+            var role = context.User.FindFirst(ClaimTypes.Role)?.Value;
+            var adminRoleId = context.User.FindFirst("AdminRoleId")?.Value;
+            var vendorRoleId = context.User.FindFirst("VendorRoleId")?.Value;
+
+            return
+                (role == "1" && (adminRoleId == "1" || adminRoleId == "5"))
+                ||
+                (role == "2" && (vendorRoleId == "1" || vendorRoleId == "2" || vendorRoleId == "8"));
+        });
     });
 });
-
 
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
