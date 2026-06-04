@@ -1,16 +1,41 @@
+using System.ComponentModel.DataAnnotations;
+
 namespace Ecommerce.DTOs;
 
 public class RequestAddAddressDTO
 {
+    [Required(ErrorMessage = "User Id Is Needed")]
+    [Range(1, int.MaxValue, ErrorMessage = "User Id Can Be Only Positive")]
     public int UserId { get; set; }
+    [Required(ErrorMessage = "Contact Person Name is Needed")]
+    [MaxLength(50)]
     public string ContactName { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Phone Number Cannot Be Empty")]
+    [Phone]
     public string ContactPhoneNumber { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Address Is Needed")]
+    [MaxLength(300, ErrorMessage = "Address Line Maximum character is 300")]
     public string AddressLine { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Land Mark Is Needed For The Shipment Purpose")]
+    [MaxLength(150, ErrorMessage = "Maximum character allowed for LandMark is 150")]
     public string LandMark { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "City Is Needed For The Shipment Purpose")]
+    [MaxLength(100, ErrorMessage = "Maximum character allowed for the City is 100")]
     public string City { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Stats Is Needed For The Shipment Purpose")]
+    [MaxLength(100, ErrorMessage = "Maximum character allowed for the State is 100")]
     public string State { get; set; } = string.Empty;
-    public string Country { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "PinCode Is Needed For The Shipment Purpose")]
+    [MaxLength(6,ErrorMessage = "Maximum charater allowed for PinCode is 6")]
     public string PinCode { get; set; } = string.Empty;
+
+    [Required(ErrorMessage = "Is Default Is Needed")]
     public bool IsDefault { get; set; } = false;
 }
 
