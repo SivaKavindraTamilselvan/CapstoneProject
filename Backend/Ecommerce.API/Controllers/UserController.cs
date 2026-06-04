@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,10 +12,12 @@ public class UserController : ControllerBase
 {
     private readonly IUserCartService _userCartService;
     private readonly IUserFavoriteService _userFavoriteService;
-    public UserController(IUserCartService userCartService, IUserFavoriteService userFavoriteService)
+    private readonly IAddressService _addressService;
+    public UserController(IUserCartService userCartService, IUserFavoriteService userFavoriteService,IAddressService addressService)
     {
         _userCartService = userCartService;
         _userFavoriteService = userFavoriteService;
+        _addressService = addressService;
     }
 
     [Authorize]
@@ -61,11 +64,20 @@ public class UserController : ControllerBase
     }
 
     [Authorize]
-    [HttpPost("GetCartByUserId")]
+    [HttpGet("GetCartByUserId")]
     public async Task<ActionResult<ResponseCartItemsDTO>> GetCartByUserId()
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userCartService.GetCartByUserId(UserId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("AddAdress")]
+    public async Task<ActionResult<ResponseAddAddressDTO>> AddAddress(RequestAddAddressDTO requestAddAddressDTO)
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.AddAddress(requestAddAddressDTO,UserId);
         return Ok(result);
     }
 }
