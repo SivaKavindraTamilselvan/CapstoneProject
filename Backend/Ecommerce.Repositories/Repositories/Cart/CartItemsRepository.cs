@@ -12,12 +12,12 @@ public class CartItemsRepsository : AbstractRepository<int, CartItems>, ICartIte
     }
     public async Task<List<CartItems>> DeleteCartItemsByUserId(int userId)
     {
-        var items = await _ecommerceContext.CartItems.Include(c => c.Cart).Where(u => u.Cart != null && u.Cart.UserId == userId).ToListAsync();
+        var items = await _ecommerceContext.CartItems.Where(u => u.Cart != null && u.Cart.UserId == userId).ToListAsync();
         if (items.Count == 0)
         {
             return new List<CartItems>();
         }
-        _ecommerceContext.RemoveRange(items);
+        _ecommerceContext.CartItems.RemoveRange(items);
         await _ecommerceContext.SaveChangesAsync();
         return items;
     }

@@ -65,7 +65,7 @@ public class UserController : ControllerBase
 
     [Authorize]
     [HttpGet("GetCartByUserId")]
-    public async Task<ActionResult<ResponseCartItemsDTO>> GetCartByUserId()
+    public async Task<ActionResult<List<ResponseCartItemsDTO>>> GetCartByUserId()
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userCartService.GetCartByUserId(UserId);

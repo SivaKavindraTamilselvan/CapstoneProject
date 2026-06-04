@@ -451,3 +451,1528 @@ FROM "VendorUser" AS v
 2026-06-04 17:06:19.394 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 1.5817ms
 2026-06-04 17:06:19.445 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-04 17:06:19.460 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.9377ms
+2026-06-04 17:06:31.638 +05:30 [INF] Application is shutting down...
+2026-06-04 17:06:34.926 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 17:06:34.993 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 17:06:34.994 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 17:06:34.994 +05:30 [INF] Hosting environment: Development
+2026-06-04 17:06:34.994 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 17:06:35.448 +05:30 [INF] Application is shutting down...
+2026-06-04 18:05:46.314 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 18:05:46.405 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 18:05:46.406 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 18:05:46.406 +05:30 [INF] Hosting environment: Development
+2026-06-04 18:05:46.406 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 18:05:56.023 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 18:05:56.064 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.2708ms
+2026-06-04 18:05:56.121 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 18:05:56.176 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 54.8444ms
+2026-06-04 18:06:21.410 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-04 18:06:21.416 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 18:06:21.440 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:06:21.454 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:06:21.557 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-04 18:06:22.426 +05:30 [INF] Executed DbCommand (33ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:06:22.482 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+2026-06-04 18:06:22.518 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:06:22.523 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1067.7316ms
+2026-06-04 18:06:22.524 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:06:22.528 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1117.8087ms
+2026-06-04 18:11:30.279 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 202
+2026-06-04 18:11:30.313 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:11:30.317 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:11:30.336 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:11:30.353 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:11:30.366 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 48.5857ms
+2026-06-04 18:11:30.366 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:11:30.366 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: The Vendor Is Not Approved Yet
+   at VendorValidation.ValidateVendorIfApproved(Int32 vendorId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/VendorValidation.cs:line 42
+   at VendorProductService.AddProduct(RequestAddProduct requestAddProduct, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 24
+   at Ecommerce.API.Controllers.ProductController.AddProduct(RequestAddProduct requestAddProduct) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ProductController.cs:line 26
+   at lambda_method484(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:11:30.375 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 409 null application/json 96.5248ms
+2026-06-04 18:12:22.326 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-04 18:12:22.334 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-04 18:12:22.336 +05:30 [INF] AuthenticationScheme: Bearer was forbidden.
+2026-06-04 18:12:22.336 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 403 0 null 10.0724ms
+2026-06-04 18:12:41.630 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-04 18:12:41.632 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:12:41.633 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:12:41.695 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:12:41.702 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:12:41.712 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:12:41.712 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 78.652ms
+2026-06-04 18:12:41.712 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:12:41.712 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 82.1553ms
+2026-06-04 18:13:00.920 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-04 18:13:00.924 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-04 18:13:00.931 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-04 18:13:00.939 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:13:00.940 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:13:01.009 +05:30 [ERR] Failed executing DbCommand (10ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-04 18:13:01.016 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23503: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23503
+    MessageText: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Vendor
+    ConstraintName: FK_Vendor_Status
+    File: ri_triggers.c
+    Line: 2783
+    Routine: ri_ReportViolation
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23503: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23503
+    MessageText: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Vendor
+    ConstraintName: FK_Vendor_Status
+    File: ri_triggers.c
+    Line: 2783
+    Routine: ri_ReportViolation
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-04 18:13:01.017 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 86.5342ms
+2026-06-04 18:13:01.017 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-04 18:13:01.017 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23503: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23503
+    MessageText: insert or update on table "Vendor" violates foreign key constraint "FK_Vendor_Status"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: Vendor
+    ConstraintName: FK_Vendor_Status
+    File: ri_triggers.c
+    Line: 2783
+    Routine: ri_ReportViolation
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Update(K key, T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 37
+   at AdminVendorService.ReviewVendor(RequestReviewOfVendorDTO requestReviewOfVendorDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/ReviewVendorService.cs:line 22
+   at Ecommerce.API.Controllers.AdminController.ReviewVendor(RequestReviewOfVendorDTO dto) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 36
+   at lambda_method672(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:13:01.020 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 500 null application/json 100.0726ms
+2026-06-04 18:13:31.338 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-04 18:13:31.339 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-04 18:13:31.340 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-04 18:13:31.343 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:13:31.345 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:13:31.349 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-04 18:13:31.356 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfVendorDTO'.
+2026-06-04 18:13:31.362 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 22.6913ms
+2026-06-04 18:13:31.363 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-04 18:13:31.363 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 200 null application/json; charset=utf-8 24.4913ms
+2026-06-04 18:14:34.748 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-04 18:14:34.750 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:14:34.752 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:14:34.762 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:14:34.765 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+2026-06-04 18:14:34.766 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:14:34.766 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 13.6ms
+2026-06-04 18:14:34.766 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:14:34.767 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 18.1098ms
+2026-06-04 18:14:55.912 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 202
+2026-06-04 18:14:55.914 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:14:55.914 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:14:55.918 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:14:55.920 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:14:55.928 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:14:55.986 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:14:55.993 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:14:55.995 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 80.1319ms
+2026-06-04 18:14:55.995 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:14:55.995 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 82.8342ms
+2026-06-04 18:15:56.592 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 183
+2026-06-04 18:15:56.594 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:15:56.594 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:15:56.605 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:15:56.606 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:15:56.607 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:15:56.610 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:15:56.611 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:15:56.611 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 16.9359ms
+2026-06-04 18:15:56.611 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:15:56.611 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 19.2447ms
+2026-06-04 18:16:07.948 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 182
+2026-06-04 18:16:07.949 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:16:07.949 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:16:07.951 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:16:07.952 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:16:07.954 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:16:07.957 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:16:07.957 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:16:07.958 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 8.3525ms
+2026-06-04 18:16:07.958 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:16:07.958 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 9.918ms
+2026-06-04 18:16:53.807 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 157
+2026-06-04 18:16:53.808 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:16:53.808 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:16:53.810 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:16:53.812 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:16:53.814 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:16:53.817 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:16:53.817 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:16:53.817 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 9.5623ms
+2026-06-04 18:16:53.818 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:16:53.818 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 11.0583ms
+2026-06-04 18:17:08.064 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 176
+2026-06-04 18:17:08.065 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:08.065 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:17:08.071 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:17:08.073 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:17:08.074 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:17:08.076 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:17:08.077 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:17:08.077 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 11.6971ms
+2026-06-04 18:17:08.077 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:08.077 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 13.2002ms
+2026-06-04 18:17:19.620 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 167
+2026-06-04 18:17:19.621 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:19.621 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:17:19.626 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:17:19.628 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:17:19.629 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:17:19.631 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:17:19.632 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:17:19.632 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 10.6747ms
+2026-06-04 18:17:19.632 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:19.632 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 12.2108ms
+2026-06-04 18:17:31.114 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 169
+2026-06-04 18:17:31.115 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:31.116 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:17:31.118 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:17:31.120 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:17:31.121 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:17:31.124 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:17:31.124 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:17:31.125 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 8.7676ms
+2026-06-04 18:17:31.125 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:31.125 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 10.6215ms
+2026-06-04 18:17:41.231 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 171
+2026-06-04 18:17:41.232 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:41.232 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:17:41.233 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:17:41.235 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:17:41.237 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:17:41.239 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:17:41.240 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:17:41.240 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 8.1541ms
+2026-06-04 18:17:41.240 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:41.240 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 9.6327ms
+2026-06-04 18:17:55.698 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 169
+2026-06-04 18:17:55.699 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:55.699 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:17:55.711 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:17:55.714 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:17:55.716 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:17:55.722 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:17:55.723 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:17:55.723 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 24.2486ms
+2026-06-04 18:17:55.723 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:17:55.723 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 25.8565ms
+2026-06-04 18:18:07.693 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - application/json 194
+2026-06-04 18:18:07.694 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:18:07.694 +05:30 [INF] Route matched with {action = "AddProduct", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProduct]] AddProduct(Ecommerce.DTOs.RequestAddProduct) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:18:07.696 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:18:07.697 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-04 18:18:07.698 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-04 18:18:07.702 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Product" ("AddedByVendorUserId", "AdminUserId", "CreatedAt", "Description", "ProductApprovalStatusId", "ProductName", "ProductStatusId", "ProductSubCategoryId", "UpdatedAt", "VendorId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ProductId";
+2026-06-04 18:18:07.702 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProduct'.
+2026-06-04 18:18:07.703 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API) in 8.6829ms
+2026-06-04 18:18:07.703 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProduct (Ecommerce.API)'
+2026-06-04 18:18:07.703 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProduct - 200 null application/json; charset=utf-8 10.3758ms
+2026-06-04 18:21:03.519 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 830
+2026-06-04 18:21:03.520 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:21:03.526 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:21:03.542 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:21:03.550 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:21:03.551 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 25.203ms
+2026-06-04 18:21:03.551 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:21:03.551 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Product Is Not Yet Approved
+   at ProductValidation.ValidateProductIfApproved(Int32 productId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductValidation.cs:line 33
+   at VendorProductService.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 10
+   at Ecommerce.API.Controllers.ProductController.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ProductController.cs:line 42
+   at lambda_method1139(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:21:03.552 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 409 null application/json 33.2184ms
+2026-06-04 18:21:38.383 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-04 18:21:38.383 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:21:38.383 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:21:38.387 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:21:38.390 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:21:38.391 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:21:38.391 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 7.5458ms
+2026-06-04 18:21:38.391 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:21:38.391 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 8.8162ms
+2026-06-04 18:23:00.037 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewProduct - application/json 70
+2026-06-04 18:23:00.037 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API)'
+2026-06-04 18:23:00.045 +05:30 [INF] Route matched with {action = "ReviewProduct", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfProductDTO]] ReviewProduct(Ecommerce.DTOs.RequestReviewOfProductDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-04 18:23:00.063 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:23:00.065 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:23:00.069 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Product" SET "AddedByVendorUserId" = @p0, "AdminUserId" = @p1, "CreatedAt" = @p2, "Description" = @p3, "ProductApprovalStatusId" = @p4, "ProductName" = @p5, "ProductStatusId" = @p6, "ProductSubCategoryId" = @p7, "UpdatedAt" = @p8, "VendorId" = @p9
+WHERE "ProductId" = @p10;
+2026-06-04 18:23:00.095 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ApprovalHistory" ("EntityId", "EntityType", "NewStatusId", "PreviousStatusId", "ProductId", "ProductVariantId", "Remarks", "ReviewedAt", "ReviewedByAdminId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "ApprovalHistoryId";
+2026-06-04 18:23:00.098 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfProductDTO'.
+2026-06-04 18:23:00.099 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API) in 53.8221ms
+2026-06-04 18:23:00.099 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API)'
+2026-06-04 18:23:00.099 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewProduct - 200 null application/json; charset=utf-8 62.8047ms
+2026-06-04 18:23:26.744 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewProduct - application/json 74
+2026-06-04 18:23:26.745 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API)'
+2026-06-04 18:23:26.746 +05:30 [INF] Route matched with {action = "ReviewProduct", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfProductDTO]] ReviewProduct(Ecommerce.DTOs.RequestReviewOfProductDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-04 18:23:26.748 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:23:26.749 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-04 18:23:26.751 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?', @p4='?' (DbType = Int32), @p5='?', @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Product" SET "AddedByVendorUserId" = @p0, "AdminUserId" = @p1, "CreatedAt" = @p2, "Description" = @p3, "ProductApprovalStatusId" = @p4, "ProductName" = @p5, "ProductStatusId" = @p6, "ProductSubCategoryId" = @p7, "UpdatedAt" = @p8, "VendorId" = @p9
+WHERE "ProductId" = @p10;
+2026-06-04 18:23:26.753 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ApprovalHistory" ("EntityId", "EntityType", "NewStatusId", "PreviousStatusId", "ProductId", "ProductVariantId", "Remarks", "ReviewedAt", "ReviewedByAdminId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "ApprovalHistoryId";
+2026-06-04 18:23:26.754 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfProductDTO'.
+2026-06-04 18:23:26.754 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API) in 8.349ms
+2026-06-04 18:23:26.754 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewProduct (Ecommerce.API)'
+2026-06-04 18:23:26.754 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewProduct - 200 null application/json; charset=utf-8 10.0035ms
+2026-06-04 18:23:42.286 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-04 18:23:42.287 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:23:42.288 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:23:42.291 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:23:42.294 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+2026-06-04 18:23:42.295 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:23:42.295 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 7.386ms
+2026-06-04 18:23:42.295 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:23:42.295 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 8.9332ms
+2026-06-04 18:24:01.883 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 830
+2026-06-04 18:24:01.884 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:01.884 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:24:01.886 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:24:01.888 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:24:01.900 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."AvailableQuantity", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "ProductVariant" AS p
+2026-06-04 18:24:01.938 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = DateTime2), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariant" ("AddedByVendorUserId", "AvailableQuantity", "CreatedAt", "HeightInCm", "LengthInCm", "Price", "ProductApprovalStatusId", "ProductId", "ProductVariantStatusId", "SKU", "UpdatedAt", "WeightInKgs", "WidthInCm")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+RETURNING "ProductVariantId";
+2026-06-04 18:24:01.948 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.966 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:01.970 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.971 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:01.972 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.974 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:01.975 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.975 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:01.976 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.977 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:01.978 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:01.978 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 94.4395ms
+2026-06-04 18:24:01.979 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:01.979 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Sub Category Attribute Not Found For This Product Sub Category
+   at ProductCategoryValidation.ValidateProductSubCategoryAttribute(Int32 productSubCategoryAttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 33
+   at VendorProductService.AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, Int32 productVariantId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 48
+   at VendorProductService.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 17
+   at Ecommerce.API.Controllers.ProductController.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ProductController.cs:line 42
+   at lambda_method1139(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:24:01.979 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 404 null application/json 96.4107ms
+2026-06-04 18:24:50.425 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 745
+2026-06-04 18:24:50.426 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:50.426 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:24:50.429 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:24:50.430 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:24:50.431 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."AvailableQuantity", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "ProductVariant" AS p
+2026-06-04 18:24:50.437 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = DateTime2), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariant" ("AddedByVendorUserId", "AvailableQuantity", "CreatedAt", "HeightInCm", "LengthInCm", "Price", "ProductApprovalStatusId", "ProductId", "ProductVariantStatusId", "SKU", "UpdatedAt", "WeightInKgs", "WidthInCm")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+RETURNING "ProductVariantId";
+2026-06-04 18:24:50.438 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:50.441 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.442 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:50.443 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.445 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:50.446 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.447 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:50.448 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.449 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:50.450 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:50.450 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 24.2008ms
+2026-06-04 18:24:50.451 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:50.451 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Sub Category Attribute Not Found For This Product Sub Category
+   at ProductCategoryValidation.ValidateProductSubCategoryAttribute(Int32 productSubCategoryAttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 33
+   at VendorProductService.AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, Int32 productVariantId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 48
+   at VendorProductService.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 17
+   at Ecommerce.API.Controllers.ProductController.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ProductController.cs:line 42
+   at lambda_method1139(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:24:50.453 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 404 null application/json 28.0765ms
+2026-06-04 18:24:54.136 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 741
+2026-06-04 18:24:54.137 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:54.137 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:24:54.139 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:24:54.140 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:24:54.141 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."AvailableQuantity", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "ProductVariant" AS p
+2026-06-04 18:24:54.144 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = DateTime2), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariant" ("AddedByVendorUserId", "AvailableQuantity", "CreatedAt", "HeightInCm", "LengthInCm", "Price", "ProductApprovalStatusId", "ProductId", "ProductVariantStatusId", "SKU", "UpdatedAt", "WeightInKgs", "WidthInCm")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+RETURNING "ProductVariantId";
+2026-06-04 18:24:54.145 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.147 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:54.148 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.150 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:54.151 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.152 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:54.153 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.155 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:54.155 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.156 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:24:54.157 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:24:54.157 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 20.0471ms
+2026-06-04 18:24:54.157 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:24:54.157 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Sub Category Attribute Not Found For This Product Sub Category
+   at ProductCategoryValidation.ValidateProductSubCategoryAttribute(Int32 productSubCategoryAttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 33
+   at VendorProductService.AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, Int32 productVariantId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 48
+   at VendorProductService.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorProductService/AddProductService.cs:line 17
+   at Ecommerce.API.Controllers.ProductController.AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ProductController.cs:line 42
+   at lambda_method1139(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:24:54.158 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 404 null application/json 22.3117ms
+2026-06-04 18:25:34.616 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 650
+2026-06-04 18:25:34.616 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:25:34.616 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:25:34.623 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:25:34.624 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:25:34.625 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."AvailableQuantity", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "ProductVariant" AS p
+2026-06-04 18:25:34.627 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = DateTime2), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariant" ("AddedByVendorUserId", "AvailableQuantity", "CreatedAt", "HeightInCm", "LengthInCm", "Price", "ProductApprovalStatusId", "ProductId", "ProductVariantStatusId", "SKU", "UpdatedAt", "WeightInKgs", "WidthInCm")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+RETURNING "ProductVariantId";
+2026-06-04 18:25:34.628 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:25:34.630 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:25:34.631 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:25:34.632 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:25:34.633 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:25:34.635 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:25:34.635 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:25:34.636 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:25:34.638 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:25:34.639 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:25:34.640 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductVariantDTO'.
+2026-06-04 18:25:34.641 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 24.2409ms
+2026-06-04 18:25:34.641 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:25:34.641 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 200 null application/json; charset=utf-8 25.4922ms
+2026-06-04 18:26:13.905 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - application/json 650
+2026-06-04 18:26:13.905 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:26:13.905 +05:30 [INF] Route matched with {action = "AddProductVariant", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductVariantDTO]] AddProductVariant(Ecommerce.DTOs.RequestAddProductVariantDTO) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-04 18:26:13.907 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-04 18:26:13.909 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductId", p."AddedByVendorUserId", p."AdminUserId", p."CreatedAt", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt", p."VendorId"
+FROM "Product" AS p
+WHERE p."ProductId" = @p
+LIMIT 1
+2026-06-04 18:26:13.910 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."AvailableQuantity", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "ProductVariant" AS p
+2026-06-04 18:26:13.912 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Decimal), @p4='?' (DbType = Decimal), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?', @p10='?' (DbType = DateTime2), @p11='?' (DbType = Decimal), @p12='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariant" ("AddedByVendorUserId", "AvailableQuantity", "CreatedAt", "HeightInCm", "LengthInCm", "Price", "ProductApprovalStatusId", "ProductId", "ProductVariantStatusId", "SKU", "UpdatedAt", "WeightInKgs", "WidthInCm")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10, @p11, @p12)
+RETURNING "ProductVariantId";
+2026-06-04 18:26:13.913 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:26:13.915 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:26:13.916 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:26:13.917 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:26:13.918 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:26:13.919 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:26:13.920 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:26:13.920 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:26:13.921 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-04 18:26:13.922 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductVariantAttribute" ("AttributeValue", "CreatedAt", "ProductSubCategoryAttributeId", "ProductVariantId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductVariantAttributeId", "IsActive";
+2026-06-04 18:26:13.923 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductVariantDTO'.
+2026-06-04 18:26:13.923 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API) in 17.4969ms
+2026-06-04 18:26:13.923 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.AddProductVariant (Ecommerce.API)'
+2026-06-04 18:26:13.923 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Product/AddProductVariant - 200 null application/json; charset=utf-8 18.4747ms
+2026-06-04 18:27:43.176 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 74
+2026-06-04 18:27:43.177 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:27:43.177 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:27:43.180 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:27:43.180 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:27:43.180 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 3.1187ms
+2026-06-04 18:27:43.181 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:27:43.181 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 4.6675ms
+2026-06-04 18:28:42.163 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:28:42.165 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:28:42.173 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:28:42.196 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:28:42.204 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:28:42.205 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 32.2501ms
+2026-06-04 18:28:42.205 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:28:42.206 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 16
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method1685(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:28:42.207 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 500 null application/json 43.358ms
+2026-06-04 18:30:55.470 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:30:55.473 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:30:55.474 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:30:55.477 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:30:55.483 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:30:55.500 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:30:55.502 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:30:55.503 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 29.7112ms
+2026-06-04 18:30:55.503 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:30:55.504 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 33.7915ms
+2026-06-04 18:32:04.697 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:32:04.699 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:04.699 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:32:04.707 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:32:04.708 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:32:04.710 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:32:04.711 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:32:04.711 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 12.1074ms
+2026-06-04 18:32:04.711 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:04.711 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 14.187ms
+2026-06-04 18:32:09.134 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:32:09.135 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:09.135 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:32:09.137 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:32:09.138 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:32:09.139 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 3.7115ms
+2026-06-04 18:32:09.139 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:09.139 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Already Added To Favorites
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method1685(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:32:09.141 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 404 null application/json 6.9994ms
+2026-06-04 18:32:17.477 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:32:17.478 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:17.478 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:32:17.479 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:32:17.480 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:32:17.482 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:32:17.482 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:32:17.482 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 4.3867ms
+2026-06-04 18:32:17.482 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:17.483 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 5.9468ms
+2026-06-04 18:32:18.469 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:32:18.469 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:18.470 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:32:18.471 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:32:18.472 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:32:18.473 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 3.1299ms
+2026-06-04 18:32:18.473 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:32:18.473 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Already Added To Favorites
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method1685(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:32:18.474 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 404 null application/json 5.2434ms
+2026-06-04 18:32:41.131 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/UpdateToCart - application/json 39
+2026-06-04 18:32:41.132 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.UpdateToCart (Ecommerce.API)'
+2026-06-04 18:32:41.139 +05:30 [INF] Route matched with {action = "UpdateToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] UpdateToCart(RequestUpdateCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:32:41.143 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:32:41.148 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "CartItems" SET "CartId" = @p0, "ProductVariantId" = @p1, "Qunatity" = @p2
+WHERE "CartItemsId" = @p3;
+2026-06-04 18:32:41.148 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:32:41.148 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.UpdateToCart (Ecommerce.API) in 9.3251ms
+2026-06-04 18:32:41.148 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.UpdateToCart (Ecommerce.API)'
+2026-06-04 18:32:41.148 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/UpdateToCart - 200 null application/json; charset=utf-8 17.2878ms
+2026-06-04 18:34:21.425 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 18:34:21.427 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 2.3719ms
+2026-06-04 18:34:21.477 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 18:34:21.489 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 12.3089ms
+2026-06-04 18:35:26.846 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteCartItem - application/json 22
+2026-06-04 18:35:26.847 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-04 18:35:26.850 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-04 18:35:26.850 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteCartItem - 401 0 null 4.0392ms
+2026-06-04 18:36:02.310 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-04 18:36:02.311 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:36:02.311 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:36:02.323 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:36:02.326 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+2026-06-04 18:36:02.326 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:36:02.327 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 15.8414ms
+2026-06-04 18:36:02.327 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:36:02.327 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 16.8889ms
+2026-06-04 18:36:17.620 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteCartItem - application/json 22
+2026-06-04 18:36:17.621 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.DeleteCartItem (Ecommerce.API)'
+2026-06-04 18:36:17.628 +05:30 [INF] Route matched with {action = "DeleteCartItem", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteCartItem(RequestDeleteCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:36:17.632 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:36:17.638 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "CartItems"
+WHERE "CartItemsId" = @p0;
+2026-06-04 18:36:17.641 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:36:17.641 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.DeleteCartItem (Ecommerce.API) in 12.6526ms
+2026-06-04 18:36:17.641 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.DeleteCartItem (Ecommerce.API)'
+2026-06-04 18:36:17.641 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteCartItem - 200 null application/json; charset=utf-8 20.5008ms
+2026-06-04 18:36:40.929 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - null 0
+2026-06-04 18:36:40.930 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:36:40.936 +05:30 [INF] Route matched with {action = "DeleteAllCartItem", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteAllCartItem() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:36:40.986 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:36:40.991 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseCartItemsDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 18:36:40.991 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API) in 55.4552ms
+2026-06-04 18:36:40.991 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:36:40.992 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - 200 null application/json; charset=utf-8 62.7833ms
+2026-06-04 18:36:56.808 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - null 0
+2026-06-04 18:36:56.809 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:36:56.809 +05:30 [INF] Route matched with {action = "DeleteAllCartItem", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteAllCartItem() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:36:56.813 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:36:56.814 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseCartItemsDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 18:36:56.814 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API) in 4.5389ms
+2026-06-04 18:36:56.815 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:36:56.815 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - 200 null application/json; charset=utf-8 6.2735ms
+2026-06-04 18:42:14.741 +05:30 [INF] Application is shutting down...
+2026-06-04 18:42:20.753 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 18:42:20.855 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 18:42:20.856 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 18:42:20.857 +05:30 [INF] Hosting environment: Development
+2026-06-04 18:42:20.857 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 18:42:26.414 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - null 0
+2026-06-04 18:42:26.430 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 18:42:26.472 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:42:26.481 +05:30 [INF] Route matched with {action = "DeleteAllCartItem", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteAllCartItem() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:42:26.571 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-04 18:42:27.423 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:42:27.442 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseCartItemsDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 18:42:27.455 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API) in 972.4225ms
+2026-06-04 18:42:27.456 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:42:27.460 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - 200 null application/json; charset=utf-8 1047.5133ms
+2026-06-04 18:44:28.422 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 18:44:28.463 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 41.3332ms
+2026-06-04 18:44:28.521 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 18:44:28.568 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 47.3702ms
+2026-06-04 18:45:13.857 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 74
+2026-06-04 18:45:13.861 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:45:13.872 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-04 18:45:13.911 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-04 18:45:13.949 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-04 18:45:13.951 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 77.9254ms
+2026-06-04 18:45:13.951 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-04 18:45:13.951 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 94.343ms
+2026-06-04 18:45:39.862 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - null 0
+2026-06-04 18:45:39.870 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:45:39.870 +05:30 [INF] Route matched with {action = "DeleteAllCartItem", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteAllCartItem() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:45:39.915 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:45:39.967 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "CartItems"
+WHERE "CartItemsId" = @p0;
+DELETE FROM "CartItems"
+WHERE "CartItemsId" = @p1;
+2026-06-04 18:45:39.978 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseCartItemsDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 18:45:39.978 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API) in 107.8837ms
+2026-06-04 18:45:39.978 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.DeleteAllCartItem (Ecommerce.API)'
+2026-06-04 18:45:39.978 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/DeleteAllCartItem - 200 null application/json; charset=utf-8 116.1219ms
+2026-06-04 18:45:56.799 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:45:56.803 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:45:56.809 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:45:56.826 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:45:56.832 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:45:56.858 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:45:56.865 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:45:56.865 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 55.8136ms
+2026-06-04 18:45:56.866 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:45:56.866 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 66.7556ms
+2026-06-04 18:46:02.363 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:46:02.364 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:02.364 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:02.366 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:46:02.367 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:46:02.372 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:46:02.373 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:46:02.373 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 8.7961ms
+2026-06-04 18:46:02.373 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:02.373 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 10.4724ms
+2026-06-04 18:46:07.188 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:46:07.189 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:07.189 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:07.192 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:46:07.194 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:46:07.196 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 6.522ms
+2026-06-04 18:46:07.196 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:07.197 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Already Added To Favorites
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method470(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:46:07.210 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 404 null application/json 21.8498ms
+2026-06-04 18:46:11.142 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:46:11.143 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:11.143 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:11.146 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:46:11.147 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:46:11.149 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-04 18:46:11.150 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-04 18:46:11.150 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 6.5084ms
+2026-06-04 18:46:11.150 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:11.151 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 200 null application/json; charset=utf-8 8.6997ms
+2026-06-04 18:46:21.053 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:46:21.054 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:21.054 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:21.060 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:46:21.061 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:46:21.062 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 7.1517ms
+2026-06-04 18:46:21.062 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:21.062 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Already Added To Favorites
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method470(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:46:21.063 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 404 null application/json 9.9651ms
+2026-06-04 18:46:22.362 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - application/json 27
+2026-06-04 18:46:22.362 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:22.362 +05:30 [INF] Route matched with {action = "AddToCart", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:22.365 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+2026-06-04 18:46:22.366 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+2026-06-04 18:46:22.367 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API) in 4.0274ms
+2026-06-04 18:46:22.367 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.AddToCart (Ecommerce.API)'
+2026-06-04 18:46:22.367 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Already Added To Favorites
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 37
+   at lambda_method470(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:46:22.369 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/User/AddToCart - 404 null application/json 6.8915ms
+2026-06-04 18:46:34.413 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/GetCartByUserId - null null
+2026-06-04 18:46:34.414 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API)'
+2026-06-04 18:46:34.421 +05:30 [INF] Route matched with {action = "GetCartByUserId", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] GetCartByUserId() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:46:34.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:46:34.444 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API) in 23.0825ms
+2026-06-04 18:46:34.444 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API)'
+2026-06-04 18:46:34.444 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+List`1 -> ResponseCartItemsDTO
+System.Collections.Generic.List`1[[Ecommerce.Models.CartItems, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]] -> ResponseCartItemsDTO
+   at lambda_method567(Closure, Object, ResponseCartItemsDTO, ResolutionContext)
+   at UserCartService.GetCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/GetCartService.cs:line 13
+   at Ecommerce.API.Controllers.UserController.GetCartByUserId() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 71
+   at lambda_method542(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 18:46:34.447 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/GetCartByUserId - 500 null application/json 34.141ms
+2026-06-04 18:49:13.669 +05:30 [INF] Application is shutting down...
+2026-06-04 18:50:28.813 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 18:50:28.904 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 18:50:28.905 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 18:50:28.905 +05:30 [INF] Hosting environment: Development
+2026-06-04 18:50:28.905 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 18:50:35.150 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/GetCartByUserId - null null
+2026-06-04 18:50:35.168 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 18:50:35.214 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API)'
+2026-06-04 18:50:35.223 +05:30 [INF] Route matched with {action = "GetCartByUserId", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseCartItemsDTO]]] GetCartByUserId() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-04 18:50:35.323 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-04 18:50:36.199 +05:30 [INF] Executed DbCommand (33ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-04 18:50:36.245 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseCartItemsDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 18:50:36.260 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API) in 1035.1015ms
+2026-06-04 18:50:36.260 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetCartByUserId (Ecommerce.API)'
+2026-06-04 18:50:36.264 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/GetCartByUserId - 200 null application/json; charset=utf-8 1115.2428ms
