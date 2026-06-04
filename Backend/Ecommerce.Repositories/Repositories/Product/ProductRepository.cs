@@ -9,5 +9,4 @@ public class ProductRepsository : AbstractRepository<int, Product> ,IProductReps
     {
 
     }
-
 }
