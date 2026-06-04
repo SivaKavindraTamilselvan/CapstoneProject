@@ -4207,3 +4207,271 @@ RETURNING "OrderItemsId", "Discount";
 2026-06-04 22:35:55.240 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API) in 1272.2955ms
 2026-06-04 22:35:55.240 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
 2026-06-04 22:35:55.244 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - 200 null application/json; charset=utf-8 1348.608ms
+2026-06-04 23:01:38.399 +05:30 [INF] Application is shutting down...
+2026-06-04 23:01:45.359 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 23:01:45.450 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 23:01:45.451 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 23:01:45.451 +05:30 [INF] Hosting environment: Development
+2026-06-04 23:01:45.451 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 23:01:50.492 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:01:50.578 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 86.6242ms
+2026-06-04 23:01:51.797 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 23:01:51.844 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 47.7187ms
+2026-06-04 23:01:51.884 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:01:51.899 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.4393ms
+2026-06-04 23:02:52.814 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - application/json 100
+2026-06-04 23:02:52.819 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 23:02:52.845 +05:30 [INF] Executing endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:02:52.857 +05:30 [INF] Route matched with {action = "GenerateToken", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GenerateToken(Ecommerce.DTOs.ShiprocketLoginRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:02:52.859 +05:30 [INF] Executed action ShiprocketController.GenerateToken (Ecommerce.API) in 0.9952ms
+2026-06-04 23:02:52.859 +05:30 [INF] Executed endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:02:52.860 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ShiprocketService' while attempting to activate 'ShiprocketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:02:52.871 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - 500 null application/json 57.1905ms
+2026-06-04 23:03:40.506 +05:30 [INF] Application is shutting down...
+2026-06-04 23:05:00.531 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 23:05:00.616 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 23:05:00.616 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 23:05:00.617 +05:30 [INF] Hosting environment: Development
+2026-06-04 23:05:00.617 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 23:05:06.259 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - application/json 100
+2026-06-04 23:05:06.275 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 23:05:06.289 +05:30 [INF] Executing endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:06.300 +05:30 [INF] Route matched with {action = "GenerateToken", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GenerateToken(Ecommerce.DTOs.ShiprocketLoginRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:05:06.302 +05:30 [INF] Executed action ShiprocketController.GenerateToken (Ecommerce.API) in 0.9856ms
+2026-06-04 23:05:06.303 +05:30 [INF] Executed endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:06.303 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ShiprocketService' while attempting to activate 'ShiprocketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:05:06.318 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - 500 null application/json 59.5766ms
+2026-06-04 23:05:15.795 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 23:05:15.836 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 41.8312ms
+2026-06-04 23:05:15.891 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:05:15.952 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 61.0367ms
+2026-06-04 23:05:20.664 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 23:05:20.665 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 1.1039ms
+2026-06-04 23:05:20.706 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:05:20.721 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.4319ms
+2026-06-04 23:05:29.315 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - application/json 100
+2026-06-04 23:05:29.319 +05:30 [INF] Executing endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:29.319 +05:30 [INF] Route matched with {action = "GenerateToken", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GenerateToken(Ecommerce.DTOs.ShiprocketLoginRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:05:29.320 +05:30 [INF] Executed action ShiprocketController.GenerateToken (Ecommerce.API) in 0.1776ms
+2026-06-04 23:05:29.320 +05:30 [INF] Executed endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:29.320 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ShiprocketService' while attempting to activate 'ShiprocketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:05:29.321 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - 500 null application/json 6.8713ms
+2026-06-04 23:05:35.604 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - application/json 100
+2026-06-04 23:05:35.608 +05:30 [INF] Executing endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:35.609 +05:30 [INF] Route matched with {action = "GenerateToken", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GenerateToken(Ecommerce.DTOs.ShiprocketLoginRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:05:35.609 +05:30 [INF] Executed action ShiprocketController.GenerateToken (Ecommerce.API) in 0.1933ms
+2026-06-04 23:05:35.609 +05:30 [INF] Executed endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:05:35.609 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: Unable to resolve service for type 'ShiprocketService' while attempting to activate 'ShiprocketController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method9(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:05:35.611 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - 500 null application/json 6.587ms
+2026-06-04 23:07:56.756 +05:30 [INF] Application is shutting down...
+2026-06-04 23:08:01.469 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 23:08:01.559 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 23:08:01.560 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 23:08:01.560 +05:30 [INF] Hosting environment: Development
+2026-06-04 23:08:01.560 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 23:08:07.260 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - application/json 100
+2026-06-04 23:08:07.277 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 23:08:07.289 +05:30 [INF] Executing endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:08:07.300 +05:30 [INF] Route matched with {action = "GenerateToken", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GenerateToken(Ecommerce.DTOs.ShiprocketLoginRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:08:07.325 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:08:07.326 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:08:08.633 +05:30 [INF] Received HTTP response headers after 1303.4201ms - 200
+2026-06-04 23:08:08.634 +05:30 [INF] End processing HTTP request after 1309.9971ms - 200
+2026-06-04 23:08:08.644 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ShiprocketLoginResponseDTO'.
+2026-06-04 23:08:08.648 +05:30 [INF] Executed action ShiprocketController.GenerateToken (Ecommerce.API) in 1346.3179ms
+2026-06-04 23:08:08.648 +05:30 [INF] Executed endpoint 'ShiprocketController.GenerateToken (Ecommerce.API)'
+2026-06-04 23:08:08.650 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/generate-token - 200 null application/json; charset=utf-8 1391.4755ms
+2026-06-04 23:16:32.874 +05:30 [INF] Application is shutting down...
+2026-06-04 23:16:37.565 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 23:16:37.667 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 23:16:37.668 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 23:16:37.668 +05:30 [INF] Hosting environment: Development
+2026-06-04 23:16:37.668 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 23:16:42.566 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 23:16:42.606 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 40.4818ms
+2026-06-04 23:16:42.673 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:16:42.731 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 58.7631ms
+2026-06-04 23:17:21.108 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/serviceability - application/json 93
+2026-06-04 23:17:21.114 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 23:17:21.135 +05:30 [INF] Executing endpoint 'ShiprocketController.CheckServiceability (Ecommerce.API)'
+2026-06-04 23:17:21.147 +05:30 [INF] Route matched with {action = "CheckServiceability", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckServiceability(System.String, Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:17:21.168 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-04 23:17:21.178 +05:30 [INF] Executed action ShiprocketController.CheckServiceability (Ecommerce.API) in 28.877ms
+2026-06-04 23:17:21.178 +05:30 [INF] Executed endpoint 'ShiprocketController.CheckServiceability (Ecommerce.API)'
+2026-06-04 23:17:21.178 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/serviceability - 400 null application/problem+json; charset=utf-8 69.9509ms
+2026-06-04 23:17:49.241 +05:30 [INF] Application is shutting down...
+2026-06-04 23:17:53.259 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-04 23:17:53.351 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-04 23:17:53.352 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-04 23:17:53.352 +05:30 [INF] Hosting environment: Development
+2026-06-04 23:17:53.352 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-04 23:17:55.869 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-04 23:17:55.909 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 41.3769ms
+2026-06-04 23:17:55.975 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-04 23:17:56.033 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 57.878ms
+2026-06-04 23:18:03.272 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/serviceability - application/json 93
+2026-06-04 23:18:03.278 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-04 23:18:03.299 +05:30 [INF] Executing endpoint 'ShiprocketController.CheckServiceability (Ecommerce.API)'
+2026-06-04 23:18:03.312 +05:30 [INF] Route matched with {action = "CheckServiceability", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CheckServiceability(Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:18:03.338 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:18:03.339 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:18:03.587 +05:30 [INF] Received HTTP response headers after 246.3459ms - 200
+2026-06-04 23:18:03.587 +05:30 [INF] End processing HTTP request after 250.1446ms - 200
+2026-06-04 23:18:03.591 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:18:03.591 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:18:03.825 +05:30 [INF] Received HTTP response headers after 233.8589ms - 200
+2026-06-04 23:18:03.825 +05:30 [INF] End processing HTTP request after 234.293ms - 200
+2026-06-04 23:18:03.829 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.CourierEstimateResponseDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-04 23:18:03.834 +05:30 [INF] Executed action ShiprocketController.CheckServiceability (Ecommerce.API) in 520.0992ms
+2026-06-04 23:18:03.835 +05:30 [INF] Executed endpoint 'ShiprocketController.CheckServiceability (Ecommerce.API)'
+2026-06-04 23:18:03.835 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/serviceability - 200 null application/json; charset=utf-8 563.6091ms
+2026-06-04 23:18:11.383 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - application/json 93
+2026-06-04 23:18:11.387 +05:30 [INF] Executing endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:18:11.394 +05:30 [INF] Route matched with {action = "GetBestCourier", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBestCourier(Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:18:11.396 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:18:11.396 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:18:11.435 +05:30 [INF] Received HTTP response headers after 38.2215ms - 200
+2026-06-04 23:18:11.435 +05:30 [INF] End processing HTTP request after 38.874ms - 200
+2026-06-04 23:18:11.436 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:18:11.436 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:18:11.483 +05:30 [INF] Received HTTP response headers after 46.6108ms - 200
+2026-06-04 23:18:11.483 +05:30 [INF] End processing HTTP request after 47.7851ms - 200
+2026-06-04 23:18:11.489 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.CourierEstimateResponseDTO'.
+2026-06-04 23:18:11.490 +05:30 [INF] Executed action ShiprocketController.GetBestCourier (Ecommerce.API) in 95.2779ms
+2026-06-04 23:18:11.490 +05:30 [INF] Executed endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:18:11.490 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - 200 null application/json; charset=utf-8 107.0759ms
+2026-06-04 23:19:06.384 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - application/json 93
+2026-06-04 23:19:06.389 +05:30 [INF] Executing endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:06.389 +05:30 [INF] Route matched with {action = "GetBestCourier", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBestCourier(Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:19:06.391 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:06.391 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:06.429 +05:30 [INF] Received HTTP response headers after 38.2919ms - 200
+2026-06-04 23:19:06.429 +05:30 [INF] End processing HTTP request after 38.9083ms - 200
+2026-06-04 23:19:06.430 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:06.430 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:06.614 +05:30 [INF] Received HTTP response headers after 184.4247ms - 200
+2026-06-04 23:19:06.615 +05:30 [INF] End processing HTTP request after 185.0114ms - 200
+2026-06-04 23:19:06.616 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.CourierEstimateResponseDTO'.
+2026-06-04 23:19:06.616 +05:30 [INF] Executed action ShiprocketController.GetBestCourier (Ecommerce.API) in 226.3552ms
+2026-06-04 23:19:06.616 +05:30 [INF] Executed endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:06.616 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - 200 null application/json; charset=utf-8 232.101ms
+2026-06-04 23:19:18.319 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - application/json 95
+2026-06-04 23:19:18.320 +05:30 [INF] Executing endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:18.320 +05:30 [INF] Route matched with {action = "GetBestCourier", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBestCourier(Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:19:18.321 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:18.321 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:18.361 +05:30 [INF] Received HTTP response headers after 39.3966ms - 200
+2026-06-04 23:19:18.361 +05:30 [INF] End processing HTTP request after 40.3523ms - 200
+2026-06-04 23:19:18.362 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:18.362 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:18.485 +05:30 [INF] Received HTTP response headers after 123.1882ms - 200
+2026-06-04 23:19:18.486 +05:30 [INF] End processing HTTP request after 124.2765ms - 200
+2026-06-04 23:19:18.489 +05:30 [INF] Executed action ShiprocketController.GetBestCourier (Ecommerce.API) in 168.6185ms
+2026-06-04 23:19:18.489 +05:30 [INF] Executed endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:18.490 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+   at System.Text.Json.JsonElement.GetProperty(String propertyName)
+   at ShiprocketService.CheckServiceability(ServiceabilityRequestDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/ShipmentService/ShipmentShipRocketService.cs:line 54
+   at ShiprocketController.GetBestCourier(ServiceabilityRequestDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ShipRocketController.cs:line 27
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:19:18.504 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - 500 null application/json 184.0553ms
+2026-06-04 23:19:26.202 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - application/json 95
+2026-06-04 23:19:26.203 +05:30 [INF] Executing endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:26.203 +05:30 [INF] Route matched with {action = "GetBestCourier", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBestCourier(Ecommerce.DTOs.ServiceabilityRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-04 23:19:26.204 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:26.204 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-04 23:19:26.244 +05:30 [INF] Received HTTP response headers after 39.992ms - 200
+2026-06-04 23:19:26.244 +05:30 [INF] End processing HTTP request after 40.5407ms - 200
+2026-06-04 23:19:26.245 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:26.245 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-04 23:19:26.375 +05:30 [INF] Received HTTP response headers after 130.1049ms - 200
+2026-06-04 23:19:26.375 +05:30 [INF] End processing HTTP request after 130.6373ms - 200
+2026-06-04 23:19:26.376 +05:30 [INF] Executed action ShiprocketController.GetBestCourier (Ecommerce.API) in 172.5044ms
+2026-06-04 23:19:26.376 +05:30 [INF] Executed endpoint 'ShiprocketController.GetBestCourier (Ecommerce.API)'
+2026-06-04 23:19:26.376 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Collections.Generic.KeyNotFoundException: The given key was not present in the dictionary.
+   at System.Text.Json.JsonElement.GetProperty(String propertyName)
+   at ShiprocketService.CheckServiceability(ServiceabilityRequestDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/ShipmentService/ShipmentShipRocketService.cs:line 54
+   at ShiprocketController.GetBestCourier(ServiceabilityRequestDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ShipRocketController.cs:line 27
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-04 23:19:26.379 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Shiprocket/best-courier - 500 null application/json 176.8054ms
