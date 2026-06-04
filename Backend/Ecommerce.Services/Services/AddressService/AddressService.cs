@@ -18,7 +18,7 @@ public class AddressService : IAddressService
     }
     public async Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO,int UserId)
     {
-        var user = _userValidation.ValidateUser(UserId);
+        var user = await _userValidation.ValidateUser(UserId);
         var address = _mapper.Map<Address>(requestAddAddressDTO);
         address.UserId = UserId;
         await _addressRepsository.Create(address);

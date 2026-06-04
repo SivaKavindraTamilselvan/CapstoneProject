@@ -129,6 +129,15 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAuthorization(options =>
 {
+    options.AddPolicy("VendorOnwerAndInventoryVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim("VendorRoleId",  "1","7","2");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
     options.AddPolicy("CouponPolicy", policy =>
     {
         policy.RequireAssertion(context =>
