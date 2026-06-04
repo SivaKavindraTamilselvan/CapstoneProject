@@ -50,6 +50,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<Address, ResponseMakeDefaultAddressDTO>();
             CreateMap<Coupons, ResponseGetAllCoupon>();
+
+            CreateMap<Order,ResponseAddOrderDTO>();
         }
     }
 }

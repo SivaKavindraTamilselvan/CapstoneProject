@@ -213,6 +213,7 @@ builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IVendorCouponService,VendorCouponService>();
 builder.Services.AddScoped<IUserCouponService,UserCouponService>();
+builder.Services.AddScoped<IUserOrderService,UserOrderService>();
 #endregion
 
 var app = builder.Build();
