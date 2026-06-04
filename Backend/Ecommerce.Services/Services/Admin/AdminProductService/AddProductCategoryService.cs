@@ -7,11 +7,7 @@ public partial class AdminProductService : IAdminProductService
 {
     public async Task<ResponseAddProductCategoryDTO> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
     {
-        var product = (await _productCategoryRepsository.GetAll()).FirstOrDefault(p=>p.ProductCategoryName == requestAddProductCategoryDTO.ProductCategoryName);
-        if(product !=null)
-        {
-            throw new DataAlreadyRegisteredException("Already The Product Category Is Registered");
-        }
+        var product = await _productCategoryValidation.ValidateProductCategoryName(requestAddProductCategoryDTO.ProductCategoryName);
         ProductCategory productCategory = new ProductCategory();
         productCategory.ProductCategoryName = requestAddProductCategoryDTO.ProductCategoryName;
         await _productCategoryRepsository.Create(productCategory);
@@ -19,11 +15,7 @@ public partial class AdminProductService : IAdminProductService
     }
     public async Task<ResponseAddProductSubCategoryDTO> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
     {
-        var product = (await _productSubCategoryRepsository.GetAll()).FirstOrDefault(p=>p.ProductSubCategoryName == requestAddProductSubCategoryDTO.ProductSubCategoryName && p.ProductCategoryId == requestAddProductSubCategoryDTO.ProductCategoryId);
-        if(product !=null)
-        {
-            throw new DataAlreadyRegisteredException("Already The Product Sub Category Is Registered");
-        }
+        var product = await _productCategoryValidation.ValidateProductSubCategoryName(requestAddProductSubCategoryDTO.ProductSubCategoryName);
         ProductSubCategory productSubCategory = new ProductSubCategory();
         productSubCategory.ProductCategoryId = requestAddProductSubCategoryDTO.ProductCategoryId;
         productSubCategory.ProductSubCategoryName = requestAddProductSubCategoryDTO.ProductSubCategoryName;
@@ -44,11 +36,7 @@ public partial class AdminProductService : IAdminProductService
     }
     public async Task<ResponseAddProductSubCategoryAttributeDTO> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
     {
-        var product = (await _productSubCategoryAttributeRepsository.GetAll()).FirstOrDefault(p=>p.ProductSubCategoryId == requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId && p.AttributeMasterId == requestAddProductSubCategoryAttributeDTO.AttributeMasterId);
-        if(product !=null)
-        {
-            throw new DataAlreadyRegisteredException("Already The Product Sub Category Attribute Is Registered");
-        }
+        var product = await _productSubCategoryAttributeRepsository.CheckProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO.AttributeMasterId,requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
         ProductSubCategoryAttribute productSubCategoryAttribute = new ProductSubCategoryAttribute();
         productSubCategoryAttribute.AttributeMasterId = requestAddProductSubCategoryAttributeDTO.AttributeMasterId;
         productSubCategoryAttribute.ProductSubCategoryId = requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId;

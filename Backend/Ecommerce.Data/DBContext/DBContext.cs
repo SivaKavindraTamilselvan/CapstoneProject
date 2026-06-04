@@ -11,6 +11,8 @@ public class EcommerceContext : DbContext
     }
     public DbSet<User> User { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
+    public DbSet<ProductCategory> ProductCategory {get;set;}
+    public DbSet<ProductSubCategory> ProductSubCategory {get;set;}
     public DbSet<ProductSubCategoryAttribute> ProductSubCategoryAttribute { get; set; }
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }

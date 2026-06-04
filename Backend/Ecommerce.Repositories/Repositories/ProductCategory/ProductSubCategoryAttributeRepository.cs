@@ -12,8 +12,11 @@ public class ProductSubCategoryAttributeRepsository : AbstractRepository<int, Pr
     }
     public async Task<ProductSubCategoryAttribute?> ValidateProductSubCategoryAttribute(int productSubCategoryAttributeId, int productSubCategoryId)
     {
-        var result = await _ecommerceContext.ProductSubCategoryAttribute.FirstOrDefaultAsync(p => p.ProductSubCategoryAttributeId == productSubCategoryAttributeId && p.ProductSubCategoryId == productSubCategoryId);
-        return result;
+        return await _ecommerceContext.ProductSubCategoryAttribute.FirstOrDefaultAsync(p=>p.ProductSubCategoryId == productSubCategoryId && p.ProductSubCategoryAttributeId == productSubCategoryAttributeId);
     }
 
+    public async Task<ProductSubCategoryAttribute?> CheckProductSubCategoryAttribute(int attributeid,int subCategoryId)
+    {
+        return await _ecommerceContext.ProductSubCategoryAttribute.FirstOrDefaultAsync(p=>p.AttributeMasterId == attributeid && p.ProductSubCategoryId == subCategoryId);
+    }
 }

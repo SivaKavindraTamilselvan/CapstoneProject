@@ -12,9 +12,10 @@ public partial class AdminProductService : IAdminProductService
     private readonly IAttributeRepsository _attributeRepsository;
     private readonly IProductValidation _productValidation;
     private readonly IVendorValidation _vendorValidation;
+    private readonly IProductCategoryValidation _productCategoryValidation;
     private readonly IApprovalHistoryRepsository _approvalHistoryRepsository;
     private readonly IMapper _mapper;
-    public AdminProductService(IMapper mapper,IAdminUserRepsository adminUserRepsository,IProductRepsository productRepsository,IProductCategoryRepsository productCategoryRepsository,IProductSubCategoryRepsository productSubCategoryRepsository,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IProductValidation productValidation,IVendorValidation vendorValidation,IApprovalHistoryRepsository approvalHistoryRepsository)
+    public AdminProductService(IMapper mapper,IAdminUserRepsository adminUserRepsository,IProductRepsository productRepsository,IProductCategoryRepsository productCategoryRepsository,IProductSubCategoryRepsository productSubCategoryRepsository,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IProductValidation productValidation,IVendorValidation vendorValidation,IApprovalHistoryRepsository approvalHistoryRepsository,IProductCategoryValidation productCategoryValidation)
     {
         _adminUserRepsository = adminUserRepsository;
         _productRepsository = productRepsository;
@@ -25,6 +26,7 @@ public partial class AdminProductService : IAdminProductService
         _approvalHistoryRepsository = approvalHistoryRepsository;
         _productValidation = productValidation;
         _vendorValidation = vendorValidation;
+        _productCategoryValidation = productCategoryValidation;
         _mapper = mapper;
     }
 }
