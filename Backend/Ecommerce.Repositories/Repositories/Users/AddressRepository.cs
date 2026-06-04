@@ -1,5 +1,6 @@
 using Ecommerce.Data;
 using Ecommerce.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Ecommerce.Repositories.Interfaces;
 
@@ -9,5 +10,9 @@ public class AddressRepsository : AbstractRepository<int, Address> ,IAddressReps
     {
 
     }
-
+    public async Task<List<Address>> GetAddressByUserId(int userId)
+    {
+        return await _ecommerceContext.Address.Where(u=>u.UserId == userId).ToListAsync();
+    }
+   
 }
