@@ -16,7 +16,7 @@ public class ShiprocketService : IShipRocketService
         _configuration = configuration;
     }
 
-    public async Task<ShiprocketLoginResponseDTO?> GenerateToken(ShiprocketLoginRequestDTO request)
+    private async Task<ShiprocketLoginResponseDTO?> GenerateToken(ShiprocketLoginRequestDTO request)
     {
         var response = await _httpClient.PostAsJsonAsync("https://apiv2.shiprocket.in/v1/external/auth/login",
         new
