@@ -38,6 +38,7 @@ namespace Ecommerce.Mappers
             CreateMap<RequestAddAddressDTO,Address>();
             CreateMap<Address,ResponseAddAddressDTO>();
             
+            CreateMap<Address,ResponseMakeDefaultAddressDTO>();
         }
     }
 }
