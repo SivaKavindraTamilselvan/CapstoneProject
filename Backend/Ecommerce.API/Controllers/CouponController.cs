@@ -11,9 +11,11 @@ namespace Ecommerce.API.Controllers;
 public class CouponController : ControllerBase
 {
     private readonly IVendorCouponService _vendorCouponService;
-    public CouponController(IVendorCouponService vendorCouponService)
+    private readonly IUserCouponService _userCouponService;
+    public CouponController(IVendorCouponService vendorCouponService,IUserCouponService userCouponService)
     {
         _vendorCouponService = vendorCouponService;
+        _userCouponService = userCouponService;
     }
     [Authorize("CouponPolicy")]
     [HttpPost("AddCoupon")]
@@ -31,6 +33,24 @@ public class CouponController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorCouponService.AddCouponProduct(requestAddCouponProductDTO,vendorUserId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("ActiveCoupons")]
+    public async Task<ActionResult<ResponseGetAllCoupon>> GetAllCouponsByUser()
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCouponService.GetAllActiveCoupons(UserId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("AvailableCoupons")]
+    public async Task<ActionResult<ResponseGetAllCoupon>> GetAllAvailableCouponsByUser()
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCouponService.GetAllAvailableCoupons(UserId);
         return Ok(result);
     }
 }

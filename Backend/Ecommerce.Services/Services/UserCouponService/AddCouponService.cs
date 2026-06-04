@@ -1,13 +1,16 @@
+using AutoMapper;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
-public class UserCouponService : IUserCouponService
+public partial class UserCouponService : IUserCouponService
 {
     private readonly ICouponRepsository _couponRepsository;
-    private readonly ICouponUsageRepsository _couponUsageRepsository;
-    public UserCouponService(ICouponRepsository couponRepsository,ICouponUsageRepsository couponUsageRepsository)
+    private readonly ICartItemsRepsository _cartItemsRepsository;
+    private readonly IMapper _mapper;
+    public UserCouponService(ICouponRepsository couponRepsository, ICartItemsRepsository cartItemsRepsository, IMapper mapper)
     {
         _couponRepsository = couponRepsository;
-        _couponUsageRepsository = couponUsageRepsository;
+        _cartItemsRepsository = cartItemsRepsository;
+        _mapper = mapper;
     }
 }

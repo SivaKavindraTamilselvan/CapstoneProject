@@ -24,7 +24,7 @@ public class CartItemsRepsository : AbstractRepository<int, CartItems>, ICartIte
 
     public async Task<List<CartItems>> GetCartItemsByUserId(int userId)
     {
-        var items = await _ecommerceContext.CartItems.Include(c => c.Cart).Where(u => u.Cart != null && u.Cart.UserId == userId).ToListAsync();
+        var items = await _ecommerceContext.CartItems.Include(c => c.Cart).Include(p=>p.ProductVariant).ThenInclude(p=>p!.Product).Where(u => u.Cart != null && u.Cart.UserId == userId).ToListAsync();
         if (items.Count == 0)
         {
             return new List<CartItems>();

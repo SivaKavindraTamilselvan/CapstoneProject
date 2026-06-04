@@ -212,6 +212,7 @@ builder.Services.AddScoped<IAddressService,AddressService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
 builder.Services.AddScoped<IVendorCouponService,VendorCouponService>();
+builder.Services.AddScoped<IUserCouponService,UserCouponService>();
 #endregion
 
 var app = builder.Build();

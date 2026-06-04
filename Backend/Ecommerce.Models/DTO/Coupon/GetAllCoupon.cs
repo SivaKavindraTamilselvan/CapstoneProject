@@ -1,3 +1,5 @@
+namespace Ecommerce.DTOs;
+
 public class ResponseGetAllCoupon()
 {
     public int CouponId {get;set;}
@@ -7,9 +9,4 @@ public class ResponseGetAllCoupon()
     public DateTime StartDate {get;set;}
     public DateTime EndDate {get;set;}
     public int MinimumNumberOfUsage {get;set;}
-}
-
-public class RequestGetAllProductForThatCoupon
-{
-    
 }

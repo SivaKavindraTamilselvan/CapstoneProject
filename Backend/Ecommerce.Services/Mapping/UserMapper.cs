@@ -32,13 +32,24 @@ namespace Ecommerce.Mappers
             CreateMap<AdminUser, ResponseRegisterAdminDTO>();
             CreateMap<FavoritesItems, ResponseFavoriteItemsDTO>();
             CreateMap<CartItems, ResponseCartItemsDTO>();
-
+            CreateMap<CartItems, ResponseGetCartDTO>()
+                .ForMember(dest => dest.ProductName,
+                    opt => opt.MapFrom(src => src.ProductVariant!.Product!.ProductName))
+                .ForMember(dest => dest.Description,
+                    opt => opt.MapFrom(src => src.ProductVariant!.Product!.Description))
+                .ForMember(dest => dest.ProductVariantId,
+                    opt => opt.MapFrom(src => src.ProductVariantId))
+                .ForMember(dest => dest.SKU,
+                    opt => opt.MapFrom(src => src.ProductVariant!.SKU))
+                .ForMember(dest => dest.Price,
+                    opt => opt.MapFrom(src => src.ProductVariant!.Price));
             CreateMap<Vendor, ResponseReviewOfVendorDTO>();
-            
-            CreateMap<RequestAddAddressDTO,Address>();
-            CreateMap<Address,ResponseAddAddressDTO>();
-            
-            CreateMap<Address,ResponseMakeDefaultAddressDTO>();
+
+            CreateMap<RequestAddAddressDTO, Address>();
+            CreateMap<Address, ResponseAddAddressDTO>();
+
+            CreateMap<Address, ResponseMakeDefaultAddressDTO>();
+            CreateMap<Coupons, ResponseGetAllCoupon>();
         }
     }
 }
