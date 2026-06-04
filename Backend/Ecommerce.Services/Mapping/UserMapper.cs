@@ -34,7 +34,9 @@ namespace Ecommerce.Mappers
             CreateMap<CartItems, ResponseCartItemsDTO>();
 
             CreateMap<Vendor, ResponseReviewOfVendorDTO>();
-
+            
+            CreateMap<RequestAddAddressDTO,Address>();
+            CreateMap<Address,ResponseAddAddressDTO>();
             
         }
     }
