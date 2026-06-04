@@ -13,6 +13,10 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestUpdateInventoryDTO,Inventory>();
             CreateMap<Inventory,ResponseUpdateInventoryDTO>();
+
+            CreateMap<RequestAddCouponDTO,Coupons>();
+            CreateMap<Coupons,ResponseAddCouponDTO>();
+            
         }
     }
 }
