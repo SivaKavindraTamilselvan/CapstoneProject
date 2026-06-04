@@ -11,4 +11,8 @@ public class CouponRepsository : AbstractRepository<int, Coupons>, ICouponRepsos
 
     }
 
+    public async Task<Coupons?> GetCouponByCode(string code)
+    {
+        return await _ecommerceContext.Coupons.FirstOrDefaultAsync(c=>c.CouponCode == code);
+    }
 }
