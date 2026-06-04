@@ -14,6 +14,7 @@ public class EcommerceContext : DbContext
     public DbSet<ProductCategory> ProductCategory {get;set;}
     public DbSet<ProductSubCategory> ProductSubCategory {get;set;}
     public DbSet<ProductSubCategoryAttribute> ProductSubCategoryAttribute { get; set; }
+    public DbSet<AttributeMaster> AttributeMaster {get;set;}
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
