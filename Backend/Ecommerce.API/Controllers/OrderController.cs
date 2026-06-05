@@ -1,4 +1,5 @@
 using System.Security.Claims;
+using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -12,10 +13,12 @@ namespace Ecommerce.API.Controllers;
 public class OrderController : ControllerBase
 {
     private readonly IUserOrderService _userOrderService;
+    private readonly IVendorOrderService _vendorOrderService;
 
-    public OrderController(IUserOrderService userOrderService)
+    public OrderController(IUserOrderService userOrderService,IVendorOrderService vendorOrderService)
     {
         _userOrderService = userOrderService;
+        _vendorOrderService = vendorOrderService;
     }
     [Authorize]
     [HttpPost("AddOrder")]
@@ -23,6 +26,21 @@ public class OrderController : ControllerBase
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userOrderService.AddOrder(requestAddOrderDTO,UserId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("GetOrder")]
+    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetOrder()
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorOrderService.GetAllTheActiveOrder(vendorId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("UpdateOrderStatus")]
+    public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
+    {
+        var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);
         return Ok(result);
     }
 }

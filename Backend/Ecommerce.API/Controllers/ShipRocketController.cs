@@ -7,10 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 public class ShiprocketController : ControllerBase
 {
     private readonly IShipRocketService _shiprocketService;
+    private readonly IAdminShipmentService _adminShipmentService;
 
-    public ShiprocketController(IShipRocketService shiprocketService)
+    public ShiprocketController(IShipRocketService shiprocketService,IAdminShipmentService adminShipmentService)
     {
         _shiprocketService = shiprocketService;
+        _adminShipmentService = adminShipmentService;
     }
 
     [HttpPost("serviceability")]
@@ -19,6 +21,14 @@ public class ShiprocketController : ControllerBase
         var result = await _shiprocketService
             .CheckServiceability(request);
 
+        return Ok(result);
+    }
+
+    [HttpPut("updateShipmentStatus")]
+
+    public async Task<IActionResult> UpdateShipmentStatus(ShipmentStatusRequestDTO shipmentStatusRequestDTO)
+    {
+        var result = await _adminShipmentService.UpdateShimentStatus(shipmentStatusRequestDTO);
         return Ok(result);
     }
 }
