@@ -23,6 +23,9 @@ public class EcommerceContext : DbContext
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
     public DbSet<Coupons> Coupons { get; set; }
     public DbSet<CouponsProduct> CouponsProduct {get;set;}
+    public DbSet<OrderItems> OrderItems {get;set;}
+    public DbSet<ShipmentItems> ShipmentItems {get;set;}
+    public DbSet<Shipment> Shipment {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -404,7 +407,6 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.SKU).IsRequired();
             pv.HasIndex(pv => pv.SKU).IsUnique();
 
-            pv.Property(pv => pv.AvailableQuantity).IsRequired().HasDefaultValue(0);
             pv.Property(pv => pv.Price).IsRequired();
 
             pv.Property(pv => pv.WeightInKgs).IsRequired().HasMaxLength(15);
@@ -507,6 +509,7 @@ public class EcommerceContext : DbContext
             oi.Property(oi => oi.Quantity).IsRequired();
             oi.Property(oi => oi.UnitPrice).IsRequired();
             oi.Property(oi => oi.Discount).HasDefaultValue(0);
+           oi.HasOne(oi => oi.Inventory).WithMany(i => i.OrderItems).HasForeignKey(oi => oi.InventoryId).OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.Order).WithMany(o => o.OrderItems).HasForeignKey(oi => oi.OrderId).HasConstraintName("FK_Order_Items_Order").OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.ProductVariant).WithMany(pv => pv.OrderItems).HasForeignKey(oi => oi.ProductVariantId).HasConstraintName("FK_Order_Items_Product_Variant").OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.OrderItemStatus).WithMany(os => os.OrderItems).HasForeignKey(oi => oi.OrderItemStatusId).HasConstraintName("FK_Order_Items_Status").OnDelete(DeleteBehavior.Restrict);
@@ -559,7 +562,7 @@ public class EcommerceContext : DbContext
         {
             s.HasKey(s => s.ShipmentId).HasName("PK_Shipment");
             s.Property(s => s.ShipmentStatusId).HasDefaultValue(1);
-            s.Property(s => s.TrackingNumber).IsRequired().HasMaxLength(200);
+            s.Property(s => s.TrackingNumber).IsRequired(false).HasMaxLength(200);
             s.HasIndex(s => s.TrackingNumber).IsUnique();
             s.Property(s => s.ShippingCharge).HasDefaultValue(0);
             s.Property(s => s.ExpectedDeliveryDate).HasColumnType("timestamp without time zone");
@@ -575,9 +578,8 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<ShipmentItems>(si =>
         {
             si.HasKey(si => si.ShipmentItemsId).HasName("PK_Shipment_Items");
-            si.HasIndex(si => new { si.ShipmentId, si.OrderIemsId }).IsUnique();
             si.HasOne(si => si.Shipment).WithMany(s => s.ShipmentItems).HasForeignKey(si => si.ShipmentId).HasConstraintName("FK_Shipment_Items_Shipment").OnDelete(DeleteBehavior.Cascade);
-            si.HasOne(si => si.OrderItems).WithMany(oi => oi.ShipmentItems).HasForeignKey(si => si.OrderIemsId).HasConstraintName("FK_Shipment_Items_Order_Items").OnDelete(DeleteBehavior.Restrict);
+            si.HasOne(si => si.OrderItems).WithMany(oi => oi.ShipmentItems).HasForeignKey(si => si.OrderItemsId).HasConstraintName("FK_Shipment_Items_Order_Items").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<ShipmentTracking>(st =>
         {
