@@ -10,5 +10,10 @@ public class ShipmentRepsository : AbstractRepository<int, Shipment>, IShipmentR
     {
 
     }
+    public async Task<Shipment?> GetShipmentByOrderItemId(int orderitemid)
+    {
+        var shipment = await _ecommerceContext.Shipment.Include(s=>s.ShipmentItems).Include(s=>s!.ShipmentStatus).Where(s=>s.ShipmentItems.Any(si=>si.OrderItemsId == orderitemid)).FirstOrDefaultAsync();
+        return shipment;
+    }
 
 }
