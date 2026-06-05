@@ -224,6 +224,9 @@ builder.Services.AddScoped<IVendorCouponService,VendorCouponService>();
 builder.Services.AddScoped<IUserCouponService,UserCouponService>();
 builder.Services.AddScoped<IUserOrderService,UserOrderService>();
 builder.Services.AddHttpClient<IShipRocketService, ShiprocketService>();
+builder.Services.AddScoped<IPaymentService, PaymentService>();
+builder.Services.AddScoped<IVendorOrderService,VendorOrderService>();
+builder.Services.AddScoped<IAdminShipmentService,AdminShipmentService>();
 #endregion
 
 var app = builder.Build();
