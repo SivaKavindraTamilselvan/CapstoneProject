@@ -6,7 +6,6 @@ public class ProductVariant
     public int ProductId { get; set; }
     public Product? Product { get; set; }
     public string SKU { get; set; } = string.Empty;
-    public int AvailableQuantity { get; set; }
     public decimal Price { get; set; }
     public decimal WeightInKgs { get; set; }
     public decimal LengthInCm { get; set; }

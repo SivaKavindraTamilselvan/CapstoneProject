@@ -14,4 +14,5 @@ public class Inventory
     public int ReservedQuantity { get; set; }
 
     public DateTime UpdatedAt { get; set; }
-}
+public ICollection<OrderItems> OrderItems { get; set; }
+    = new List<OrderItems>();}

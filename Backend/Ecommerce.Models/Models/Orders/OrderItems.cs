@@ -11,6 +11,8 @@ public class OrderItems
     public decimal UnitPrice { get; set; }
     public decimal Discount { get; set; }
     public int OrderItemStatusId { get; set; }
+    public int InventoryId {get;set;}
+    public Inventory? Inventory {get;set;}
     public OrderItemStatus? OrderItemStatus { get; set; }
     public ICollection<RefundItems> RefundItems { get; set; } = new List<RefundItems>();
     public ICollection<ReturnItems> ReturnItems { get; set; } = new List<ReturnItems>();
