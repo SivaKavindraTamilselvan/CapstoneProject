@@ -15,8 +15,19 @@ public partial class UserOrderService : IUserOrderService
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IUserCartService _userCartService;
     private readonly IShipRocketService _shipRocketService;
+    private readonly IShipmentRepsository _shipmentRepository;
+    private readonly IShipmentItemsRepsository _shipmentItemsRepository;
+    private readonly IShipmentTrackingRepsository _shipmentTrackingRepository;
     private readonly IMapper _mapper;
-    public UserOrderService(ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    private class SelectedCartInventory
+    {
+        public CartItems CartItem { get; set; } = null!;
+        public Inventory Inventory { get; set; } = null!;
+        public decimal ShippingRate { get; set; }
+        public int EstimatedDeliveryDays { get; set; }
+        public DateTime ExpectedDeliveryDate { get; set; }
+    }
+    public UserOrderService(ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper, IShipmentItemsRepsository shipmentItemsRepsository, IShipmentRepsository shipmentRepsository, IShipmentTrackingRepsository shipmentTrackingRepsository)
     {
         _cartItemsRepsository = cartItemsRepsository;
         _userCouponService = userCouponService;
@@ -25,15 +36,65 @@ public partial class UserOrderService : IUserOrderService
         _orderItemRepsository = orderItemRepsository;
         _userCartService = userCartService;
         _shipRocketService = shipRocketService;
+        _shipmentItemsRepository = shipmentItemsRepsository;
+        _shipmentRepository = shipmentRepsository;
+        _shipmentTrackingRepository = shipmentTrackingRepsository;
         _mapper = mapper;
     }
 
-    private async Task<decimal> CalculateShippingCharge(Address address, decimal weight, int cod)
+    private async Task<List<SelectedCartInventory>> GetTheInventoryPickupAddress(List<CartItems> cartItems, Address address, int cod)
+    {
+        var selectedItems = new List<SelectedCartInventory>();
+        foreach (var list in cartItems)
+        {
+            Console.WriteLine(list.ProductVariant.Inventories.FirstOrDefault().AvailableQuantity);
+            var inventories = list.ProductVariant!.Inventories.Where(i => i.AvailableQuantity >= list.Qunatity).ToList();
+            Inventory? bestInventory = null;
+            decimal bestRate = decimal.MaxValue;
+            int bestEdd = 0;
+
+            foreach (var inventory in inventories)
+            {
+                var request = new ServiceabilityRequestDTO
+                {
+                    PickupPostcode = inventory.Address!.PinCode,
+                    DeliveryPostcode = address.PinCode,
+                    Weight = list.Qunatity * list.ProductVariant.WeightInKgs,
+                    Cod = cod
+                };
+                var courier = await _shipRocketService.CheckServiceability(request);
+
+                if (courier != null && courier.Rate < bestRate)
+                {
+                    bestRate = courier.Rate;
+                    bestInventory = inventory;
+                    bestEdd = int.Parse(courier.EstimatedDeliveryDays);
+                }
+
+            }
+            if (bestInventory == null)
+            {
+                throw new DataNotFoundException("No courier available for product");
+            }
+            selectedItems.Add(new SelectedCartInventory
+            {
+                CartItem = list,
+                Inventory = bestInventory,
+                ShippingRate = bestRate,
+                EstimatedDeliveryDays = bestEdd,
+                ExpectedDeliveryDate = DateTime.Now.AddDays(2 + bestEdd)
+            });
+        }
+        return selectedItems;
+    }
+
+    private async Task<decimal> CalculateShippingCharge(Address pickup, Address delivery, decimal weight, int cod)
     {
         ServiceabilityRequestDTO serviceabilityRequestDTO = new ServiceabilityRequestDTO();
         serviceabilityRequestDTO.Cod = cod;
-        serviceabilityRequestDTO.DeliveryPostcode = address.PinCode;
+        serviceabilityRequestDTO.DeliveryPostcode = delivery.PinCode;
         serviceabilityRequestDTO.Weight = weight;
+        serviceabilityRequestDTO.PickupPostcode = pickup.PinCode;
         var bestCourier = await _shipRocketService.CheckServiceability(serviceabilityRequestDTO);
         if (bestCourier == null)
         {
@@ -106,58 +167,178 @@ public partial class UserOrderService : IUserOrderService
         }
         return createdOrder;
     }
-    private async Task<List<OrderItems>> CreateOrderItems(List<CartItems> cartItems, Order order, Coupons? selectedCoupon)
+    private async Task<List<OrderItems>> CreateOrderItems(List<SelectedCartInventory> selectedItems, Order order, Coupons? selectedCoupon)
     {
         List<OrderItems> orderItemsList = new List<OrderItems>();
-        foreach (var list in cartItems)
+
+        foreach (var selected in selectedItems)
         {
+            var cartItem = selected.CartItem;
+
             OrderItems orderItems = new OrderItems();
-            orderItems.ProductVariantId = list.ProductVariantId;
-            orderItems.Quantity = list.Qunatity;
+            orderItems.ProductVariantId = cartItem.ProductVariantId;
+            orderItems.InventoryId = selected.Inventory.InventoryId;
+            orderItems.Quantity = cartItem.Qunatity;
             orderItems.OrderId = order.OrderId;
-            orderItems.UnitPrice = list.ProductVariant!.Price;
+            orderItems.UnitPrice = cartItem.ProductVariant!.Price;
             orderItems.Discount = 0;
             orderItems.OrderItemStatusId = 1;
+
             if (selectedCoupon != null)
             {
-                bool applicable = selectedCoupon.CouponsProducts.Any(p => p.ProductId == list.ProductVariant.ProductId);
+                bool applicable = selectedCoupon.CouponsProducts
+                    .Any(p => p.ProductId == cartItem.ProductVariant!.ProductId);
+
                 if (applicable)
                 {
                     orderItems.Discount = selectedCoupon.DiscountValue;
                 }
             }
+
             var createdOrderItem = await _orderItemRepsository.Create(orderItems);
+
             if (createdOrderItem != null)
             {
                 orderItemsList.Add(createdOrderItem);
             }
         }
+
         return orderItemsList;
     }
     public async Task<ResponseAddOrderDTO> AddOrder(RequestAddOrderDTO requestAddOrderDTO, int userId)
     {
         var cartItems = await ValidateProduct(userId);
 
-        var address = await ValidateAddress(requestAddOrderDTO.AddressId);
-
-        decimal orderWeight = CalculateOrderWeight(cartItems);
+        var deliveryAddress = await ValidateAddress(requestAddOrderDTO.AddressId);
 
         decimal productCharge = CalculateProductCharge(cartItems);
 
         int cod = requestAddOrderDTO.PaymentMethod == 1 ? 1 : 0;
 
-        decimal shippingCharge = await CalculateShippingCharge(address, orderWeight, cod);
         Coupons? selectedCoupon = null;
+
         if (requestAddOrderDTO.CouponId != null)
         {
             selectedCoupon = await ValidateCoupon(userId, requestAddOrderDTO.CouponId.Value);
         }
+
         decimal couponCharge = selectedCoupon?.DiscountValue ?? 0;
 
-        var order = await CreateOrder(productCharge, shippingCharge, couponCharge, userId, address.AddressId);
-        await CreateOrderItems(cartItems, order, selectedCoupon);
+        var selectedItems = await GetTheInventoryPickupAddress(
+            cartItems,
+            deliveryAddress,
+            cod);
+
+        var groupedShipments = selectedItems.GroupBy(x => new
+        {
+            VendorId = x.CartItem.ProductVariant!.Product!.VendorId,
+            PickupAddressId = x.Inventory.AddressId
+        }).ToList();
+
+        decimal totalShippingCharge = 0;
+
+        var shipmentChargeDetails = new List<(int PickupAddressId, decimal ShippingCharge)>();
+
+        foreach (var group in groupedShipments)
+        {
+            var pickupAddress = group.First().Inventory.Address!;
+
+            decimal shipmentWeight = group.Sum(x =>
+                x.CartItem.Qunatity *
+                x.CartItem.ProductVariant!.WeightInKgs);
+
+            decimal shippingCharge = await CalculateShippingCharge(
+                pickupAddress,
+                deliveryAddress,
+                shipmentWeight,
+                cod);
+
+            totalShippingCharge += shippingCharge;
+
+            shipmentChargeDetails.Add((
+                group.Key.PickupAddressId,
+                shippingCharge
+            ));
+        }
+
+        var order = await CreateOrder(
+            productCharge,
+            totalShippingCharge,
+            couponCharge,
+            userId,
+            deliveryAddress.AddressId);
+
+        var orderItems = await CreateOrderItems(
+            selectedItems,
+            order,
+            selectedCoupon);
+
+        foreach (var group in groupedShipments)
+        {
+            var pickupAddress = group.First().Inventory.Address!;
+
+            var shippingCharge = shipmentChargeDetails
+                .First(x => x.PickupAddressId == group.Key.PickupAddressId)
+                .ShippingCharge;
+            var ExpectedDeliveryDate = group.First().ExpectedDeliveryDate;
+
+            var shipment = await CreateShipment(
+                order,
+                pickupAddress,
+                shippingCharge,ExpectedDeliveryDate);
+
+            foreach (var selected in group)
+            {
+                var orderItem = orderItems.First(oi =>
+                    oi.ProductVariantId == selected.CartItem.ProductVariantId &&
+                    oi.InventoryId == selected.Inventory.InventoryId);
+
+                await _shipmentItemsRepository.Create(new ShipmentItems
+                {
+                    ShipmentId = shipment.ShipmentId,
+                    OrderItemsId = orderItem.OrderItemsId
+                });
+            }
+            await CreateShipmentTracking(shipment);
+        }
 
         await _userCartService.DeleteAllCart(userId);
+
         return _mapper.Map<ResponseAddOrderDTO>(order);
+    }
+    private async Task<Shipment> CreateShipment(Order order, Address pickupAddress, decimal shippingCharge,DateTime dateTime)
+    {
+        Shipment shipment = new Shipment
+        {
+            OrderId = order.OrderId,
+            PickupAddressId = pickupAddress.AddressId,
+            ShippingCharge = shippingCharge,
+            ShipmentStatusId = 1, // Pending
+            TrackingNumber = null,
+            CreatedAt = DateTime.Now,
+            ExpectedDeliveryDate = dateTime
+        };
+
+        var createdShipment = await _shipmentRepository.Create(shipment);
+
+        if (createdShipment == null)
+        {
+            throw new DataNotFoundException("Shipment not created");
+        }
+
+        return createdShipment;
+    }
+    private async Task CreateShipmentTracking(Shipment shipment)
+    {
+        var tracking = new ShipmentTracking
+        {
+            ShipmentId = shipment.ShipmentId,
+            ShipmentStatusId = shipment.ShipmentStatusId,
+            Location = "Warehouse",
+            Remarks = "Shipment created successfully",
+            UpdatedAt = DateTime.Now
+        };
+
+        await _shipmentTrackingRepository.Create(tracking);
     }
 }
