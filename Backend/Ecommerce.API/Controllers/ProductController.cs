@@ -46,4 +46,18 @@ public class ProductController : ControllerBase
         var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
         return Ok(result);
     }
+    [Authorize(Policy = "VendorOnwerOnly")]
+    [HttpPost("UpdateProduct")]
+    public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
+    {
+        var result = await _vendorProductService.UpdateProduct(requestUpdateProduct);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerOnly")]
+    [HttpPost("UpdateProductVariant")]
+    public async Task<ActionResult<ResponseUpdateProductVariantDTO>> UpdateProductVariant(RequestUpdateProductVariantDTO requestUpdateProductVariantDTO)
+    {
+        var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO);
+        return Ok(result);
+    }
 }

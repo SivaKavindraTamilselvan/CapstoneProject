@@ -4,6 +4,7 @@ namespace Ecommerce.DTOs;
 
 public class RequestUpdateProductVariantDTO
 {
+    public int ProductVariantId {get;set;}
     [Required(ErrorMessage = "Product Id Needed")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Id Should Be Greater Than 0")]
     public int ProductId { get; set; }
@@ -31,4 +32,20 @@ public class RequestUpdateProductVariantDTO
     [Required(ErrorMessage = "Height Of The Product Needed For Shippement")]
     [Range(typeof(decimal), "0.01", "1000000", ErrorMessage = "Height must be greater than 0")]
     public decimal HeightInCm { get; set; }
+}
+
+public class ResponseUpdateProductVariantDTO
+{
+    public int ProductVariantId {get;set;}
+    public int ProductId { get; set; }
+    public int AvailableQuantity { get; set; }
+    public decimal Price { get; set; }
+    public decimal WeightInKgs { get; set; }
+    public decimal LengthInCm { get; set; }
+    public decimal WidthInCm { get; set; }
+    public decimal HeightInCm { get; set; }
+    public DateTime UpdatedAt {get;set;}
+    public DateTime CreatedAt { get; set; }
+
+
 }
