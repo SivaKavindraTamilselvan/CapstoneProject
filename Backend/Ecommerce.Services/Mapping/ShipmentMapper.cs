@@ -11,6 +11,8 @@ namespace Ecommerce.Mappers
             CreateMap<RequestAddShipmentDTO,Shipment>();
             CreateMap<Shipment,ResponseAddShipmentDTO>();
 
+            CreateMap<RequestAddShipmentTrackingDTO,ShipmentTracking>();
+            
             CreateMap<ShipmentTracking,ResponseAddShipmentTrackingDTO>();
             CreateMap<RequestAddShipmentDTO,ShipmentTracking>();
         }

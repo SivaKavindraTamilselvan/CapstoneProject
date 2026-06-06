@@ -18,7 +18,7 @@ public class ShipmentService :IShipmentService
         _shipmentTrackingRepsository = shipmentTrackingRepsository;
         _mapper = mapper;
     }
-    public async Task<ResponseAddShipmentDTO> CreateShipment(RequestAddShipmentDTO requestAddShipmentDTO)
+    public async Task<Shipment> CreateShipment(RequestAddShipmentDTO requestAddShipmentDTO)
     {
         var shipment = _mapper.Map<Shipment>(requestAddShipmentDTO);
         var createdShipment = await _shipmentRepsository.Create(shipment);
@@ -26,7 +26,7 @@ public class ShipmentService :IShipmentService
         {
             throw new DataNotFoundException("Shipment not created");
         }
-        return _mapper.Map<ResponseAddShipmentDTO>(createdShipment);
+        return createdShipment;
     }
     public async Task<ResponseAddShipmentTrackingDTO> CreateShipmentTracking(RequestAddShipmentTrackingDTO requestAddShipmentTrackingDTO)
     {

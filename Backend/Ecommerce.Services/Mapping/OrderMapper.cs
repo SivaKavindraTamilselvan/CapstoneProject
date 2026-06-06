@@ -1,0 +1,14 @@
+using AutoMapper;
+using Ecommerce.DTOs;
+using Ecommerce.Models;
+
+namespace Ecommerce.Mappers
+{
+    public class OrderMappingProfile : Profile
+    {
+        public OrderMappingProfile()
+        {
+            CreateMap<RequestCreateOrderDTO,Order>();
+        }
+    }
+}

@@ -159,6 +159,8 @@ builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ShipmentMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new OrderMappingProfile()));
+
 
 #endregion
 
@@ -243,6 +245,8 @@ builder.Services.AddScoped<IAdminProductService,AdminProductService>();
 builder.Services.AddScoped<IVendorProductImageService,VendorProductImageService>();
 builder.Services.AddScoped<IVendorProductVariantService,VendorProductVariantService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
+builder.Services.AddScoped<IOrderService,OrderService>();
+builder.Services.AddScoped<IShipmentService,ShipmentService>();
 #endregion
 
 var app = builder.Build();

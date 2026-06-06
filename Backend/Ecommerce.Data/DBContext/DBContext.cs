@@ -493,6 +493,7 @@ public class EcommerceContext : DbContext
             o.Property(o => o.TotalShippingAmount).HasDefaultValue(0);
             o.Property(o => o.TotalCouponAmount).HasDefaultValue(0);
             o.Property(o => o.FinalAmount).HasDefaultValue(0);
+            o.Property(o=>o.OrderStatusId).HasDefaultValue(1);
             o.Property(o => o.OrderDate).HasColumnType("timestamp without time zone");
             o.Property(o => o.CreatedAt).HasColumnType("timestamp without time zone");
             o.Property(o => o.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");

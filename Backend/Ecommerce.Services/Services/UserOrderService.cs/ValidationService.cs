@@ -1,0 +1,42 @@
+using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
+using Ecommerce.Services.Interfaces;
+
+public partial class UserOrderService : IUserOrderService
+{
+    private async Task<Address> ValidateAddress(int addressId)
+    {
+        var address = await _addressRepsository.Get(addressId);
+        if (address == null)
+        {
+            throw new DataNotFoundException("Address Not Found");
+        }
+        return address;
+    }
+    private async Task<Coupons> ValidateCoupon(int userId, int couponId)
+    {
+        var validateCoupon = await _userCouponService.GetAllAvailableCoupons(userId);
+        Coupons? selectedCoupon = null;
+
+        selectedCoupon = validateCoupon.FirstOrDefault(c => c.CouponId == couponId);
+        if (selectedCoupon == null)
+        {
+            throw new DataNotFoundException("The Coupon Is Not Available For You");
+        }
+        return selectedCoupon;
+
+    }
+    private async Task<List<CartItems>> ValidateProduct(int userId)
+    {
+        var cartItems = await _cartItemsRepsository.GetCartItemsByUserId(userId);
+        if (cartItems.Count == 0)
+        {
+            throw new DataNotFoundException("Cart Items Is Not Found");
+        }
+        if (cartItems.Any(c => c.ProductVariant == null))
+        {
+            throw new DataNotFoundException("Product variant not loaded");
+        }
+        return cartItems;
+    }
+}

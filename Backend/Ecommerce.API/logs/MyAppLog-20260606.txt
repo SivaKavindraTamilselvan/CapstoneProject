@@ -344,3 +344,614 @@ RETURNING "ApprovalHistoryId";
 2026-06-06 18:43:02.739 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 46.6124ms
 2026-06-06 18:43:02.809 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-06 18:43:02.880 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 71.4872ms
+2026-06-06 20:29:20.397 +05:30 [INF] Application is shutting down...
+2026-06-06 20:30:23.871 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 20:30:23.949 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 20:30:23.950 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 20:30:23.950 +05:30 [INF] Hosting environment: Development
+2026-06-06 20:30:23.950 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 20:30:33.460 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-06 20:30:33.501 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.05ms
+2026-06-06 20:30:33.590 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-06 20:30:33.640 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 50.3361ms
+2026-06-06 20:31:08.255 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-06 20:31:08.261 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-06 20:31:08.285 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-06 20:31:08.298 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-06 20:31:08.387 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-06 20:31:09.015 +05:30 [INF] Executed DbCommand (24ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-06 20:31:09.050 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+2026-06-06 20:31:09.071 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-06 20:31:09.074 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 775.2907ms
+2026-06-06 20:31:09.074 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-06 20:31:09.076 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 821.8455ms
+2026-06-06 20:31:30.340 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Cart/GetCartByUserId - null null
+2026-06-06 20:31:30.374 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.GetCartByUserId (Ecommerce.API)'
+2026-06-06 20:31:30.378 +05:30 [INF] Route matched with {action = "GetCartByUserId", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseCartItemsDTO]]] GetCartByUserId() on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:31:30.463 +05:30 [INF] Executed DbCommand (18ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:31:30.464 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.GetCartByUserId (Ecommerce.API) in 85.7145ms
+2026-06-06 20:31:30.464 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.GetCartByUserId (Ecommerce.API)'
+2026-06-06 20:31:30.464 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Cart Items Is Not Found
+   at CartValidation.ValidateGetCartItemsByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/CartValidation.cs:line 55
+   at UserCartService.GetCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/GetCartService.cs:line 7
+   at Ecommerce.API.Controllers.CartController.GetCartByUserId() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CartController.cs:line 56
+   at lambda_method496(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:31:30.471 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Cart/GetCartByUserId - 404 null application/json 131.7036ms
+2026-06-06 20:31:40.066 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:31:40.074 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:40.081 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:31:40.124 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:31:40.125 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 43.2727ms
+2026-06-06 20:31:40.125 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:40.125 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Cart Not Found
+   at CartValidation.ValidateCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/CartValidation.cs:line 20
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 8
+   at Ecommerce.API.Controllers.CartController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CartController.cs:line 22
+   at lambda_method617(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:31:40.126 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 404 null application/json 59.5672ms
+2026-06-06 20:31:45.671 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:31:45.675 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:45.675 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:31:45.686 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:31:45.686 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 11.0859ms
+2026-06-06 20:31:45.687 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:45.687 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Cart Not Found
+   at CartValidation.ValidateCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/CartValidation.cs:line 20
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 8
+   at Ecommerce.API.Controllers.CartController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CartController.cs:line 22
+   at lambda_method617(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:31:45.688 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 404 null application/json 16.6128ms
+2026-06-06 20:31:51.106 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:31:51.107 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:51.108 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:31:51.111 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:31:51.112 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 3.7634ms
+2026-06-06 20:31:51.112 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:31:51.112 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Cart Not Found
+   at CartValidation.ValidateCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/CartValidation.cs:line 20
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 8
+   at Ecommerce.API.Controllers.CartController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CartController.cs:line 22
+   at lambda_method617(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:31:51.114 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 404 null application/json 7.5766ms
+2026-06-06 20:32:07.019 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:32:07.020 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:07.020 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:32:07.023 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:32:07.024 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 3.0075ms
+2026-06-06 20:32:07.024 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:07.024 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Cart Not Found
+   at CartValidation.ValidateCartByUserId(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/CartValidation.cs:line 20
+   at UserCartService.AddCart(RequestAddCartItemsDTO requestAddCartItemsDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserCartService/AddCartService.cs:line 8
+   at Ecommerce.API.Controllers.CartController.AddToCart(RequestAddCartItemsDTO requestAddCartItemsDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CartController.cs:line 22
+   at lambda_method617(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:32:07.026 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 404 null application/json 7.4417ms
+2026-06-06 20:32:11.835 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 74
+2026-06-06 20:32:11.837 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-06 20:32:11.837 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-06 20:32:11.842 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-06 20:32:11.844 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-06 20:32:11.845 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 7.1077ms
+2026-06-06 20:32:11.845 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-06 20:32:11.845 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 10.0347ms
+2026-06-06 20:32:22.240 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:32:22.241 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:22.241 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:32:22.248 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:32:22.265 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@productVariantId='?' (DbType = Int32), @cartId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+WHERE c."ProductVariantId" = @productVariantId AND c."CartId" = @cartId
+LIMIT 1
+2026-06-06 20:32:22.321 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-06 20:32:22.330 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-06 20:32:22.330 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 89.4307ms
+2026-06-06 20:32:22.331 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:22.331 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 200 null application/json; charset=utf-8 90.8117ms
+2026-06-06 20:32:28.397 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - application/json 27
+2026-06-06 20:32:28.397 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:28.397 +05:30 [INF] Route matched with {action = "AddToCart", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] AddToCart(RequestAddCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:32:28.399 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartId", c."UserId"
+FROM "Cart" AS c
+WHERE c."UserId" = @userId
+LIMIT 1
+2026-06-06 20:32:28.400 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productVariantId='?' (DbType = Int32), @cartId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+WHERE c."ProductVariantId" = @productVariantId AND c."CartId" = @cartId
+LIMIT 1
+2026-06-06 20:32:28.403 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CartItems" ("CartId", "ProductVariantId", "Qunatity")
+VALUES (@p0, @p1, @p2)
+RETURNING "CartItemsId";
+2026-06-06 20:32:28.403 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-06 20:32:28.403 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API) in 5.9585ms
+2026-06-06 20:32:28.403 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.AddToCart (Ecommerce.API)'
+2026-06-06 20:32:28.403 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cart/AddToCart - 200 null application/json; charset=utf-8 6.7175ms
+2026-06-06 20:32:40.707 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Cart/DeleteCartItem - application/json 23
+2026-06-06 20:32:40.708 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CartController.DeleteCartItem (Ecommerce.API)'
+2026-06-06 20:32:40.715 +05:30 [INF] Route matched with {action = "DeleteCartItem", controller = "Cart"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseCartItemsDTO]] DeleteCartItem(RequestDeleteCartItemsDTO) on controller Ecommerce.API.Controllers.CartController (Ecommerce.API).
+2026-06-06 20:32:40.730 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+WHERE c."CartItemsId" = @p
+LIMIT 1
+2026-06-06 20:32:40.741 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "CartItems"
+WHERE "CartItemsId" = @p0;
+2026-06-06 20:32:40.743 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCartItemsDTO'.
+2026-06-06 20:32:40.743 +05:30 [INF] Executed action Ecommerce.API.Controllers.CartController.DeleteCartItem (Ecommerce.API) in 27.8651ms
+2026-06-06 20:32:40.743 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CartController.DeleteCartItem (Ecommerce.API)'
+2026-06-06 20:32:40.743 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Cart/DeleteCartItem - 200 null application/json; charset=utf-8 35.9447ms
+2026-06-06 20:32:59.787 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - application/json 59
+2026-06-06 20:32:59.788 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:32:59.798 +05:30 [INF] Route matched with {action = "AddOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseAddOrderDTO]] AddOrder(Ecommerce.Models.RequestAddOrderDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-06 20:32:59.813 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:32:59.861 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:32:59.871 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-06 20:32:59.898 +05:30 [INF] Executed DbCommand (19ms) [Parameters=[@totalCartAmount='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CouponId", c."CouponCode", c."CouponDescription", c."CreatedAt", c."CreatedByAdminUserId", c."CreatedByVendorUserId", c."DiscountValue", c."EndDate", c."IsActive", c."MinimumNumberOfUsage", c."MinimumOrderAmount", c."StartDate", c."UpdatedAt", s."CouponsProductId", s."AddedByVendorUserId", s."CouponId", s."CreatedAt", s."IsActive", s."ProductId", s."UpdatedAt", s."ProductId0", s."AddedByVendorUserId0", s."AdminUserId", s."CreatedAt0", s."Description", s."ProductApprovalStatusId", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", s0."CouponUsageId", s0."CouponId", s0."OrderId", s0."UsedAt", s0."OrderId0", s0."AddressId", s0."CreatedAt", s0."FinalAmount", s0."OrderDate", s0."OrderNumber", s0."OrderStatusId", s0."TotalCouponAmount", s0."TotalProductAmount", s0."TotalShippingAmount", s0."UpdatedAt", s0."UserId"
+FROM "Coupons" AS c
+LEFT JOIN (
+    SELECT c0."CouponsProductId", c0."AddedByVendorUserId", c0."CouponId", c0."CreatedAt", c0."IsActive", c0."ProductId", c0."UpdatedAt", p."ProductId" AS "ProductId0", p."AddedByVendorUserId" AS "AddedByVendorUserId0", p."AdminUserId", p."CreatedAt" AS "CreatedAt0", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt" AS "UpdatedAt0", p."VendorId"
+    FROM "CouponsProduct" AS c0
+    INNER JOIN "Product" AS p ON c0."ProductId" = p."ProductId"
+) AS s ON c."CouponId" = s."CouponId"
+LEFT JOIN (
+    SELECT c1."CouponUsageId", c1."CouponId", c1."OrderId", c1."UsedAt", o."OrderId" AS "OrderId0", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+    FROM "CouponUsage" AS c1
+    INNER JOIN "Order" AS o ON c1."OrderId" = o."OrderId"
+) AS s0 ON c."CouponId" = s0."CouponId"
+WHERE c."IsActive" AND c."StartDate" <= now()::timestamp AND c."EndDate" >= now()::timestamp AND c."MinimumOrderAmount" <= @totalCartAmount
+ORDER BY c."CouponId", s."CouponsProductId", s."ProductId0", s0."CouponUsageId"
+2026-06-06 20:32:59.914 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:32:59.914 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:33:00.132 +05:30 [INF] Received HTTP response headers after 216.624ms - 200
+2026-06-06 20:33:00.133 +05:30 [INF] End processing HTTP request after 219.3079ms - 200
+2026-06-06 20:33:00.136 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.136 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.327 +05:30 [INF] Received HTTP response headers after 190.3627ms - 200
+2026-06-06 20:33:00.327 +05:30 [INF] End processing HTTP request after 190.954ms - 200
+2026-06-06 20:33:00.332 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:33:00.333 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:33:00.378 +05:30 [INF] Received HTTP response headers after 44.8835ms - 200
+2026-06-06 20:33:00.378 +05:30 [INF] End processing HTTP request after 45.6655ms - 200
+2026-06-06 20:33:00.379 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.379 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.533 +05:30 [INF] Received HTTP response headers after 153.7764ms - 200
+2026-06-06 20:33:00.534 +05:30 [INF] End processing HTTP request after 154.7523ms - 200
+2026-06-06 20:33:00.539 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:33:00.539 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:33:00.580 +05:30 [INF] Received HTTP response headers after 41.2488ms - 200
+2026-06-06 20:33:00.581 +05:30 [INF] End processing HTTP request after 42.1145ms - 200
+2026-06-06 20:33:00.581 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.582 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:33:00.633 +05:30 [INF] Received HTTP response headers after 51.3749ms - 200
+2026-06-06 20:33:00.634 +05:30 [INF] End processing HTTP request after 52.3465ms - 200
+2026-06-06 20:33:00.644 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API) in 846.1257ms
+2026-06-06 20:33:00.645 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:33:00.645 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RequestCreateOrderDTO -> Order
+Ecommerce.DTOs.RequestCreateOrderDTO -> Ecommerce.Models.Order
+   at lambda_method1271(Closure, Object, Order, ResolutionContext)
+   at OrderService.CreateOrder(RequestCreateOrderDTO requestCreateOrderDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/OrderService/AddOrderService.cs:line 20
+   at UserOrderService.AddOrder(RequestAddOrderDTO requestAddOrderDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserOrderService.cs/AddOrderService.cs:line 74
+   at Ecommerce.API.Controllers.OrderController.AddOrder(RequestAddOrderDTO requestAddOrderDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 28
+   at lambda_method757(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:33:00.648 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - 500 null application/json 861.7897ms
+2026-06-06 20:34:55.249 +05:30 [INF] Application is shutting down...
+2026-06-06 20:34:58.962 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 20:34:59.035 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 20:34:59.035 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 20:34:59.036 +05:30 [INF] Hosting environment: Development
+2026-06-06 20:34:59.036 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 20:35:02.595 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - application/json 59
+2026-06-06 20:35:02.616 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-06 20:35:02.653 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:35:02.661 +05:30 [INF] Route matched with {action = "AddOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseAddOrderDTO]] AddOrder(Ecommerce.Models.RequestAddOrderDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-06 20:35:02.726 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-06 20:35:03.351 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:35:03.413 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:35:03.421 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-06 20:35:03.442 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[@totalCartAmount='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CouponId", c."CouponCode", c."CouponDescription", c."CreatedAt", c."CreatedByAdminUserId", c."CreatedByVendorUserId", c."DiscountValue", c."EndDate", c."IsActive", c."MinimumNumberOfUsage", c."MinimumOrderAmount", c."StartDate", c."UpdatedAt", s."CouponsProductId", s."AddedByVendorUserId", s."CouponId", s."CreatedAt", s."IsActive", s."ProductId", s."UpdatedAt", s."ProductId0", s."AddedByVendorUserId0", s."AdminUserId", s."CreatedAt0", s."Description", s."ProductApprovalStatusId", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", s0."CouponUsageId", s0."CouponId", s0."OrderId", s0."UsedAt", s0."OrderId0", s0."AddressId", s0."CreatedAt", s0."FinalAmount", s0."OrderDate", s0."OrderNumber", s0."OrderStatusId", s0."TotalCouponAmount", s0."TotalProductAmount", s0."TotalShippingAmount", s0."UpdatedAt", s0."UserId"
+FROM "Coupons" AS c
+LEFT JOIN (
+    SELECT c0."CouponsProductId", c0."AddedByVendorUserId", c0."CouponId", c0."CreatedAt", c0."IsActive", c0."ProductId", c0."UpdatedAt", p."ProductId" AS "ProductId0", p."AddedByVendorUserId" AS "AddedByVendorUserId0", p."AdminUserId", p."CreatedAt" AS "CreatedAt0", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt" AS "UpdatedAt0", p."VendorId"
+    FROM "CouponsProduct" AS c0
+    INNER JOIN "Product" AS p ON c0."ProductId" = p."ProductId"
+) AS s ON c."CouponId" = s."CouponId"
+LEFT JOIN (
+    SELECT c1."CouponUsageId", c1."CouponId", c1."OrderId", c1."UsedAt", o."OrderId" AS "OrderId0", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+    FROM "CouponUsage" AS c1
+    INNER JOIN "Order" AS o ON c1."OrderId" = o."OrderId"
+) AS s0 ON c."CouponId" = s0."CouponId"
+WHERE c."IsActive" AND c."StartDate" <= now()::timestamp AND c."EndDate" >= now()::timestamp AND c."MinimumOrderAmount" <= @totalCartAmount
+ORDER BY c."CouponId", s."CouponsProductId", s."ProductId0", s0."CouponUsageId"
+2026-06-06 20:35:03.458 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.459 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.734 +05:30 [INF] Received HTTP response headers after 273.0542ms - 200
+2026-06-06 20:35:03.735 +05:30 [INF] End processing HTTP request after 276.8492ms - 200
+2026-06-06 20:35:03.738 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:03.739 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:03.795 +05:30 [INF] Received HTTP response headers after 56.2188ms - 200
+2026-06-06 20:35:03.795 +05:30 [INF] End processing HTTP request after 56.7949ms - 200
+2026-06-06 20:35:03.800 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.800 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.848 +05:30 [INF] Received HTTP response headers after 48.343ms - 200
+2026-06-06 20:35:03.849 +05:30 [INF] End processing HTTP request after 49.284ms - 200
+2026-06-06 20:35:03.850 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:03.851 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:03.899 +05:30 [INF] Received HTTP response headers after 48.4144ms - 200
+2026-06-06 20:35:03.900 +05:30 [INF] End processing HTTP request after 49.9543ms - 200
+2026-06-06 20:35:03.907 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.907 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:03.953 +05:30 [INF] Received HTTP response headers after 45.1754ms - 200
+2026-06-06 20:35:03.953 +05:30 [INF] End processing HTTP request after 46.4886ms - 200
+2026-06-06 20:35:03.953 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:03.954 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:04.003 +05:30 [INF] Received HTTP response headers after 48.943ms - 200
+2026-06-06 20:35:04.003 +05:30 [INF] End processing HTTP request after 49.7147ms - 200
+2026-06-06 20:35:04.104 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?', @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Order" ("AddressId", "CreatedAt", "FinalAmount", "OrderDate", "OrderNumber", "OrderStatusId", "TotalCouponAmount", "TotalProductAmount", "TotalShippingAmount", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "OrderId";
+2026-06-06 20:35:04.132 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderItems" ("InventoryId", "OrderId", "OrderItemStatusId", "ProductVariantId", "Quantity", "UnitPrice")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING "OrderItemsId", "Discount";
+2026-06-06 20:35:04.156 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2), @p5='?' (DbType = Int32), @p6='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Shipment" ("DeliveryDate", "ExpectedDeliveryDate", "OrderId", "PickupAddressId", "ShippedDate", "ShipperId", "TrackingNumber")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "ShipmentId", "CreatedAt", "ShipmentStatusId", "ShippingCharge";
+2026-06-06 20:35:04.171 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentItems" ("OrderItemsId", "ShipmentId")
+VALUES (@p0, @p1)
+RETURNING "ShipmentItemsId";
+2026-06-06 20:35:04.175 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API) in 1513.1591ms
+2026-06-06 20:35:04.175 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:35:04.176 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+RequestAddShipmentTrackingDTO -> ShipmentTracking
+Ecommerce.DTOs.RequestAddShipmentTrackingDTO -> Ecommerce.Models.ShipmentTracking
+   at lambda_method1952(Closure, Object, ShipmentTracking, ResolutionContext)
+   at ShipmentService.CreateShipmentTracking(RequestAddShipmentTrackingDTO requestAddShipmentTrackingDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/ShipmentService/CreateShipmentService.cs:line 33
+   at UserOrderService.CreateShipmentTracking(Shipment shipment) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserOrderService.cs/AddShipmentService.cs:line 67
+   at UserOrderService.AddOrder(RequestAddOrderDTO requestAddOrderDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserOrderService.cs/AddOrderService.cs:line 89
+   at Ecommerce.API.Controllers.OrderController.AddOrder(RequestAddOrderDTO requestAddOrderDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 28
+   at lambda_method5(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:35:04.183 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - 500 null application/json 1588.5225ms
+2026-06-06 20:35:38.484 +05:30 [INF] Application is shutting down...
+2026-06-06 20:35:41.461 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 20:35:41.540 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 20:35:41.541 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 20:35:41.541 +05:30 [INF] Hosting environment: Development
+2026-06-06 20:35:41.541 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 20:35:43.562 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - application/json 59
+2026-06-06 20:35:43.580 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-06 20:35:43.615 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:35:43.624 +05:30 [INF] Route matched with {action = "AddOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseAddOrderDTO]] AddOrder(Ecommerce.Models.RequestAddOrderDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-06 20:35:43.693 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-06 20:35:44.300 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:35:44.365 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity", c0."CartId", c0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."LengthInCm", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."AdminUserId", p0."CreatedAt", p0."Description", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", s."InventoryId", s."AddressId", s."AvailableQuantity", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt0", s."UserId"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+INNER JOIN "ProductVariant" AS p ON c."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+LEFT JOIN (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt0", a."UserId"
+    FROM "Inventory" AS i
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON p."ProductVariantId" = s."ProductVariantId"
+WHERE c0."UserId" = @userId
+ORDER BY c."CartItemsId", c0."CartId", p."ProductVariantId", p0."ProductId", s."InventoryId"
+2026-06-06 20:35:44.374 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-06 20:35:44.395 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[@totalCartAmount='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CouponId", c."CouponCode", c."CouponDescription", c."CreatedAt", c."CreatedByAdminUserId", c."CreatedByVendorUserId", c."DiscountValue", c."EndDate", c."IsActive", c."MinimumNumberOfUsage", c."MinimumOrderAmount", c."StartDate", c."UpdatedAt", s."CouponsProductId", s."AddedByVendorUserId", s."CouponId", s."CreatedAt", s."IsActive", s."ProductId", s."UpdatedAt", s."ProductId0", s."AddedByVendorUserId0", s."AdminUserId", s."CreatedAt0", s."Description", s."ProductApprovalStatusId", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", s0."CouponUsageId", s0."CouponId", s0."OrderId", s0."UsedAt", s0."OrderId0", s0."AddressId", s0."CreatedAt", s0."FinalAmount", s0."OrderDate", s0."OrderNumber", s0."OrderStatusId", s0."TotalCouponAmount", s0."TotalProductAmount", s0."TotalShippingAmount", s0."UpdatedAt", s0."UserId"
+FROM "Coupons" AS c
+LEFT JOIN (
+    SELECT c0."CouponsProductId", c0."AddedByVendorUserId", c0."CouponId", c0."CreatedAt", c0."IsActive", c0."ProductId", c0."UpdatedAt", p."ProductId" AS "ProductId0", p."AddedByVendorUserId" AS "AddedByVendorUserId0", p."AdminUserId", p."CreatedAt" AS "CreatedAt0", p."Description", p."ProductApprovalStatusId", p."ProductName", p."ProductStatusId", p."ProductSubCategoryId", p."UpdatedAt" AS "UpdatedAt0", p."VendorId"
+    FROM "CouponsProduct" AS c0
+    INNER JOIN "Product" AS p ON c0."ProductId" = p."ProductId"
+) AS s ON c."CouponId" = s."CouponId"
+LEFT JOIN (
+    SELECT c1."CouponUsageId", c1."CouponId", c1."OrderId", c1."UsedAt", o."OrderId" AS "OrderId0", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+    FROM "CouponUsage" AS c1
+    INNER JOIN "Order" AS o ON c1."OrderId" = o."OrderId"
+) AS s0 ON c."CouponId" = s0."CouponId"
+WHERE c."IsActive" AND c."StartDate" <= now()::timestamp AND c."EndDate" >= now()::timestamp AND c."MinimumOrderAmount" <= @totalCartAmount
+ORDER BY c."CouponId", s."CouponsProductId", s."ProductId0", s0."CouponUsageId"
+2026-06-06 20:35:44.410 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.411 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.617 +05:30 [INF] Received HTTP response headers after 204.8867ms - 200
+2026-06-06 20:35:44.617 +05:30 [INF] End processing HTTP request after 207.498ms - 200
+2026-06-06 20:35:44.620 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.620 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.663 +05:30 [INF] Received HTTP response headers after 42.9174ms - 200
+2026-06-06 20:35:44.663 +05:30 [INF] End processing HTTP request after 43.2186ms - 200
+2026-06-06 20:35:44.665 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.665 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.704 +05:30 [INF] Received HTTP response headers after 38.2072ms - 200
+2026-06-06 20:35:44.704 +05:30 [INF] End processing HTTP request after 38.4877ms - 200
+2026-06-06 20:35:44.704 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.704 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.747 +05:30 [INF] Received HTTP response headers after 42.8062ms - 200
+2026-06-06 20:35:44.747 +05:30 [INF] End processing HTTP request after 43.177ms - 200
+2026-06-06 20:35:44.750 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.750 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-06 20:35:44.791 +05:30 [INF] Received HTTP response headers after 41.3873ms - 200
+2026-06-06 20:35:44.791 +05:30 [INF] End processing HTTP request after 41.8616ms - 200
+2026-06-06 20:35:44.792 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.792 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-06 20:35:44.839 +05:30 [INF] Received HTTP response headers after 47.0245ms - 200
+2026-06-06 20:35:44.840 +05:30 [INF] End processing HTTP request after 48.1253ms - 200
+2026-06-06 20:35:44.940 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?', @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Order" ("AddressId", "CreatedAt", "FinalAmount", "OrderDate", "OrderNumber", "OrderStatusId", "TotalCouponAmount", "TotalProductAmount", "TotalShippingAmount", "UpdatedAt", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9, @p10)
+RETURNING "OrderId";
+2026-06-06 20:35:44.964 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Decimal)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "OrderItems" ("InventoryId", "OrderId", "OrderItemStatusId", "ProductVariantId", "Quantity", "UnitPrice")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING "OrderItemsId", "Discount";
+2026-06-06 20:35:44.983 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2), @p5='?' (DbType = Int32), @p6='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Shipment" ("DeliveryDate", "ExpectedDeliveryDate", "OrderId", "PickupAddressId", "ShippedDate", "ShipperId", "TrackingNumber")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "ShipmentId", "CreatedAt", "ShipmentStatusId", "ShippingCharge";
+2026-06-06 20:35:44.994 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentItems" ("OrderItemsId", "ShipmentId")
+VALUES (@p0, @p1)
+RETURNING "ShipmentItemsId";
+2026-06-06 20:35:45.003 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentTracking" ("Location", "Remarks", "ShipmentId", "ShipmentStatusId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ShipmentTrackingId", "UpdatedAt";
+2026-06-06 20:35:45.009 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT c."CartItemsId", c."CartId", c."ProductVariantId", c."Qunatity"
+FROM "CartItems" AS c
+INNER JOIN "Cart" AS c0 ON c."CartId" = c0."CartId"
+WHERE c0."UserId" = @userId
+2026-06-06 20:35:45.013 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+DELETE FROM "CartItems"
+WHERE "CartItemsId" = @p0;
+2026-06-06 20:35:45.019 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.Models.ResponseAddOrderDTO'.
+2026-06-06 20:35:45.022 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API) in 1397.4762ms
+2026-06-06 20:35:45.023 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.AddOrder (Ecommerce.API)'
+2026-06-06 20:35:45.025 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/AddOrder - 200 null application/json; charset=utf-8 1464.7006ms
+2026-06-06 20:37:46.492 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Order/GetOrder - null null
+2026-06-06 20:37:46.506 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.GetOrder (Ecommerce.API)'
+2026-06-06 20:37:46.510 +05:30 [INF] Route matched with {action = "GetOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.Models.ResponseGetOrderItems]]] GetOrder() on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-06 20:37:46.533 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-06 20:37:46.534 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.GetOrder (Ecommerce.API) in 23.8222ms
+2026-06-06 20:37:46.535 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.GetOrder (Ecommerce.API)'
+2026-06-06 20:37:46.535 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Vendor User Not Found
+   at VendorUserValidation.ValidateVendorUserByUserId(Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/VendorUserValidation.cs:line 18
+   at VendorOrderService.GetAllTheActiveOrder(Int32 vendorId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorOrderUpdateStatus/VendorOrderUpdateStatus.cs:line 26
+   at Ecommerce.API.Controllers.OrderController.GetOrder() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 36
+   at lambda_method2053(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-06 20:37:46.542 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Order/GetOrder - 404 null application/json 50.1479ms
+2026-06-06 20:37:59.248 +05:30 [INF] Application is shutting down...
