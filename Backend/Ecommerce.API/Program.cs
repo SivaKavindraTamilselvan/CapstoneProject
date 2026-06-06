@@ -167,6 +167,14 @@ builder.Services.AddScoped<IProductValidation,ProductValidation>();
 builder.Services.AddScoped<IProductCategoryValidation,ProductCategoryValidation>();
 builder.Services.AddScoped<IUserValidation,UserValidation>();
 builder.Services.AddScoped<ICouponValidation,CouponValidation>();
+builder.Services.AddScoped<ICartValidation,CartValidation>();
+builder.Services.AddScoped<IFavoriteValidation,FavoriteValidation>();
+builder.Services.AddScoped<IInventoryValidation,InventoryValidation>();
+builder.Services.AddScoped<IOrderValidation,OrderValidation>();
+builder.Services.AddScoped<IProductValidation,ProductValidation>();
+builder.Services.AddScoped<IShipmentValidation,ShipmentValidation>();
+builder.Services.AddScoped<IVendorUserValidation,VendorUserValidation>();
+builder.Services.AddScoped<IProductAttributeValidation,ProductAttributeValidation>();
 #endregion
 
 #region Repository
@@ -204,6 +212,7 @@ builder.Services.AddScoped<IShipmentRepsository,ShipmentRepsository>();
 builder.Services.AddScoped<IShipmentTrackingRepsository,ShipmentTrackingRepsository>();
 builder.Services.AddScoped<IAddressRepsository,AddressRepsository>();
 builder.Services.AddScoped<IShipperRepsository,ShipperRepsository>();
+builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
 #endregion
 
 #region Services
@@ -211,7 +220,6 @@ builder.Services.AddScoped<IAuthentication,AuthenticationService>();
 builder.Services.AddScoped<ITokenService,TokenService>();
 builder.Services.AddScoped<IAdminService,AdminService>();
 builder.Services.AddScoped<IVendorService,VendorService>();
-builder.Services.AddScoped<IProductService,ProductService>();
 builder.Services.AddScoped<IUserCartService,UserCartService>();
 builder.Services.AddScoped<IUserFavoriteService,UserFavoritesService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
@@ -227,6 +235,12 @@ builder.Services.AddHttpClient<IShipRocketService, ShiprocketService>();
 builder.Services.AddScoped<IPaymentService, PaymentService>();
 builder.Services.AddScoped<IVendorOrderService,VendorOrderService>();
 builder.Services.AddScoped<IAdminShipmentService,AdminShipmentService>();
+builder.Services.AddScoped<IAdminProductAttributeService,AdminProductAttributeService>();
+builder.Services.AddScoped<IAdminProductCategoryService,AdminProductCategoryService>();
+builder.Services.AddScoped<IAdminProductService,AdminProductService>();
+builder.Services.AddScoped<IVendorProductImageService,VendorProductImageService>();
+builder.Services.AddScoped<IVendorProductVariantService,VendorProductVariantService>();
+builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 #endregion
 
 var app = builder.Build();

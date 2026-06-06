@@ -10,14 +10,18 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class AdminController : ControllerBase
 {
+    private readonly IAdminProductAttributeService _adminProductAttributeService;
+    private readonly IAdminProductCategoryService _adminProductCategoryService;
     private readonly IAdminService _adminService;
     private readonly IAdminProductService _adminProductService;
     private readonly IAdminVendorService _adminVendorService;
-    public AdminController(IAdminService adminService,IAdminProductService adminProductService,IAdminVendorService adminVendorService)
+    public AdminController(IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
     {
         _adminService = adminService;
         _adminProductService = adminProductService;
         _adminVendorService = adminVendorService;
+        _adminProductAttributeService = adminProductAttributeService;
+        _adminProductCategoryService = adminProductCategoryService;
     }
 
     [Authorize(Policy = "SuperAdminOnly")]
@@ -49,28 +53,28 @@ public class AdminController : ControllerBase
     [HttpPost("AddProductCategory")]
     public async Task<ActionResult<ResponseAddProductCategoryDTO>> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
     {
-        var result = await _adminProductService.AddProductCategory(requestAddProductCategoryDTO);
+        var result = await _adminProductCategoryService.AddProductCategory(requestAddProductCategoryDTO);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddProductSubCategory")]
     public async Task<ActionResult<ResponseAddProductSubCategoryDTO>> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
     {
-        var result = await _adminProductService.AddProductSubCategory(requestAddProductSubCategoryDTO);
+        var result = await _adminProductCategoryService.AddProductSubCategory(requestAddProductSubCategoryDTO);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddProductSubCategoryAttribute")]
     public async Task<ActionResult<ResponseAddProductSubCategoryAttributeDTO>> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
     {
-        var result = await _adminProductService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO);
+        var result = await _adminProductAttributeService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddAttribute")]
     public async Task<ActionResult<ResponseAddAttributeDTO>> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
     {
-        var result = await _adminProductService.AddAttribute(requestAddAttributeDTO);
+        var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO);
         return Ok(result);
     }
 }

@@ -1,0 +1,9 @@
+2026-06-06 15:12:10.752 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 15:12:10.851 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 15:12:10.852 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 15:12:10.852 +05:30 [INF] Hosting environment: Development
+2026-06-06 15:12:10.853 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 15:12:18.231 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-06 15:12:18.276 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 45.7678ms
+2026-06-06 15:12:18.384 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-06 15:12:18.447 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.7103ms

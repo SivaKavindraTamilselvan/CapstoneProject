@@ -6,7 +6,7 @@ using Ecommerce.Services.Interfaces;
 public class InventoryValidation : IInventoryValidation
 {
     private readonly IInventoryRepsository _inventoryRepsository;
-    public InventoryValidation(InventoryRepsository inventoryRepsository,IUserValidation userValidation,IProductValidation productValidation)
+    public InventoryValidation(IInventoryRepsository inventoryRepsository,IUserValidation userValidation,IProductValidation productValidation)
     {
         _inventoryRepsository = inventoryRepsository;
     }

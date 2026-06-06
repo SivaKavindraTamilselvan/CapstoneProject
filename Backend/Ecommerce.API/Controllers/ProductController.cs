@@ -12,10 +12,14 @@ public class ProductController : ControllerBase
 {
     private readonly IProductService _productService;
     private readonly IVendorProductService _vendorProductService;
-    public ProductController(IProductService productService, IVendorProductService vendorProductService)
+    private readonly IVendorProductImageService _vendorProductImageService;
+    private readonly IVendorProductVariantService _vendorProductVariantService;
+    public ProductController(IProductService productService, IVendorProductService vendorProductService,IVendorProductImageService vendorProductImageService,IVendorProductVariantService vendorProductVariantService)
     {
         _productService = productService;
         _vendorProductService = vendorProductService;
+        _vendorProductImageService = vendorProductImageService;
+        _vendorProductVariantService = vendorProductVariantService;
     }
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -31,7 +35,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductImage>> AddProductImage(RequestAddProductImage requestAddProductImage)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.AddProductImage(requestAddProductImage,vendorUserId);
+        var result = await _vendorProductImageService.AddProductImage(requestAddProductImage,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -39,7 +43,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
+        var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
         return Ok(result);
     }
 }
