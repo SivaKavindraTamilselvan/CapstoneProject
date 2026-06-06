@@ -7,14 +7,25 @@ public class ProductValidation : IProductValidation
 {
     private readonly IProductRepsository _productRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
-    public ProductValidation(IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    private readonly IProductImageRepsository _productImageRepsository;
+    public ProductValidation(IProductImageRepsository productImageRepsository,IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
+        _productImageRepsository = productImageRepsository;
     }
     public async Task<Product> ValidateProduct(int productId)
     {
         var product = await _productRepsository.Get(productId);
+        if (product == null)
+        {
+            throw new DataNotFoundException("Product Not Found");
+        }
+        return product;
+    }
+    public async Task<ProductImage> ValidateProductImage(int productImageId)
+    {
+        var product = await _productImageRepsository.Get(productImageId);
         if (product == null)
         {
             throw new DataNotFoundException("Product Not Found");

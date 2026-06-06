@@ -25,5 +25,6 @@ public class RequestAddProductImage
 public class ResponseAddProductImage
 {
     public int ProductImageId {get;set;}
+    public int AddedByVendorUserId {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
 }

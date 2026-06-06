@@ -7,4 +7,5 @@ public interface IProductValidation
     public Task<Product> ValidateProduct(int productId);
     public Task<Product> ValidateProductIfApproved(int productId);
     public Task<ProductVariant> ValidateProductVariant(int productVariantId);
+    public Task<ProductImage> ValidateProductImage(int productImageId);
 }
