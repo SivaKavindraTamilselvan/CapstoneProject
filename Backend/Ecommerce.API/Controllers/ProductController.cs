@@ -54,7 +54,7 @@ public class ProductController : ControllerBase
         var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [Authorize(Policy = "VendorOnwerOnly")]
     [HttpPost("AddProductVariantAttribute")]
     public async Task<ActionResult<ResponseAddProductVariantAttributeDTO>> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO)
     {
