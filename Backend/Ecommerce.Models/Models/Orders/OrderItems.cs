@@ -15,7 +15,7 @@ public class OrderItems
     public Inventory? Inventory {get;set;}
     public OrderItemStatus? OrderItemStatus { get; set; }
     public ICollection<RefundItems> RefundItems { get; set; } = new List<RefundItems>();
-    public ICollection<ReturnItems> ReturnItems { get; set; } = new List<ReturnItems>();
+    public ICollection<Return> Returns { get; set; } = new List<Return>();
     public ICollection<ShipmentItems> ShipmentItems { get; set; } = new List<ShipmentItems>();
     public Reviews? Reviews { get; set; }
 }

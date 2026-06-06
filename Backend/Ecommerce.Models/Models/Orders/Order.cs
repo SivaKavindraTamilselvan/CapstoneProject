@@ -19,7 +19,6 @@ public class Order
     public DateTime? UpdatedAt { get; set; }
     public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
     public ICollection<CouponUsage> CouponUsages { get; set; } = new List<CouponUsage>();
-    public ICollection<Return> Returns {get;set;} = new List<Return>();
     public ICollection<Payment> Payments {get;set;} = new List<Payment>();
     public ICollection<Refund> Refunds {get;set;} = new List<Refund>();
     public ICollection<Shipment> Shipments {get;set;} = new List<Shipment>();

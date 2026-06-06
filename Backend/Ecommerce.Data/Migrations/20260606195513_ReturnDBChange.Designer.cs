@@ -3,6 +3,7 @@ using System;
 using Ecommerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Data.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    partial class EcommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20260606195513_ReturnDBChange")]
+    partial class ReturnDBChange
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1658,7 +1661,7 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(1);
 
-                    b.Property<int?>("ReviewedByAdminId")
+                    b.Property<int>("ReviewedByAdminId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ReviewedDate")
@@ -3152,6 +3155,7 @@ namespace Ecommerce.Data.Migrations
                         .WithMany("Returns")
                         .HasForeignKey("ReviewedByAdminId")
                         .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
                         .HasConstraintName("FK_Return_Admin");
 
                     b.Navigation("OrderItems");

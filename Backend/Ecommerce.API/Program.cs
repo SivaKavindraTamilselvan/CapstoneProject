@@ -208,7 +208,6 @@ builder.Services.AddScoped<IOrderItemRepsository,OrderItemRepsository>();
 builder.Services.AddScoped<IPaymentRepsository,PaymentRepsository>();
 builder.Services.AddScoped<IRefundItemRepsository,RefundItemsRepsository>();
 builder.Services.AddScoped<IRefundRepsository,RefundRepsository>();
-builder.Services.AddScoped<IReturnItemRepsository,ReturnItemsRepsository>();
 builder.Services.AddScoped<IReturnRepsository,ReturnRepsository>();
 builder.Services.AddScoped<IReviewRepsository,ReviewRepsository>();
 builder.Services.AddScoped<IShipmentItemsRepsository,ShipmentItemRepsository>();

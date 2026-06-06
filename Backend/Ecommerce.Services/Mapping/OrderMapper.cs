@@ -10,6 +10,9 @@ namespace Ecommerce.Mappers
         {
             CreateMap<RequestCreateOrderDTO,Order>();
             CreateMap<Payment,ResponsePayment>();
+
+            CreateMap<RequestAddReturnDTO,Return>();
+            CreateMap<Return,ResponseAddReturnDTO>();
         }
     }
 }

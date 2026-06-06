@@ -14,11 +14,13 @@ public class OrderController : ControllerBase
 {
     private readonly IUserOrderService _userOrderService;
     private readonly IVendorOrderService _vendorOrderService;
+    private readonly IUserReturnService _userReturnService;
 
-    public OrderController(IUserOrderService userOrderService,IVendorOrderService vendorOrderService)
+    public OrderController(IUserReturnService userReturnService,IUserOrderService userOrderService,IVendorOrderService vendorOrderService)
     {
         _userOrderService = userOrderService;
         _vendorOrderService = vendorOrderService;
+        _userReturnService = userReturnService;
     }
     [Authorize]
     [HttpPost("AddOrder")]
@@ -41,6 +43,13 @@ public class OrderController : ControllerBase
     public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
     {
         var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("RequestReturnOrder")]
+    public async Task<ActionResult<ResponseAddReturnDTO>> RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO)
+    {
+        var result = await _userReturnService.AddReturn(requestAddReturnDTO);
         return Ok(result);
     }
 }

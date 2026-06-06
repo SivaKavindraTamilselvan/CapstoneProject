@@ -11,24 +11,24 @@ public class EcommerceContext : DbContext
     }
     public DbSet<User> User { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
-    public DbSet<AdminUser> AdminUser {get;set;}
+    public DbSet<AdminUser> AdminUser { get; set; }
     public DbSet<Address> Address { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
     public DbSet<ProductSubCategory> ProductSubCategory { get; set; }
     public DbSet<ProductSubCategoryAttribute> ProductSubCategoryAttribute { get; set; }
     public DbSet<Product> Product { get; set; }
     public DbSet<ProductVariant> ProductVariant { get; set; }
-    public DbSet<ProductImage> ProductImage {get;set;}
+    public DbSet<ProductImage> ProductImage { get; set; }
     public DbSet<AttributeMaster> AttributeMaster { get; set; }
     public DbSet<Cart> Cart { get; set; }
     public DbSet<CartItems> CartItems { get; set; }
-    public DbSet<Favorites> Favorites {get;set;}
+    public DbSet<Favorites> Favorites { get; set; }
     public DbSet<FavoritesItems> FavoritesItems { get; set; }
     public DbSet<Coupons> Coupons { get; set; }
-    public DbSet<CouponsProduct> CouponsProduct {get;set;}
-    public DbSet<OrderItems> OrderItems {get;set;}
-    public DbSet<ShipmentItems> ShipmentItems {get;set;}
-    public DbSet<Shipment> Shipment {get;set;}
+    public DbSet<CouponsProduct> CouponsProduct { get; set; }
+    public DbSet<OrderItems> OrderItems { get; set; }
+    public DbSet<ShipmentItems> ShipmentItems { get; set; }
+    public DbSet<Shipment> Shipment { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -493,7 +493,7 @@ public class EcommerceContext : DbContext
             o.Property(o => o.TotalShippingAmount).HasDefaultValue(0);
             o.Property(o => o.TotalCouponAmount).HasDefaultValue(0);
             o.Property(o => o.FinalAmount).HasDefaultValue(0);
-            o.Property(o=>o.OrderStatusId).HasDefaultValue(1);
+            o.Property(o => o.OrderStatusId).HasDefaultValue(1);
             o.Property(o => o.OrderDate).HasColumnType("timestamp without time zone");
             o.Property(o => o.CreatedAt).HasColumnType("timestamp without time zone");
             o.Property(o => o.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -508,7 +508,7 @@ public class EcommerceContext : DbContext
             oi.Property(oi => oi.Quantity).IsRequired();
             oi.Property(oi => oi.UnitPrice).IsRequired();
             oi.Property(oi => oi.Discount).HasDefaultValue(0);
-           oi.HasOne(oi => oi.Inventory).WithMany(i => i.OrderItems).HasForeignKey(oi => oi.InventoryId).OnDelete(DeleteBehavior.Restrict);
+            oi.HasOne(oi => oi.Inventory).WithMany(i => i.OrderItems).HasForeignKey(oi => oi.InventoryId).OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.Order).WithMany(o => o.OrderItems).HasForeignKey(oi => oi.OrderId).HasConstraintName("FK_Order_Items_Order").OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.ProductVariant).WithMany(pv => pv.OrderItems).HasForeignKey(oi => oi.ProductVariantId).HasConstraintName("FK_Order_Items_Product_Variant").OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.OrderItemStatus).WithMany(os => os.OrderItems).HasForeignKey(oi => oi.OrderItemStatusId).HasConstraintName("FK_Order_Items_Status").OnDelete(DeleteBehavior.Restrict);
@@ -612,28 +612,19 @@ public class EcommerceContext : DbContext
             r.HasOne(r => r.ReviewDescription).WithMany(rd => rd.Reviews).HasForeignKey(r => r.ReviewDescriptionId).HasConstraintName("FK_Reviews_Review_Description").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.Star).WithMany(s => s.Reviews).HasForeignKey(r => r.StarId).HasConstraintName("FK_Reviews_Star").OnDelete(DeleteBehavior.Restrict);
         });
-
-
         modelBuilder.Entity<Return>(r =>
         {
             r.HasKey(r => r.ReturnId).HasName("PK_Return");
             r.Property(r => r.ReturnStatusId).HasDefaultValue(1);
             r.Property(r => r.AdditionalReason).HasMaxLength(1000);
+            r.Property(r => r.ReturnQuantity).IsRequired();
             r.Property(r => r.RequestedDate).HasColumnType("timestamp without time zone");
             r.Property(r => r.RequestedDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             r.Property(r => r.ReviewedDate).HasColumnType("timestamp without time zone");
             r.HasOne(r => r.ReturnReason).WithMany(rr => rr.Returns).HasForeignKey(r => r.ReturnReasonId).HasConstraintName("FK_Return_Reason").OnDelete(DeleteBehavior.Restrict);
-            r.HasOne(r => r.Order).WithMany(o => o.Returns).HasForeignKey(r => r.OrderId).HasConstraintName("FK_Return_Order").OnDelete(DeleteBehavior.Restrict);
+            r.HasOne(r => r.OrderItems).WithMany(o => o.Returns).HasForeignKey(r => r.OrderItemId).HasConstraintName("FK_Return_Order_Item").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.ReturnStatus).WithMany(rs => rs.Returns).HasForeignKey(r => r.ReturnStatusId).HasConstraintName("FK_Return_Status").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.ReviewedByAdmin).WithMany(a => a.Returns).HasForeignKey(r => r.ReviewedByAdminId).HasConstraintName("FK_Return_Admin").OnDelete(DeleteBehavior.Restrict);
-        });
-        modelBuilder.Entity<ReturnItems>(ri =>
-        {
-            ri.HasKey(ri => ri.ReturnItemsId).HasName("PK_Return_Items");
-            ri.Property(ri => ri.ReturnQuantity).HasDefaultValue(1);
-            ri.HasIndex(ri => new { ri.ReturnId, ri.OrderItemsId }).IsUnique();
-            ri.HasOne(ri => ri.Return).WithMany(r => r.ReturnItems).HasForeignKey(ri => ri.ReturnId).HasConstraintName("FK_Return_Items_Return").OnDelete(DeleteBehavior.Cascade);
-            ri.HasOne(ri => ri.OrderItems).WithMany(oi => oi.ReturnItems).HasForeignKey(ri => ri.OrderItemsId).HasConstraintName("FK_Return_Items_Order_Items").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<Refund>(r =>
         {
