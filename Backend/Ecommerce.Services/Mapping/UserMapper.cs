@@ -52,6 +52,7 @@ namespace Ecommerce.Mappers
             CreateMap<Coupons, ResponseGetAllCoupon>();
 
             CreateMap<Order,ResponseAddOrderDTO>();
+            CreateMap<Favorites,ResponseGetFavoriteDTO>();
         }
     }
 }

@@ -2,9 +2,9 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserFavoritesService : IUserFavoriteService
 {
-    public async Task<ResponseFavoriteItemsDTO> GetFavoriteByUserId(int userId)
+    public async Task<ResponseGetFavoriteDTO> GetFavoriteByUserId(int userId)
     {
-        var cartItems = await _favoriteValidation.ValidateGetFavoriteItemsByUserId(userId);
-        return _mapper.Map<ResponseFavoriteItemsDTO>(cartItems);
+        var favoriteItems = await _favoriteValidation.ValidateGetFavoriteItemsByUserId(userId);
+        return _mapper.Map<ResponseGetFavoriteDTO>(favoriteItems);
     }
 }
