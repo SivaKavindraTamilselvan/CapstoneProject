@@ -334,3 +334,13 @@ RETURNING "ApprovalHistoryId";
 2026-06-06 16:22:48.126 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-06-06 16:22:48.126 +05:30 [INF] Hosting environment: Development
 2026-06-06 16:22:48.127 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 18:42:30.344 +05:30 [INF] Application is shutting down...
+2026-06-06 18:43:00.438 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 18:43:00.538 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 18:43:00.539 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 18:43:00.539 +05:30 [INF] Hosting environment: Development
+2026-06-06 18:43:00.539 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 18:43:02.693 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-06 18:43:02.739 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 46.6124ms
+2026-06-06 18:43:02.809 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-06 18:43:02.880 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 71.4872ms
