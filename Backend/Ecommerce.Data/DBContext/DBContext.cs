@@ -149,9 +149,6 @@ public class EcommerceContext : DbContext
             a.Property(a => a.IsActive).IsRequired().HasDefaultValue(true);
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
-
-
-
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
             r.HasKey(r => r.ModeOfPaymentId).HasName("PK_Mode_Of_Payment");
@@ -161,7 +158,6 @@ public class EcommerceContext : DbContext
             r.HasData(new ModeOfPayment() { ModeOfPaymentId = 3, ModeOfPaymentName = "Debit Card" });
             r.HasData(new ModeOfPayment() { ModeOfPaymentId = 4, ModeOfPaymentName = "UPI" });
         });
-
         modelBuilder.Entity<OrderItemStatus>(os =>
         {
             os.HasKey(os => os.OrderItemStatusId).HasName("PK_Order_Items_Status");
@@ -216,7 +212,6 @@ public class EcommerceContext : DbContext
             p.HasData(new RefundStatus() { RefundStatusId = 4, RefundStatusName = "Cancelled" });
             p.HasData(new RefundStatus() { RefundStatusId = 5, RefundStatusName = "Completed" });
         });
-
         modelBuilder.Entity<ReviewDescription>(rd =>
         {
             rd.HasKey(rd => rd.ReviewDescriptionId).HasName("PK_Review_Description");

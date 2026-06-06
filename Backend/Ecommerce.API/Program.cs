@@ -158,6 +158,7 @@ builder.Services.AddAuthorization(options =>
 builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new ShipmentMappingProfile()));
 
 #endregion
 
