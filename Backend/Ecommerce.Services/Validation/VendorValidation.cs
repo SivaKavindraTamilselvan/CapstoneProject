@@ -44,13 +44,5 @@ public class VendorValidation :IVendorValidation
         return vendor;
     }
 
-    public async Task<Inventory> ValidateInventory(int inventoryId)
-    {
-        var inventory = await _inventoryRepsository.Get(inventoryId);
-        if(inventory == null)
-        {
-            throw new DataNotFoundException("Inventory Is Not Found");
-        }
-        return inventory;
-    }
+    
 }

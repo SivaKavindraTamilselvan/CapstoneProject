@@ -8,27 +8,24 @@ using Ecommerce.Services.Interfaces;
 public class InventoryService : IInventoryService
 {
     private readonly IProductValidation _productValidation;
-    private readonly IAddressRepsository _addressRepsository;
+    private readonly IUserValidation _userValidation;
     private readonly IInventoryRepsository _inventoryRepsository;
-    private readonly IVendorValidation _vendorValidation;
+    private readonly IInventoryValidation _inventoryValidation;
 
     private readonly IMapper _mapper;
-    public InventoryService(IProductValidation productValidation, IAddressRepsository addressRepsository, IMapper mapper, IInventoryRepsository inventoryRepsository, IVendorValidation vendorValidation)
+    public InventoryService(IProductValidation productValidation, IMapper mapper, IInventoryRepsository inventoryRepsository, IUserValidation userValidation, IInventoryValidation inventoryValidation)
     {
         _productValidation = productValidation;
-        _addressRepsository = addressRepsository;
-        _mapper = mapper;
         _inventoryRepsository = inventoryRepsository;
-        _vendorValidation = vendorValidation;
+        _userValidation = userValidation;
+        _inventoryValidation = inventoryValidation;
+        _mapper = mapper;
+
     }
     public async Task<ResponseAddInventoryDTO> AddInventory(RequestAddInventoryDTO requestAddInventoryDTO)
     {
-        var product = await _productValidation.ValidateProductVariant(requestAddInventoryDTO.ProductVariantId);
-        var address = await _addressRepsository.Get(requestAddInventoryDTO.AddressId);
-        if (address == null)
-        {
-            throw new DataNotFoundException("Address is Not Found For This User");
-        }
+        await _productValidation.ValidateProductVariant(requestAddInventoryDTO.ProductVariantId);
+        await _userValidation.ValidateAddress(requestAddInventoryDTO.AddressId);
         var inventory = _mapper.Map<Inventory>(requestAddInventoryDTO);
         await _inventoryRepsository.Create(inventory);
         return _mapper.Map<ResponseAddInventoryDTO>(inventory);
@@ -36,7 +33,7 @@ public class InventoryService : IInventoryService
 
     public async Task<ResponseUpdateInventoryDTO> UpdateInventory(RequestUpdateInventoryDTO requestUpdateInventoryDTO)
     {
-        var inventory = await _vendorValidation.ValidateInventory(requestUpdateInventoryDTO.InventoryId);
+        var inventory = await _inventoryValidation.ValidateInventory(requestUpdateInventoryDTO.InventoryId);
         var updateInventory = _mapper.Map<Inventory>(requestUpdateInventoryDTO);
         await _inventoryRepsository.Update(inventory.InventoryId, updateInventory);
         return _mapper.Map<ResponseUpdateInventoryDTO>(updateInventory);
