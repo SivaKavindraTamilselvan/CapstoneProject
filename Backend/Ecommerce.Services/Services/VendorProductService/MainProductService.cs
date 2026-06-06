@@ -5,23 +5,17 @@ using Ecommerce.Services.Interfaces;
 public partial class VendorProductService : IVendorProductService
 {
     private readonly IProductRepsository _productRepsository;
-    private readonly IProductVariantRepsository _productVariantRepsository;
-    private readonly IProductImageRepsository _productImageRepsository;
-    private readonly IProductVariantAttributeRepsository _productVariantAttributeRepsository;
     private readonly IVendorValidation _vendorValidation;
-    private readonly IProductValidation _productValidation;
     private readonly IProductCategoryValidation _productCategoryValidation;
+    private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IMapper _mapper;
 
 
-    public VendorProductService(IMapper mapper, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IVendorValidation vendorValidation,IProductValidation productValidation,IProductCategoryValidation productCategoryValidation)
+    public VendorProductService(IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
     {
+        _vendorUserValidation = vendorUserValidation;
         _productRepsository = productRepsository;
-        _productVariantRepsository = productVariantRepsository;
-        _productImageRepsository = productImageRepsository;
-        _productVariantAttributeRepsository = productVariantAttributeRepsository;
         _vendorValidation = vendorValidation;
-        _productValidation = productValidation;
         _productCategoryValidation = productCategoryValidation;
         _mapper = mapper;
     }
