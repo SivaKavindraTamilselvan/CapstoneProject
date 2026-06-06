@@ -15,9 +15,10 @@ public partial class UserOrderService : IUserOrderService
     private readonly IShipRocketService _shipRocketService;
     private readonly IShipmentService _shipmentService;
     private readonly IOrderService _orderService;
+    private readonly IInventoryService _inventoryService;
     private readonly IMapper _mapper;
 
-    public UserOrderService(IOrderService orderService,IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    public UserOrderService(IInventoryService inventoryService, IOrderService orderService,IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
         _cartItemsRepsository = cartItemsRepsository;
         _userCouponService = userCouponService;
@@ -26,6 +27,7 @@ public partial class UserOrderService : IUserOrderService
         _shipRocketService = shipRocketService;
         _shipmentService = shipmentService;
         _orderService = orderService;
+        _inventoryService = inventoryService;
         _mapper = mapper;
     }
     public async Task<ResponseAddOrderDTO> AddOrder(RequestAddOrderDTO requestAddOrderDTO, int userId)

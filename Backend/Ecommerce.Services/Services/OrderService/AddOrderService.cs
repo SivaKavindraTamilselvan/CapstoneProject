@@ -8,11 +8,15 @@ public class OrderService : IOrderService
 {
     private readonly IOrderRepsository _orderRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
+    private readonly IInventoryRepsository _inventoryRepsository;
+    private readonly IInventoryValidation _inventoryValidation;
     private readonly IMapper _mapper;
-    public OrderService(IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(IInventoryRepsository inventoryRepsository,IInventoryValidation inventoryValidation,IInventoryService inventoryService,IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
         _orderRepsository = orderRepsository;
         _orderItemRepsository = orderItemRepsository;
+        _inventoryValidation = inventoryValidation;
+        _inventoryRepsository = inventoryRepsository;
         _mapper = mapper;
     }
     public async Task<Order> CreateOrder(RequestCreateOrderDTO requestCreateOrderDTO)
@@ -55,6 +59,10 @@ public class OrderService : IOrderService
             {
                 orderItemsList.Add(createdOrderItem);
             }
+            var inventory = await _inventoryValidation.ValidateInventory(selected.Inventory.InventoryId);
+            inventory.AvailableQuantity = inventory.AvailableQuantity -  cartItem.Qunatity;
+            inventory.ReservedQuantity = inventory.ReservedQuantity + cartItem.Qunatity;
+            await _inventoryRepsository.Update(inventory.InventoryId,inventory);
         }
 
         return orderItemsList;
