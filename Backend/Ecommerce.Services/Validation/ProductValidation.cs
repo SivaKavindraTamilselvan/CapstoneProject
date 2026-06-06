@@ -7,14 +7,10 @@ public class ProductValidation : IProductValidation
 {
     private readonly IProductRepsository _productRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
-    private readonly IProductSubCategoryRepsository _productSubCategoryRepsository;
-    private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
     public ProductValidation(IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
-        _productSubCategoryRepsository = productSubCategoryRepsository;
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
-        _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
     }
     public async Task<Product> ValidateProduct(int productId)
     {

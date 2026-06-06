@@ -32,11 +32,7 @@ public class AddressService : IAddressService
     }
     public async Task<ResponseMakeDefaultAddressDTO> MakeAddressDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
     {
-        var selectedAddress = await _addressRepsository.Get(requestMakeDefaultAddressDTO.AddressId);
-        if(selectedAddress == null)
-        {
-            throw new DataNotFoundException("Address Not Found");
-        }
+        var selectedAddress = await _userValidation.ValidateAddress(requestMakeDefaultAddressDTO.AddressId);
         var userAddress = await _addressRepsository.GetAddressByUserId(selectedAddress.UserId);
         foreach(var address in userAddress)
         {

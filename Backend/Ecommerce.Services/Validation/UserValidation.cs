@@ -6,9 +6,11 @@ using Ecommerce.Services.Interfaces;
 public class UserValidation : IUserValidation
 {
     private readonly IUserRepsository _userRepsository;
-    public UserValidation(IUserRepsository userRepsository)
+    private readonly IAddressRepsository _addressRepsository;
+    public UserValidation(IUserRepsository userRepsository,IAddressRepsository addressRepsository)
     {
         _userRepsository = userRepsository;
+        _addressRepsository = addressRepsository;
     }
     public async Task<User> ValidateUser(int UserId)
     {
@@ -18,5 +20,14 @@ public class UserValidation : IUserValidation
             throw new DataNotFoundException("The User Is Not");
         }
         return user;
+    }
+    public async Task<Address> ValidateAddress(int addressId)
+    {
+        var address = await _addressRepsository.Get(addressId);
+        if(address == null)
+        {
+            throw new DataNotFoundException("Address Not Found");
+        }
+        return address;
     }
 }
