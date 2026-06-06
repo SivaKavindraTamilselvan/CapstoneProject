@@ -247,6 +247,7 @@ builder.Services.AddScoped<IVendorProductVariantService,VendorProductVariantServ
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IOrderService,OrderService>();
 builder.Services.AddScoped<IShipmentService,ShipmentService>();
+builder.Services.AddScoped<IReviewService,ReviewService>();
 #endregion
 
 builder.Services.AddCors(options =>

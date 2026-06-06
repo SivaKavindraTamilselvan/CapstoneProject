@@ -53,6 +53,9 @@ namespace Ecommerce.Mappers
 
             CreateMap<Order,ResponseAddOrderDTO>();
             CreateMap<Favorites,ResponseGetFavoriteDTO>();
+
+            CreateMap<RequestAddReviewDTO,Reviews>();
+            CreateMap<Reviews,ResponseAddReviewDTO>();
         }
     }
 }
