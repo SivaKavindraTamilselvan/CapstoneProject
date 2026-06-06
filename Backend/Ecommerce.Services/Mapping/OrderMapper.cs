@@ -9,6 +9,7 @@ namespace Ecommerce.Mappers
         public OrderMappingProfile()
         {
             CreateMap<RequestCreateOrderDTO,Order>();
+            CreateMap<Payment,ResponsePayment>();
         }
     }
 }

@@ -15,10 +15,10 @@ public partial class UserOrderService : IUserOrderService
     private readonly IShipRocketService _shipRocketService;
     private readonly IShipmentService _shipmentService;
     private readonly IOrderService _orderService;
-    private readonly IInventoryService _inventoryService;
+    private readonly IPaymentService _paymentService;
     private readonly IMapper _mapper;
 
-    public UserOrderService(IInventoryService inventoryService, IOrderService orderService,IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    public UserOrderService(IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
         _cartItemsRepsository = cartItemsRepsository;
         _userCouponService = userCouponService;
@@ -27,7 +27,7 @@ public partial class UserOrderService : IUserOrderService
         _shipRocketService = shipRocketService;
         _shipmentService = shipmentService;
         _orderService = orderService;
-        _inventoryService = inventoryService;
+        _paymentService = paymentService;
         _mapper = mapper;
     }
     public async Task<ResponseAddOrderDTO> AddOrder(RequestAddOrderDTO requestAddOrderDTO, int userId)
@@ -48,7 +48,7 @@ public partial class UserOrderService : IUserOrderService
         }
         decimal couponCharge = selectedCoupon?.DiscountValue ?? 0;
 
-        var selectedItems = await GetTheInventoryPickupAddress(cartItems,deliveryAddress,cod);
+        var selectedItems = await GetTheInventoryPickupAddress(cartItems, deliveryAddress, cod);
 
         var groupedShipments = selectedItems.GroupBy(x => new
         {
@@ -61,12 +61,12 @@ public partial class UserOrderService : IUserOrderService
         foreach (var group in groupedShipments)
         {
             var pickupAddress = group.First().Inventory.Address!;
-            decimal shipmentWeight = group.Sum(x =>x.CartItem.Qunatity * x.CartItem.ProductVariant!.WeightInKgs);
-            decimal shippingCharge = await CalculateShippingCharge(pickupAddress,deliveryAddress,shipmentWeight,cod);
+            decimal shipmentWeight = group.Sum(x => x.CartItem.Qunatity * x.CartItem.ProductVariant!.WeightInKgs);
+            decimal shippingCharge = await CalculateShippingCharge(pickupAddress, deliveryAddress, shipmentWeight, cod);
             totalShippingCharge += shippingCharge;
-            shipmentChargeDetails.Add((group.Key.PickupAddressId,shippingCharge));
+            shipmentChargeDetails.Add((group.Key.PickupAddressId, shippingCharge));
         }
-
+        decimal totalOrderCost = totalShippingCharge + productCharge + couponCharge;
         RequestCreateOrderDTO requestCreateOrderDTO = new RequestCreateOrderDTO();
         requestCreateOrderDTO.TotalShippingAmount = totalShippingCharge;
         requestCreateOrderDTO.TotalProductAmount = productCharge;
@@ -74,7 +74,8 @@ public partial class UserOrderService : IUserOrderService
         requestCreateOrderDTO.UserId = userId;
         requestCreateOrderDTO.AddressId = deliveryAddress.AddressId;
         var order = await _orderService.CreateOrder(requestCreateOrderDTO);
-        var orderItems = await _orderService.CreateOrderItems(selectedItems,order,selectedCoupon);
+        var orderItems = await _orderService.CreateOrderItems(selectedItems, order, selectedCoupon);
+        var payment = await _paymentService.CreatePayment(order.OrderId,requestAddOrderDTO.PaymentMethod);
 
         foreach (var group in groupedShipments)
         {
@@ -82,7 +83,7 @@ public partial class UserOrderService : IUserOrderService
             var shippingCharge = shipmentChargeDetails.First(x => x.PickupAddressId == group.Key.PickupAddressId).ShippingCharge;
             var ExpectedDeliveryDate = group.First().ExpectedDeliveryDate;
 
-            var shipment = await CreateShipment(order,pickupAddress,shippingCharge, ExpectedDeliveryDate);
+            var shipment = await CreateShipment(order, pickupAddress, shippingCharge, ExpectedDeliveryDate);
             foreach (var selected in group)
             {
                 var orderItem = orderItems.First(oi => oi.ProductVariantId == selected.CartItem.ProductVariantId && oi.InventoryId == selected.Inventory.InventoryId);
@@ -95,5 +96,5 @@ public partial class UserOrderService : IUserOrderService
 
         return _mapper.Map<ResponseAddOrderDTO>(order);
     }
-    
+
 }

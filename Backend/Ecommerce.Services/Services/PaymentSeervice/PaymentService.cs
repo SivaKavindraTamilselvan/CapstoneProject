@@ -13,59 +13,89 @@ public class PaymentService : IPaymentService
     private readonly IOrderRepsository _orderRepsository;
     private readonly IPaymentRepsository _paymentRepsository;
     private readonly IConfiguration _configuration;
+    private readonly IOrderService _orderService;
 
-    public PaymentService(
-        IOrderRepsository orderRepsository,
-        IPaymentRepsository paymentRepsository,
-        IConfiguration configuration)
+    public PaymentService(IOrderService orderService,IOrderRepsository orderRepsository,IPaymentRepsository paymentRepsository,IConfiguration configuration)
     {
         _orderRepsository = orderRepsository;
         _paymentRepsository = paymentRepsository;
         _configuration = configuration;
+        _orderService = orderService;
     }
 
-    public async Task<ResponseRazorpayOrderDTO> CreateRazorpayOrder(int orderId)
+    public async Task<ResponseCreatePaymentDTO> CreatePayment(int orderId, int modeOfPaymentId)
     {
         var order = await _orderRepsository.Get(orderId);
 
         if (order == null)
-        {
             throw new DataNotFoundException("Order Not Found");
+
+        var payment = new Ecommerce.Models.Payment
+        {
+            OrderId = order.OrderId,
+            ModeOfPaymentId = modeOfPaymentId,
+            Amount = 100,
+            PaymentStatusId = 1, // Pending
+            PaymentDate = DateTime.Now,
+            CreatedAt = DateTime.Now
+        };
+
+        // COD
+        if (modeOfPaymentId == 1)
+        {
+            var createdPayment = await _paymentRepsository.Create(payment);
+            if(createdPayment == null)
+            {
+                throw new DataNotFoundException("Payment Not Created");
+            }
+
+            return new ResponseCreatePaymentDTO
+            {
+                PaymentId = createdPayment.PaymentId,
+                OrderId = order.OrderId,
+                RequiresOnlinePayment = false,
+                Message = "COD payment created"
+            };
         }
 
+        // Razorpay
         string keyId = _configuration["Razorpay:KeyId"] ?? string.Empty;
         string keySecret = _configuration["Razorpay:KeySecret"] ?? string.Empty;
+        order.FinalAmount = 500;
+        int amountInPaise = (int)Math.Round(order.FinalAmount * 100);
 
         RazorpayClient client = new RazorpayClient(keyId, keySecret);
 
-        Dictionary<string, object> options = new Dictionary<string, object>();
-        options.Add("amount", (int)(order.FinalAmount * 100));
-        options.Add("currency", "INR");
-        options.Add("receipt", order.OrderNumber);
-        options.Add("payment_capture", 1);
+        Dictionary<string, object> options = new Dictionary<string, object>
+        {
+            { "amount", amountInPaise },
+            { "currency", "INR" },
+            { "receipt", order.OrderNumber },
+            { "payment_capture", 1 }
+        };
 
         Razorpay.Api.Order razorpayOrder = client.Order.Create(options);
 
         string razorpayOrderId = razorpayOrder["id"].ToString();
 
-        Ecommerce.Models.Payment payment = new Ecommerce.Models.Payment(); 
-        payment.OrderId = order.OrderId;
-        payment.ModeOfPaymentId = 2; // Razorpay / Online Payment
-        payment.Amount = order.FinalAmount;
         payment.PaymentGatewayOrderId = razorpayOrderId;
-        payment.PaymentStatusId = 2; // Pending
-        payment.PaymentDate = DateTime.Now;
-        payment.CreatedAt = DateTime.Now;
 
-        await _paymentRepsository.Create(payment);
-
-        return new ResponseRazorpayOrderDTO
+        var savedPayment = await _paymentRepsository.Create(payment);
+        if(savedPayment == null)
         {
+            throw new DataNotFoundException("Payment Not Created");
+        }
+
+        return new ResponseCreatePaymentDTO
+        {
+            PaymentId = savedPayment.PaymentId,
             OrderId = order.OrderId,
+            RequiresOnlinePayment = true,
             RazorpayOrderId = razorpayOrderId,
             Key = keyId,
-            Amount = order.FinalAmount,
-            Currency = "INR"
+            Amount = amountInPaise,
+            Currency = "INR",
+            Message = "Razorpay order created"
         };
     }
 
@@ -74,9 +104,7 @@ public class PaymentService : IPaymentService
         bool isValid = VerifySignature(request);
 
         if (!isValid)
-        {
             throw new Exception("Invalid Razorpay signature");
-        }
 
         var payments = await _paymentRepsository.GetAll();
 
@@ -85,17 +113,40 @@ public class PaymentService : IPaymentService
             p.PaymentGatewayOrderId == request.RazorpayOrderId);
 
         if (payment == null)
-        {
             throw new DataNotFoundException("Payment Not Found");
-        }
 
         payment.PaymentGatewayTransactionId = request.RazorpayPaymentId;
         payment.PaymentStatusId = 2; // Success
+        payment.PaymentDate = DateTime.Now;
         payment.UpdatedAt = DateTime.Now;
 
         await _paymentRepsository.Update(payment.PaymentId, payment);
 
+        await _orderService.ConfirmOrderStatus(request.OrderId);
+
         return "Payment Verified Successfully";
+    }
+
+    public async Task<string> StorePaymentFailure(RequestPaymentFailedDTO request)
+    {
+        var payments = await _paymentRepsository.GetAll();
+
+        var payment = payments.FirstOrDefault(p =>
+            p.OrderId == request.OrderId &&
+            p.PaymentGatewayOrderId == request.RazorpayOrderId);
+
+        if (payment == null)
+            throw new DataNotFoundException("Payment Not Found");
+
+        payment.PaymentStatusId = 3; // Failed
+        payment.FailureReason =
+            $"{request.ErrorCode} - {request.ErrorDescription} | Source: {request.ErrorSource} | Step: {request.ErrorStep} | Reason: {request.ErrorReason} | Field: {request.ErrorField}";
+
+        payment.UpdatedAt = DateTime.Now;
+
+        await _paymentRepsository.Update(payment.PaymentId, payment);
+
+        return "Payment failure stored successfully";
     }
 
     private bool VerifySignature(RequestVerifyRazorpayPaymentDTO request)

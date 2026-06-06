@@ -4,19 +4,24 @@ using Ecommerce.Models;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
-public class OrderService : IOrderService
+public partial class OrderService : IOrderService
 {
     private readonly IOrderRepsository _orderRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IInventoryRepsository _inventoryRepsository;
     private readonly IInventoryValidation _inventoryValidation;
+    private readonly IShipmentRepsository _shipmentRepsository;
+    private readonly IShipmentService _shipmentService;
+
     private readonly IMapper _mapper;
-    public OrderService(IInventoryRepsository inventoryRepsository,IInventoryValidation inventoryValidation,IInventoryService inventoryService,IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(IShipmentService shipmentService,IShipmentRepsository shipmentRepsository,IInventoryRepsository inventoryRepsository,IInventoryValidation inventoryValidation,IInventoryService inventoryService,IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
         _orderRepsository = orderRepsository;
         _orderItemRepsository = orderItemRepsository;
         _inventoryValidation = inventoryValidation;
         _inventoryRepsository = inventoryRepsository;
+        _shipmentService = shipmentService;
+        _shipmentRepsository = shipmentRepsository;
         _mapper = mapper;
     }
     public async Task<Order> CreateOrder(RequestCreateOrderDTO requestCreateOrderDTO)
