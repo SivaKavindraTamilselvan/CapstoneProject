@@ -11,5 +11,10 @@ public class CartRepsository : AbstractRepository<int, Cart>, ICartRepsository
     {
 
     }
+    public async Task<Cart?> GetCartByUserId(int userId)
+    {
+        var cart = await _ecommerceContext.Cart.FirstOrDefaultAsync(c=>c.UserId == userId);
+        return cart;
+    }
 
 }
