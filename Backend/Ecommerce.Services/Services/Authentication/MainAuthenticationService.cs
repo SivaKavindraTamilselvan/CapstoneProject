@@ -12,9 +12,11 @@ public partial class AuthenticationService : IAuthentication
     private readonly IVendorUserRepsository _vendorUserRepsository;
     private readonly ITokenService _tokenService;
     private readonly EcommerceContext _ecommerceContext;
+    private readonly ICartRepsository _cartRepsository;
+    private readonly IFavoriteRepsository _favoriteRepsository;
     private readonly ILogger<AuthenticationService> _logger;
     private readonly IMapper _mapper;
-    public AuthenticationService(EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper)
+    public AuthenticationService(EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper,ICartRepsository cartRepsository,IFavoriteRepsository favoriteRepsository)
     {
         _ecommerceContext = ecommerceContext;
         _userRepsository = userRepsository;
@@ -22,6 +24,8 @@ public partial class AuthenticationService : IAuthentication
         _vendorRepsository = vendorRepsository;
         _vendorUserRepsository = vendorUserRepsository;
         _tokenService = tokenService;
+        _favoriteRepsository = favoriteRepsository;
+        _cartRepsository = cartRepsository;
         _logger = logger;
         _mapper = mapper;
     }

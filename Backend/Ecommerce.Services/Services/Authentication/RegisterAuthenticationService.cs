@@ -9,18 +9,33 @@ public partial class AuthenticationService : IAuthentication
 {
     public async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
     {
-        var existingUser = await _userRepsository.GetUserByEmail(requestRegisterUserDTO.Email);
-        if (existingUser != null)
+        using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
+        try
         {
-            throw new Exception("Email already found");
+            var existingUser = await _userRepsository.GetUserByEmail(requestRegisterUserDTO.Email);
+            if (existingUser != null)
+            {
+                throw new Exception("Email already found");
+            }
+            User user = _mapper.Map<User>(requestRegisterUserDTO);
+            HMACSHA256 hMACSHA256 = new HMACSHA256();
+            user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterUserDTO.Password));
+            user.HashedKey = hMACSHA256.Key;
+            user.RoleId = RoleId;
+            await _userRepsository.Create(user);
+            Cart cart = new Cart();
+            cart.UserId = user.UserId;
+            await _cartRepsository.Create(cart);
+            Favorites favorites = new Favorites();
+            favorites.UserId = user.UserId;
+            await _favoriteRepsository.Create(favorites);
+            return _mapper.Map<ResponseRegisterUserDTO>(user);
         }
-        User user = _mapper.Map<User>(requestRegisterUserDTO);
-        HMACSHA256 hMACSHA256 = new HMACSHA256();
-        user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterUserDTO.Password));
-        user.HashedKey = hMACSHA256.Key;
-        user.RoleId = RoleId;
-        await _userRepsository.Create(user);
-        return _mapper.Map<ResponseRegisterUserDTO>(user);
+        catch
+        {
+            await transaction.RollbackAsync();
+            throw;
+        }
     }
     public async Task<ResponseRegisterUserDTO> Register(RequestRegisterUserDTO requestRegisterUserDTO)
     {

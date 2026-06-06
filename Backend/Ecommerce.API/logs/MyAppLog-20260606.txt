@@ -7,3 +7,4 @@
 2026-06-06 15:12:18.276 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 45.7678ms
 2026-06-06 15:12:18.384 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-06 15:12:18.447 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.7103ms
+2026-06-06 15:14:15.332 +05:30 [INF] Application is shutting down...
