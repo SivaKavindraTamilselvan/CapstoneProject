@@ -14,19 +14,29 @@ public partial class VendorProductVariantService : IVendorProductVariantService
         await _productVariantRepsository.Create(productVariant);
         foreach (var list in requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs)
         {
-            await AddProductVariantAttribute(list, productVariant.ProductVariantId,product.ProductSubCategoryId);
+            RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO = new RequestAddProductVariantAttributeDTO();
+            requestAddProductVariantAttributeDTO.AttributeValue = list.AttributeValue;
+            requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId = list.ProductSubCategoryAttributeId;
+            requestAddProductVariantAttributeDTO.ProductVariantId = productVariant.ProductVariantId;
+            await AddProductVariantAttribute(requestAddProductVariantAttributeDTO,false);
         }
         return _mapper.Map<ResponseAddProductVariantDTO>(productVariant);
     }
-    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, int productVariantId,int productSubCategoryId)
+    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO,bool updation)
     {
-        await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,productSubCategoryId);
+        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId);
+        var product = await _productValidation.ValidateProduct(productVariant.ProductId);
+        await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,product.ProductSubCategoryId);
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
-        productVariantAttribute.ProductVariantId = productVariantId;
         await _productVariantAttributeRepsository.Create(productVariantAttribute);
+        if(updation)
+        {
+            productVariant.ProductApprovalStatusId = 2;
+            productVariant.UpdatedAt = DateTime.Now;
+            await _productVariantRepsository.Update(productVariant.ProductVariantId,productVariant);
+        }
         return _mapper.Map<ResponseAddProductVariantAttributeDTO>(productVariantAttribute);
     }
-
     private async Task<string> GenerateSku(int productId)
     {
         string sku;

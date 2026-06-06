@@ -4,6 +4,7 @@ namespace Ecommerce.DTOs;
 
 public class RequestAddProductVariantAttributeDTO
 {
+    public int ProductVariantId {get;set;}
     [Required(ErrorMessage = "Attribute Id Needed")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Id Should Be Greater Than 0")]
     public int ProductSubCategoryAttributeId { get; set; }

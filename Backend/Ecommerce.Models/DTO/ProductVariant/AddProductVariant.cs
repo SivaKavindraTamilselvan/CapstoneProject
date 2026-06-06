@@ -32,7 +32,18 @@ public class RequestAddProductVariantDTO
     [Range(typeof(decimal), "0.01", "1000000", ErrorMessage = "Height must be greater than 0")]
     public decimal HeightInCm { get; set; }
 
-    public List<RequestAddProductVariantAttributeDTO> requestAddProductVariantAttributeDTOs { get; set; } = new List<RequestAddProductVariantAttributeDTO>();
+    public List<ProductVariantAttributeDTO> requestAddProductVariantAttributeDTOs { get; set; } = new List<ProductVariantAttributeDTO>();
+
+}
+
+public class ProductVariantAttributeDTO
+{
+    [Required(ErrorMessage = "Attribute Id Needed")]
+    [Range(1, int.MaxValue, ErrorMessage = "Product Id Should Be Greater Than 0")]
+    public int ProductSubCategoryAttributeId { get; set; }
+
+    [Required(ErrorMessage = "Attribute Value Is Needed")]
+    public string AttributeValue { get; set; } = string.Empty;
 
 }
 
