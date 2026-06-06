@@ -31,6 +31,8 @@ namespace Ecommerce.Mappers
             CreateMap<Product,ResponseUpdateProduct>();
 
             CreateMap<ProductVariant,ResponseUpdateProductVariantDTO>();
+
+            CreateMap<ProductImage,ResponseMakeDefaultImageDTO>();
         }
     }
 }

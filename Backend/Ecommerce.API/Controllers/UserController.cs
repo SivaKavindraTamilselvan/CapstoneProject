@@ -25,4 +25,11 @@ public class UserController : ControllerBase
         var result = await _addressService.AddAddress(requestAddAddressDTO,UserId);
         return Ok(result);
     }
+    [Authorize]
+    [HttpPost("MakeAdressAsDefault")]
+    public async Task<ActionResult<ResponseMakeDefaultAddressDTO>> UpdateAddressAsDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
+    {
+        var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO);
+        return Ok(result);
+    }
 }

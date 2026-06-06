@@ -60,4 +60,12 @@ public class ProductController : ControllerBase
         var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO);
         return Ok(result);
     }
+
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpPost("UpdateProductImageAsDefault")]
+    public async Task<ActionResult<ResponseMakeDefaultImageDTO>> UpdateProductImageAsDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO)
+    {
+        var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
+        return Ok(result);
+    }
 }
