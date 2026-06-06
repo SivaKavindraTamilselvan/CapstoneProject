@@ -1,7 +1,5 @@
 using AutoMapper;
-using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
-
 public partial class UserCouponService : IUserCouponService
 {
     private readonly ICouponValidation _couponValidation;

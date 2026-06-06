@@ -37,4 +37,13 @@ public class CouponValidation : ICouponValidation
         }
         return coupons;
     }
+    public async Task<Coupons> ValidateCoupon(int couponId)
+    {
+        var coupon = await _couponRepsository.Get(couponId);
+        if(coupon == null)
+        {
+            throw new DataNotFoundException("Coupon Not Found");
+        }
+        return coupon;
+    }
 }
