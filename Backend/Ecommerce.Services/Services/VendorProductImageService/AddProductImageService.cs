@@ -8,10 +8,6 @@ public partial class VendorProductImageService : IVendorProductImageService
     {
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         var product = await _productValidation.ValidateProduct(requestAddProductImage.ProductId);
-        if (requestAddProductImage.ProductVariantId != null)
-        {
-            var productVariant = await _productValidation.ValidateProductVariant(requestAddProductImage.ProductVariantId.Value);
-        }
         var productImage = _mapper.Map<ProductImage>(requestAddProductImage);
         productImage.AddedByVendorUserId = vendorUser.VendorUserId;
         await _productImageRepsository.Create(productImage);
@@ -38,5 +34,15 @@ public partial class VendorProductImageService : IVendorProductImageService
         image.UpdatedAt = DateTime.Now;
         await _productImageRepsository.Update(image.ProductImageId,image);
         return _mapper.Map<ResponseMakeDefaultImageDTO>(image);
+    }
+    public async Task<ResponseAddProductVariantImage> AddProductVariantImage(RequestAddProductVariantImage requestAddProductVariantImage, int vendorUserId)
+    {
+        var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
+        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantImage.ProductVariantId);
+        await _productValidation.ValidateProductIfApproved(productVariant.ProductId);
+        var productImage = _mapper.Map<ProductImage>(requestAddProductVariantImage);
+        productImage.AddedByVendorUserId = vendorUser.VendorUserId;
+        await _productImageRepsository.Create(productImage);
+        return _mapper.Map<ResponseAddProductVariantImage>(productImage);
     }
 }

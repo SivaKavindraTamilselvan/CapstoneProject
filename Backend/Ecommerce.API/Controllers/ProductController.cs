@@ -39,6 +39,14 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpPost("AddProductVariantImage")]
+    public async Task<ActionResult<ResponseAddProductVariantImage>> AddProductVariantImage(RequestAddProductVariantImage requestAddProductVariantImage)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductVariantImage,vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProductVariant")]
     public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
@@ -68,4 +76,6 @@ public class ProductController : ControllerBase
         var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
         return Ok(result);
     }
+
+
 }
