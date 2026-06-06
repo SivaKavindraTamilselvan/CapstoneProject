@@ -6,9 +6,11 @@ using Ecommerce.Services.Interfaces;
 public class OrderValidation :IOrderValidation
 {
     private readonly IOrderItemRepsository _orderItemRepsository;
-    public OrderValidation(IOrderItemRepsository orderItemRepsository)
+    private readonly IOrderRepsository _orderRepsository;
+    public OrderValidation(IOrderItemRepsository orderItemRepsository,IOrderRepsository orderRepsository)
     {
         _orderItemRepsository = orderItemRepsository;
+        _orderRepsository = orderRepsository;
     }
     public async Task<OrderItems> ValidateOrderItem(int orderItemId)
     {
@@ -27,5 +29,14 @@ public class OrderValidation :IOrderValidation
             throw new DataNotFoundException("No Order Found For The Particular Vendor");
         }
         return Orders;
+    }
+    public async Task<Order> ValidateOrder(int orderId)
+    {
+        var order = await _orderRepsository.Get(orderId);
+        if(order == null)
+        {
+            throw new DataNotFoundException("Order Is Not Found");
+        }
+        return order;
     }
 }
