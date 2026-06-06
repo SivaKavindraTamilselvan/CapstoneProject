@@ -11,6 +11,7 @@ public class EcommerceContext : DbContext
     }
     public DbSet<User> User { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
+    public DbSet<AdminUser> AdminUser {get;set;}
     public DbSet<Address> Address { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
     public DbSet<ProductSubCategory> ProductSubCategory { get; set; }

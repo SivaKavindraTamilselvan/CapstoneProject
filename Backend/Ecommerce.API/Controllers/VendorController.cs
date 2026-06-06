@@ -11,11 +11,9 @@ namespace Ecommerce.API.Controllers;
 public class VendorController : ControllerBase
 {
     private readonly IVendorService _vendorService;
-    private readonly IVendorCouponService _vendorCouponService;
-    public VendorController(IVendorService vendorService, IVendorCouponService vendorCouponService)
+    public VendorController(IVendorService vendorService)
     {
         _vendorService = vendorService;
-        _vendorCouponService = vendorCouponService;
     }
 
     [Authorize(Policy = "VendorAdminOnly")]
@@ -24,6 +22,14 @@ public class VendorController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorService.RegisterVendorUser(requestRegisterVendorUserDTO, vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPost("ReviewProductByVendor")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorService.ReviewProductByVendor(requestReviewOfProductDTO, vendorUserId);
         return Ok(result);
     }
 }

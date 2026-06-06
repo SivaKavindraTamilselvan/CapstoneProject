@@ -4,4 +4,5 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IAdminUserRepsository : IRepository<int,AdminUser>
 {
+    public Task<AdminUser?> GetAdminUserByUserId(int userId);
 }

@@ -175,6 +175,7 @@ builder.Services.AddScoped<IProductValidation,ProductValidation>();
 builder.Services.AddScoped<IShipmentValidation,ShipmentValidation>();
 builder.Services.AddScoped<IVendorUserValidation,VendorUserValidation>();
 builder.Services.AddScoped<IProductAttributeValidation,ProductAttributeValidation>();
+builder.Services.AddScoped<IAdminUserValidation,AdminUserValidation>();
 #endregion
 
 #region Repository
