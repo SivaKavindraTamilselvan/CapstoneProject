@@ -17,7 +17,8 @@ public class CouponRepsository : AbstractRepository<int, Coupons>, ICouponRepsos
     }
     public async Task<List<Coupons>> GetAllActiveCoupon(int userId)
     {
-        var coupon = await _ecommerceContext.Coupons.Include(c => c.CouponsProducts).ThenInclude(cp => cp.Product).Include(cu => cu.CouponUsages).Where(c => c.IsActive == true && c.StartDate <= DateTime.Now && c.EndDate >= DateTime.Now).ToListAsync();
+        var coupon = await _ecommerceContext.Coupons.Include(c => c.CouponsProducts).ThenInclude(cp => cp.Product).Include(cu => cu.CouponUsages).ThenInclude(cu => cu.Order)
+        .Where(c => c.IsActive == true && c.StartDate <= DateTime.Now && c.EndDate >= DateTime.Now).ToListAsync();
         coupon = coupon.Where(c => c.CouponUsages.Count(cu => cu.Order!.UserId == userId) < c.MinimumNumberOfUsage).ToList();
         return coupon;
     }
