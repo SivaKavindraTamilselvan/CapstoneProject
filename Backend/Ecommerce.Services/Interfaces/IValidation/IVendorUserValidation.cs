@@ -4,5 +4,5 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IVendorUserValidation
 {
-    public Task<VendorUser> ValidateVendorUser(int vendorUserId);
+    public Task<VendorUser> ValidateVendorUserByUserId(int vendorUserId);
 }

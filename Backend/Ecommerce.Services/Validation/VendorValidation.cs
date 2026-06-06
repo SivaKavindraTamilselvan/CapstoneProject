@@ -5,25 +5,12 @@ using Ecommerce.Services.Interfaces;
 
 public class VendorValidation :IVendorValidation
 {
-    private readonly IVendorUserRepsository _vendorUserRepsository;
     private readonly IVendorRepsository _vendorRepsository;
-    private readonly IInventoryRepsository _inventoryRepsository;
-    public VendorValidation(IVendorUserRepsository vendorUserRepsository,IVendorRepsository vendorRepsository,IInventoryRepsository inventoryRepsository)
+    public VendorValidation(IVendorRepsository vendorRepsository)
     {
-        _vendorUserRepsository = vendorUserRepsository;
         _vendorRepsository = vendorRepsository;
-        _inventoryRepsository = inventoryRepsository;
     }
-    public async Task<VendorUser> ValidateVendorUser(int vendorUserId)
-    {
-        var vendorUser = await _vendorUserRepsository.GetVendorUserByUserId(vendorUserId);
-        if (vendorUser == null)
-        {
-            throw new DataNotFoundException("Vendor User Not Found");
-        }
-        return vendorUser;
-    }
-
+    
     public async Task<Vendor> ValidateVendor(int vendorId)
     {
         var vendor = await _vendorRepsository.Get(vendorId);
