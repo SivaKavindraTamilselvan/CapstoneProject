@@ -8,3 +8,80 @@
 2026-06-06 15:12:18.384 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-06 15:12:18.447 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.7103ms
 2026-06-06 15:14:15.332 +05:30 [INF] Application is shutting down...
+2026-06-06 15:36:50.935 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 15:36:51.036 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 15:36:51.038 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 15:36:51.038 +05:30 [INF] Hosting environment: Development
+2026-06-06 15:36:51.038 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 15:37:03.267 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-06 15:37:03.313 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 47.3015ms
+2026-06-06 15:37:03.374 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-06 15:37:03.437 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.6562ms
+2026-06-06 15:38:28.045 +05:30 [INF] Application is shutting down...
+2026-06-06 15:40:38.908 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 15:40:39.008 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 15:40:39.009 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 15:40:39.009 +05:30 [INF] Hosting environment: Development
+2026-06-06 15:40:39.009 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 15:40:47.220 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 133
+2026-06-06 15:40:47.242 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-06 15:40:47.257 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-06 15:40:47.267 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-06 15:40:47.386 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-06 15:40:47.402 +05:30 [INF] User registration started for selvi@gmail.com
+2026-06-06 15:40:48.404 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-06 15:40:48.511 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-06 15:40:48.544 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cart" ("UserId")
+VALUES (@p0)
+RETURNING "CartId";
+2026-06-06 15:40:48.556 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Favorites" ("UserId")
+VALUES (@p0)
+RETURNING "FavoritesId";
+2026-06-06 15:40:48.563 +05:30 [INF] User registered successfully with UserId 4
+2026-06-06 15:40:48.568 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterUserDTO'.
+2026-06-06 15:40:48.574 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 1305.0905ms
+2026-06-06 15:40:48.574 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-06 15:40:48.578 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 200 null application/json; charset=utf-8 1359.1135ms
+2026-06-06 15:43:17.777 +05:30 [INF] Application is shutting down...
+2026-06-06 15:43:23.695 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-06 15:43:23.799 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-06 15:43:23.800 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-06 15:43:23.800 +05:30 [INF] Hosting environment: Development
+2026-06-06 15:43:23.800 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-06 15:43:29.707 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 133
+2026-06-06 15:43:29.728 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-06 15:43:29.740 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-06 15:43:29.750 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-06 15:43:29.853 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-06 15:43:29.871 +05:30 [INF] User registration started for selvi@gmail.com
+2026-06-06 15:43:30.709 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-06 15:43:30.805 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-06 15:43:30.834 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cart" ("UserId")
+VALUES (@p0)
+RETURNING "CartId";
+2026-06-06 15:43:30.843 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Favorites" ("UserId")
+VALUES (@p0)
+RETURNING "FavoritesId";
+2026-06-06 15:43:30.852 +05:30 [INF] User registered successfully with UserId 5
+2026-06-06 15:43:30.856 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterUserDTO'.
+2026-06-06 15:43:30.863 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 1111.1595ms
+2026-06-06 15:43:30.863 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-06 15:43:30.867 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 200 null application/json; charset=utf-8 1161.3276ms

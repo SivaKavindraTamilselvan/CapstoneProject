@@ -29,6 +29,7 @@ public partial class AuthenticationService : IAuthentication
             Favorites favorites = new Favorites();
             favorites.UserId = user.UserId;
             await _favoriteRepsository.Create(favorites);
+            await transaction.CommitAsync();
             return _mapper.Map<ResponseRegisterUserDTO>(user);
         }
         catch
