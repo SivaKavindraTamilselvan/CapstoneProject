@@ -1,9 +1,19 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 public partial class AdminVendorService : IAdminVendorService
 {
+    public async Task<List<ResponseGetVendor>> GetAllPendingVendor()
+    {
+        var vendor = await _vendorRepsository.GetAllVednorNotPendingApproval();
+        if(vendor.Count == 0)
+        {
+            throw new DataNotFoundException("No Pedning Vendors");
+        }
+        return _mapper.Map<List<ResponseGetVendor>>(vendor);
+    }
     public async Task<ResponseReviewOfVendorDTO> ReviewVendor(RequestReviewOfVendorDTO requestReviewOfVendorDTO,int userId)
     {
         var vendor = await _vendorRepsository.Get(requestReviewOfVendorDTO.VendorId);

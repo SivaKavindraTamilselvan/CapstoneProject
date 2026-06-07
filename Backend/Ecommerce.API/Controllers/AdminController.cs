@@ -77,4 +77,11 @@ public class AdminController : ControllerBase
         var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO);
         return Ok(result);
     }
+    
+    [HttpGet("GetPendingVendor")]
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetPendingVendor()
+    {
+        var result = await _adminVendorService.GetAllPendingVendor();
+        return Ok(result);
+    }
 }

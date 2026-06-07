@@ -8,20 +8,22 @@ namespace Ecommerce.Mappers
     {
         public VendorMappingProfile()
         {
-            CreateMap<RequestAddInventoryDTO,Inventory>();
-            CreateMap<Inventory,ResponseAddInventoryDTO>();
+            CreateMap<RequestAddInventoryDTO, Inventory>();
+            CreateMap<Inventory, ResponseAddInventoryDTO>();
 
-            CreateMap<RequestUpdateInventoryDTO,Inventory>();
-            CreateMap<Inventory,ResponseUpdateInventoryDTO>();
+            CreateMap<RequestUpdateInventoryDTO, Inventory>();
+            CreateMap<Inventory, ResponseUpdateInventoryDTO>();
 
-            CreateMap<RequestAddCouponDTO,Coupons>();
-            CreateMap<Coupons,ResponseAddCouponDTO>();
+            CreateMap<RequestAddCouponDTO, Coupons>();
+            CreateMap<Coupons, ResponseAddCouponDTO>();
 
-            CreateMap<RequestAddCouponProductDTO,CouponsProduct>();
-            CreateMap<Coupons,ResponseAddCouponProductDTO>();
+            CreateMap<RequestAddCouponProductDTO, CouponsProduct>();
+            CreateMap<Coupons, ResponseAddCouponProductDTO>();
 
-            CreateMap<OrderItems,ResponseGetOrderItems>();
-            CreateMap<Shipment,ShipmentStatusResponseDTO>();
+            CreateMap<OrderItems, ResponseGetOrderItems>();
+            CreateMap<Shipment, ShipmentStatusResponseDTO>();
+
+            CreateMap<Vendor, ResponseGetVendor>().ForMember(dest => dest.ApprovalStatusName, opt => opt.MapFrom(src => src.ApprovalStatus!.ApprovalStatusName));
         }
     }
 }
