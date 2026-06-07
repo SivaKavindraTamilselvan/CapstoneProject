@@ -15,13 +15,17 @@ public class AdminController : ControllerBase
     private readonly IAdminService _adminService;
     private readonly IAdminProductService _adminProductService;
     private readonly IAdminVendorService _adminVendorService;
-    public AdminController(IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
+    private readonly IAdminReturnService _adminReturnService;
+    private readonly IAdminRefundService _adminRefundService;
+    public AdminController(IAdminRefundService adminRefundService,IAdminReturnService adminReturnService,IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
     {
         _adminService = adminService;
         _adminProductService = adminProductService;
         _adminVendorService = adminVendorService;
         _adminProductAttributeService = adminProductAttributeService;
         _adminProductCategoryService = adminProductCategoryService;
+        _adminReturnService = adminReturnService;
+        _adminRefundService = adminRefundService;
     }
 
     [Authorize(Policy = "SuperAdminOnly")]
@@ -46,6 +50,28 @@ public class AdminController : ControllerBase
     public async Task<ActionResult<List<ResponseGetVendor>>> GetPendingVendor()
     {
         var result = await _adminVendorService.GetAllPendingVendor();
+        return Ok(result);
+    }
+
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("CreateReturnShipment")]
+    public async Task<ActionResult> CreateShipmentForReturnProduct(int returnId)
+    {
+        var result = await _adminReturnService.CreateReturnShipment(returnId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("CreateRefund")]
+    public async Task<ActionResult> UpdateRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
+    {
+        var result = await _adminRefundService.ReviewRefund(requestUpdateRefundDTO);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("ReviewRefund")]
+    public async Task<ActionResult> CreateRefund(RequestAddRefundDTO requestAddRefundDTO)
+    {
+        var result = await _adminRefundService.CreateRefund(requestAddRefundDTO);
         return Ok(result);
     }
 }

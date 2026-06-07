@@ -13,6 +13,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestAddReturnDTO,Return>();
             CreateMap<Return,ResponseAddReturnDTO>();
+
+            CreateMap<Return,ResponseReviewReturnDTO>();
         }
     }
 }

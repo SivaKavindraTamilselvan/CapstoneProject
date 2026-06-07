@@ -46,7 +46,7 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
     [Authorize]
-    [HttpGet("RequestReturnOrder")]
+    [HttpPost("RequestReturnOrder")]
     public async Task<ActionResult<ResponseAddReturnDTO>> RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO)
     {
         var result = await _userReturnService.AddReturn(requestAddReturnDTO);

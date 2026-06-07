@@ -14,6 +14,7 @@ using BankingAPI.Middlewares;
 using Ecommerce.API.Hubs;
 using Ecommerce.API.Services;
 using Ecommerce.Models;
+using Ecommerce.DTOs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -255,6 +256,7 @@ builder.Services.AddScoped<IShipmentTrackingRepsository,ShipmentTrackingRepsosit
 builder.Services.AddScoped<IAddressRepsository,AddressRepsository>();
 builder.Services.AddScoped<IShipperRepsository,ShipperRepsository>();
 builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
+builder.Services.AddScoped<IAdminReturnService,AdminReturnService>();
 #endregion
 
 #region Services
@@ -293,6 +295,7 @@ builder.Services.AddScoped<IAdminProductService,AdminProductService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IUserProductCategoryService,UserProductCategoryService>();
 builder.Services.AddScoped<IUserReturnService,UserReturnService>();
+builder.Services.AddScoped<IAdminRefundService,AdminRefundService>();
 #endregion
 
 

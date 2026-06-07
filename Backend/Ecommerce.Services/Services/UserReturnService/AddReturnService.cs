@@ -27,7 +27,7 @@ public class UserReturnService : IUserReturnService
         {
             throw new DataApprovalStatusException("Order Still Not Delivered Yet");
         }
-        if (DateTime.Now < shipment.DeliveryDate.Value.AddDays(7))
+        if (DateTime.Now > shipment.DeliveryDate.Value.AddDays(7))
         {
             throw new DataApprovalStatusException("Order Item Request Exceeded The date Limit");
         }

@@ -16,6 +16,7 @@ public partial class VendorReturnService : IVendorReturnService
         returnItem.VendorReview = requestReviewReturnProductDTO.Remarks;
         returnItem.ReviewedByVendorId = vendorUser.VendorUserId;
         returnItem.ReviewedDate = DateTime.Now;
+        returnItem.ReturnStatusId = 7;
         await _returnRepsository.Update(returnItem.ReturnId,returnItem);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);
     }
