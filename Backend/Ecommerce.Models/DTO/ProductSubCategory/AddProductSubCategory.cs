@@ -8,6 +8,8 @@ public class RequestAddProductSubCategoryDTO
     [MaxLength(100 ,ErrorMessage = "Maximum 100 characters allowed")]
     public string ProductSubCategoryName { get; set; } = string.Empty;
 
+    public decimal CommissionPercentage { get; set; }
+
     [Required(ErrorMessage = "Product Category Id Needed")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Category Id Should Be Greater Than 0")]
     public int ProductCategoryId { get; set; }

@@ -101,3 +101,49 @@ VALUES
 (4, 'Home & Kitchen'),
 (5, 'Books'),
 (6, 'Sports & Fitness');
+
+INSERT INTO "ProductSubCategory"
+(
+    "ProductSubCategoryId",
+    "ProductSubCategoryName",
+    "ProductCategoryId",
+    "CommissionPercentage"
+)
+VALUES
+(1,'Mobile Phones',1,5.00),
+(2,'Laptops',1,6.00),
+(3,'Tablets',1,5.50),
+(4,'Smart Watches',1,7.00),
+(5,'Headphones',1,8.00),
+(6,'Speakers',1,8.00),
+
+(7,'T-Shirts',2,12.00),
+(8,'Shirts',2,12.00),
+(9,'Jeans',2,13.00),
+(10,'Trousers',2,13.00),
+(11,'Shoes',2,15.00),
+(12,'Sandals',2,15.00),
+
+(13,'Face Wash',3,18.00),
+(14,'Moisturizer',3,18.00),
+(15,'Shampoo',3,20.00),
+(16,'Conditioner',3,20.00),
+(17,'Sunscreen',3,18.00),
+(18,'Perfumes',3,22.00),
+
+(19,'Cookware',4,10.00),
+(20,'Furniture',4,12.00),
+(21,'Storage Containers',4,10.00),
+(22,'Home Decor',4,15.00),
+(23,'Bedsheets',4,14.00),
+(24,'Kitchen Appliances',4,8.00),
+
+(25,'Academic Books',5,5.00),
+(26,'Novels',5,8.00),
+(27,'Comics',5,8.00),
+(28,'Biographies',5,8.00),
+
+(29,'Cricket Equipment',6,10.00),
+(30,'Football Equipment',6,10.00),
+(31,'Gym Equipment',6,12.00),
+(32,'Yoga Accessories',6,12.00);

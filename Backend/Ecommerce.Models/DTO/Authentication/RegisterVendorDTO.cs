@@ -33,7 +33,6 @@ public class RequestRegisterVendorDTO
 public class ResponseRegisterVendorDTO
 {
     public int VendorId { get; set; }
-    public int OwnerUserId { get; set; }
     public string CompanyEmail { get; set; } = string.Empty;
     public string CompanyPhoneNumber { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }

@@ -95,3 +95,184 @@ FROM "__EFMigrationsHistory"
 ORDER BY "MigrationId";
 2026-06-07 13:15:42.553 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
 2026-06-07 13:15:42.560 +05:30 [INF] Applying migration '20260607074522_InitialCreate'.
+2026-06-07 13:23:37.881 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 13:23:37.973 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 13:23:37.974 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 13:23:37.974 +05:30 [INF] Hosting environment: Development
+2026-06-07 13:23:37.974 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 13:23:41.292 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 13:23:41.329 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 38.0851ms
+2026-06-07 13:23:41.389 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 13:23:41.454 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 66.271ms
+2026-06-07 13:24:39.930 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 160
+2026-06-07 13:24:39.957 +05:30 [INF] CORS policy execution failed.
+2026-06-07 13:24:39.957 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 13:24:39.958 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 13:24:39.978 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-07 13:24:39.988 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 13:24:40.102 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 13:24:40.117 +05:30 [INF] User registration started for praneshtamilselvan@gmail.com
+2026-06-07 13:24:41.022 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 13:24:41.119 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-07 13:24:41.152 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cart" ("UserId")
+VALUES (@p0)
+RETURNING "CartId";
+2026-06-07 13:24:41.163 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Favorites" ("UserId")
+VALUES (@p0)
+RETURNING "FavoritesId";
+2026-06-07 13:24:41.171 +05:30 [INF] User registered successfully with UserId 2
+2026-06-07 13:24:41.176 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterUserDTO'.
+2026-06-07 13:24:41.182 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 1191.9571ms
+2026-06-07 13:24:41.182 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-07 13:24:41.185 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 200 null application/json; charset=utf-8 1255.1005ms
+2026-06-07 13:27:41.115 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 393
+2026-06-07 13:27:41.119 +05:30 [INF] CORS policy execution failed.
+2026-06-07 13:27:41.119 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 13:27:41.121 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:27:41.128 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 13:27:41.149 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 20.5248ms
+2026-06-07 13:27:41.149 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:27:41.149 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: The connection is already in a transaction and cannot participate in another transaction.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.EnsureNoTransactions()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(CancellationToken cancellationToken)
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 12
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 78
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 93
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 25
+   at lambda_method618(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 13:27:41.159 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 500 null application/json 44.8536ms
+2026-06-07 13:29:07.473 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 393
+2026-06-07 13:29:07.475 +05:30 [INF] CORS policy execution failed.
+2026-06-07 13:29:07.475 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 13:29:07.479 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:29:07.479 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 13:29:07.529 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 49.151ms
+2026-06-07 13:29:07.529 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:29:07.529 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: The connection is already in a transaction and cannot participate in another transaction.
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.EnsureNoTransactions()
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(IsolationLevel isolationLevel, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalConnection.BeginTransactionAsync(CancellationToken cancellationToken)
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 12
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 78
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 93
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 25
+   at lambda_method618(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 13:29:07.530 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 500 null application/json 56.8265ms
+2026-06-07 13:32:19.183 +05:30 [INF] Application is shutting down...
+2026-06-07 13:32:23.985 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 13:32:24.079 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 13:32:24.080 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 13:32:24.080 +05:30 [INF] Hosting environment: Development
+2026-06-07 13:32:24.080 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 13:32:29.482 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 393
+2026-06-07 13:32:29.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 13:32:29.504 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 13:32:29.505 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 13:32:29.517 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:32:29.527 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 13:32:29.633 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 13:32:30.479 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 13:32:30.580 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-07 13:32:30.610 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cart" ("UserId")
+VALUES (@p0)
+RETURNING "CartId";
+2026-06-07 13:32:30.619 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Favorites" ("UserId")
+VALUES (@p0)
+RETURNING "FavoritesId";
+2026-06-07 13:32:30.650 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vendor" ("ApprovalStatusId", "CompanyEmail", "CompanyPhoneNumber", "ContactPersonName", "CreatedAt", "GSTNumber", "IsActive", "ReviewedAt", "ReviewedByAdminId", "VendorCompanyName")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "VendorId";
+2026-06-07 13:32:30.680 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "VendorUser" ("AddedByVendorUserId", "CreatedAt", "UserId", "VendorId", "VendorRoleId")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "VendorUserId", "IsActive";
+2026-06-07 13:32:30.694 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterVendorDTO'.
+2026-06-07 13:32:30.701 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 1172.1079ms
+2026-06-07 13:32:30.701 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:32:30.705 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 200 null application/json; charset=utf-8 1224.0763ms
+2026-06-07 13:33:41.964 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 393
+2026-06-07 13:33:41.972 +05:30 [INF] CORS policy execution failed.
+2026-06-07 13:33:41.973 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 13:33:41.974 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:33:41.974 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 13:33:41.995 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 13:33:42.002 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 27.2865ms
+2026-06-07 13:33:42.002 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-07 13:33:42.002 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Exception: Email already found
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 15
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 81
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 96
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 25
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 13:33:42.011 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 500 null application/json 47.4516ms
+2026-06-07 13:33:49.508 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 13:33:49.548 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 40.8171ms
+2026-06-07 13:33:49.601 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 13:33:49.655 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 53.7067ms
+2026-06-07 13:43:11.361 +05:30 [INF] Application is shutting down...

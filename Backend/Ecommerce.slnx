@@ -4,4 +4,5 @@
   <Project Path="Ecommerce.Models/Ecommerce.Models.csproj" />
   <Project Path="Ecommerce.Repositories/Ecommerce.Repositories.csproj" />
   <Project Path="Ecommerce.Services/Ecommerce.Services.csproj" />
+  <Project Path="Ecommerce.Tests/Ecommerce.Tests.csproj" />
 </Solution>
