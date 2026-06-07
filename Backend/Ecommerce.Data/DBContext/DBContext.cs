@@ -29,6 +29,7 @@ public class EcommerceContext : DbContext
     public DbSet<OrderItems> OrderItems { get; set; }
     public DbSet<ShipmentItems> ShipmentItems { get; set; }
     public DbSet<Shipment> Shipment { get; set; }
+    public DbSet<Return> Return {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -624,7 +625,7 @@ public class EcommerceContext : DbContext
             r.HasOne(r => r.ReturnReason).WithMany(rr => rr.Returns).HasForeignKey(r => r.ReturnReasonId).HasConstraintName("FK_Return_Reason").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.OrderItems).WithMany(o => o.Returns).HasForeignKey(r => r.OrderItemId).HasConstraintName("FK_Return_Order_Item").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.ReturnStatus).WithMany(rs => rs.Returns).HasForeignKey(r => r.ReturnStatusId).HasConstraintName("FK_Return_Status").OnDelete(DeleteBehavior.Restrict);
-            r.HasOne(r => r.ReviewedByAdmin).WithMany(a => a.Returns).HasForeignKey(r => r.ReviewedByAdminId).HasConstraintName("FK_Return_Admin").OnDelete(DeleteBehavior.Restrict);
+            r.HasOne(r => r.ReviewedByVendor).WithMany(a => a.Returns).HasForeignKey(r => r.ReviewedByAdminId).HasConstraintName("FK_Return_Vendor_Review").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<Refund>(r =>
         {

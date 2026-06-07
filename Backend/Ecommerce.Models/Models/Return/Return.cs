@@ -12,7 +12,9 @@ public class Return
     public string? AdditionalReason {get;set;}
     public DateTime RequestedDate {get;set;}
     public int ReturnQuantity {get;set;}
+    public decimal? DamageCost {get;set;}
+    public string? VendorReview {get;set;}
     public int? ReviewedByAdminId {get;set;}
-    public AdminUser? ReviewedByAdmin {get;set;}
+    public VendorUser? ReviewedByVendor {get;set;}
     public DateTime? ReviewedDate {get;set;}
 }

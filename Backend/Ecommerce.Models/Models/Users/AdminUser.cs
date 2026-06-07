@@ -13,6 +13,5 @@ public class AdminUser
     public ICollection<Product> Products {get;set;} = new List<Product>();
     public ICollection<Shipper> Shippers {get;set;} = new List<Shipper>();
     public ICollection<Vendor> Vendors {get;set;} = new List<Vendor>();
-    public ICollection<Return> Returns {get;set;} = new List<Return>();
 
 }

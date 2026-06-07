@@ -17,4 +17,5 @@ public class VendorUser
     public ICollection<Product> Products {get;set;} = new List<Product>();
     public ICollection<ProductVariant> ProductVariants {get;set;} = new List<ProductVariant>();
     public ICollection<ProductImage> ProductImages {get;set;} = new List<ProductImage>();
+    public ICollection<Return> Returns {get;set;} = new List<Return>();
 }

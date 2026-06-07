@@ -11,9 +11,11 @@ namespace Ecommerce.API.Controllers;
 public class VendorController : ControllerBase
 {
     private readonly IVendorService _vendorService;
-    public VendorController(IVendorService vendorService)
+    private readonly IVendorReturnService _vendorReturnService;
+    public VendorController(IVendorService vendorService,IVendorReturnService vendorReturnService)
     {
         _vendorService = vendorService;
+        _vendorReturnService = vendorReturnService;
     }
 
     [Authorize(Policy = "VendorAdminOnly")]
@@ -30,6 +32,14 @@ public class VendorController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorService.ReviewProductByVendor(requestReviewOfProductDTO, vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPost("ReviewReturnProductByVendor")]
+    public async Task<ActionResult<ResponseReviewReturnDTO>> ReviewReturnProduct(RequestReviewReturnDTO requestReviewReturnDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorReturnService.ReviewReturnOrder(requestReviewReturnDTO,vendorUserId);
         return Ok(result);
     }
 }
