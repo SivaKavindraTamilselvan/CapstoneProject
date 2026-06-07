@@ -74,7 +74,7 @@
             // Listen for notifications
             connection.on("ReceiveNotification", (data) => {
                 const li = document.createElement("li");
-                li.textContent = `Order #${data.orderId} — ${data.message}`;
+                li.textContent = `${data.message} — Status: ${data.status}`; 
                 document.getElementById("messagesList").appendChild(li);
             });
 

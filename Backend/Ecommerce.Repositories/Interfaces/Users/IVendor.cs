@@ -4,5 +4,6 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IVendorRepsository : IRepository<int,Vendor>
 {
+    public Task<Vendor?> GetOwnerVendorUserByVendorId(int vendorId);
     public Task<List<Vendor>> GetAllVednorNotPendingApproval();
 }

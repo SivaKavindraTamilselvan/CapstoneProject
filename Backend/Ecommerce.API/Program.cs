@@ -12,6 +12,7 @@ using Serilog;
 using System.Security.Claims;
 using BankingAPI.Middlewares;
 using Ecommerce.API.Hubs;
+using Ecommerce.API.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,7 +62,7 @@ builder.Services.AddCors(options =>
 {
     options.AddDefaultPolicy(builder =>
     {
-        builder.WithOrigins("http://localhost:7163", "http://localhost:4200", "http://localhost:5173")
+        builder.WithOrigins("http://localhost:7163", "http://localhost:4200", "http://localhost:5173","null" )
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();// Allow credentials for SignalR
@@ -277,6 +278,7 @@ builder.Services.AddScoped<IOrderService,OrderService>();
 builder.Services.AddScoped<IShipmentService,ShipmentService>();
 builder.Services.AddScoped<IReviewService,ReviewService>();
 builder.Services.AddScoped<IVendorReturnService,VendorReturnService>();
+builder.Services.AddScoped<INotificationService,NotificationService>();
 #endregion
 
 
