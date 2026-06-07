@@ -30,7 +30,7 @@ public class OrderController : ControllerBase
         var result = await _userOrderService.AddOrder(requestAddOrderDTO,UserId);
         return Ok(result);
     }
-    [Authorize]
+    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
     [HttpGet("GetOrder")]
     public async Task<ActionResult<List<ResponseGetOrderItems>>> GetOrder()
     {
@@ -38,7 +38,7 @@ public class OrderController : ControllerBase
         var result = await _vendorOrderService.GetAllTheActiveOrder(vendorId);
         return Ok(result);
     }
-    [Authorize]
+    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
     [HttpGet("UpdateOrderStatus")]
     public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
     {

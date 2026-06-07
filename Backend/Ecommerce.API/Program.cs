@@ -166,6 +166,14 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("VendorRoleId",  "1","7","2");
     });
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorOnwerAndOrderVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim("VendorRoleId",  "1","4","2");
+    });
+});
 
 builder.Services.AddAuthorization(options =>
 {

@@ -41,6 +41,7 @@ public class AdminController : ControllerBase
 
         return Ok(result);
     }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpGet("GetPendingVendor")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetPendingVendor()
     {

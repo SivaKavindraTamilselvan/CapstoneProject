@@ -1,5 +1,6 @@
 using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [Route("api/[controller]")]
@@ -38,6 +39,7 @@ public class UserProductCategoryController : ControllerBase
         var result = await _userProductCategoryService.GetAllProductSubCategoryNames(request);
         return Ok(result);
     }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet("subcategories/vendor")]
     public async Task<IActionResult> GetAllProductSubCategoryNamesVendor([FromQuery] RequestGetAllProductSubCategoryName request)
     {

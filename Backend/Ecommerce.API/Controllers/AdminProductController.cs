@@ -20,80 +20,84 @@ public class AdminProductController : ControllerBase
         _adminProductCategoryService = adminProductCategoryService;
         _adminProductService = adminProductService;
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("all")]
     public async Task<IActionResult> GetAllProducts()
     {
         var result = await _adminProductService.GetAllProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("pending")]
     public async Task<IActionResult> GetAllPendingAdminApprovalProducts()
     {
         var result = await _adminProductService.GetAllPendingAdminApprovalProducts();
         return Ok(result);
     }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("approved")]
     public async Task<IActionResult> GetAllAdminApprovedProducts()
     {
         var result = await _adminProductService.GetAllAdminApprovedProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("rejected")]
     public async Task<IActionResult> GetAllAdminRejectedProducts()
     {
         var result = await _adminProductService.GetAllAdminRejectedProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("vendor-rejected")]
     public async Task<IActionResult> GetAllVendorRejectedProducts()
     {
         var result = await _adminProductService.GetAllVendorRejectedProducts();
         return Ok(result);
     }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("deleted")]
     public async Task<IActionResult> GetAllDeletedByAdminProducts()
     {
         var result = await _adminProductService.GetAllDeletedByAdminProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("unavailable")]
     public async Task<IActionResult> GetAllTemporarilyUnavailableProducts()
     {
         var result = await _adminProductService.GetAllTemporarilyUnavailableProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("archived")]
     public async Task<IActionResult> GetAllArchivedProducts()
     {
         var result = await _adminProductService.GetAllArchivedProducts();
         return Ok(result);
     }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("outofstock")]
     public async Task<IActionResult> GetAllOutOfStockProducts()
     {
         var result = await _adminProductService.GetAllOutOfStockProducts();
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("lowstock")]
     public async Task<IActionResult> GetAllLowStockProducts([FromQuery] int threshold = 5)
     {
         var result = await _adminProductService.GetAllLowStockProducts(threshold);
         return Ok(result);
     }
-
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("pending-variants")]
     public async Task<IActionResult> GetAllProductsWithPendingVariants()
     {
         var result = await _adminProductService.GetAllProductsWithPendingVariants();
         return Ok(result);
     }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
