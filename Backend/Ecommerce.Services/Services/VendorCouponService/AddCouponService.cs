@@ -22,20 +22,16 @@ public class VendorCouponService : IVendorCouponService
     {
         await _couponValidation.ValidateCouponCode(requestAddCouponDTO.CouponCode);
         var coupon = _mapper.Map<Coupons>(requestAddCouponDTO);
-        
-            coupon.CreatedByUserId = UserId;
-    
-       
+        if(roleId == 1)
+        {
+            coupon.CouponTypeId = 1;
+        }
+        else
+        {
+            coupon.CouponTypeId = 2;
+        }
+        coupon.CreatedByUserId = UserId;
         await _couponRepsository.Create(coupon);
         return _mapper.Map<ResponseAddCouponDTO>(coupon);
-    }
-
-    public async Task<ResponseAddCouponProductDTO> AddCouponProduct(RequestAddCouponProductDTO requestAddCouponProductDTO,int UserId)
-    {
-        var coupon = await _couponValidation.ValidateCoupon(requestAddCouponProductDTO.CouponId);
-        var createdCoupon = _mapper.Map<CouponsProduct>(coupon);
-        createdCoupon.AddedByVendorUserId = UserId;
-        await _couponProductRepsository.Create(createdCoupon);
-        return _mapper.Map<ResponseAddCouponProductDTO>(createdCoupon);
     }
 }

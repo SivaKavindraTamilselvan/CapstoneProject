@@ -11,6 +11,7 @@ public partial class VendorProductVariantService : IVendorProductVariantService
         var productVariant = _mapper.Map<ProductVariant>(requestAddProductVariantDTO);
         productVariant.AddedByVendorUserId = vendorUser.VendorUserId;
         productVariant.SKU = await GenerateSku(product.ProductId);
+        productVariant.ProductApprovalStatusId = 4; // need to change later
         await _productVariantRepsository.Create(productVariant);
         foreach (var list in requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs)
         {

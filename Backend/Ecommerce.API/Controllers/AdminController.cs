@@ -41,43 +41,6 @@ public class AdminController : ControllerBase
 
         return Ok(result);
     }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("ReviewProduct")]
-    public async Task<ActionResult<ResponseReviewOfProductDTO>> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductService.ReviewProduct(requestReviewOfProductDTO, adminUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductCategory")]
-    public async Task<ActionResult<ResponseAddProductCategoryDTO>> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
-    {
-        var result = await _adminProductCategoryService.AddProductCategory(requestAddProductCategoryDTO);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductSubCategory")]
-    public async Task<ActionResult<ResponseAddProductSubCategoryDTO>> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
-    {
-        var result = await _adminProductCategoryService.AddProductSubCategory(requestAddProductSubCategoryDTO);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductSubCategoryAttribute")]
-    public async Task<ActionResult<ResponseAddProductSubCategoryAttributeDTO>> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
-    {
-        var result = await _adminProductAttributeService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddAttribute")]
-    public async Task<ActionResult<ResponseAddAttributeDTO>> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
-    {
-        var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO);
-        return Ok(result);
-    }
-    
     [HttpGet("GetPendingVendor")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetPendingVendor()
     {

@@ -28,12 +28,12 @@ public class AdminShipmentService : IAdminShipmentService
             throw new DataNotFoundException("Shipment Not Found");
         }
         shipment.ShipmentStatusId = shipmentStatusRequestDTO.ShipmentStatusId;
-        if(shipment.ShipmentStatusId == 2)
+        if(shipment.ShipmentStatusId == 5)
         {
             shipment.ShippedDate = DateTime.Now;
             await UpdateOrderItemStatus(shipment.ShipmentId,3);
         }
-        if(shipment.ShipmentStatusId ==  5)
+        if(shipment.ShipmentStatusId ==  8)
         {
             shipment.DeliveryDate = DateTime.Now;
             await UpdateOrderItemStatus(shipment.ShipmentId,4);

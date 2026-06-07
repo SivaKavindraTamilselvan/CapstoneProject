@@ -13,6 +13,7 @@ using System.Security.Claims;
 using BankingAPI.Middlewares;
 using Ecommerce.API.Hubs;
 using Ecommerce.API.Services;
+using Ecommerce.Models;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -280,6 +281,10 @@ builder.Services.AddScoped<IReviewService,ReviewService>();
 builder.Services.AddScoped<IVendorReturnService,VendorReturnService>();
 builder.Services.AddScoped<INotificationService,NotificationService>();
 builder.Services.AddScoped<IUserProductService,UserProductService>();
+builder.Services.AddScoped<IAdminProductService,AdminProductService>();
+builder.Services.AddScoped<IVendorProductService,VendorProductService>();
+builder.Services.AddScoped<IUserProductCategoryService,UserProductCategoryService>();
+builder.Services.AddScoped<IUserReturnService,UserReturnService>();
 #endregion
 
 

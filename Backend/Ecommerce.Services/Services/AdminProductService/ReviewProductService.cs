@@ -21,7 +21,9 @@ public partial class AdminProductService : IAdminProductService
         approvalHistory.Remarks = requestReviewOfProductDTO.Remarks;
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
-        await _productRepsository.Update(product.ProductId,product);
+        product.UpdatedAt = DateTime.Now;
+        var updated = await _productRepsository.Update(product.ProductId,product);
+        Console.WriteLine(updated.ProductApprovalStatusId);
         await _approvalHistoryRepsository.Create(approvalHistory);
         return _mapper.Map<ResponseReviewOfProductDTO>(product);
     }

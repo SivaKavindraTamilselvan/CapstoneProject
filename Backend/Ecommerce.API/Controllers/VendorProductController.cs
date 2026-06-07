@@ -8,20 +8,66 @@ namespace Ecommerce.API.Controllers;
 
 [Route("api/[controller]")]
 [ApiController]
-public class ProductController : ControllerBase
+public class VendorProductController : ControllerBase
 {
     private readonly IVendorProductService _vendorProductService;
     private readonly IVendorProductImageService _vendorProductImageService;
     private readonly IVendorProductVariantService _vendorProductVariantService;
-    private readonly IUserProductService _userProductService;
-    public ProductController(IUserProductService userProductService,IVendorProductService vendorProductService, IVendorProductImageService vendorProductImageService, IVendorProductVariantService vendorProductVariantService)
+
+    public VendorProductController(IVendorProductService vendorProductService, IVendorProductImageService vendorProductImageService, IVendorProductVariantService vendorProductVariantService)
     {
         _vendorProductService = vendorProductService;
         _vendorProductImageService = vendorProductImageService;
         _vendorProductVariantService = vendorProductVariantService;
-        _userProductService = userProductService;
     }
-
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("all")]
+    public async Task<IActionResult> GetAllProductsByVendorId()
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllProductsByVendorId(vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("available")]
+    public async Task<IActionResult> GetAllAvailableProductsByVendorId()
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllAvailableProductsByVendorId(vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("draft")]
+    public async Task<IActionResult> GetAllDraftProducts()
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllDraftProducts(vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("lowstock")]
+    public async Task<IActionResult> GetAllLowStockProducts([FromQuery] int threshold = 5)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllLowStockProducts(vendorUserId, threshold);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("outofstock")]
+    public async Task<IActionResult> GetAllOutOfStockProducts()
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllOutOfStockProducts(vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("pending-variants")]
+    public async Task<IActionResult> GetAllProductsWithPendingVariants()
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllProductsWithPendingVariants(vendorUserId);
+        return Ok(result);
+    }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProduct")]
     public async Task<ActionResult<ResponseAddProduct>> AddProduct(RequestAddProduct requestAddProduct)
@@ -54,7 +100,7 @@ public class ProductController : ControllerBase
         var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO, vendorUserId);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOnwerOnly")]
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProductVariantAttribute")]
     public async Task<ActionResult<ResponseAddProductVariantAttributeDTO>> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO)
     {
@@ -62,15 +108,15 @@ public class ProductController : ControllerBase
         var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOnwerOnly")]
-    [HttpPost("UpdateProduct")]
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPut("UpdateProduct")]
     public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
     {
         var result = await _vendorProductService.UpdateProduct(requestUpdateProduct);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOnwerOnly")]
-    [HttpPost("UpdateProductVariant")]
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPut("UpdateProductVariant")]
     public async Task<ActionResult<ResponseUpdateProductVariantDTO>> UpdateProductVariant(RequestUpdateProductVariantDTO requestUpdateProductVariantDTO)
     {
         var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO);
@@ -78,46 +124,10 @@ public class ProductController : ControllerBase
     }
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpPost("UpdateProductImageAsDefault")]
+    [HttpPut("UpdateProductImageAsDefault")]
     public async Task<ActionResult<ResponseMakeDefaultImageDTO>> UpdateProductImageAsDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO)
     {
         var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
         return Ok(result);
     }
-
-    [HttpGet("categories")]
-    public async Task<IActionResult> GetAllProductCategory()
-    {
-        var result = await _userProductService.GetAllProductCategory();
-        return Ok(result);
-    }
-
-    [HttpGet("attributes")]
-    public async Task<IActionResult> GetAllAttributeNames()
-    {
-        var result = await _userProductService.GetAllAttributeNames();
-        return Ok(result);
-    }
-
-    [HttpGet("subcategory/attributes")]
-    public async Task<IActionResult> GetAllProductSubCategoryAttributeNames([FromQuery] RequestGetAllProductSubCategoryAttributeName request)
-    {
-        var result = await _userProductService.GetAllProductSubCategoryAttributeNames(request);
-        return Ok(result);
-    }
-
-    [HttpGet("subcategories")]
-    public async Task<IActionResult> GetAllProductSubCategoryNames([FromQuery] RequestGetAllProductSubCategoryName request)
-    {
-        var result = await _userProductService.GetAllProductSubCategoryNames(request);
-        return Ok(result);
-    }
-
-    [HttpGet("subcategories/vendor")]
-    public async Task<IActionResult> GetAllProductSubCategoryNamesVendor([FromQuery] RequestGetAllProductSubCategoryName request)
-    {
-        var result = await _userProductService.GetAllProductSubCategoryNamesVendor(request);
-        return Ok(result);
-    }
-
 }

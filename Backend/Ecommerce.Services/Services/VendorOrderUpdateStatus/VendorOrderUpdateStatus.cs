@@ -41,7 +41,7 @@ public class VendorOrderService : IVendorOrderService
         await _shipmentValidation.ValidateGetPendingPackedTheShipmentItemsByShipmentId(shipment.ShipmentId);
 
         string shipmentTrackingNumber = $"SHPTRACKI-" + shipment.ShipmentId.ToString();
-        shipment.ShipmentStatusId = 8;
+        shipment.ShipmentStatusId = 4;
         shipment.TrackingNumber = shipmentTrackingNumber;
         await _shipmentRepsository.Update(shipment.ShipmentId, shipment);
 

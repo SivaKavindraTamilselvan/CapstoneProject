@@ -21,7 +21,7 @@ public class ReviewService : IReviewService
         var order = await _orderValidation.ValidateOrderItem(requestAddReviewDTO.OrderDetailsId);
         if (order.OrderItemStatusId != 4)
         {
-            throw new DataApprovalStatusException("Order Item Not Approved Yet");
+            throw new DataApprovalStatusException("Order Item Not Delivered Yet");
         }
         var review = _mapper.Map<Reviews>(requestAddReviewDTO);
         var createdReview = await _reviewRepsository.Create(review);

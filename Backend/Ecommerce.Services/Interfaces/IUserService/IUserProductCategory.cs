@@ -1,7 +1,7 @@
 using Ecommerce.DTOs;
 
 namespace Ecommerce.Services.Interfaces;
-public interface IUserProductService
+public interface IUserProductCategoryService
 {
     public Task<List<ResponseGetAllProductCategory>> GetAllProductCategory();
     public Task<List<ResponseGetAllAttributeName>> GetAllAttributeNames();

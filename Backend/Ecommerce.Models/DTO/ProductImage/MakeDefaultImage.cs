@@ -7,6 +7,6 @@ public class RequestMakeDefaultImageDTO
 public class ResponseMakeDefaultImageDTO
 {
     public int ProductImageId {get;set;}
-    public bool IsDefault {get;set;} = false;
+    public bool IsDefault {get;set;}
     public DateTime? UpdatedAt {get;set;}
 }

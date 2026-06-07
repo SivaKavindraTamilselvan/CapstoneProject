@@ -1,0 +1,41 @@
+{
+  "productName": "Apple iPhone 15",
+  "description": "Latest Apple iPhone with A16 Bionic chip, 48MP camera, and Dynamic Island",
+  "productSubCategoryId": 1
+}
+
+{
+  "productName": "Samsung Galaxy S24",
+  "description": "Samsung flagship with Snapdragon 8 Gen 3, 50MP camera, and AI features",
+  "productSubCategoryId": 1
+}
+
+{
+  "productName": "Dell XPS 15",
+  "description": "Premium laptop with Intel Core i7, OLED display, and long battery life",
+  "productSubCategoryId": 2
+}
+
+{
+  "productName": "Apple MacBook Air M2",
+  "description": "Ultra-thin laptop with Apple M2 chip, 18-hour battery, and Liquid Retina display",
+  "productSubCategoryId": 2
+}
+
+{
+  "productName": "Apple iPad Pro 12.9",
+  "description": "Professional tablet with M2 chip, Liquid Retina XDR display, and Apple Pencil support",
+  "productSubCategoryId": 3
+}
+
+{
+  "productName": "Apple Watch Series 9",
+  "description": "Advanced smartwatch with S9 chip, double tap gesture, and health monitoring",
+  "productSubCategoryId": 4
+}
+
+{
+  "productName": "Sony WH-1000XM5",
+  "description": "Industry-leading noise cancelling headphones with 30-hour battery and multipoint connection",
+  "productSubCategoryId": 5
+}

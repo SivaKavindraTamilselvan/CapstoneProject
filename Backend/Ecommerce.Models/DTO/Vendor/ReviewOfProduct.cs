@@ -18,8 +18,7 @@ public class RequestReviewOfProductDTO
 public class ResponseReviewOfProductDTO
 {
     public int ProductId { get; set; }
-    public int ApprovalStatusId { get; set; }
-    public int? ReviewedByAdminId { get; set; }
+    public int ProductApprovalStatusId { get; set; }
     public int ProductStatusId {get;set;}
-    public DateTime? ApprovedAt {get;set;}
+    public DateTime? UpdatedAt {get;set;}
 }

@@ -27,15 +27,6 @@ public class CouponController : ControllerBase
         return Ok(result);
     }
 
-    [Authorize("VendorOnwerAndCouponVendorOnly")]
-    [HttpPost("AddProductCoupon")]
-    public async Task<ActionResult<ResponseAddCouponDTO>> ResponseAddProductCoupon(RequestAddCouponProductDTO requestAddCouponProductDTO)
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorCouponService.AddCouponProduct(requestAddCouponProductDTO,vendorUserId);
-        return Ok(result);
-    }
-
     [Authorize]
     [HttpGet("ActiveCoupons")]
     public async Task<ActionResult<ResponseGetAllCoupon>> GetAllCouponsByUser()

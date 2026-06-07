@@ -8,9 +8,8 @@ public partial class VendorProductService : IVendorProductService
     {
         var product = await _productValidation.ValidateProduct(requestUpdateProduct.ProductId);
         product = _mapper.Map<Product>(product);
-        await _productCategoryValidation.ValidateSubCategory(requestUpdateProduct.ProductSubCategoryId);
-        product.ProductApprovalStatusId = 2;
         product.UpdatedAt = DateTime.Now;
+        product.ProductStatusId = requestUpdateProduct.ProductStatusId;
         await _productRepsository.Update(product.ProductId,product);
         return _mapper.Map<ResponseUpdateProduct>(product);
     }

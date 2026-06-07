@@ -22,8 +22,7 @@ public partial class VendorProductImageService : IVendorProductImageService
     public async Task<ResponseMakeDefaultImageDTO> MakeImageDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO)
     {
         var image = await _productValidation.ValidateProductImage(requestMakeDefaultImageDTO.ProductImageId);
-        var product = await _productValidation.ValidateProductVariant(image.ProductId);
-        var productImageList = await _productImageRepsository.GetAllProductImageByProductId(product.ProductId);
+        var productImageList = await _productImageRepsository.GetAllProductImageByProductId(image.ProductId);
         foreach(var images in productImageList)
         {
             images.IsMainImage = false;
