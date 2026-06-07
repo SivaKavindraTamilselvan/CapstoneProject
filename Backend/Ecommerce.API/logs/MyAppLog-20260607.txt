@@ -276,3 +276,1297 @@ System.Exception: Email already found
 2026-06-07 13:33:49.601 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-07 13:33:49.655 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 53.7067ms
 2026-06-07 13:43:11.361 +05:30 [INF] Application is shutting down...
+2026-06-07 14:09:56.939 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:09:57.029 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:09:57.030 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:09:57.030 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:09:57.030 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:10:17.838 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:10:17.879 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.5808ms
+2026-06-07 14:10:17.936 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:10:18.003 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 68.2545ms
+2026-06-07 14:10:23.596 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/test - null 0
+2026-06-07 14:10:23.621 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:10:23.621 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 14:10:23.622 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:10:23.640 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:10:23.646 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:10:23.649 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:10:23.651 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 3.0547ms
+2026-06-07 14:10:23.651 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:10:23.651 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 55.2577ms
+2026-06-07 14:12:09.844 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:12:09.849 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-06-07 14:12:09.850 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-06-07 14:12:09.851 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 405 0 null 7.105ms
+2026-06-07 14:13:04.028 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:13:04.032 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-06-07 14:13:04.033 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-06-07 14:13:04.033 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 405 0 null 5.0394ms
+2026-06-07 14:13:24.231 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:13:24.254 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 22.3841ms
+2026-06-07 14:13:25.183 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:13:25.184 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 1.4132ms
+2026-06-07 14:13:25.218 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:13:25.229 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 10.8412ms
+2026-06-07 14:14:15.359 +05:30 [INF] Application is shutting down...
+2026-06-07 14:14:20.338 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:14:20.431 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:14:20.432 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:14:20.432 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:14:20.432 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:14:38.585 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:14:38.608 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:14:38.624 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:38.631 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:14:38.634 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:14:38.635 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 3.1478ms
+2026-06-07 14:14:38.636 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:38.637 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 52.6953ms
+2026-06-07 14:14:38.655 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/favicon.ico - null null
+2026-06-07 14:14:38.657 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/favicon.ico - 404 0 null 2.0683ms
+2026-06-07 14:14:38.658 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/favicon.ico, Response status code: 404
+2026-06-07 14:14:39.319 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:14:39.325 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:39.326 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:14:39.326 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:14:39.327 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 1.1646ms
+2026-06-07 14:14:39.327 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:39.328 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 8.8773ms
+2026-06-07 14:14:46.183 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:14:46.225 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 41.9049ms
+2026-06-07 14:14:46.279 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:14:46.348 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 69.7442ms
+2026-06-07 14:14:51.080 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:14:51.081 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:51.081 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:14:51.082 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:14:51.082 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.9044ms
+2026-06-07 14:14:51.083 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:14:51.083 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 2.3947ms
+2026-06-07 14:15:42.627 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:15:42.628 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:15:42.628 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:15:42.629 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.7169ms
+2026-06-07 14:15:43.176 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:15:43.176 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:15:43.177 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:15:43.177 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.926ms
+2026-06-07 14:15:47.504 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:15:47.504 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:47.504 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:15:47.505 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:15:47.505 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.4324ms
+2026-06-07 14:15:47.505 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:47.505 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 1.698ms
+2026-06-07 14:15:48.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:15:48.501 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:15:48.501 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:15:48.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4989ms
+2026-06-07 14:15:49.820 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:15:49.820 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:15:49.821 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:15:49.821 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8773ms
+2026-06-07 14:15:55.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:15:55.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:15:55.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:15:55.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.7021ms
+2026-06-07 14:15:55.807 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:15:55.808 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:55.808 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:15:55.809 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:15:55.809 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.6254ms
+2026-06-07 14:15:55.810 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:55.810 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 2.3801ms
+2026-06-07 14:15:56.285 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:15:56.286 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:56.286 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:15:56.286 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:15:56.287 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.5887ms
+2026-06-07 14:15:56.287 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:15:56.287 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 2.0846ms
+2026-06-07 14:16:01.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:01.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:01.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:01.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4505ms
+2026-06-07 14:16:01.917 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-07 14:16:01.917 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:16:01.920 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:16:01.920 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 400 null text/plain 3.1653ms
+2026-06-07 14:16:07.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:07.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:07.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:07.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3024ms
+2026-06-07 14:16:13.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:13.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:13.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:13.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.9488ms
+2026-06-07 14:16:19.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:19.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:19.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:19.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8735ms
+2026-06-07 14:16:25.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:25.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:25.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:25.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.956ms
+2026-06-07 14:16:31.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:31.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:31.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:31.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2452ms
+2026-06-07 14:16:37.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:37.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:37.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:37.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3586ms
+2026-06-07 14:16:43.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:43.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:43.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:43.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1445ms
+2026-06-07 14:16:49.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:49.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:49.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:49.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3061ms
+2026-06-07 14:16:53.419 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:16:53.419 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:16:53.419 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:16:53.419 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:16:53.419 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.1947ms
+2026-06-07 14:16:53.420 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:16:53.420 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 1.5404ms
+2026-06-07 14:16:55.305 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:16:55.306 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:16:55.306 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:16:55.306 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:16:55.306 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.2328ms
+2026-06-07 14:16:55.306 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:16:55.307 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 1.2056ms
+2026-06-07 14:16:55.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:16:55.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:16:55.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:16:55.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2049ms
+2026-06-07 14:17:01.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:01.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:01.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:01.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1298ms
+2026-06-07 14:17:07.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:07.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:07.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:07.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2216ms
+2026-06-07 14:17:08.069 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:17:08.069 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:17:08.069 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:17:08.070 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:17:08.070 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.5271ms
+2026-06-07 14:17:08.070 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:17:08.070 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 1.8427ms
+2026-06-07 14:17:08.518 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Notification/test - null null
+2026-06-07 14:17:08.519 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:17:08.519 +05:30 [INF] Route matched with {action = "TestNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] TestNotification() on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:17:08.520 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:17:08.520 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API) in 0.5157ms
+2026-06-07 14:17:08.520 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.TestNotification (Ecommerce.API)'
+2026-06-07 14:17:08.520 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Notification/test - 200 null text/plain; charset=utf-8 1.6445ms
+2026-06-07 14:17:13.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:13.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:13.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:13.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.114ms
+2026-06-07 14:17:19.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:19.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:19.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:19.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.515ms
+2026-06-07 14:17:25.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:25.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:25.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:25.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3643ms
+2026-06-07 14:17:31.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:31.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:31.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:31.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.4337ms
+2026-06-07 14:17:37.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:37.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:37.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:37.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.069ms
+2026-06-07 14:17:43.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:43.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:43.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:43.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.27ms
+2026-06-07 14:17:49.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:49.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:49.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:49.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2752ms
+2026-06-07 14:17:55.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:17:55.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:17:55.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:17:55.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.7954ms
+2026-06-07 14:18:01.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:01.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:01.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:01.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1422ms
+2026-06-07 14:18:07.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:07.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:07.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:07.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.9701ms
+2026-06-07 14:18:13.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:13.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:13.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:13.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1833ms
+2026-06-07 14:18:19.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:19.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:19.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:19.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0877ms
+2026-06-07 14:18:25.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:25.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:25.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:25.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.1117ms
+2026-06-07 14:18:31.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:31.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:31.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:31.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4707ms
+2026-06-07 14:18:37.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:37.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:37.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:37.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4781ms
+2026-06-07 14:18:43.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:43.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:43.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:43.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3555ms
+2026-06-07 14:18:49.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:49.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:49.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:49.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3183ms
+2026-06-07 14:18:55.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:18:55.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:18:55.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:18:55.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.87ms
+2026-06-07 14:19:01.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:01.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:01.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:01.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.8705ms
+2026-06-07 14:19:07.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:07.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:07.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:07.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1873ms
+2026-06-07 14:19:13.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:13.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:13.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:13.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.5814ms
+2026-06-07 14:19:19.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:19.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:19.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:19.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.3861ms
+2026-06-07 14:19:25.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:25.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:25.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:25.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7267ms
+2026-06-07 14:19:31.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:31.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:31.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:31.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1585ms
+2026-06-07 14:19:37.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:37.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:37.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:37.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.862ms
+2026-06-07 14:19:37.794 +05:30 [INF] Application is shutting down...
+2026-06-07 14:19:42.905 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:19:42.994 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:19:42.995 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:19:42.995 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:19:42.995 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:19:43.516 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:43.547 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:43.547 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:43.550 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 34.7663ms
+2026-06-07 14:19:48.679 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:19:48.681 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:19:48.681 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:19:48.681 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 3.41ms
+2026-06-07 14:19:53.101 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:19:53.143 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.2292ms
+2026-06-07 14:19:53.197 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:19:53.264 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 67.0384ms
+2026-06-07 14:20:12.173 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 71
+2026-06-07 14:20:12.176 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:20:12.176 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 14:20:12.178 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:20:12.198 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:20:12.209 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(Ecommerce.DTOs.RequestSendNotificationDTO) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:20:12.225 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:20:12.227 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 16.3951ms
+2026-06-07 14:20:12.227 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:20:12.227 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 53.9893ms
+2026-06-07 14:20:34.945 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-07 14:20:34.948 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:20:34.951 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:20:34.951 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 400 null text/plain 6.1641ms
+2026-06-07 14:20:35.286 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-07 14:20:35.289 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:20:35.289 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:20:35.289 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 400 null text/plain 3.3992ms
+2026-06-07 14:20:42.519 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:20:42.520 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:20:42.528 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:20:42.529 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 9.2802ms
+2026-06-07 14:20:42.533 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=3OezmVPdLnscqpNx2b4qFQ - null null
+2026-06-07 14:20:42.533 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:20:42.533 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-07 14:20:42.534 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:20:48.004 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:20:48.004 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:20:48.004 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:20:48.005 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.551ms
+2026-06-07 14:20:53.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:20:53.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:20:53.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:20:53.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7017ms
+2026-06-07 14:20:54.058 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-07 14:20:54.058 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:20:54.058 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:20:54.059 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 400 null text/plain 0.6052ms
+2026-06-07 14:20:59.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:20:59.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:20:59.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:20:59.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4037ms
+2026-06-07 14:21:05.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:05.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:05.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:05.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3074ms
+2026-06-07 14:21:11.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:11.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:11.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:11.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0751ms
+2026-06-07 14:21:17.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:17.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:17.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:17.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3223ms
+2026-06-07 14:21:23.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:23.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:23.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:23.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2699ms
+2026-06-07 14:21:29.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:29.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:29.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:29.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7855ms
+2026-06-07 14:21:35.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:35.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:35.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:35.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3091ms
+2026-06-07 14:21:41.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:41.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:41.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:41.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6253ms
+2026-06-07 14:21:47.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:47.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:47.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:47.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0458ms
+2026-06-07 14:21:53.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:53.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:53.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:53.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2485ms
+2026-06-07 14:21:59.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:21:59.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:21:59.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:21:59.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4122ms
+2026-06-07 14:22:05.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:05.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:05.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:05.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8517ms
+2026-06-07 14:22:11.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:11.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:11.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:11.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2295ms
+2026-06-07 14:22:17.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:17.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:17.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:17.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.9444ms
+2026-06-07 14:22:23.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:23.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:23.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:23.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1352ms
+2026-06-07 14:22:29.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:29.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:29.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:29.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1964ms
+2026-06-07 14:22:35.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:35.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:35.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:35.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0641ms
+2026-06-07 14:22:41.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:41.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:41.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:41.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8069ms
+2026-06-07 14:22:47.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:47.497 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:47.497 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:47.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1893ms
+2026-06-07 14:22:53.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:53.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:53.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:53.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2931ms
+2026-06-07 14:22:59.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:22:59.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:22:59.501 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:22:59.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 3.3882ms
+2026-06-07 14:23:05.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:05.495 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:05.495 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:05.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7537ms
+2026-06-07 14:23:11.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:11.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:11.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:11.497 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7583ms
+2026-06-07 14:23:17.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:17.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:17.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:17.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2896ms
+2026-06-07 14:23:23.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:23.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:23.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:23.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.2748ms
+2026-06-07 14:23:29.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:29.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:29.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:29.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.6273ms
+2026-06-07 14:23:35.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:35.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:35.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:35.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4865ms
+2026-06-07 14:23:41.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:41.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:41.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:41.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.2969ms
+2026-06-07 14:23:47.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:47.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:47.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:47.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0359ms
+2026-06-07 14:23:53.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:53.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:53.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:53.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1662ms
+2026-06-07 14:23:59.496 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:23:59.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:23:59.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:23:59.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2141ms
+2026-06-07 14:24:05.498 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:05.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:05.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:05.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0939ms
+2026-06-07 14:24:11.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:11.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:11.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:11.498 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.9346ms
+2026-06-07 14:24:17.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:17.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:17.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:17.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0849ms
+2026-06-07 14:24:23.497 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:23.498 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:23.498 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:23.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.9935ms
+2026-06-07 14:24:29.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:29.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:29.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:29.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6687ms
+2026-06-07 14:24:35.495 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:35.496 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:35.496 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:35.496 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6641ms
+2026-06-07 14:24:41.499 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:41.499 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:41.499 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:41.499 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8443ms
+2026-06-07 14:24:47.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:47.503 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:47.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:47.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.7017ms
+2026-06-07 14:24:53.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:53.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:53.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:53.500 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.4555ms
+2026-06-07 14:24:59.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:24:59.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:24:59.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:24:59.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6065ms
+2026-06-07 14:25:05.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:05.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:05.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:05.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3365ms
+2026-06-07 14:25:11.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:11.505 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:11.506 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:11.506 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 3.3232ms
+2026-06-07 14:25:17.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:17.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:17.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:17.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.2642ms
+2026-06-07 14:25:23.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:23.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:23.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:23.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.4283ms
+2026-06-07 14:25:29.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:29.500 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:29.500 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:29.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0147ms
+2026-06-07 14:25:35.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:35.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:35.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:35.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.4764ms
+2026-06-07 14:25:41.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:25:41.503 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:41.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:25:41.503 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6726ms
+2026-06-07 14:25:43.464 +05:30 [INF] Application is shutting down...
+2026-06-07 14:25:43.467 +05:30 [INF] Connection id "0HNM4E6S48A4B", Request id "0HNM4E6S48A4B:00000001": the application aborted the connection.
+2026-06-07 14:25:43.473 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:25:43.473 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:25:43.474 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:25:43.474 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.1286ms
+2026-06-07 14:25:43.475 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:25:43.476 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=PUW8ExSynMRJqsqGV6pwZQ - null null
+2026-06-07 14:25:43.476 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:25:43.476 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-07 14:25:43.476 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:25:43.476 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=3OezmVPdLnscqpNx2b4qFQ - 101 null null 300938.293ms
+2026-06-07 14:26:17.034 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:26:17.138 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:26:17.139 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:26:17.139 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:26:17.139 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:26:17.540 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:26:17.540 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:17.559 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:17.559 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:26:17.560 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:17.564 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 25.4277ms
+2026-06-07 14:26:17.581 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:26:17.584 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:26:17.585 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 47.1348ms
+2026-06-07 14:26:17.586 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=uowwbLALVcWWwKqIEjd6Wg - null null
+2026-06-07 14:26:17.589 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:17.589 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-07 14:26:17.590 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:26:23.504 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:23.506 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:23.506 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:23.507 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.9474ms
+2026-06-07 14:26:29.505 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:29.506 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:29.506 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:29.507 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.074ms
+2026-06-07 14:26:35.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:35.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:35.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:35.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.5188ms
+2026-06-07 14:26:41.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:41.501 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:41.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:41.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3237ms
+2026-06-07 14:26:47.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:47.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:47.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:47.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.5378ms
+2026-06-07 14:26:53.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:53.503 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:53.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:53.503 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.631ms
+2026-06-07 14:26:59.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:26:59.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:26:59.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:26:59.505 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.5222ms
+2026-06-07 14:27:05.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:05.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:05.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:05.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.1839ms
+2026-06-07 14:27:11.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:11.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:11.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:11.503 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3664ms
+2026-06-07 14:27:17.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:17.501 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:17.501 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:17.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.6947ms
+2026-06-07 14:27:23.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:23.505 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:23.505 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:23.506 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 3.2052ms
+2026-06-07 14:27:29.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:29.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:29.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:29.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.8366ms
+2026-06-07 14:27:35.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:35.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:35.503 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:35.503 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3951ms
+2026-06-07 14:27:41.500 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:41.501 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:41.501 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:41.501 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0295ms
+2026-06-07 14:27:47.504 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:47.505 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:47.505 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:47.505 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3547ms
+2026-06-07 14:27:53.506 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:53.508 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:53.508 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:53.508 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.7832ms
+2026-06-07 14:27:59.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:27:59.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:27:59.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:27:59.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.0987ms
+2026-06-07 14:28:05.504 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:05.505 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:05.506 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:05.506 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.0557ms
+2026-06-07 14:28:11.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:11.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:11.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:11.503 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.5373ms
+2026-06-07 14:28:17.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:17.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:17.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:17.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.3051ms
+2026-06-07 14:28:23.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:23.503 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:23.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:23.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 2.0286ms
+2026-06-07 14:28:29.503 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:29.504 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:29.504 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:29.504 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7715ms
+2026-06-07 14:28:32.859 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:28:32.859 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=uowwbLALVcWWwKqIEjd6Wg - 101 null null 135273.1613ms
+2026-06-07 14:28:35.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:28:35.502 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:28:35.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:28:35.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 0.7922ms
+2026-06-07 14:28:40.678 +05:30 [INF] Application is shutting down...
+2026-06-07 14:29:36.173 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:29:36.266 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:29:36.267 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:29:36.267 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:29:36.267 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:29:41.530 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:29:41.558 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:29:41.582 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:29:41.582 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:29:41.587 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 57.0114ms
+2026-06-07 14:29:47.504 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:29:47.508 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:29:47.508 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:29:47.509 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 5.6317ms
+2026-06-07 14:29:53.502 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:29:53.507 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:29:53.508 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:29:53.508 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 6.0517ms
+2026-06-07 14:29:59.501 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-07 14:29:59.501 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:29:59.502 +05:30 [INF] Request origin null does not have permission to access the resource.
+2026-06-07 14:29:59.502 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 204 null null 1.6479ms
+2026-06-07 14:31:16.728 +05:30 [INF] Application is shutting down...
+2026-06-07 14:31:21.089 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:31:21.186 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:31:21.187 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:31:21.187 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:31:21.187 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:31:39.866 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:31:39.885 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:31:39.897 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:31:39.901 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:31:39.902 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 36.4607ms
+2026-06-07 14:31:39.905 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=Kj2NqEjt06xWlk_IVNXzag - null null
+2026-06-07 14:31:39.908 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:31:39.908 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-07 14:31:39.909 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:33:56.675 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:33:56.716 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 41.24ms
+2026-06-07 14:33:56.773 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:33:56.842 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 69.627ms
+2026-06-07 14:34:51.651 +05:30 [INF] Application is shutting down...
+2026-06-07 14:34:51.658 +05:30 [INF] Connection id "0HNM4EDHJSUUK", Request id "0HNM4EDHJSUUK:00000001": the application aborted the connection.
+2026-06-07 14:34:51.663 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:34:51.665 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:34:51.666 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:34:51.666 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:34:51.666 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=Kj2NqEjt06xWlk_IVNXzag - 101 null null 191761.6428ms
+2026-06-07 14:34:51.666 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 3.4646ms
+2026-06-07 14:34:55.814 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:34:55.899 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:34:55.900 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:34:55.900 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:34:55.900 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:34:57.539 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:34:57.558 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:34:57.569 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:34:57.573 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:34:57.573 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 35.5995ms
+2026-06-07 14:34:57.575 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=KHn6uTb48yM-FVgCoPSnqg - null null
+2026-06-07 14:34:57.578 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:34:57.578 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-07 14:34:57.578 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:35:39.107 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:35:39.109 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=KHn6uTb48yM-FVgCoPSnqg - 101 null null 41534.1587ms
+2026-06-07 14:35:53.454 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 14:35:53.498 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 43.8132ms
+2026-06-07 14:35:53.551 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 14:35:53.618 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 66.6588ms
+2026-06-07 14:35:59.219 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 46
+2026-06-07 14:35:59.224 +05:30 [INF] CORS policy execution failed.
+2026-06-07 14:35:59.224 +05:30 [INF] Request origin http://localhost:5173 does not have permission to access the resource.
+2026-06-07 14:35:59.225 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:35:59.239 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(Ecommerce.DTOs.RequestSendNotificationDTO) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:35:59.258 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:35:59.259 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 19.1023ms
+2026-06-07 14:35:59.260 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:35:59.260 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 40.6747ms
+2026-06-07 14:37:28.708 +05:30 [INF] Application is shutting down...
+2026-06-07 14:37:33.132 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:37:33.223 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:37:33.224 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:37:33.224 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:37:33.224 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:37:47.036 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 14:37:47.057 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:37:47.070 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 404 0 null 35.0922ms
+2026-06-07 14:37:47.072 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/test.html, Response status code: 404
+2026-06-07 14:38:04.870 +05:30 [INF] Application is shutting down...
+2026-06-07 14:38:08.541 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:38:08.630 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:38:08.631 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:38:08.631 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:38:08.631 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:38:10.910 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 14:38:10.933 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:38:10.945 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 404 0 null 36.6779ms
+2026-06-07 14:38:10.947 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/test.html, Response status code: 404
+2026-06-07 14:38:11.492 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 14:38:11.497 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 404 0 null 5.9445ms
+2026-06-07 14:38:11.498 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/test.html, Response status code: 404
+2026-06-07 14:40:10.771 +05:30 [INF] Application is shutting down...
+2026-06-07 14:40:15.622 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 14:40:15.711 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 14:40:15.712 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 14:40:15.712 +05:30 [INF] Hosting environment: Development
+2026-06-07 14:40:15.712 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 14:40:21.809 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 14:40:21.829 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 14:40:21.846 +05:30 [INF] Sending file. Request path: '/test.html'. Physical path: '/Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/wwwroot/test.html'
+2026-06-07 14:40:21.847 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 200 1350 text/html 39.3094ms
+2026-06-07 14:40:21.927 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:40:21.929 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:21.930 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:40:21.933 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:40:21.934 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 6.9723ms
+2026-06-07 14:40:21.937 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=XXwn3jOOEdpY5Jbl8zyp6A - null null
+2026-06-07 14:40:21.940 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:21.940 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:40:33.776 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 46
+2026-06-07 14:40:33.782 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:33.782 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:40:33.798 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(Ecommerce.DTOs.RequestSendNotificationDTO) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:40:33.819 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:40:33.821 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 20.6452ms
+2026-06-07 14:40:33.821 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:40:33.821 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 45.2752ms
+2026-06-07 14:40:44.863 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 45
+2026-06-07 14:40:44.868 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:44.868 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:40:44.869 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(Ecommerce.DTOs.RequestSendNotificationDTO) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 14:40:44.871 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 14:40:44.871 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 2.5905ms
+2026-06-07 14:40:44.872 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 14:40:44.872 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 9.3429ms
+2026-06-07 14:40:52.568 +05:30 [INF] Application is shutting down...
+2026-06-07 14:40:52.571 +05:30 [INF] Connection id "0HNM4EID5GEHT", Request id "0HNM4EID5GEHT:00000001": the application aborted the connection.
+2026-06-07 14:40:52.578 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 14:40:52.579 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:52.579 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 14:40:52.579 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 14:40:52.580 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.3346ms
+2026-06-07 14:40:52.583 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 14:40:52.583 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=UD_HofHzLl3y18GslIDgHA - null null
+2026-06-07 14:40:52.584 +05:30 [INF] CORS policy execution successful.
+2026-06-07 14:40:52.584 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 14:40:52.584 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=XXwn3jOOEdpY5Jbl8zyp6A - 101 null null 30643.9575ms
+2026-06-07 17:41:04.805 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 17:41:04.903 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 17:41:04.904 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 17:41:04.904 +05:30 [INF] Hosting environment: Development
+2026-06-07 17:41:04.904 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 17:41:07.084 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2026-06-07 17:41:07.113 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 17:41:07.135 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 404 0 null 52.7798ms
+2026-06-07 17:41:07.138 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/, Response status code: 404
+2026-06-07 17:41:10.560 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:10.572 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:10.578 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:10.579 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 19.0675ms
+2026-06-07 17:41:16.560 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:16.566 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:16.567 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:16.568 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 8.4211ms
+2026-06-07 17:41:22.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:22.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:22.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:22.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 3.159ms
+2026-06-07 17:41:28.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:28.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:28.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:28.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.2535ms
+2026-06-07 17:41:34.554 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:34.555 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:34.555 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:34.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.9772ms
+2026-06-07 17:41:40.557 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:40.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:40.558 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:40.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.0673ms
+2026-06-07 17:41:46.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:46.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:46.558 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:46.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.2631ms
+2026-06-07 17:41:52.552 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:52.553 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:52.553 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:52.554 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.2477ms
+2026-06-07 17:41:58.554 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:41:58.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:41:58.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:41:58.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.8693ms
+2026-06-07 17:42:04.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:04.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:04.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:04.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.5758ms
+2026-06-07 17:42:10.100 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 17:42:10.139 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 38.8317ms
+2026-06-07 17:42:10.197 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 17:42:10.261 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 64.59ms
+2026-06-07 17:42:10.552 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:10.552 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:10.552 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:10.553 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.5612ms
+2026-06-07 17:42:16.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:16.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:16.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:16.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.002ms
+2026-06-07 17:42:22.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:22.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:22.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:22.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.5152ms
+2026-06-07 17:42:28.557 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:28.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:28.558 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:28.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.1928ms
+2026-06-07 17:42:34.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:34.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:34.559 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:34.560 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 4.6754ms
+2026-06-07 17:42:40.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:40.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:40.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:40.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.3034ms
+2026-06-07 17:42:46.554 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:46.555 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:46.555 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:46.555 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.8918ms
+2026-06-07 17:42:52.554 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:52.554 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:52.554 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:52.555 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.509ms
+2026-06-07 17:42:58.552 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:42:58.554 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:42:58.555 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:42:58.555 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.369ms
+2026-06-07 17:43:04.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:04.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:04.559 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:04.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.951ms
+2026-06-07 17:43:10.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:10.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:10.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:10.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.7978ms
+2026-06-07 17:43:16.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:16.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:16.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:16.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.2106ms
+2026-06-07 17:43:22.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:22.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:22.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:22.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.6409ms
+2026-06-07 17:43:28.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:28.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:28.558 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:28.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.7131ms
+2026-06-07 17:43:34.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:34.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:34.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:34.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.6137ms
+2026-06-07 17:43:40.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:40.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:40.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:40.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.6788ms
+2026-06-07 17:43:46.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:46.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:46.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:46.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.272ms
+2026-06-07 17:43:52.553 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:52.554 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:52.554 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:52.555 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.8981ms
+2026-06-07 17:43:58.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:43:58.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:43:58.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:43:58.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.6691ms
+2026-06-07 17:44:04.554 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:04.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:04.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:04.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.0922ms
+2026-06-07 17:44:10.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:10.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:10.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:10.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.5591ms
+2026-06-07 17:44:16.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:16.555 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:16.555 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:16.556 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.8221ms
+2026-06-07 17:44:22.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:22.555 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:22.555 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:22.555 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.6497ms
+2026-06-07 17:44:28.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:28.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:28.557 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:28.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.2943ms
+2026-06-07 17:44:29.032 +05:30 [INF] Application is shutting down...
+2026-06-07 17:44:33.093 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 17:44:33.184 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 17:44:33.185 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 17:44:33.185 +05:30 [INF] Hosting environment: Development
+2026-06-07 17:44:33.185 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 17:44:34.573 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:34.592 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 17:44:34.608 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:34.610 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:34.611 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 38.5877ms
+2026-06-07 17:44:40.559 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:40.565 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:40.568 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:40.568 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 10.33ms
+2026-06-07 17:44:46.553 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:46.556 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:46.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:46.557 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 4.1618ms
+2026-06-07 17:44:52.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:52.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:52.559 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:52.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.8607ms
+2026-06-07 17:44:58.557 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:44:58.558 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:44:58.559 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:44:58.559 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.3738ms
+2026-06-07 17:45:04.556 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:45:04.557 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:45:04.558 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:45:04.558 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.4746ms
+2026-06-07 17:45:09.657 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:45:09.658 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-07 17:45:09.658 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 17:45:09.659 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 2.087ms
+2026-06-07 17:45:10.899 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:45:10.914 +05:30 [INF] Sending file. Request path: '/test.html'. Physical path: '/Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/wwwroot/test.html'
+2026-06-07 17:45:10.914 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 200 4404 text/html 14.8772ms
+2026-06-07 17:45:24.243 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 56
+2026-06-07 17:45:24.248 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:24.250 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 7.4602ms
+2026-06-07 17:45:24.253 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:45:25.889 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 56
+2026-06-07 17:45:25.891 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:25.892 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 3.2093ms
+2026-06-07 17:45:25.892 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:45:35.813 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 56
+2026-06-07 17:45:35.815 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:35.815 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 1.9774ms
+2026-06-07 17:45:35.816 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:45:48.762 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 59
+2026-06-07 17:45:48.763 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:48.764 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 1.7321ms
+2026-06-07 17:45:48.765 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:45:58.871 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 57
+2026-06-07 17:45:58.872 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:58.873 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 2.3271ms
+2026-06-07 17:45:58.874 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:45:59.352 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 57
+2026-06-07 17:45:59.353 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:45:59.353 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 1.6087ms
+2026-06-07 17:45:59.354 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:46:55.587 +05:30 [INF] Application is shutting down...
+2026-06-07 17:46:59.305 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 17:46:59.400 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 17:46:59.401 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 17:46:59.401 +05:30 [INF] Hosting environment: Development
+2026-06-07 17:46:59.401 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 17:47:03.857 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Auth/login - application/json 57
+2026-06-07 17:47:03.877 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 17:47:03.889 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:47:03.890 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Auth/login - 404 0 null 34.2858ms
+2026-06-07 17:47:03.891 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: POST http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:47:15.849 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Auth/login - null null
+2026-06-07 17:47:15.855 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Auth/login - 404 0 null 6.745ms
+2026-06-07 17:47:15.856 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/api/Auth/login, Response status code: 404
+2026-06-07 17:47:21.842 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 17:47:21.881 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 39.5236ms
+2026-06-07 17:47:21.928 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 17:47:21.990 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 61.9725ms
+2026-06-07 17:47:26.683 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:47:26.700 +05:30 [INF] Sending file. Request path: '/test.html'. Physical path: '/Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/wwwroot/test.html'
+2026-06-07 17:47:26.700 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 200 4391 text/html 17.7167ms
+2026-06-07 17:47:59.842 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 65
+2026-06-07 17:47:59.845 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:47:59.846 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 17:47:59.869 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 17:47:59.979 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 17:48:00.459 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 65
+2026-06-07 17:48:00.459 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:48:00.459 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 17:48:00.460 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 17:48:00.795 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 17:48:00.795 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 17:48:00.852 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-07 17:48:00.852 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-07 17:48:00.856 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 395.2915ms
+2026-06-07 17:48:00.856 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 985.7534ms
+2026-06-07 17:48:00.857 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 17:48:00.857 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 17:48:00.860 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1017.4945ms
+2026-06-07 17:48:00.860 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 401.2345ms
+2026-06-07 17:48:00.881 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:48:00.881 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:48:00.907 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:48:00.907 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:48:00.907 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:48:00.907 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:48:00.909 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:48:00.909 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:48:00.909 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 27.4894ms
+2026-06-07 17:48:00.909 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 27.9108ms
+2026-06-07 17:48:00.911 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=LnNg_u4_PzOfPT_CKHItyA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:48:00.913 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:48:00.913 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:48:00.927 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=3ZE_WzFp_up5MUO2XgTGMQ&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:48:00.928 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:48:00.928 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:49:10.911 +05:30 [INF] Application is shutting down...
+2026-06-07 17:49:10.912 +05:30 [INF] Connection id "0HNM4HQNKGDTF", Request id "0HNM4HQNKGDTF:00000001": the application aborted the connection.
+2026-06-07 17:49:10.916 +05:30 [INF] Connection id "0HNM4HQNKGDTE", Request id "0HNM4HQNKGDTE:00000001": the application aborted the connection.
+2026-06-07 17:49:10.918 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:49:10.918 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:10.918 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:10.918 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:49:10.918 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:10.919 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.2044ms
+2026-06-07 17:49:10.919 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:10.919 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:10.919 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:10.919 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 0.7335ms
+2026-06-07 17:49:10.920 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:49:10.920 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:49:10.920 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=LnNg_u4_PzOfPT_CKHItyA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 70008.3347ms
+2026-06-07 17:49:10.920 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=3ZE_WzFp_up5MUO2XgTGMQ&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 69992.6717ms
+2026-06-07 17:49:10.921 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=WyUscuidbB8nitIJ9_AIpg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:49:10.922 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:10.922 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:49:27.013 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:49:27.013 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=WyUscuidbB8nitIJ9_AIpg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 16092.2908ms
+2026-06-07 17:49:35.388 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 17:49:35.467 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 17:49:35.468 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 17:49:35.469 +05:30 [INF] Hosting environment: Development
+2026-06-07 17:49:35.469 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 17:49:39.120 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 17:49:39.154 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 35.1952ms
+2026-06-07 17:49:39.204 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 17:49:39.268 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 63.6098ms
+2026-06-07 17:49:45.993 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 8
+2026-06-07 17:49:46.020 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 17:49:46.037 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:46.039 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:46.049 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(System.String) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 17:49:46.061 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 17:49:46.063 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 12.3655ms
+2026-06-07 17:49:46.063 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:46.063 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 69.9387ms
+2026-06-07 17:49:50.025 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:49:50.034 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:49:50.035 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 10.8337ms
+2026-06-07 17:49:50.063 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:49:50.101 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:50.101 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:50.103 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:50.103 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 39.6248ms
+2026-06-07 17:49:50.105 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=zMC5fanS-kShRD_ODx_eiw&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:49:50.106 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:50.106 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:49:50.852 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:49:50.853 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:49:50.854 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 1.9171ms
+2026-06-07 17:49:50.862 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:49:50.863 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:49:50.864 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:50.864 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:50.864 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=zMC5fanS-kShRD_ODx_eiw&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 758.9202ms
+2026-06-07 17:49:50.864 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:50.864 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 2.5393ms
+2026-06-07 17:49:50.866 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=OHGXti1ylh7PyWVk85p82A&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:49:50.867 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:50.867 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:49:51.331 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:49:51.332 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:49:51.333 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 1.7187ms
+2026-06-07 17:49:51.339 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:49:51.339 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=OHGXti1ylh7PyWVk85p82A&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 472.5554ms
+2026-06-07 17:49:51.351 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:49:51.352 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:51.352 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:51.352 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:49:51.352 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.2126ms
+2026-06-07 17:49:51.354 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=LF0jpY_msqY9Se4H8-VPDA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:49:51.355 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:51.355 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:49:53.426 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 8
+2026-06-07 17:49:53.429 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:53.429 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:53.430 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(System.String) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 17:49:53.440 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 17:49:53.440 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 10.4231ms
+2026-06-07 17:49:53.440 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:53.441 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 14.1651ms
+2026-06-07 17:49:57.183 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Notification/send - application/json 8
+2026-06-07 17:49:57.184 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:49:57.184 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:57.184 +05:30 [INF] Route matched with {action = "SendNotification", controller = "Notification"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SendNotification(System.String) on controller Ecommerce.API.Controllers.NotificationController (Ecommerce.API).
+2026-06-07 17:49:57.184 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.String'.
+2026-06-07 17:49:57.184 +05:30 [INF] Executed action Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API) in 0.5307ms
+2026-06-07 17:49:57.185 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.NotificationController.SendNotification (Ecommerce.API)'
+2026-06-07 17:49:57.185 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Notification/send - 200 null text/plain; charset=utf-8 1.5714ms
+2026-06-07 17:50:04.419 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:50:04.421 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:50:04.422 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 3.1361ms
+2026-06-07 17:50:04.426 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:50:04.426 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=LF0jpY_msqY9Se4H8-VPDA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 13072.2221ms
+2026-06-07 17:50:04.439 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:50:04.439 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:50:04.440 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:50:04.440 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:50:04.440 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.272ms
+2026-06-07 17:50:04.442 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=msnBXAIyoN0-Ft7ysXa5Qg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:50:04.442 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:50:04.442 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:50:08.801 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 17:50:08.803 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 1.2384ms
+2026-06-07 17:50:08.849 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 17:50:08.871 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 22.1777ms
+2026-06-07 17:50:11.053 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:50:11.054 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:50:11.054 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 1.4467ms
+2026-06-07 17:50:11.058 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:50:11.058 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=msnBXAIyoN0-Ft7ysXa5Qg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 6616.7431ms
+2026-06-07 17:50:11.072 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:50:11.073 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:50:11.073 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:50:11.073 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:50:11.073 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.1275ms
+2026-06-07 17:50:11.075 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=BItiSlEmDKD6yLiirgf5vA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:50:11.076 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:50:11.076 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:54:57.444 +05:30 [INF] Connection id "0HNM4HS5T89DD", Request id "0HNM4HS5T89DD:00000001": the application aborted the connection.
+2026-06-07 17:54:57.446 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:54:57.446 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=BItiSlEmDKD6yLiirgf5vA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 286369.955ms
+2026-06-07 17:54:57.527 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:54:57.527 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:54:57.527 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:54:57.528 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:54:57.528 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 1.3153ms
+2026-06-07 17:54:57.529 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=BhNCGJ_q8CQELhI_TGhUqQ&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:54:57.530 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:54:57.530 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:59:54.517 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:59:54.519 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:59:54.519 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 2.0404ms
+2026-06-07 17:59:54.524 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:59:54.524 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=BhNCGJ_q8CQELhI_TGhUqQ&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 75675.8635ms
+2026-06-07 17:59:54.538 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:59:54.539 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:59:54.539 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:59:54.539 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:59:54.539 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 0.9169ms
+2026-06-07 17:59:54.541 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=aZ9KoXi7vQwI2HFKk9yV4A&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:59:54.542 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:59:54.542 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 17:59:55.022 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 17:59:55.023 +05:30 [INF] The file /test.html was not modified
+2026-06-07 17:59:55.023 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 1.0788ms
+2026-06-07 17:59:55.028 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 17:59:55.029 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=aZ9KoXi7vQwI2HFKk9yV4A&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 487.489ms
+2026-06-07 17:59:55.042 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 17:59:55.043 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:59:55.043 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 17:59:55.043 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 17:59:55.043 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 0.9988ms
+2026-06-07 17:59:55.045 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=uZ6HnGIqYl8ZXqTQO8jC2Q&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - null null
+2026-06-07 17:59:55.046 +05:30 [INF] CORS policy execution successful.
+2026-06-07 17:59:55.046 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-07 18:00:03.882 +05:30 [INF] Application is shutting down...
+2026-06-07 18:00:03.883 +05:30 [INF] Connection id "0HNM4HS5T89DJ", Request id "0HNM4HS5T89DJ:00000001": the application aborted the connection.
+2026-06-07 18:00:03.885 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 18:00:03.888 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=uZ6HnGIqYl8ZXqTQO8jC2Q&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJhbmVzaCBUYW1pbFNlbHZhbiIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcmFuZXNodGFtaWxzZWx2YW5AZ21haWwuY29tIiwiZXhwIjoxNzgwODM4MjgwLCJpc3MiOiJFY29tbWVyY2VBUEkifQ.ZpEzroGxqxk1mB2lNUKPhRp8EjUvi9KzT9Y0hGxLbd4 - 101 null null 8842.9293ms
+2026-06-07 18:00:03.891 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-07 18:00:03.892 +05:30 [INF] CORS policy execution successful.
+2026-06-07 18:00:03.893 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-07 18:00:03.893 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-07 18:00:03.894 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 2.5818ms

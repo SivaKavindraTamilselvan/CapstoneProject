@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Notification Test</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+</head>
+
+<body>
+
+    <!-- Login Form -->
+    <div id="loginSection">
+        <h2>Login</h2>
+        <input id="email" type="text" placeholder="Email" /><br /><br />
+        <input id="password" type="password" placeholder="Password" /><br /><br />
+        <button onclick="login()">Login</button>
+    </div>
+
+    <!-- Notification Section (hidden until logged in) -->
+    <div id="notificationSection" style="display:none;">
+        <h2>Notifications</h2>
+        <p id="connStatus" style="color:gray;">Connecting...</p>
+        <ul id="messagesList"></ul>
+    </div>
+
+    <script>
+        let connection = null;
+
+        async function login() {
+            const email = document.getElementById("email").value;
+            const password = document.getElementById("password").value;
+
+            try {
+                const response = await fetch("http://localhost:5173/api/Authentication/Login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+
+                const data = await response.json();
+                console.log("Full login response:", data);  // ← check what comes back
+                console.log("Token:", data.token);           // ← check token exists
+
+                const token = data.token;
+
+                if (!token) {
+                    alert("Login failed — check console");
+                    return;
+                }
+
+                localStorage.setItem("token", token);
+                console.log("Token saved to localStorage"); // ← confirm saved
+
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("notificationSection").style.display = "block";
+
+                await connectHub(token);
+
+            } catch (err) {
+                console.error("Login error:", err);
+            }
+        }
+
+        async function connectHub(token) {
+            connection = new signalR.HubConnectionBuilder()
+                .withUrl("http://localhost:5173/notificationhub", {
+                    accessTokenFactory: () => token   // ← sends JWT with connection
+                })
+                .withAutomaticReconnect()
+                .configureLogging(signalR.LogLevel.Information)
+                .build();
+
+            // Listen for notifications
+            connection.on("ReceiveNotification", (data) => {
+                const li = document.createElement("li");
+                li.textContent = `Order #${data.orderId} — ${data.message}`;
+                document.getElementById("messagesList").appendChild(li);
+            });
+
+            connection.onreconnecting(() => {
+                document.getElementById("connStatus").textContent = "Reconnecting...";
+                document.getElementById("connStatus").style.color = "orange";
+            });
+
+            connection.onreconnected(() => {
+                document.getElementById("connStatus").textContent = "Connected ✓";
+                document.getElementById("connStatus").style.color = "green";
+            });
+
+            connection.onclose(() => {
+                document.getElementById("connStatus").textContent = "Disconnected";
+                document.getElementById("connStatus").style.color = "red";
+            });
+
+            try {
+                await connection.start();
+                console.log("SignalR Connected");
+                document.getElementById("connStatus").textContent = "Connected ✓";
+                document.getElementById("connStatus").style.color = "green";
+            } catch (err) {
+                console.error("SignalR connection error:", err);
+            }
+        }
+
+        // Auto-connect if token already exists (page refresh)
+        window.onload = async () => {
+            const token = localStorage.getItem("token");
+            if (token) {
+                document.getElementById("loginSection").style.display = "none";
+                document.getElementById("notificationSection").style.display = "block";
+                await connectHub(token);
+            }
+        };
+    </script>
+</body>
+
+</html>

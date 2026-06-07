@@ -11,6 +11,7 @@ using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Security.Claims;
 using BankingAPI.Middlewares;
+using Ecommerce.API.Hubs;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -54,6 +55,19 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+builder.Services.AddSignalR();
+
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(builder =>
+    {
+        builder.WithOrigins("http://localhost:7163", "http://localhost:4200", "http://localhost:5173")
+               .AllowAnyHeader()
+               .AllowAnyMethod()
+               .AllowCredentials();// Allow credentials for SignalR
+    });
+});
+
 builder.Services.AddAuthentication(options =>
 {
     options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -70,6 +84,21 @@ builder.Services.AddAuthentication(options =>
         IssuerSigningKey         = new SymmetricSecurityKey(
                                        Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"] ?? "")),
         ValidateLifetime         = true
+    };
+    opts.Events = new JwtBearerEvents
+    {
+        OnMessageReceived = context =>
+        {
+            var accessToken = context.Request.Query["access_token"];
+            var path = context.HttpContext.Request.Path;
+
+            if (!string.IsNullOrEmpty(accessToken) &&
+                path.StartsWithSegments("/notificationhub"))
+            {
+                context.Token = accessToken;
+            }
+            return Task.CompletedTask;
+        }
     };
 });
 
@@ -250,15 +279,6 @@ builder.Services.AddScoped<IReviewService,ReviewService>();
 builder.Services.AddScoped<IVendorReturnService,VendorReturnService>();
 #endregion
 
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowAngular", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
 
 var app = builder.Build();
 
@@ -269,16 +289,18 @@ if (app.Environment.IsDevelopment())
 }
 app.UseRouting();
 
-app.UseCors("AllowAngular");
-
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
 
 app.UseAuthorization();
+app.UseCors();
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 
+app.UseStaticFiles(); // ← add this
 app.MapControllers();
+
+app.MapHub<NotificationHub>("/notificationhub");
 
 app.Run();
