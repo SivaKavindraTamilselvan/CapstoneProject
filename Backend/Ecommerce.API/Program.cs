@@ -279,6 +279,7 @@ builder.Services.AddScoped<IShipmentService,ShipmentService>();
 builder.Services.AddScoped<IReviewService,ReviewService>();
 builder.Services.AddScoped<IVendorReturnService,VendorReturnService>();
 builder.Services.AddScoped<INotificationService,NotificationService>();
+builder.Services.AddScoped<IUserProductService,UserProductService>();
 #endregion
 
 

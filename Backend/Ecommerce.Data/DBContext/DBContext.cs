@@ -119,6 +119,7 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<ProductCategory>(p =>
         {
             p.HasKey(p => p.ProductCategoryId).HasName("PK_Product_Category");
+            p.Property(p => p.ProductCategoryId).ValueGeneratedOnAdd();
             p.Property(p => p.ProductCategoryName).IsRequired();
             p.HasIndex(p => p.ProductCategoryName).IsUnique();
             p.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
@@ -127,6 +128,7 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<ProductSubCategory>(p =>
         {
             p.HasKey(p => p.ProductSubCategoryId).HasName("PK_Product_Sub_Category");
+            p.Property(p => p.ProductSubCategoryId).ValueGeneratedOnAdd();
             p.Property(p => p.ProductSubCategoryName).IsRequired();
             p.Property(p => p.ProductCategoryId).IsRequired();
             p.Property(p => p.CommissionPercentage).IsRequired();
@@ -138,6 +140,7 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<ProductSubCategoryAttribute>(psa =>
         {
             psa.HasKey(psa => psa.ProductSubCategoryAttributeId).HasName("PK_Product_Sub_Category_Attribute");
+            psa.Property(p => p.ProductSubCategoryAttributeId).ValueGeneratedOnAdd();
             psa.HasIndex(psa => new { psa.ProductSubCategoryId, psa.AttributeMasterId }).IsUnique();
             psa.Property(psa => psa.IsActive).IsRequired().HasDefaultValue(true);
             psa.Property(psa => psa.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -147,6 +150,7 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<AttributeMaster>(a =>
         {
             a.HasKey(a => a.AttributeMasterId).HasName("PK_Product_Attribute_Master");
+            a.Property(p => p.AttributeMasterId).ValueGeneratedOnAdd();
             a.Property(a => a.AttributeName).IsRequired();
             a.HasIndex(a => a.AttributeName).IsUnique();
             a.Property(a => a.IsActive).IsRequired().HasDefaultValue(true);

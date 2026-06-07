@@ -2541,3 +2541,1186 @@ ORDER BY v1."VendorId", s."VendorUserId"
 2026-06-07 18:55:38.707 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 198.434ms
 2026-06-07 18:55:38.707 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
 2026-06-07 18:55:38.707 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 200 null application/json; charset=utf-8 209.6085ms
+2026-06-07 18:56:39.580 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/test.html - null null
+2026-06-07 18:56:39.582 +05:30 [INF] The file /test.html was not modified
+2026-06-07 18:56:39.582 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/test.html - 304 null text/html 2.0467ms
+2026-06-07 18:56:39.593 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-07 18:56:39.593 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=J_gxG4Hgpm4cMX9g4vFpcg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRCIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IjIiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9lbWFpbGFkZHJlc3MiOiJwcml5YWRoYXJzaGluaUBnbWFpbC5jb20iLCJWZW5kb3JSb2xlSWQiOiIxIiwiZXhwIjoxNzgwODQyMzI0LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.PTzPl-VmhKJje3wKtLLwMC_LS2P9qHOiErOFxRUbnik - 101 null null 75526.9075ms
+2026-06-07 18:56:39.595 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/.well-known/appspecific/com.chrome.devtools.json - null null
+2026-06-07 18:56:39.595 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/.well-known/appspecific/com.chrome.devtools.json - 404 0 null 0.5996ms
+2026-06-07 18:56:39.596 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/.well-known/appspecific/com.chrome.devtools.json, Response status code: 404
+2026-06-07 18:59:45.089 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 18:59:45.091 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 1.7337ms
+2026-06-07 18:59:45.146 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 18:59:45.167 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 20.5757ms
+2026-06-07 19:01:49.874 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-07 19:01:49.876 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:01:49.876 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 19:01:49.877 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-07 19:01:49.896 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-07 19:01:49.898 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+2026-06-07 19:01:49.901 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-07 19:01:49.901 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 24.4025ms
+2026-06-07 19:01:49.901 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-07 19:01:49.901 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 27.7227ms
+2026-06-07 19:02:16.361 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - application/json 35
+2026-06-07 19:02:16.364 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:02:16.364 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:02:16.372 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:02:16.388 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-07 19:02:16.412 +05:30 [ERR] Failed executing DbCommand (5ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-07 19:02:16.418 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-07 19:02:16.420 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API) in 47.803ms
+2026-06-07 19:02:16.420 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:02:16.420 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminProductCategoryService.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 12
+   at Ecommerce.API.Controllers.AdminController.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 56
+   at lambda_method872(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:02:16.426 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - 500 null application/json 64.2869ms
+2026-06-07 19:03:07.483 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - application/json 42
+2026-06-07 19:03:07.486 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:03:07.486 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:03:07.486 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:03:07.501 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-07 19:03:07.504 +05:30 [ERR] Failed executing DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-07 19:03:07.506 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-07 19:03:07.509 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API) in 22.6093ms
+2026-06-07 19:03:07.509 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:03:07.509 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminProductCategoryService.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 12
+   at Ecommerce.API.Controllers.AdminController.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 56
+   at lambda_method872(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:03:07.511 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - 500 null application/json 28.7376ms
+2026-06-07 19:06:42.927 +05:30 [INF] Application is shutting down...
+2026-06-07 19:07:30.958 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-06-07 19:07:31.158 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2026-06-07 19:07:31.183 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+CREATE TABLE IF NOT EXISTS "__EFMigrationsHistory" (
+    "MigrationId" character varying(150) NOT NULL,
+    "ProductVersion" character varying(32) NOT NULL,
+    CONSTRAINT "PK___EFMigrationsHistory" PRIMARY KEY ("MigrationId")
+);
+2026-06-07 19:07:31.187 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-06-07 19:07:31.188 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+LOCK TABLE "__EFMigrationsHistory" IN ACCESS EXCLUSIVE MODE
+2026-06-07 19:07:31.188 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-06-07 19:07:31.192 +05:30 [INF] Applying migration '20260607133723_AddIncrementToPrimaryKey'.
+2026-06-07 19:07:31.223 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
+VALUES ('20260607133723_AddIncrementToPrimaryKey', '10.0.8');
+2026-06-07 19:07:37.906 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:07:38.000 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:07:38.001 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:07:38.001 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:07:38.001 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:07:42.033 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - application/json 42
+2026-06-07 19:07:42.056 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:07:42.104 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:07:42.106 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:07:42.117 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:07:42.164 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:07:43.076 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-07 19:07:43.156 +05:30 [ERR] Failed executing DbCommand (9ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-07 19:07:43.165 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-07 19:07:43.169 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API) in 1050.8861ms
+2026-06-07 19:07:43.170 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:07:43.170 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminProductCategoryService.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 12
+   at Ecommerce.API.Controllers.AdminController.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 56
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:07:43.185 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - 500 null application/json 1152.7035ms
+2026-06-07 19:07:59.084 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 19:07:59.125 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.0774ms
+2026-06-07 19:07:59.183 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 19:07:59.241 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 57.892ms
+2026-06-07 19:08:20.206 +05:30 [INF] Application is shutting down...
+2026-06-07 19:08:24.257 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:08:24.344 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:08:24.345 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:08:24.345 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:08:24.345 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:08:24.455 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 19:08:24.487 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 32.7141ms
+2026-06-07 19:08:24.544 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 19:08:24.606 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 61.4666ms
+2026-06-07 19:08:33.100 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - application/json 35
+2026-06-07 19:08:33.126 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:08:33.144 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:08:33.145 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:08:33.156 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:08:33.204 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:08:34.111 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-07 19:08:34.196 +05:30 [ERR] Failed executing DbCommand (8ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-07 19:08:34.206 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-07 19:08:34.212 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API) in 1053.401ms
+2026-06-07 19:08:34.212 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:08:34.212 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "PK_Product_Category"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "PK_Product_Category"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ProductCategory
+    ConstraintName: PK_Product_Category
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminProductCategoryService.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 12
+   at Ecommerce.API.Controllers.AdminController.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 56
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:08:34.224 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - 500 null application/json 1123.8634ms
+2026-06-07 19:09:11.194 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - application/json 35
+2026-06-07 19:09:11.204 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:09:11.204 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:09:11.205 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:09:11.225 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-07 19:09:11.229 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-07 19:09:11.251 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductCategoryDTO'.
+2026-06-07 19:09:11.254 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API) in 48.9157ms
+2026-06-07 19:09:11.254 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductCategory (Ecommerce.API)'
+2026-06-07 19:09:11.254 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductCategory - 200 null application/json; charset=utf-8 60.5014ms
+2026-06-07 19:10:19.785 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - application/json 95
+2026-06-07 19:10:19.795 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|3)
+2026-06-07 19:10:19.798 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-07 19:10:19.798 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - 401 0 null 13.496ms
+2026-06-07 19:10:38.614 +05:30 [INF] Application is shutting down...
+2026-06-07 19:10:42.843 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:10:42.936 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:10:42.937 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:10:42.937 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:10:42.937 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:10:46.682 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - application/json 95
+2026-06-07 19:10:46.702 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:10:46.715 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:10:46.716 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API)'
+2026-06-07 19:10:46.726 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:10:46.779 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:10:47.661 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@productSubCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryName" = @productSubCategoryName
+LIMIT 1
+2026-06-07 19:10:47.744 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductSubCategory" ("CommissionPercentage", "CreatedAt", "ProductCategoryId", "ProductSubCategoryName")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ProductSubCategoryId", "IsActive";
+2026-06-07 19:10:47.763 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductSubCategoryDTO'.
+2026-06-07 19:10:47.769 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API) in 1040.8718ms
+2026-06-07 19:10:47.769 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API)'
+2026-06-07 19:10:47.773 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - 200 null application/json; charset=utf-8 1092.5283ms
+2026-06-07 19:10:55.227 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - application/json 95
+2026-06-07 19:10:55.234 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:10:55.235 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API)'
+2026-06-07 19:10:55.235 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:10:55.255 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryName" = @productSubCategoryName
+LIMIT 1
+2026-06-07 19:10:55.261 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API) in 25.6854ms
+2026-06-07 19:10:55.261 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategory (Ecommerce.API)'
+2026-06-07 19:10:55.261 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Product Sub Category Name Is Registered
+   at ProductCategoryValidation.ValidateProductSubCategoryName(String ProductSubCategoryName) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 38
+   at AdminProductCategoryService.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 17
+   at Ecommerce.API.Controllers.AdminController.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 63
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:10:55.271 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategory - 500 null application/json 44.5503ms
+2026-06-07 19:11:17.662 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategoryAttribute - application/json 58
+2026-06-07 19:11:17.668 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:11:17.668 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-07 19:11:17.676 +05:30 [INF] Route matched with {action = "AddProductSubCategoryAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO]] AddProductSubCategoryAttribute(Ecommerce.DTOs.RequestAddProductSubCategoryAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:11:17.732 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@attributeid='?' (DbType = Int32), @subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."AttributeMasterId" = @attributeid AND p."ProductSubCategoryId" = @subCategoryId
+LIMIT 1
+2026-06-07 19:11:17.744 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductSubCategoryAttribute" ("AttributeMasterId", "CreatedAt", "ProductSubCategoryId")
+VALUES (@p0, @p1, @p2)
+RETURNING "ProductSubCategoryAttributeId", "IsActive";
+2026-06-07 19:11:17.746 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO'.
+2026-06-07 19:11:17.747 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddProductSubCategoryAttribute (Ecommerce.API) in 70.5161ms
+2026-06-07 19:11:17.747 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-07 19:11:17.747 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddProductSubCategoryAttribute - 200 null application/json; charset=utf-8 84.9112ms
+2026-06-07 19:11:37.139 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 31
+2026-06-07 19:11:37.140 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:11:37.140 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:11:37.146 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:11:37.157 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:11:37.172 +05:30 [ERR] Failed executing DbCommand (4ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "AttributeMaster" ("AttributeName", "CreatedAt")
+VALUES (@p0, @p1)
+RETURNING "AttributeMasterId", "IsActive";
+2026-06-07 19:11:37.178 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: AttributeMaster
+    ConstraintName: IX_AttributeMaster_AttributeName
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: AttributeMaster
+    ConstraintName: IX_AttributeMaster_AttributeName
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-07 19:11:37.180 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 33.7996ms
+2026-06-07 19:11:37.180 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:11:37.180 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_AttributeMaster_AttributeName"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: AttributeMaster
+    ConstraintName: IX_AttributeMaster_AttributeName
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 13
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:11:37.183 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 44.3529ms
+2026-06-07 19:12:50.397 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 35
+2026-06-07 19:12:50.400 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:12:50.400 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:12:50.400 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:12:50.404 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:12:50.405 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 4.0579ms
+2026-06-07 19:12:50.405 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:12:50.405 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:12:50.407 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 9.524ms
+2026-06-07 19:13:08.358 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 30
+2026-06-07 19:13:08.359 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:13:08.359 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:13:08.359 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:13:08.362 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:13:08.362 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 3.0006ms
+2026-06-07 19:13:08.363 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:13:08.363 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:13:08.365 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 6.3721ms
+2026-06-07 19:13:40.609 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 19:13:40.649 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 39.9387ms
+2026-06-07 19:13:40.704 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 19:13:40.756 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 52.3029ms
+2026-06-07 19:13:51.313 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 31
+2026-06-07 19:13:51.314 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:13:51.314 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:13:51.314 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:13:51.316 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:13:51.317 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 2.5972ms
+2026-06-07 19:13:51.317 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:13:51.317 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:13:51.318 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 4.8997ms
+2026-06-07 19:14:15.447 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 35
+2026-06-07 19:14:15.447 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:14:15.447 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:14:15.447 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:14:15.450 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:14:15.451 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 3.2227ms
+2026-06-07 19:14:15.451 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:14:15.451 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:14:15.452 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 5.6671ms
+2026-06-07 19:14:28.923 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 29
+2026-06-07 19:14:28.924 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:14:28.924 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:14:28.925 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:14:28.927 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:14:28.928 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 2.715ms
+2026-06-07 19:14:28.928 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:14:28.928 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:14:28.930 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 6.9595ms
+2026-06-07 19:15:15.648 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 28
+2026-06-07 19:15:15.648 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:15:15.648 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:15:15.649 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:15:15.651 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:15:15.651 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 2.5254ms
+2026-06-07 19:15:15.652 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:15:15.652 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Attribute Name Is Registered
+   at ProductAttributeValidation.ValidateAttributeName(String name) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 10
+   at Ecommerce.API.Controllers.AdminController.AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 77
+   at lambda_method516(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:15:15.653 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 500 null application/json 5.6845ms
+2026-06-07 19:15:49.467 +05:30 [INF] Application is shutting down...
+2026-06-07 19:16:46.027 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:16:46.119 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:16:46.120 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:16:46.120 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:16:46.120 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:16:50.794 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - application/json 28
+2026-06-07 19:16:50.815 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:16:50.830 +05:30 [INF] CORS policy execution successful.
+2026-06-07 19:16:50.832 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:16:50.842 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-07 19:16:50.896 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:16:51.801 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-07 19:16:51.875 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "AttributeMaster" ("AttributeName", "CreatedAt")
+VALUES (@p0, @p1)
+RETURNING "AttributeMasterId", "IsActive";
+2026-06-07 19:16:51.895 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddAttributeDTO'.
+2026-06-07 19:16:51.900 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API) in 1056.2275ms
+2026-06-07 19:16:51.900 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.AddAttribute (Ecommerce.API)'
+2026-06-07 19:16:51.904 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/AddAttribute - 200 null application/json; charset=utf-8 1111.4001ms
+2026-06-07 19:18:32.931 +05:30 [INF] Application is shutting down...
+2026-06-07 19:51:32.642 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:51:32.712 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:51:32.712 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:51:32.712 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:51:32.712 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:51:35.713 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-07 19:51:35.741 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 28.923ms
+2026-06-07 19:51:35.781 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-07 19:51:35.833 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 51.8887ms
+2026-06-07 19:51:43.121 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/categories - null null
+2026-06-07 19:51:43.146 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:51:43.162 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API)'
+2026-06-07 19:51:43.169 +05:30 [INF] Route matched with {action = "GetAllProductCategory", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductCategory() on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:51:43.256 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:51:43.258 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API) in 87.3085ms
+2026-06-07 19:51:43.258 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API)'
+2026-06-07 19:51:43.258 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.InvalidOperationException: Unable to resolve service for type 'Ecommerce.Services.Interfaces.IProductService' while attempting to activate 'Ecommerce.API.Controllers.ProductController'.
+   at Microsoft.Extensions.DependencyInjection.ActivatorUtilities.ThrowHelperUnableToResolveService(Type type, Type requiredBy)
+   at lambda_method10(Closure, IServiceProvider, Object[])
+   at Microsoft.AspNetCore.Mvc.Controllers.ControllerFactoryProvider.<>c__DisplayClass6_0.<CreateControllerFactory>g__CreateController|0(ControllerContext controllerContext)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 19:51:43.266 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/categories - 500 null application/json 144.6359ms
+2026-06-07 19:53:28.680 +05:30 [INF] Application is shutting down...
+2026-06-07 19:53:35.856 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-07 19:53:35.930 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-07 19:53:35.931 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-07 19:53:35.931 +05:30 [INF] Hosting environment: Development
+2026-06-07 19:53:35.931 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-07 19:53:39.905 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/categories - null null
+2026-06-07 19:53:39.926 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-07 19:53:39.943 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API)'
+2026-06-07 19:53:39.949 +05:30 [INF] Route matched with {action = "GetAllProductCategory", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductCategory() on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:53:40.034 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-07 19:53:40.587 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+2026-06-07 19:53:40.621 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:53:40.628 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API) in 677.4121ms
+2026-06-07 19:53:40.628 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductCategory (Ecommerce.API)'
+2026-06-07 19:53:40.630 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/categories - 200 null application/json; charset=utf-8 726.0098ms
+2026-06-07 19:53:53.427 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/attributes - null null
+2026-06-07 19:53:53.437 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllAttributeNames (Ecommerce.API)'
+2026-06-07 19:53:53.443 +05:30 [INF] Route matched with {action = "GetAllAttributeNames", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllAttributeNames() on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:53:53.480 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+2026-06-07 19:53:53.487 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllAttributeName, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:53:53.488 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllAttributeNames (Ecommerce.API) in 44.8107ms
+2026-06-07 19:53:53.488 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllAttributeNames (Ecommerce.API)'
+2026-06-07 19:53:53.489 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/attributes - 200 null application/json; charset=utf-8 62.5145ms
+2026-06-07 19:54:13.058 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/subcategories?ProductCategoryId=1 - null null
+2026-06-07 19:54:13.067 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-07 19:54:13.078 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Ecommerce.DTOs.RequestGetAllProductSubCategoryName) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:54:13.140 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductCategoryId" = @productId
+2026-06-07 19:54:13.148 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryName, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:54:13.149 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API) in 70.1536ms
+2026-06-07 19:54:13.149 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-07 19:54:13.149 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/subcategories?ProductCategoryId=1 - 200 null application/json; charset=utf-8 91.2432ms
+2026-06-07 19:54:21.511 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/subcategories?ProductCategoryId=1 - null null
+2026-06-07 19:54:21.512 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-07 19:54:21.512 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Ecommerce.DTOs.RequestGetAllProductSubCategoryName) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:54:21.524 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductCategoryId" = @productId
+2026-06-07 19:54:21.526 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryName, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:54:21.526 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API) in 11.9341ms
+2026-06-07 19:54:21.526 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-07 19:54:21.527 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/subcategories?ProductCategoryId=1 - 200 null application/json; charset=utf-8 16.0796ms
+2026-06-07 19:54:27.083 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/subcategory/attributes?ProductSubCategoryAttributeId=1 - null null
+2026-06-07 19:54:27.084 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-07 19:54:27.093 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Ecommerce.DTOs.RequestGetAllProductSubCategoryAttributeName) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:54:27.141 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId", a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "ProductSubCategoryAttribute" AS p
+INNER JOIN "AttributeMaster" AS a ON p."AttributeMasterId" = a."AttributeMasterId"
+WHERE p."ProductSubCategoryId" = @subCategoryId
+2026-06-07 19:54:27.153 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryAttributeName, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:54:27.153 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 59.9224ms
+2026-06-07 19:54:27.153 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-07 19:54:27.153 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/subcategory/attributes?ProductSubCategoryAttributeId=1 - 200 null application/json; charset=utf-8 70.2654ms
+2026-06-07 19:54:41.290 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/subcategory/attributes?ProductSubCategoryAttributeId=1 - null null
+2026-06-07 19:54:41.291 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-07 19:54:41.291 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Ecommerce.DTOs.RequestGetAllProductSubCategoryAttributeName) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:54:41.295 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId", a."AttributeMasterId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "ProductSubCategoryAttribute" AS p
+INNER JOIN "AttributeMaster" AS a ON p."AttributeMasterId" = a."AttributeMasterId"
+WHERE p."ProductSubCategoryId" = @subCategoryId
+2026-06-07 19:54:41.297 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryAttributeName, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:54:41.297 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 6.0149ms
+2026-06-07 19:54:41.297 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-07 19:54:41.298 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/subcategory/attributes?ProductSubCategoryAttributeId=1 - 200 null application/json; charset=utf-8 7.9479ms
+2026-06-07 19:54:41.425 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Product/subcategories/vendor?ProductCategoryId=1 - null null
+2026-06-07 19:54:41.426 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNamesVendor (Ecommerce.API)'
+2026-06-07 19:54:41.435 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNamesVendor", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNamesVendor(Ecommerce.DTOs.RequestGetAllProductSubCategoryName) on controller Ecommerce.API.Controllers.ProductController (Ecommerce.API).
+2026-06-07 19:54:41.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductCategoryId" = @productId
+2026-06-07 19:54:41.444 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryNameVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-07 19:54:41.447 +05:30 [INF] Executed action Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNamesVendor (Ecommerce.API) in 11.0238ms
+2026-06-07 19:54:41.447 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.ProductController.GetAllProductSubCategoryNamesVendor (Ecommerce.API)'
+2026-06-07 19:54:41.447 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Product/subcategories/vendor?ProductCategoryId=1 - 200 null application/json; charset=utf-8 21.789ms

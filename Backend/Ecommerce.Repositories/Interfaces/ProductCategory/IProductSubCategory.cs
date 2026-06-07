@@ -4,5 +4,6 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IProductSubCategoryRepsository : IRepository<int, ProductSubCategory>
 {
+    public Task<List<ProductSubCategory>> GetAllProductSubCategory(int productId);
     public Task<ProductSubCategory?> CheckUniqueProductSubCategory(string productSubCategoryName);
 }

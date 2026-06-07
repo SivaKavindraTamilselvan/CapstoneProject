@@ -8,13 +8,13 @@ namespace Ecommerce.Mappers
     {
         public ProductMappingProfile()
         {
-            CreateMap<RequestAddProduct,Product>();
+            CreateMap<RequestAddProduct, Product>();
             CreateMap<Product, ResponseAddProduct>();
 
-            CreateMap<RequestAddProductImage,ProductImage>();
+            CreateMap<RequestAddProductImage, ProductImage>();
             CreateMap<ProductImage, RequestAddProductImage>();
 
-            CreateMap<RequestAddProductVariantDTO,ProductVariant>();
+            CreateMap<RequestAddProductVariantDTO, ProductVariant>();
             CreateMap<ProductVariant, ResponseAddProductVariantDTO>();
 
             CreateMap<RequestAddProductVariantAttributeDTO, ProductVariantAttribute>();
@@ -27,13 +27,20 @@ namespace Ecommerce.Mappers
             CreateMap<AttributeMaster, ResponseAddAttributeDTO>();
             CreateMap<ProductSubCategoryAttribute, ResponseAddProductSubCategoryAttributeDTO>();
 
-            CreateMap<RequestUpdateProduct,Product>();
-            CreateMap<Product,ResponseUpdateProduct>();
+            CreateMap<RequestUpdateProduct, Product>();
+            CreateMap<Product, ResponseUpdateProduct>();
 
-            CreateMap<ProductVariant,ResponseUpdateProductVariantDTO>();
+            CreateMap<ProductVariant, ResponseUpdateProductVariantDTO>();
 
-            CreateMap<ProductImage,ResponseMakeDefaultImageDTO>();
-            CreateMap<ProductImage,ResponseAddProductVariantImage>();
+            CreateMap<ProductImage, ResponseMakeDefaultImageDTO>();
+            CreateMap<ProductImage, ResponseAddProductVariantImage>();
+
+            CreateMap<ProductCategory, ResponseGetAllProductCategory>();
+            CreateMap<ProductSubCategory, ResponseGetAllProductSubCategoryName>();
+            CreateMap<ProductSubCategoryAttribute, ResponseGetAllProductSubCategoryAttributeName>()
+                .ForMember(dest => dest.AttributeName, opt => opt.MapFrom(src => src.AttributeMaster.AttributeName));
+            CreateMap<AttributeMaster, ResponseGetAllAttributeName>();
+            CreateMap<ProductSubCategory, ResponseGetAllProductSubCategoryNameVendor>();
         }
     }
 }

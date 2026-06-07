@@ -10,16 +10,16 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class ProductController : ControllerBase
 {
-    private readonly IProductService _productService;
     private readonly IVendorProductService _vendorProductService;
     private readonly IVendorProductImageService _vendorProductImageService;
     private readonly IVendorProductVariantService _vendorProductVariantService;
-    public ProductController(IProductService productService, IVendorProductService vendorProductService,IVendorProductImageService vendorProductImageService,IVendorProductVariantService vendorProductVariantService)
+    private readonly IUserProductService _userProductService;
+    public ProductController(IUserProductService userProductService,IVendorProductService vendorProductService, IVendorProductImageService vendorProductImageService, IVendorProductVariantService vendorProductVariantService)
     {
-        _productService = productService;
         _vendorProductService = vendorProductService;
         _vendorProductImageService = vendorProductImageService;
         _vendorProductVariantService = vendorProductVariantService;
+        _userProductService = userProductService;
     }
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -35,7 +35,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductImage>> AddProductImage(RequestAddProductImage requestAddProductImage)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductImageService.AddProductImage(requestAddProductImage,vendorUserId);
+        var result = await _vendorProductImageService.AddProductImage(requestAddProductImage, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -43,7 +43,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantImage>> AddProductVariantImage(RequestAddProductVariantImage requestAddProductVariantImage)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductVariantImage,vendorUserId);
+        var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductVariantImage, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -51,7 +51,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantDTO>> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO,vendorUserId);
+        var result = await _vendorProductVariantService.AddProductVariant(requestAddProductVariantDTO, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerOnly")]
@@ -59,7 +59,7 @@ public class ProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantAttributeDTO>> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO,true);
+        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerOnly")]
@@ -85,5 +85,39 @@ public class ProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("categories")]
+    public async Task<IActionResult> GetAllProductCategory()
+    {
+        var result = await _userProductService.GetAllProductCategory();
+        return Ok(result);
+    }
+
+    [HttpGet("attributes")]
+    public async Task<IActionResult> GetAllAttributeNames()
+    {
+        var result = await _userProductService.GetAllAttributeNames();
+        return Ok(result);
+    }
+
+    [HttpGet("subcategory/attributes")]
+    public async Task<IActionResult> GetAllProductSubCategoryAttributeNames([FromQuery] RequestGetAllProductSubCategoryAttributeName request)
+    {
+        var result = await _userProductService.GetAllProductSubCategoryAttributeNames(request);
+        return Ok(result);
+    }
+
+    [HttpGet("subcategories")]
+    public async Task<IActionResult> GetAllProductSubCategoryNames([FromQuery] RequestGetAllProductSubCategoryName request)
+    {
+        var result = await _userProductService.GetAllProductSubCategoryNames(request);
+        return Ok(result);
+    }
+
+    [HttpGet("subcategories/vendor")]
+    public async Task<IActionResult> GetAllProductSubCategoryNamesVendor([FromQuery] RequestGetAllProductSubCategoryName request)
+    {
+        var result = await _userProductService.GetAllProductSubCategoryNamesVendor(request);
+        return Ok(result);
+    }
 
 }

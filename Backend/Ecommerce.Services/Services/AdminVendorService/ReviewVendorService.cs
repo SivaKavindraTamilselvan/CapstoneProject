@@ -40,7 +40,6 @@ public partial class AdminVendorService : IAdminVendorService
         }
         var ownerUser = await _vendorRepsository.GetOwnerVendorUserByVendorId(vendor.VendorId);
         var vendorOwnerUserId = ownerUser?.VendorUsers?.FirstOrDefault()?.UserId;
-        Console.WriteLine(vendorOwnerUserId.Value);
         if (vendorOwnerUserId.HasValue)
         {
             await _notificationService.SendToUser(

@@ -30,13 +30,13 @@ public class ProductAttributeValidation : IProductAttributeValidation
         }
         return result;
     }
-    public async Task<AttributeMaster> ValidateAttributeName(string name)
+    public async Task ValidateAttributeName(string name)
     {
         var attribute = await _attributeRepsository.GetTheAttributeByName(name);
-        if (attribute == null)
+        if (attribute != null)
         {
             throw new DataAlreadyRegisteredException("Already The Attribute Name Is Registered");
         }
-        return attribute;
+        return;
     }
 }

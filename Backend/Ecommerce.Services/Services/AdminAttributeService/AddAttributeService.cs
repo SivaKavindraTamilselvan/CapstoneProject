@@ -7,7 +7,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
 {
     public async Task<ResponseAddAttributeDTO> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
     {
-        var attribute = await _productAttributeValidation.ValidateAttributeName(requestAddAttributeDTO.AttributeName);
+        await _productAttributeValidation.ValidateAttributeName(requestAddAttributeDTO.AttributeName);
         AttributeMaster createAttribute = new AttributeMaster();
         createAttribute.AttributeName = requestAddAttributeDTO.AttributeName;
         await _attributeRepsository.Create(createAttribute);

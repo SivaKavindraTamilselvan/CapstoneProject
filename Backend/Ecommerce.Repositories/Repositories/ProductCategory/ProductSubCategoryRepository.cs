@@ -15,4 +15,8 @@ public class ProductSubCategoryRepsository : AbstractRepository<int, ProductSubC
         var product = await _ecommerceContext.ProductSubCategory.FirstOrDefaultAsync(p=>p.ProductSubCategoryName == productSubCategoryName);
         return product;
     }
+    public async Task<List<ProductSubCategory>> GetAllProductSubCategory(int productId)
+    {
+        return await _ecommerceContext.ProductSubCategory.Where(p=>p.ProductCategoryId == productId).ToListAsync();
+    }
 }
