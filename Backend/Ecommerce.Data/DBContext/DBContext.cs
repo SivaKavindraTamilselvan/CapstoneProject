@@ -29,7 +29,7 @@ public class EcommerceContext : DbContext
     public DbSet<OrderItems> OrderItems { get; set; }
     public DbSet<ShipmentItems> ShipmentItems { get; set; }
     public DbSet<Shipment> Shipment { get; set; }
-    public DbSet<Return> Return {get;set;}
+    public DbSet<Return> Return { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
@@ -128,6 +128,7 @@ public class EcommerceContext : DbContext
             p.HasKey(p => p.ProductSubCategoryId).HasName("PK_Product_Sub_Category");
             p.Property(p => p.ProductSubCategoryName).IsRequired();
             p.Property(p => p.ProductCategoryId).IsRequired();
+            p.Property(p => p.CommissionPercentage).IsRequired();
             p.HasIndex(p => new { p.ProductCategoryId, p.ProductSubCategoryName }).IsUnique();
             p.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
             p.Property(p => p.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
@@ -186,12 +187,15 @@ public class EcommerceContext : DbContext
             sh.HasKey(sh => sh.ShipmentStatusId).HasName("PK_Shipment_Status");
             sh.HasIndex(sh => sh.ShipmentStatusName).IsUnique();
             sh.HasData(new ShipmentStatus() { ShipmentStatusId = 1, ShipmentStatusName = "Pending" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 2, ShipmentStatusName = "Picked_Up" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 3, ShipmentStatusName = "In_Transit" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 4, ShipmentStatusName = "Out_Of_Delivery" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 5, ShipmentStatusName = "Delivered" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 6, ShipmentStatusName = "Failed" });
-            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 7, ShipmentStatusName = "Returned" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 2, ShipmentStatusName = "Payment_Success" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 3, ShipmentStatusName = "Payment_Failed" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 4, ShipmentStatusName = "Ready_For_Pick_Up" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 5, ShipmentStatusName = "Picked_Up" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 6, ShipmentStatusName = "In_Transit" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 7, ShipmentStatusName = "Out_Of_Delivery" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 8, ShipmentStatusName = "Delivered" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 9, ShipmentStatusName = "Failed" });
+            sh.HasData(new ShipmentStatus() { ShipmentStatusId = 10, ShipmentStatusName = "Returned" });
         });
         modelBuilder.Entity<PaymentStatus>(p =>
         {
@@ -207,11 +211,13 @@ public class EcommerceContext : DbContext
         {
             p.HasKey(p => p.RefundStatusId).HasName("PK_Refund_Status");
             p.HasIndex(p => p.RefundStatusName).IsUnique();
-            p.HasData(new RefundStatus() { RefundStatusId = 1, RefundStatusName = "Pending" });
-            p.HasData(new RefundStatus() { RefundStatusId = 2, RefundStatusName = "Processed" });
-            p.HasData(new RefundStatus() { RefundStatusId = 3, RefundStatusName = "Failed" });
-            p.HasData(new RefundStatus() { RefundStatusId = 4, RefundStatusName = "Cancelled" });
-            p.HasData(new RefundStatus() { RefundStatusId = 5, RefundStatusName = "Completed" });
+            p.HasData(new RefundStatus() { RefundStatusId = 1, RefundStatusName = "Vendor_Requested" });
+            p.HasData(new RefundStatus() { RefundStatusId = 2, RefundStatusName = "Pending" });
+            p.HasData(new RefundStatus() { RefundStatusId = 3, RefundStatusName = "Admin_Reviewed" });
+            p.HasData(new RefundStatus() { RefundStatusId = 4, RefundStatusName = "Processed" });
+            p.HasData(new RefundStatus() { RefundStatusId = 5, RefundStatusName = "Failed" });
+            p.HasData(new RefundStatus() { RefundStatusId = 6, RefundStatusName = "Cancelled" });
+            p.HasData(new RefundStatus() { RefundStatusId = 7, RefundStatusName = "Completed" });
         });
         modelBuilder.Entity<ReviewDescription>(rd =>
         {
@@ -596,6 +602,7 @@ public class EcommerceContext : DbContext
             i.HasKey(i => i.InventoryId).HasName("PK_Inventory");
             i.Property(i => i.AvailableQuantity).HasDefaultValue(0);
             i.Property(i => i.ReservedQuantity).HasDefaultValue(0);
+            i.Property(i => i.IsActive).HasDefaultValue(true);
             i.Property(i => i.UpdatedAt).HasColumnType("timestamp without time zone");
             i.Property(i => i.UpdatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             i.HasIndex(i => new { i.ProductVariantId, i.AddressId }).IsUnique();
@@ -625,7 +632,7 @@ public class EcommerceContext : DbContext
             r.HasOne(r => r.ReturnReason).WithMany(rr => rr.Returns).HasForeignKey(r => r.ReturnReasonId).HasConstraintName("FK_Return_Reason").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.OrderItems).WithMany(o => o.Returns).HasForeignKey(r => r.OrderItemId).HasConstraintName("FK_Return_Order_Item").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.ReturnStatus).WithMany(rs => rs.Returns).HasForeignKey(r => r.ReturnStatusId).HasConstraintName("FK_Return_Status").OnDelete(DeleteBehavior.Restrict);
-            r.HasOne(r => r.ReviewedByVendor).WithMany(a => a.Returns).HasForeignKey(r => r.ReviewedByAdminId).HasConstraintName("FK_Return_Vendor_Review").OnDelete(DeleteBehavior.Restrict);
+            r.HasOne(r => r.ReviewedByVendor).WithMany(a => a.Returns).HasForeignKey(r => r.ReviewedByVendorId).HasConstraintName("FK_Return_Vendor_Review").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<Refund>(r =>
         {
@@ -634,17 +641,23 @@ public class EcommerceContext : DbContext
             r.Property(r => r.RequestedDate).HasColumnType("timestamp without time zone");
             r.Property(r => r.RequestedDate).HasDefaultValueSql("CURRENT_TIMESTAMP");
             r.Property(r => r.ProcessedDate).HasColumnType("timestamp without time zone");
-            r.HasOne(r => r.Order).WithMany(o => o.Refunds).HasForeignKey(r => r.OrderId).HasConstraintName("FK_Refund_Order").OnDelete(DeleteBehavior.Restrict);
+            r.HasOne(r => r.RefundType).WithMany(o => o.Refunds).HasForeignKey(r => r.RefundTypeId).HasConstraintName("FK_Refund_Type").OnDelete(DeleteBehavior.Restrict);
+            r.HasOne(r => r.OrderItems).WithMany(o => o.Refunds).HasForeignKey(r => r.OrderItemsId).HasConstraintName("FK_Refund_Order_Item").OnDelete(DeleteBehavior.Restrict);
             r.HasOne(r => r.RefundStatus).WithMany(rs => rs.Refunds).HasForeignKey(r => r.RefundStatusId).HasConstraintName("FK_Refund_Status").OnDelete(DeleteBehavior.Restrict);
         });
-        modelBuilder.Entity<RefundItems>(ri =>
+        modelBuilder.Entity<ReturnRefund>(r =>
         {
-            ri.HasKey(ri => ri.RefundItemsId).HasName("PK_Refund_Items");
-            ri.Property(ri => ri.RefundAmount).IsRequired();
-            ri.Property(ri => ri.RefundQuantity).HasDefaultValue(1);
-            ri.HasIndex(ri => new { ri.RefundId, ri.OrderItemsId }).IsUnique();
-            ri.HasOne(ri => ri.Refund).WithMany(r => r.RefundItems).HasForeignKey(ri => ri.RefundId).HasConstraintName("FK_Refund_Items_Refund").OnDelete(DeleteBehavior.Cascade);
-            ri.HasOne(ri => ri.OrderItems).WithMany(oi => oi.RefundItems).HasForeignKey(ri => ri.OrderItemsId).HasConstraintName("FK_Refund_Items_Order_Items").OnDelete(DeleteBehavior.Restrict);
+            r.HasKey(r => r.ReturnRefundId).HasName("PK_Return_Refund");
+            r.Property(r => r.DeductionReason).HasMaxLength(250);
+            r.HasOne(r => r.Refund).WithOne(r => r.ReturnRefund).HasForeignKey<ReturnRefund>(r => r.RefundId).HasConstraintName("FK_Return_Refund");
+            r.HasOne(r => r.Return).WithOne(r => r.ReturnRefund).HasForeignKey<ReturnRefund>(r => r.ReturnId).HasConstraintName("FK_Return_Refund_Id");
+        });
+        modelBuilder.Entity<RefundType>(r =>
+        {
+            r.HasKey(r => r.RefundTypeId).HasName("PK_RefundType");
+            r.Property(r => r.RefundTypeName).HasMaxLength(100);
+            r.HasIndex(r => r.RefundTypeName).IsUnique();
+            r.HasData(new RefundType { RefundTypeId = 1, RefundTypeName = "Cancellation" },new RefundType { RefundTypeId = 2, RefundTypeName = "Return" });
         });
         modelBuilder.Entity<Coupons>(c =>
         {
@@ -660,8 +673,8 @@ public class EcommerceContext : DbContext
             c.Property(c => c.EndDate).HasColumnType("timestamp without time zone");
             c.Property(c => c.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             c.Property(c => c.UpdatedAt).HasColumnType("timestamp without time zone");
-            c.HasOne(c => c.CreatedByAdminUser).WithMany().HasForeignKey(c => c.CreatedByAdminUserId).HasConstraintName("FK_Coupons_Created_By_Admin_User").OnDelete(DeleteBehavior.Restrict);
-            c.HasOne(c => c.CreatedByVendorUser).WithMany().HasForeignKey(c => c.CreatedByVendorUserId).HasConstraintName("FK_Coupons_Created_By_Vendor_User").OnDelete(DeleteBehavior.Restrict);
+            c.HasOne(c => c.CreatedByUser).WithMany(u => u.Coupons).HasForeignKey(c => c.CreatedByUserId).HasConstraintName("FK_Coupons_Created_By_User").OnDelete(DeleteBehavior.Restrict);
+            c.HasOne(c => c.CouponType).WithMany(u => u.Coupons).HasForeignKey(c => c.CouponTypeId).HasConstraintName("FK_Coupons_Type").OnDelete(DeleteBehavior.Restrict);
         });
         modelBuilder.Entity<CouponUsage>(cu =>
         {
@@ -682,6 +695,14 @@ public class EcommerceContext : DbContext
             cp.HasOne(cp => cp.Coupons).WithMany(c => c.CouponsProducts).HasForeignKey(cp => cp.CouponId).HasConstraintName("FK_Coupons_Product_Coupon").OnDelete(DeleteBehavior.Cascade);
             cp.HasOne(cp => cp.Product).WithMany(p => p.CouponsProducts).HasForeignKey(cp => cp.ProductId).HasConstraintName("FK_Coupons_Product_Product").OnDelete(DeleteBehavior.Restrict);
             cp.HasOne(cp => cp.AddedByVendorUser).WithMany().HasForeignKey(cp => cp.AddedByVendorUserId).HasConstraintName("FK_Coupons_Product_Added_By_Vendor_User").OnDelete(DeleteBehavior.Restrict);
+        });
+        modelBuilder.Entity<CouponType>(c =>
+        {
+            c.HasKey(c => c.CouponTypeId).HasName("PK_Coupon_Type");
+            c.HasIndex(c => c.CouponTypeName).IsUnique();
+            c.Property(c => c.CouponTypeName).IsRequired();
+            c.HasData(new CouponType() { CouponTypeId = 1, CouponTypeName = "Admin" });
+            c.HasData(new CouponType() { CouponTypeId = 2, CouponTypeName = "Vendor" });
         });
         modelBuilder.Entity<LogChanges>(lc =>
         {

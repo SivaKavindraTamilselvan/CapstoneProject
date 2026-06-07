@@ -56,23 +56,16 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Coupons",
+                name: "CouponType",
                 columns: table => new
                 {
-                    CouponId = table.Column<int>(type: "integer", nullable: false)
+                    CouponTypeId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CouponCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
-                    DiscountValue = table.Column<decimal>(type: "numeric", nullable: false),
-                    MinimumOrderAmount = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    MinimumNumberOfUsage = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
+                    CouponTypeName = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Coupons", x => x.CouponId);
+                    table.PrimaryKey("PK_Coupon_Type", x => x.CouponTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -195,6 +188,19 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "RefundType",
+                columns: table => new
+                {
+                    RefundTypeId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RefundTypeName = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_RefundType", x => x.RefundTypeId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ReturnReason",
                 columns: table => new
                 {
@@ -295,6 +301,7 @@ namespace Ecommerce.Data.Migrations
                     ProductSubCategoryName = table.Column<string>(type: "text", nullable: false),
                     ProductCategoryId = table.Column<int>(type: "integer", nullable: false),
                     IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CommissionPercentage = table.Column<decimal>(type: "numeric", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
@@ -449,6 +456,42 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Coupons",
+                columns: table => new
+                {
+                    CouponId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    CouponCode = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    DiscountValue = table.Column<decimal>(type: "numeric", nullable: false),
+                    MinimumOrderAmount = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    StartDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
+                    MinimumNumberOfUsage = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    CouponDescription = table.Column<string>(type: "character varying(150)", maxLength: 150, nullable: false),
+                    CouponTypeId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedByUserId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Coupons", x => x.CouponId);
+                    table.ForeignKey(
+                        name: "FK_Coupons_Created_By_User",
+                        column: x => x.CreatedByUserId,
+                        principalTable: "User",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Coupons_Type",
+                        column: x => x.CouponTypeId,
+                        principalTable: "CouponType",
+                        principalColumn: "CouponTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Favorites",
                 columns: table => new
                 {
@@ -506,7 +549,7 @@ namespace Ecommerce.Data.Migrations
                     FinalAmount = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
                     AddressId = table.Column<int>(type: "integer", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
-                    OrderStatusId = table.Column<int>(type: "integer", nullable: false),
+                    OrderStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
@@ -617,86 +660,15 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Refund",
-                columns: table => new
-                {
-                    RefundId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderId = table.Column<int>(type: "integer", nullable: false),
-                    RefundStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    RequestedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    ProcessedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Refund", x => x.RefundId);
-                    table.ForeignKey(
-                        name: "FK_Refund_Order",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Refund_Status",
-                        column: x => x.RefundStatusId,
-                        principalTable: "RefundStatus",
-                        principalColumn: "RefundStatusId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Return",
-                columns: table => new
-                {
-                    ReturnId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ReturnReasonId = table.Column<int>(type: "integer", nullable: false),
-                    OrderId = table.Column<int>(type: "integer", nullable: false),
-                    ReturnStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    AdditionalReason = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
-                    RequestedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    ReviewedByAdminId = table.Column<int>(type: "integer", nullable: false),
-                    ReviewedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Return", x => x.ReturnId);
-                    table.ForeignKey(
-                        name: "FK_Return_Admin",
-                        column: x => x.ReviewedByAdminId,
-                        principalTable: "AdminUser",
-                        principalColumn: "AdminUserId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Return_Order",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Return_Reason",
-                        column: x => x.ReturnReasonId,
-                        principalTable: "ReturnReason",
-                        principalColumn: "ReturnReasonId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Return_Status",
-                        column: x => x.ReturnStatusId,
-                        principalTable: "ReturnStatus",
-                        principalColumn: "ReturnStatusId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Shipment",
                 columns: table => new
                 {
                     ShipmentId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ShipperId = table.Column<int>(type: "integer", nullable: false),
+                    ShipperId = table.Column<int>(type: "integer", nullable: true),
                     OrderId = table.Column<int>(type: "integer", nullable: false),
                     PickupAddressId = table.Column<int>(type: "integer", nullable: false),
-                    TrackingNumber = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    TrackingNumber = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: true),
                     ShippingCharge = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
                     ShipmentStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     ExpectedDeliveryDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false),
@@ -730,32 +702,6 @@ namespace Ecommerce.Data.Migrations
                         column: x => x.ShipmentStatusId,
                         principalTable: "ShipmentStatus",
                         principalColumn: "ShipmentStatusId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CouponsVendor",
-                columns: table => new
-                {
-                    CouponsVendorId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    CouponId = table.Column<int>(type: "integer", nullable: false),
-                    VendorId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Coupons_Vendor", x => x.CouponsVendorId);
-                    table.ForeignKey(
-                        name: "FK_Coupons_Vendor_Coupon",
-                        column: x => x.CouponId,
-                        principalTable: "Coupons",
-                        principalColumn: "CouponId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Coupons_Vendor_Vendor",
-                        column: x => x.VendorId,
-                        principalTable: "Vendor",
-                        principalColumn: "VendorId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -798,53 +744,6 @@ namespace Ecommerce.Data.Migrations
                         principalTable: "VendorRole",
                         principalColumn: "VendorRoleId",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Payment",
-                columns: table => new
-                {
-                    PaymentId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderId = table.Column<int>(type: "integer", nullable: false),
-                    RefundId = table.Column<int>(type: "integer", nullable: true),
-                    ModeOfPaymentId = table.Column<int>(type: "integer", nullable: false),
-                    PaymentGatewayOrderId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    PaymentGatewayTransactionId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
-                    PaymentStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
-                    PaymentDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
-                    FailureReason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
-                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
-                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Payment", x => x.PaymentId);
-                    table.ForeignKey(
-                        name: "FK_Payment_Mode_Of_Payment",
-                        column: x => x.ModeOfPaymentId,
-                        principalTable: "ModeOfPayment",
-                        principalColumn: "ModeOfPaymentId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payment_Order",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payment_Refund",
-                        column: x => x.RefundId,
-                        principalTable: "Refund",
-                        principalColumn: "RefundId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Payment_Status",
-                        column: x => x.PaymentStatusId,
-                        principalTable: "PaymentStatus",
-                        principalColumn: "PaymentStatusId",
-                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -940,11 +839,21 @@ namespace Ecommerce.Data.Migrations
                     CouponsProductId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     CouponId = table.Column<int>(type: "integer", nullable: false),
-                    ProductId = table.Column<int>(type: "integer", nullable: false)
+                    ProductId = table.Column<int>(type: "integer", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
+                    AddedByVendorUserId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Coupons_Product", x => x.CouponsProductId);
+                    table.ForeignKey(
+                        name: "FK_Coupons_Product_Added_By_Vendor_User",
+                        column: x => x.AddedByVendorUserId,
+                        principalTable: "VendorUser",
+                        principalColumn: "VendorUserId",
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Coupons_Product_Coupon",
                         column: x => x.CouponId,
@@ -967,12 +876,12 @@ namespace Ecommerce.Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ProductId = table.Column<int>(type: "integer", nullable: false),
                     SKU = table.Column<string>(type: "text", nullable: false),
-                    AvailableQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     Price = table.Column<decimal>(type: "numeric", nullable: false),
                     WeightInKgs = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
                     LengthInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
                     WidthInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
                     HeightInCm = table.Column<decimal>(type: "numeric", maxLength: 15, nullable: false),
+                    MinimuQuantityPerUser = table.Column<int>(type: "integer", nullable: false),
                     AddedByVendorUserId = table.Column<int>(type: "integer", nullable: false),
                     ProductVariantStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
                     ProductApprovalStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
@@ -1120,6 +1029,7 @@ namespace Ecommerce.Data.Migrations
                     AddressId = table.Column<int>(type: "integer", nullable: false),
                     AvailableQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
                     ReservedQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 0),
+                    IsActive = table.Column<bool>(type: "boolean", nullable: false, defaultValue: true),
                     UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP")
                 },
                 constraints: table =>
@@ -1136,42 +1046,6 @@ namespace Ecommerce.Data.Migrations
                         column: x => x.ProductVariantId,
                         principalTable: "ProductVariant",
                         principalColumn: "ProductVariantId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "OrderItems",
-                columns: table => new
-                {
-                    OrderItemsId = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderId = table.Column<int>(type: "integer", nullable: false),
-                    ProductVariantId = table.Column<int>(type: "integer", nullable: false),
-                    Quantity = table.Column<int>(type: "integer", nullable: false),
-                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
-                    Discount = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
-                    OrderItemStatusId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Order_Items", x => x.OrderItemsId);
-                    table.ForeignKey(
-                        name: "FK_Order_Items_Order",
-                        column: x => x.OrderId,
-                        principalTable: "Order",
-                        principalColumn: "OrderId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Order_Items_Product_Variant",
-                        column: x => x.ProductVariantId,
-                        principalTable: "ProductVariant",
-                        principalColumn: "ProductVariantId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Order_Items_Status",
-                        column: x => x.OrderItemStatusId,
-                        principalTable: "OrderItemStatus",
-                        principalColumn: "OrderItemStatusId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1250,58 +1124,129 @@ namespace Ecommerce.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "RefundItems",
+                name: "OrderItems",
                 columns: table => new
                 {
-                    RefundItemsId = table.Column<int>(type: "integer", nullable: false)
+                    OrderItemsId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    OrderItemsId = table.Column<int>(type: "integer", nullable: false),
-                    RefundId = table.Column<int>(type: "integer", nullable: false),
-                    RefundAmount = table.Column<decimal>(type: "numeric", nullable: false),
-                    RefundQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    ProductVariantId = table.Column<int>(type: "integer", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    UnitPrice = table.Column<decimal>(type: "numeric", nullable: false),
+                    Discount = table.Column<decimal>(type: "numeric", nullable: false, defaultValue: 0m),
+                    OrderItemStatusId = table.Column<int>(type: "integer", nullable: false),
+                    InventoryId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Refund_Items", x => x.RefundItemsId);
+                    table.PrimaryKey("PK_Order_Items", x => x.OrderItemsId);
                     table.ForeignKey(
-                        name: "FK_Refund_Items_Order_Items",
-                        column: x => x.OrderItemsId,
-                        principalTable: "OrderItems",
-                        principalColumn: "OrderItemsId",
+                        name: "FK_OrderItems_Inventory_InventoryId",
+                        column: x => x.InventoryId,
+                        principalTable: "Inventory",
+                        principalColumn: "InventoryId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Refund_Items_Refund",
-                        column: x => x.RefundId,
-                        principalTable: "Refund",
-                        principalColumn: "RefundId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Order_Items_Order",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Order_Items_Product_Variant",
+                        column: x => x.ProductVariantId,
+                        principalTable: "ProductVariant",
+                        principalColumn: "ProductVariantId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Order_Items_Status",
+                        column: x => x.OrderItemStatusId,
+                        principalTable: "OrderItemStatus",
+                        principalColumn: "OrderItemStatusId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
-                name: "ReturnItems",
+                name: "Refund",
                 columns: table => new
                 {
-                    ReturnItemsId = table.Column<int>(type: "integer", nullable: false)
+                    RefundId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ReturnId = table.Column<int>(type: "integer", nullable: false),
+                    RefundTypeId = table.Column<int>(type: "integer", nullable: false),
                     OrderItemsId = table.Column<int>(type: "integer", nullable: false),
-                    ReturnQuantity = table.Column<int>(type: "integer", nullable: false, defaultValue: 1)
+                    RefundStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    ActualRefundAmount = table.Column<decimal>(type: "numeric", nullable: true),
+                    RequestedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    ProcessedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Return_Items", x => x.ReturnItemsId);
+                    table.PrimaryKey("PK_Refund", x => x.RefundId);
                     table.ForeignKey(
-                        name: "FK_Return_Items_Order_Items",
+                        name: "FK_Refund_Order_Item",
                         column: x => x.OrderItemsId,
                         principalTable: "OrderItems",
                         principalColumn: "OrderItemsId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Return_Items_Return",
-                        column: x => x.ReturnId,
-                        principalTable: "Return",
-                        principalColumn: "ReturnId",
-                        onDelete: ReferentialAction.Cascade);
+                        name: "FK_Refund_Status",
+                        column: x => x.RefundStatusId,
+                        principalTable: "RefundStatus",
+                        principalColumn: "RefundStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Refund_Type",
+                        column: x => x.RefundTypeId,
+                        principalTable: "RefundType",
+                        principalColumn: "RefundTypeId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Return",
+                columns: table => new
+                {
+                    ReturnId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ReturnReasonId = table.Column<int>(type: "integer", nullable: false),
+                    OrderItemId = table.Column<int>(type: "integer", nullable: false),
+                    ReturnStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    AdditionalReason = table.Column<string>(type: "character varying(1000)", maxLength: 1000, nullable: true),
+                    RequestedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    ReturnQuantity = table.Column<int>(type: "integer", nullable: false),
+                    DamageCost = table.Column<decimal>(type: "numeric", nullable: true),
+                    ReviewRemarks = table.Column<string>(type: "text", nullable: true),
+                    VendorReview = table.Column<string>(type: "text", nullable: true),
+                    ReviewedByVendorId = table.Column<int>(type: "integer", nullable: true),
+                    ReviewedDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Return", x => x.ReturnId);
+                    table.ForeignKey(
+                        name: "FK_Return_Order_Item",
+                        column: x => x.OrderItemId,
+                        principalTable: "OrderItems",
+                        principalColumn: "OrderItemsId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Return_Reason",
+                        column: x => x.ReturnReasonId,
+                        principalTable: "ReturnReason",
+                        principalColumn: "ReturnReasonId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Return_Status",
+                        column: x => x.ReturnStatusId,
+                        principalTable: "ReturnStatus",
+                        principalColumn: "ReturnStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Return_Vendor_Review",
+                        column: x => x.ReviewedByVendorId,
+                        principalTable: "VendorUser",
+                        principalColumn: "VendorUserId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -1346,14 +1291,14 @@ namespace Ecommerce.Data.Migrations
                     ShipmentItemsId = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ShipmentId = table.Column<int>(type: "integer", nullable: false),
-                    OrderIemsId = table.Column<int>(type: "integer", nullable: false)
+                    OrderItemsId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Shipment_Items", x => x.ShipmentItemsId);
                     table.ForeignKey(
                         name: "FK_Shipment_Items_Order_Items",
-                        column: x => x.OrderIemsId,
+                        column: x => x.OrderItemsId,
                         principalTable: "OrderItems",
                         principalColumn: "OrderItemsId",
                         onDelete: ReferentialAction.Restrict);
@@ -1362,6 +1307,81 @@ namespace Ecommerce.Data.Migrations
                         column: x => x.ShipmentId,
                         principalTable: "Shipment",
                         principalColumn: "ShipmentId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Payment",
+                columns: table => new
+                {
+                    PaymentId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    OrderId = table.Column<int>(type: "integer", nullable: false),
+                    RefundId = table.Column<int>(type: "integer", nullable: true),
+                    ModeOfPaymentId = table.Column<int>(type: "integer", nullable: false),
+                    PaymentGatewayOrderId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    PaymentGatewayTransactionId = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    PaymentStatusId = table.Column<int>(type: "integer", nullable: false, defaultValue: 1),
+                    PaymentDate = table.Column<DateTime>(type: "timestamp without time zone", nullable: true),
+                    FailureReason = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true),
+                    Amount = table.Column<decimal>(type: "numeric", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: false, defaultValueSql: "CURRENT_TIMESTAMP"),
+                    UpdatedAt = table.Column<DateTime>(type: "timestamp without time zone", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Payment", x => x.PaymentId);
+                    table.ForeignKey(
+                        name: "FK_Payment_Mode_Of_Payment",
+                        column: x => x.ModeOfPaymentId,
+                        principalTable: "ModeOfPayment",
+                        principalColumn: "ModeOfPaymentId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payment_Order",
+                        column: x => x.OrderId,
+                        principalTable: "Order",
+                        principalColumn: "OrderId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payment_Refund",
+                        column: x => x.RefundId,
+                        principalTable: "Refund",
+                        principalColumn: "RefundId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Payment_Status",
+                        column: x => x.PaymentStatusId,
+                        principalTable: "PaymentStatus",
+                        principalColumn: "PaymentStatusId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ReturnRefund",
+                columns: table => new
+                {
+                    ReturnRefundId = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RefundId = table.Column<int>(type: "integer", nullable: false),
+                    ReturnId = table.Column<int>(type: "integer", nullable: false),
+                    DamageCost = table.Column<decimal>(type: "numeric", nullable: false),
+                    DeductionReason = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Return_Refund", x => x.ReturnRefundId);
+                    table.ForeignKey(
+                        name: "FK_Return_Refund",
+                        column: x => x.RefundId,
+                        principalTable: "Refund",
+                        principalColumn: "RefundId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Return_Refund_Id",
+                        column: x => x.ReturnId,
+                        principalTable: "Return",
+                        principalColumn: "ReturnId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -1389,6 +1409,15 @@ namespace Ecommerce.Data.Migrations
                     { 1, "Pending" },
                     { 2, "Accepted" },
                     { 3, "Rejected" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "CouponType",
+                columns: new[] { "CouponTypeId", "CouponTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Admin" },
+                    { 2, "Vendor" }
                 });
 
             migrationBuilder.InsertData(
@@ -1480,11 +1509,22 @@ namespace Ecommerce.Data.Migrations
                 columns: new[] { "RefundStatusId", "RefundStatusName" },
                 values: new object[,]
                 {
-                    { 1, "Pending" },
-                    { 2, "Processed" },
-                    { 3, "Failed" },
-                    { 4, "Cancelled" },
-                    { 5, "Completed" }
+                    { 1, "Vendor_Requested" },
+                    { 2, "Pending" },
+                    { 3, "Admin_Reviewed" },
+                    { 4, "Processed" },
+                    { 5, "Failed" },
+                    { 6, "Cancelled" },
+                    { 7, "Completed" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "RefundType",
+                columns: new[] { "RefundTypeId", "RefundTypeName" },
+                values: new object[,]
+                {
+                    { 1, "Cancellation" },
+                    { 2, "Return" }
                 });
 
             migrationBuilder.InsertData(
@@ -1561,12 +1601,15 @@ namespace Ecommerce.Data.Migrations
                 values: new object[,]
                 {
                     { 1, "Pending" },
-                    { 2, "Picked_Up" },
-                    { 3, "In_Transit" },
-                    { 4, "Out_Of_Delivery" },
-                    { 5, "Delivered" },
-                    { 6, "Failed" },
-                    { 7, "Returned" }
+                    { 2, "Payment_Success" },
+                    { 3, "Payment_Failed" },
+                    { 4, "Ready_For_Pick_Up" },
+                    { 5, "Picked_Up" },
+                    { 6, "In_Transit" },
+                    { 7, "Out_Of_Delivery" },
+                    { 8, "Delivered" },
+                    { 9, "Failed" },
+                    { 10, "Returned" }
                 });
 
             migrationBuilder.InsertData(
@@ -1694,6 +1737,21 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Coupons_CouponTypeId",
+                table: "Coupons",
+                column: "CouponTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Coupons_CreatedByUserId",
+                table: "Coupons",
+                column: "CreatedByUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CouponsProduct_AddedByVendorUserId",
+                table: "CouponsProduct",
+                column: "AddedByVendorUserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_CouponsProduct_CouponId_ProductId",
                 table: "CouponsProduct",
                 columns: new[] { "CouponId", "ProductId" },
@@ -1705,15 +1763,10 @@ namespace Ecommerce.Data.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CouponsVendor_CouponId_VendorId",
-                table: "CouponsVendor",
-                columns: new[] { "CouponId", "VendorId" },
+                name: "IX_CouponType_CouponTypeName",
+                table: "CouponType",
+                column: "CouponTypeName",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CouponsVendor_VendorId",
-                table: "CouponsVendor",
-                column: "VendorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CouponUsage_CouponId",
@@ -1806,6 +1859,11 @@ namespace Ecommerce.Data.Migrations
                 name: "IX_Order_UserId",
                 table: "Order",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_InventoryId",
+                table: "OrderItems",
+                column: "InventoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",
@@ -1989,9 +2047,9 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Refund_OrderId",
+                name: "IX_Refund_OrderItemsId",
                 table: "Refund",
-                column: "OrderId");
+                column: "OrderItemsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Refund_RefundStatusId",
@@ -1999,15 +2057,9 @@ namespace Ecommerce.Data.Migrations
                 column: "RefundStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_RefundItems_OrderItemsId",
-                table: "RefundItems",
-                column: "OrderItemsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_RefundItems_RefundId_OrderItemsId",
-                table: "RefundItems",
-                columns: new[] { "RefundId", "OrderItemsId" },
-                unique: true);
+                name: "IX_Refund_RefundTypeId",
+                table: "Refund",
+                column: "RefundTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RefundStatus_RefundStatusName",
@@ -2016,9 +2068,15 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Return_OrderId",
+                name: "IX_RefundType_RefundTypeName",
+                table: "RefundType",
+                column: "RefundTypeName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Return_OrderItemId",
                 table: "Return",
-                column: "OrderId");
+                column: "OrderItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Return_ReturnReasonId",
@@ -2031,25 +2089,26 @@ namespace Ecommerce.Data.Migrations
                 column: "ReturnStatusId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Return_ReviewedByAdminId",
+                name: "IX_Return_ReviewedByVendorId",
                 table: "Return",
-                column: "ReviewedByAdminId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReturnItems_OrderItemsId",
-                table: "ReturnItems",
-                column: "OrderItemsId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_ReturnItems_ReturnId_OrderItemsId",
-                table: "ReturnItems",
-                columns: new[] { "ReturnId", "OrderItemsId" },
-                unique: true);
+                column: "ReviewedByVendorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReturnReason_ReturnReasonDescription",
                 table: "ReturnReason",
                 column: "ReturnReasonDescription",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReturnRefund_RefundId",
+                table: "ReturnRefund",
+                column: "RefundId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ReturnRefund_ReturnId",
+                table: "ReturnRefund",
+                column: "ReturnId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -2113,15 +2172,14 @@ namespace Ecommerce.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShipmentItems_OrderIemsId",
+                name: "IX_ShipmentItems_OrderItemsId",
                 table: "ShipmentItems",
-                column: "OrderIemsId");
+                column: "OrderItemsId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShipmentItems_ShipmentId_OrderIemsId",
+                name: "IX_ShipmentItems_ShipmentId",
                 table: "ShipmentItems",
-                columns: new[] { "ShipmentId", "OrderIemsId" },
-                unique: true);
+                column: "ShipmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ShipmentStatus_ShipmentStatusName",
@@ -2248,16 +2306,10 @@ namespace Ecommerce.Data.Migrations
                 name: "CouponsProduct");
 
             migrationBuilder.DropTable(
-                name: "CouponsVendor");
-
-            migrationBuilder.DropTable(
                 name: "CouponUsage");
 
             migrationBuilder.DropTable(
                 name: "FavoritesItems");
-
-            migrationBuilder.DropTable(
-                name: "Inventory");
 
             migrationBuilder.DropTable(
                 name: "LogChanges");
@@ -2272,10 +2324,7 @@ namespace Ecommerce.Data.Migrations
                 name: "ProductVariantAttribute");
 
             migrationBuilder.DropTable(
-                name: "RefundItems");
-
-            migrationBuilder.DropTable(
-                name: "ReturnItems");
+                name: "ReturnRefund");
 
             migrationBuilder.DropTable(
                 name: "Reviews");
@@ -2320,10 +2369,10 @@ namespace Ecommerce.Data.Migrations
                 name: "Star");
 
             migrationBuilder.DropTable(
-                name: "OrderItems");
+                name: "Shipment");
 
             migrationBuilder.DropTable(
-                name: "Shipment");
+                name: "CouponType");
 
             migrationBuilder.DropTable(
                 name: "AttributeMaster");
@@ -2332,19 +2381,16 @@ namespace Ecommerce.Data.Migrations
                 name: "RefundStatus");
 
             migrationBuilder.DropTable(
+                name: "RefundType");
+
+            migrationBuilder.DropTable(
+                name: "OrderItems");
+
+            migrationBuilder.DropTable(
                 name: "ReturnReason");
 
             migrationBuilder.DropTable(
                 name: "ReturnStatus");
-
-            migrationBuilder.DropTable(
-                name: "ProductVariant");
-
-            migrationBuilder.DropTable(
-                name: "OrderItemStatus");
-
-            migrationBuilder.DropTable(
-                name: "Order");
 
             migrationBuilder.DropTable(
                 name: "Shipper");
@@ -2353,13 +2399,25 @@ namespace Ecommerce.Data.Migrations
                 name: "ShipmentStatus");
 
             migrationBuilder.DropTable(
-                name: "Product");
+                name: "Inventory");
+
+            migrationBuilder.DropTable(
+                name: "Order");
+
+            migrationBuilder.DropTable(
+                name: "OrderItemStatus");
+
+            migrationBuilder.DropTable(
+                name: "ProductVariant");
 
             migrationBuilder.DropTable(
                 name: "Address");
 
             migrationBuilder.DropTable(
                 name: "OrderStatus");
+
+            migrationBuilder.DropTable(
+                name: "Product");
 
             migrationBuilder.DropTable(
                 name: "VendorUser");

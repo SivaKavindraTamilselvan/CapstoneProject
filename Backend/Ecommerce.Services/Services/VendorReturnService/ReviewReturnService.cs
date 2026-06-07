@@ -31,7 +31,7 @@ public partial class VendorReturnService : IVendorReturnService
         {
             returnItem.ReturnStatusId = 3;
         }
-        returnItem.ReviewedByAdminId = vendorUser.VendorUserId;
+        returnItem.ReviewedByVendorId = vendorUser.VendorUserId;
         await _returnRepsository.Update(returnItem.ReturnId, returnItem);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);
     }

@@ -160,6 +160,7 @@ builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ShipmentMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new OrderMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new RefundMappingProfile()));
 
 
 #endregion
@@ -206,7 +207,6 @@ builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
 builder.Services.AddScoped<IOrderRepsository,OrderRepsository>();
 builder.Services.AddScoped<IOrderItemRepsository,OrderItemRepsository>();
 builder.Services.AddScoped<IPaymentRepsository,PaymentRepsository>();
-builder.Services.AddScoped<IRefundItemRepsository,RefundItemsRepsository>();
 builder.Services.AddScoped<IRefundRepsository,RefundRepsository>();
 builder.Services.AddScoped<IReturnRepsository,ReturnRepsository>();
 builder.Services.AddScoped<IReviewRepsository,ReviewRepsository>();

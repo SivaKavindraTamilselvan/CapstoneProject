@@ -15,7 +15,7 @@ public class PaymentService : IPaymentService
     private readonly IConfiguration _configuration;
     private readonly IOrderService _orderService;
 
-    public PaymentService(IOrderService orderService,IOrderRepsository orderRepsository,IPaymentRepsository paymentRepsository,IConfiguration configuration)
+    public PaymentService(IOrderService orderService, IOrderRepsository orderRepsository, IPaymentRepsository paymentRepsository, IConfiguration configuration)
     {
         _orderRepsository = orderRepsository;
         _paymentRepsository = paymentRepsository;
@@ -44,7 +44,7 @@ public class PaymentService : IPaymentService
         if (modeOfPaymentId == 1)
         {
             var createdPayment = await _paymentRepsository.Create(payment);
-            if(createdPayment == null)
+            if (createdPayment == null)
             {
                 throw new DataNotFoundException("Payment Not Created");
             }
@@ -81,7 +81,7 @@ public class PaymentService : IPaymentService
         payment.PaymentGatewayOrderId = razorpayOrderId;
 
         var savedPayment = await _paymentRepsository.Create(payment);
-        if(savedPayment == null)
+        if (savedPayment == null)
         {
             throw new DataNotFoundException("Payment Not Created");
         }
@@ -165,5 +165,38 @@ public class PaymentService : IPaymentService
             .ToLower();
 
         return generatedSignature == request.RazorpaySignature;
+    }
+    public async Task<string> ProcessRazorpayRefund(int refundId, decimal refundAmount)
+    {
+        var payments = await _paymentRepsository.GetAll();
+
+        var payment = payments.FirstOrDefault(p =>
+            p.RefundId == refundId &&
+            p.PaymentStatusId == 2);
+
+        if (payment == null)
+            throw new DataNotFoundException("Successful payment not found for refund");
+
+        if (string.IsNullOrEmpty(payment.PaymentGatewayTransactionId))
+            throw new Exception("Razorpay payment id not found");
+
+        string keyId = _configuration["Razorpay:KeyId"] ?? string.Empty;
+        string keySecret = _configuration["Razorpay:KeySecret"] ?? string.Empty;
+
+        RazorpayClient client = new RazorpayClient(keyId, keySecret);
+
+        int amountInPaise = (int)Math.Round(refundAmount * 100);
+
+        Razorpay.Api.Payment razorpayPayment =
+            client.Payment.Fetch(payment.PaymentGatewayTransactionId);
+
+        Dictionary<string, object> options = new Dictionary<string, object>
+    {
+        { "amount", amountInPaise }
+    };
+
+        Razorpay.Api.Refund razorpayRefund = razorpayPayment.Refund(options);
+
+        return razorpayRefund["id"].ToString();
     }
 }

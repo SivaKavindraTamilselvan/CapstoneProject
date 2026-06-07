@@ -13,6 +13,8 @@ public class Inventory
 
     public int ReservedQuantity { get; set; }
 
+    public bool IsActive {get;set;} = true;
+
     public DateTime UpdatedAt { get; set; }
-public ICollection<OrderItems> OrderItems { get; set; }
-    = new List<OrderItems>();}
+    public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+}

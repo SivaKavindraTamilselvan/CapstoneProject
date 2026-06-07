@@ -13,8 +13,10 @@ public class Return
     public DateTime RequestedDate {get;set;}
     public int ReturnQuantity {get;set;}
     public decimal? DamageCost {get;set;}
+    public string? ReviewRemarks {get;set;}
     public string? VendorReview {get;set;}
-    public int? ReviewedByAdminId {get;set;}
+    public int? ReviewedByVendorId {get;set;}
     public VendorUser? ReviewedByVendor {get;set;}
     public DateTime? ReviewedDate {get;set;}
+    public ReturnRefund? ReturnRefund {get;set;}
 }

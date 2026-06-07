@@ -89,3 +89,9 @@ ALTER TABLE "Return" ADD CONSTRAINT "FK_Return_Vendor_Review" FOREIGN KEY ("Revi
 2026-06-07 02:21:50.430 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
 INSERT INTO "__EFMigrationsHistory" ("MigrationId", "ProductVersion")
 VALUES ('20260606205136_ReturnDBChangeFK', '10.0.8');
+2026-06-07 13:15:42.330 +05:30 [ERR] Failed executing DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT "MigrationId", "ProductVersion"
+FROM "__EFMigrationsHistory"
+ORDER BY "MigrationId";
+2026-06-07 13:15:42.553 +05:30 [INF] Acquiring an exclusive lock for migration application. See https://aka.ms/efcore-docs-migrations-lock for more information if this takes too long.
+2026-06-07 13:15:42.560 +05:30 [INF] Applying migration '20260607074522_InitialCreate'.

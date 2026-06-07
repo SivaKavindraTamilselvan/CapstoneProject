@@ -22,14 +22,10 @@ public class VendorCouponService : IVendorCouponService
     {
         await _couponValidation.ValidateCouponCode(requestAddCouponDTO.CouponCode);
         var coupon = _mapper.Map<Coupons>(requestAddCouponDTO);
-        if(roleId == 1)
-        {
-            coupon.CreatedByAdminUserId = UserId;
-        }
-        else
-        {
-            coupon.CreatedByVendorUserId = UserId;
-        }
+        
+            coupon.CreatedByUserId = UserId;
+    
+       
         await _couponRepsository.Create(coupon);
         return _mapper.Map<ResponseAddCouponDTO>(coupon);
     }

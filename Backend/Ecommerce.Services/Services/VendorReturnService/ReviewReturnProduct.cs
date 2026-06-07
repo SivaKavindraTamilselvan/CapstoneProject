@@ -1,4 +1,5 @@
 using Ecommerce.DTOs;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 
 public partial class VendorReturnService : IVendorReturnService
@@ -7,9 +8,13 @@ public partial class VendorReturnService : IVendorReturnService
     {
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         var returnItem = await _returnRepsository.Get(requestReviewReturnProductDTO.ReturnId);
+        if(returnItem == null)
+        {
+            throw new DataNotFoundException("Return Not Found");
+        }
         returnItem.DamageCost = requestReviewReturnProductDTO.DamageCost;
         returnItem.VendorReview = requestReviewReturnProductDTO.Remarks;
-        returnItem.ReviewedByAdminId = vendorUser.VendorUserId;
+        returnItem.ReviewedByVendorId = vendorUser.VendorUserId;
         returnItem.ReviewedDate = DateTime.Now;
         await _returnRepsository.Update(returnItem.ReturnId,returnItem);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);

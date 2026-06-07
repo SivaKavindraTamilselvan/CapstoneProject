@@ -10,11 +10,10 @@ public class Coupons
     public int MinimumNumberOfUsage {get;set;}
     public bool IsActive {get;set;} = true;
     public string CouponDescription {get;set;} = string.Empty;
-
-    public int? CreatedByAdminUserId { get; set; }
-    public AdminUser? CreatedByAdminUser { get; set; }
-    public int? CreatedByVendorUserId { get; set; }
-    public VendorUser? CreatedByVendorUser { get; set; }
+    public int CouponTypeId {get;set;}
+    public CouponType? CouponType {get;set;}
+    public int CreatedByUserId {get;set;}
+    public User? CreatedByUser {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public DateTime? UpdatedAt {get;set;}
     public ICollection<CouponsProduct> CouponsProducts {get;set;} = new List<CouponsProduct>();

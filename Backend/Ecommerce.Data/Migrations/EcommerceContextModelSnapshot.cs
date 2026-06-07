@@ -385,6 +385,39 @@ namespace Ecommerce.Data.Migrations
                     b.ToTable("CartItems");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.CouponType", b =>
+                {
+                    b.Property<int>("CouponTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("CouponTypeId"));
+
+                    b.Property<string>("CouponTypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("CouponTypeId")
+                        .HasName("PK_Coupon_Type");
+
+                    b.HasIndex("CouponTypeName")
+                        .IsUnique();
+
+                    b.ToTable("CouponType");
+
+                    b.HasData(
+                        new
+                        {
+                            CouponTypeId = 1,
+                            CouponTypeName = "Admin"
+                        },
+                        new
+                        {
+                            CouponTypeId = 2,
+                            CouponTypeName = "Vendor"
+                        });
+                });
+
             modelBuilder.Entity("Ecommerce.Models.CouponUsage", b =>
                 {
                     b.Property<int>("CouponUsageId")
@@ -433,15 +466,15 @@ namespace Ecommerce.Data.Migrations
                         .HasMaxLength(150)
                         .HasColumnType("character varying(150)");
 
+                    b.Property<int>("CouponTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
                         .HasDefaultValueSql("CURRENT_TIMESTAMP");
 
-                    b.Property<int?>("CreatedByAdminUserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("CreatedByVendorUserId")
+                    b.Property<int>("CreatedByUserId")
                         .HasColumnType("integer");
 
                     b.Property<decimal>("DiscountValue")
@@ -477,9 +510,9 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("CouponCode")
                         .IsUnique();
 
-                    b.HasIndex("CreatedByAdminUserId");
+                    b.HasIndex("CouponTypeId");
 
-                    b.HasIndex("CreatedByVendorUserId");
+                    b.HasIndex("CreatedByUserId");
 
                     b.ToTable("Coupons");
                 });
@@ -630,6 +663,11 @@ namespace Ecommerce.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
                         .HasDefaultValue(0);
+
+                    b.Property<bool>("IsActive")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(true);
 
                     b.Property<int>("ProductVariantId")
                         .HasColumnType("integer");
@@ -1337,6 +1375,9 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductSubCategoryId"));
 
+                    b.Property<decimal>("CommissionPercentage")
+                        .HasColumnType("numeric");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -1421,6 +1462,9 @@ namespace Ecommerce.Data.Migrations
                     b.Property<decimal>("LengthInCm")
                         .HasMaxLength(15)
                         .HasColumnType("numeric");
+
+                    b.Property<int>("MinimuQuantityPerUser")
+                        .HasColumnType("integer");
 
                     b.Property<decimal>("Price")
                         .HasColumnType("numeric");
@@ -1520,7 +1564,10 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RefundId"));
 
-                    b.Property<int>("OrderId")
+                    b.Property<decimal?>("ActualRefundAmount")
+                        .HasColumnType("numeric");
+
+                    b.Property<int>("OrderItemsId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ProcessedDate")
@@ -1531,6 +1578,9 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(1);
 
+                    b.Property<int>("RefundTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("RequestedDate")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -1539,44 +1589,13 @@ namespace Ecommerce.Data.Migrations
                     b.HasKey("RefundId")
                         .HasName("PK_Refund");
 
-                    b.HasIndex("OrderId");
+                    b.HasIndex("OrderItemsId");
 
                     b.HasIndex("RefundStatusId");
 
+                    b.HasIndex("RefundTypeId");
+
                     b.ToTable("Refund");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.RefundItems", b =>
-                {
-                    b.Property<int>("RefundItemsId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RefundItemsId"));
-
-                    b.Property<int>("OrderItemsId")
-                        .HasColumnType("integer");
-
-                    b.Property<decimal>("RefundAmount")
-                        .HasColumnType("numeric");
-
-                    b.Property<int>("RefundId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RefundQuantity")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
-                        .HasDefaultValue(1);
-
-                    b.HasKey("RefundItemsId")
-                        .HasName("PK_Refund_Items");
-
-                    b.HasIndex("OrderItemsId");
-
-                    b.HasIndex("RefundId", "OrderItemsId")
-                        .IsUnique();
-
-                    b.ToTable("RefundItems");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.RefundStatus", b =>
@@ -1603,26 +1622,36 @@ namespace Ecommerce.Data.Migrations
                         new
                         {
                             RefundStatusId = 1,
-                            RefundStatusName = "Pending"
+                            RefundStatusName = "Vendor_Requested"
                         },
                         new
                         {
                             RefundStatusId = 2,
-                            RefundStatusName = "Processed"
+                            RefundStatusName = "Pending"
                         },
                         new
                         {
                             RefundStatusId = 3,
-                            RefundStatusName = "Failed"
+                            RefundStatusName = "Admin_Reviewed"
                         },
                         new
                         {
                             RefundStatusId = 4,
-                            RefundStatusName = "Cancelled"
+                            RefundStatusName = "Processed"
                         },
                         new
                         {
                             RefundStatusId = 5,
+                            RefundStatusName = "Failed"
+                        },
+                        new
+                        {
+                            RefundStatusId = 6,
+                            RefundStatusName = "Cancelled"
+                        },
+                        new
+                        {
+                            RefundStatusId = 7,
                             RefundStatusName = "Completed"
                         });
                 });
@@ -1638,6 +1667,9 @@ namespace Ecommerce.Data.Migrations
                     b.Property<string>("AdditionalReason")
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
+
+                    b.Property<decimal?>("DamageCost")
+                        .HasColumnType("numeric");
 
                     b.Property<int>("OrderItemId")
                         .HasColumnType("integer");
@@ -1658,11 +1690,17 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(1);
 
-                    b.Property<int?>("ReviewedByAdminId")
+                    b.Property<string>("ReviewRemarks")
+                        .HasColumnType("text");
+
+                    b.Property<int?>("ReviewedByVendorId")
                         .HasColumnType("integer");
 
                     b.Property<DateTime?>("ReviewedDate")
                         .HasColumnType("timestamp without time zone");
+
+                    b.Property<string>("VendorReview")
+                        .HasColumnType("text");
 
                     b.HasKey("ReturnId")
                         .HasName("PK_Return");
@@ -1673,7 +1711,7 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasIndex("ReturnStatusId");
 
-                    b.HasIndex("ReviewedByAdminId");
+                    b.HasIndex("ReviewedByVendorId");
 
                     b.ToTable("Return");
                 });
@@ -1760,6 +1798,40 @@ namespace Ecommerce.Data.Migrations
                             ReturnReasonId = 12,
                             ReturnReasonDescription = "Changed Mind"
                         });
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ReturnRefund", b =>
+                {
+                    b.Property<int>("ReturnRefundId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ReturnRefundId"));
+
+                    b.Property<decimal>("DamageCost")
+                        .HasColumnType("numeric");
+
+                    b.Property<string>("DeductionReason")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
+
+                    b.Property<int>("RefundId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ReturnId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ReturnRefundId")
+                        .HasName("PK_Return_Refund");
+
+                    b.HasIndex("RefundId")
+                        .IsUnique();
+
+                    b.HasIndex("ReturnId")
+                        .IsUnique();
+
+                    b.ToTable("ReturnRefund");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ReturnStatus", b =>
@@ -2127,31 +2199,46 @@ namespace Ecommerce.Data.Migrations
                         new
                         {
                             ShipmentStatusId = 2,
-                            ShipmentStatusName = "Picked_Up"
+                            ShipmentStatusName = "Payment_Success"
                         },
                         new
                         {
                             ShipmentStatusId = 3,
-                            ShipmentStatusName = "In_Transit"
+                            ShipmentStatusName = "Payment_Failed"
                         },
                         new
                         {
                             ShipmentStatusId = 4,
-                            ShipmentStatusName = "Out_Of_Delivery"
+                            ShipmentStatusName = "Ready_For_Pick_Up"
                         },
                         new
                         {
                             ShipmentStatusId = 5,
-                            ShipmentStatusName = "Delivered"
+                            ShipmentStatusName = "Picked_Up"
                         },
                         new
                         {
                             ShipmentStatusId = 6,
-                            ShipmentStatusName = "Failed"
+                            ShipmentStatusName = "In_Transit"
                         },
                         new
                         {
                             ShipmentStatusId = 7,
+                            ShipmentStatusName = "Out_Of_Delivery"
+                        },
+                        new
+                        {
+                            ShipmentStatusId = 8,
+                            ShipmentStatusName = "Delivered"
+                        },
+                        new
+                        {
+                            ShipmentStatusId = 9,
+                            ShipmentStatusName = "Failed"
+                        },
+                        new
+                        {
+                            ShipmentStatusId = 10,
                             ShipmentStatusName = "Returned"
                         });
                 });
@@ -2551,6 +2638,40 @@ namespace Ecommerce.Data.Migrations
                     b.ToTable("VendorUser");
                 });
 
+            modelBuilder.Entity("RefundType", b =>
+                {
+                    b.Property<int>("RefundTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("RefundTypeId"));
+
+                    b.Property<string>("RefundTypeName")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.HasKey("RefundTypeId")
+                        .HasName("PK_RefundType");
+
+                    b.HasIndex("RefundTypeName")
+                        .IsUnique();
+
+                    b.ToTable("RefundType");
+
+                    b.HasData(
+                        new
+                        {
+                            RefundTypeId = 1,
+                            RefundTypeName = "Cancellation"
+                        },
+                        new
+                        {
+                            RefundTypeId = 2,
+                            RefundTypeName = "Return"
+                        });
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Address", b =>
                 {
                     b.HasOne("Ecommerce.Models.User", "User")
@@ -2683,21 +2804,23 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Coupons", b =>
                 {
-                    b.HasOne("Ecommerce.Models.AdminUser", "CreatedByAdminUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByAdminUserId")
+                    b.HasOne("Ecommerce.Models.CouponType", "CouponType")
+                        .WithMany("Coupons")
+                        .HasForeignKey("CouponTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Coupons_Created_By_Admin_User");
+                        .IsRequired()
+                        .HasConstraintName("FK_Coupons_Type");
 
-                    b.HasOne("Ecommerce.Models.VendorUser", "CreatedByVendorUser")
-                        .WithMany()
-                        .HasForeignKey("CreatedByVendorUserId")
+                    b.HasOne("Ecommerce.Models.User", "CreatedByUser")
+                        .WithMany("Coupons")
+                        .HasForeignKey("CreatedByUserId")
                         .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Coupons_Created_By_Vendor_User");
+                        .IsRequired()
+                        .HasConstraintName("FK_Coupons_Created_By_User");
 
-                    b.Navigation("CreatedByAdminUser");
+                    b.Navigation("CouponType");
 
-                    b.Navigation("CreatedByVendorUser");
+                    b.Navigation("CreatedByUser");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.CouponsProduct", b =>
@@ -3085,12 +3208,12 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Refund", b =>
                 {
-                    b.HasOne("Ecommerce.Models.Order", "Order")
+                    b.HasOne("Ecommerce.Models.OrderItems", "OrderItems")
                         .WithMany("Refunds")
-                        .HasForeignKey("OrderId")
+                        .HasForeignKey("OrderItemsId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Refund_Order");
+                        .HasConstraintName("FK_Refund_Order_Item");
 
                     b.HasOne("Ecommerce.Models.RefundStatus", "RefundStatus")
                         .WithMany("Refunds")
@@ -3099,30 +3222,18 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Refund_Status");
 
-                    b.Navigation("Order");
-
-                    b.Navigation("RefundStatus");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.RefundItems", b =>
-                {
-                    b.HasOne("Ecommerce.Models.OrderItems", "OrderItems")
-                        .WithMany("RefundItems")
-                        .HasForeignKey("OrderItemsId")
+                    b.HasOne("RefundType", "RefundType")
+                        .WithMany("Refunds")
+                        .HasForeignKey("RefundTypeId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
-                        .HasConstraintName("FK_Refund_Items_Order_Items");
-
-                    b.HasOne("Ecommerce.Models.Refund", "Refund")
-                        .WithMany("RefundItems")
-                        .HasForeignKey("RefundId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Refund_Items_Refund");
+                        .HasConstraintName("FK_Refund_Type");
 
                     b.Navigation("OrderItems");
 
-                    b.Navigation("Refund");
+                    b.Navigation("RefundStatus");
+
+                    b.Navigation("RefundType");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Return", b =>
@@ -3150,7 +3261,7 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasOne("Ecommerce.Models.VendorUser", "ReviewedByVendor")
                         .WithMany("Returns")
-                        .HasForeignKey("ReviewedByAdminId")
+                        .HasForeignKey("ReviewedByVendorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .HasConstraintName("FK_Return_Vendor_Review");
 
@@ -3161,6 +3272,27 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ReturnStatus");
 
                     b.Navigation("ReviewedByVendor");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ReturnRefund", b =>
+                {
+                    b.HasOne("Ecommerce.Models.Refund", "Refund")
+                        .WithOne("ReturnRefund")
+                        .HasForeignKey("Ecommerce.Models.ReturnRefund", "RefundId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Return_Refund");
+
+                    b.HasOne("Ecommerce.Models.Return", "Return")
+                        .WithOne("ReturnRefund")
+                        .HasForeignKey("Ecommerce.Models.ReturnRefund", "ReturnId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Return_Refund_Id");
+
+                    b.Navigation("Refund");
+
+                    b.Navigation("Return");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Reviews", b =>
@@ -3391,6 +3523,11 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("CartItems");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.CouponType", b =>
+                {
+                    b.Navigation("Coupons");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Coupons", b =>
                 {
                     b.Navigation("CouponUsages");
@@ -3426,8 +3563,6 @@ namespace Ecommerce.Data.Migrations
 
                     b.Navigation("Payments");
 
-                    b.Navigation("Refunds");
-
                     b.Navigation("Shipments");
                 });
 
@@ -3438,7 +3573,7 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.OrderItems", b =>
                 {
-                    b.Navigation("RefundItems");
+                    b.Navigation("Refunds");
 
                     b.Navigation("Returns");
 
@@ -3524,12 +3659,17 @@ namespace Ecommerce.Data.Migrations
                 {
                     b.Navigation("Payments");
 
-                    b.Navigation("RefundItems");
+                    b.Navigation("ReturnRefund");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.RefundStatus", b =>
                 {
                     b.Navigation("Refunds");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.Return", b =>
+                {
+                    b.Navigation("ReturnRefund");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ReturnReason", b =>
@@ -3584,6 +3724,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.Navigation("Cart");
 
+                    b.Navigation("Coupons");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("LogChanges");
@@ -3614,6 +3756,11 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Returns");
+                });
+
+            modelBuilder.Entity("RefundType", b =>
+                {
+                    b.Navigation("Refunds");
                 });
 #pragma warning restore 612, 618
         }
