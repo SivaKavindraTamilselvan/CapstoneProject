@@ -6573,3 +6573,8 @@ VALUES ('20260608091528_cancel', '10.0.8');
 2026-06-08 16:23:12.560 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
 2026-06-08 16:23:12.645 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 84.6981ms
 2026-06-08 16:26:19.570 +05:30 [INF] Application is shutting down...
+2026-06-08 18:25:35.634 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 18:25:35.727 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 18:25:35.728 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 18:25:35.728 +05:30 [INF] Hosting environment: Development
+2026-06-08 18:25:35.728 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
