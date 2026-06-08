@@ -116,28 +116,32 @@ public class AdminProductController : ControllerBase
     [HttpPost("AddProductCategory")]
     public async Task<ActionResult<ResponseAddProductCategoryDTO>> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
     {
-        var result = await _adminProductCategoryService.AddProductCategory(requestAddProductCategoryDTO);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.AddProductCategory(requestAddProductCategoryDTO,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddProductSubCategory")]
     public async Task<ActionResult<ResponseAddProductSubCategoryDTO>> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
     {
-        var result = await _adminProductCategoryService.AddProductSubCategory(requestAddProductSubCategoryDTO);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.AddProductSubCategory(requestAddProductSubCategoryDTO,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddProductSubCategoryAttribute")]
     public async Task<ActionResult<ResponseAddProductSubCategoryAttributeDTO>> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
     {
-        var result = await _adminProductAttributeService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductAttributeService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("AddAttribute")]
     public async Task<ActionResult<ResponseAddAttributeDTO>> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
     {
-        var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO,adminUserId);
         return Ok(result);
     }
     

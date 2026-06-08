@@ -28,6 +28,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         _logger.LogInformation("ProductSubCategoryAttribute creation initiated by UserId {UserId}. AttributeMasterId {AttributeMasterId}, ProductSubCategoryId {ProductSubCategoryId}", adminuserid, requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
 
         var admin = await _adminUserValidation.ValidateAdminUserByUserId(adminuserid);
+        Console.WriteLine("nnn");
         await _productAttributeValidation.ValidateProductSubCategoryAttributeForAdmin(requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
 
         _logger.LogInformation("Validation completed for AttributeMasterId {AttributeMasterId} and ProductSubCategoryId {ProductSubCategoryId}", requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);

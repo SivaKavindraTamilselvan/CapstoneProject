@@ -5,9 +5,11 @@ namespace Ecommerce.DTOs;
 public class RequestAddProductSubCategoryDTO
 {
     [Required(ErrorMessage = "Attribute Name Is Needed")]
-    [MaxLength(100 ,ErrorMessage = "Maximum 100 characters allowed")]
+    [MaxLength(100, ErrorMessage = "Maximum 100 characters allowed")]
     public string ProductSubCategoryName { get; set; } = string.Empty;
 
+    [Required(ErrorMessage = "Commission Percentage Is Needed")]
+    [Range(typeof(decimal), "0", "100", ErrorMessage = "Commission Percentage must be between 0 and 100")]
     public decimal CommissionPercentage { get; set; }
 
     [Required(ErrorMessage = "Product Category Id Needed")]

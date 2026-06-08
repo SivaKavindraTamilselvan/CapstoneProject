@@ -25,6 +25,19 @@ public class ProductCategoryValidation : IProductCategoryValidation
         }
         return subCategory;
     }
+    public async Task<ProductCategory> ValidateCategory(int categoryId)
+    {
+        var category = await _productCategoryRepsository.Get(categoryId);
+        if (category == null)
+        {
+            throw new DataNotFoundException("Product Category Is Not Found");
+        }
+        if (!category.IsActive)
+        {
+            throw new DataAlreadyRegisteredException("Category is deactivated");
+        }
+        return category;
+    }
     public async Task<ProductCategory?> ValidateProductCategoryName(string ProductCategoryName)
     {
 

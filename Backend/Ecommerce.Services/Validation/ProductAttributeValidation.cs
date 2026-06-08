@@ -8,7 +8,7 @@ public class ProductAttributeValidation : IProductAttributeValidation
     private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
     private readonly IProductCategoryValidation _productCategoryValidation;
     private readonly IAttributeRepsository _attributeRepsository;
-    public ProductAttributeValidation(IProductCategoryValidation productCategoryValidation,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IAttributeRepsository attributeRepsository)
+    public ProductAttributeValidation(IProductCategoryValidation productCategoryValidation, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository, IAttributeRepsository attributeRepsository)
     {
         _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
         _productCategoryValidation = productCategoryValidation;
@@ -22,29 +22,30 @@ public class ProductAttributeValidation : IProductAttributeValidation
         {
             throw new DataNotFoundException("Product Sub Category Attribute Not Found For This Product Sub Category");
         }
-        if(!attribute.IsActive)
+        if (!attribute.IsActive)
         {
-            throw new DataNotFoundException("Product Attribute is inactivated");
+            throw new DataNotFoundException("Product Sub Category Attribute is inactivated");
         }
         return attribute;
     }
-    public async Task<ProductSubCategoryAttribute> ValidateProductSubCategoryAttributeForAdmin(int productSubCategoryId, int AttributeId)
+    public async Task ValidateProductSubCategoryAttributeForAdmin(int AttributeId,int productSubCategoryId)
     {
+        await ValidateAttribute(AttributeId);
+        await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
         var result = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(AttributeId, productSubCategoryId);
-        if (result == null)
-        {
-            throw new DataNotFoundException("The Sub Category is not mapped to the Attribute");
-        }
-        if(!result.IsActive)
+        if (result != null && !result.IsActive)
         {
             throw new DataAlreadyRegisteredException("Product Sub Category Attribute is inactivated");
         }
-        return result;
+        if (result != null)
+        {
+            throw new DataNotFoundException("The Sub Category is mapped to the Attribute");
+        }
     }
     public async Task ValidateAttributeName(string name)
     {
         var attribute = await _attributeRepsository.GetTheAttributeByName(name);
-        if(attribute!=null && !attribute.IsActive)
+        if (attribute != null && !attribute.IsActive)
         {
             throw new DataAlreadyRegisteredException("Already The Attribute Name is Registered but inactivated");
         }
@@ -53,5 +54,18 @@ public class ProductAttributeValidation : IProductAttributeValidation
             throw new DataAlreadyRegisteredException("Already The Attribute Name Is Registered");
         }
         return;
+    }
+    public async Task<AttributeMaster> ValidateAttribute(int attributeId)
+    {
+        var attribute = await _attributeRepsository.Get(attributeId);
+        if (attribute == null)
+        {
+            throw new DataNotFoundException("Attribute Is Not Found");
+        }
+        if (!attribute.IsActive)
+        {
+            throw new DataAlreadyRegisteredException("Attribute is deactivated");
+        }
+        return attribute;
     }
 }
