@@ -46,6 +46,7 @@ namespace BankingAPI.Middlewares
                     statusCode = HttpStatusCode.Unauthorized;
                     break;
                 case DataApprovalStatusException:
+                case DataRegistrationException:
                     statusCode = HttpStatusCode.Conflict;
                     break;
                 case EmailException:

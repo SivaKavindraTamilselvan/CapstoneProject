@@ -15,5 +15,9 @@ public class UserRepsository : AbstractRepository<int, User> ,IUserRepsository
         var result = await _ecommerceContext.User.FirstOrDefaultAsync(u=>u.Email == Email);
         return result;
     } 
-
+    public async Task<User?> GetUserByPhoneNumber(string PhoneNumber)
+    {
+        var result = await _ecommerceContext.User.FirstOrDefaultAsync(u=>u.PhoneNumber == PhoneNumber);
+        return result;
+    } 
 }
