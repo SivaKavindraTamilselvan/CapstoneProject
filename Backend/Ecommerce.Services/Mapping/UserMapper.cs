@@ -47,7 +47,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestAddAddressDTO, Address>();
             CreateMap<Address, ResponseAddAddressDTO>();
-
+            CreateMap<Address,ResponseGetAddressDTO>();
+            
             CreateMap<Address, ResponseMakeDefaultAddressDTO>();
             CreateMap<Coupons, ResponseGetAllCoupon>();
 

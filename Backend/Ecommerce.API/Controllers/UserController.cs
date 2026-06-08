@@ -1,5 +1,6 @@
 using System.Security.Claims;
 using Ecommerce.DTOs;
+using Ecommerce.Models;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -34,7 +35,22 @@ public class UserController : ControllerBase
         var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO);
         return Ok(result);
     }
-
+    [Authorize]
+    [HttpGet("ActiveAdress")]
+    public async Task<ActionResult<ResponseGetAddressDTO>> GetAddress()
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.GetAllActiveAddress(UserId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("AllVendorAdress")]
+    public async Task<ActionResult<ResponseGetAddressDTO>> GetAllVendorAddress()
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.GetAllTheVendorAddress(UserId);
+        return Ok(result);
+    }
     [Authorize]
     [HttpPost("AddReview")]
     public async Task<ActionResult<ResponseAddReviewDTO>> AddReview(RequestAddReviewDTO requestAddReviewDTO)
