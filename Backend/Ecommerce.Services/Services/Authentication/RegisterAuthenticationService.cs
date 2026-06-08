@@ -10,16 +10,7 @@ public partial class AuthenticationService : IAuthentication
 {
     public async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
     {
-        var existingEmailUser = await _userRepsository.GetUserByEmail(requestRegisterUserDTO.Email);
-        if (existingEmailUser != null)
-        {
-            throw new DataAlreadyRegisteredException("User Already Registered With The Email.");
-        }
-        var existingPhoneNumberUser = await _userRepsository.GetUserByPhoneNumber(requestRegisterUserDTO.PhoneNumber);
-        if (existingPhoneNumberUser != null)
-        {
-            throw new DataAlreadyRegisteredException("User Already Registered With The PhoneNumber.");
-        }
+        await _registrationValidation.ValidateUserDetails(requestRegisterUserDTO);
         User user = _mapper.Map<User>(requestRegisterUserDTO);
         HMACSHA256 hMACSHA256 = new HMACSHA256();
         user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterUserDTO.Password));
@@ -108,6 +99,7 @@ public partial class AuthenticationService : IAuthentication
         try
         {
             _logger.LogInformation("User registration started for {Email}", requestRegisterVendorDTO.requestRegisterUserDTO.Email);
+            await _registrationValidation.ValidateVendorDetails(requestRegisterVendorDTO);
             var user = await RegisterUser(requestRegisterVendorDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
             var vendor = _mapper.Map<Vendor>(requestRegisterVendorDTO);
             var createdVendor = await _vendorRepsository.Create(vendor);

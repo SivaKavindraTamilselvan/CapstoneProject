@@ -7,7 +7,7 @@ public class RequestRegisterAdminDTO
     public RequestRegisterUserDTO requestRegisterUserDTO {get;set;} = new();
 
     [Required(ErrorMessage = "Admin Role Cannot Be Empty")]
-    [RegularExpression(@"^[1-5]+$",ErrorMessage = "Only can enter the registered Adimin Role Id")]
+    [RegularExpression(@"^[2-9]+$",ErrorMessage = "Only can enter the registered Adimin Role Id")]
     public int AdminRoleId { get; set; }
 }
 
