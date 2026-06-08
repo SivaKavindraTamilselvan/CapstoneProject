@@ -4,3 +4,186 @@
 2026-06-09 00:10:43.684 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-06-09 00:10:43.684 +05:30 [INF] Hosting environment: Development
 2026-06-09 00:10:43.684 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 00:18:39.691 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-09 00:18:39.732 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 42.5796ms
+2026-06-09 00:18:39.799 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 00:18:39.879 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 79.774ms
+2026-06-09 00:18:51.544 +05:30 [INF] Application is shutting down...
+2026-06-09 00:19:00.802 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 00:19:00.896 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 00:19:00.897 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 00:19:00.897 +05:30 [INF] Hosting environment: Development
+2026-06-09 00:19:00.897 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 00:19:03.484 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-09 00:19:03.517 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 33.9282ms
+2026-06-09 00:19:03.573 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 00:19:03.654 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 81.4374ms
+2026-06-09 00:19:43.364 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/Admin/admin-users/{adminUserId}/deactivate - null 0
+2026-06-09 00:19:43.390 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 00:19:43.407 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-06-09 00:19:43.407 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-06-09 00:19:43.407 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/Admin/admin-users/{adminUserId}/deactivate - 405 0 null 43.1174ms
+2026-06-09 00:19:56.481 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/Admin/admin-users/2/deactivate - null 0
+2026-06-09 00:19:56.488 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-06-09 00:19:56.488 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-06-09 00:19:56.489 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/Admin/admin-users/2/deactivate - 405 0 null 7.76ms
+2026-06-09 00:20:03.676 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/deactivate - null 0
+2026-06-09 00:20:03.687 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1)
+2026-06-09 00:20:03.690 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-09 00:20:03.690 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/deactivate - 401 0 null 14.3634ms
+2026-06-09 00:20:24.051 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/deactivate - null 0
+2026-06-09 00:20:24.090 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.DeactivateAdminUser (Ecommerce.API)'
+2026-06-09 00:20:24.103 +05:30 [INF] Route matched with {action = "DeactivateAdminUser", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] DeactivateAdminUser(Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:20:24.235 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 00:20:25.088 +05:30 [INF] Deactivating Admin User 2
+2026-06-09 00:20:25.327 +05:30 [INF] Executed DbCommand (35ms) [Parameters=[@adminUserId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."AdminUserId" = @adminUserId
+LIMIT 1
+2026-06-09 00:20:25.450 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p5='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "AdminUser" SET "AdminRoleId" = @p0, "AssignedByAdminUserId" = @p1, "CreatedAt" = @p2, "IsActive" = @p3, "UserId" = @p4
+WHERE "AdminUserId" = @p5;
+2026-06-09 00:20:25.456 +05:30 [INF] AdminUser record deactivated for AdminUserId 2
+2026-06-09 00:20:25.464 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?' (DbType = Boolean), @p5='?', @p6='?' (DbType = Binary), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "User" SET "CreatedAt" = @p0, "Email" = @p1, "FirstName" = @p2, "HashedKey" = @p3, "IsActive" = @p4, "LastName" = @p5, "Password" = @p6, "PhoneNumber" = @p7, "RoleId" = @p8, "UpdatedAt" = @p9
+WHERE "UserId" = @p10;
+2026-06-09 00:20:25.465 +05:30 [INF] User account deactivated for UserId 4
+2026-06-09 00:20:25.465 +05:30 [INF] Admin User 2 deactivated successfully
+2026-06-09 00:20:25.480 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseGetAdminUserDTO'.
+2026-06-09 00:20:25.487 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.DeactivateAdminUser (Ecommerce.API) in 1383.1043ms
+2026-06-09 00:20:25.488 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.DeactivateAdminUser (Ecommerce.API)'
+2026-06-09 00:20:25.491 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/deactivate - 200 null application/json; charset=utf-8 1439.6099ms
+2026-06-09 00:21:27.021 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/activate - null 0
+2026-06-09 00:21:27.026 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API)'
+2026-06-09 00:21:27.036 +05:30 [INF] Route matched with {action = "ActivateAdminUser", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ActivateAdminUser(Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:21:27.051 +05:30 [INF] Activating Admin User 2
+2026-06-09 00:21:27.058 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@adminUserId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."AdminUserId" = @adminUserId
+LIMIT 1
+2026-06-09 00:21:27.062 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p5='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "AdminUser" SET "AdminRoleId" = @p0, "AssignedByAdminUserId" = @p1, "CreatedAt" = @p2, "IsActive" = @p3, "UserId" = @p4
+WHERE "AdminUserId" = @p5;
+2026-06-09 00:21:27.063 +05:30 [INF] AdminUser record activated for AdminUserId 2
+2026-06-09 00:21:27.064 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?' (DbType = Boolean), @p5='?', @p6='?' (DbType = Binary), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "User" SET "CreatedAt" = @p0, "Email" = @p1, "FirstName" = @p2, "HashedKey" = @p3, "IsActive" = @p4, "LastName" = @p5, "Password" = @p6, "PhoneNumber" = @p7, "RoleId" = @p8, "UpdatedAt" = @p9
+WHERE "UserId" = @p10;
+2026-06-09 00:21:27.065 +05:30 [INF] User account activated for UserId 4
+2026-06-09 00:21:27.065 +05:30 [INF] Admin User 2 activated successfully
+2026-06-09 00:21:27.067 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseGetAdminUserDTO'.
+2026-06-09 00:21:27.067 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API) in 31.1522ms
+2026-06-09 00:21:27.067 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API)'
+2026-06-09 00:21:27.067 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/activate - 200 null application/json; charset=utf-8 47.0056ms
+2026-06-09 00:21:30.480 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/activate - null 0
+2026-06-09 00:21:30.482 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API)'
+2026-06-09 00:21:30.482 +05:30 [INF] Route matched with {action = "ActivateAdminUser", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] ActivateAdminUser(Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:21:30.542 +05:30 [INF] Activating Admin User 2
+2026-06-09 00:21:30.545 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@adminUserId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."AdminUserId" = @adminUserId
+LIMIT 1
+2026-06-09 00:21:30.545 +05:30 [WRN] Admin User 2 is already Activated
+2026-06-09 00:21:30.546 +05:30 [ERR] Error occurred while activating Admin User 2
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Admin User is already activated
+   at AdminService.ActivateAdminUser(Int32 adminUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminService/MainAdminService.cs:line 119
+2026-06-09 00:21:30.554 +05:30 [INF] Transaction rolled back for Admin User 2
+2026-06-09 00:21:30.554 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API) in 71.9254ms
+2026-06-09 00:21:30.554 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ActivateAdminUser (Ecommerce.API)'
+2026-06-09 00:21:30.555 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Admin User is already activated
+   at AdminService.ActivateAdminUser(Int32 adminUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminService/MainAdminService.cs:line 119
+   at AdminService.ActivateAdminUser(Int32 adminUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminService/MainAdminService.cs:line 148
+   at Ecommerce.API.Controllers.AdminController.ActivateAdminUser(Int32 adminUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 109
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 00:21:30.559 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Admin/admin-users/2/activate - 409 null application/json 78.6605ms
+2026-06-09 00:30:28.393 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 00:30:28.420 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 27.4756ms
+2026-06-09 00:33:28.164 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - null null
+2026-06-09 00:33:28.170 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:43:53 PM', Current time (UTC): '08/06/2026 7:03:28 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-09 00:33:28.173 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:43:53 PM', Current time (UTC): '08/06/2026 7:03:28 PM'.
+2026-06-09 00:33:28.174 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-09 00:33:28.176 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-09 00:33:28.176 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - 401 0 null 12.3825ms
+2026-06-09 00:33:56.867 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - null null
+2026-06-09 00:33:56.869 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:33:56.879 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:33:56.883 +05:30 [INF] Fetching all vendors
+2026-06-09 00:33:56.912 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+ORDER BY v."CreatedAt" DESC
+LIMIT @p1 OFFSET @p
+2026-06-09 00:33:56.923 +05:30 [INF] 1 vendors found
+2026-06-09 00:33:56.928 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 00:33:56.931 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 51.2804ms
+2026-06-09 00:33:56.931 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:33:56.931 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - 200 null application/json; charset=utf-8 64.1378ms
+2026-06-09 00:37:06.506 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - null null
+2026-06-09 00:37:06.510 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:37:06.511 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:37:06.516 +05:30 [INF] Fetching all vendors
+2026-06-09 00:37:06.523 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+ORDER BY v."CreatedAt" DESC
+LIMIT @p1 OFFSET @p
+2026-06-09 00:37:06.525 +05:30 [INF] 1 vendors found
+2026-06-09 00:37:06.525 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 00:37:06.527 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 15.061ms
+2026-06-09 00:37:06.527 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:37:06.527 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - 200 null application/json; charset=utf-8 21.2399ms
+2026-06-09 00:41:38.991 +05:30 [INF] Application is shutting down...
+2026-06-09 00:41:47.437 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 00:41:47.530 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 00:41:47.531 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 00:41:47.531 +05:30 [INF] Hosting environment: Development
+2026-06-09 00:41:47.531 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 00:41:50.874 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - null null
+2026-06-09 00:41:50.898 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 00:41:50.946 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:41:50.959 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-09 00:41:51.089 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 00:41:51.097 +05:30 [INF] Fetching all vendors
+2026-06-09 00:41:52.026 +05:30 [INF] Executed DbCommand (35ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."ApprovalStatusId", a."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS v0
+INNER JOIN "ApprovalStatus" AS a ON v0."ApprovalStatusId" = a."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-09 00:41:52.075 +05:30 [INF] 1 vendors found
+2026-06-09 00:41:52.083 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 00:41:52.098 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 1137.9459ms
+2026-06-09 00:41:52.099 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-09 00:41:52.104 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - 200 null application/json; charset=utf-8 1231.19ms

@@ -1,3 +1,5 @@
+using Ecommerce.Models;
+
 namespace Ecommerce.DTOs;
 public class ResponseGetVendor
 {

@@ -28,7 +28,7 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
     }
     public async Task<List<Vendor>> GetVendors(int? statusId, int pageNumber, int pageSize)
     {
-        var query = _ecommerceContext.Vendor.AsQueryable();
+        var query = _ecommerceContext.Vendor.Include(a=>a.ApprovalStatus).AsQueryable();
         if (statusId.HasValue)
         {
             query = query.Where(p => p.ApprovalStatusId == statusId.Value);
