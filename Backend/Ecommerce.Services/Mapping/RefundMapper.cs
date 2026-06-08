@@ -8,8 +8,10 @@ namespace Ecommerce.Mappers
     {
         public RefundMappingProfile()
         {
-            CreateMap<RequestAddRefundDTO,Refund>();
+            CreateMap<RequestAddReturnRefundDTO,Refund>();
             CreateMap<Refund,ResponseAddRefundDTO>();
+
+            CreateMap<RequestAddReturnRefundDTO,ReturnRefund>();
         }
     }
 }

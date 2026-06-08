@@ -257,6 +257,7 @@ builder.Services.AddScoped<IAddressRepsository,AddressRepsository>();
 builder.Services.AddScoped<IShipperRepsository,ShipperRepsository>();
 builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
 builder.Services.AddScoped<IAdminReturnService,AdminReturnService>();
+builder.Services.AddScoped<IReturnRefundRepsository,ReturnRefundRepsository>();
 #endregion
 
 #region Services

@@ -74,4 +74,11 @@ public class AdminController : ControllerBase
         var result = await _adminRefundService.CreateRefund(requestAddRefundDTO);
         return Ok(result);
     }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("CreateReturnRefund")]
+    public async Task<ActionResult> CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO)
+    {
+        var result = await _adminRefundService.CreateReturnRefund(requestAddRefundDTO);
+        return Ok(result);
+    }
 }
