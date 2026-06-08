@@ -1,0 +1,6 @@
+2026-06-09 00:10:34.749 +05:30 [INF] Application is shutting down...
+2026-06-09 00:10:43.592 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 00:10:43.683 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 00:10:43.684 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 00:10:43.684 +05:30 [INF] Hosting environment: Development
+2026-06-09 00:10:43.684 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API

@@ -95,4 +95,18 @@ public class AdminController : ControllerBase
         var result = await _adminService.GetAdminUserByUserId(adminUserId);
         return Ok(result);
     }
+    [Authorize(Policy = "SuperAdminOnly")]
+    [HttpPut("admin-users/{adminUserId}/deactivate")]
+    public async Task<IActionResult> DeactivateAdminUser(int adminUserId)
+    {
+        var result = await _adminService.DeactivateAdminUser(adminUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "SuperAdminOnly")]
+    [HttpPut("admin-users/{adminUserId}/activate")]
+    public async Task<IActionResult> ActivateAdminUser(int adminUserId)
+    {
+        var result = await _adminService.ActivateAdminUser(adminUserId);
+        return Ok(result);
+    }
 }
