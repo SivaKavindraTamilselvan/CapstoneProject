@@ -297,6 +297,9 @@ builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IUserProductCategoryService,UserProductCategoryService>();
 builder.Services.AddScoped<IUserReturnService,UserReturnService>();
 builder.Services.AddScoped<IAdminRefundService,AdminRefundService>();
+builder.Services.AddScoped<ICancelRefundRepsository,CancelRefundRepsository>();
+builder.Services.AddScoped<ICancelRepsository,CancelRepsository>();
+builder.Services.AddScoped<IUserCancelService,UserCancelService>();
 #endregion
 
 

@@ -9,5 +9,4 @@ public class OrderRepsository : AbstractRepository<int, Order> ,IOrderRepsositor
     {
 
     }
-
 }
