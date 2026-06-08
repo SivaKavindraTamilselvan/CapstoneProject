@@ -9,5 +9,5 @@ public interface IVendorRepsository : IRepository<int,Vendor>
     public Task<Vendor?> GetVendorByCompanyGSTNumber(string gst);
     public Task<Vendor?> GetVendorByCompanyPhoneNumber(string phone);
     public Task<Vendor?> GetOwnerVendorUserByVendorId(int vendorId);
-    public Task<List<Vendor>> GetAllVednorNotPendingApproval();
+    public Task<List<Vendor>> GetVendors(int? statusId,int pageNumber,int pageSize);
 }

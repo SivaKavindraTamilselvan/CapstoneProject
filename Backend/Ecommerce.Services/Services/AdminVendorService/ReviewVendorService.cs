@@ -5,16 +5,16 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminVendorService : IAdminVendorService
 {
-    public async Task<List<ResponseGetVendor>> GetAllPendingVendor()
+    public async Task<List<ResponseGetVendor>> GetVendor(int? statusId,int pageNumber,int pageSize)
     {
-        _logger.LogInformation("Fetching all pending vendors");
-        var vendor = await _vendorRepsository.GetAllVednorNotPendingApproval();
+        _logger.LogInformation("Fetching all vendors");
+        var vendor = await _vendorRepsository.GetVendors(statusId,pageNumber,pageSize);
         if (vendor.Count == 0)
         {
-            _logger.LogWarning("No pending vendors found");
-            throw new DataNotFoundException("No Pending Vendors");
+            _logger.LogWarning("No vendors found");
+            throw new DataNotFoundException("No Vendors");
         }
-        _logger.LogInformation("{Count} pending vendors found", vendor.Count);
+        _logger.LogInformation("{Count} vendors found", vendor.Count);
         return _mapper.Map<List<ResponseGetVendor>>(vendor);
     }
     public async Task<ResponseReviewOfVendorDTO> ReviewVendor(RequestReviewOfVendorDTO requestReviewOfVendorDTO, int userId)

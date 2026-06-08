@@ -47,9 +47,9 @@ public class AdminController : ControllerBase
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpGet("GetPendingVendor")]
-    public async Task<ActionResult<List<ResponseGetVendor>>> GetPendingVendor()
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery]int? statusId,int pageNumber = 1,int pageSize =5)
     {
-        var result = await _adminVendorService.GetAllPendingVendor();
+        var result = await _adminVendorService.GetVendor(statusId,pageNumber,pageSize);
         return Ok(result);
     }
 
