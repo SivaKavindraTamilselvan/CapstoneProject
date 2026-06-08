@@ -10,6 +10,10 @@ public class AdminUser
     public AdminUser? AssignedByAdmin {get;set;}
     public bool IsActive {get;set;} = true;
     public DateTime CreatedAt {get;set;} = DateTime.Now;
+    public ICollection<ProductCategory> ProductCategories {get;set;} = new List<ProductCategory>();
+    public ICollection<ProductSubCategory> ProductSubCategories {get;set;} = new List<ProductSubCategory>();
+    public ICollection<ProductSubCategoryAttribute> ProductSubCategoryAttributes {get;set;} = new List<ProductSubCategoryAttribute>();
+    public ICollection<AttributeMaster> AttributeMasters {get;set;} = new List<AttributeMaster>();
     public ICollection<Product> Products {get;set;} = new List<Product>();
     public ICollection<Shipper> Shippers {get;set;} = new List<Shipper>();
     public ICollection<Vendor> Vendors {get;set;} = new List<Vendor>();

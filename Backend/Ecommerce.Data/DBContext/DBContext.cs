@@ -124,6 +124,8 @@ public class EcommerceContext : DbContext
             p.HasIndex(p => p.ProductCategoryName).IsUnique();
             p.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
             p.Property(p => p.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            p.HasOne(v => v.AddedByAdminUser).WithMany(a => a.ProductCategories).HasForeignKey(v => v.AddedByAdminId).HasConstraintName("FK_Admin_User_Product_Category");
+
         });
         modelBuilder.Entity<ProductSubCategory>(p =>
         {
@@ -136,6 +138,8 @@ public class EcommerceContext : DbContext
             p.Property(p => p.IsActive).IsRequired().HasDefaultValue(true);
             p.Property(p => p.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             p.HasOne(p => p.ProductCategory).WithMany(p => p.ProductSubCategories).HasForeignKey(p => p.ProductCategoryId).HasConstraintName("FK_Product_Category");
+            p.HasOne(v => v.AddedByAdminUser).WithMany(a => a.ProductSubCategories).HasForeignKey(v => v.AddedByAdminId).HasConstraintName("FK_Admin_User_Product_Sub_Category");
+
         });
         modelBuilder.Entity<ProductSubCategoryAttribute>(psa =>
         {
@@ -146,6 +150,7 @@ public class EcommerceContext : DbContext
             psa.Property(psa => psa.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             psa.HasOne(psa => psa.ProductSubCategory).WithMany(psc => psc.ProductSubCategoryAttributes).HasForeignKey(psa => psa.ProductSubCategoryId).HasConstraintName("FK_ProductSubCategoryAttribute_ProductSubCategory");
             psa.HasOne(psa => psa.AttributeMaster).WithMany(a => a.ProductSubCategoryAttributes).HasForeignKey(psa => psa.AttributeMasterId).HasConstraintName("FK_ProductSubCategoryAttribute_AttributeMaster");
+            psa.HasOne(v => v.AddedByAdminUser).WithMany(a => a.ProductSubCategoryAttributes).HasForeignKey(v => v.AddedByAdminId).HasConstraintName("FK_Admin_User_Product_Sub_Category_Attribute");
         });
         modelBuilder.Entity<AttributeMaster>(a =>
         {
@@ -155,6 +160,7 @@ public class EcommerceContext : DbContext
             a.HasIndex(a => a.AttributeName).IsUnique();
             a.Property(a => a.IsActive).IsRequired().HasDefaultValue(true);
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            a.HasOne(v => v.AddedByAdminUser).WithMany(a => a.AttributeMasters).HasForeignKey(v => v.AddedByAdminId).HasConstraintName("FK_Admin_User_Attribute");
         });
         modelBuilder.Entity<ModeOfPayment>(r =>
         {
@@ -419,6 +425,8 @@ public class EcommerceContext : DbContext
             pv.HasIndex(pv => pv.SKU).IsUnique();
 
             pv.Property(pv => pv.Price).IsRequired();
+            pv.Property(pv => pv.IsExchange).IsRequired();
+            pv.Property(pv => pv.IsReturn).IsRequired();
 
             pv.Property(pv => pv.WeightInKgs).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.LengthInCm).IsRequired().HasMaxLength(15);
@@ -475,6 +483,9 @@ public class EcommerceContext : DbContext
             pva.Property(pva => pva.AttributeValue).IsRequired().HasMaxLength(100);
             pva.Property(pva => pva.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
             pva.Property(pva => pva.UpdatedAt).HasColumnType("timestamp without time zone");
+
+            pva.HasOne(v => v.AddedByVendorUser).WithMany(a => a.ProductVariantAttributes).HasForeignKey(v => v.AddedByVendorUserId).HasConstraintName("FK_Vendor_User_Product_Attribute");
+
         });
         modelBuilder.Entity<ApprovalHistory>(entity =>
         {
@@ -717,7 +728,7 @@ public class EcommerceContext : DbContext
             entity.Property(c => c.ConvenienceFee).HasColumnType("decimal(18,2)");
             entity.Property(c => c.CancelledDate).HasColumnType("timestamp without time zone");
             entity.HasOne(c => c.CancelReason).WithMany(cr => cr.Cancels).HasForeignKey(c => c.CancelReasonId).OnDelete(DeleteBehavior.Restrict);
-            entity.HasOne(c => c.OrderItems).WithMany(o=>o.Cancels).HasForeignKey(c => c.OrderItemId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(c => c.OrderItems).WithMany(o => o.Cancels).HasForeignKey(c => c.OrderItemId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(c => c.CancelStatus).WithMany(cs => cs.Cancels).HasForeignKey(c => c.CancelStatusId).OnDelete(DeleteBehavior.Restrict);
             entity.HasOne(c => c.CancelRefund).WithOne(cr => cr.Cancel).HasForeignKey<CancelRefund>(cr => cr.CancelId).OnDelete(DeleteBehavior.Cascade);
         });

@@ -7,6 +7,8 @@ public class ProductSubCategory
     public int ProductCategoryId {get;set;}
     public bool IsActive {get;set;} = true;
     public decimal CommissionPercentage { get; set; }
+    public int AddedByAdminId {get;set;}
+    public AdminUser? AddedByAdminUser {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public ProductCategory? ProductCategory {get;set;}
     public ICollection<Product> Products {get;set;} = new List<Product>();

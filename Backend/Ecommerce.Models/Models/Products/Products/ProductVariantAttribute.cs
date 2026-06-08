@@ -8,6 +8,8 @@ public class ProductVariantAttribute
     public ProductSubCategoryAttribute? ProductSubCategoryAttribute { get; set; }
     public string AttributeValue { get; set; } = string.Empty;
     public bool IsActive { get; set; } = true;
+    public int AddedByVendorUserId {get;set;}
+    public VendorUser? AddedByVendorUser {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
 }

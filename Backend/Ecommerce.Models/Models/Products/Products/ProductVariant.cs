@@ -18,6 +18,8 @@ public class ProductVariant
     public ProductStatus? ProductVariantStatus { get; set; }
     public int ProductApprovalStatusId {get;set;} = 1;
     public ProductApprovalStatus? ProductApprovalStatus {get;set;}
+    public bool IsReturn {get;set;} = true;
+    public bool IsExchange{get;set;} = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt{get;set;}
     public ICollection<ProductVariantAttribute> ProductVariantAttributes { get; set; } = new List<ProductVariantAttribute>();
