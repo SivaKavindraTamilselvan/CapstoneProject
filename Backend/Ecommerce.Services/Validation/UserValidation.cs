@@ -21,12 +21,16 @@ public class UserValidation : IUserValidation
         }
         return user;
     }
-    public async Task<Address> ValidateAddress(int addressId)
+    public async Task<Address> ValidateAddress(int addressId,int userId)
     {
         var address = await _addressRepsository.Get(addressId);
         if(address == null)
         {
             throw new DataNotFoundException("Address Not Found");
+        }
+        if(address.UserId !=userId)
+        {
+            throw new DataApprovalStatusException("You Cannot access other address datas");
         }
         return address;
     }

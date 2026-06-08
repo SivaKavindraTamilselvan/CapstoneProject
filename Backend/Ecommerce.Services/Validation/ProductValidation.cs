@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
@@ -5,14 +6,16 @@ using Ecommerce.Services.Interfaces;
 
 public class ProductValidation : IProductValidation
 {
+    private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IProductRepsository _productRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductImageRepsository _productImageRepsository;
-    public ProductValidation(IProductImageRepsository productImageRepsository,IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    public ProductValidation(IVendorUserValidation vendorUserValidation,IProductImageRepsository productImageRepsository,IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
         _productImageRepsository = productImageRepsository;
+        _vendorUserValidation = vendorUserValidation;
     }
     public async Task<Product> ValidateProduct(int productId)
     {
@@ -41,12 +44,17 @@ public class ProductValidation : IProductValidation
         }
         return product;
     }
-    public async Task<ProductVariant> ValidateProductVariant(int productVariantId)
+    public async Task<ProductVariant> ValidateProductVariant(int productVariantId,int vendorUserId)
     {
-        var productVariant = await _productVariantRepsository.Get(productVariantId);
+        var productVariant = await _productVariantRepsository.GetProductByProductVariant(productVariantId);
         if (productVariant == null)
         {
             throw new DataNotFoundException("Product Variant Not Found");
+        }
+        var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
+        if(productVariant!.Product!.VendorId != vendorUser.VendorId)
+        {
+            throw new InvalidCredentialException("You cannot access other vendor products");
         }
         return productVariant;
     }

@@ -19,7 +19,7 @@ public class InventoryController : ControllerBase
     public async Task<ActionResult<ResponseAddInventoryDTO>> AddInventory(RequestAddInventoryDTO requestAddInventoryDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _inventoryService.AddInventory(requestAddInventoryDTO);
+        var result = await _inventoryService.AddInventory(requestAddInventoryDTO,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
