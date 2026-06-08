@@ -3,7 +3,9 @@ namespace Ecommerce.DTOs;
 public class ResponseGetAllProductCategory
 {
     public int ProductCategoryId { get; set; }
-    public string ProductCategoryName { get; set; } = string.Empty;
+    public string? ProductCategoryName { get; set; }
+    public bool IsActive {get;set;}
+    public DateTime CreatedAt{get;set;}
 }
 
 public class RequestGetAllProductSubCategoryName
@@ -15,6 +17,8 @@ public class ResponseGetAllProductSubCategoryName
 {
     public int ProductSubCategoryId { get; set; }
     public string ProductSubCategoryName { get; set; } = string.Empty;
+    public bool IsActive {get;set;}
+    public DateTime CreatedAt{get;set;}
 }
 
 
