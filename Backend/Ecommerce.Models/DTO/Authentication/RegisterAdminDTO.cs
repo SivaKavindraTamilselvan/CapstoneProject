@@ -16,6 +16,6 @@ public class ResponseRegisterAdminDTO
     public int AdminUserId { get; set; }
     public int UserId { get; set; }
     public int? AssignedByAdminUserId { get; set; }
-    public string Email { get; set; } = string.Empty;
+    public string? Email { get; set; } 
     public DateTime CreatedAt { get; set; }
 }

@@ -12,6 +12,6 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
     }
     public async Task<ProductVariant?> GetProductByProductVariant(int productVariantId)
     {
-        return await _ecommerceContext.ProductVariant.Include(p=>p.Product).ThenInclude(v=>v.Vendor).FirstOrDefaultAsync(p=>p.ProductVariantId == productVariantId);
+        return await _ecommerceContext.ProductVariant.Include(p=>p.Product).ThenInclude(v=>v!.Vendor).FirstOrDefaultAsync(p=>p.ProductVariantId == productVariantId);
     }
 }
