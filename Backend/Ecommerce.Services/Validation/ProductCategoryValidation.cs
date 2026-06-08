@@ -19,11 +19,20 @@ public class ProductCategoryValidation : IProductCategoryValidation
         {
             throw new DataNotFoundException("Product Sub Category Is Not Found");
         }
+        if (!subCategory.IsActive)
+        {
+            throw new DataAlreadyRegisteredException("Sub category is deactivated");
+        }
         return subCategory;
     }
     public async Task<ProductCategory?> ValidateProductCategoryName(string ProductCategoryName)
     {
+
         var product = await _productCategoryRepsository.CheckUniqueProductCategory(ProductCategoryName);
+        if (product != null && !product.IsActive)
+        {
+            throw new DataAlreadyRegisteredException("Category is deactivated");
+        }
         if (product != null)
         {
             throw new DataAlreadyRegisteredException("Already The Product Category Name Is Registered");
@@ -33,6 +42,10 @@ public class ProductCategoryValidation : IProductCategoryValidation
     public async Task<ProductSubCategory?> ValidateProductSubCategoryName(string ProductSubCategoryName)
     {
         var product = await _productSubCategoryRepsository.CheckUniqueProductSubCategory(ProductSubCategoryName);
+        if (product != null && !product.IsActive)
+        {
+            throw new DataAlreadyRegisteredException("Sub Category is deactivated");
+        }
         if (product != null)
         {
             throw new DataAlreadyRegisteredException("Already The Product Sub Category Name Is Registered");

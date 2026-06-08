@@ -17,6 +17,10 @@ public class AdminUserValidation : IAdminUserValidation
         {
             throw new DataNotFoundException("Admin User Not Found");
         }
+        if(!adminUser.IsActive)
+        {
+            throw new DataApprovalStatusException("Admin Is not approved to do this work");
+        }
         return adminUser;
     }
 
