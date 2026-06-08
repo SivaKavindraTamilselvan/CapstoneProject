@@ -14,5 +14,8 @@ public class AddressRepsository : AbstractRepository<int, Address> ,IAddressReps
     {
         return await _ecommerceContext.Address.Where(u=>u.UserId == userId).ToListAsync();
     }
-   
+    public async Task<List<Address>> GetActiveAddressByUserId(int userId)
+    {
+        return await _ecommerceContext.Address.Where(u=>u.UserId == userId).ToListAsync();
+    }
 }

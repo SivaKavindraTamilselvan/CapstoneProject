@@ -10,9 +10,10 @@ public class Address
     public string LandMark {get;set;} = string.Empty;
     public string City {get;set;} = string.Empty;
     public string State {get;set;} = string.Empty;
-    public string Country {get;set;} = string.Empty;
+    public string Country {get;set;} = "India";
     public string PinCode {get;set;} = string.Empty;
     public bool IsDefault {get;set;} = false;
+    public bool IsActive {get;set;} = true;
     public DateTime CreatedAt {get;set;} = DateTime.Now;
     public DateTime? UpdatedAt {get;set;}
     public ICollection<Order> Orders {get;set;} = new List<Order>();

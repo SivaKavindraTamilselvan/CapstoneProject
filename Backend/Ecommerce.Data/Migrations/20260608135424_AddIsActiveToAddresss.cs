@@ -1,0 +1,29 @@
+﻿using Microsoft.EntityFrameworkCore.Migrations;
+
+#nullable disable
+
+namespace Ecommerce.Data.Migrations
+{
+    /// <inheritdoc />
+    public partial class AddIsActiveToAddresss : Migration
+    {
+        /// <inheritdoc />
+        protected override void Up(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.AddColumn<bool>(
+                name: "IsActive",
+                table: "Address",
+                type: "boolean",
+                nullable: false,
+                defaultValue: true);
+        }
+
+        /// <inheritdoc />
+        protected override void Down(MigrationBuilder migrationBuilder)
+        {
+            migrationBuilder.DropColumn(
+                name: "IsActive",
+                table: "Address");
+        }
+    }
+}

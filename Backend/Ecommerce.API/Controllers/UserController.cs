@@ -28,7 +28,7 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     [Authorize]
-    [HttpPost("MakeAdressAsDefault")]
+    [HttpPut("MakeAdressAsDefault")]
     public async Task<ActionResult<ResponseMakeDefaultAddressDTO>> UpdateAddressAsDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
     {
         var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO);

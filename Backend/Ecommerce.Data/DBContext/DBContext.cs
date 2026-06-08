@@ -323,6 +323,7 @@ public class EcommerceContext : DbContext
             a.Property(a => a.Country).IsRequired().HasDefaultValue("India");
             a.Property(a => a.PinCode).IsRequired().HasMaxLength(6);
             a.Property(a => a.IsDefault).HasDefaultValue(false);
+            a.Property(a => a.IsActive).HasDefaultValue(true);
             a.Property(a => a.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
             a.Property(a => a.CreatedAt).HasColumnType("timestamp without time zone");
             a.Property(a => a.UpdatedAt).HasColumnType("timestamp without time zone");
