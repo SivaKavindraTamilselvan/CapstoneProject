@@ -10,7 +10,7 @@ public class EcommerceContext : DbContext
 
     }
     public DbSet<User> User { get; set; }
-    public DbSet<Vendor> Vendor {get;set;}
+    public DbSet<Vendor> Vendor { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
     public DbSet<AdminUser> AdminUser { get; set; }
     public DbSet<Address> Address { get; set; }
@@ -662,7 +662,7 @@ public class EcommerceContext : DbContext
             r.HasKey(r => r.RefundTypeId).HasName("PK_RefundType");
             r.Property(r => r.RefundTypeName).HasMaxLength(100);
             r.HasIndex(r => r.RefundTypeName).IsUnique();
-            r.HasData(new RefundType { RefundTypeId = 1, RefundTypeName = "Cancellation" },new RefundType { RefundTypeId = 2, RefundTypeName = "Return" });
+            r.HasData(new RefundType { RefundTypeId = 1, RefundTypeName = "Cancellation" }, new RefundType { RefundTypeId = 2, RefundTypeName = "Return" });
         });
         modelBuilder.Entity<Coupons>(c =>
         {
@@ -708,6 +708,56 @@ public class EcommerceContext : DbContext
             c.Property(c => c.CouponTypeName).IsRequired();
             c.HasData(new CouponType() { CouponTypeId = 1, CouponTypeName = "Admin" });
             c.HasData(new CouponType() { CouponTypeId = 2, CouponTypeName = "Vendor" });
+        });
+        modelBuilder.Entity<Cancel>(entity =>
+        {
+            entity.HasKey(c => c.CancelId);
+            entity.Property(c => c.AdditionalReason).HasMaxLength(500);
+            entity.Property(c => c.ConvenienceFee).HasColumnType("decimal(18,2)");
+            entity.Property(c => c.CancelledDate).HasColumnType("timestamp without time zone");
+            entity.HasOne(c => c.CancelReason).WithMany(cr => cr.Cancels).HasForeignKey(c => c.CancelReasonId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(c => c.OrderItems).WithMany(o=>o.Cancels).HasForeignKey(c => c.OrderItemId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(c => c.CancelStatus).WithMany(cs => cs.Cancels).HasForeignKey(c => c.CancelStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasOne(c => c.CancelRefund).WithOne(cr => cr.Cancel).HasForeignKey<CancelRefund>(cr => cr.CancelId).OnDelete(DeleteBehavior.Cascade);
+        });
+        modelBuilder.Entity<CancelStatus>(entity =>
+        {
+            entity.HasKey(cs => cs.CancelStatusId);
+            entity.Property(cs => cs.CancelStatusName).IsRequired().HasMaxLength(50);
+            entity.HasIndex(cs => cs.CancelStatusName).IsUnique();
+            entity.HasMany(cs => cs.Cancels).WithOne(c => c.CancelStatus).HasForeignKey(c => c.CancelStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasData(
+            new CancelStatus { CancelStatusId = 1, CancelStatusName = "Pending" },
+            new CancelStatus { CancelStatusId = 2, CancelStatusName = "Approved" },
+            new CancelStatus { CancelStatusId = 3, CancelStatusName = "Rejected" },
+            new CancelStatus { CancelStatusId = 4, CancelStatusName = "Refunded" }
+            );
+        });
+        modelBuilder.Entity<CancelReason>(entity =>
+        {
+            entity.HasKey(cr => cr.CancelReasonId);
+            entity.Property(cr => cr.CancelReasonDescription).IsRequired().HasMaxLength(200);
+            entity.HasIndex(cr => cr.CancelReasonDescription).IsUnique();
+            entity.HasMany(cr => cr.Cancels).WithOne(c => c.CancelReason).HasForeignKey(c => c.CancelReasonId).OnDelete(DeleteBehavior.Restrict);
+            entity.HasData(
+            new CancelReason { CancelReasonId = 1, CancelReasonDescription = "Ordered by mistake" },
+            new CancelReason { CancelReasonId = 2, CancelReasonDescription = "Found a better price elsewhere" },
+            new CancelReason { CancelReasonId = 3, CancelReasonDescription = "Delivery time is too long" },
+            new CancelReason { CancelReasonId = 4, CancelReasonDescription = "Changed my mind" },
+            new CancelReason { CancelReasonId = 5, CancelReasonDescription = "Incorrect shipping address" },
+            new CancelReason { CancelReasonId = 6, CancelReasonDescription = "Duplicate order placed" },
+            new CancelReason { CancelReasonId = 7, CancelReasonDescription = "Payment issue" },
+            new CancelReason { CancelReasonId = 8, CancelReasonDescription = "Product no longer needed" },
+            new CancelReason { CancelReasonId = 9, CancelReasonDescription = "Want to change product variant" },
+            new CancelReason { CancelReasonId = 10, CancelReasonDescription = "Other" }
+            );
+        });
+        modelBuilder.Entity<CancelRefund>(entity =>
+        {
+            entity.HasKey(cr => cr.CancelRefundId);
+            entity.HasOne(cr => cr.Cancel).WithOne(c => c.CancelRefund).HasForeignKey<CancelRefund>(cr => cr.CancelId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasOne(cr => cr.Refund).WithOne(c => c.CancelRefund).HasForeignKey<CancelRefund>(cr => cr.RefundId).OnDelete(DeleteBehavior.Cascade);
+            entity.HasIndex(cr => cr.CancelId).IsUnique(); entity.HasIndex(cr => cr.RefundId).IsUnique();
         });
         modelBuilder.Entity<LogChanges>(lc =>
         {

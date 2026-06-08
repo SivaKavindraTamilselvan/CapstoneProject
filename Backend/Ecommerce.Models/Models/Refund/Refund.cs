@@ -13,5 +13,6 @@ public class Refund
     public DateTime RequestedDate {get;set;}
     public DateTime? ProcessedDate {get;set;}
     public ReturnRefund? ReturnRefund {get;set;}
+    public CancelRefund? CancelRefund {get;set;}
     public ICollection<Payment> Payments {get;set;} = new List<Payment>();
 }
