@@ -1,0 +1,14 @@
+public class ResponseGetAdminUserDTO
+{
+    public int AdminUserId {get;set;}
+    public int UserId {get;set;}
+    public int AdminRoleId {get;set;}
+    public string? AdminRoleName {get;set;}
+    public string? FirstName { get; set; } 
+    public string? LastName { get; set; } 
+    public string? Email { get; set; } 
+    public string? PhoneNumber { get; set; }
+    public bool IsActive {get;set;}
+    public DateTime CreatedAt {get;set;} 
+    
+}

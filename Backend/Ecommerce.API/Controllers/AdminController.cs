@@ -17,7 +17,7 @@ public class AdminController : ControllerBase
     private readonly IAdminVendorService _adminVendorService;
     private readonly IAdminReturnService _adminReturnService;
     private readonly IAdminRefundService _adminRefundService;
-    public AdminController(IAdminRefundService adminRefundService,IAdminReturnService adminReturnService,IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
+    public AdminController(IAdminRefundService adminRefundService, IAdminReturnService adminReturnService, IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
     {
         _adminService = adminService;
         _adminProductService = adminProductService;
@@ -47,9 +47,9 @@ public class AdminController : ControllerBase
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpGet("GetVendor")]
-    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery]int? statusId,int pageNumber = 1,int pageSize =5)
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] int? statusId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
     {
-        var result = await _adminVendorService.GetVendor(statusId,pageNumber,pageSize);
+        var result = await _adminVendorService.GetVendor(statusId, pageNumber, pageSize);
         return Ok(result);
     }
 
@@ -79,6 +79,13 @@ public class AdminController : ControllerBase
     public async Task<ActionResult> CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO)
     {
         var result = await _adminRefundService.CreateReturnRefund(requestAddRefundDTO);
+        return Ok(result);
+    }
+    [Authorize(Policy = "SuperAdminOnly")]
+    [HttpGet("GetAdminUsER")]
+    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery] int? roleId, [FromQuery] bool? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+    {
+        var result = await _adminService.GetAllAdminUser(roleId, status, pageNumber, pageSize);
         return Ok(result);
     }
 }

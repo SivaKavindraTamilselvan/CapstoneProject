@@ -47,16 +47,23 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestAddAddressDTO, Address>();
             CreateMap<Address, ResponseAddAddressDTO>();
-            CreateMap<Address,ResponseGetAddressDTO>();
-            
+            CreateMap<Address, ResponseGetAddressDTO>();
+
             CreateMap<Address, ResponseMakeDefaultAddressDTO>();
             CreateMap<Coupons, ResponseGetAllCoupon>();
 
-            CreateMap<Order,ResponseAddOrderDTO>();
-            CreateMap<Favorites,ResponseGetFavoriteDTO>();
+            CreateMap<Order, ResponseAddOrderDTO>();
+            CreateMap<Favorites, ResponseGetFavoriteDTO>();
 
-            CreateMap<RequestAddReviewDTO,Reviews>();
-            CreateMap<Reviews,ResponseAddReviewDTO>();
+            CreateMap<RequestAddReviewDTO, Reviews>();
+            CreateMap<Reviews, ResponseAddReviewDTO>();
+
+            CreateMap<AdminUser, ResponseGetAdminUserDTO>()
+            .ForMember(d => d.FirstName, o => o.MapFrom(s => s.User!.FirstName))
+            .ForMember(d => d.LastName, o => o.MapFrom(s => s.User!.LastName))
+            .ForMember(d => d.Email, o => o.MapFrom(s => s.User!.Email))
+            .ForMember(d => d.PhoneNumber, o => o.MapFrom(s => s.User!.PhoneNumber))
+            .ForMember(d => d.AdminRoleName, o => o.MapFrom(s => s.AdminRole!.AdminRoleName));
         }
     }
 }
