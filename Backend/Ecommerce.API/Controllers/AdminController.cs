@@ -88,4 +88,11 @@ public class AdminController : ControllerBase
         var result = await _adminService.GetAllAdminUser(roleId, status, pageNumber, pageSize);
         return Ok(result);
     }
+    [Authorize(Policy = "SuperAdminOnly")]
+    [HttpGet("GetAdminUser/{adminUserId}")]
+    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUserByAdminUserId(int adminUserId)
+    {
+        var result = await _adminService.GetAdminUserByUserId(adminUserId);
+        return Ok(result);
+    }
 }

@@ -12,7 +12,12 @@ public class AdminRepsository : AbstractRepository<int, AdminUser>, IAdminUserRe
     }
     public async Task<AdminUser?> GetAdminUserByUserId(int userId)
     {
-        var adminUser = await _ecommerceContext.AdminUser.FirstOrDefaultAsync(v => v.UserId == userId);
+        var adminUser = await _ecommerceContext.AdminUser.Include(u=>u.AdminRole).Include(u=>u.User).FirstOrDefaultAsync(v => v.UserId == userId);
+        return adminUser;
+    }
+    public async Task<AdminUser?> GetAdminUserByAdminUserId(int adminUserId)
+    {
+        var adminUser = await _ecommerceContext.AdminUser.Include(u=>u.AdminRole).Include(u=>u.User).FirstOrDefaultAsync(v => v.AdminUserId==adminUserId);
         return adminUser;
     }
     public async Task<List<AdminUser>> GetAllAdminUser(int? role, bool? status, int pageNumber, int pageSize)
