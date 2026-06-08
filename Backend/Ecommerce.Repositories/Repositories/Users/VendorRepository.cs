@@ -31,7 +31,7 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
         var query = _ecommerceContext.Vendor.AsQueryable();
         if (statusId.HasValue)
         {
-            query = query.Where(p => p.ApprovalStatusId == statusId);
+            query = query.Where(p => p.ApprovalStatusId == statusId.Value);
         }
         var vendor = await query.OrderByDescending(p=>p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
         return vendor;

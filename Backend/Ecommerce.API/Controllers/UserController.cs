@@ -14,7 +14,7 @@ public class UserController : ControllerBase
     private readonly IUserFavoriteService _userFavoriteService;
     private readonly IAddressService _addressService;
     private readonly IReviewService _reviewService;
-    public UserController(IUserFavoriteService userFavoriteService,IAddressService addressService,IReviewService reviewService)
+    public UserController(IUserFavoriteService userFavoriteService, IAddressService addressService, IReviewService reviewService)
     {
         _userFavoriteService = userFavoriteService;
         _addressService = addressService;
@@ -25,7 +25,7 @@ public class UserController : ControllerBase
     public async Task<ActionResult<ResponseAddAddressDTO>> AddAddress(RequestAddAddressDTO requestAddAddressDTO)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.AddAddress(requestAddAddressDTO,UserId);
+        var result = await _addressService.AddAddress(requestAddAddressDTO, UserId);
         return Ok(result);
     }
     [Authorize]
@@ -33,23 +33,23 @@ public class UserController : ControllerBase
     public async Task<ActionResult<ResponseMakeDefaultAddressDTO>> UpdateAddressAsDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO,UserId);
+        var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO, UserId);
         return Ok(result);
     }
     [Authorize]
     [HttpGet("ActiveAdress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> GetAddress()
+    public async Task<ActionResult<ResponseGetAddressDTO>> GetAddress([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.GetAllActiveAddress(UserId);
+        var result = await _addressService.GetAllActiveAddress(UserId, pageNumber, pageSize);
         return Ok(result);
     }
     [Authorize]
     [HttpGet("AllVendorAdress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> GetAllVendorAddress()
+    public async Task<ActionResult<ResponseGetAddressDTO>> GetAllVendorAddress([FromQuery] int pageNumber = 1, [FromQuery] bool? status = null,[FromQuery] int pageSize = 10)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.GetAllTheVendorAddress(UserId);
+        var result = await _addressService.GetAllTheVendorAddress(UserId, status, pageNumber, pageSize);
         return Ok(result);
     }
     [Authorize]

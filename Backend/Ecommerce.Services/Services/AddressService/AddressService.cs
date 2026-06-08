@@ -46,7 +46,7 @@ public class AddressService : IAddressService
     {
         _logger.LogInformation("Making AddressId {AddressId} default", requestMakeDefaultAddressDTO.AddressId);
         var selectedAddress = await _userValidation.ValidateAddress(requestMakeDefaultAddressDTO.AddressId, userId);
-        var userAddress = await _addressRepsository.GetAddressByUserId(selectedAddress.UserId);
+        var userAddress = await _addressRepsository.GetAllAddressByUserId(selectedAddress.UserId);
         foreach (var address in userAddress)
         {
             address.IsDefault = false;
@@ -64,11 +64,11 @@ public class AddressService : IAddressService
         _logger.LogInformation("AddressId {AddressId} set as default successfully", selectedAddress.AddressId);
         return _mapper.Map<ResponseMakeDefaultAddressDTO>(selectedAddress);
     }
-    public async Task<List<ResponseGetAddressDTO>> GetAllActiveAddress(int userId)
+    public async Task<List<ResponseGetAddressDTO>> GetAllActiveAddress(int userId,int pageNumber,int pageSize)
     {
         _logger.LogInformation("Fetching active addresses for UserId {UserId}", userId);
         await _userValidation.ValidateUser(userId);
-        var address = await _addressRepsository.GetActiveAddressByUserId(userId);
+        var address = await _addressRepsository.GetActiveAddressByUserId(userId,pageNumber,pageSize);
         if (address.Count == 0)
         {
             _logger.LogWarning("No active addresses found for UserId {UserId}", userId);
@@ -77,11 +77,11 @@ public class AddressService : IAddressService
         _logger.LogInformation("{Count} active addresses found for UserId {UserId}", address.Count, userId);
         return _mapper.Map<List<ResponseGetAddressDTO>>(address);
     }
-    public async Task<List<ResponseGetAddressDTO>> GetAllTheVendorAddress(int vendorUserId)
+    public async Task<List<ResponseGetAddressDTO>> GetAllTheVendorAddress(int vendorUserId, bool? status, int pageNumber, int pageSize)
     {
         _logger.LogInformation("Fetching addresses for Vendor UserId {VendorUserId}", vendorUserId);
         await _userValidation.ValidateUser(vendorUserId);
-        var address = await _addressRepsository.GetAddressByUserId(vendorUserId);
+        var address = await _addressRepsository.GetAddressByUserId(vendorUserId, status, pageNumber, pageSize);
         if (address.Count == 0)
         {
             _logger.LogWarning("No addresses found for Vendor UserId {VendorUserId}", vendorUserId);

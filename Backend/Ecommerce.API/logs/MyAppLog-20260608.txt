@@ -8095,3 +8095,775 @@ Ecommerce.Models.Exceptions.DataNotFoundException: No Pending Vendors
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
 2026-06-08 22:09:01.085 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetPendingVendor?statusId=3&pageNumber=1&pageSize=5 - 404 null application/json 7.3299ms
+2026-06-08 22:10:55.957 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-08 22:10:55.960 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 2.9957ms
+2026-06-08 22:10:56.019 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-08 22:10:56.043 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 24.2658ms
+2026-06-08 22:11:39.548 +05:30 [INF] Application is shutting down...
+2026-06-08 22:11:47.156 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 22:11:47.247 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 22:11:47.248 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 22:11:47.249 +05:30 [INF] Hosting environment: Development
+2026-06-08 22:11:47.249 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 22:11:57.823 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-08 22:11:57.858 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 35.6775ms
+2026-06-08 22:11:57.913 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-08 22:11:57.989 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 75.8165ms
+2026-06-08 22:13:45.379 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId&pageNumber&pageSize - null null
+2026-06-08 22:13:45.406 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 22:13:45.446 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 3:50:05 PM', Current time (UTC): '08/06/2026 4:43:45 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 22:13:45.451 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 3:50:05 PM', Current time (UTC): '08/06/2026 4:43:45 PM'.
+2026-06-08 22:13:45.453 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-08 22:13:45.455 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:13:45.455 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId&pageNumber&pageSize - 401 0 null 76.7878ms
+2026-06-08 22:13:51.977 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-08 22:13:51.995 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 22:13:52.009 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 22:13:52.135 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 22:13:52.145 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-08 22:13:52.993 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 22:13:53.047 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-08 22:13:53.067 +05:30 [INF] Generating token for UserId 1
+2026-06-08 22:13:53.076 +05:30 [INF] Login successful for UserId 1
+2026-06-08 22:13:53.078 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 22:13:53.082 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1071.4684ms
+2026-06-08 22:13:53.083 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 22:13:53.086 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1109.2897ms
+2026-06-08 22:14:25.959 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId&pageNumber&pageSize - null null
+2026-06-08 22:14:25.967 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:14:25.975 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:14:25.984 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 22:14:25.993 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 17.0589ms
+2026-06-08 22:14:25.993 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:14:25.993 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId&pageNumber&pageSize - 400 null application/problem+json; charset=utf-8 33.8676ms
+2026-06-08 22:15:31.462 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - null null
+2026-06-08 22:15:31.467 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:15:31.468 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:15:31.477 +05:30 [INF] Fetching all vendors
+2026-06-08 22:15:31.501 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+ORDER BY v."CreatedAt" DESC
+LIMIT @p1 OFFSET @p
+2026-06-08 22:15:31.510 +05:30 [INF] 1 vendors found
+2026-06-08 22:15:31.515 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 22:15:31.517 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 49.5686ms
+2026-06-08 22:15:31.517 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:15:31.518 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor - 200 null application/json; charset=utf-8 55.6358ms
+2026-06-08 22:17:11.341 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId=1 - null null
+2026-06-08 22:17:11.343 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:17:11.344 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:17:11.370 +05:30 [INF] Fetching all vendors
+2026-06-08 22:17:11.405 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@statusId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."ApprovalStatusId" = @statusId
+ORDER BY v."CreatedAt" DESC
+LIMIT @p2 OFFSET @p
+2026-06-08 22:17:11.405 +05:30 [INF] 1 vendors found
+2026-06-08 22:17:11.406 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 22:17:11.406 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 62.0706ms
+2026-06-08 22:17:11.406 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:17:11.406 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId=1 - 200 null application/json; charset=utf-8 64.7239ms
+2026-06-08 22:17:15.400 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId=2 - null null
+2026-06-08 22:17:15.402 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:17:15.402 +05:30 [INF] Route matched with {action = "GetVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:17:15.403 +05:30 [INF] Fetching all vendors
+2026-06-08 22:17:15.410 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@statusId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."ApprovalStatusId" = @statusId
+ORDER BY v."CreatedAt" DESC
+LIMIT @p2 OFFSET @p
+2026-06-08 22:17:15.411 +05:30 [WRN] No vendors found
+2026-06-08 22:17:15.411 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API) in 9.1225ms
+2026-06-08 22:17:15.412 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetVendor (Ecommerce.API)'
+2026-06-08 22:17:15.412 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors
+   at AdminVendorService.GetVendor(Nullable`1 statusId, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/ReviewVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminController.GetVendor(Nullable`1 statusId, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 52
+   at lambda_method573(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 22:17:15.422 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetVendor?statusId=2 - 404 null application/json 21.8756ms
+2026-06-08 22:19:13.141 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:19:13.145 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 3:50:05 PM', Current time (UTC): '08/06/2026 4:49:13 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 22:19:13.146 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 3:50:05 PM', Current time (UTC): '08/06/2026 4:49:13 PM'.
+2026-06-08 22:19:13.148 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-08 22:19:13.148 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:19:13.149 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 401 0 null 7.4153ms
+2026-06-08 22:19:21.800 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:19:21.802 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:21.812 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:19:21.818 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 22:19:21.818 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 5.6915ms
+2026-06-08 22:19:21.818 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:21.818 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 400 null application/problem+json; charset=utf-8 18.1099ms
+2026-06-08 22:19:30.022 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:19:30.024 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:30.024 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:19:30.026 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 22:19:30.026 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 1.8227ms
+2026-06-08 22:19:30.026 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:30.027 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 400 null application/problem+json; charset=utf-8 4.3831ms
+2026-06-08 22:19:33.700 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:19:33.701 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:33.701 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:19:33.707 +05:30 [INF] Vendor review initiated by UserId 1 for VendorId 1
+2026-06-08 22:19:33.743 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-08 22:19:33.743 +05:30 [WRN] Vendor review failed. VendorId 1 not found
+2026-06-08 22:19:33.743 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 41.5021ms
+2026-06-08 22:19:33.743 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:33.743 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Vendor ID Not Found
+   at AdminVendorService.ReviewVendor(RequestReviewOfVendorDTO requestReviewOfVendorDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/ReviewVendorService.cs:line 27
+   at Ecommerce.API.Controllers.AdminController.ReviewVendor(RequestReviewOfVendorDTO dto) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 44
+   at lambda_method666(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 22:19:33.744 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 404 null application/json 44.1945ms
+2026-06-08 22:19:44.085 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:19:44.087 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:44.087 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:19:44.088 +05:30 [INF] Vendor review initiated by UserId 1 for VendorId 2
+2026-06-08 22:19:44.092 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-08 22:19:44.095 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-08 22:19:44.096 +05:30 [INF] Updating VendorId 2 with ApprovalStatusId 2
+2026-06-08 22:19:44.169 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-08 22:19:44.173 +05:30 [INF] VendorId 2 reviewed successfully by AdminUserId 1
+2026-06-08 22:19:44.227 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v1."VendorId", v1."ApprovalStatusId", v1."CompanyEmail", v1."CompanyPhoneNumber", v1."ContactPersonName", v1."CreatedAt", v1."GSTNumber", v1."IsActive", v1."ReviewedAt", v1."ReviewedByAdminId", v1."VendorCompanyName", s."VendorUserId", s."AddedByVendorUserId", s."CreatedAt", s."IsActive", s."UserId", s."VendorId", s."VendorRoleId", s."UserId0", s."CreatedAt0", s."Email", s."FirstName", s."HashedKey", s."IsActive0", s."LastName", s."Password", s."PhoneNumber", s."RoleId", s."UpdatedAt"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE v."VendorId" = @vendorId
+    LIMIT 1
+) AS v1
+LEFT JOIN (
+    SELECT v0."VendorUserId", v0."AddedByVendorUserId", v0."CreatedAt", v0."IsActive", v0."UserId", v0."VendorId", v0."VendorRoleId", u."UserId" AS "UserId0", u."CreatedAt" AS "CreatedAt0", u."Email", u."FirstName", u."HashedKey", u."IsActive" AS "IsActive0", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+    FROM "VendorUser" AS v0
+    INNER JOIN "User" AS u ON v0."UserId" = u."UserId"
+    WHERE v0."VendorRoleId" = 1
+) AS s ON v1."VendorId" = s."VendorId"
+ORDER BY v1."VendorId", s."VendorUserId"
+2026-06-08 22:19:44.240 +05:30 [INF] Sending vendor review notification to UserId 3
+2026-06-08 22:19:44.241 +05:30 [INF] Vendor review process completed for VendorId 2
+2026-06-08 22:19:44.242 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfVendorDTO'.
+2026-06-08 22:19:44.244 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 156.5569ms
+2026-06-08 22:19:44.244 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:19:44.244 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 200 null application/json; charset=utf-8 159.4119ms
+2026-06-08 22:20:18.542 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notification - null null
+2026-06-08 22:20:18.543 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notification - 404 0 null 1.093ms
+2026-06-08 22:20:18.544 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/notification, Response status code: 404
+2026-06-08 22:20:22.556 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-08 22:20:22.577 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 21.0981ms
+2026-06-08 22:20:28.861 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:20:28.863 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:20:28.863 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:20:28.864 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 2.4777ms
+2026-06-08 22:20:54.510 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:20:54.511 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:20:54.511 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:20:54.511 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.1454ms
+2026-06-08 22:20:59.903 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhubhttp://localhost:5173/notificationhub - null null
+2026-06-08 22:20:59.904 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhubhttp://localhost:5173/notificationhub - 404 0 null 0.9243ms
+2026-06-08 22:20:59.905 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/notificationhubhttp://localhost:5173/notificationhub, Response status code: 404
+2026-06-08 22:21:03.271 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:03.272 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:03.273 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:03.273 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.4915ms
+2026-06-08 22:21:42.121 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:42.122 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:42.122 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:42.122 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.2319ms
+2026-06-08 22:21:46.017 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:46.018 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:46.018 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:46.018 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.7353ms
+2026-06-08 22:21:46.189 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:46.190 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:46.190 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:46.190 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.6764ms
+2026-06-08 22:21:46.339 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:46.340 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:46.340 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:46.341 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.1633ms
+2026-06-08 22:21:46.480 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:21:46.481 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:21:46.481 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:21:46.481 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.8178ms
+2026-06-08 22:22:49.762 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:22:49.763 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:22:49.764 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:22:49.764 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 2.1981ms
+2026-06-08 22:22:50.417 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:22:50.417 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:22:50.417 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:22:50.418 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.0632ms
+2026-06-08 22:23:41.803 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:23:41.806 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:23:41.806 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:23:41.807 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 3.5867ms
+2026-06-08 22:24:58.374 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:24:58.375 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:24:58.376 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:24:58.376 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.572ms
+2026-06-08 22:24:58.903 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:24:58.904 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:24:58.904 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:24:58.904 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.1803ms
+2026-06-08 22:24:59.301 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:24:59.301 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:24:59.301 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:24:59.302 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.8501ms
+2026-06-08 22:24:59.459 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:24:59.460 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:24:59.460 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:24:59.460 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.6915ms
+2026-06-08 22:25:59.182 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:25:59.184 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:25:59.184 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:25:59.184 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.9346ms
+2026-06-08 22:26:10.343 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:10.344 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:10.344 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:10.344 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.0157ms
+2026-06-08 22:26:10.771 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:10.771 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:10.771 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:10.772 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.4053ms
+2026-06-08 22:26:10.914 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:10.914 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:10.914 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:10.915 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.7053ms
+2026-06-08 22:26:37.580 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-08 22:26:37.582 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 22:26:37.582 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 22:26:37.585 +05:30 [INF] Login attempt for priyadharshini@gmail.com
+2026-06-08 22:26:37.601 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 22:26:37.602 +05:30 [INF] Generating token for UserId 3
+2026-06-08 22:26:37.602 +05:30 [INF] Login successful for UserId 3
+2026-06-08 22:26:37.602 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 22:26:37.603 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 20.32ms
+2026-06-08 22:26:37.603 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 22:26:37.603 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 23.0168ms
+2026-06-08 22:26:37.607 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-08 22:26:37.607 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-08 22:26:37.609 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-08 22:26:37.609 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 2.1438ms
+2026-06-08 22:26:37.614 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=vYLWEUkKkkuiqrZkeqApqg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - null null
+2026-06-08 22:26:37.615 +05:30 [INF] CORS policy execution failed.
+2026-06-08 22:26:37.615 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-08 22:26:37.616 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-08 22:26:46.245 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:46.246 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:46.246 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:46.247 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.1447ms
+2026-06-08 22:26:46.713 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:46.714 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:46.714 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:46.714 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.725ms
+2026-06-08 22:26:46.857 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:46.858 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:46.858 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:46.858 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.9535ms
+2026-06-08 22:26:46.998 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:46.999 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:46.999 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:46.999 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.5475ms
+2026-06-08 22:26:49.520 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:26:49.520 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:49.521 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:49.521 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.9218ms
+2026-06-08 22:26:50.180 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:26:50.180 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:50.180 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:50.181 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 0.9033ms
+2026-06-08 22:26:51.529 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub - null null
+2026-06-08 22:26:51.530 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:26:51.530 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:26:51.530 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub - 401 0 null 1.1082ms
+2026-06-08 22:27:09.340 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:27:09.341 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:27:09.341 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:27:09.341 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.7179ms
+2026-06-08 22:27:17.036 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - application/json 44
+2026-06-08 22:27:17.037 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:27:17.038 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 22:27:17.039 +05:30 [INF] Vendor review initiated by UserId 1 for VendorId 2
+2026-06-08 22:27:17.045 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-08 22:27:17.049 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-08 22:27:17.052 +05:30 [INF] Updating VendorId 2 with ApprovalStatusId 2
+2026-06-08 22:27:17.061 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-08 22:27:17.062 +05:30 [INF] VendorId 2 reviewed successfully by AdminUserId 1
+2026-06-08 22:27:17.067 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v1."VendorId", v1."ApprovalStatusId", v1."CompanyEmail", v1."CompanyPhoneNumber", v1."ContactPersonName", v1."CreatedAt", v1."GSTNumber", v1."IsActive", v1."ReviewedAt", v1."ReviewedByAdminId", v1."VendorCompanyName", s."VendorUserId", s."AddedByVendorUserId", s."CreatedAt", s."IsActive", s."UserId", s."VendorId", s."VendorRoleId", s."UserId0", s."CreatedAt0", s."Email", s."FirstName", s."HashedKey", s."IsActive0", s."LastName", s."Password", s."PhoneNumber", s."RoleId", s."UpdatedAt"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE v."VendorId" = @vendorId
+    LIMIT 1
+) AS v1
+LEFT JOIN (
+    SELECT v0."VendorUserId", v0."AddedByVendorUserId", v0."CreatedAt", v0."IsActive", v0."UserId", v0."VendorId", v0."VendorRoleId", u."UserId" AS "UserId0", u."CreatedAt" AS "CreatedAt0", u."Email", u."FirstName", u."HashedKey", u."IsActive" AS "IsActive0", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+    FROM "VendorUser" AS v0
+    INNER JOIN "User" AS u ON v0."UserId" = u."UserId"
+    WHERE v0."VendorRoleId" = 1
+) AS s ON v1."VendorId" = s."VendorId"
+ORDER BY v1."VendorId", s."VendorUserId"
+2026-06-08 22:27:17.069 +05:30 [INF] Sending vendor review notification to UserId 3
+2026-06-08 22:27:17.072 +05:30 [INF] Vendor review process completed for VendorId 2
+2026-06-08 22:27:17.073 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfVendorDTO'.
+2026-06-08 22:27:17.073 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API) in 35.3546ms
+2026-06-08 22:27:17.073 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.ReviewVendor (Ecommerce.API)'
+2026-06-08 22:27:17.073 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/ReviewVendor - 200 null application/json; charset=utf-8 37.897ms
+2026-06-08 22:27:54.859 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-08 22:27:54.859 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=vYLWEUkKkkuiqrZkeqApqg&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - 101 null null 77244.1537ms
+2026-06-08 22:27:56.742 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-08 22:27:56.743 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-08 22:27:56.743 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-08 22:27:56.743 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 0.8137ms
+2026-06-08 22:27:56.747 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=oZMVf0Qx2X1sLSNh6MMElA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - null null
+2026-06-08 22:27:56.747 +05:30 [INF] CORS policy execution failed.
+2026-06-08 22:27:56.748 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-08 22:27:56.748 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-08 22:28:33.703 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:28:33.704 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:28:33.704 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:28:33.704 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.4799ms
+2026-06-08 22:28:34.185 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:28:34.185 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:28:34.185 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:28:34.186 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 0.8353ms
+2026-06-08 22:28:34.360 +05:30 [INF] Request starting HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - null null
+2026-06-08 22:28:34.361 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 22:28:34.361 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 22:28:34.361 +05:30 [INF] Request finished HTTP/1.1 OPTIONS http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 401 0 null 1.0732ms
+2026-06-08 22:31:12.317 +05:30 [INF] Connection id "0HNM5FJDJPI8S", Request id "0HNM5FJDJPI8S:00000001": the application aborted the connection.
+2026-06-08 22:31:12.321 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - text/plain;charset=UTF-8 0
+2026-06-08 22:31:12.321 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-08 22:31:12.321 +05:30 [INF] Executing endpoint '/notificationhub/negotiate'
+2026-06-08 22:31:12.321 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=oZMVf0Qx2X1sLSNh6MMElA&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - 101 null null 195573.9229ms
+2026-06-08 22:31:12.321 +05:30 [INF] Executed endpoint '/notificationhub/negotiate'
+2026-06-08 22:31:12.321 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/notificationhub/negotiate?negotiateVersion=1 - 200 316 application/json 0.7324ms
+2026-06-08 22:31:12.324 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/notificationhub?id=a6lO85THTgPCIfuMDYMxBw&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - null null
+2026-06-08 22:31:12.326 +05:30 [INF] CORS policy execution failed.
+2026-06-08 22:31:12.326 +05:30 [INF] Request origin file:// does not have permission to access the resource.
+2026-06-08 22:31:12.328 +05:30 [INF] Executing endpoint '/notificationhub'
+2026-06-08 22:41:03.679 +05:30 [INF] Executed endpoint '/notificationhub'
+2026-06-08 22:41:03.680 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/notificationhub?id=a6lO85THTgPCIfuMDYMxBw&access_token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1laWRlbnRpZmllciI6IjMiLCJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiUHJpeWFEaGFyc2hpbmkgRFUiLCJodHRwOi8vc2NoZW1hcy5taWNyb3NvZnQuY29tL3dzLzIwMDgvMDYvaWRlbnRpdHkvY2xhaW1zL3JvbGUiOiIzIiwiaHR0cDovL3NjaGVtYXMueG1sc29hcC5vcmcvd3MvMjAwNS8wNS9pZGVudGl0eS9jbGFpbXMvZW1haWxhZGRyZXNzIjoicHJpeWFkaGFyc2hpbmlAZ21haWwuY29tIiwiZXhwIjoxNzgwOTQxMzk3LCJpc3MiOiJFY29tbWVyY2VBUEkifQ.0S-paL5gmas8Dcwt3H9U8Yzn7DGqPeVrrYFdleuYp6M - 101 null null 316813.3727ms
+2026-06-08 22:41:06.485 +05:30 [INF] Application is shutting down...
+2026-06-08 23:13:03.505 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 23:13:03.600 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 23:13:03.601 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 23:13:03.601 +05:30 [INF] Hosting environment: Development
+2026-06-08 23:13:03.601 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 23:13:12.175 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - null null
+2026-06-08 23:13:12.198 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 23:13:12.240 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:43:12 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 23:13:12.245 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:43:12 PM'.
+2026-06-08 23:13:12.247 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 23:13:12.249 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 23:13:12.250 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - 401 0 null 75.8398ms
+2026-06-08 23:13:40.444 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-08 23:13:40.453 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:45:56 PM', Current time (UTC): '08/06/2026 5:43:40 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 23:13:40.454 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:45:56 PM', Current time (UTC): '08/06/2026 5:43:40 PM'.
+2026-06-08 23:13:40.457 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 23:13:40.472 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 23:13:40.610 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 23:13:40.625 +05:30 [INF] Login attempt for priyadharshini@gmail.com
+2026-06-08 23:13:41.552 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 23:13:41.599 +05:30 [INF] Generating token for UserId 3
+2026-06-08 23:13:41.608 +05:30 [INF] Login successful for UserId 3
+2026-06-08 23:13:41.611 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 23:13:41.616 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1142.7111ms
+2026-06-08 23:13:41.617 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 23:13:41.620 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1176.2455ms
+2026-06-08 23:13:55.350 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - null null
+2026-06-08 23:13:55.368 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:13:55.373 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:13:55.377 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:13:55.399 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:13:55.403 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:13:55.404 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:13:55.411 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:13:55.430 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 23:13:55.434 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:13:55.440 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 67.208ms
+2026-06-08 23:13:55.441 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:13:55.441 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - 200 null application/json; charset=utf-8 90.8884ms
+2026-06-08 23:14:20.915 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=2 - null null
+2026-06-08 23:14:20.923 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:14:20.923 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:14:20.929 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:14:20.969 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:14:20.971 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:14:20.971 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 23:14:20.971 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:14:20.972 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 48.2535ms
+2026-06-08 23:14:20.972 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:14:20.972 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=2 - 200 null application/json; charset=utf-8 56.6571ms
+2026-06-08 23:14:28.251 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=false - null null
+2026-06-08 23:14:28.253 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:14:28.254 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:14:28.266 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:14:28.268 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:14:28.270 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:14:28.270 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 23:14:28.270 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:14:28.270 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 16.5077ms
+2026-06-08 23:14:28.270 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:14:28.271 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=false - 200 null application/json; charset=utf-8 19.4942ms
+2026-06-08 23:15:10.692 +05:30 [INF] Application is shutting down...
+2026-06-08 23:15:15.643 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 23:15:15.735 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 23:15:15.736 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 23:15:15.736 +05:30 [INF] Hosting environment: Development
+2026-06-08 23:15:15.736 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 23:15:20.358 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=false - null null
+2026-06-08 23:15:20.382 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 23:15:20.428 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:15:20.439 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:15:20.559 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 23:15:20.563 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:15:21.442 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:15:21.491 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:15:21.492 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:15:21.501 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:15:21.521 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 23:15:21.530 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:15:21.545 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 1103.9431ms
+2026-06-08 23:15:21.546 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:15:21.550 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=false - 200 null application/json; charset=utf-8 1192.9723ms
+2026-06-08 23:15:32.590 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=true - null null
+2026-06-08 23:15:32.601 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:15:32.602 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:15:32.604 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:15:32.641 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:15:32.643 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:15:32.643 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 23:15:32.644 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:15:32.644 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 42.2823ms
+2026-06-08 23:15:32.644 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:15:32.645 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=10&status=true - 200 null application/json; charset=utf-8 55.0388ms
+2026-06-08 23:16:20.174 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=1 - null null
+2026-06-08 23:16:20.180 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:16:20.181 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:16:20.192 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:16:20.202 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:16:20.204 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p2 OFFSET @p
+2026-06-08 23:16:20.204 +05:30 [INF] 1 active addresses found for UserId 3
+2026-06-08 23:16:20.204 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:16:20.204 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 23.416ms
+2026-06-08 23:16:20.205 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:16:20.205 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 30.7772ms
+2026-06-08 23:16:24.392 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=2&pageSize=1 - null null
+2026-06-08 23:16:24.394 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:16:24.394 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress(Int32, Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:16:24.395 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 23:16:24.398 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:16:24.402 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:16:24.402 +05:30 [WRN] The query uses a row limiting operator ('Skip'/'Take') without an 'OrderBy' operator. This may lead to unpredictable results. If the 'Distinct' operator is used after 'OrderBy', then make sure to use the 'OrderBy' operator after 'Distinct' as the ordering would otherwise get erased.
+2026-06-08 23:16:24.413 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+LIMIT @p OFFSET @p
+2026-06-08 23:16:24.414 +05:30 [INF] 1 active addresses found for UserId 3
+2026-06-08 23:16:24.414 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:16:24.414 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 19.5783ms
+2026-06-08 23:16:24.414 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 23:16:24.415 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress?pageNumber=2&pageSize=1 - 200 null application/json; charset=utf-8 22.3137ms
+2026-06-08 23:16:52.539 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - null null
+2026-06-08 23:16:52.543 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:46:52 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 23:16:52.552 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:46:52 PM'.
+2026-06-08 23:16:52.553 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 23:16:52.556 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 23:16:52.556 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - 401 0 null 17.242ms
+2026-06-08 23:17:37.585 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - null null
+2026-06-08 23:17:37.587 +05:30 [INF] Failed to validate the token.
+System.ArgumentException: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+ ---> System.FormatException: IDX10400: Unable to decode: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64url encoded string.
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoder.Decode(ReadOnlySpan`1 strSpan, Span`1 output)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.CreateClaimSet(ReadOnlySpan`1 strSpan, Int32 startIndex, Int32 length, Boolean createHeaderClaimSet)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   --- End of inner exception stack trace ---
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString, TryReadJwtClaim tryReadJwtClaim)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+2026-06-08 23:17:37.588 +05:30 [INF] Bearer was not authenticated. Failure message: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+2026-06-08 23:17:37.588 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 23:17:37.589 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 23:17:37.589 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - 401 0 null 4.4877ms
+2026-06-08 23:18:01.255 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - null null
+2026-06-08 23:18:01.257 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 23:18:01.267 +05:30 [INF] Route matched with {action = "GetAllVendorAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAllVendorAddress(Int32, System.Nullable`1[System.Boolean], Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:18:01.270 +05:30 [INF] Fetching addresses for Vendor UserId 3
+2026-06-08 23:18:01.272 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:18:01.283 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32), @status='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive" = @status
+ORDER BY a."CreatedAt" DESC
+LIMIT @p3 OFFSET @p
+2026-06-08 23:18:01.283 +05:30 [WRN] No addresses found for Vendor UserId 3
+2026-06-08 23:18:01.284 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API) in 16.8228ms
+2026-06-08 23:18:01.284 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 23:18:01.284 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Address Is Found
+   at AddressService.GetAllTheVendorAddress(Int32 vendorUserId, Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AddressService/AddressService.cs:line 88
+   at Ecommerce.API.Controllers.UserController.GetAllVendorAddress(Int32 pageNumber, Nullable`1 status, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 52
+   at lambda_method576(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 23:18:01.294 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=false&pageNumber=1&pageSize=10 - 404 null application/json 38.9555ms
+2026-06-08 23:18:10.600 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=true&pageNumber=1&pageSize=10 - null null
+2026-06-08 23:18:10.603 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 23:18:10.603 +05:30 [INF] Route matched with {action = "GetAllVendorAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAllVendorAddress(Int32, System.Nullable`1[System.Boolean], Int32) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:18:10.604 +05:30 [INF] Fetching addresses for Vendor UserId 3
+2026-06-08 23:18:10.607 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 23:18:10.610 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32), @status='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive" = @status
+ORDER BY a."CreatedAt" DESC
+LIMIT @p3 OFFSET @p
+2026-06-08 23:18:10.611 +05:30 [INF] 4 addresses found for Vendor UserId 3
+2026-06-08 23:18:10.612 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 23:18:10.612 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API) in 8.8352ms
+2026-06-08 23:18:10.612 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 23:18:10.613 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress?status=true&pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 12.2623ms
+2026-06-08 23:18:29.644 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 23:18:29.649 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:48:29 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 23:18:29.651 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:47:18 PM', Current time (UTC): '08/06/2026 5:48:29 PM'.
+2026-06-08 23:18:29.652 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 23:18:29.652 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 23:18:29.653 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 401 0 null 9.6525ms
+2026-06-08 23:18:38.680 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 23:18:38.682 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 23:18:38.693 +05:30 [INF] Route matched with {action = "UpdateAddressAsDefault", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseMakeDefaultAddressDTO]] UpdateAddressAsDefault(Ecommerce.DTOs.RequestMakeDefaultAddressDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 23:18:38.706 +05:30 [INF] Making AddressId 2 default
+2026-06-08 23:18:38.715 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-08 23:18:38.721 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId
+2026-06-08 23:18:38.771 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 23:18:38.777 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 23:18:38.779 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 23:18:38.780 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 23:18:38.781 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 23:18:38.781 +05:30 [INF] AddressId 2 set as default successfully
+2026-06-08 23:18:38.783 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseMakeDefaultAddressDTO'.
+2026-06-08 23:18:38.784 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API) in 90.9507ms
+2026-06-08 23:18:38.784 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 23:18:38.784 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 200 null application/json; charset=utf-8 104.2812ms
