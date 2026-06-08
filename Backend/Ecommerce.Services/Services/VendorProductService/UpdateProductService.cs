@@ -4,7 +4,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class VendorProductService : IVendorProductService
 {
-    public async Task<ResponseUpdateProduct> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
+    public async Task<ResponseUpdateProduct> UpdateProduct(RequestUpdateProduct requestUpdateProduct,int vendorUserId)
     {
         var product = await _productValidation.ValidateProduct(requestUpdateProduct.ProductId);
         product = _mapper.Map<Product>(product);

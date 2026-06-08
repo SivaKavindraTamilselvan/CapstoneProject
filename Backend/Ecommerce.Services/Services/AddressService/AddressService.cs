@@ -37,21 +37,26 @@ public class AddressService : IAddressService
             _logger.LogInformation("Setting AddressId {AddressId} as default for UserId {UserId}", createdAddress.AddressId, UserId);
             RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO = new RequestMakeDefaultAddressDTO();
             requestMakeDefaultAddressDTO.AddressId = createdAddress.AddressId;
-            await MakeAddressDefault(requestMakeDefaultAddressDTO);
+            await MakeAddressDefault(requestMakeDefaultAddressDTO, UserId);
         }
         _logger.LogInformation("Address created successfully with AddressId {AddressId} for UserId {UserId}", createdAddress.AddressId, UserId);
         return _mapper.Map<ResponseAddAddressDTO>(createdAddress);
     }
-    public async Task<ResponseMakeDefaultAddressDTO> MakeAddressDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
+    public async Task<ResponseMakeDefaultAddressDTO> MakeAddressDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO, int userId)
     {
         _logger.LogInformation("Making AddressId {AddressId} default", requestMakeDefaultAddressDTO.AddressId);
-        var selectedAddress = await _userValidation.ValidateAddress(requestMakeDefaultAddressDTO.AddressId);
+        var selectedAddress = await _userValidation.ValidateAddress(requestMakeDefaultAddressDTO.AddressId, userId);
         var userAddress = await _addressRepsository.GetAddressByUserId(selectedAddress.UserId);
         foreach (var address in userAddress)
         {
             address.IsDefault = false;
             address.UpdatedAt = DateTime.Now;
-            await _addressRepsository.Update(address.AddressId, address);
+            var updatedAddress = await _addressRepsository.Update(address.AddressId, address);
+            if (updatedAddress == null)
+            {
+                _logger.LogError("Failed to update AddressId {AddressId}", address.AddressId);
+                throw new DataRegistrationException("Failed to update address");
+            }
         }
         selectedAddress.IsDefault = true;
         selectedAddress.UpdatedAt = DateTime.Now;

@@ -19,13 +19,13 @@ public partial class VendorProductVariantService : IVendorProductVariantService
             requestAddProductVariantAttributeDTO.AttributeValue = list.AttributeValue;
             requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId = list.ProductSubCategoryAttributeId;
             requestAddProductVariantAttributeDTO.ProductVariantId = productVariant.ProductVariantId;
-            await AddProductVariantAttribute(requestAddProductVariantAttributeDTO,false);
+            await AddProductVariantAttribute(requestAddProductVariantAttributeDTO,false,vendorUserId);
         }
         return _mapper.Map<ResponseAddProductVariantDTO>(productVariant);
     }
-    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO,bool updation)
+    public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO,bool updation,int userId)
     {
-        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId);
+        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId,userId);
         var product = await _productValidation.ValidateProduct(productVariant.ProductId);
         await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId,product.ProductSubCategoryId);
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);

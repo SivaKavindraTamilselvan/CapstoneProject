@@ -37,7 +37,7 @@ public partial class VendorProductImageService : IVendorProductImageService
     public async Task<ResponseAddProductVariantImage> AddProductVariantImage(RequestAddProductVariantImage requestAddProductVariantImage, int vendorUserId)
     {
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
-        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantImage.ProductVariantId);
+        var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantImage.ProductVariantId,vendorUserId);
         await _productValidation.ValidateProductIfApproved(productVariant.ProductId);
         var productImage = _mapper.Map<ProductImage>(requestAddProductVariantImage);
         productImage.AddedByVendorUserId = vendorUser.VendorUserId;

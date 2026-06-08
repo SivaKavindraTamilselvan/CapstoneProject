@@ -105,21 +105,23 @@ public class VendorProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantAttributeDTO>> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true);
+        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
     [HttpPut("UpdateProduct")]
     public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
     {
-        var result = await _vendorProductService.UpdateProduct(requestUpdateProduct);
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.UpdateProduct(requestUpdateProduct,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
     [HttpPut("UpdateProductVariant")]
     public async Task<ActionResult<ResponseUpdateProductVariantDTO>> UpdateProductVariant(RequestUpdateProductVariantDTO requestUpdateProductVariantDTO)
     {
-        var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO);
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO,vendorUserId);
         return Ok(result);
     }
 

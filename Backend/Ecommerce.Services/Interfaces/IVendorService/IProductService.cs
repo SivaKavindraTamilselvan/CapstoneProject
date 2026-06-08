@@ -4,7 +4,7 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IVendorProductService
 {
-    public Task<ResponseUpdateProduct> UpdateProduct(RequestUpdateProduct requestUpdateProduct);
+    public Task<ResponseUpdateProduct> UpdateProduct(RequestUpdateProduct requestUpdateProduct,int vendorUserId);
     public Task<ResponseAddProduct> AddProduct(RequestAddProduct requestAddProduct,int vendorUserId);
     Task<List<ResponseVendorGetAllProductDTO>> GetAllProductsByVendorId(int vendorId);
     Task<List<ResponseVendorGetAllProductDTO>> GetAllAvailableProductsByVendorId(int vendorId);

@@ -7590,3 +7590,263 @@ ORDER BY v."VendorId", a."ApprovalStatusId"
 2026-06-08 20:31:01.687 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetPendingVendor (Ecommerce.API) in 5.2799ms
 2026-06-08 20:31:01.687 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetPendingVendor (Ecommerce.API)'
 2026-06-08 20:31:01.688 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetPendingVendor - 200 null application/json; charset=utf-8 7.7839ms
+2026-06-08 20:59:46.149 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/GetPendingVendor - null null
+2026-06-08 20:59:46.153 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetPendingVendor (Ecommerce.API)'
+2026-06-08 20:59:46.154 +05:30 [INF] Route matched with {action = "GetPendingVendor", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetPendingVendor() on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-08 20:59:46.182 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", a."ApprovalStatusId", v0."VendorUserId", v0."AddedByVendorUserId", v0."CreatedAt", v0."IsActive", v0."UserId", v0."VendorId", v0."VendorRoleId", a."ApprovalStatusName"
+FROM "Vendor" AS v
+INNER JOIN "ApprovalStatus" AS a ON v."ApprovalStatusId" = a."ApprovalStatusId"
+LEFT JOIN "VendorUser" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."ApprovalStatusId" = 1
+ORDER BY v."VendorId", a."ApprovalStatusId"
+2026-06-08 20:59:46.184 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetVendor, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 20:59:46.185 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetPendingVendor (Ecommerce.API) in 30.4688ms
+2026-06-08 20:59:46.185 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetPendingVendor (Ecommerce.API)'
+2026-06-08 20:59:46.185 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/GetPendingVendor - 200 null application/json; charset=utf-8 36.8267ms
+2026-06-08 21:00:40.987 +05:30 [INF] Application is shutting down...
+2026-06-08 21:14:59.695 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 21:14:59.790 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 21:14:59.791 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 21:14:59.791 +05:30 [INF] Hosting environment: Development
+2026-06-08 21:14:59.791 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 21:15:23.375 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 21:15:23.397 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 21:15:23.438 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 2:33:51 PM', Current time (UTC): '08/06/2026 3:45:23 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 21:15:23.443 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 2:33:51 PM', Current time (UTC): '08/06/2026 3:45:23 PM'.
+2026-06-08 21:15:23.445 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 21:15:23.447 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 21:15:23.448 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 401 0 null 74.3271ms
+2026-06-08 21:15:55.656 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-08 21:15:55.675 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 21:15:55.689 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 21:15:55.822 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 21:15:55.837 +05:30 [INF] Login attempt for priyadharshini@gmail.com
+2026-06-08 21:15:56.749 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 21:15:56.792 +05:30 [INF] Generating token for UserId 3
+2026-06-08 21:15:56.801 +05:30 [INF] Login successful for UserId 3
+2026-06-08 21:15:56.802 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 21:15:56.808 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1116.9407ms
+2026-06-08 21:15:56.808 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 21:15:56.811 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1155.9132ms
+2026-06-08 21:16:16.124 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - null null
+2026-06-08 21:16:16.134 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 2:33:51 PM', Current time (UTC): '08/06/2026 3:46:16 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 21:16:16.135 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 2:33:51 PM', Current time (UTC): '08/06/2026 3:46:16 PM'.
+2026-06-08 21:16:16.136 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-08 21:16:16.137 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-08 21:16:16.137 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - 401 0 null 13.0117ms
+2026-06-08 21:16:25.705 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - null null
+2026-06-08 21:16:25.710 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 21:16:25.718 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:16:25.723 +05:30 [INF] Fetching active addresses for UserId 3
+2026-06-08 21:16:25.748 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 21:16:25.759 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+2026-06-08 21:16:25.779 +05:30 [INF] 4 active addresses found for UserId 3
+2026-06-08 21:16:25.783 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.Models.ResponseGetAddressDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-08 21:16:25.790 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 70.8729ms
+2026-06-08 21:16:25.790 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 21:16:25.790 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - 200 null application/json; charset=utf-8 84.7835ms
+2026-06-08 21:16:46.119 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 21:16:46.122 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:16:46.129 +05:30 [INF] Route matched with {action = "UpdateAddressAsDefault", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseMakeDefaultAddressDTO]] UpdateAddressAsDefault(Ecommerce.DTOs.RequestMakeDefaultAddressDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:16:46.137 +05:30 [INF] Making AddressId 2 default
+2026-06-08 21:16:46.173 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-08 21:16:46.178 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId
+2026-06-08 21:16:46.224 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:16:46.229 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:16:46.230 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:16:46.232 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:16:46.233 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:16:46.233 +05:30 [INF] AddressId 2 set as default successfully
+2026-06-08 21:16:46.234 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseMakeDefaultAddressDTO'.
+2026-06-08 21:16:46.235 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API) in 105.8095ms
+2026-06-08 21:16:46.235 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:16:46.235 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 200 null application/json; charset=utf-8 116.4884ms
+2026-06-08 21:17:18.146 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-08 21:17:18.149 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 21:17:18.149 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 21:17:18.152 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-08 21:17:18.160 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 21:17:18.170 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-08 21:17:18.182 +05:30 [INF] Generating token for UserId 1
+2026-06-08 21:17:18.183 +05:30 [INF] Login successful for UserId 1
+2026-06-08 21:17:18.183 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 21:17:18.183 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 34.2093ms
+2026-06-08 21:17:18.183 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 21:17:18.184 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 37.8447ms
+2026-06-08 21:17:33.952 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - null null
+2026-06-08 21:17:33.954 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 21:17:33.954 +05:30 [INF] Route matched with {action = "GetAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAddress() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:17:33.965 +05:30 [INF] Fetching active addresses for UserId 1
+2026-06-08 21:17:33.968 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 21:17:33.971 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId AND a."IsActive"
+2026-06-08 21:17:33.971 +05:30 [WRN] No active addresses found for UserId 1
+2026-06-08 21:17:33.971 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API) in 16.7592ms
+2026-06-08 21:17:33.971 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAddress (Ecommerce.API)'
+2026-06-08 21:17:33.972 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Address Is Found
+   at AddressService.GetAllActiveAddress(Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AddressService/AddressService.cs:line 75
+   at Ecommerce.API.Controllers.UserController.GetAddress() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 44
+   at lambda_method449(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 21:17:33.981 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/ActiveAdress - 404 null application/json 28.4042ms
+2026-06-08 21:17:45.793 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 21:17:45.795 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:17:45.795 +05:30 [INF] Route matched with {action = "UpdateAddressAsDefault", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseMakeDefaultAddressDTO]] UpdateAddressAsDefault(Ecommerce.DTOs.RequestMakeDefaultAddressDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:17:45.796 +05:30 [INF] Making AddressId 2 default
+2026-06-08 21:17:45.798 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-08 21:17:45.800 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId
+2026-06-08 21:17:45.804 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:17:45.806 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:17:45.808 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:17:45.809 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:17:45.811 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p13='?' (DbType = Int32), @p0='?', @p1='?', @p2='?', @p3='?', @p4='?', @p5='?' (DbType = DateTime2), @p6='?' (DbType = Boolean), @p7='?' (DbType = Boolean), @p8='?', @p9='?', @p10='?', @p11='?' (DbType = DateTime2), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Address" SET "AddressLine" = @p0, "City" = @p1, "ContactName" = @p2, "ContactPhoneNumber" = @p3, "Country" = @p4, "CreatedAt" = @p5, "IsActive" = @p6, "IsDefault" = @p7, "LandMark" = @p8, "PinCode" = @p9, "State" = @p10, "UpdatedAt" = @p11, "UserId" = @p12
+WHERE "AddressId" = @p13;
+2026-06-08 21:17:45.811 +05:30 [INF] AddressId 2 set as default successfully
+2026-06-08 21:17:45.812 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseMakeDefaultAddressDTO'.
+2026-06-08 21:17:45.812 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API) in 16.7244ms
+2026-06-08 21:17:45.812 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:17:45.812 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 200 null application/json; charset=utf-8 19.259ms
+2026-06-08 21:17:55.196 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - application/json 20
+2026-06-08 21:17:55.199 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:17:55.199 +05:30 [INF] Route matched with {action = "UpdateAddressAsDefault", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseMakeDefaultAddressDTO]] UpdateAddressAsDefault(Ecommerce.DTOs.RequestMakeDefaultAddressDTO) on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:17:55.200 +05:30 [INF] Making AddressId 2 default
+2026-06-08 21:17:55.203 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-08 21:17:55.204 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API) in 4.648ms
+2026-06-08 21:17:55.204 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault (Ecommerce.API)'
+2026-06-08 21:17:55.204 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: You Cannot access other address datas
+   at UserValidation.ValidateAddress(Int32 addressId, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/UserValidation.cs:line 33
+   at AddressService.MakeAddressDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AddressService/AddressService.cs:line 48
+   at Ecommerce.API.Controllers.UserController.UpdateAddressAsDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 36
+   at lambda_method570(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 21:17:55.207 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/User/MakeAdressAsDefault - 409 null application/json 10.4755ms
+2026-06-08 21:18:40.209 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress - null null
+2026-06-08 21:18:40.211 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 21:18:40.218 +05:30 [INF] Route matched with {action = "GetAllVendorAddress", controller = "User"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.Models.ResponseGetAddressDTO]] GetAllVendorAddress() on controller Ecommerce.API.Controllers.UserController (Ecommerce.API).
+2026-06-08 21:18:40.220 +05:30 [INF] Fetching addresses for Vendor UserId 1
+2026-06-08 21:18:40.222 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-08 21:18:40.223 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."UserId" = @userId
+2026-06-08 21:18:40.224 +05:30 [WRN] No addresses found for Vendor UserId 1
+2026-06-08 21:18:40.224 +05:30 [INF] Executed action Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API) in 5.7555ms
+2026-06-08 21:18:40.224 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.UserController.GetAllVendorAddress (Ecommerce.API)'
+2026-06-08 21:18:40.224 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Address Is Found
+   at AddressService.GetAllTheVendorAddress(Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AddressService/AddressService.cs:line 88
+   at Ecommerce.API.Controllers.UserController.GetAllVendorAddress() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserController.cs:line 52
+   at lambda_method759(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 21:18:40.226 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/User/AllVendorAdress - 404 null application/json 17.0074ms
