@@ -5,11 +5,11 @@ namespace Ecommerce.DTOs;
 public class RequestRegisterUserDTO
 {
     [Required(ErrorMessage = "First name Cannot Be Empty")]
-    [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "First name can contain only letters.")]
+    [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "First name can contain only letters.")]
     [MaxLength(50)]
     public string FirstName { get; set; } = string.Empty;
     [Required(ErrorMessage = "Last name Cannot Be Empty")]
-    [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "Last name can contain only letters.")]
+    [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "Last name can contain only letters.")]
     [MaxLength(50)]
     public string LastName { get; set; } = string.Empty;
 

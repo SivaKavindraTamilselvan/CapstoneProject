@@ -6578,3 +6578,465 @@ VALUES ('20260608091528_cancel', '10.0.8');
 2026-06-08 18:25:35.728 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-06-08 18:25:35.728 +05:30 [INF] Hosting environment: Development
 2026-06-08 18:25:35.728 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 18:39:58.118 +05:30 [INF] Application is shutting down...
+2026-06-08 18:40:05.924 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 18:40:06.016 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 18:40:06.017 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 18:40:06.017 +05:30 [INF] Hosting environment: Development
+2026-06-08 18:40:06.017 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 18:40:33.241 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 74
+2026-06-08 18:40:33.264 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 18:40:33.306 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:10:33 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:40:33.311 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:10:33 PM'.
+2026-06-08 18:40:33.313 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:40:33.324 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:40:33.454 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 18:40:33.468 +05:30 [INF] Login attempt for praneshtamilselvan@gmail.com
+2026-06-08 18:40:34.348 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:40:34.356 +05:30 [ERR] Login failed. User not found for praneshtamilselvan@gmail.com
+2026-06-08 18:40:34.359 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1033.1135ms
+2026-06-08 18:40:34.359 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:40:34.359 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Security.Authentication.InvalidCredentialException: Email Not Found
+   at AuthenticationService.Login(RequestLoginUserDTO requestLoginUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/LoginAuthenticationService.cs:line 18
+   at Ecommerce.API.Controllers.AuthenticationController.CustomerLogin(RequestLoginUserDTO requestLoginUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 31
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:40:34.371 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 401 null application/json 1131.185ms
+2026-06-08 18:41:19.427 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-08 18:41:19.436 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:19 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:41:19.437 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:19 PM'.
+2026-06-08 18:41:19.438 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:19.438 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:41:19.441 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-08 18:41:19.456 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:41:19.501 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId"
+FROM "AdminUser" AS a
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-08 18:41:19.516 +05:30 [INF] Generating token for UserId 1
+2026-06-08 18:41:19.525 +05:30 [INF] Login successful for UserId 1
+2026-06-08 18:41:19.526 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-08 18:41:19.529 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 90.688ms
+2026-06-08 18:41:19.529 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:19.529 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 103.2626ms
+2026-06-08 18:41:27.422 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 55
+2026-06-08 18:41:27.428 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:27 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:41:27.429 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:27 PM'.
+2026-06-08 18:41:27.430 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:27.430 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:41:27.439 +05:30 [INF] Login attempt for admin@gmail
+2026-06-08 18:41:27.474 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:41:27.474 +05:30 [ERR] Login failed. User not found for admin@gmail
+2026-06-08 18:41:27.474 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 43.7348ms
+2026-06-08 18:41:27.474 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:27.474 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Security.Authentication.InvalidCredentialException: Email Not Found
+   at AuthenticationService.Login(RequestLoginUserDTO requestLoginUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/LoginAuthenticationService.cs:line 18
+   at Ecommerce.API.Controllers.AuthenticationController.CustomerLogin(RequestLoginUserDTO requestLoginUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 31
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:41:27.475 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 401 null application/json 52.9553ms
+2026-06-08 18:41:33.007 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 54
+2026-06-08 18:41:33.009 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:33 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:41:33.010 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:33 PM'.
+2026-06-08 18:41:33.010 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:33.011 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:41:33.014 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 18:41:33.029 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 18.6435ms
+2026-06-08 18:41:33.030 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:33.030 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 400 null application/problem+json; charset=utf-8 22.4766ms
+2026-06-08 18:41:42.944 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 49
+2026-06-08 18:41:42.945 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:42 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:41:42.946 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:11:42 PM'.
+2026-06-08 18:41:42.946 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:42.947 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:41:42.948 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 18:41:42.948 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1.5792ms
+2026-06-08 18:41:42.949 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-08 18:41:42.949 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 400 null application/problem+json; charset=utf-8 4.9846ms
+2026-06-08 18:43:13.334 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 154
+2026-06-08 18:43:13.336 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:13 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:43:13.337 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:13 PM'.
+2026-06-08 18:43:13.337 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:13.345 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:43:13.358 +05:30 [INF] User registration started for selvitamilselvan@gmail.com
+2026-06-08 18:43:13.361 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:43:13.367 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@PhoneNumber='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."PhoneNumber" = @PhoneNumber
+LIMIT 1
+2026-06-08 18:43:13.425 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-08 18:43:13.449 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cart" ("UserId")
+VALUES (@p0)
+RETURNING "CartId";
+2026-06-08 18:43:13.457 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Favorites" ("UserId")
+VALUES (@p0)
+RETURNING "FavoritesId";
+2026-06-08 18:43:13.459 +05:30 [INF] User registered successfully with UserId 2
+2026-06-08 18:43:13.464 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterUserDTO'.
+2026-06-08 18:43:13.466 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 121.2045ms
+2026-06-08 18:43:13.466 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:13.467 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 200 null application/json; charset=utf-8 132.6133ms
+2026-06-08 18:43:16.573 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 154
+2026-06-08 18:43:16.575 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:16 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:43:16.575 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:16 PM'.
+2026-06-08 18:43:16.576 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:16.576 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:43:16.581 +05:30 [INF] User registration started for selvitamilselvan@gmail.com
+2026-06-08 18:43:16.583 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:43:16.584 +05:30 [ERR] User registered failed for selvitamilselvan@gmail.com
+2026-06-08 18:43:16.590 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 13.7835ms
+2026-06-08 18:43:16.590 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:16.590 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: User Already Registered With The Email.
+   at RegsitrationValidation.ValidateUserDetails(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/RegistrationValidation.cs:line 43
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 13
+   at AuthenticationService.Register(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 33
+   at AuthenticationService.Register(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 59
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 19
+   at lambda_method529(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:43:16.593 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 500 null application/json 20.0827ms
+2026-06-08 18:43:30.198 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 145
+2026-06-08 18:43:30.199 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:30 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:43:30.200 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:30 PM'.
+2026-06-08 18:43:30.200 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:30.201 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:43:30.202 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 18:43:30.202 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 1.3136ms
+2026-06-08 18:43:30.202 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:30.203 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 400 null application/problem+json; charset=utf-8 4.8045ms
+2026-06-08 18:43:36.224 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - application/json 150
+2026-06-08 18:43:36.225 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:36 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:43:36.226 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:13:36 PM'.
+2026-06-08 18:43:36.226 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:36.226 +05:30 [INF] Route matched with {action = "RegisterUser", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterUserDTO]] RegisterUser(Ecommerce.DTOs.RequestRegisterUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:43:36.237 +05:30 [INF] User registration started for selvitamilse@gmail.com
+2026-06-08 18:43:36.238 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:43:36.239 +05:30 [INF] Executed DbCommand (0ms) [Parameters=[@PhoneNumber='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."PhoneNumber" = @PhoneNumber
+LIMIT 1
+2026-06-08 18:43:36.240 +05:30 [ERR] User registered failed for selvitamilse@gmail.com
+2026-06-08 18:43:36.240 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API) in 13.8888ms
+2026-06-08 18:43:36.241 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterUser (Ecommerce.API)'
+2026-06-08 18:43:36.241 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: User Already Registered With The PhoneNumber.
+   at RegsitrationValidation.ValidateUserDetails(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/RegistrationValidation.cs:line 48
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 13
+   at AuthenticationService.Register(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 33
+   at AuthenticationService.Register(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 59
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 19
+   at lambda_method529(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:43:36.242 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Register - 500 null application/json 17.7234ms
+2026-06-08 18:44:21.537 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2026-06-08 18:44:21.542 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 404 0 null 4.984ms
+2026-06-08 18:44:21.543 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/, Response status code: 404
+2026-06-08 18:44:26.054 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/ - null null
+2026-06-08 18:44:26.056 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/ - 404 0 null 1.2529ms
+2026-06-08 18:44:26.056 +05:30 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET http://localhost:5173/, Response status code: 404
+2026-06-08 18:44:31.958 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-08 18:44:31.990 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 31.5622ms
+2026-06-08 18:44:32.046 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-08 18:44:32.106 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 59.9745ms
+2026-06-08 18:46:58.194 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 413
+2026-06-08 18:46:58.197 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:16:58 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:46:58.198 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:16:58 PM'.
+2026-06-08 18:46:58.198 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:46:58.205 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:46:58.209 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-08 18:46:58.210 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 3.9889ms
+2026-06-08 18:46:58.210 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:46:58.210 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 400 null application/problem+json; charset=utf-8 15.5985ms
+2026-06-08 18:47:12.801 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 412
+2026-06-08 18:47:12.802 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:17:12 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:47:12.803 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:17:12 PM'.
+2026-06-08 18:47:12.803 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:47:12.803 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:47:12.820 +05:30 [INF] User registration started for priyadharshini@gmail.com
+2026-06-08 18:47:12.835 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@companyname='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorCompanyName" = @companyname
+LIMIT 1
+2026-06-08 18:47:12.840 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."CompanyEmail" = @Email
+LIMIT 1
+2026-06-08 18:47:12.845 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@phone='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."CompanyPhoneNumber" = @phone
+LIMIT 1
+2026-06-08 18:47:12.850 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@gst='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."GSTNumber" = @gst
+LIMIT 1
+2026-06-08 18:47:12.853 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:47:12.854 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@PhoneNumber='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."PhoneNumber" = @PhoneNumber
+LIMIT 1
+2026-06-08 18:47:12.855 +05:30 [ERR] User registration failed for priyadharshini@gmail.com
+2026-06-08 18:47:12.856 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 52.34ms
+2026-06-08 18:47:12.856 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:47:12.856 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: User Already Registered With The PhoneNumber.
+   at RegsitrationValidation.ValidateUserDetails(RequestRegisterUserDTO requestRegisterUserDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/RegistrationValidation.cs:line 48
+   at AuthenticationService.RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, Int32 RoleId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 13
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 103
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 129
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 25
+   at lambda_method733(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:47:12.857 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 500 null application/json 55.9191ms
+2026-06-08 18:47:29.592 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 412
+2026-06-08 18:47:29.594 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:17:29 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:47:29.596 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:17:29 PM'.
+2026-06-08 18:47:29.596 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:47:29.596 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:47:29.598 +05:30 [INF] User registration started for priyadharshini@gmail.com
+2026-06-08 18:47:29.600 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@companyname='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorCompanyName" = @companyname
+LIMIT 1
+2026-06-08 18:47:29.602 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."CompanyEmail" = @Email
+LIMIT 1
+2026-06-08 18:47:29.603 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@phone='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."CompanyPhoneNumber" = @phone
+LIMIT 1
+2026-06-08 18:47:29.605 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@gst='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."GSTNumber" = @gst
+LIMIT 1
+2026-06-08 18:47:29.606 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-08 18:47:29.607 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@PhoneNumber='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."PhoneNumber" = @PhoneNumber
+LIMIT 1
+2026-06-08 18:47:29.613 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?', @p3='?' (DbType = Binary), @p4='?', @p5='?' (DbType = Binary), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "User" ("CreatedAt", "Email", "FirstName", "HashedKey", "LastName", "Password", "PhoneNumber", "RoleId", "UpdatedAt")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "UserId", "IsActive";
+2026-06-08 18:47:29.644 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Vendor" ("ApprovalStatusId", "CompanyEmail", "CompanyPhoneNumber", "ContactPersonName", "CreatedAt", "GSTNumber", "IsActive", "ReviewedAt", "ReviewedByAdminId", "VendorCompanyName")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "VendorId";
+2026-06-08 18:47:29.675 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "VendorUser" ("AddedByVendorUserId", "CreatedAt", "UserId", "VendorId", "VendorRoleId")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "VendorUserId", "IsActive";
+2026-06-08 18:47:29.679 +05:30 [INF] User registered successfully with UserId 3
+2026-06-08 18:47:29.680 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseRegisterVendorDTO'.
+2026-06-08 18:47:29.681 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 84.5203ms
+2026-06-08 18:47:29.681 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:47:29.681 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 200 null application/json; charset=utf-8 88.649ms
+2026-06-08 18:49:06.920 +05:30 [INF] Application is shutting down...
+2026-06-08 18:49:13.601 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-08 18:49:13.693 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-08 18:49:13.694 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-08 18:49:13.695 +05:30 [INF] Hosting environment: Development
+2026-06-08 18:49:13.695 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-08 18:49:27.956 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - application/json 412
+2026-06-08 18:49:27.977 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-08 18:49:28.019 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:19:28 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-08 18:49:28.024 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 5:31:30 AM', Current time (UTC): '08/06/2026 1:19:28 PM'.
+2026-06-08 18:49:28.026 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:49:28.036 +05:30 [INF] Route matched with {action = "RegisterVendor", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseRegisterVendorDTO]] RegisterVendor(Ecommerce.DTOs.RequestRegisterVendorDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-08 18:49:28.158 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-08 18:49:28.832 +05:30 [INF] User registration started for priyadharshini@gmail.com
+2026-06-08 18:49:29.033 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@companyname='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorCompanyName" = @companyname
+LIMIT 1
+2026-06-08 18:49:29.070 +05:30 [ERR] User registration failed for priyadharshini@gmail.com
+2026-06-08 18:49:29.078 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API) in 1040.8895ms
+2026-06-08 18:49:29.079 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.RegisterVendor (Ecommerce.API)'
+2026-06-08 18:49:29.079 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Vendor with company name already registered
+   at RegsitrationValidation.ValidateVendorDetails(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/RegistrationValidation.cs:line 20
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 102
+   at AuthenticationService.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/Authentication/RegisterAuthenticationService.cs:line 129
+   at Ecommerce.API.Controllers.AuthenticationController.RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AuthenticationController.cs:line 25
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-08 18:49:29.090 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/RegisterVendor - 500 null application/json 1135.3306ms

@@ -7,7 +7,7 @@ public class RequestRegisterVendorDTO
     public RequestRegisterUserDTO requestRegisterUserDTO { get; set; } = new();
     
     [Required(ErrorMessage = "Contact Person Name name Cannot Be Empty")]
-    [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "First name can contain only letters.")]
+    [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "First name can contain only letters.")]
     [MaxLength(50)]
     public string ContactPersonName { get; set; } = string.Empty;
 
