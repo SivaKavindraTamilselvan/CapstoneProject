@@ -5,8 +5,8 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
 {
     public async Task<List<ResponseAdminGetAttribute>> GetAllAttributeAdmin(bool? status, int pageNumber, int pageSize)
     {
-        var attribute = await _attributeRepsository.GetAllAttributeAdmin(status,pageNumber,pageSize);
-        if(attribute.totalCount == 0)
+        var (attribute,totalCount) = await _attributeRepsository.GetAllAttributeAdmin(status,pageNumber,pageSize);
+        if(totalCount == 0)
         {
             throw new DataNotFoundException("No Attribute is found");
         }

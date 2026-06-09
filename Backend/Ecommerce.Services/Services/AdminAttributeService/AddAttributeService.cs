@@ -1,5 +1,6 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -29,7 +30,11 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
 
         var admin = await _adminUserValidation.ValidateAdminUserByUserId(adminuserid);
         await _productAttributeValidation.ValidateProductSubCategoryAttributeForAdmin(requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
-
+        var mappedattribute = await _productSubCategoryAttributeRepsository.CheckProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO.AttributeMasterId,requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
+        if(mappedattribute != null)
+        {
+            throw new DataAlreadyRegisteredException("Data Already mapped with this inputs");
+        }
         _logger.LogInformation("Validation completed for AttributeMasterId {AttributeMasterId} and ProductSubCategoryId {ProductSubCategoryId}", requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
 
         ProductSubCategoryAttribute productSubCategoryAttribute = new ProductSubCategoryAttribute();

@@ -32,7 +32,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         {
             throw new DataAlreadyRegisteredException("Product Sub category is already active");
         }
-        productSubCategory.IsActive = false;
+        productSubCategory.IsActive = true;
         await _productSubCategoryAttributeRepsository.Update(subcategoryAttribute,productSubCategory);
         return _mapper.Map<ResponseAdminGetCategoryAttribute>(productSubCategory);
     }

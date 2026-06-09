@@ -24,7 +24,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         {
             throw new DataAlreadyRegisteredException("Product Sub category is already deactive");
         }
-        productSubCategory.IsActive = true;
+        productSubCategory.IsActive = false;
         await _productSubCategoryAttributeRepsository.Update(subcategoryAttribute,productSubCategory);
         return _mapper.Map<ResponseAdminGetCategoryAttribute>(productSubCategory);
     }
