@@ -1,4 +1,5 @@
 using System.Security.Authentication;
+using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
@@ -79,5 +80,42 @@ public class ProductValidation : IProductValidation
             throw new DataNotFoundException("Product Variant Not Found");
         }
         return productVariant;
+    }
+    public async Task<ProductValidationResult> ValidateProductChain(Product product)
+    {
+        var issues = new List<string>();
+
+        if (!product.ProductSubCategory!.ProductCategory!.IsActive)
+        {
+            issues.Add($"Category '{product.ProductSubCategory.ProductCategory.ProductCategoryName}' is deactivated by admin");
+        }
+
+        if (!product.ProductSubCategory.IsActive)
+        {
+            issues.Add($"SubCategory '{product.ProductSubCategory.ProductSubCategoryName}' is deactivated by admin");
+        }
+
+        foreach (var variant in product.ProductVariants)
+        {
+
+            if (variant.MainProductSubCategoryAttribute != null && !variant.MainProductSubCategoryAttribute.IsActive)
+            {
+                issues.Add($"Main variant attribute '{variant.MainProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated");
+            }
+
+            foreach (var variantAttr in variant.ProductVariantAttributes)
+            {
+                if (variantAttr.ProductSubCategoryAttribute != null && !variantAttr.ProductSubCategoryAttribute.IsActive)
+                {
+                    issues.Add($"Attribute '{variantAttr.ProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated for this subcategory");
+                }
+            }
+        }
+
+        return new ProductValidationResult
+        {
+            IsValid = issues.Count == 0,
+            Issues = issues
+        };
     }
 }

@@ -23,10 +23,10 @@ public class VendorProductController : ControllerBase
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet]
-    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval,[FromQuery] int? status,[FromQuery] int? subcategory,int pageNumber = 1,int pageSize = 10)
+    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval,[FromQuery] int? status,[FromQuery] int? subcategory,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10,[FromQuery] bool? hasIssues =null ,[FromQuery] bool? isAvailableForSale = null)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductsByVendorId(approval,status,vendorUserId,subcategory,pageNumber,pageSize);
+        var result = await _vendorProductService.GetAllProductsByVendorId(approval,status,vendorUserId,subcategory,pageNumber,pageSize,hasIssues,isAvailableForSale);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]

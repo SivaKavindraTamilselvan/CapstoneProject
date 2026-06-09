@@ -9,6 +9,8 @@ public class ResponseVendorGetAllProductDTO
     public string ProductStatus { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public bool IsAvailableForSale { get; set; }
+    public List<string> ValidationIssues { get; set; } = new();
     public List<ResponseVendorProductVariantDTO> ProductVariants { get; set; } = new();
     public List<ResponseProductImageDTO> ProductImages { get; set; } = new();
 }

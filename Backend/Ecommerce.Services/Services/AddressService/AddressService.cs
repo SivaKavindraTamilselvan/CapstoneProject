@@ -8,12 +8,16 @@ using Microsoft.Extensions.Logging;
 
 public class AddressService : IAddressService
 {
+    private readonly IOrderItemRepsository _orderItemRepsository;
+    private readonly IOrderRepsository _orderRepsository;
     private readonly ILogger<AddressService> _logger;
     private readonly IAddressRepsository _addressRepsository;
     private readonly IUserValidation _userValidation;
     private readonly IMapper _mapper;
-    public AddressService(IAddressRepsository addressRepsository, IUserValidation userValidation, IMapper mapper, ILogger<AddressService> logger)
+    public AddressService(IOrderItemRepsository orderItemRepsository,IOrderRepsository orderRepsository, IAddressRepsository addressRepsository, IUserValidation userValidation, IMapper mapper, ILogger<AddressService> logger)
     {
+        _orderItemRepsository = orderItemRepsository;
+        _orderRepsository = orderRepsository;
         _addressRepsository = addressRepsository;
         _userValidation = userValidation;
         _mapper = mapper;
@@ -64,11 +68,11 @@ public class AddressService : IAddressService
         _logger.LogInformation("AddressId {AddressId} set as default successfully", selectedAddress.AddressId);
         return _mapper.Map<ResponseMakeDefaultAddressDTO>(selectedAddress);
     }
-    public async Task<List<ResponseGetAddressDTO>> GetAllActiveAddress(int userId,int pageNumber,int pageSize)
+    public async Task<List<ResponseGetAddressDTO>> GetAllActiveAddress(int userId, int pageNumber, int pageSize)
     {
         _logger.LogInformation("Fetching active addresses for UserId {UserId}", userId);
         await _userValidation.ValidateUser(userId);
-        var address = await _addressRepsository.GetActiveAddressByUserId(userId,pageNumber,pageSize);
+        var address = await _addressRepsository.GetActiveAddressByUserId(userId, pageNumber, pageSize);
         if (address.Count == 0)
         {
             _logger.LogWarning("No active addresses found for UserId {UserId}", userId);
@@ -90,4 +94,40 @@ public class AddressService : IAddressService
         _logger.LogInformation("{Count} addresses found for Vendor UserId {VendorUserId}", address.Count, vendorUserId);
         return _mapper.Map<List<ResponseGetAddressDTO>>(address);
     }
+
+    public async Task<ResponseGetAddressDTO> DeleteUserAddress(int addressId, int userId)
+    {
+        var selectedAddress = await _userValidation.ValidateAddress(addressId, userId);
+        var orders = await _orderRepsository.GetPendingOrdersByAddress(addressId);
+        if (orders.Count != 0)
+        {
+            throw new DataApprovalStatusException("Address cannot be deleted as there is a current order right now");
+        }
+        if(selectedAddress.IsDefault)
+        {
+            throw new DataApprovalStatusException("Default address cannot be deleted");
+        }
+        selectedAddress.IsActive = false;
+        selectedAddress.UpdatedAt = DateTime.Now;
+        await _addressRepsository.Update(addressId,selectedAddress);
+        return _mapper.Map<ResponseGetAddressDTO>(selectedAddress);
+    }
+    public async Task<ResponseGetAddressDTO> DeleteInventoryAddress(int addressId, int userId)
+    {
+        var selectedAddress = await _userValidation.ValidateAddress(addressId, userId);
+        var orders = await _orderItemRepsository.GetPendingOrderByInventoryAddress(addressId);
+        if (orders.Count != 0)
+        {
+            throw new DataApprovalStatusException("Address cannot be deleted as there is a current order right now");
+        }
+        if(selectedAddress.IsDefault)
+        {
+            throw new DataApprovalStatusException("Default address cannot be deleted");
+        }
+        selectedAddress.IsActive = false;
+        selectedAddress.UpdatedAt = DateTime.Now;
+        await _addressRepsository.Update(addressId,selectedAddress);
+        return _mapper.Map<ResponseGetAddressDTO>(selectedAddress);
+    }
+
 }

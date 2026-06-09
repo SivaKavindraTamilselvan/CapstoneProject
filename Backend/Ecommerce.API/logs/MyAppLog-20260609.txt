@@ -8390,3 +8390,4 @@ ORDER BY p."ProductId", p0."ProductApprovalStatusId", p1."ProductStatusId", p2."
 2026-06-09 21:41:19.614 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.GetAllProducts (Ecommerce.API) in 12.5522ms
 2026-06-09 21:41:19.614 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.GetAllProducts (Ecommerce.API)'
 2026-06-09 21:41:19.615 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminProduct/all?hasIssues=false - 200 null application/json; charset=utf-8 15.6805ms
+2026-06-09 22:33:59.623 +05:30 [INF] Application is shutting down...

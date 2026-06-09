@@ -1,9 +1,11 @@
+using Ecommerce.DTOs;
 using Ecommerce.Models;
 
 namespace Ecommerce.Services.Interfaces;
 
 public interface IProductValidation
 {
+    public Task<ProductValidationResult> ValidateProductChain(Product product);
     public Task<Product> VendorValidateProduct(int productId,int vendorId);
     public Task<ProductVariant> AdminValidateProductVariant(int productVariantId);
     public Task<Product> ValidateProduct(int productId);

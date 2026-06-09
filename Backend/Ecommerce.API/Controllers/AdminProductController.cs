@@ -22,9 +22,9 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues)
+    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues,[FromQuery] bool? isAvailableForSale = null)
     {
-        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues);
+        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues,isAvailableForSale);
         return Ok(result);
     }
 

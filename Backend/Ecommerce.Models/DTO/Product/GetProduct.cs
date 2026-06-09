@@ -28,3 +28,9 @@ public class RequestGetAllProductByProductId()
 {
     public int ProductId { get; set; }
 }
+
+public class ProductValidationResult
+{
+    public bool IsValid { get; set; }
+    public List<string> Issues { get; set; } = new();
+}
