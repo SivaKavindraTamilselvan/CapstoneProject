@@ -81,6 +81,7 @@ public class EcommerceContext : DbContext
             s.HasData(new ApprovalStatus() { ApprovalStatusId = 1, ApprovalStatusName = "Pending" });
             s.HasData(new ApprovalStatus() { ApprovalStatusId = 2, ApprovalStatusName = "Accepted" });
             s.HasData(new ApprovalStatus() { ApprovalStatusId = 3, ApprovalStatusName = "Rejected" });
+            s.HasData(new ApprovalStatus() { ApprovalStatusId = 4, ApprovalStatusName = "Deleted_By_Admin" });
         });
 
         // Product Status Is Added 

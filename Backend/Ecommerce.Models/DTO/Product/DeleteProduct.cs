@@ -6,6 +6,8 @@ public class RequestDeleteProductDTO
     [Required(ErrorMessage = "Product Id is required.")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Id must be greater than 0.")]
     public int ProductId { get; set; }
+
+    public string Remarks{get;set;} = string.Empty;
 }
 public class ResponseDeleteProduct
 {

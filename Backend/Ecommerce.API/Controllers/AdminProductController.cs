@@ -22,9 +22,9 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues,[FromQuery] bool? isAvailableForSale = null)
+    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues,[FromQuery] bool? isAvailableForSale = null,int pageNumber=1,int pageSize=10)
     {
-        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues,isAvailableForSale);
+        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues,isAvailableForSale,pageNumber,pageSize);
         return Ok(result);
     }
 
@@ -102,6 +102,14 @@ public class AdminProductController : ControllerBase
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO,adminUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPatch("DeleteProduct")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> DeleteProduct(RequestDeleteProductDTO requestDeleteProductDTO)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.DeleteProduct(requestDeleteProductDTO,adminUserId);
         return Ok(result);
     }
     

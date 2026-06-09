@@ -46,6 +46,15 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+    [HttpPost("DeleteVendor")]
+    public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor(int vendorId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.DeleteVendor(vendorId,adminUserId);
+
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpGet("GetVendor")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] int? statusId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
     {

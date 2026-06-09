@@ -53,6 +53,22 @@ public class UserController : ControllerBase
         return Ok(result);
     }
     [Authorize]
+    [HttpPatch("Adress")]
+    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteAddress([FromQuery]int addressId)
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.DeleteUserAddress(addressId,UserId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpPatch("VendorAdress")]
+    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteVendorAddress([FromQuery]int addressId)
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.DeleteInventoryAddress(addressId,UserId);
+        return Ok(result);
+    }
+    [Authorize]
     [HttpPost("AddReview")]
     public async Task<ActionResult<ResponseAddReviewDTO>> AddReview(RequestAddReviewDTO requestAddReviewDTO)
     {

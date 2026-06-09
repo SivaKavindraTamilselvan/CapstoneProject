@@ -15,9 +15,9 @@ public class UserProductController : ControllerBase
     }
 
     [HttpGet("available")]
-    public async Task<IActionResult> GetAllAvailableProducts()
+    public async Task<IActionResult> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm,int pageNumber,int pageSize)
     {
-        var result = await _userProductService.GetAllAvailableProducts();
+        var result = await _userProductService.GetUserProducts(categoryId,subcategoryId,searchTerm,pageNumber,pageSize);
         return Ok(result);
     }
 

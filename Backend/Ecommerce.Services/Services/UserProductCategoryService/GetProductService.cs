@@ -1,11 +1,13 @@
+using System.Diagnostics.CodeAnalysis;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Mvc;
 
 public partial class UserProductService : IUserProductService
 {
-    public async Task<List<ResponseUserGetAllProductDTO>> GetAllAvailableProducts()
+    public async Task<List<ResponseUserGetAllProductDTO>> GetUserProducts([FromQuery]int? categoryId,[FromQuery] int? subcategoryId,[FromQuery] string? searchTerm,[FromQuery] int pageNumber=1,[FromQuery] int pageSize=10)
     {
-        var products = await _productRepository.GetAllAvailableProducts();
+        var products = await _productRepository.GetUserProducts(categoryId,subcategoryId,searchTerm,pageNumber,pageSize);
         return _mapper.Map<List<ResponseUserGetAllProductDTO>>(products);
     }
 
