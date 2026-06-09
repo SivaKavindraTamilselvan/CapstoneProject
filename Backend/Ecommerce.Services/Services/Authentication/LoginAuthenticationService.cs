@@ -2,6 +2,7 @@ using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
 using Ecommerce.DTOs;
+using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -27,7 +28,15 @@ public partial class AuthenticationService : IAuthentication
                 throw new InvalidCredentialException("Invalid password for the email");
             }
         }
-
+        if(!result.IsActive)
+        {
+            throw new InvalidCredentialException("User Is deleted or deactivated");
+        }
+        var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
+        if(vendor==null || !vendor.IsActive)
+        {
+            throw new InvalidCredentialException("Vendor Credential is not valid");
+        }
         int? adminRoleId = null;
         if (result.RoleId == 1)
         {
