@@ -433,6 +433,9 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.WidthInCm).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.HeightInCm).IsRequired().HasMaxLength(15);
 
+            pv.Property(pv=>pv.MainProductSubCategoryAttributeId).IsRequired();
+            pv.HasOne(p=>p.MainProductSubCategoryAttribute).WithMany(a=>a.ProductVariants).HasForeignKey(p=>p.MainProductSubCategoryAttributeId).HasConstraintName("FK_Product_Variant_Main_Attribute").OnDelete(DeleteBehavior.Restrict);
+
             pv.Property(pv => pv.AddedByVendorUserId).IsRequired();
             pv.HasOne(p => p.AddedByVendorUser).WithMany(a => a.ProductVariants).HasForeignKey(p => p.AddedByVendorUserId).HasConstraintName("FK_Product_Variant_Added_Vendor_User").OnDelete(DeleteBehavior.Restrict);
 

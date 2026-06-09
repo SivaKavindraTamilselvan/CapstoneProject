@@ -19,6 +19,7 @@ public class ProductSubCategoryAttributeRepsository : AbstractRepository<int, Pr
     {
         return await _ecommerceContext.ProductSubCategoryAttribute.FirstOrDefaultAsync(p=>p.AttributeMasterId == attributeid && p.ProductSubCategoryId == subCategoryId);
     }
+    //used for filtering (vendor and the user)
     public async Task<List<ProductSubCategoryAttribute>> GetAllProductSubCategoryAttribute(int subCategoryId)
     {
         return await _ecommerceContext.ProductSubCategoryAttribute.Include(p=>p.AttributeMaster).Where(p=>p.ProductSubCategoryId == subCategoryId).ToListAsync();
