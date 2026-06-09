@@ -2,8 +2,11 @@ using Ecommerce.Models;
 
 namespace Ecommerce.Repositories.Interfaces;
 
-public interface IOrderRepsository : IRepository<int,Order>
+public interface IOrderRepsository : IRepository<int, Order>
 {
+    public Task<List<Order>> GetOrdersForUser(int userId, OrderFilterParams filters);
+    public Task<List<Order>> GetOrdersForAdmin(OrderFilterParams filters);
+    public Task<List<Order>> GetOrdersForVendor(int vendorId, OrderFilterParams filters);
     public Task<List<Order>> GetPendingOrdersByAddress(int address);
-    public Task<List<Order>> GetOrdersByUserId(int? status,int pageNumber,int pageSize,int userId);
+    public Task<List<Order>> GetOrdersByUserId(int? status, int pageNumber, int pageSize, int userId);
 }

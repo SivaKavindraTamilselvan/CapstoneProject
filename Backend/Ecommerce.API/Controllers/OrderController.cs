@@ -12,11 +12,12 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class OrderController : ControllerBase
 {
+    private readonly IOrderService _orderService;
     private readonly IUserOrderService _userOrderService;
     private readonly IVendorOrderService _vendorOrderService;
     private readonly IUserReturnService _userReturnService;
 
-    public OrderController(IUserReturnService userReturnService,IUserOrderService userOrderService,IVendorOrderService vendorOrderService)
+    public OrderController(IUserReturnService userReturnService, IUserOrderService userOrderService, IVendorOrderService vendorOrderService)
     {
         _userOrderService = userOrderService;
         _vendorOrderService = vendorOrderService;
@@ -27,7 +28,7 @@ public class OrderController : ControllerBase
     public async Task<ActionResult<ResponseAddOrderDTO>> AddOrder(RequestAddOrderDTO requestAddOrderDTO)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userOrderService.AddOrder(requestAddOrderDTO,UserId);
+        var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
@@ -50,6 +51,26 @@ public class OrderController : ControllerBase
     public async Task<ActionResult<ResponseAddReturnDTO>> RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO)
     {
         var result = await _userReturnService.AddReturn(requestAddReturnDTO);
+        return Ok(result);
+    }
+    [HttpGet("admin")]
+    public async Task<IActionResult> GetOrdersAdmin([FromQuery] OrderFilterParams filters)
+    {
+        var result = await _orderService.GetOrderByAdmin(filters);
+        return Ok(result);
+    }
+    [HttpGet("vendor")]
+    public async Task<IActionResult> GetOrdersVendor([FromQuery] OrderFilterParams filters)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderByVendor(filters,vendorId);
+        return Ok(result);
+    }
+    [HttpGet("user")]
+    public async Task<IActionResult> GetOrdersUser([FromQuery] OrderFilterParams filters)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderByUserId(filters,vendorId);
         return Ok(result);
     }
 }

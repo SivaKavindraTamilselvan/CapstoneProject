@@ -6,6 +6,8 @@ using Ecommerce.Services.Interfaces;
 
 public partial class OrderService : IOrderService
 {
+    private readonly IUserRepsository _userRepsository;
+    private readonly IVendorUserValidation _vendorUserValidation;
     private readonly ICouponUsageRepsository _couponUsageRepsository;
     private readonly IOrderRepsository _orderRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
