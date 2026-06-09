@@ -6,14 +6,14 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductAttributeService : IAdminProductAttributeService
 {
-    public async Task<ResponseGetAllAttributeName> DeactivateProductAttribute(int attributeId)
+    public async Task<ResponseAdminGetAttribute> DeactivateProductAttribute(int attributeId)
     {
         var attribute = await _productAttributeValidation.ValidateAttribute(attributeId);
         attribute.IsActive = false;
         await _attributeRepsository.Update(attribute.AttributeMasterId,attribute);
-        return _mapper.Map<ResponseGetAllAttributeName>(attribute);
+        return _mapper.Map<ResponseAdminGetAttribute>(attribute);
     }
-    public async Task<ResponseGetAllProductSubCategoryAttributeName> DectivateProductSubCategoryAttribute(int subcategoryAttribute)
+    public async Task<ResponseAdminGetCategoryAttribute> DectivateProductSubCategoryAttribute(int subcategoryAttribute)
     {
         var productSubCategory = await _productSubCategoryAttributeRepsository.Get(subcategoryAttribute);
         if(productSubCategory==null)
@@ -26,6 +26,6 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         }
         productSubCategory.IsActive = true;
         await _productSubCategoryAttributeRepsository.Update(subcategoryAttribute,productSubCategory);
-        return _mapper.Map<ResponseGetAllProductSubCategoryAttributeName>(productSubCategory);
+        return _mapper.Map<ResponseAdminGetCategoryAttribute>(productSubCategory);
     }
 }

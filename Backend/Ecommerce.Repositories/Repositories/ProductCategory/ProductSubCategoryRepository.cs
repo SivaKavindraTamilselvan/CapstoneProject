@@ -19,20 +19,20 @@ public class ProductSubCategoryRepsository : AbstractRepository<int, ProductSubC
     // only for the get usage for user
     public async Task<List<ProductSubCategory>> GetAllProductSubCategory(int productId)
     {
-        return await _ecommerceContext.ProductSubCategory.Where(p=>p.ProductCategoryId == productId && p.IsActive == true).ToListAsync();
+        return await _ecommerceContext.ProductSubCategory.Include(p=>p.ProductCategory).Where(p=>p.ProductCategoryId == productId && p.IsActive == true && p!.ProductCategory!.IsActive == true).ToListAsync();
     }
 
     // get usage for admin
-    public async Task<(List<ProductSubCategory>,int totalCount)> GetAllSubProductCategoryForAdmin(bool? status,int? subcategoryId,int pageNumber,int pageSize)
+    public async Task<(List<ProductSubCategory>,int totalCount)> GetAllSubProductCategoryForAdmin(bool? status,int? categoryId,int pageNumber,int pageSize)
     {
         var query = _ecommerceContext.ProductSubCategory.Include(a=>a.AddedByAdminUser).ThenInclude(u=>u!.User).Include(p=>p.ProductCategory).AsQueryable();
         if(status.HasValue)
         {
             query = query.Where(a=>a.IsActive == status);
         }
-        if(subcategoryId.HasValue)
+        if(categoryId.HasValue)
         {
-            query = query.Where(q=>q.ProductSubCategoryId == subcategoryId);
+            query = query.Where(q=>q.ProductCategoryId == categoryId);
         }
         var totalCount = await query.CountAsync();
         var data =  await query.OrderBy(a=>a.ProductSubCategoryName).Skip((pageNumber-1)*pageSize).Take(pageSize).ToListAsync();

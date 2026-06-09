@@ -5,7 +5,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class AdminProductCategoryService : IAdminProductCategoryService
 {
-    public async Task<ResponseGetAllProductCategory> ActivateProductCategory(int productCategoryId)
+    public async Task<ResponseAdminGetAllCategory> ActivateProductCategory(int productCategoryId)
     {
         var productCategory = await _productCategoryRepsository.Get(productCategoryId);
         if(productCategory==null)
@@ -18,9 +18,9 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
         }
         productCategory.IsActive = true;
         await _productCategoryRepsository.Update(productCategoryId,productCategory);
-        return _mapper.Map<ResponseGetAllProductCategory>(productCategory);
+        return _mapper.Map<ResponseAdminGetAllCategory>(productCategory);
     }
-    public async Task<ResponseGetAllProductSubCategoryName> ActivateProductSubCategory(int productSubCategoryId)
+    public async Task<ResponseAdminGetAllSubCategory> ActivateProductSubCategory(int productSubCategoryId)
     {
         var productSubCategory = await _productSubCategoryRepsository.Get(productSubCategoryId);
         if(productSubCategory==null)
@@ -33,6 +33,6 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
         }
         productSubCategory.IsActive = false;
         await _productSubCategoryRepsository.Update(productSubCategoryId,productSubCategory);
-        return _mapper.Map<ResponseGetAllProductSubCategoryName>(productSubCategory);
+        return _mapper.Map<ResponseAdminGetAllSubCategory>(productSubCategory);
     }
 }

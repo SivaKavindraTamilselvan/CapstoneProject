@@ -37,12 +37,17 @@ namespace Ecommerce.Mappers
             CreateMap<ProductImage, ResponseMakeDefaultImageDTO>();
             CreateMap<ProductImage, ResponseAddProductVariantImage>();
 
-            CreateMap<ProductCategory, ResponseGetAllProductCategory>();
-            CreateMap<ProductSubCategory, ResponseGetAllProductSubCategoryName>();
-            CreateMap<ProductSubCategoryAttribute, ResponseGetAllProductSubCategoryAttributeName>()
-                .ForMember(dest => dest.AttributeName, opt => opt.MapFrom(src => src.AttributeMaster.AttributeName));
-            CreateMap<AttributeMaster, ResponseGetAllAttributeName>();
-            CreateMap<ProductSubCategory, ResponseGetAllProductSubCategoryNameVendor>();
+            CreateMap<ProductCategory, ResponseUserGetAllCategory>();
+            CreateMap<ProductCategory,ResponseAdminGetAllCategory>();
+
+            CreateMap<ProductSubCategory, ResponseUserGetAllSubCategory>();
+            CreateMap<ProductSubCategory,ResponseAdminGetAllSubCategory>();
+                        CreateMap<ProductSubCategory, ResponseVendorGetAllProductSubCategory>();
+
+
+            CreateMap<ProductSubCategoryAttribute, ResponseGetAllProductSubCategoryAttribute>()
+                .ForMember(dest => dest.AttributeName, opt => opt.MapFrom(src => src!.AttributeMaster!.AttributeName));
+            CreateMap<AttributeMaster, ResponseAdminGetAttribute>();
 
             // Shared
             CreateMap<ProductImage, ResponseProductImageDTO>()
