@@ -28,7 +28,15 @@ public class RequestAddProductVariantDTO
     [Range(typeof(decimal), "0.01", "1000000", ErrorMessage = "Height must be greater than 0")]
     public decimal HeightInCm { get; set; }
 
-    public int MinimuQuantityPerUser {get;set;}
+    [Required(ErrorMessage = "Minimum Quantity Needed")]
+    [Range(1, int.MaxValue, ErrorMessage = "Minimum Quantity Should Be Greater Than 0")]
+    public int MinimuQuantityPerUser { get; set; }
+
+    [Required]
+    public bool IsReturn { get; set; } = true;
+    [Required]
+    public bool IsExchange { get; set; } = true;
+    public int MainProductSubCategoryAttributeId { get; set; }
     public List<ProductVariantAttributeDTO> requestAddProductVariantAttributeDTOs { get; set; } = new List<ProductVariantAttributeDTO>();
 
 }
@@ -46,6 +54,6 @@ public class ProductVariantAttributeDTO
 
 public class ResponseAddProductVariantDTO
 {
-    public int ProductId { get; set; }
+    public int ProductVariantId { get; set; }
     public DateTime CreatedAt { get; set; }
 }

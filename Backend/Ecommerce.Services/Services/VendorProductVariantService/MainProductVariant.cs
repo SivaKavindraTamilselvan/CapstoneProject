@@ -4,6 +4,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class VendorProductVariantService : IVendorProductVariantService
 {
+    private readonly IVendorValidation _vendorValidation;
     private readonly IProductAttributeValidation _productAttributeValidation;
     private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IProductVariantRepsository _productVariantRepsository;
@@ -12,8 +13,9 @@ public partial class VendorProductVariantService : IVendorProductVariantService
     private readonly IMapper _mapper;
 
 
-    public VendorProductVariantService(IProductAttributeValidation productAttributeValidation,IMapper mapper, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IVendorValidation vendorValidation,IProductValidation productValidation,IProductCategoryValidation productCategoryValidation,IVendorUserValidation vendorUserValidation)
+    public VendorProductVariantService(IVendorValidation vendorValidation,IProductAttributeValidation productAttributeValidation,IMapper mapper, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IProductValidation productValidation,IProductCategoryValidation productCategoryValidation,IVendorUserValidation vendorUserValidation)
     {
+        _vendorValidation = vendorValidation;
         _productAttributeValidation = productAttributeValidation;
         _productVariantRepsository = productVariantRepsository;
         _productVariantAttributeRepsository = productVariantAttributeRepsository;

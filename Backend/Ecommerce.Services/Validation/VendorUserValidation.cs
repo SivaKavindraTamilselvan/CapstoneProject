@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
@@ -16,6 +17,10 @@ public class VendorUserValidation : IVendorUserValidation
         if (vendorUser == null)
         {
             throw new DataNotFoundException("Vendor User Not Found");
+        }
+        if(!vendorUser.IsActive)
+        {
+            throw new InvalidCredentialException("Vendor User Is Removed");
         }
         return vendorUser;
     }

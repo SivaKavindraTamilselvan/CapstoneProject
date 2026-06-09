@@ -22,13 +22,14 @@ public class ProductAttributeValidation : IProductAttributeValidation
         {
             throw new DataNotFoundException("Product Sub Category Attribute Not Found For This Product Sub Category");
         }
+        await ValidateAttribute(attribute.AttributeMasterId);
         if (!attribute.IsActive)
         {
-            throw new DataNotFoundException("Product Sub Category Attribute is inactivated");
+            throw new DataNotFoundException("mapped Product Sub Category Attribute is inactivated");
         }
         return attribute;
     }
-    public async Task ValidateProductSubCategoryAttributeForAdmin(int AttributeId,int productSubCategoryId)
+    public async Task ValidateProductSubCategoryAttributeForAdmin(int AttributeId, int productSubCategoryId)
     {
         await ValidateAttribute(AttributeId);
         var subCategory = await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
