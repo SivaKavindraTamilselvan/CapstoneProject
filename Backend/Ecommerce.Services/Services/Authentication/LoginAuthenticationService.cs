@@ -40,7 +40,7 @@ public partial class AuthenticationService : IAuthentication
             adminRoleId = adminUser.AdminRoleId;
         }
         int? vendorRoleId = null;
-        if (result.RoleId == 2)
+        if (result.RoleId == 3)
         {
             var vendorUser = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
             if (vendorUser == null)

@@ -26,6 +26,19 @@ public class ProductValidation : IProductValidation
         }
         return product;
     }
+    public async Task<Product> VendorValidateProduct(int productId,int vendorId)
+    {
+        var product = await _productRepsository.Get(productId);
+        if (product == null)
+        {
+            throw new DataNotFoundException("Product Not Found");
+        }
+        if(product.VendorId != vendorId)
+        {
+            throw new InvalidCredentialException("You cannot access other vendor products");
+        }
+        return product;
+    }
     public async Task<ProductImage> ValidateProductImage(int productImageId)
     {
         var product = await _productImageRepsository.Get(productImageId);
@@ -55,6 +68,15 @@ public class ProductValidation : IProductValidation
         if(productVariant!.Product!.VendorId != vendorUser.VendorId)
         {
             throw new InvalidCredentialException("You cannot access other vendor products");
+        }
+        return productVariant;
+    }
+    public async Task<ProductVariant> AdminValidateProductVariant(int productVariantId)
+    {
+        var productVariant = await _productVariantRepsository.GetProductByProductVariant(productVariantId);
+        if (productVariant == null)
+        {
+            throw new DataNotFoundException("Product Variant Not Found");
         }
         return productVariant;
     }

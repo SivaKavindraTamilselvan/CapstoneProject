@@ -23,8 +23,28 @@ public partial class AdminProductService : IAdminProductService
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
         var updated = await _productRepsository.Update(product.ProductId,product);
-        Console.WriteLine(updated.ProductApprovalStatusId);
         await _approvalHistoryRepsository.Create(approvalHistory);
         return _mapper.Map<ResponseReviewOfProductDTO>(product);
+    }
+    public async Task<ResponseReviewOfProductVariantDTO> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO,int adminUserId)
+    {
+        var product = await _productValidation.AdminValidateProductVariant(requestReviewOfProductDTO.ProductVariantId);
+        if(product.ProductApprovalStatusId != 2)
+        {
+            throw new DataApprovalStatusException("Product Variant is not approved by vendor yet");
+        }
+        var adminUser = await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
+        ApprovalHistory approvalHistory = new ApprovalHistory();
+        approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
+        approvalHistory.EntityType = "Product_Variant";
+        approvalHistory.EntityId = product.ProductId;
+        approvalHistory.ReviewedByAdminId = adminUser.AdminUserId;
+        approvalHistory.Remarks = requestReviewOfProductDTO.Remarks;
+        approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
+        product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
+        product.UpdatedAt = DateTime.Now;
+        var updated = await _productVariantRepsository.Update(product.ProductId,product);
+        await _approvalHistoryRepsository.Create(approvalHistory);
+        return _mapper.Map<ResponseReviewOfProductVariantDTO>(product);
     }
 }

@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Data.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20260608135424_AddIsActiveToAddresss")]
-    partial class AddIsActiveToAddresss
+    [Migration("20260609132102_initialcreate")]
+    partial class initialcreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -241,12 +241,6 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("PreviousStatusId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ProductVariantId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
@@ -264,10 +258,6 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("NewStatusId");
 
                     b.HasIndex("PreviousStatusId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductVariantId");
 
                     b.HasIndex("ReviewedByAdminId");
 
@@ -320,6 +310,9 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("AttributeMasterId"));
 
+                    b.Property<int>("AddedByAdminId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("AttributeName")
                         .IsRequired()
                         .HasColumnType("text");
@@ -336,6 +329,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasKey("AttributeMasterId")
                         .HasName("PK_Product_Attribute_Master");
+
+                    b.HasIndex("AddedByAdminId");
 
                     b.HasIndex("AttributeName")
                         .IsUnique();
@@ -1321,9 +1316,6 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("AddedByVendorUserId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("AdminUserId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -1362,8 +1354,6 @@ namespace Ecommerce.Data.Migrations
                         .HasName("PK_Product");
 
                     b.HasIndex("AddedByVendorUserId");
-
-                    b.HasIndex("AdminUserId");
 
                     b.HasIndex("ProductApprovalStatusId");
 
@@ -1437,6 +1427,9 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductCategoryId"));
 
+                    b.Property<int>("AddedByAdminId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -1453,6 +1446,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasKey("ProductCategoryId")
                         .HasName("PK_Product_Category");
+
+                    b.HasIndex("AddedByAdminId");
 
                     b.HasIndex("ProductCategoryName")
                         .IsUnique();
@@ -1565,6 +1560,9 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductSubCategoryId"));
 
+                    b.Property<int>("AddedByAdminId")
+                        .HasColumnType("integer");
+
                     b.Property<decimal>("CommissionPercentage")
                         .HasColumnType("numeric");
 
@@ -1588,6 +1586,8 @@ namespace Ecommerce.Data.Migrations
                     b.HasKey("ProductSubCategoryId")
                         .HasName("PK_Product_Sub_Category");
 
+                    b.HasIndex("AddedByAdminId");
+
                     b.HasIndex("ProductCategoryId", "ProductSubCategoryName")
                         .IsUnique();
 
@@ -1601,6 +1601,9 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductSubCategoryAttributeId"));
+
+                    b.Property<int>("AddedByAdminId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("AttributeMasterId")
                         .HasColumnType("integer");
@@ -1620,6 +1623,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasKey("ProductSubCategoryAttributeId")
                         .HasName("PK_Product_Sub_Category_Attribute");
+
+                    b.HasIndex("AddedByAdminId");
 
                     b.HasIndex("AttributeMasterId");
 
@@ -1649,9 +1654,18 @@ namespace Ecommerce.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("numeric");
 
+                    b.Property<bool>("IsExchange")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("IsReturn")
+                        .HasColumnType("boolean");
+
                     b.Property<decimal>("LengthInCm")
                         .HasMaxLength(15)
                         .HasColumnType("numeric");
+
+                    b.Property<int>("MainProductSubCategoryAttributeId")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MinimuQuantityPerUser")
                         .HasColumnType("integer");
@@ -1692,6 +1706,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasIndex("AddedByVendorUserId");
 
+                    b.HasIndex("MainProductSubCategoryAttributeId");
+
                     b.HasIndex("ProductApprovalStatusId");
 
                     b.HasIndex("ProductId");
@@ -1711,6 +1727,9 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ProductVariantAttributeId"));
+
+                    b.Property<int>("AddedByVendorUserId")
+                        .HasColumnType("integer");
 
                     b.Property<string>("AttributeValue")
                         .IsRequired()
@@ -1737,6 +1756,8 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("timestamp without time zone");
 
                     b.HasKey("ProductVariantAttributeId");
+
+                    b.HasIndex("AddedByVendorUserId");
 
                     b.HasIndex("ProductSubCategoryAttributeId");
 
@@ -2917,14 +2938,6 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce.Models.Product", null)
-                        .WithMany("ApprovalHistories")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Ecommerce.Models.ProductVariant", null)
-                        .WithMany("ApprovalHistories")
-                        .HasForeignKey("ProductVariantId");
-
                     b.HasOne("Ecommerce.Models.AdminUser", "ReviewedByAdmin")
                         .WithMany()
                         .HasForeignKey("ReviewedByAdminId")
@@ -2936,6 +2949,18 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("PreviousStatus");
 
                     b.Navigation("ReviewedByAdmin");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.AttributeMaster", b =>
+                {
+                    b.HasOne("Ecommerce.Models.AdminUser", "AddedByAdminUser")
+                        .WithMany("AttributeMasters")
+                        .HasForeignKey("AddedByAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Admin_User_Attribute");
+
+                    b.Navigation("AddedByAdminUser");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Cancel", b =>
@@ -3270,10 +3295,6 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Product_Added_Vendor_User");
 
-                    b.HasOne("Ecommerce.Models.AdminUser", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AdminUserId");
-
                     b.HasOne("Ecommerce.Models.ProductApprovalStatus", "ProductApprovalStatus")
                         .WithMany("Products")
                         .HasForeignKey("ProductApprovalStatusId")
@@ -3311,6 +3332,18 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ProductSubCategory");
 
                     b.Navigation("Vendor");
+                });
+
+            modelBuilder.Entity("Ecommerce.Models.ProductCategory", b =>
+                {
+                    b.HasOne("Ecommerce.Models.AdminUser", "AddedByAdminUser")
+                        .WithMany("ProductCategories")
+                        .HasForeignKey("AddedByAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Admin_User_Product_Category");
+
+                    b.Navigation("AddedByAdminUser");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductImage", b =>
@@ -3353,6 +3386,13 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductSubCategory", b =>
                 {
+                    b.HasOne("Ecommerce.Models.AdminUser", "AddedByAdminUser")
+                        .WithMany("ProductSubCategories")
+                        .HasForeignKey("AddedByAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Admin_User_Product_Sub_Category");
+
                     b.HasOne("Ecommerce.Models.ProductCategory", "ProductCategory")
                         .WithMany("ProductSubCategories")
                         .HasForeignKey("ProductCategoryId")
@@ -3360,11 +3400,20 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Product_Category");
 
+                    b.Navigation("AddedByAdminUser");
+
                     b.Navigation("ProductCategory");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductSubCategoryAttribute", b =>
                 {
+                    b.HasOne("Ecommerce.Models.AdminUser", "AddedByAdminUser")
+                        .WithMany("ProductSubCategoryAttributes")
+                        .HasForeignKey("AddedByAdminId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Admin_User_Product_Sub_Category_Attribute");
+
                     b.HasOne("Ecommerce.Models.AttributeMaster", "AttributeMaster")
                         .WithMany("ProductSubCategoryAttributes")
                         .HasForeignKey("AttributeMasterId")
@@ -3379,6 +3428,8 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_ProductSubCategoryAttribute_ProductSubCategory");
 
+                    b.Navigation("AddedByAdminUser");
+
                     b.Navigation("AttributeMaster");
 
                     b.Navigation("ProductSubCategory");
@@ -3392,6 +3443,13 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Product_Variant_Added_Vendor_User");
+
+                    b.HasOne("Ecommerce.Models.ProductSubCategoryAttribute", "MainProductSubCategoryAttribute")
+                        .WithMany("ProductVariants")
+                        .HasForeignKey("MainProductSubCategoryAttributeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_Variant_Main_Attribute");
 
                     b.HasOne("Ecommerce.Models.ProductApprovalStatus", "ProductApprovalStatus")
                         .WithMany("ProductVariants")
@@ -3416,6 +3474,8 @@ namespace Ecommerce.Data.Migrations
 
                     b.Navigation("AddedByVendorUser");
 
+                    b.Navigation("MainProductSubCategoryAttribute");
+
                     b.Navigation("Product");
 
                     b.Navigation("ProductApprovalStatus");
@@ -3425,6 +3485,13 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariantAttribute", b =>
                 {
+                    b.HasOne("Ecommerce.Models.VendorUser", "AddedByVendorUser")
+                        .WithMany("ProductVariantAttributes")
+                        .HasForeignKey("AddedByVendorUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("FK_Vendor_User_Product_Attribute");
+
                     b.HasOne("Ecommerce.Models.ProductSubCategoryAttribute", "ProductSubCategoryAttribute")
                         .WithMany("ProductVariantAttributes")
                         .HasForeignKey("ProductSubCategoryAttributeId")
@@ -3436,6 +3503,8 @@ namespace Ecommerce.Data.Migrations
                         .HasForeignKey("ProductVariantId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("AddedByVendorUser");
 
                     b.Navigation("ProductSubCategoryAttribute");
 
@@ -3737,7 +3806,13 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.AdminUser", b =>
                 {
-                    b.Navigation("Products");
+                    b.Navigation("AttributeMasters");
+
+                    b.Navigation("ProductCategories");
+
+                    b.Navigation("ProductSubCategories");
+
+                    b.Navigation("ProductSubCategoryAttributes");
 
                     b.Navigation("Shippers");
 
@@ -3847,8 +3922,6 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
-                    b.Navigation("ApprovalHistories");
-
                     b.Navigation("CouponsProducts");
 
                     b.Navigation("ProductImages");
@@ -3889,12 +3962,12 @@ namespace Ecommerce.Data.Migrations
             modelBuilder.Entity("Ecommerce.Models.ProductSubCategoryAttribute", b =>
                 {
                     b.Navigation("ProductVariantAttributes");
+
+                    b.Navigation("ProductVariants");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariant", b =>
                 {
-                    b.Navigation("ApprovalHistories");
-
                     b.Navigation("CartItems");
 
                     b.Navigation("FavoritesItems");
@@ -4005,6 +4078,8 @@ namespace Ecommerce.Data.Migrations
             modelBuilder.Entity("Ecommerce.Models.VendorUser", b =>
                 {
                     b.Navigation("ProductImages");
+
+                    b.Navigation("ProductVariantAttributes");
 
                     b.Navigation("ProductVariants");
 

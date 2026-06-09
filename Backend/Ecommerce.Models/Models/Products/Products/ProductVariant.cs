@@ -30,6 +30,5 @@ public class ProductVariant
     public ICollection<FavoritesItems> FavoritesItems { get; set; } = new List<FavoritesItems>();
     public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
     public ICollection<Inventory> Inventories { get; set; } = new List<Inventory>();
-    public ICollection<ApprovalHistory> ApprovalHistories { get; set; } = new List<ApprovalHistory>();
 
 }

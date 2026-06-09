@@ -9,6 +9,7 @@ public partial class VendorProductVariantService : IVendorProductVariantService
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         await _vendorValidation.ValidateVendorIfApproved(vendorUser.VendorId);
         var product = await _productValidation.ValidateProductIfApproved(requestAddProductVariantDTO.ProductId);
+        await _productValidation.VendorValidateProduct(product.ProductId,vendorUser.VendorId);
         if (requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs == null || !requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs.Any())
         {
             throw new InvalidDataException("Variant attributes are required");

@@ -37,6 +37,9 @@ namespace Ecommerce.Mappers
             CreateMap<ProductImage, ResponseMakeDefaultImageDTO>();
             CreateMap<ProductImage, ResponseAddProductVariantImage>();
 
+            CreateMap<Product, RequestUpdateProductStatus>();
+
+
             CreateMap<ProductCategory, ResponseUserGetAllCategory>();
             CreateMap<ProductCategory, ResponseAdminGetAllCategory>()
     .ForMember(dest => dest.AddedUserName,
@@ -68,15 +71,15 @@ namespace Ecommerce.Mappers
                 ? src.AddedByAdminUser.User.FirstName + " " + src.AddedByAdminUser.User.LastName
                 : null));
 
-CreateMap<ProductSubCategoryAttribute, ResponseAdminGetCategoryAttribute>()
-    .ForMember(dest => dest.ProductSubCategoryName,
-        opt => opt.MapFrom(src => src.ProductSubCategory!.ProductSubCategoryName))
-    .ForMember(dest => dest.IsSubCategoryActive,
-        opt => opt.MapFrom(src => src.ProductSubCategory!.IsActive))
-    .ForMember(dest => dest.AttributeName,
-        opt => opt.MapFrom(src => src.AttributeMaster!.AttributeName))
-    .ForMember(dest => dest.IsAttributeActive,
-        opt => opt.MapFrom(src => src.AttributeMaster!.IsActive));
+            CreateMap<ProductSubCategoryAttribute, ResponseAdminGetCategoryAttribute>()
+                .ForMember(dest => dest.ProductSubCategoryName,
+                    opt => opt.MapFrom(src => src.ProductSubCategory!.ProductSubCategoryName))
+                .ForMember(dest => dest.IsSubCategoryActive,
+                    opt => opt.MapFrom(src => src.ProductSubCategory!.IsActive))
+                .ForMember(dest => dest.AttributeName,
+                    opt => opt.MapFrom(src => src.AttributeMaster!.AttributeName))
+                .ForMember(dest => dest.IsAttributeActive,
+                    opt => opt.MapFrom(src => src.AttributeMaster!.IsActive));
 
             CreateMap<ProductSubCategoryAttribute, ResponseGetAllProductSubCategoryAttribute>()
                 .ForMember(dest => dest.AttributeName, opt => opt.MapFrom(src => src!.AttributeMaster!.AttributeName));

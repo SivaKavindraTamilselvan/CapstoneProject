@@ -20,5 +20,4 @@ public class Product
     public ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
     public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     public ICollection<CouponsProduct> CouponsProducts { get; set; } = new List<CouponsProduct>();
-    public ICollection<ApprovalHistory> ApprovalHistories { get; set; } = new List<ApprovalHistory>();
 }

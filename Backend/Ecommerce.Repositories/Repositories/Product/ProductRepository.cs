@@ -18,6 +18,9 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .Include(p => p.ProductApprovalStatus)
             .Include(p => p.ProductStatus)
             .Include(p => p.ProductSubCategory)
+                .ThenInclude(p=>p!.ProductCategory)
+                    .ThenInclude(p=>p!.AddedByAdminUser)
+                        .ThenInclude(p=>p!.User)
             .Include(p => p.Vendor)
             .Include(p => p.ProductImages)
             .Include(p => p.ProductVariants)
@@ -25,11 +28,70 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .Include(p => p.ProductVariants)
                 .ThenInclude(pv => pv.ProductVariantAttributes)
                     .ThenInclude(pva => pva.ProductSubCategoryAttribute)
-                        .ThenInclude(psa => psa.AttributeMaster)
+                        .ThenInclude(psa => psa!.AttributeMaster)
             .Include(p => p.ProductVariants)
                 .ThenInclude(pv => pv.ProductImages);
     }
 
+    public async Task<List<Product>> GetAdminProduct(int? approval, int? status, int? vendorid, int? subcategory)
+    {
+        var query = BaseQuery();
+        if (approval.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == approval);
+        }
+        if (status.HasValue)
+        {
+            query = query.Where(p => p.ProductStatusId == status);
+        }
+        if (vendorid.HasValue)
+        {
+            query = query.Where(p => p.VendorId == vendorid);
+        }
+        if (subcategory.HasValue)
+        {
+            query = query.Where(p => p.ProductSubCategoryId == subcategory);
+        }
+        return await query.ToListAsync();
+    }
+
+    public async Task<List<Product>> GetVendorProduct(int? approval, int? status, int vendorid, int? subcategory,int pageNumber,int pageSize)
+    {
+        var query = BaseQuery().Where(v => v.VendorId == vendorid);
+        if (approval.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == approval);
+        }
+        if (status.HasValue)
+        {
+            query = query.Where(p => p.ProductStatusId == status);
+        }
+        if (subcategory.HasValue)
+        {
+            query = query.Where(p => p.ProductSubCategoryId == subcategory);
+        }
+        return await query.ToListAsync();
+    }
+    public async Task<List<Product>> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm)
+    {
+        var query = BaseQuery().Where(p => p.ProductApprovalStatusId == 4 && p.ProductStatusId == 2
+        && p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4 && pv.ProductVariantStatusId == 2 && pv.Inventories.Any(i => i.AvailableQuantity > 0)));
+
+        if (categoryId.HasValue)
+            query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == categoryId);
+
+        if (subcategoryId.HasValue)
+            query = query.Where(p => p.ProductSubCategoryId == subcategoryId);
+
+        if (!string.IsNullOrEmpty(searchTerm))
+            query = query.Where(p => p.ProductName.ToLower().Contains(searchTerm.ToLower()));
+
+        return await query.ToListAsync();
+    }
+    public async Task<Product?> GetProductWithFullDetails(int productId)
+    {
+        return await BaseQuery().FirstOrDefaultAsync(p => p.ProductId == productId);
+    }
     // 1. Get all available products for users
     // Admin_Approved(4) + Active(2) + variant Admin_Approved(4) + Active(2) + stock > 0
     public async Task<List<Product>> GetAllAvailableProducts()
@@ -43,87 +105,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .ToListAsync();
     }
 
-    // 2. Get all products pending admin approval
-    // Vendor_Approved(2) means vendor submitted for admin review
-    public async Task<List<Product>> GetAllPendingAdminApprovalProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 2)
-            .ToListAsync();
-    }
-
-    // 3. Get all products pending vendor approval (newly added variants etc.)
-    public async Task<List<Product>> GetAllPendingVendorApprovalProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 1)
-            .ToListAsync();
-    }
-
-    // 4. Get all admin approved products
-    public async Task<List<Product>> GetAllAdminApprovedProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 4)
-            .ToListAsync();
-    }
-
-    // 5. Get all admin rejected products
-    public async Task<List<Product>> GetAllAdminRejectedProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 5)
-            .ToListAsync();
-    }
-
-    // 6. Get all vendor rejected products
-    public async Task<List<Product>> GetAllVendorRejectedProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 3)
-            .ToListAsync();
-    }
-
-    // 7. Get all deleted by admin products
-    public async Task<List<Product>> GetAllDeletedByAdminProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 6)
-            .ToListAsync();
-    }
-
-    // 8. Get all draft products (vendor not yet submitted)
-    public async Task<List<Product>> GetAllDraftProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductStatusId == 1)
-            .ToListAsync();
-    }
-
-    // 9. Get all active products
-    public async Task<List<Product>> GetAllActiveProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductStatusId == 2)
-            .ToListAsync();
-    }
-
-    // 10. Get all temporarily unavailable products
-    public async Task<List<Product>> GetAllTemporarilyUnavailableProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductStatusId == 3)
-            .ToListAsync();
-    }
-
-    // 11. Get all archived products
-    public async Task<List<Product>> GetAllArchivedProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductStatusId == 4)
-            .ToListAsync();
-    }
-
+    
     // 12. Get all products by vendor
     public async Task<List<Product>> GetAllProductsByVendorId(int vendorId)
     {
@@ -203,12 +185,6 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
     }
 
     // 19. Get single product with full details
-    public async Task<Product?> GetProductWithFullDetails(int productId)
-    {
-        return await BaseQuery()
-            .FirstOrDefaultAsync(p => p.ProductId == productId);
-    }
-
     // 20. Get all products with pending variant approvals
     public async Task<List<Product>> GetAllProductsWithPendingVariants()
     {

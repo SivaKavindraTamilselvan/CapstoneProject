@@ -20,12 +20,13 @@ public class VendorProductController : ControllerBase
         _vendorProductImageService = vendorProductImageService;
         _vendorProductVariantService = vendorProductVariantService;
     }
+
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("all")]
-    public async Task<IActionResult> GetAllProductsByVendorId()
+    [HttpGet]
+    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval,[FromQuery] int? status,[FromQuery] int? subcategory,int pageNumber = 1,int pageSize = 10)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductsByVendorId(vendorUserId);
+        var result = await _vendorProductService.GetAllProductsByVendorId(approval,status,vendorUserId,subcategory,pageNumber,pageSize);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -34,14 +35,6 @@ public class VendorProductController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorProductService.GetAllAvailableProductsByVendorId(vendorUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("draft")]
-    public async Task<IActionResult> GetAllDraftProducts()
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllDraftProducts(vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -110,10 +103,18 @@ public class VendorProductController : ControllerBase
     }
     [Authorize(Policy = "VendorOwnerOnly")]
     [HttpPut("UpdateProduct")]
-    public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
+    public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProductStatus requestUpdateProduct)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorProductService.UpdateProduct(requestUpdateProduct,vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPut("UpdateProductDetails")]
+    public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.UpdateRejectedOrPendingProduct(requestUpdateProduct,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]

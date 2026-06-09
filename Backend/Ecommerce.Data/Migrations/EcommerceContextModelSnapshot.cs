@@ -238,12 +238,6 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("PreviousStatusId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("ProductId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("ProductVariantId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Remarks")
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)");
@@ -261,10 +255,6 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("NewStatusId");
 
                     b.HasIndex("PreviousStatusId");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("ProductVariantId");
 
                     b.HasIndex("ReviewedByAdminId");
 
@@ -1323,9 +1313,6 @@ namespace Ecommerce.Data.Migrations
                     b.Property<int>("AddedByVendorUserId")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("AdminUserId")
-                        .HasColumnType("integer");
-
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -1364,8 +1351,6 @@ namespace Ecommerce.Data.Migrations
                         .HasName("PK_Product");
 
                     b.HasIndex("AddedByVendorUserId");
-
-                    b.HasIndex("AdminUserId");
 
                     b.HasIndex("ProductApprovalStatusId");
 
@@ -2950,14 +2935,6 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("Ecommerce.Models.Product", null)
-                        .WithMany("ApprovalHistories")
-                        .HasForeignKey("ProductId");
-
-                    b.HasOne("Ecommerce.Models.ProductVariant", null)
-                        .WithMany("ApprovalHistories")
-                        .HasForeignKey("ProductVariantId");
-
                     b.HasOne("Ecommerce.Models.AdminUser", "ReviewedByAdmin")
                         .WithMany()
                         .HasForeignKey("ReviewedByAdminId")
@@ -3314,10 +3291,6 @@ namespace Ecommerce.Data.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired()
                         .HasConstraintName("FK_Product_Added_Vendor_User");
-
-                    b.HasOne("Ecommerce.Models.AdminUser", null)
-                        .WithMany("Products")
-                        .HasForeignKey("AdminUserId");
 
                     b.HasOne("Ecommerce.Models.ProductApprovalStatus", "ProductApprovalStatus")
                         .WithMany("Products")
@@ -3838,8 +3811,6 @@ namespace Ecommerce.Data.Migrations
 
                     b.Navigation("ProductSubCategoryAttributes");
 
-                    b.Navigation("Products");
-
                     b.Navigation("Shippers");
 
                     b.Navigation("Vendors");
@@ -3948,8 +3919,6 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.Product", b =>
                 {
-                    b.Navigation("ApprovalHistories");
-
                     b.Navigation("CouponsProducts");
 
                     b.Navigation("ProductImages");
@@ -3996,8 +3965,6 @@ namespace Ecommerce.Data.Migrations
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariant", b =>
                 {
-                    b.Navigation("ApprovalHistories");
-
                     b.Navigation("CartItems");
 
                     b.Navigation("FavoritesItems");

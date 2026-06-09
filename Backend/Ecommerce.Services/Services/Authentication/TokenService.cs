@@ -32,7 +32,7 @@ namespace Ecommerce.Services
             {
                 claims.Add(new Claim("AdminRoleId",request.AdminRoleId.Value.ToString()));
             }
-            if (request.RoleId == 2 && request.VendorRoleId != null)
+            if (request.RoleId == 3 && request.VendorRoleId != null)
             {
                 claims.Add(new Claim("VendorRoleId",request.VendorRoleId.Value.ToString()));
             }

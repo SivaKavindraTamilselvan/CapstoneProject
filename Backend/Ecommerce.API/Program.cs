@@ -136,7 +136,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOwnerOnly", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim(ClaimTypes.Role, "3");
         policy.RequireClaim("VendorRoleId",  "1");
     });
 });
@@ -145,7 +145,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOnwerAndProductVendorOnly", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim(ClaimTypes.Role, "3");
         policy.RequireClaim("VendorRoleId",  "1","3","2");
     });
 });
@@ -154,7 +154,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOnwerAndCouponVendorOnly", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim(ClaimTypes.Role, "3");
         policy.RequireClaim("VendorRoleId",  "1","8","2");
     });
 });
@@ -163,7 +163,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOnwerAndInventoryVendorOnly", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim(ClaimTypes.Role, "3");
         policy.RequireClaim("VendorRoleId",  "1","7","2");
     });
 });
@@ -171,7 +171,7 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOnwerAndOrderVendorOnly", policy =>
     {
-        policy.RequireClaim(ClaimTypes.Role, "2");
+        policy.RequireClaim(ClaimTypes.Role, "3");
         policy.RequireClaim("VendorRoleId",  "1","4","2");
     });
 });
@@ -189,7 +189,7 @@ builder.Services.AddAuthorization(options =>
             return
                 (role == "1" && (adminRoleId == "1" || adminRoleId == "5"))
                 ||
-                (role == "2" && (vendorRoleId == "1" || vendorRoleId == "2" || vendorRoleId == "8"));
+                (role == "3" && (vendorRoleId == "1" || vendorRoleId == "2" || vendorRoleId == "8"));
         });
     });
 });

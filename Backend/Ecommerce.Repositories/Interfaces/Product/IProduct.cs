@@ -4,17 +4,9 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IProductRepsository : IRepository<int, Product>
 {
+    public Task<List<Product>> GetAdminProduct(int? approval, int? status, int? vendorid, int? subcategory);
+    public Task<List<Product>> GetVendorProduct(int? approval, int? status, int vendorid, int? subcategory,int pageNumber,int pageSize);
     public Task<List<Product>> GetAllAvailableProducts();
-    public Task<List<Product>> GetAllPendingAdminApprovalProducts();
-    public Task<List<Product>> GetAllPendingVendorApprovalProducts();
-    public Task<List<Product>> GetAllAdminApprovedProducts();
-    public Task<List<Product>> GetAllAdminRejectedProducts();
-    public Task<List<Product>> GetAllVendorRejectedProducts();
-    public Task<List<Product>> GetAllDeletedByAdminProducts();
-    public Task<List<Product>> GetAllDraftProducts();
-    public Task<List<Product>> GetAllActiveProducts();
-    public Task<List<Product>> GetAllTemporarilyUnavailableProducts();
-    public Task<List<Product>> GetAllArchivedProducts();
     public Task<List<Product>> GetAllProductsByVendorId(int vendorId);
     public Task<List<Product>> GetAllAvailableProductsByVendorId(int vendorId);
     public Task<List<Product>> GetAllAvailableProductsBySubCategoryId(int subCategoryId);
