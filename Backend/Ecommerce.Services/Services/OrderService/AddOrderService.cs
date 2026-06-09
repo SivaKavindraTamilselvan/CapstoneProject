@@ -6,6 +6,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class OrderService : IOrderService
 {
+    private readonly ICouponUsageRepsository _couponUsageRepsository;
     private readonly IOrderRepsository _orderRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IInventoryRepsository _inventoryRepsository;
@@ -14,7 +15,7 @@ public partial class OrderService : IOrderService
     private readonly IShipmentService _shipmentService;
 
     private readonly IMapper _mapper;
-    public OrderService(IShipmentService shipmentService,IShipmentRepsository shipmentRepsository,IInventoryRepsository inventoryRepsository,IInventoryValidation inventoryValidation,IInventoryService inventoryService,IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
         _orderRepsository = orderRepsository;
         _orderItemRepsository = orderItemRepsository;
@@ -65,11 +66,22 @@ public partial class OrderService : IOrderService
                 orderItemsList.Add(createdOrderItem);
             }
             var inventory = await _inventoryValidation.ValidateInventory(selected.Inventory.InventoryId);
-            inventory.AvailableQuantity = inventory.AvailableQuantity -  cartItem.Qunatity;
+            inventory.AvailableQuantity = inventory.AvailableQuantity - cartItem.Qunatity;
             inventory.ReservedQuantity = inventory.ReservedQuantity + cartItem.Qunatity;
-            await _inventoryRepsository.Update(inventory.InventoryId,inventory);
+            await _inventoryRepsository.Update(inventory.InventoryId, inventory);
+            if (selectedCoupon != null)
+            {
+                await CreateCouponUsage(order.OrderId, selectedCoupon.CouponId);
+            }
         }
 
         return orderItemsList;
+    }
+    private async Task CreateCouponUsage(int orderId, int couponId)
+    {
+        CouponUsage couponUsage = new CouponUsage();
+        couponUsage.CouponId = couponId;
+        couponUsage.OrderId = orderId;
+        await _couponUsageRepsository.Create(couponUsage);
     }
 }
