@@ -2244,3 +2244,1344 @@ WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
 2026-06-09 14:19:25.794 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 20.4167ms
 2026-06-09 14:19:25.795 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
 2026-06-09 14:19:25.795 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=1 - 200 null application/json; charset=utf-8 28.9832ms
+2026-06-09 14:20:59.995 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductCategory - application/json 42
+2026-06-09 14:21:00.037 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductCategory (Ecommerce.API)'
+2026-06-09 14:21:00.041 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:21:00.068 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:21:00.128 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-09 14:21:00.134 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductCategory (Ecommerce.API) in 92.847ms
+2026-06-09 14:21:00.135 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductCategory (Ecommerce.API)'
+2026-06-09 14:21:00.135 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Category is deactivated
+   at ProductCategoryValidation.ValidateProductCategoryName(String ProductCategoryName) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 47
+   at AdminProductCategoryService.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 10
+   at Ecommerce.API.Controllers.AdminProductController.AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductController.cs:line 120
+   at lambda_method1303(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:21:00.137 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductCategory - 500 null application/json 141.8969ms
+2026-06-09 14:21:13.349 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategory - application/json 104
+2026-06-09 14:21:13.359 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 8:55:14 PM', Current time (UTC): '09/06/2026 8:51:13 AM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-09 14:21:13.364 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 8:55:14 PM', Current time (UTC): '09/06/2026 8:51:13 AM'.
+2026-06-09 14:21:13.366 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|3)
+2026-06-09 14:21:13.370 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-09 14:21:13.371 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategory - 401 0 null 21.1704ms
+2026-06-09 14:21:20.858 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategory - application/json 104
+2026-06-09 14:21:20.862 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:21:20.870 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:21:20.882 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:21:20.893 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 14:21:20.894 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductSubCategory (Ecommerce.API) in 23.1048ms
+2026-06-09 14:21:20.894 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:21:20.894 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Category is deactivated
+   at ProductCategoryValidation.ValidateCategory(Int32 categoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 37
+   at AdminProductCategoryService.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 20
+   at Ecommerce.API.Controllers.AdminProductController.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductController.cs:line 128
+   at lambda_method1620(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:21:20.895 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategory - 500 null application/json 36.5242ms
+2026-06-09 14:21:32.246 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - application/json 57
+2026-06-09 14:21:32.249 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:21:32.257 +05:30 [INF] Route matched with {action = "AddProductSubCategoryAttribute", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO]] AddProductSubCategoryAttribute(Ecommerce.DTOs.RequestAddProductSubCategoryAttributeDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:21:32.269 +05:30 [INF] ProductSubCategoryAttribute creation initiated by UserId 1. AttributeMasterId 2, ProductSubCategoryId 1
+2026-06-09 14:21:32.272 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:21:32.280 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeMasterId" = @p
+LIMIT 1
+2026-06-09 14:21:32.292 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-09 14:21:32.307 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AddedByAdminId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-09 14:21:32.315 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API) in 57.5059ms
+2026-06-09 14:21:32.315 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:21:32.315 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Product Sub Category Attribute is inactivated
+   at ProductAttributeValidation.ValidateProductSubCategoryAttributeForAdmin(Int32 AttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 38
+   at AdminProductAttributeService.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 32
+   at Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductController.cs:line 136
+   at lambda_method1638(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:21:32.316 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - 500 null application/json 70.3015ms
+2026-06-09 14:22:01.244 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - application/json 57
+2026-06-09 14:22:01.253 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:22:01.254 +05:30 [INF] Route matched with {action = "AddProductSubCategoryAttribute", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO]] AddProductSubCategoryAttribute(Ecommerce.DTOs.RequestAddProductSubCategoryAttributeDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:22:01.259 +05:30 [INF] ProductSubCategoryAttribute creation initiated by UserId 1. AttributeMasterId 3, ProductSubCategoryId 1
+2026-06-09 14:22:01.262 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:22:01.267 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeMasterId" = @p
+LIMIT 1
+2026-06-09 14:22:01.268 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API) in 13.6462ms
+2026-06-09 14:22:01.268 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:22:01.268 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Attribute Is Not Found
+   at ProductAttributeValidation.ValidateAttribute(Int32 attributeId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 63
+   at ProductAttributeValidation.ValidateProductSubCategoryAttributeForAdmin(Int32 AttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 33
+   at AdminProductAttributeService.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 32
+   at Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductController.cs:line 136
+   at lambda_method1638(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:22:01.270 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - 404 null application/json 26.2536ms
+2026-06-09 14:22:11.741 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddAttribute - application/json 29
+2026-06-09 14:22:11.743 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 8:55:14 PM', Current time (UTC): '09/06/2026 8:52:11 AM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-09 14:22:11.744 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 8:55:14 PM', Current time (UTC): '09/06/2026 8:52:11 AM'.
+2026-06-09 14:22:11.745 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|3)
+2026-06-09 14:22:11.746 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-09 14:22:11.746 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddAttribute - 401 0 null 5.491ms
+2026-06-09 14:22:24.042 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddAttribute - application/json 29
+2026-06-09 14:22:24.044 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddAttribute (Ecommerce.API)'
+2026-06-09 14:22:24.054 +05:30 [INF] Route matched with {action = "AddAttribute", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddAttributeDTO]] AddAttribute(Ecommerce.DTOs.RequestAddAttributeDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:22:24.059 +05:30 [INF] Attribute creation initiated by UserId 1 for AttributeName Size
+2026-06-09 14:22:24.061 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:22:24.070 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@attributeName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeName" = @attributeName
+LIMIT 1
+2026-06-09 14:22:24.071 +05:30 [INF] Validation completed for AttributeName Size
+2026-06-09 14:22:24.143 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?', @p2='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "AttributeMaster" ("AddedByAdminId", "AttributeName", "CreatedAt")
+VALUES (@p0, @p1, @p2)
+RETURNING "AttributeMasterId", "IsActive";
+2026-06-09 14:22:24.157 +05:30 [INF] Attribute created successfully with AttributeMasterId 3 by AdminUserId 1
+2026-06-09 14:22:24.158 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddAttributeDTO'.
+2026-06-09 14:22:24.159 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddAttribute (Ecommerce.API) in 105.461ms
+2026-06-09 14:22:24.159 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddAttribute (Ecommerce.API)'
+2026-06-09 14:22:24.160 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddAttribute - 200 null application/json; charset=utf-8 117.4486ms
+2026-06-09 14:22:31.273 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - application/json 57
+2026-06-09 14:22:31.275 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:22:31.276 +05:30 [INF] Route matched with {action = "AddProductSubCategoryAttribute", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO]] AddProductSubCategoryAttribute(Ecommerce.DTOs.RequestAddProductSubCategoryAttributeDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:22:31.277 +05:30 [INF] ProductSubCategoryAttribute creation initiated by UserId 1. AttributeMasterId 3, ProductSubCategoryId 1
+2026-06-09 14:22:31.281 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:22:31.283 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeMasterId" = @p
+LIMIT 1
+2026-06-09 14:22:31.285 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-09 14:22:31.287 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryId='?' (DbType = Int32), @productSubCategoryAttributeId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AddedByAdminId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId"
+FROM "ProductSubCategoryAttribute" AS p
+WHERE p."ProductSubCategoryId" = @productSubCategoryId AND p."ProductSubCategoryAttributeId" = @productSubCategoryAttributeId
+LIMIT 1
+2026-06-09 14:22:31.287 +05:30 [INF] Validation completed for AttributeMasterId 3 and ProductSubCategoryId 1
+2026-06-09 14:22:31.306 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductSubCategoryAttribute" ("AddedByAdminId", "AttributeMasterId", "CreatedAt", "ProductSubCategoryId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ProductSubCategoryAttributeId", "IsActive";
+2026-06-09 14:22:31.309 +05:30 [INF] ProductSubCategoryAttribute created successfully with Id 3 by AdminUserId 1
+2026-06-09 14:22:31.310 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO'.
+2026-06-09 14:22:31.311 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API) in 35.0225ms
+2026-06-09 14:22:31.311 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:22:31.311 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - 200 null application/json; charset=utf-8 38.3871ms
+2026-06-09 14:24:26.461 +05:30 [INF] Application is shutting down...
+2026-06-09 14:24:34.110 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 14:24:34.203 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 14:24:34.204 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 14:24:34.205 +05:30 [INF] Hosting environment: Development
+2026-06-09 14:24:34.205 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 14:24:38.646 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - application/json 57
+2026-06-09 14:24:38.667 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 14:24:38.719 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:24:38.730 +05:30 [INF] Route matched with {action = "AddProductSubCategoryAttribute", controller = "AdminProduct"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryAttributeDTO]] AddProductSubCategoryAttribute(Ecommerce.DTOs.RequestAddProductSubCategoryAttributeDTO) on controller Ecommerce.API.Controllers.AdminProductController (Ecommerce.API).
+2026-06-09 14:24:38.866 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 14:24:38.881 +05:30 [INF] ProductSubCategoryAttribute creation initiated by UserId 1. AttributeMasterId 3, ProductSubCategoryId 1
+2026-06-09 14:24:39.861 +05:30 [INF] Executed DbCommand (35ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:24:39.941 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "AttributeMaster" AS a
+WHERE a."AttributeMasterId" = @p
+LIMIT 1
+2026-06-09 14:24:39.954 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-09 14:24:39.971 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 14:24:39.980 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API) in 1247.6598ms
+2026-06-09 14:24:39.980 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute (Ecommerce.API)'
+2026-06-09 14:24:39.981 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Category is deactivated
+   at ProductCategoryValidation.ValidateCategory(Int32 categoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 37
+   at ProductAttributeValidation.ValidateProductSubCategoryAttributeForAdmin(Int32 AttributeId, Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductAttributeValidation.cs:line 35
+   at AdminProductAttributeService.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminAttributeService/AddAttributeService.cs:line 31
+   at Ecommerce.API.Controllers.AdminProductController.AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductController.cs:line 136
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:24:39.994 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminProduct/AddProductSubCategoryAttribute - 500 null application/json 1348.745ms
+2026-06-09 14:26:59.100 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-09 14:26:59.143 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 43.345ms
+2026-06-09 14:26:59.209 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 14:26:59.283 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.7087ms
+2026-06-09 14:27:31.218 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/categories - null null
+2026-06-09 14:27:31.225 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductCategory (Ecommerce.API)'
+2026-06-09 14:27:31.235 +05:30 [INF] Route matched with {action = "GetAllProductCategory", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductCategory() on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:27:31.277 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName", p1."ProductSubCategoryId", p1."AddedByAdminId", p1."CommissionPercentage", p1."CreatedAt", p1."IsActive", p1."ProductCategoryId", p1."ProductSubCategoryName"
+FROM "ProductCategory" AS p
+LEFT JOIN (
+    SELECT p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName"
+    FROM "ProductSubCategory" AS p0
+    WHERE p0."IsActive"
+) AS p1 ON p."ProductCategoryId" = p1."ProductCategoryId"
+WHERE p."IsActive"
+ORDER BY p."ProductCategoryName", p."ProductCategoryId"
+2026-06-09 14:27:31.278 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductCategory (Ecommerce.API) in 43.1571ms
+2026-06-09 14:27:31.278 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductCategory (Ecommerce.API)'
+2026-06-09 14:27:31.279 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductCategory() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 12
+   at UserProductCategoryController.GetAllProductCategory() in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 18
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:27:31.280 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/categories - 404 null application/json 61.886ms
+2026-06-09 14:27:53.869 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories - null null
+2026-06-09 14:27:53.876 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:27:53.884 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:27:53.932 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:27:53.933 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 48.5174ms
+2026-06-09 14:27:53.933 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:27:53.933 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryNames(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 21
+   at UserProductCategoryController.GetAllProductSubCategoryNames(Int32 ProductCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 31
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:27:53.934 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories - 404 null application/json 65.2391ms
+2026-06-09 14:28:19.631 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=1 - null null
+2026-06-09 14:28:19.638 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:28:19.639 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:28:19.653 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:28:19.653 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 14.4062ms
+2026-06-09 14:28:19.653 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:28:19.654 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryNames(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 21
+   at UserProductCategoryController.GetAllProductSubCategoryNames(Int32 ProductCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 31
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:28:19.655 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=1 - 404 null application/json 23.2017ms
+2026-06-09 14:29:05.244 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid - null null
+2026-06-09 14:29:05.247 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:29:05.255 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:29:05.263 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-09 14:29:05.277 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 22.2356ms
+2026-06-09 14:29:05.278 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:29:05.278 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid - 400 null application/problem+json; charset=utf-8 33.8009ms
+2026-06-09 14:29:09.443 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - null null
+2026-06-09 14:29:09.445 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:29:09.445 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:29:09.482 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AddedByAdminId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId", p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName", a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "ProductSubCategoryAttribute" AS p
+INNER JOIN "ProductSubCategory" AS p0 ON p."ProductSubCategoryId" = p0."ProductSubCategoryId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+INNER JOIN "AttributeMaster" AS a ON p."AttributeMasterId" = a."AttributeMasterId"
+WHERE p."ProductSubCategoryId" = @subCategoryId AND p."IsActive" AND p0."IsActive" AND p1."IsActive" AND a."IsActive"
+2026-06-09 14:29:09.483 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 36.9657ms
+2026-06-09 14:29:09.483 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:29:09.483 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryAttributeNames(Int32 productSubCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 30
+   at UserProductCategoryController.GetAllProductSubCategoryAttributeNames(Int32 subcategoryid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 25
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:29:09.484 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - 404 null application/json 40.8473ms
+2026-06-09 14:30:47.088 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/categories - null null
+2026-06-09 14:30:47.091 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductCategory (Ecommerce.API)'
+2026-06-09 14:30:47.092 +05:30 [INF] Route matched with {action = "GetAllProductCategory", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductCategory() on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:30:47.119 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName", p1."ProductSubCategoryId", p1."AddedByAdminId", p1."CommissionPercentage", p1."CreatedAt", p1."IsActive", p1."ProductCategoryId", p1."ProductSubCategoryName"
+FROM "ProductCategory" AS p
+LEFT JOIN (
+    SELECT p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName"
+    FROM "ProductSubCategory" AS p0
+    WHERE p0."IsActive"
+) AS p1 ON p."ProductCategoryId" = p1."ProductCategoryId"
+WHERE p."IsActive"
+ORDER BY p."ProductCategoryName", p."ProductCategoryId"
+2026-06-09 14:30:47.132 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseUserGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 14:30:47.133 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductCategory (Ecommerce.API) in 41.5815ms
+2026-06-09 14:30:47.134 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductCategory (Ecommerce.API)'
+2026-06-09 14:30:47.134 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/categories - 200 null application/json; charset=utf-8 45.5644ms
+2026-06-09 14:30:51.109 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=1 - null null
+2026-06-09 14:30:51.110 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:30:51.111 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:30:51.116 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:30:51.123 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseUserGetAllSubCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 14:30:51.127 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 16.4667ms
+2026-06-09 14:30:51.128 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:30:51.128 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=1 - 200 null application/json; charset=utf-8 19.3167ms
+2026-06-09 14:30:54.263 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=2 - null null
+2026-06-09 14:30:54.264 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:30:54.265 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:30:54.268 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:30:54.270 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 4.6726ms
+2026-06-09 14:30:54.270 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:30:54.270 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryNames(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 21
+   at UserProductCategoryController.GetAllProductSubCategoryNames(Int32 ProductCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 31
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:30:54.272 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=2 - 404 null application/json 9.243ms
+2026-06-09 14:31:01.739 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=3 - null null
+2026-06-09 14:31:01.740 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:31:01.740 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:31:01.745 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:31:01.746 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 5.4275ms
+2026-06-09 14:31:01.746 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:31:01.747 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryNames(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 21
+   at UserProductCategoryController.GetAllProductSubCategoryNames(Int32 ProductCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 31
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:31:01.748 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?ProductCategoryId=3 - 404 null application/json 9.196ms
+2026-06-09 14:31:08.270 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories - null null
+2026-06-09 14:31:08.271 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:31:08.272 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:31:08.275 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:31:08.276 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 4.0572ms
+2026-06-09 14:31:08.277 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:31:08.277 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No active Product Category is found
+   at UserProductCategoryService.GetAllProductSubCategoryNames(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserProductService/GetProductService.cs:line 21
+   at UserProductCategoryController.GetAllProductSubCategoryNames(Int32 ProductCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/UserProductCategoryController.cs:line 31
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:31:08.279 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories - 404 null application/json 8.4976ms
+2026-06-09 14:32:05.746 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?productcategoryid - null null
+2026-06-09 14:32:05.751 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:32:05.752 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:32:05.758 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-09 14:32:05.760 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 7.7581ms
+2026-06-09 14:32:05.760 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:32:05.761 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?productcategoryid - 400 null application/problem+json; charset=utf-8 14.8233ms
+2026-06-09 14:32:08.200 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?productcategoryid=1 - null null
+2026-06-09 14:32:08.202 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:32:08.202 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:32:08.210 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName", p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName"
+FROM "ProductSubCategory" AS p
+INNER JOIN "ProductCategory" AS p0 ON p."ProductCategoryId" = p0."ProductCategoryId"
+WHERE p."ProductCategoryId" = @productId AND p."IsActive" AND p0."IsActive"
+2026-06-09 14:32:08.215 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseUserGetAllSubCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 14:32:08.216 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API) in 13.7589ms
+2026-06-09 14:32:08.216 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryNames (Ecommerce.API)'
+2026-06-09 14:32:08.216 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategories?productcategoryid=1 - 200 null application/json; charset=utf-8 16.0647ms
+2026-06-09 14:32:13.718 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - null null
+2026-06-09 14:32:13.719 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:32:13.720 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:32:13.730 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AddedByAdminId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId", p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName", a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "ProductSubCategoryAttribute" AS p
+INNER JOIN "ProductSubCategory" AS p0 ON p."ProductSubCategoryId" = p0."ProductSubCategoryId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+INNER JOIN "AttributeMaster" AS a ON p."AttributeMasterId" = a."AttributeMasterId"
+WHERE p."ProductSubCategoryId" = @subCategoryId AND p."IsActive" AND p0."IsActive" AND p1."IsActive" AND a."IsActive"
+2026-06-09 14:32:13.756 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryAttribute, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 14:32:13.757 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 37.3387ms
+2026-06-09 14:32:13.757 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:32:13.757 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - 200 null application/json; charset=utf-8 39.2467ms
+2026-06-09 14:32:50.694 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - null null
+2026-06-09 14:32:50.696 +05:30 [INF] Executing endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:32:50.696 +05:30 [INF] Route matched with {action = "GetAllProductSubCategoryAttributeNames", controller = "UserProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProductSubCategoryAttributeNames(Int32) on controller UserProductCategoryController (Ecommerce.API).
+2026-06-09 14:32:50.699 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@subCategoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryAttributeId", p."AddedByAdminId", p."AttributeMasterId", p."CreatedAt", p."IsActive", p."ProductSubCategoryId", p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName", a."AttributeMasterId", a."AddedByAdminId", a."AttributeName", a."CreatedAt", a."IsActive"
+FROM "ProductSubCategoryAttribute" AS p
+INNER JOIN "ProductSubCategory" AS p0 ON p."ProductSubCategoryId" = p0."ProductSubCategoryId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+INNER JOIN "AttributeMaster" AS a ON p."AttributeMasterId" = a."AttributeMasterId"
+WHERE p."ProductSubCategoryId" = @subCategoryId AND p."IsActive" AND p0."IsActive" AND p1."IsActive" AND a."IsActive"
+2026-06-09 14:32:50.702 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseGetAllProductSubCategoryAttribute, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 14:32:50.703 +05:30 [INF] Executed action UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API) in 6.5067ms
+2026-06-09 14:32:50.703 +05:30 [INF] Executed endpoint 'UserProductCategoryController.GetAllProductSubCategoryAttributeNames (Ecommerce.API)'
+2026-06-09 14:32:50.703 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/UserProductCategory/subcategory/attributes?subcategoryid=1 - 200 null application/json; charset=utf-8 9.1618ms
+2026-06-09 14:45:33.229 +05:30 [INF] Application is shutting down...
+2026-06-09 14:45:40.691 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 14:45:40.784 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 14:45:40.785 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 14:45:40.785 +05:30 [INF] Hosting environment: Development
+2026-06-09 14:45:40.785 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 14:45:43.850 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-09 14:45:43.886 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 37.0344ms
+2026-06-09 14:45:43.962 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 14:45:44.049 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 87.2719ms
+2026-06-09 14:47:50.565 +05:30 [INF] Application is shutting down...
+2026-06-09 14:47:56.610 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 14:47:56.709 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 14:47:56.710 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 14:47:56.710 +05:30 [INF] Hosting environment: Development
+2026-06-09 14:47:56.710 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 14:48:03.779 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-09 14:48:03.816 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 38.4149ms
+2026-06-09 14:48:03.881 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-09 14:48:03.965 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 84.3031ms
+2026-06-09 14:48:49.608 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?pageNumber=1&pageSize=10 - null null
+2026-06-09 14:48:49.643 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 14:48:49.664 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|3)
+2026-06-09 14:48:49.666 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-09 14:48:49.666 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?pageNumber=1&pageSize=10 - 401 0 null 58.349ms
+2026-06-09 14:55:51.237 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-09 14:55:51.282 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:45:56 PM', Current time (UTC): '09/06/2026 9:25:51 AM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-09 14:55:51.289 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '08/06/2026 4:45:56 PM', Current time (UTC): '09/06/2026 9:25:51 AM'.
+2026-06-09 14:55:51.291 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-09 14:55:51.311 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-09 14:55:51.485 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 14:55:51.499 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-09 14:55:52.545 +05:30 [INF] Executed DbCommand (29ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-09 14:55:52.635 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:55:52.658 +05:30 [INF] Generating token for UserId 1
+2026-06-09 14:55:52.666 +05:30 [INF] Login successful for UserId 1
+2026-06-09 14:55:52.669 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-09 14:55:52.673 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1360.0765ms
+2026-06-09 14:55:52.673 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-09 14:55:52.677 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1440.3444ms
+2026-06-09 14:56:34.955 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/admin/product-categories - application/json 38
+2026-06-09 14:56:34.975 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductCategory (Ecommerce.API)'
+2026-06-09 14:56:34.979 +05:30 [INF] Route matched with {action = "AddProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductCategoryDTO]] AddProductCategory(Ecommerce.DTOs.RequestAddProductCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 14:56:34.996 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:56:35.007 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@productCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryName" = @productCategoryName
+LIMIT 1
+2026-06-09 14:56:35.079 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductCategory" ("AddedByAdminId", "CreatedAt", "ProductCategoryName")
+VALUES (@p0, @p1, @p2)
+RETURNING "ProductCategoryId", "IsActive";
+2026-06-09 14:56:35.095 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductCategoryDTO'.
+2026-06-09 14:56:35.096 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.AddProductCategory (Ecommerce.API) in 116.76ms
+2026-06-09 14:56:35.096 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductCategory (Ecommerce.API)'
+2026-06-09 14:56:35.096 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/admin/product-categories - 200 null application/json; charset=utf-8 141.9135ms
+2026-06-09 14:58:27.893 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - application/json 96
+2026-06-09 14:58:27.899 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:27.907 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 14:58:27.950 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:58:27.961 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 14:58:27.969 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@productSubCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryName" = @productSubCategoryName
+LIMIT 1
+2026-06-09 14:58:27.993 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Decimal), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ProductSubCategory" ("AddedByAdminId", "CommissionPercentage", "CreatedAt", "ProductCategoryId", "ProductSubCategoryName")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "ProductSubCategoryId", "IsActive";
+2026-06-09 14:58:27.996 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddProductSubCategoryDTO'.
+2026-06-09 14:58:27.997 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API) in 89.5155ms
+2026-06-09 14:58:27.997 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:27.997 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - 200 null application/json; charset=utf-8 104.1671ms
+2026-06-09 14:58:30.423 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - application/json 96
+2026-06-09 14:58:30.425 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:30.426 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 14:58:30.436 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:58:30.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 14:58:30.442 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@productSubCategoryName='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryName" = @productSubCategoryName
+LIMIT 1
+2026-06-09 14:58:30.445 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API) in 19.5394ms
+2026-06-09 14:58:30.446 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:30.446 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Already The Product Sub Category Name Is Registered
+   at ProductCategoryValidation.ValidateProductSubCategoryName(String ProductSubCategoryName) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 64
+   at AdminProductCategoryService.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 21
+   at Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory(RequestAddProductSubCategoryDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 54
+   at lambda_method863(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:58:30.455 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - 500 null application/json 31.7487ms
+2026-06-09 14:58:37.767 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - application/json 96
+2026-06-09 14:58:37.769 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:37.769 +05:30 [INF] Route matched with {action = "AddProductSubCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddProductSubCategoryDTO]] AddProductSubCategory(Ecommerce.DTOs.RequestAddProductSubCategoryDTO) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 14:58:37.773 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRole" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-09 14:58:37.776 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 14:58:37.777 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API) in 7.3567ms
+2026-06-09 14:58:37.777 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory (Ecommerce.API)'
+2026-06-09 14:58:37.777 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Product Category Is Not Found
+   at ProductCategoryValidation.ValidateCategory(Int32 categoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 33
+   at AdminProductCategoryService.AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO, Int32 adminuserid) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/AddProductCategoryService.cs:line 20
+   at Ecommerce.API.Controllers.AdminProductCategoryController.AddProductSubCategory(RequestAddProductSubCategoryDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 54
+   at lambda_method863(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:58:37.779 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/admin/product-categories/subcategories - 404 null application/json 12.2172ms
+2026-06-09 14:58:55.737 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - null null
+2026-06-09 14:58:55.739 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 14:58:55.749 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 14:58:55.779 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 14:58:55.797 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 14:58:55.802 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 52.3335ms
+2026-06-09 14:58:55.802 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 14:58:55.802 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+ValueTuple`2 -> List`1
+System.ValueTuple`2[[System.Collections.Generic.List`1[[Ecommerce.Models.ProductCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]] -> System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+   at lambda_method1048(Closure, Object, List`1, ResolutionContext)
+   at AdminProductCategoryService.GetAllProductCategoryForAdmin(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/GetProductCategoryService.cs:line 13
+   at Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 32
+   at lambda_method1010(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 14:58:55.804 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - 500 null application/json 67.6843ms
+2026-06-09 15:03:06.813 +05:30 [INF] Application is shutting down...
+2026-06-09 15:03:14.466 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 15:03:14.563 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 15:03:14.564 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 15:03:14.564 +05:30 [INF] Hosting environment: Development
+2026-06-09 15:03:14.564 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 15:03:22.044 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - null null
+2026-06-09 15:03:22.069 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 15:03:22.122 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:03:22.135 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:03:22.275 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 15:03:23.203 +05:30 [INF] Executed DbCommand (32ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:03:23.277 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:03:23.346 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 1209.358ms
+2026-06-09 15:03:23.347 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:03:23.347 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+ValueTuple`2 -> List`1
+System.ValueTuple`2[[System.Collections.Generic.List`1[[Ecommerce.Models.ProductCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]] -> System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+   at lambda_method621(Closure, Object, List`1, ResolutionContext)
+   at AdminProductCategoryService.GetAllProductCategoryForAdmin(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/GetProductCategoryService.cs:line 13
+   at Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 32
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 15:03:23.368 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - 500 null application/json 1325.3462ms
+2026-06-09 15:04:59.217 +05:30 [INF] Application is shutting down...
+2026-06-09 15:05:05.193 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-09 15:05:05.302 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-09 15:05:05.303 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-09 15:05:05.304 +05:30 [INF] Hosting environment: Development
+2026-06-09 15:05:05.304 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-09 15:05:10.273 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - null null
+2026-06-09 15:05:10.304 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-09 15:05:10.359 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:10.372 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:10.518 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-09 15:05:11.438 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:05:11.515 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:11.583 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:05:11.597 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 1223.4682ms
+2026-06-09 15:05:11.598 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:11.602 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=10 - 200 null application/json; charset=utf-8 1330.2056ms
+2026-06-09 15:05:24.951 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=1 - null null
+2026-06-09 15:05:24.964 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:24.964 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:24.981 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:05:24.983 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:24.986 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:05:24.986 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 21.7737ms
+2026-06-09 15:05:24.986 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:24.987 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 36.196ms
+2026-06-09 15:05:27.699 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=&pageSize=1 - null null
+2026-06-09 15:05:27.705 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:27.706 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:27.717 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-09 15:05:27.731 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 24.6247ms
+2026-06-09 15:05:27.731 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:27.731 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=&pageSize=1 - 400 null application/problem+json; charset=utf-8 32.3243ms
+2026-06-09 15:05:32.044 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=0&pageSize=1 - null null
+2026-06-09 15:05:32.046 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:32.047 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:32.091 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:05:32.099 +05:30 [ERR] Failed executing DbCommand (6ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:32.106 +05:30 [ERR] An exception occurred while iterating over the results of a query for context type 'Ecommerce.Data.EcommerceContext'.
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 373
+    Routine: recompute_limits
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 373
+    Routine: recompute_limits
+2026-06-09 15:05:32.108 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 60.7692ms
+2026-06-09 15:05:32.108 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:32.108 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Npgsql.PostgresException (0x80004005): 2201X: OFFSET must not be negative
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.InitializeReaderAsync(AsyncEnumerator enumerator, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Query.Internal.SingleQueryingEnumerable`1.AsyncEnumerator.MoveNextAsync()
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.EntityFrameworkQueryableExtensions.ToListAsync[TSource](IQueryable`1 source, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.ProductCategoryRepsository.GetAllProductCategoryForAdmin(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/ProductCategory/ProductCategoryRepository.cs:line 28
+   at AdminProductCategoryService.GetAllProductCategoryForAdmin(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/GetProductCategoryService.cs:line 8
+   at Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 32
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+  Exception data:
+    Severity: ERROR
+    SqlState: 2201X
+    MessageText: OFFSET must not be negative
+    File: nodeLimit.c
+    Line: 373
+    Routine: recompute_limits
+2026-06-09 15:05:32.117 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=0&pageSize=1 - 500 null application/json 73.2429ms
+2026-06-09 15:05:42.435 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=0 - null null
+2026-06-09 15:05:42.437 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:42.437 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:42.440 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:05:42.461 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@status='?' (DbType = Boolean), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:42.461 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:05:42.461 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 24.0199ms
+2026-06-09 15:05:42.462 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:42.462 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=0 - 200 null application/json; charset=utf-8 26.5202ms
+2026-06-09 15:05:45.575 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=1 - null null
+2026-06-09 15:05:45.576 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:45.576 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:45.580 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:05:45.583 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:45.585 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:05:45.586 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 9.0216ms
+2026-06-09 15:05:45.586 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:45.586 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=1&pageSize=1 - 200 null application/json; charset=utf-8 11.2001ms
+2026-06-09 15:05:55.025 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?pageNumber=2&pageSize=1 - null null
+2026-06-09 15:05:55.026 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:55.027 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:05:55.035 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+2026-06-09 15:05:55.047 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:05:55.048 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:05:55.049 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 21.5377ms
+2026-06-09 15:05:55.049 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:05:55.049 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?pageNumber=2&pageSize=1 - 200 null application/json; charset=utf-8 24.1173ms
+2026-06-09 15:06:00.667 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=false&pageNumber=2&pageSize=1 - null null
+2026-06-09 15:06:00.670 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:06:00.670 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:06:00.674 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:06:00.676 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:06:00.678 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 7.2927ms
+2026-06-09 15:06:00.678 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:06:00.678 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Product Category Found
+   at AdminProductCategoryService.GetAllProductCategoryForAdmin(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/GetProductCategoryService.cs:line 11
+   at Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories(Nullable`1 status, Int32 pageNumber, Int32 pageSize) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 32
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 15:06:00.682 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=false&pageNumber=2&pageSize=1 - 404 null application/json 15.0905ms
+2026-06-09 15:06:11.025 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=2&pageSize=1 - null null
+2026-06-09 15:06:11.027 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:06:11.028 +05:30 [INF] Route matched with {action = "GetAllProductCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllCategory]]] GetAllProductCategories(System.Nullable`1[System.Boolean], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:06:11.032 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@status='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductCategory" AS p
+WHERE p."IsActive" = @status
+2026-06-09 15:06:11.034 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@status='?' (DbType = Boolean), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductCategoryId", p0."AddedByAdminId", p0."CreatedAt", p0."IsActive", p0."ProductCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM (
+    SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+    FROM "ProductCategory" AS p
+    WHERE p."IsActive" = @status
+    ORDER BY p."ProductCategoryName"
+    LIMIT @p OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+ORDER BY p0."ProductCategoryName"
+2026-06-09 15:06:11.036 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:06:11.037 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API) in 9.1922ms
+2026-06-09 15:06:11.037 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductCategories (Ecommerce.API)'
+2026-06-09 15:06:11.038 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories?status=true&pageNumber=2&pageSize=1 - 200 null application/json; charset=utf-8 13.0468ms
+2026-06-09 15:06:36.750 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories - null null
+2026-06-09 15:06:36.754 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:36.762 +05:30 [INF] Route matched with {action = "GetAllProductSubCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllSubCategory]]] GetAllProductSubCategories(System.Nullable`1[System.Boolean], System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:06:36.774 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductSubCategory" AS p
+2026-06-09 15:06:36.786 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName"
+FROM (
+    SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+    FROM "ProductSubCategory" AS p
+    ORDER BY p."ProductSubCategoryName"
+    LIMIT @p1 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+ORDER BY p0."ProductSubCategoryName"
+2026-06-09 15:06:36.802 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllSubCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:06:36.805 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API) in 41.9151ms
+2026-06-09 15:06:36.805 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:36.805 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories - 200 null application/json; charset=utf-8 54.9686ms
+2026-06-09 15:06:52.487 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories?categoryId=1 - null null
+2026-06-09 15:06:52.489 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:52.490 +05:30 [INF] Route matched with {action = "GetAllProductSubCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllSubCategory]]] GetAllProductSubCategories(System.Nullable`1[System.Boolean], System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:06:52.498 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@categoryId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductSubCategory" AS p
+WHERE p."ProductCategoryId" = @categoryId
+2026-06-09 15:06:52.513 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@categoryId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName"
+FROM (
+    SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+    FROM "ProductSubCategory" AS p
+    WHERE p."ProductCategoryId" = @categoryId
+    ORDER BY p."ProductSubCategoryName"
+    LIMIT @p2 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+ORDER BY p0."ProductSubCategoryName"
+2026-06-09 15:06:52.514 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllSubCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:06:52.514 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API) in 23.9169ms
+2026-06-09 15:06:52.514 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:52.514 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories?categoryId=1 - 200 null application/json; charset=utf-8 26.7581ms
+2026-06-09 15:06:57.748 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories - null null
+2026-06-09 15:06:57.749 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:57.750 +05:30 [INF] Route matched with {action = "GetAllProductSubCategories", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[ResponseAdminGetAllSubCategory]]] GetAllProductSubCategories(System.Nullable`1[System.Boolean], System.Nullable`1[System.Int32], Int32, Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:06:57.753 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "ProductSubCategory" AS p
+2026-06-09 15:06:57.757 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p0."ProductSubCategoryId", p0."AddedByAdminId", p0."CommissionPercentage", p0."CreatedAt", p0."IsActive", p0."ProductCategoryId", p0."ProductSubCategoryName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", p1."ProductCategoryId", p1."AddedByAdminId", p1."CreatedAt", p1."IsActive", p1."ProductCategoryName"
+FROM (
+    SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+    FROM "ProductSubCategory" AS p
+    ORDER BY p."ProductSubCategoryName"
+    LIMIT @p1 OFFSET @p
+) AS p0
+INNER JOIN "AdminUser" AS a ON p0."AddedByAdminId" = a."AdminUserId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ProductCategory" AS p1 ON p0."ProductCategoryId" = p1."ProductCategoryId"
+ORDER BY p0."ProductSubCategoryName"
+2026-06-09 15:06:57.758 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[ResponseAdminGetAllSubCategory, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-09 15:06:57.759 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API) in 8.9007ms
+2026-06-09 15:06:57.759 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.GetAllProductSubCategories (Ecommerce.API)'
+2026-06-09 15:06:57.760 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/admin/product-categories/subcategories - 200 null application/json; charset=utf-8 11.4476ms
+2026-06-09 15:07:13.277 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/{productCategoryId}/activate?productCategoryId=1 - null 0
+2026-06-09 15:07:13.279 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:07:13.287 +05:30 [INF] Route matched with {action = "ActivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] ActivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:07:13.290 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-09 15:07:13.290 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API) in 2.6176ms
+2026-06-09 15:07:13.290 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:07:13.291 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/{productCategoryId}/activate?productCategoryId=1 - 400 null application/problem+json; charset=utf-8 13.9038ms
+2026-06-09 15:08:11.105 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - null 0
+2026-06-09 15:08:11.109 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:11.110 +05:30 [INF] Route matched with {action = "ActivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] ActivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:08:11.132 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 15:08:11.133 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API) in 23.4147ms
+2026-06-09 15:08:11.134 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:11.134 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Product category is already active
+   at AdminProductCategoryService.ActivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/ActivateProductCategoryService.cs:line 17
+   at Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 39
+   at lambda_method847(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 15:08:11.135 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - 500 null application/json 29.1557ms
+2026-06-09 15:08:46.265 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/deactivate - null 0
+2026-06-09 15:08:46.267 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:46.275 +05:30 [INF] Route matched with {action = "DeactivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] DeactivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:08:46.282 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 15:08:46.337 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p4='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Boolean), @p3='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "ProductCategory" SET "AddedByAdminId" = @p0, "CreatedAt" = @p1, "IsActive" = @p2, "ProductCategoryName" = @p3
+WHERE "ProductCategoryId" = @p4;
+2026-06-09 15:08:46.343 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseAdminGetAllCategory'.
+2026-06-09 15:08:46.343 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API) in 67.726ms
+2026-06-09 15:08:46.343 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:46.343 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/deactivate - 200 null application/json; charset=utf-8 78.2544ms
+2026-06-09 15:08:49.621 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/deactivate - null 0
+2026-06-09 15:08:49.622 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:49.623 +05:30 [INF] Route matched with {action = "DeactivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] DeactivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:08:49.627 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 15:08:49.628 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API) in 5.497ms
+2026-06-09 15:08:49.629 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory (Ecommerce.API)'
+2026-06-09 15:08:49.629 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Category is deactivated
+   at ProductCategoryValidation.ValidateCategory(Int32 categoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductCategoryValidation.cs:line 37
+   at AdminProductCategoryService.DeactivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/DeactivateProductCategoryService.cs:line 9
+   at Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 46
+   at lambda_method865(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 15:08:49.632 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/deactivate - 500 null application/json 11.2341ms
+2026-06-09 15:09:37.559 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - null 0
+2026-06-09 15:09:37.562 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:09:37.562 +05:30 [INF] Route matched with {action = "ActivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] ActivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:09:37.566 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 15:09:37.570 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p4='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Boolean), @p3='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "ProductCategory" SET "AddedByAdminId" = @p0, "CreatedAt" = @p1, "IsActive" = @p2, "ProductCategoryName" = @p3
+WHERE "ProductCategoryId" = @p4;
+2026-06-09 15:09:37.571 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseAdminGetAllCategory'.
+2026-06-09 15:09:37.572 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API) in 9.4865ms
+2026-06-09 15:09:37.572 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:09:37.572 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - 200 null application/json; charset=utf-8 13.4563ms
+2026-06-09 15:09:40.047 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - null 0
+2026-06-09 15:09:40.048 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:09:40.049 +05:30 [INF] Route matched with {action = "ActivateProductCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllCategory]] ActivateProductCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:09:40.053 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductCategoryId", p."AddedByAdminId", p."CreatedAt", p."IsActive", p."ProductCategoryName"
+FROM "ProductCategory" AS p
+WHERE p."ProductCategoryId" = @p
+LIMIT 1
+2026-06-09 15:09:40.054 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API) in 4.8894ms
+2026-06-09 15:09:40.054 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory (Ecommerce.API)'
+2026-06-09 15:09:40.055 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Product category is already active
+   at AdminProductCategoryService.ActivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminProductCategoryService/ActivateProductCategoryService.cs:line 17
+   at Ecommerce.API.Controllers.AdminProductCategoryController.ActivateProductCategory(Int32 productCategoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminProductCategoryController.cs:line 39
+   at lambda_method847(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-09 15:09:40.057 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/1/activate - 500 null application/json 9.425ms
+2026-06-09 15:09:54.999 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/subcategories/1/deactivate - null 0
+2026-06-09 15:09:55.001 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductSubCategory (Ecommerce.API)'
+2026-06-09 15:09:55.009 +05:30 [INF] Route matched with {action = "DeactivateProductSubCategory", controller = "AdminProductCategory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[ResponseAdminGetAllSubCategory]] DeactivateProductSubCategory(Int32) on controller Ecommerce.API.Controllers.AdminProductCategoryController (Ecommerce.API).
+2026-06-09 15:09:55.019 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductSubCategoryId", p."AddedByAdminId", p."CommissionPercentage", p."CreatedAt", p."IsActive", p."ProductCategoryId", p."ProductSubCategoryName"
+FROM "ProductSubCategory" AS p
+WHERE p."ProductSubCategoryId" = @p
+LIMIT 1
+2026-06-09 15:09:55.031 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Decimal), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p5='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "ProductSubCategory" SET "AddedByAdminId" = @p0, "CommissionPercentage" = @p1, "CreatedAt" = @p2, "IsActive" = @p3, "ProductCategoryId" = @p4, "ProductSubCategoryName" = @p5
+WHERE "ProductSubCategoryId" = @p6;
+2026-06-09 15:09:55.033 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseAdminGetAllSubCategory'.
+2026-06-09 15:09:55.034 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductSubCategory (Ecommerce.API) in 24.0269ms
+2026-06-09 15:09:55.034 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminProductCategoryController.DeactivateProductSubCategory (Ecommerce.API)'
+2026-06-09 15:09:55.034 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/admin/product-categories/subcategories/1/deactivate - 200 null application/json; charset=utf-8 35.088ms

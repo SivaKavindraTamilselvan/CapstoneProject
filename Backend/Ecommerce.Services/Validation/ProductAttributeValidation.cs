@@ -31,7 +31,8 @@ public class ProductAttributeValidation : IProductAttributeValidation
     public async Task ValidateProductSubCategoryAttributeForAdmin(int AttributeId,int productSubCategoryId)
     {
         await ValidateAttribute(AttributeId);
-        await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
+        var subCategory = await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
+        await _productCategoryValidation.ValidateCategory(subCategory.ProductCategoryId);
         var result = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(AttributeId, productSubCategoryId);
         if (result != null && !result.IsActive)
         {
