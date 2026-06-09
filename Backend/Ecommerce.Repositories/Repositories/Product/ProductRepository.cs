@@ -19,8 +19,6 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .Include(p => p.ProductStatus)
             .Include(p => p.ProductSubCategory)
                 .ThenInclude(p=>p!.ProductCategory)
-                    .ThenInclude(p=>p!.AddedByAdminUser)
-                        .ThenInclude(p=>p!.User)
             .Include(p => p.Vendor)
             .Include(p => p.ProductImages)
             .Include(p => p.ProductVariants)
@@ -29,6 +27,9 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
                 .ThenInclude(pv => pv.ProductVariantAttributes)
                     .ThenInclude(pva => pva.ProductSubCategoryAttribute)
                         .ThenInclude(psa => psa!.AttributeMaster)
+            .Include(p => p.ProductVariants)
+                .ThenInclude(pv => pv.MainProductSubCategoryAttribute)
+                    .ThenInclude(psa => psa!.AttributeMaster)
             .Include(p => p.ProductVariants)
                 .ThenInclude(pv => pv.ProductImages);
     }

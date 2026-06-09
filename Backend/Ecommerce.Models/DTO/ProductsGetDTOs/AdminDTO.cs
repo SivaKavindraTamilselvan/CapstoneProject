@@ -11,6 +11,8 @@ public class ResponseAdminGetAllProductDTO
     public string ProductStatus { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
+    public bool IsAvailableForSale { get; set; } 
+    public List<string> ValidationIssues { get; set; }  = new List<string>();
     public List<ResponseAdminProductVariantDTO> ProductVariants { get; set; } = new();
     public List<ResponseProductImageDTO> ProductImages { get; set; } = new();
 }

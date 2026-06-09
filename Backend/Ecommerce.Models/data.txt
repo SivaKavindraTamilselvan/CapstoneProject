@@ -6,13 +6,15 @@
 
 {
   "productId": 1,
-  "availableQuantity": 50,
   "price": 79999,
   "weightInKgs": 0.171,
   "lengthInCm": 14.76,
   "widthInCm": 7.12,
   "heightInCm": 0.78,
   "minimuQuantityPerUser": 1,
+  "isReturn": true,
+  "isExchange": true,
+  "mainProductSubCategoryAttributeId": 2,
   "requestAddProductVariantAttributeDTOs": [
     { "productSubCategoryAttributeId": 1, "attributeValue": "Apple" },
     { "productSubCategoryAttributeId": 2, "attributeValue": "Black" },
@@ -30,13 +32,15 @@
 }
 {
   "productId": 2,
-  "availableQuantity": 40,
   "price": 74999,
   "weightInKgs": 0.167,
   "lengthInCm": 14.70,
   "widthInCm": 7.06,
   "heightInCm": 0.76,
   "minimuQuantityPerUser": 1,
+  "isReturn": true,
+  "isExchange": true,
+   "mainProductSubCategoryAttributeId": 2,
   "requestAddProductVariantAttributeDTOs": [
     { "productSubCategoryAttributeId": 1, "attributeValue": "Samsung" },
     { "productSubCategoryAttributeId": 2, "attributeValue": "Violet" },
@@ -53,13 +57,15 @@
 }
 {
   "productId": 3,
-  "availableQuantity": 20,
   "price": 149999,
   "weightInKgs": 1.86,
   "lengthInCm": 34.40,
   "widthInCm": 23.00,
   "heightInCm": 1.80,
-  "minimuQuantityPerUser": 1,
+  "minimuQuantityPerUser": 2,
+  "isReturn": true,
+  "isExchange": true,
+   "mainProductSubCategoryAttributeId": 7,
   "requestAddProductVariantAttributeDTOs": [
     { "productSubCategoryAttributeId": 7, "attributeValue": "Dell" },
     { "productSubCategoryAttributeId": 8, "attributeValue": "512GB SSD" },

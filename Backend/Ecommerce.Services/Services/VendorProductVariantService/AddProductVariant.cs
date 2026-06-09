@@ -28,7 +28,6 @@ public partial class VendorProductVariantService : IVendorProductVariantService
         var productVariant = _mapper.Map<ProductVariant>(requestAddProductVariantDTO);
         productVariant.AddedByVendorUserId = vendorUser.VendorUserId;
         productVariant.SKU = await GenerateSku(product.ProductId);
-        productVariant.ProductApprovalStatusId = 4; // need to change later
 
         await _productVariantRepsository.Create(productVariant);
         foreach (var list in requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs)
@@ -43,10 +42,12 @@ public partial class VendorProductVariantService : IVendorProductVariantService
     }
     public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, bool updation, int userId)
     {
+        var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(userId);
         var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId, userId);
         var product = await _productValidation.ValidateProduct(productVariant.ProductId);
         await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId, product.ProductSubCategoryId);
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
+        productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
         await _productVariantAttributeRepsository.Create(productVariantAttribute);
         if (updation)
         {

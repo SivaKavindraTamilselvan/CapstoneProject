@@ -22,9 +22,9 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllProducts()
+    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues)
     {
-        var result = await _adminProductService.GetAllProducts();
+        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues);
         return Ok(result);
     }
 
@@ -62,6 +62,14 @@ public class AdminProductController : ControllerBase
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _adminProductService.ReviewProduct(requestReviewOfProductDTO, adminUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPost("ReviewProductVariant")]
+    public async Task<ActionResult<ResponseReviewOfProductVariantDTO>> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.ReviewProductVariant(requestReviewOfProductDTO, adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
