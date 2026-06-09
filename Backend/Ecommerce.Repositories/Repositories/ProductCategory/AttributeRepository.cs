@@ -17,7 +17,7 @@ public class AttributeRepsository : AbstractRepository<int, AttributeMaster>, IA
     }
     public async Task<(List<AttributeMaster> ,int totalCount)> GetAllAttributeAdmin(bool? status,int pageNumber,int pageSize)
     {
-        var query = _ecommerceContext.AttributeMaster.Include(a=>a.AddedByAdminUser).ThenInclude(u=>u.User).AsQueryable();
+        var query = _ecommerceContext.AttributeMaster.Include(a=>a.AddedByAdminUser).ThenInclude(u=>u!.User).AsQueryable();
         if(status.HasValue)
         {
             query = query.Where(a=>a.IsActive == status);

@@ -19,31 +19,23 @@ public class UserProductCategoryController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("attributes")]
-    public async Task<IActionResult> GetAllAttributeNames()
-    {
-        var result = await _userProductCategoryService.GetAllAttributeNames();
-        return Ok(result);
-    }
-
     [HttpGet("subcategory/attributes")]
-    public async Task<IActionResult> GetAllProductSubCategoryAttributeNames([FromQuery] RequestGetAllProductSubCategoryAttributeName request)
+    public async Task<IActionResult> GetAllProductSubCategoryAttributeNames([FromQuery] int subcategoryid)
     {
-        var result = await _userProductCategoryService.GetAllProductSubCategoryAttributeNames(request);
+        var result = await _userProductCategoryService.GetAllProductSubCategoryAttributeNames(subcategoryid);
         return Ok(result);
     }
-
     [HttpGet("subcategories")]
-    public async Task<IActionResult> GetAllProductSubCategoryNames([FromQuery] RequestGetAllProductSubCategoryName request)
+    public async Task<IActionResult> GetAllProductSubCategoryNames([FromQuery] int ProductCategoryId)
     {
-        var result = await _userProductCategoryService.GetAllProductSubCategoryNames(request);
+        var result = await _userProductCategoryService.GetAllProductSubCategoryNames(ProductCategoryId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet("subcategories/vendor")]
-    public async Task<IActionResult> GetAllProductSubCategoryNamesVendor([FromQuery] RequestGetAllProductSubCategoryName request)
+    public async Task<IActionResult> GetAllProductSubCategoryNamesVendor([FromQuery] int ProductCategoryId)
     {
-        var result = await _userProductCategoryService.GetAllProductSubCategoryNamesVendor(request);
+        var result = await _userProductCategoryService.GetAllProductSubCategoryNamesVendor(ProductCategoryId);
         return Ok(result);
     }
 }

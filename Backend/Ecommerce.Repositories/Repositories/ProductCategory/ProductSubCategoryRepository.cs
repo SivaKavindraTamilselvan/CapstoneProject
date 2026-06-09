@@ -15,10 +15,14 @@ public class ProductSubCategoryRepsository : AbstractRepository<int, ProductSubC
         var product = await _ecommerceContext.ProductSubCategory.FirstOrDefaultAsync(p=>p.ProductSubCategoryName == productSubCategoryName);
         return product;
     }
+
+    // only for the get usage for user
     public async Task<List<ProductSubCategory>> GetAllProductSubCategory(int productId)
     {
         return await _ecommerceContext.ProductSubCategory.Where(p=>p.ProductCategoryId == productId && p.IsActive == true).ToListAsync();
     }
+
+    // get usage for admin
     public async Task<(List<ProductSubCategory>,int totalCount)> GetAllSubProductCategoryForAdmin(bool? status,int? subcategoryId,int pageNumber,int pageSize)
     {
         var query = _ecommerceContext.ProductSubCategory.Include(a=>a.AddedByAdminUser).ThenInclude(u=>u!.User).Include(p=>p.ProductCategory).AsQueryable();

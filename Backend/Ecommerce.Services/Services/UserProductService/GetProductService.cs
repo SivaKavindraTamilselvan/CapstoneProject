@@ -1,31 +1,31 @@
 using Ecommerce.DTOs;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 
 public partial class UserProductCategoryService :IUserProductCategoryService
 {
-    public async Task<List<ResponseGetAllProductCategory>> GetAllProductCategory()
+    public async Task<List<ResponseUserGetAllCategory>> GetAllProductCategory()
     {
-        var productCategory  = await _productCategoryRepsository.GetAll();
-        return _mapper.Map<List<ResponseGetAllProductCategory>>(productCategory);
+        var productCategory  = await _productCategoryRepsository.GetAllProductCategoryForUser();
+        if(productCategory.Count == 0)
+        {
+            throw new DataNotFoundException("No active Product Category is found");
+        }
+        return _mapper.Map<List<ResponseUserGetAllCategory>>(productCategory);
     }
-    public async Task<List<ResponseGetAllAttributeName>> GetAllAttributeNames()
+    public async Task<List<ResponseGetAllProductSubCategoryAttribute>> GetAllProductSubCategoryAttributeNames(int productSubCategoryId)
     {
-        var attribute = await _attributeRepsository.GetAll();
-        return _mapper.Map<List<ResponseGetAllAttributeName>>(attribute);
+        var productSubcategory = await _productSubCategoryAttributeRepsository.GetAllProductSubCategoryAttribute(productSubCategoryId);
+        return _mapper.Map<List<ResponseGetAllProductSubCategoryAttribute>>(productSubcategory);
     }
-    public async Task<List<ResponseGetAllProductSubCategoryAttributeName>> GetAllProductSubCategoryAttributeNames(RequestGetAllProductSubCategoryAttributeName requestGetAllProductSubCategoryAttributeName)
+    public async Task<List<ResponseUserGetAllSubCategory>> GetAllProductSubCategoryNames(int productCategoryId)
     {
-        var productSubcategory = await _productSubCategoryAttributeRepsository.GetAllProductSubCategoryAttribute(requestGetAllProductSubCategoryAttributeName.ProductSubCategoryAttributeId);
-        return _mapper.Map<List<ResponseGetAllProductSubCategoryAttributeName>>(productSubcategory);
+        var productSubcategory = await _productSubCategoryRepsository.GetAllProductSubCategory(productCategoryId);
+        return _mapper.Map<List<ResponseUserGetAllSubCategory>>(productSubcategory);
     }
-    public async Task<List<ResponseGetAllProductSubCategoryName>> GetAllProductSubCategoryNames(RequestGetAllProductSubCategoryName requestGetAllProductSubCategoryName)
+    public async Task<List<ResponseVendorGetAllProductSubCategory>> GetAllProductSubCategoryNamesVendor(int productCategoryId)
     {
-        var productSubcategory = await _productSubCategoryRepsository.GetAllProductSubCategory(requestGetAllProductSubCategoryName.ProductCategoryId);
-        return _mapper.Map<List<ResponseGetAllProductSubCategoryName>>(productSubcategory);
-    }
-    public async Task<List<ResponseGetAllProductSubCategoryNameVendor>> GetAllProductSubCategoryNamesVendor(RequestGetAllProductSubCategoryName requestGetAllProductSubCategoryName)
-    {
-        var productSubcategory = await _productSubCategoryRepsository.GetAllProductSubCategory(requestGetAllProductSubCategoryName.ProductCategoryId);
-        return _mapper.Map<List<ResponseGetAllProductSubCategoryNameVendor>>(productSubcategory);
+        var productSubcategory = await _productSubCategoryRepsository.GetAllProductSubCategory(productCategoryId);
+        return _mapper.Map<List<ResponseVendorGetAllProductSubCategory>>(productSubcategory);
     }
 }
