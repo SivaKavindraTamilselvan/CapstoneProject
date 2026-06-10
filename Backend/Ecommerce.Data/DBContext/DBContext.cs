@@ -593,6 +593,7 @@ public class EcommerceContext : DbContext
             s.Property(s => s.ShipmentStatusId).HasDefaultValue(1);
             s.Property(s => s.TrackingNumber).IsRequired(false).HasMaxLength(200);
             s.HasIndex(s => s.TrackingNumber).IsUnique();
+            s.Property(s=>s.CourierName).IsRequired().HasDefaultValue("unassigned");
             s.Property(s => s.ShippingCharge).HasDefaultValue(0);
             s.Property(s => s.ExpectedDeliveryDate).HasColumnType("timestamp without time zone");
             s.Property(s => s.ShippedDate).HasColumnType("timestamp without time zone");

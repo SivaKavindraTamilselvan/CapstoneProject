@@ -12,10 +12,15 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
 
     }
 
-    public async Task<List<OrderItems>> GetOrderItemsByVendor(int vendorId)
+    // for vendor valid order
+    public async Task<List<OrderItems>> GetOrderItemsByVendor(int vendorId,int? status)
     {
-        var orders = await _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).Include(i => i.Inventory).Where(p => p.ProductVariant.Product.VendorId == vendorId && p.OrderItemStatusId == 1).ToListAsync();
-        return orders;
+        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).ThenInclude(p=>p.Vendor).Include(i => i.Inventory).ThenInclude(a=>a.Address).Where(p => p.ProductVariant.Product.VendorId == vendorId);
+        if(status.HasValue)
+        {
+            orders = orders.Where(p=>p.OrderItemStatusId == status.Value);
+        }
+        return await orders.ToListAsync();
     }
     public async Task<List<OrderItems>> GetAllOrderItemsByVendor(int vendorId,int? status)
     {
@@ -26,14 +31,11 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
         }
         return await orders.ToListAsync();
     }
-    public async Task<List<OrderItems>> GetOrderItemsByOrderId(int orderId)
-    {
-        return await _ecommerceContext.OrderItems.Include(o => o.Order).Where(o => o.OrderId == orderId).ToListAsync();
-    }
     public async Task<List<OrderItems>> GetCancelledOrderItemsByOrderId(int orderId)
     {
         return await _ecommerceContext.OrderItems.Where(o => o.OrderId == orderId && o.OrderItemStatusId == 7).ToListAsync();
     }
+    /*
     public async Task<List<OrderItems>> GetOrderByInventoryAddress(int? status, int vendorId, int pageNumber, int pageSize, int addressId)
     {
         var query = _ecommerceContext.OrderItems.Include(oi => oi.Order).Include(oi => oi.OrderItemStatus).Include(oi => oi.Inventory).ThenInclude(i => i!.Address).Include(oi => oi.ProductVariant)
@@ -46,6 +48,9 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
 
         return await query.OrderByDescending(oi => oi.Order!.OrderDate).ThenByDescending(oi => oi.OrderItemsId).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
     }
+    */
+
+    // get order for particular inventory address
     public async Task<List<OrderItems>> GetPendingOrderByInventoryAddress(int addressId)
     {
         return await _ecommerceContext.OrderItems.Include(o => o.Inventory).Where(a => a.Inventory!.AddressId == addressId && a.OrderItemStatusId != 1 && a.OrderItemStatusId == 2 && a.OrderItemStatusId == 3 && a.OrderItemStatusId == 5).ToListAsync();

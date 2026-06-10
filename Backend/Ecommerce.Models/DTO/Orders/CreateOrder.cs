@@ -13,10 +13,12 @@ public class RequestCreateOrderDTO
 
 }
 
+// used for order service
 public class SelectedCartInventory
 {
     public CartItems CartItem { get; set; } = null!;
     public Inventory Inventory { get; set; } = null!;
+    public string CourierName {get;set;} = string.Empty;
     public decimal ShippingRate { get; set; }
     public int EstimatedDeliveryDays { get; set; }
     public DateTime ExpectedDeliveryDate { get; set; }

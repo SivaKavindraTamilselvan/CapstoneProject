@@ -4,12 +4,16 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserOrderService : IUserOrderService
 {
-    private async Task<Address> ValidateAddress(int addressId)
+    private async Task<Address> ValidateAddress(int addressId,int userid)
     {
         var address = await _addressRepsository.Get(addressId);
         if (address == null)
         {
             throw new DataNotFoundException("Address Not Found");
+        }
+        if(address.UserId != userid)
+        {
+            throw new DataApprovalStatusException("Address not mapped to the correct user");
         }
         return address;
     }

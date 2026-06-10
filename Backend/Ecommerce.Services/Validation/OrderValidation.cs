@@ -21,9 +21,9 @@ public class OrderValidation :IOrderValidation
         }
         return order;
     }
-    public async Task<List<OrderItems>> ValidateGetOrderItemsByVendor(int vendorId)
+    public async Task<List<OrderItems>> ValidateGetOrderItemsByVendor(int vendorId,int? status)
     {
-        var Orders = await _orderItemRepsository.GetOrderItemsByVendor(vendorId);
+        var Orders = await _orderItemRepsository.GetOrderItemsByVendor(vendorId,status);
         if(Orders.Count == 0)
         {
             throw new DataNotFoundException("No Order Found For The Particular Vendor");

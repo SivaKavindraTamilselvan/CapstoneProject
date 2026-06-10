@@ -11,6 +11,8 @@ namespace Ecommerce.Mappers
             CreateMap<RequestCreateOrderDTO, Order>();
             CreateMap<Payment, ResponsePayment>();
 
+            CreateMap<AdminOrderFilterParams,OrderFilterParams>();
+
             CreateMap<RequestAddReturnDTO, Return>();
             CreateMap<Return, ResponseAddReturnDTO>();
             CreateMap<OrderItems, ResponseGetOrderItems>()
@@ -23,19 +25,50 @@ namespace Ecommerce.Mappers
 
             CreateMap<Return, ResponseReviewReturnDTO>();
             CreateMap<OrderItems, OrderItemSummaryDto>()
-            .ForMember(dest => dest.SKU,
-                opt => opt.MapFrom(src => src.ProductVariant != null ? src.ProductVariant.SKU : ""))
-            .ForMember(dest => dest.ProductName,
-                opt => opt.MapFrom(src => src.ProductVariant != null && src.ProductVariant.Product != null
-                    ? src.ProductVariant.Product.ProductName : ""))
-            .ForMember(dest => dest.VendorName,
-                opt => opt.MapFrom(src => src.ProductVariant != null
-                    && src.ProductVariant.Product != null
-                    && src.ProductVariant.Product.Vendor != null
-                    ? src.ProductVariant.Product.Vendor.VendorCompanyName : ""))
-            .ForMember(dest => dest.OrderItemStatus,
-                opt => opt.MapFrom(src => src.OrderItemStatus != null ? src.OrderItemStatus.OrderItemStatusName : ""));
+                .ForMember(dest => dest.SKU,
+                    opt => opt.MapFrom(src =>
+                        src.ProductVariant != null
+                            ? src.ProductVariant.SKU
+                            : ""))
 
+                .ForMember(dest => dest.ProductName,
+                    opt => opt.MapFrom(src =>
+                        src.ProductVariant != null &&
+                        src.ProductVariant.Product != null
+                            ? src.ProductVariant.Product.ProductName
+                            : ""))
+
+                .ForMember(dest => dest.VendorName,
+                    opt => opt.MapFrom(src =>
+                        src.ProductVariant != null &&
+                        src.ProductVariant.Product != null &&
+                        src.ProductVariant.Product.Vendor != null
+                            ? src.ProductVariant.Product.Vendor.VendorCompanyName
+                            : ""))
+
+                .ForMember(dest => dest.ItemTotal,
+                    opt => opt.MapFrom(src =>
+                        (src.UnitPrice * src.Quantity) - src.Discount))
+
+                .ForMember(dest => dest.InventoryCity,
+                    opt => opt.MapFrom(src =>
+                        src.Inventory != null &&
+                        src.Inventory.Address != null
+                            ? src.Inventory.Address.City
+                            : ""))
+
+                .ForMember(dest => dest.InventoryAddress,
+                    opt => opt.MapFrom(src =>
+                        src.Inventory != null &&
+                        src.Inventory.Address != null
+                            ? src.Inventory.Address.AddressLine
+                            : ""))
+
+                .ForMember(dest => dest.OrderItemStatus,
+                    opt => opt.MapFrom(src =>
+                        src.OrderItemStatus != null
+                            ? src.OrderItemStatus.OrderItemStatusName
+                            : ""));
             // Order → OrderSummaryDto
             CreateMap<Order, OrderSummaryDto>()
                 .ForMember(dest => dest.UserName,

@@ -11,6 +11,7 @@ public class Shipment
     public Address? PickupAddress { get; set; }
 
     public string? TrackingNumber { get; set; }
+    public string CourierName {get;set;} = string.Empty;
     public decimal ShippingCharge { get; set; }
     public int ShipmentStatusId { get; set; }
     public ShipmentStatus? ShipmentStatus { get; set; }

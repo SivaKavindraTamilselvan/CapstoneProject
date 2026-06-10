@@ -5,6 +5,8 @@ using Ecommerce.Services.Interfaces;
 
 public partial class OrderService : IOrderService
 {
+    // confirm the order status after payment confirmation
+    // called directly
     public async Task ConfirmOrderStatus(int orderId,bool status)
     {
         var order = await _orderRepsository.Get(orderId);

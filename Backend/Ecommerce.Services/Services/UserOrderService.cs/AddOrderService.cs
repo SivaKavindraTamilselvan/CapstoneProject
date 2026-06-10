@@ -20,7 +20,7 @@ public partial class UserOrderService : IUserOrderService
     private readonly IOrderRepsository _orderRepsository;
     private readonly IMapper _mapper;
     private readonly IShipmentRepsository _shipmentRepsository;
-    public UserOrderService(IProductRepsository productRepsository,IShipmentRepsository shipmentRepsository,IOrderRepsository orderRepsository,IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository,IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    public UserOrderService(IProductRepsository productRepsository, IShipmentRepsository shipmentRepsository, IOrderRepsository orderRepsository, IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
         _productRepsository = productRepsository;
         _shipmentRepsository = shipmentRepsository;
@@ -35,11 +35,12 @@ public partial class UserOrderService : IUserOrderService
         _paymentService = paymentService;
         _mapper = mapper;
     }
+    // add order if the cart is pressed to checkout
     public async Task<ResponseAddOrderDTO> AddOrder(RequestAddOrderDTO requestAddOrderDTO, int userId)
     {
         var cartItems = await ValidateProduct(userId);
 
-        var deliveryAddress = await ValidateAddress(requestAddOrderDTO.AddressId);
+        var deliveryAddress = await ValidateAddress(requestAddOrderDTO.AddressId, userId);
 
         decimal productCharge = CalculateProductCharge(cartItems);
 
@@ -80,15 +81,16 @@ public partial class UserOrderService : IUserOrderService
         requestCreateOrderDTO.AddressId = deliveryAddress.AddressId;
         var order = await _orderService.CreateOrder(requestCreateOrderDTO);
         var orderItems = await _orderService.CreateOrderItems(selectedItems, order, selectedCoupon);
-        var payment = await _paymentService.CreatePayment(order.OrderId,requestAddOrderDTO.PaymentMethod);
+        var payment = await _paymentService.CreatePayment(order.OrderId, requestAddOrderDTO.PaymentMethod);
 
         foreach (var group in groupedShipments)
         {
             var pickupAddress = group.First().Inventory.Address!;
             var shippingCharge = shipmentChargeDetails.First(x => x.PickupAddressId == group.Key.PickupAddressId).ShippingCharge;
             var ExpectedDeliveryDate = group.First().ExpectedDeliveryDate;
+            var courier = group.First().CourierName;
 
-            var shipment = await CreateShipment(order, pickupAddress, shippingCharge, ExpectedDeliveryDate);
+            var shipment = await CreateShipment(order, pickupAddress, shippingCharge, ExpectedDeliveryDate, courier);
             foreach (var selected in group)
             {
                 var orderItem = orderItems.First(oi => oi.ProductVariantId == selected.CartItem.ProductVariantId && oi.InventoryId == selected.Inventory.InventoryId);

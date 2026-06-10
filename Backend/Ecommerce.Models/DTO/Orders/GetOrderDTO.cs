@@ -1,5 +1,5 @@
 // OrderFilterParams.cs
-public class OrderFilterParams
+public class AdminOrderFilterParams
 {
     public int Page { get; set; } = 1;
     public int PageSize { get; set; } = 10;
@@ -13,6 +13,18 @@ public class OrderFilterParams
     // Admin-only filters
     public int? UserId { get; set; }
     public int? VendorId { get; set; }
+}
+
+public class OrderFilterParams
+{
+    public int Page { get; set; } = 1;
+    public int PageSize { get; set; } = 10;
+    public string? OrderNumber { get; set; }
+    public DateTime? FromDate { get; set; }
+    public DateTime? ToDate { get; set; }
+    public int? OrderStatusId { get; set; }
+    public decimal? MinAmount { get; set; }
+    public decimal? MaxAmount { get; set; }
 }
 
 // OrderSummaryDto.cs
@@ -41,15 +53,10 @@ public class OrderItemSummaryDto
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal Discount { get; set; }
-    public string OrderItemStatus { get; set; } = string.Empty;
-}
+    public int InventoryId { get; set; }
 
-// PagedResult.cs
-public class PagedResult<T>
-{
-    public List<T> Data { get; set; } = new();
-    public int TotalCount { get; set; }
-    public int Page { get; set; }
-    public int PageSize { get; set; }
-    public int TotalPages => (int)Math.Ceiling((double)TotalCount / PageSize);
+    public string InventoryCity { get; set; } = string.Empty;
+    public string InventoryAddress { get; set; } = string.Empty; 
+    public decimal ItemTotal { get; set; }
+    public string OrderItemStatus { get; set; } = string.Empty;
 }

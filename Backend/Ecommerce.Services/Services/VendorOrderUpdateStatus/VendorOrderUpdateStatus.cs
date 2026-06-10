@@ -21,23 +21,11 @@ public class VendorOrderService : IVendorOrderService
         _vendorUserValidation = vendorUserValidation;
         _shipmentValidation = shipmentValidation;
     }
-    public async Task<List<ResponseGetOrderItems>> GetAllTheActiveOrder(int vendorId)
+    public async Task<List<OrderItemSummaryDto>> GetAllTheActiveOrder(int vendorId,int? status)
     {
         var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var Orders = await _orderValidation.ValidateGetOrderItemsByVendor(vendor.VendorId);
-        return _mapper.Map<List<ResponseGetOrderItems>>(Orders);
-    }
-    public async Task<List<ResponseGetOrderItems>> GetAllTheOrder(int vendorId)
-    {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var Orders = await _orderValidation.ValidateGetOrderItemsByVendor(vendor.VendorId);
-        return _mapper.Map<List<ResponseGetOrderItems>>(Orders);
-    }
-    public async Task<List<ResponseGetOrderItems>> GetOrderByOrderId(int orderItemId,int vendorId)
-    {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var Orders = await _orderValidation.ValidateGetOrderItemsByVendor(vendor.VendorId);
-        return _mapper.Map<List<ResponseGetOrderItems>>(Orders);
+        var Orders = await _orderValidation.ValidateGetOrderItemsByVendor(vendor.VendorId,status);
+        return _mapper.Map<List<OrderItemSummaryDto>>(Orders);
     }
     public async Task<ResponseGetOrderItems> UpdateTheOrderStatus(int orderItemId)
     {

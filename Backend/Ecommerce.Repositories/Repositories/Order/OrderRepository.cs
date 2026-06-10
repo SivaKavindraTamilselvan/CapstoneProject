@@ -11,12 +11,8 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     {
 
     }
-    public async Task<List<Order>> GetOrdersByUserId(int? status, int pageNumber, int pageSize, int userId)
-    {
-        var order = _ecommerceContext.Order.Include(o => o.OrderItems).ThenInclude(o => o.OrderItemStatus).Include(o => o.OrderStatus).Include(a => a.Address)
-        .Include(o => o.OrderItems).ThenInclude(o => o.ProductVariant).ThenInclude(o => o!.Product).Include(c => c.CouponUsages).Where(u => u.UserId == userId);
-        return await order.OrderByDescending(o => o.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-    }
+
+    // get the orders that are active in inventory to avoid the address deletion
     public async Task<List<Order>> GetPendingOrdersByAddress(int address)
     {
         var order = _ecommerceContext.Order.Where(o => o.AddressId == address && (o.OrderStatusId == 1 || o.OrderStatusId == 2));
@@ -34,18 +30,25 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
                         .ThenInclude(p => p!.Vendor)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.OrderItemStatus)
+            .Include(o => o.OrderItems)
+            .ThenInclude(oi => oi.Inventory)
+                .ThenInclude(i => i!.Address)
             .AsNoTracking();
     }
+
+    // get order by order id in user and admin
     public async Task<Order?> GetOrderByOrderId(int orderId)
     {
         var query = GetBaseQuery();
         query = query.Where(p=>p.OrderId == orderId);
         return await query.FirstOrDefaultAsync();
     }
-    public async Task<List<Order>> GetOrdersForAdmin(OrderFilterParams filters)
+
+    // get admin orders
+    public async Task<List<Order>> GetOrdersForAdmin(AdminOrderFilterParams filters,OrderFilterParams orderFilterParams)
     {
         var query = GetBaseQuery();
-        query = ApplyCommonFilters(query, filters);
+        query = ApplyCommonFilters(query, orderFilterParams);
         if (filters.UserId.HasValue)
             query = query.Where(o => o.UserId == filters.UserId.Value);
 
@@ -55,6 +58,8 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
                     oi.ProductVariant!.Product!.VendorId == filters.VendorId.Value));
         return await query.OrderByDescending(c=>c.CreatedAt).Skip((filters.Page - 1) * filters.PageSize).Take(filters.PageSize).ToListAsync();
     }
+
+    // get user orders
     public async Task<List<Order>> GetOrdersForUser(int userId, OrderFilterParams filters)
     {
         var query = GetBaseQuery().Where(o => o.UserId == userId);
@@ -63,6 +68,8 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
 
         return await query.OrderByDescending(c=>c.CreatedAt).Skip((filters.Page - 1) * filters.PageSize).Take(filters.PageSize).ToListAsync();
     }
+
+    // get vendor orders
     public async Task<List<Order>> GetOrdersForVendor(int vendorId, OrderFilterParams filters)
     {
 

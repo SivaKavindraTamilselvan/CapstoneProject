@@ -34,10 +34,10 @@ public class OrderController : ControllerBase
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
     [HttpGet("GetOrder")]
-    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetOrder()
+    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetOrder(int? status)
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorOrderService.GetAllTheActiveOrder(vendorId);
+        var result = await _vendorOrderService.GetAllTheActiveOrder(vendorId,status);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
@@ -55,11 +55,12 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
     [HttpGet("admin")]
-    public async Task<IActionResult> GetOrdersAdmin([FromQuery] OrderFilterParams filters)
+    public async Task<IActionResult> GetOrdersAdmin([FromQuery] AdminOrderFilterParams filters)
     {
         var result = await _orderService.GetOrderByAdmin(filters);
         return Ok(result);
     }
+    [Authorize]
     [HttpGet("vendor")]
     public async Task<IActionResult> GetOrdersVendor([FromQuery] OrderFilterParams filters)
     {
@@ -72,6 +73,22 @@ public class OrderController : ControllerBase
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _orderService.GetOrderByUserId(filters,vendorId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("GetAdminOrderById/{orderId}")]
+    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetAdminOrderByOrderId(int orderId)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderForAdminByOrderId(orderId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpGet("GetUserOrderById/{orderId}")]
+    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetUserOrderByOrderId(int orderId)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderForUserByOrderId(orderId);
         return Ok(result);
     }
 }

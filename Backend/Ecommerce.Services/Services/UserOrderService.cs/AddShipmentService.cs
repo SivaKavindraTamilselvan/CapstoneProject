@@ -14,6 +14,7 @@ public partial class UserOrderService : IUserOrderService
             Inventory? bestInventory = null;
             decimal bestRate = decimal.MaxValue;
             int bestEdd = 0;
+            string bestCourier = "";
 
             foreach (var inventory in inventories)
             {
@@ -28,6 +29,7 @@ public partial class UserOrderService : IUserOrderService
 
                 if (courier != null && courier.Rate < bestRate)
                 {
+                    bestCourier = courier.CourierName;
                     bestRate = courier.Rate;
                     bestInventory = inventory;
                     bestEdd = int.Parse(courier.EstimatedDeliveryDays);
@@ -39,6 +41,7 @@ public partial class UserOrderService : IUserOrderService
             }
             selectedItems.Add(new SelectedCartInventory
             {
+                CourierName = bestCourier,
                 CartItem = list,
                 Inventory = bestInventory,
                 ShippingRate = bestRate,
@@ -48,12 +51,13 @@ public partial class UserOrderService : IUserOrderService
         }
         return selectedItems;
     }
-    private async Task<Shipment> CreateShipment(Order order, Address pickupAddress, decimal shippingCharge, DateTime dateTime)
+    private async Task<Shipment> CreateShipment(Order order, Address pickupAddress, decimal shippingCharge, DateTime dateTime,string courier)
     {
         RequestAddShipmentDTO requestAddShipmentDTO = new RequestAddShipmentDTO();
         requestAddShipmentDTO.OrderId = order.OrderId;
         requestAddShipmentDTO.PickupAddressId = pickupAddress.AddressId;
         requestAddShipmentDTO.ExpectedDeliveryDate = dateTime;
+        requestAddShipmentDTO.CourierName = courier;
         var createdShipment = await _shipmentService.CreateShipment(requestAddShipmentDTO);
         return createdShipment;
     }
