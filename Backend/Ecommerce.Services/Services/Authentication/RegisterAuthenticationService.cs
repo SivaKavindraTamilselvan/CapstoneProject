@@ -84,7 +84,9 @@ public partial class AuthenticationService : IAuthentication
             }
             await transaction.CommitAsync();
             _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
-            return _mapper.Map<ResponseRegisterAdminDTO>(createdAdminUser);
+            var createdadmin =  _mapper.Map<ResponseRegisterAdminDTO>(createdAdminUser);
+            createdadmin.Email = user.Email;
+            return createdadmin;
         }
         catch
         {

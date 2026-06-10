@@ -6,9 +6,9 @@ using Ecommerce.Services.Interfaces;
 public partial class AdminProductService : IAdminProductService
 {
 
-    public async Task<List<ResponseAdminGetAllProductDTO>> GetAllProducts(int? approval, int? status, int? vendorId, int? subcategory, bool? hasIssues,bool? isAvailableForSale,int pageNumber,int pageSize)
+    public async Task<List<ResponseAdminGetAllProductDTO>> GetAllProducts(int? approval, int? status, int? vendorId, int? subcategory, bool? hasIssues, bool? isAvailableForSale, int pageNumber, int pageSize)
     {
-        var products = await _productRepsository.GetAdminProduct(approval, status, vendorId, subcategory,pageNumber,pageSize);
+        var products = await _productRepsository.GetAdminProduct(approval, status, vendorId, subcategory, pageNumber, pageSize);
         var response = _mapper.Map<List<ResponseAdminGetAllProductDTO>>(products);
         for (int i = 0; i < products.Count; i++)
         {
@@ -19,14 +19,18 @@ public partial class AdminProductService : IAdminProductService
         }
         if (hasIssues.HasValue)
         {
-            if(hasIssues.Value)
+            if (hasIssues.Value)
             {
-                response = response.Where(p=>p.ValidationIssues.Any()).ToList();
+                response = response.Where(p => p.ValidationIssues.Any()).ToList();
             }
             else
             {
                 response = response.Where(p => !p.ValidationIssues.Any()).ToList();
             }
+        }
+        if (isAvailableForSale.HasValue)
+        {
+            response = response.Where(p => p.IsAvailableForSale == isAvailableForSale.Value).ToList();
         }
         return response;
     }

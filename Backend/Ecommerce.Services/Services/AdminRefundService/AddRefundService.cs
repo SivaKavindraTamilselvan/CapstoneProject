@@ -70,8 +70,6 @@ public class AdminRefundService : IAdminRefundService
             refund.RefundStatusId = 3; // Processed
             refund.ProcessedDate = DateTime.Now;
         }
-
-
         await _refundRepsository.Update(refund.RefundId, refund);
         return _mapper.Map<ResponseUpdateRefundDTO>(refund);
     }

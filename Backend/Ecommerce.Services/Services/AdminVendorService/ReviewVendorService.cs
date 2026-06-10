@@ -26,6 +26,10 @@ public partial class AdminVendorService : IAdminVendorService
             _logger.LogWarning("Vendor review failed. VendorId {VendorId} not found", requestReviewOfVendorDTO.VendorId);
             throw new DataNotFoundException("Vendor ID Not Found");
         }
+        if(vendor.ApprovalStatusId == 2 || vendor.ApprovalStatusId == 3)
+        {
+            throw new DataApprovalStatusException("Vendor Already Reviewed");
+        }
         var adminUser = await _adminUserRepsository.GetAdminUserByUserId(userId);
         if (adminUser == null)
         {

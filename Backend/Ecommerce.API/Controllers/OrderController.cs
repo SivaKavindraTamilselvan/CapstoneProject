@@ -17,8 +17,9 @@ public class OrderController : ControllerBase
     private readonly IVendorOrderService _vendorOrderService;
     private readonly IUserReturnService _userReturnService;
 
-    public OrderController(IUserReturnService userReturnService, IUserOrderService userOrderService, IVendorOrderService vendorOrderService)
+    public OrderController(IOrderService orderService,IUserReturnService userReturnService, IUserOrderService userOrderService, IVendorOrderService vendorOrderService)
     {
+        _orderService = orderService;
         _userOrderService = userOrderService;
         _vendorOrderService = vendorOrderService;
         _userReturnService = userReturnService;
@@ -40,7 +41,7 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
-    [HttpGet("UpdateOrderStatus")]
+    [HttpPut("UpdateOrderStatus")]
     public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
     {
         var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);

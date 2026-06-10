@@ -16,10 +16,13 @@ public partial class UserOrderService : IUserOrderService
     private readonly IShipmentService _shipmentService;
     private readonly IOrderService _orderService;
     private readonly IPaymentService _paymentService;
+    private readonly IOrderRepsository _orderRepsository;
     private readonly IMapper _mapper;
-
-    public UserOrderService(IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderRepsository orderRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    private readonly IShipmentRepsository _shipmentRepsository;
+    public UserOrderService(IShipmentRepsository shipmentRepsository,IOrderRepsository orderRepsository,IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository,IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
+        _shipmentRepsository = shipmentRepsository;
+        _orderRepsository = orderRepsository;
         _cartItemsRepsository = cartItemsRepsository;
         _userCouponService = userCouponService;
         _addressRepsository = addressRepsository;
@@ -91,8 +94,6 @@ public partial class UserOrderService : IUserOrderService
             }
             await CreateShipmentTracking(shipment);
         }
-
-        await _userCartService.DeleteAllCart(userId);
 
         return _mapper.Map<ResponseAddOrderDTO>(order);
     }

@@ -9,9 +9,11 @@ namespace Ecommerce.API.Controllers;
 public class PaymentController : ControllerBase
 {
     private readonly IPaymentService _paymentService;
+    private readonly IUserOrderService _userOrderService;
 
-    public PaymentController(IPaymentService paymentService)
+    public PaymentController(IPaymentService paymentService,IUserOrderService userOrderService)
     {
+        _userOrderService = userOrderService;
         _paymentService = paymentService;
     }
 
@@ -30,6 +32,7 @@ public class PaymentController : ControllerBase
     public async Task<IActionResult> VerifyRazorpayPayment([FromBody] RequestVerifyRazorpayPaymentDTO request)
     {
         var result = await _paymentService.VerifyRazorpayPayment(request);
+        await _userOrderService.OnPaymentVerified(request.OrderId);
         return Ok(new { message = result });
     }
 
@@ -37,6 +40,7 @@ public class PaymentController : ControllerBase
     public async Task<IActionResult> PaymentFailed([FromBody] RequestPaymentFailedDTO request)
     {
         var result = await _paymentService.StorePaymentFailure(request);
+        await _userOrderService.OnPaymentFailed(request.OrderId);
         return Ok(new { message = result });
     }
 }

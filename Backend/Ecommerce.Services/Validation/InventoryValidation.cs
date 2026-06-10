@@ -17,6 +17,10 @@ public class InventoryValidation : IInventoryValidation
         {
             throw new DataNotFoundException("Inventory Is Not Found");
         }
+        if(!inventory.IsActive)
+        {
+            throw new DataNotFoundException("Inventory is deactivated");
+        }
         return inventory;
     }
 }

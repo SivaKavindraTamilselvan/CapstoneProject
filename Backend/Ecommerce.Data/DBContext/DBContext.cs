@@ -194,6 +194,7 @@ public class EcommerceContext : DbContext
             o.HasData(new OrderStatus() { OrderStatusId = 2, OrderStatusName = "Confirmed" });
             o.HasData(new OrderStatus() { OrderStatusId = 3, OrderStatusName = "Completed" });
             o.HasData(new OrderStatus() { OrderStatusId = 4, OrderStatusName = "Cancelled" });
+            o.HasData(new OrderStatus() { OrderStatusId = 5, OrderStatusName = "Failed" });
         });
         modelBuilder.Entity<ShipmentStatus>(sh =>
         {

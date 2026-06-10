@@ -73,38 +73,6 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductCategory")]
-    public async Task<ActionResult<ResponseAddProductCategoryDTO>> AddProductCategory(RequestAddProductCategoryDTO requestAddProductCategoryDTO)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductCategoryService.AddProductCategory(requestAddProductCategoryDTO,adminUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductSubCategory")]
-    public async Task<ActionResult<ResponseAddProductSubCategoryDTO>> AddProductSubCategory(RequestAddProductSubCategoryDTO requestAddProductSubCategoryDTO)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductCategoryService.AddProductSubCategory(requestAddProductSubCategoryDTO,adminUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddProductSubCategoryAttribute")]
-    public async Task<ActionResult<ResponseAddProductSubCategoryAttributeDTO>> AddProductSubCategoryAttribute(RequestAddProductSubCategoryAttributeDTO requestAddProductSubCategoryAttributeDTO)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductAttributeService.AddProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO,adminUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpPost("AddAttribute")]
-    public async Task<ActionResult<ResponseAddAttributeDTO>> AddAttribute(RequestAddAttributeDTO requestAddAttributeDTO)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductAttributeService.AddAttribute(requestAddAttributeDTO,adminUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPatch("DeleteProduct")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> DeleteProduct(RequestDeleteProductDTO requestDeleteProductDTO)
     {

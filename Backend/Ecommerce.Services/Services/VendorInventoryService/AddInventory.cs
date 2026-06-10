@@ -38,4 +38,11 @@ public class InventoryService : IInventoryService
         await _inventoryRepsository.Update(inventory.InventoryId, updateInventory);
         return _mapper.Map<ResponseUpdateInventoryDTO>(updateInventory);
     }
+    public async Task<ResponseUpdateInventoryDTO> DeleteInventory(int inventoryId)
+    {
+        var inventory = await _inventoryValidation.ValidateInventory(inventoryId);
+        inventory.IsActive = false;
+        await _inventoryRepsository.Update(inventory.InventoryId, inventory);
+        return _mapper.Map<ResponseUpdateInventoryDTO>(inventory);
+    }
 }

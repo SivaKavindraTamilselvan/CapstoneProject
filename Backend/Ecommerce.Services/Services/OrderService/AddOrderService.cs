@@ -17,8 +17,11 @@ public partial class OrderService : IOrderService
     private readonly IShipmentService _shipmentService;
 
     private readonly IMapper _mapper;
-    public OrderService(IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
+        _couponUsageRepsository = couponUsageRepsository;
+        _userRepsository = userRepsository;
+        _vendorUserValidation = vendorUserValidation;
         _orderRepsository = orderRepsository;
         _orderItemRepsository = orderItemRepsository;
         _inventoryValidation = inventoryValidation;

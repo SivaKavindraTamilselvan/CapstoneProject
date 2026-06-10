@@ -28,14 +28,17 @@ public partial class AuthenticationService : IAuthentication
                 throw new InvalidCredentialException("Invalid password for the email");
             }
         }
-        if(!result.IsActive)
+        if (!result.IsActive)
         {
             throw new InvalidCredentialException("User Is deleted or deactivated");
         }
-        var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
-        if(vendor==null || !vendor.IsActive)
+        if (result.RoleId == 3)
         {
-            throw new InvalidCredentialException("Vendor Credential is not valid");
+            var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
+            if (vendor == null || !vendor.IsActive)
+            {
+                throw new InvalidCredentialException("Vendor Credential is not valid");
+            }
         }
         int? adminRoleId = null;
         if (result.RoleId == 1)

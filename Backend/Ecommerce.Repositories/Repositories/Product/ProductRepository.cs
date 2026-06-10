@@ -73,13 +73,16 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         }
         return await query.OrderByDescending(p => p.CreatedAt).ToListAsync();
     }
-    public async Task<List<Product>> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm,int pageNumber,int pageSize)
+    public async Task<List<Product>> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm, int pageNumber, int pageSize)
     {
         var query = BaseQuery().Where(p =>
             p.ProductApprovalStatusId == 4 &&
             p.ProductStatusId == 2 &&
-            p.ProductSubCategory!.IsActive &&
-            p.ProductSubCategory.ProductCategory!.IsActive &&
+            p.ProductSubCategory != null &&
+            p.ProductSubCategory.IsActive &&
+
+            p.ProductSubCategory.ProductCategory != null &&
+            p.ProductSubCategory.ProductCategory.IsActive &&
             p.ProductVariants.Any(pv =>
                 pv.ProductApprovalStatusId == 4 &&
                 pv.ProductVariantStatusId == 2 &&
@@ -107,7 +110,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             query = query.Where(p => p.ProductName.ToLower().Contains(searchTerm.ToLower()));
         }
 
-        return await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1)*pageSize).Take(pageSize).ToListAsync();
+        return await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
     }
     public async Task<Product?> GetProductWithFullDetails(int productId)
     {

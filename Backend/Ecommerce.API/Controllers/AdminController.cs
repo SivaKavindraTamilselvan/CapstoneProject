@@ -46,7 +46,7 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("DeleteVendor")]
+    [HttpPatch("DeleteVendor")]
     public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor(int vendorId)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
@@ -77,7 +77,7 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("ReviewRefund")]
+    [HttpPut("ReviewRefund")]
     public async Task<ActionResult> CreateRefund(RequestAddRefundDTO requestAddRefundDTO)
     {
         var result = await _adminRefundService.CreateRefund(requestAddRefundDTO);
@@ -92,9 +92,9 @@ public class AdminController : ControllerBase
     }
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpGet("GetAdminUsER")]
-    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery] int? roleId, [FromQuery] bool? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery] int? roleid, [FromQuery] bool? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
     {
-        var result = await _adminService.GetAllAdminUser(roleId, status, pageNumber, pageSize);
+        var result = await _adminService.GetAllAdminUser(roleid, status, pageNumber, pageSize);
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]

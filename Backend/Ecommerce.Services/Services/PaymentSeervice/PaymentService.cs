@@ -122,8 +122,6 @@ public class PaymentService : IPaymentService
 
         await _paymentRepsository.Update(payment.PaymentId, payment);
 
-        await _orderService.ConfirmOrderStatus(request.OrderId);
-
         return "Payment Verified Successfully";
     }
 

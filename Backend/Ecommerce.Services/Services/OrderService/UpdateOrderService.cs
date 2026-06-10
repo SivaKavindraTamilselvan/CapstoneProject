@@ -5,20 +5,20 @@ using Ecommerce.Services.Interfaces;
 
 public partial class OrderService : IOrderService
 {
-    public async Task ConfirmOrderStatus(int orderId)
+    public async Task ConfirmOrderStatus(int orderId,bool status)
     {
         var order = await _orderRepsository.Get(orderId);
         if (order == null)
         {
             throw new DataNotFoundException("Order Not Found");
         }
-        order.OrderStatusId = 2;
+        order.OrderStatusId = status ? 2 : 5;
         order.UpdatedAt = DateTime.Now;
         await _orderRepsository.Update(order.OrderId, order);
         var shipment = await _shipmentRepsository.GetShipmentByOrderId(order.OrderId);
         foreach (var item in shipment)
         {
-            item.ShipmentStatusId = 10;
+            item.ShipmentStatusId = 2;
             await _shipmentRepsository.Update(item.ShipmentId, item);
             RequestAddShipmentTrackingDTO requestAddShipmentTrackingDTO = new RequestAddShipmentTrackingDTO();
             requestAddShipmentTrackingDTO.ShipmentId = item.ShipmentId;
