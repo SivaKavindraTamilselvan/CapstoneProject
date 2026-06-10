@@ -155,13 +155,28 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .ToListAsync();
     }
 
+    public async Task<List<Product>> GetAllVariantOutOfStockProducts()
+    {
+        return await _ecommerceContext.Product
+            .Include(p => p.ProductVariants)
+                .ThenInclude(pv => pv.Inventories)
+            .Where(p => p.ProductVariants.Any(                       // has at least one live variant
+                            pv => pv.ProductApprovalStatusId == 4    // Approved
+                               && pv.ProductVariantStatusId == 2)   // Active
+                     && p.ProductVariants
+                            .Where(pv => pv.ProductApprovalStatusId == 4
+                                      && pv.ProductVariantStatusId == 2)
+                            .All(pv => pv.Inventories
+                                          .Sum(i => i.AvailableQuantity) == 0))
+            .ToListAsync();
+    }
     // 16. Get all out of stock products
     public async Task<List<Product>> GetAllOutOfStockProducts()
     {
         return await BaseQuery()
             .Where(p => p.ProductApprovalStatusId == 4
                      && p.ProductStatusId == 2
-                     && p.ProductVariants.All(pv => pv.Inventories.All(i => i.AvailableQuantity == 0)))
+                     && p.ProductVariants.Any(pv => pv.Inventories.All(i => i.AvailableQuantity == 0)))
             .ToListAsync();
     }
 
@@ -195,7 +210,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .ToListAsync();
     }
 
-    public async Task<Product?> CheckTheProduct(int ProductVariantId,int Qunatity)
+    public async Task<Product?> CheckTheProduct(int ProductVariantId, int Qunatity)
     {
         var query = BaseQuery().Where(p =>
            p.ProductApprovalStatusId == 4 &&

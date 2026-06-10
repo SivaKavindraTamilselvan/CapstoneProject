@@ -23,10 +23,18 @@ public class VendorProductController : ControllerBase
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet]
-    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval,[FromQuery] int? status,[FromQuery] int? subcategory,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10,[FromQuery] bool? hasIssues =null ,[FromQuery] bool? isAvailableForSale = null)
+    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval, [FromQuery] int? status, [FromQuery] int? subcategory, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] bool? hasIssues = null, [FromQuery] bool? isAvailableForSale = null)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductsByVendorId(approval,status,vendorUserId,subcategory,pageNumber,pageSize,hasIssues,isAvailableForSale);
+        var result = await _vendorProductService.GetAllProductsByVendorId(approval, status, vendorUserId, subcategory, pageNumber, pageSize, hasIssues, isAvailableForSale);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("ProductVariant")]
+    public async Task<IActionResult> GetAllProductsVariantByVendorId(ProductVariantFilterDto filter)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetAllProductVariant(filter,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -59,6 +67,13 @@ public class VendorProductController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorProductService.GetAllProductsWithPendingVariants(vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> GetProductWithFullDetails(int productId)
+    {
+        var result = await _vendorProductService.GetProductWithFullDetails(productId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -98,7 +113,7 @@ public class VendorProductController : ControllerBase
     public async Task<ActionResult<ResponseAddProductVariantAttributeDTO>> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true,vendorUserId);
+        var result = await _vendorProductVariantService.AddProductVariantAttribute(requestAddProductVariantAttributeDTO, true, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -106,7 +121,7 @@ public class VendorProductController : ControllerBase
     public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProductStatus requestUpdateProduct)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.UpdateProduct(requestUpdateProduct,vendorUserId);
+        var result = await _vendorProductService.UpdateProduct(requestUpdateProduct, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -114,7 +129,7 @@ public class VendorProductController : ControllerBase
     public async Task<ActionResult<ResponseUpdateProduct>> UpdateProduct(RequestUpdateProduct requestUpdateProduct)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.UpdateRejectedOrPendingProduct(requestUpdateProduct,vendorUserId);
+        var result = await _vendorProductService.UpdateRejectedOrPendingProduct(requestUpdateProduct, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -122,7 +137,15 @@ public class VendorProductController : ControllerBase
     public async Task<ActionResult<ResponseUpdateProductVariantDTO>> UpdateProductVariant(RequestUpdateProductVariantDTO requestUpdateProductVariantDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO,vendorUserId);
+        var result = await _vendorProductVariantService.UpdateProductVariant(requestUpdateProductVariantDTO, vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPut("UpdateRejectedProductVariant")]
+    public async Task<ActionResult<ResponseUpdateProductVariantDTO>> UpdateProductVariantDeatils(RequestUpdateProductVariant requestUpdateProductVariantDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductVariantService.UpdateRejectedProductVariant(requestUpdateProductVariantDTO, vendorUserId);
         return Ok(result);
     }
 

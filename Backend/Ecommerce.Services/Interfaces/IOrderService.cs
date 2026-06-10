@@ -5,6 +5,7 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IOrderService
 {
+    public Task<OrderSummaryDto> GetOrderByAdminId(int orderId);
     public Task<List<OrderSummaryDto>> GetOrderByVendor(OrderFilterParams orderFilterParams, int userid);
     public Task<List<OrderSummaryDto>> GetOrderByUserId(OrderFilterParams orderFilterParams, int userid);
     public Task<List<OrderSummaryDto>> GetOrderByAdmin(OrderFilterParams orderFilterParams);

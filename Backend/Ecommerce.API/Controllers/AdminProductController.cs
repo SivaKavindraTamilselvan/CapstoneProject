@@ -57,6 +57,13 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpGet("ProductVariant")]
+    public async Task<IActionResult> GetAllProductsVariant(ProductVariantFilterDto filter)
+    {
+        var result = await _adminProductService.GetAllProductVariant(filter);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("ReviewProduct")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
     {

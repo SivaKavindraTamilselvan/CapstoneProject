@@ -36,6 +36,12 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
                 .ThenInclude(oi => oi.OrderItemStatus)
             .AsNoTracking();
     }
+    public async Task<Order?> GetOrderByOrderId(int orderId)
+    {
+        var query = GetBaseQuery();
+        query = query.Where(p=>p.OrderId == orderId);
+        return await query.FirstOrDefaultAsync();
+    }
     public async Task<List<Order>> GetOrdersForAdmin(OrderFilterParams filters)
     {
         var query = GetBaseQuery();

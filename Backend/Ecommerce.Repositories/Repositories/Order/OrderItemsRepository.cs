@@ -14,8 +14,17 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
 
     public async Task<List<OrderItems>> GetOrderItemsByVendor(int vendorId)
     {
-        var orders = await _ecommerceContext.OrderItems.Include(o => o.ProductVariant).ThenInclude(p => p.Product).Include(i => i.Inventory).Where(p => p.ProductVariant.Product.VendorId == vendorId && p.OrderItemStatusId == 1).ToListAsync();
+        var orders = await _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).Include(i => i.Inventory).Where(p => p.ProductVariant.Product.VendorId == vendorId && p.OrderItemStatusId == 1).ToListAsync();
         return orders;
+    }
+    public async Task<List<OrderItems>> GetAllOrderItemsByVendor(int vendorId,int? status)
+    {
+        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).Include(i => i.Inventory).Where(p => p.ProductVariant.Product.VendorId == vendorId);
+        if(status.HasValue)
+        {
+            orders.Where(o=>o.OrderItemStatusId == status.Value);
+        }
+        return await orders.ToListAsync();
     }
     public async Task<List<OrderItems>> GetOrderItemsByOrderId(int orderId)
     {

@@ -1,3 +1,5 @@
+using Ecommerce.DTOs;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 
 public partial class VendorProductService : IVendorProductService
@@ -61,5 +63,18 @@ public partial class VendorProductService : IVendorProductService
         var vendorProducts = products.Where(p => p.VendorId == vendor.VendorId).ToList();
         return _mapper.Map<List<ResponseVendorGetAllProductDTO>>(vendorProducts);
     }
-
+     public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId)
+    {
+        var product = await _productRepsository.GetProductWithFullDetails(productId);
+        if (product == null)
+        {
+            throw new DataNotFoundException("Product not found");
+        }
+        return _mapper.Map<ResponseAdminGetAllProductDTO>(product);
+    }
+     public async Task<List<ResponseGetAllProductVariant>> GetAllProductVariant(ProductVariantFilterDto filter,int vendorUserId)
+    {
+        var product = await _productVariantRepsository.GetAllVariantsForVendor(vendorUserId,filter);
+        return _mapper.Map<List<ResponseGetAllProductVariant>>(product);
+    }
 }

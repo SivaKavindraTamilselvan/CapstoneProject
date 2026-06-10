@@ -20,7 +20,6 @@ namespace Ecommerce.Mappers
             CreateMap<RequestAddCouponProductDTO, CouponsProduct>();
             CreateMap<Coupons, ResponseAddCouponProductDTO>();
 
-            CreateMap<OrderItems, ResponseGetOrderItems>();
             CreateMap<Shipment, ShipmentStatusResponseDTO>();
 
             CreateMap<Vendor, ResponseGetVendor>().ForMember(dest => dest.ApprovalStatusName, opt => opt.MapFrom(src => src.ApprovalStatus!.ApprovalStatusName));

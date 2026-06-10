@@ -34,3 +34,16 @@ public class ProductValidationResult
     public bool IsValid { get; set; }
     public List<string> Issues { get; set; } = new();
 }
+
+public class ProductVariantFilterDto
+{
+    public string? SearchTerm      { get; set; }   // matches SKU or Product name
+    public int?    CategoryId      { get; set; }
+    public int?    SubCategoryId   { get; set; }
+    public int?    StatusId        { get; set; }   // ProductVariantStatusId
+    public int?    ApprovalStatusId{ get; set; }
+    public decimal? MinPrice       { get; set; }
+    public decimal? MaxPrice       { get; set; }
+    public int     Page            { get; set; } = 1;
+    public int     PageSize        { get; set; } = 10;
+}

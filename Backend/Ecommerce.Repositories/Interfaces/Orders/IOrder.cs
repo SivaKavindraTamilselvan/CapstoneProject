@@ -4,6 +4,7 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IOrderRepsository : IRepository<int, Order>
 {
+    public Task<Order?> GetOrderByOrderId(int orderId);
     public Task<List<Order>> GetOrdersForUser(int userId, OrderFilterParams filters);
     public Task<List<Order>> GetOrdersForAdmin(OrderFilterParams filters);
     public Task<List<Order>> GetOrdersForVendor(int vendorId, OrderFilterParams filters);

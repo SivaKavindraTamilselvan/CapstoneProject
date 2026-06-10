@@ -34,6 +34,11 @@ public partial class AdminProductService : IAdminProductService
         }
         return response;
     }
+    public async Task<List<ResponseGetAllProductVariant>> GetAllProductVariant(ProductVariantFilterDto filter)
+    {
+        var product = await _productVariantRepsository.GetAllVariantsForAdmin(filter);
+        return _mapper.Map<List<ResponseGetAllProductVariant>>(product);
+    }
     public async Task<List<ResponseAdminGetStockProductDTO>> GetAllOutOfStockProducts()
     {
         var products = await _productRepsository.GetAllOutOfStockProducts();

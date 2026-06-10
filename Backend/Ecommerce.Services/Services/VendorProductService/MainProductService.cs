@@ -4,6 +4,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class VendorProductService : IVendorProductService
 {
+    private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductRepsository _productRepsository;
     private readonly IVendorValidation _vendorValidation;
     private readonly IProductCategoryValidation _productCategoryValidation;
@@ -12,8 +13,9 @@ public partial class VendorProductService : IVendorProductService
     private readonly IMapper _mapper;
 
 
-    public VendorProductService(IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
+    public VendorProductService(IProductVariantRepsository productVariantRepsository,IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
     {
+        _productVariantRepsository = productVariantRepsository;
         _vendorUserValidation = vendorUserValidation;
         _productRepsository = productRepsository;
         _vendorValidation = vendorValidation;

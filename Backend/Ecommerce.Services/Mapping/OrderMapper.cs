@@ -13,6 +13,13 @@ namespace Ecommerce.Mappers
 
             CreateMap<RequestAddReturnDTO, Return>();
             CreateMap<Return, ResponseAddReturnDTO>();
+            CreateMap<OrderItems, ResponseGetOrderItems>()
+            .ForMember(
+                dest => dest.SKU,
+                opt => opt.MapFrom(src => src.ProductVariant.SKU))
+            .ForMember(
+                dest => dest.OrderItemStatusName,
+                opt => opt.MapFrom(src => src.OrderItemStatus.OrderItemStatusName));
 
             CreateMap<Return, ResponseReviewReturnDTO>();
             CreateMap<OrderItems, OrderItemSummaryDto>()

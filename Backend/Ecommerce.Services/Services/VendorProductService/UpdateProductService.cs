@@ -28,7 +28,7 @@ public partial class VendorProductService : IVendorProductService
         {
             throw new InvalidCredentialException("You Cannot Access other vendor products");
         }
-        if (product.ProductApprovalStatusId == 4)
+        if (product.ProductApprovalStatusId == 4 || product.ProductApprovalStatusId == 6)
         {
             throw new InvalidCredentialException("You Cannot update th admin approved product datas");
         }
