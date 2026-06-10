@@ -39,6 +39,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<Product, RequestUpdateProductStatus>();
 
+            CreateMap<ProductVariant,ResponseReviewOfProductVariantDTO>();
+
 
             CreateMap<ProductCategory, ResponseUserGetAllCategory>();
             CreateMap<ProductCategory, ResponseAdminGetAllCategory>()

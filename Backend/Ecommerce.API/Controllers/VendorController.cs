@@ -35,6 +35,14 @@ public class VendorController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
+    [HttpPut("ReviewProductVariantByVendor")]
+    public async Task<ActionResult> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorService.ReviewProductVariant(requestReviewOfProductDTO,vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOwnerOnly")]
     [HttpPost("ReviewReturnProductByVendor")]
     public async Task<ActionResult<ResponseReviewReturnDTO>> ReviewReturnProduct(RequestReviewReturnDTO requestReviewReturnDTO)
     {

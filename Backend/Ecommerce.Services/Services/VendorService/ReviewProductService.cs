@@ -11,8 +11,12 @@ public partial class VendorService : IVendorService
         {
             throw new InvalidOperationException("Vendor can only approve or reject a product");
         }
-
         var product = await _productValidation.ValidateProduct(requestReviewOfProductDTO.ProductId);
+        if (product.ProductApprovalStatusId == 2 ||  product.ProductApprovalStatusId == 3)
+        {
+            throw new InvalidOperationException("Product already reviewed");
+        }
+
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         ApprovalHistory approvalHistory = new ApprovalHistory();
         approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
@@ -27,15 +31,20 @@ public partial class VendorService : IVendorService
         await _approvalHistoryRepsository.Create(approvalHistory);
         return _mapper.Map<ResponseReviewOfProductDTO>(updatedproduct);
     }
-    public async Task<ResponseReviewOfProductVariantDTO> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO,int vendorUserId)
+    public async Task<ResponseReviewOfProductVariantDTO> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO, int vendorUserId)
     {
         if (requestReviewOfProductDTO.ApprovalStatusId != 2 && requestReviewOfProductDTO.ApprovalStatusId != 3)
         {
             throw new InvalidOperationException("Vendor can only approve or reject a product");
         }
         var product = await _productValidation.AdminValidateProductVariant(requestReviewOfProductDTO.ProductVariantId);
+        if (product.ProductApprovalStatusId == 2 ||  product.ProductApprovalStatusId == 3)
+        {
+            throw new InvalidOperationException("Product already reviewed");
+        }
+
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
-        await _productValidation.ValidateProductVariant(product.ProductVariantId,vendorUserId);
+        await _productValidation.ValidateProductVariant(product.ProductVariantId, vendorUserId);
         ApprovalHistory approvalHistory = new ApprovalHistory();
         approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
         approvalHistory.EntityType = "Product_Variant";
@@ -45,7 +54,7 @@ public partial class VendorService : IVendorService
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
-        var updated = await _productVariantRepsository.Update(product.ProductId,product);
+        var updated = await _productVariantRepsository.Update(product.ProductId, product);
         await _approvalHistoryRepsository.Create(approvalHistory);
         return _mapper.Map<ResponseReviewOfProductVariantDTO>(product);
     }

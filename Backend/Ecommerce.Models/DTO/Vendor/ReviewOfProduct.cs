@@ -40,6 +40,6 @@ public class ResponseReviewOfProductVariantDTO
 {
     public int ProductVariantId { get; set; }
     public int ProductApprovalStatusId { get; set; }
-    public int ProductStatusId {get;set;}
+    public int ProductVariantStatusId {get;set;}
     public DateTime? UpdatedAt {get;set;}
 }
