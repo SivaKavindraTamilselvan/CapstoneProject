@@ -11,6 +11,11 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
     {
 
     }
+    public async Task<OrderItems?> GetOrderItemByOrderItemId(int orderItemId)
+    {
+        var order = _ecommerceContext.OrderItems.Include(o=>o.Order).Where(o=>o.OrderItemsId == orderItemId);
+        return await order.FirstOrDefaultAsync();
+    }
 
     // for vendor valid order
     public async Task<List<OrderItems>> GetOrderItemsByVendor(int vendorId,int? status)

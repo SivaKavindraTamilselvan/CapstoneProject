@@ -4,6 +4,8 @@ public class ShipmentStatusRequestDTO
 {
     public int ShipmentId { get; set; }
     public int ShipmentStatusId { get; set; }
+    public string Location {get;set;} = string.Empty;
+    public string Remarks {get;set;} = string.Empty;
 }
 
 public class ShipmentStatusResponseDTO

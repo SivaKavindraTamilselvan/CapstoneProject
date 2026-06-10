@@ -48,12 +48,13 @@ public partial class OrderService : IOrderService
             throw new DataNotFoundException("User Not Found");
         }
         var order = await _orderRepsository.GetOrdersForVendor(user.VendorId, orderFilterParams);
-       var orderItems = order
-        .SelectMany(o => o.OrderItems)
-        .Where(oi => oi.ProductVariant != null &&
-                    oi.ProductVariant.Product != null &&
-                    oi.ProductVariant.Product.VendorId == user.VendorId)
-        .ToList();
+        var orderItems = order
+        .Where(o => o.OrderStatusId == 2)
+         .SelectMany(o => o.OrderItems)
+         .Where(oi => oi.ProductVariant != null &&
+                     oi.ProductVariant.Product != null &&
+                     oi.ProductVariant.Product.VendorId == user.VendorId)
+         .ToList();
         return _mapper.Map<List<OrderItemSummaryDto>>(orderItems);
     }
 }

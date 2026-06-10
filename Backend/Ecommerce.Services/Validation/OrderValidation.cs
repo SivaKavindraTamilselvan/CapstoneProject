@@ -14,7 +14,7 @@ public class OrderValidation :IOrderValidation
     }
     public async Task<OrderItems> ValidateOrderItem(int orderItemId)
     {
-        var order = await _orderItemRepsository.Get(orderItemId);
+        var order = await _orderItemRepsository.GetOrderItemByOrderItemId(orderItemId);
         if(order == null)
         {
             throw new DataNotFoundException("Order Item Is Not Found");

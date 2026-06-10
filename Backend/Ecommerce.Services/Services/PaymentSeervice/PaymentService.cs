@@ -61,7 +61,7 @@ public class PaymentService : IPaymentService
         // Razorpay
         string keyId = _configuration["Razorpay:KeyId"] ?? string.Empty;
         string keySecret = _configuration["Razorpay:KeySecret"] ?? string.Empty;
-        order.FinalAmount = 500;
+        //order.FinalAmount = 500;
         int amountInPaise = (int)Math.Round(order.FinalAmount * 100);
 
         RazorpayClient client = new RazorpayClient(keyId, keySecret);

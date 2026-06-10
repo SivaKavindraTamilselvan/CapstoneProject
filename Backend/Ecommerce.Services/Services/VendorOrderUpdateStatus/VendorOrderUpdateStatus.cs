@@ -1,19 +1,23 @@
 
 using AutoMapper;
+using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
 public class VendorOrderService : IVendorOrderService
 {
+    private readonly IShipmentService _shipmentService;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IMapper _mapper;
     private readonly IShipmentRepsository _shipmentRepsository;
     private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IOrderValidation _orderValidation;
     private readonly IShipmentValidation _shipmentValidation;
-    public VendorOrderService(IOrderValidation orderValidation, IOrderItemRepsository orderItemRepsository, IMapper mapper, IShipmentRepsository shipmentRepsository, IVendorUserValidation vendorUserValidation, IShipmentValidation shipmentValidation)
+    public VendorOrderService(IShipmentService shipmentService,IOrderValidation orderValidation, IOrderItemRepsository orderItemRepsository, IMapper mapper, IShipmentRepsository shipmentRepsository, IVendorUserValidation vendorUserValidation, IShipmentValidation shipmentValidation)
     {
+        _shipmentService = shipmentService;
         _orderValidation = orderValidation;
         _orderItemRepsository = orderItemRepsository;
         _mapper = mapper;
@@ -30,6 +34,10 @@ public class VendorOrderService : IVendorOrderService
     public async Task<ResponseGetOrderItems> UpdateTheOrderStatus(int orderItemId)
     {
         var order = await _orderValidation.ValidateOrderItem(orderItemId);
+        if(order!.Order!.OrderStatusId !=2)
+        {
+            throw new DataApprovalStatusException("Order cannot be updated");
+        }
         order.OrderItemStatusId = 2;
         var updatedOrder = await _orderItemRepsository.Update(orderItemId, order);
         await CheckIfAllOrderForShipmetPacked(orderItemId);
@@ -44,6 +52,11 @@ public class VendorOrderService : IVendorOrderService
         shipment.ShipmentStatusId = 4;
         shipment.TrackingNumber = shipmentTrackingNumber;
         await _shipmentRepsository.Update(shipment.ShipmentId, shipment);
-
+        RequestAddShipmentTrackingDTO requestAddShipmentTrackingDTO = new RequestAddShipmentTrackingDTO();
+        requestAddShipmentTrackingDTO.ShipmentId = shipment.ShipmentId;
+        requestAddShipmentTrackingDTO.Location = "WareHouse";
+        requestAddShipmentTrackingDTO.Remarks = "Shipment Created . Order Ready for pickup";
+        requestAddShipmentTrackingDTO.ShipmentStatusId = shipment.ShipmentStatusId;
+        await _shipmentService.CreateShipmentTracking(requestAddShipmentTrackingDTO);
     }
 }

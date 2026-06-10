@@ -26,7 +26,7 @@ public partial class OrderService : IOrderService
             requestAddShipmentTrackingDTO.ShipmentId = item.ShipmentId;
             requestAddShipmentTrackingDTO.ShipmentStatusId = item.ShipmentStatusId;
             requestAddShipmentTrackingDTO.Location = "Warehouse";
-            requestAddShipmentTrackingDTO.Remarks = "Shipment Created Successfully. Items is Warehouse";
+            requestAddShipmentTrackingDTO.Remarks = "Order Successfully. Items is Warehouse";
             await _shipmentService.CreateShipmentTracking(requestAddShipmentTrackingDTO);
         }
 
