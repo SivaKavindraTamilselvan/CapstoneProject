@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 public partial class UserOrderService : IUserOrderService
 {
+    private readonly IProductRepsository _productRepsository;
     private readonly ICartItemsRepsository _cartItemsRepsository;
     private readonly IUserCouponService _userCouponService;
     private readonly IAddressRepsository _addressRepsository;
@@ -19,8 +20,9 @@ public partial class UserOrderService : IUserOrderService
     private readonly IOrderRepsository _orderRepsository;
     private readonly IMapper _mapper;
     private readonly IShipmentRepsository _shipmentRepsository;
-    public UserOrderService(IShipmentRepsository shipmentRepsository,IOrderRepsository orderRepsository,IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository,IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    public UserOrderService(IProductRepsository productRepsository,IShipmentRepsository shipmentRepsository,IOrderRepsository orderRepsository,IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository,IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
+        _productRepsository = productRepsository;
         _shipmentRepsository = shipmentRepsository;
         _orderRepsository = orderRepsository;
         _cartItemsRepsository = cartItemsRepsository;

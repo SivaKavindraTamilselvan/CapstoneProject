@@ -195,4 +195,30 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .ToListAsync();
     }
 
+    public async Task<Product?> CheckTheProduct(int ProductVariantId,int Qunatity)
+    {
+        var query = BaseQuery().Where(p =>
+           p.ProductApprovalStatusId == 4 &&
+           p.ProductStatusId == 2 &&
+           p.ProductSubCategory != null &&
+           p.ProductSubCategory.IsActive &&
+
+           p.ProductSubCategory.ProductCategory != null &&
+           p.ProductSubCategory.ProductCategory.IsActive &&
+           p.ProductVariants.Any(pv =>
+           pv.ProductVariantId == ProductVariantId &&
+               pv.ProductApprovalStatusId == 4 &&
+               pv.ProductVariantStatusId == 2 &&
+               pv.MainProductSubCategoryAttribute!.IsActive &&
+               pv.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+               pv.Inventories.Any(i => i.AvailableQuantity > Qunatity) &&
+               pv.ProductVariantAttributes.All(a =>
+                   a.ProductSubCategoryAttribute!.IsActive &&
+                   a.ProductSubCategoryAttribute.AttributeMaster!.IsActive
+               )
+           )
+        );
+        return await query.FirstOrDefaultAsync();
+    }
+
 }

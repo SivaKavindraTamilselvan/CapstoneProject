@@ -37,6 +37,14 @@ public partial class UserOrderService : IUserOrderService
         {
             throw new DataNotFoundException("Product variant not loaded");
         }
+        foreach(var items in cartItems)
+        {
+            var product = await _productRepsository.CheckTheProduct(items.ProductVariantId,items.Qunatity);
+            if(product == null)
+            {
+                throw new DataApprovalStatusException($"Order Cannot Be Placed As {items.ProductVariant!.SKU} Is not available currently");
+            }
+        }
         return cartItems;
     }
 }
