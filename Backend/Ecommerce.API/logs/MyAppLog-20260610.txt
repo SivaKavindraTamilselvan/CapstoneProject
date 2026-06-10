@@ -6180,3 +6180,9 @@ Ecommerce.DTOs.RequestAddReturnRefundDTO -> Ecommerce.DTOs.RequestAddRefundDTO
    at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
    at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
 2026-06-10 16:49:06.059 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - 500 null application/json 29.4387ms
+2026-06-10 16:57:51.838 +05:30 [INF] Application is shutting down...
+2026-06-10 16:57:58.348 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-10 16:57:58.423 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-10 16:57:58.424 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-10 16:57:58.424 +05:30 [INF] Hosting environment: Development
+2026-06-10 16:57:58.424 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API

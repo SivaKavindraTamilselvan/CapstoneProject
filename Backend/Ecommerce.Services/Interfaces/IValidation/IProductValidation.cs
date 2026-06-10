@@ -5,6 +5,7 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IProductValidation
 {
+    public Task<ProductVariant> ValidateProductVariantIfApproved(int productVariantId);
     public Task<ProductValidationResult> ValidateProductChain(Product product);
     public Task<Product> VendorValidateProduct(int productId,int vendorId);
     public Task<ProductVariant> AdminValidateProductVariant(int productVariantId);

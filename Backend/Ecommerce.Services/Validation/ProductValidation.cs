@@ -58,6 +58,19 @@ public class ProductValidation : IProductValidation
         }
         return product;
     }
+    public async Task<ProductVariant> ValidateProductVariantIfApproved(int productVariantId)
+    {
+        var product = await _productVariantRepsository.Get(productVariantId);
+        if(product == null)
+        {
+            throw new DataNotFoundException("Product Is Not found");
+        }
+        if (product.ProductApprovalStatusId != 4)
+        {
+            throw new DataApprovalStatusException("Product Is Not Yet Approved");
+        }
+        return product;
+    }
     public async Task<ProductVariant> ValidateProductVariant(int productVariantId,int vendorUserId)
     {
         var productVariant = await _productVariantRepsository.GetProductByProductVariant(productVariantId);
