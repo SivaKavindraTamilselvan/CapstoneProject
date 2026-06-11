@@ -2,7 +2,6 @@ using System.Security.Authentication;
 using System.Security.Cryptography;
 using System.Text;
 using Ecommerce.DTOs;
-using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
@@ -30,14 +29,21 @@ public partial class AuthenticationService : IAuthentication
         }
         if (!result.IsActive)
         {
+            _logger.LogError("Login failed. User with {email} is deleted or deactivated", requestLoginUserDTO.Email);
             throw new InvalidCredentialException("User Is deleted or deactivated");
         }
         if (result.RoleId == (int)RoleEnum.Vendor)
         {
             var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
-            if (vendor == null || !vendor.IsActive)
+            if (vendor == null)
             {
+                _logger.LogError("Login failed.Vendor User with {email} is deleted or deactivated", requestLoginUserDTO.Email);
                 throw new InvalidCredentialException("Vendor Credential is not valid");
+            }
+            if(!vendor.IsActive)
+            {
+                _logger.LogError("Login failed. Vendor Is deleted or deactivated");
+                throw new InvalidCredentialException("Vendor Is deleted or deactivated");
             }
         }
         int? adminRoleId = null;
