@@ -31,7 +31,7 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
     {
         return await _ecommerceContext.Vendor.FirstOrDefaultAsync(p => p.CompanyPhoneNumber == phone);
     }
-    public async Task<(List<Vendor> items,int totalCount)> GetVendorsForAdmin(RequestAdminVendorFilter request)
+    public async Task<(List<Vendor> items, int totalCount)> GetVendorsForAdmin(RequestAdminVendorFilter request)
     {
         var query = _ecommerceContext.Vendor.Include(v => v.ReviwedByAdmin).ThenInclude(a => a!.User).Include(a => a.ApprovalStatus).AsQueryable();
         if (!string.IsNullOrWhiteSpace(request.CompanyEmail))
@@ -68,11 +68,16 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
         }
         var totalCount = await query.CountAsync();
         var vendor = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
-        return (vendor,totalCount);
+        return (vendor, totalCount);
     }
     public async Task<Vendor?> GetOwnerVendorUserByVendorId(int vendorId)
     {
         return await _ecommerceContext.Vendor.Include(v => v.VendorUsers.Where(vu => vu.VendorRoleId == 1)).ThenInclude(v => v.User).Where(v => v.VendorId == vendorId).FirstOrDefaultAsync();
+    }
+    public async Task<List<int>> GetAllVendorOwnerUserIds()
+    {
+        return await _ecommerceContext.Vendor.Where(v => v.IsActive && v.ApprovalStatusId == 2).SelectMany(v => v.VendorUsers
+        .Where(vu => vu.VendorRoleId == 1 && vu.IsActive).Select(vu => vu.UserId)).Distinct().ToListAsync();
     }
 
 }
