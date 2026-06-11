@@ -3,6 +3,12 @@ namespace Ecommerce.Services.Interfaces
 {
     public interface INotificationService
     {
-        Task SendToUser(string userId, object payload);
+        Task SendToUser(
+            int userId,
+            string title,
+            string message,
+            int notificationTypeId,
+            string? referenceType = null,
+            int? referenceId = null);
     }
 }

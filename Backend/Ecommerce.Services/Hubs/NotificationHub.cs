@@ -19,6 +19,7 @@ namespace Ecommerce.API.Hubs
             }
 
             await base.OnConnectedAsync();
+            
         }
 
         public override async Task OnDisconnectedAsync(Exception? exception)

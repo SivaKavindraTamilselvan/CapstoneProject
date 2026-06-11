@@ -22,14 +22,15 @@ public class NotificationController : ControllerBase
     [HttpPost("send")]
     public async Task<IActionResult> SendNotification([FromBody] RequestSendNotificationDTO request)
     {
+        /*
         await _notificationService.SendToUser(
             request.UserId.ToString(),
             new
             {
                 message = request.Message,
-                status = request.Status
             }
         );
+        */
 
         return Ok("Notification sent");
     }
