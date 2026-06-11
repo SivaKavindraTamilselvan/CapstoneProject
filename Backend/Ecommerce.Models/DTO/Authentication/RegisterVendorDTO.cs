@@ -16,7 +16,7 @@ public class RequestRegisterVendorDTO
     public string CompanyEmail { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Phone Number Cannot Be Empty")]
-    [Phone]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be exactly 10 digits")]
     public string CompanyPhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Vendor Company Name Cannot Be Empty")]
