@@ -32,7 +32,7 @@ public partial class AuthenticationService : IAuthentication
         {
             throw new InvalidCredentialException("User Is deleted or deactivated");
         }
-        if (result.RoleId == 3)
+        if (result.RoleId == (int)RoleEnum.Vendor)
         {
             var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
             if (vendor == null || !vendor.IsActive)
@@ -41,7 +41,7 @@ public partial class AuthenticationService : IAuthentication
             }
         }
         int? adminRoleId = null;
-        if (result.RoleId == 1)
+        if (result.RoleId == (int)RoleEnum.Admin)
         {
             var adminUser = await _adminRepository.GetAdminUserByUserId(result.UserId);
             if (adminUser == null)
@@ -52,7 +52,7 @@ public partial class AuthenticationService : IAuthentication
             adminRoleId = adminUser.AdminRoleId;
         }
         int? vendorRoleId = null;
-        if (result.RoleId == 3)
+        if (result.RoleId == (int)RoleEnum.Vendor)
         {
             var vendorUser = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
             if (vendorUser == null)
@@ -63,7 +63,10 @@ public partial class AuthenticationService : IAuthentication
             vendorRoleId = vendorUser?.VendorRoleId;
         }
         _logger.LogInformation("Generating token for UserId {UserId}", result.UserId);
-        string token = _tokenService.CreateNewToken(_mapper.Map<TokenRequest>(result));
+        var tokenRequest = _mapper.Map<TokenRequest>(result);
+        string token = _tokenService.CreateNewToken(tokenRequest);
+        //Console.WriteLine("AdminRoleId" + tokenRequest.AdminRoleId);
+        //Console.WriteLine("VendorRole" + tokenRequest.VendorRoleId);
         var response = _mapper.Map<ResponseLoginUserDTO>(result);
         response.Token = token;
         _logger.LogInformation("Login successful for UserId {UserId}", result.UserId);
