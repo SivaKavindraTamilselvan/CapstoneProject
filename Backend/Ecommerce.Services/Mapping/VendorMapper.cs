@@ -8,6 +8,9 @@ namespace Ecommerce.Mappers
     {
         public VendorMappingProfile()
         {
+            CreateMap<Vendor,ResponseAdminGetVendorDTO>()
+            .ForMember(dest=>dest.ApprovalStatusName,opt=>opt.MapFrom(src=>src.ApprovalStatus!.ApprovalStatusName));
+            
             CreateMap<RequestAddInventoryDTO, Inventory>();
             CreateMap<Inventory, ResponseAddInventoryDTO>();
 
