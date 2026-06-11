@@ -11,4 +11,5 @@ public interface IVendorRepsository : IRepository<int,Vendor>
     public Task<Vendor?> GetVendorByCompanyPhoneNumber(string phone);
     public Task<Vendor?> GetOwnerVendorUserByVendorId(int vendorId);
     public Task<(List<Vendor> items,int totalCount)> GetVendorsForAdmin(RequestAdminVendorFilter request);
+    public Task<List<int>> GetAllVendorOwnerUserIds();
 }
