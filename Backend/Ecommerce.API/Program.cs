@@ -175,6 +175,14 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("VendorRoleId",  "1","4","2");
     });
 });
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("VendorOwnerAndInventoryVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "3");
+        policy.RequireClaim("VendorRoleId",  "1","4","2");
+    });
+});
 
 builder.Services.AddAuthorization(options =>
 {
@@ -197,6 +205,7 @@ builder.Services.AddAuthorization(options =>
 #region Mappers
 builder.Services.AddAutoMapper(m=> m.AddProfile(new AuthenticationMappingProfile()));
 builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
+builder.Services.AddAutoMapper(m=> m.AddProfile(new AddressMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ShipmentMappingProfile()));
@@ -313,6 +322,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 app.UseRouting();
+app.UseCors();
 
 
 app.UseHttpsRedirection();
@@ -320,7 +330,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.UseCors();
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseStaticFiles(); // ← add this
