@@ -29,7 +29,7 @@ public class RequestAddAddressDTO
     public string State { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "PinCode Is Needed For The Shipment Purpose")]
-    [MaxLength(6,ErrorMessage = "Maximum charater allowed for PinCode is 6")]
+    [RegularExpression(@"^[1-9][0-9]{5}$", ErrorMessage = "Enter a valid 6-digit Indian PIN code")]
     public string PinCode { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Is Default Is Needed")]
