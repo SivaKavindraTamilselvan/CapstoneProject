@@ -195,6 +195,7 @@ builder.Services.AddAuthorization(options =>
 });
 
 #region Mappers
+builder.Services.AddAutoMapper(m=> m.AddProfile(new AuthenticationMappingProfile()));
 builder.Services.AddAutoMapper(m=> m.AddProfile(new UserMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
@@ -255,10 +256,10 @@ builder.Services.AddScoped<IShipmentItemsRepsository,ShipmentItemRepsository>();
 builder.Services.AddScoped<IShipmentRepsository,ShipmentRepsository>();
 builder.Services.AddScoped<IShipmentTrackingRepsository,ShipmentTrackingRepsository>();
 builder.Services.AddScoped<IAddressRepsository,AddressRepsository>();
-builder.Services.AddScoped<IShipperRepsository,ShipperRepsository>();
 builder.Services.AddScoped<IInventoryRepsository,InventoryRepsository>();
 builder.Services.AddScoped<IAdminReturnService,AdminReturnService>();
 builder.Services.AddScoped<IReturnRefundRepsository,ReturnRefundRepsository>();
+builder.Services.AddScoped<INotificationRepsository,NotificationRepsository>();
 #endregion
 
 #region Services
