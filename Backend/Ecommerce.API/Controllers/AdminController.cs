@@ -50,15 +50,15 @@ public class AdminController : ControllerBase
     public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor(int vendorId)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.DeleteVendor(vendorId,adminUserId);
+        var result = await _adminVendorService.DeleteVendor(vendorId, adminUserId);
 
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpGet("GetVendor")]
-    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] int? statusId, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
     {
-        var result = await _adminVendorService.GetVendor(statusId, pageNumber, pageSize);
+        var result = await _adminVendorService.GetVendorsForAdmin(request);
         return Ok(result);
     }
 
@@ -118,4 +118,12 @@ public class AdminController : ControllerBase
         var result = await _adminService.ActivateAdminUser(adminUserId);
         return Ok(result);
     }
+    [HttpGet("returns")]
+    public async Task<IActionResult> GetAllReturnsForAdmin(
+    [FromQuery] RequestGetReturnsForAdminDTO request)
+    {
+        var result = await _adminReturnService.GetAllReturnsForAdmin(request);
+        return Ok(result);
+    }
+
 }
