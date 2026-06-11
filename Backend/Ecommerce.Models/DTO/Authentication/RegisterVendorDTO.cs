@@ -20,7 +20,7 @@ public class RequestRegisterVendorDTO
     public string CompanyPhoneNumber { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Vendor Company Name Cannot Be Empty")]
-    [RegularExpression(@"^[A-Za-z]+$", ErrorMessage = "First name can contain only letters.")]
+    [RegularExpression(@"^[A-Za-z ]+$", ErrorMessage = "First name can contain only letters.")]
     [MaxLength(50)]
     public string VendorCompanyName { get; set; } = string.Empty;
     

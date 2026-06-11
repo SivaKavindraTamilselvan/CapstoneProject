@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using Ecommerce.Models;
 
 namespace Ecommerce.DTOs;
 
