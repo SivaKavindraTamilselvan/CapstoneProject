@@ -18,7 +18,7 @@ public class RequestRegisterUserDTO
     public string Email { get; set; } = string.Empty;
 
     [Required(ErrorMessage = "Phone Number Cannot Be Empty")]
-    [Phone]
+    [RegularExpression(@"^\d{10}$", ErrorMessage = "Phone number must be exactly 10 digits")]
     public string PhoneNumber { get; set; } = string.Empty;
     
     [Required(ErrorMessage ="Password Cannot Be Empty")]
