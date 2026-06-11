@@ -1,4 +1,5 @@
 using Ecommerce.Data;
+using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,20 +14,43 @@ public class AddressRepsository : AbstractRepository<int, Address>, IAddressReps
 
     public async Task<List<Address>> GetAllAddressByUserId(int userId)
     {
-        return await _ecommerceContext.Address.Where(u=>u.UserId == userId).ToListAsync();
+        return await _ecommerceContext.Address.Where(u => u.UserId == userId).ToListAsync();
     }
-    public async Task<List<Address>> GetAddressByUserId(int userId, bool? status, int pageNumber, int pageSize)
+
+    // vendor inventory address based on the vendor owner id
+    public async Task<(List<Address> Items, int totalCount)> GetAddressByVendorOwnerId(AddressRequestFilter requestFilter, int ownerVendorUserId)
     {
-        IQueryable<Address> query = _ecommerceContext.Address.Where(u => u.UserId == userId);
-        if (status.HasValue)
+        IQueryable<Address> query = _ecommerceContext.Address.Where(u => u.UserId == ownerVendorUserId);
+        if (!string.IsNullOrWhiteSpace(requestFilter.City))
         {
-            query = query.Where(a => a.IsActive == status);
+            query = query.Where(a => a.City.ToLower() == requestFilter.City.ToLower());
         }
-        var Address = await query.OrderByDescending(c => c.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
-        return Address;
+        if (!string.IsNullOrWhiteSpace(requestFilter.ContactPhoneNumber))
+        {
+            query = query.Where(a => a.ContactPhoneNumber.ToLower() == requestFilter.ContactPhoneNumber.ToLower());
+        }
+        if (!string.IsNullOrWhiteSpace(requestFilter.Country))
+        {
+            query = query.Where(a => a.Country.ToLower() == requestFilter.Country.ToLower());
+        }
+        if (!string.IsNullOrWhiteSpace(requestFilter.PinCode))
+        {
+            query = query.Where(a => a.PinCode == requestFilter.PinCode);
+        }
+        if (!string.IsNullOrWhiteSpace(requestFilter.State))
+        {
+            query = query.Where(a => a.State.ToLower() == requestFilter.State.ToLower());
+        }
+        if (requestFilter.IsActive.HasValue)
+        {
+            query = query.Where(a => a.IsActive == requestFilter.IsActive.Value);
+        }
+        int totalCount = await query.CountAsync();
+        var Address = await query.OrderByDescending(c => c.CreatedAt).Skip((requestFilter.PageNumber - 1) * requestFilter.PageSize).Take(requestFilter.PageSize).ToListAsync();
+        return (Address, totalCount);
     }
-    public async Task<List<Address>> GetActiveAddressByUserId(int userId, int pageNumber, int pageSize)
+    public async Task<List<Address>> GetAllActiveUserAddress(int userId)
     {
-        return await _ecommerceContext.Address.Where(u => u.UserId == userId && u.IsActive == true).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        return await _ecommerceContext.Address.Where(u => u.UserId == userId && u.IsActive == true).ToListAsync();
     }
 }
