@@ -17,6 +17,8 @@ public class Product
     public ProductStatus? ProductStatus { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
     public DateTime? UpdatedAt { get; set; }
+    public int MainProductSubCategoryAttributeId { get; set; }
+    public ProductSubCategoryAttribute? MainProductSubCategoryAttribute { get; set; }
     public ICollection<ProductVariant> ProductVariants { get; set; } = new List<ProductVariant>();
     public ICollection<ProductImage> ProductImages { get; set; } = new List<ProductImage>();
     public ICollection<CouponsProduct> CouponsProducts { get; set; } = new List<CouponsProduct>();
