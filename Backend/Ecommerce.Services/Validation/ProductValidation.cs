@@ -11,7 +11,7 @@ public class ProductValidation : IProductValidation
     private readonly IProductRepsository _productRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IProductImageRepsository _productImageRepsository;
-    public ProductValidation(IVendorUserValidation vendorUserValidation,IProductImageRepsository productImageRepsository,IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
+    public ProductValidation(IVendorUserValidation vendorUserValidation, IProductImageRepsository productImageRepsository, IProductSubCategoryRepsository productSubCategoryRepsository, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository)
     {
         _productRepsository = productRepsository;
         _productVariantRepsository = productVariantRepsository;
@@ -27,14 +27,14 @@ public class ProductValidation : IProductValidation
         }
         return product;
     }
-    public async Task<Product> VendorValidateProduct(int productId,int vendorId)
+    public async Task<Product> VendorValidateProduct(int productId, int vendorId)
     {
         var product = await _productRepsository.Get(productId);
         if (product == null)
         {
             throw new DataNotFoundException("Product Not Found");
         }
-        if(product.VendorId != vendorId)
+        if (product.VendorId != vendorId)
         {
             throw new InvalidCredentialException("You cannot access other vendor products");
         }
@@ -61,7 +61,7 @@ public class ProductValidation : IProductValidation
     public async Task<ProductVariant> ValidateProductVariantIfApproved(int productVariantId)
     {
         var product = await _productVariantRepsository.Get(productVariantId);
-        if(product == null)
+        if (product == null)
         {
             throw new DataNotFoundException("Product Is Not found");
         }
@@ -71,7 +71,7 @@ public class ProductValidation : IProductValidation
         }
         return product;
     }
-    public async Task<ProductVariant> ValidateProductVariant(int productVariantId,int vendorUserId)
+    public async Task<ProductVariant> ValidateProductVariant(int productVariantId, int vendorUserId)
     {
         var productVariant = await _productVariantRepsository.GetProductByProductVariant(productVariantId);
         if (productVariant == null)
@@ -79,7 +79,7 @@ public class ProductValidation : IProductValidation
             throw new DataNotFoundException("Product Variant Not Found");
         }
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
-        if(productVariant!.Product!.VendorId != vendorUser.VendorId)
+        if (productVariant!.Product!.VendorId != vendorUser.VendorId)
         {
             throw new InvalidCredentialException("You cannot access other vendor products");
         }
@@ -107,15 +107,13 @@ public class ProductValidation : IProductValidation
         {
             issues.Add($"SubCategory '{product.ProductSubCategory.ProductSubCategoryName}' is deactivated by admin");
         }
+        if (product.MainProductSubCategoryAttribute != null && !product.MainProductSubCategoryAttribute.IsActive)
+        {
+            issues.Add($"Main variant attribute '{product.MainProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated");
+        }
 
         foreach (var variant in product.ProductVariants)
         {
-
-            if (variant.MainProductSubCategoryAttribute != null && !variant.MainProductSubCategoryAttribute.IsActive)
-            {
-                issues.Add($"Main variant attribute '{variant.MainProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated");
-            }
-
             foreach (var variantAttr in variant.ProductVariantAttributes)
             {
                 if (variantAttr.ProductSubCategoryAttribute != null && !variantAttr.ProductSubCategoryAttribute.IsActive)
