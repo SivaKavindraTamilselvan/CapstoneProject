@@ -9,21 +9,14 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
 {
     private IQueryable<ProductVariant> BaseQuery()
     {
-        return _ecommerceContext.ProductVariant
-            .Include(pv => pv.Product)
-                .ThenInclude(p => p!.ProductSubCategory)
-                    .ThenInclude(sc => sc!.ProductCategory)
-            .Include(pv => pv.AddedByVendorUser)
-                .ThenInclude(vu => vu!.Vendor)
-            .Include(pv => pv.ProductVariantStatus)
-            .Include(pv => pv.ProductApprovalStatus)
-            .Include(pv => pv.MainProductSubCategoryAttribute)
-                .ThenInclude(psa => psa!.AttributeMaster)
-            .Include(pv => pv.ProductVariantAttributes)
-                .ThenInclude(pva => pva.ProductSubCategoryAttribute)
-                    .ThenInclude(psa => psa!.AttributeMaster)
-            .Include(pv => pv.ProductImages)
-            .Include(pv => pv.Inventories);
+        return _ecommerceContext.ProductVariant.Include(pv => pv.Product)
+        .ThenInclude(p => p!.ProductSubCategory).ThenInclude(sc => sc!.ProductCategory)
+        .Include(pv => pv.AddedByVendorUser).ThenInclude(vu => vu!.Vendor)
+        .Include(pv => pv.ProductVariantStatus).Include(pv => pv.ProductApprovalStatus)
+        .Include(p => p.Product).ThenInclude(pv => pv!.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+        .Include(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+        .Include(pv => pv.ProductImages)
+        .Include(pv => pv.Inventories);
     }
     public ProductVariantRepsository(EcommerceContext ecommerceContext) : base(ecommerceContext)
     {
@@ -33,68 +26,128 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
     {
         return await _ecommerceContext.ProductVariant.Include(p => p.Product).ThenInclude(v => v!.Vendor).FirstOrDefaultAsync(p => p.ProductVariantId == productVariantId);
     }
-    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForAdmin(ProductVariantFilterDto filter)
+    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForAdmin(RequestAdminProductVariantFilter request)
     {
         var query = BaseQuery();
-        query = ApplyCommonFilters(query, filter);
-
+        if (request.AddedByVendorUserId.HasValue)
+        {
+            query = query.Where(p => p.AddedByVendorUserId == request.AddedByVendorUserId.Value);
+        }
+        if (request.ApprovalStatusId.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == request.ApprovalStatusId.Value);
+        }
+        if (request.CategoryId.HasValue)
+        {
+            query = query.Where(p => p.Product!.ProductSubCategory!.ProductCategoryId == request.CategoryId.Value);
+        }
+        if (request.SubCategoryId.HasValue)
+        {
+            query = query.Where(p => p.Product!.ProductSubCategoryId == request.SubCategoryId.Value);
+        }
+        if (request.IsReturn.HasValue)
+        {
+            query = query.Where(p => p.IsReturn == request.IsReturn.Value);
+        }
+        if (request.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.Price <= request.MaxPrice.Value);
+        }
+        if (request.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.Price >= request.MinPrice.Value);
+        }
+        if (request.VendorId.HasValue)
+        {
+            query = query.Where(p => p.Product!.VendorId == request.VendorId);
+        }
+        if (!string.IsNullOrEmpty(request.SKU))
+        {
+            query = query.Where(p => p.SKU.ToLower() == request.SKU.ToLower());
+        }
+        if (request.ProductId.HasValue)
+        {
+            query = query.Where(p => p.ProductId == request.ProductId);
+        }
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            query = query.Where(p => p.Product!.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
+        }
+        if (request.StatusId.HasValue)
+        {
+            query = query.Where(p => p.ProductVariantStatusId == request.StatusId.Value);
+        }
+        if (request.MainProductSubCategoryAttributeId.HasValue)
+        {
+            query = query.Where(p => p.Product!.MainProductSubCategoryAttributeId == request.MainProductSubCategoryAttributeId.Value);
+        }
+        if (request.MinimuQuantityPerUser.HasValue)
+        {
+            query = query.Where(p => p.MinimuQuantityPerUser >= request.MinimuQuantityPerUser.Value);
+        }
         var total = await query.CountAsync();
 
-        var items = await query
-            .OrderByDescending(pv => pv.CreatedAt)
-            .Skip((filter.Page - 1) * filter.PageSize)
-            .Take(filter.PageSize)
-            .ToListAsync();
-
+        var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, total);
     }
-    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(
-        int vendorUserId, ProductVariantFilterDto filter)
+    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(RequestVendorProductVariantFilter request)
     {
-        var query = BaseQuery()
-            .Where(pv => pv.AddedByVendorUserId == vendorUserId);
-
-        query = ApplyCommonFilters(query, filter);
-
+        var query = BaseQuery();
+        if (request.AddedByVendorUserId.HasValue)
+        {
+            query = query.Where(p => p.AddedByVendorUserId == request.AddedByVendorUserId.Value);
+        }
+        if (request.ApprovalStatusId.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == request.ApprovalStatusId.Value);
+        }
+        if (request.CategoryId.HasValue)
+        {
+            query = query.Where(p => p.Product!.ProductSubCategory!.ProductCategoryId == request.CategoryId.Value);
+        }
+        if (request.SubCategoryId.HasValue)
+        {
+            query = query.Where(p => p.Product!.ProductSubCategoryId == request.SubCategoryId.Value);
+        }
+        if (request.IsReturn.HasValue)
+        {
+            query = query.Where(p => p.IsReturn == request.IsReturn.Value);
+        }
+        if (request.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.Price <= request.MaxPrice.Value);
+        }
+        if (request.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.Price >= request.MinPrice.Value);
+        }
+        if (!string.IsNullOrEmpty(request.SKU))
+        {
+            query = query.Where(p => p.SKU.ToLower() == request.SKU.ToLower());
+        }
+        if (request.ProductId.HasValue)
+        {
+            query = query.Where(p => p.ProductId == request.ProductId);
+        }
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            query = query.Where(p => p.Product!.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
+        }
+        if (request.StatusId.HasValue)
+        {
+            query = query.Where(p => p.ProductVariantStatusId == request.StatusId.Value);
+        }
+        if (request.MainProductSubCategoryAttributeId.HasValue)
+        {
+            query = query.Where(p => p.Product!.MainProductSubCategoryAttributeId == request.MainProductSubCategoryAttributeId.Value);
+        }
+        if (request.MinimuQuantityPerUser.HasValue)
+        {
+            query = query.Where(p => p.MinimuQuantityPerUser >= request.MinimuQuantityPerUser.Value);
+        }
         var total = await query.CountAsync();
 
-        var items = await query
-            .OrderByDescending(pv => pv.CreatedAt)
-            .Skip((filter.Page - 1) * filter.PageSize)
-            .Take(filter.PageSize)
-            .ToListAsync();
-
+        var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, total);
     }
-    private static IQueryable<ProductVariant> ApplyCommonFilters(
-        IQueryable<ProductVariant> query, ProductVariantFilterDto filter)
-    {
-        if (!string.IsNullOrWhiteSpace(filter.SearchTerm))
-            query = query.Where(pv =>
-                pv.SKU.Contains(filter.SearchTerm) ||
-                pv.Product!.ProductName.Contains(filter.SearchTerm));
-
-        if (filter.CategoryId.HasValue)
-            query = query.Where(pv =>
-                pv.Product!.ProductSubCategory!.ProductCategoryId == filter.CategoryId);
-
-        if (filter.SubCategoryId.HasValue)
-            query = query.Where(pv =>
-                pv.Product!.ProductSubCategoryId == filter.SubCategoryId);
-
-        if (filter.StatusId.HasValue)
-            query = query.Where(pv => pv.ProductVariantStatusId == filter.StatusId);
-
-        if (filter.ApprovalStatusId.HasValue)
-            query = query.Where(pv => pv.ProductApprovalStatusId == filter.ApprovalStatusId);
-
-        if (filter.MinPrice.HasValue)
-            query = query.Where(pv => pv.Price >= filter.MinPrice);
-
-        if (filter.MaxPrice.HasValue)
-            query = query.Where(pv => pv.Price <= filter.MaxPrice);
-
-        return query;
-    }
-
 }
