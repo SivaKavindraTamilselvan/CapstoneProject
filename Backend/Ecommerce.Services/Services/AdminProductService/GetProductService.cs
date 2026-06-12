@@ -2,6 +2,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 using Org.BouncyCastle.Ocsp;
 
 public partial class AdminProductService : IAdminProductService
@@ -9,11 +10,14 @@ public partial class AdminProductService : IAdminProductService
 
     public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request)
     {
+        _logger.LogInformation("Admin requested product list with filters {@Request}", request);
         var result = await _productRepsository.GetAdminProduct(request);
+        _logger.LogInformation("Retrieved {ProductCount} products from repository. TotalCount: {TotalCount}", result.items.Count, result.totalCount);
         var products = result.items;
         var response = _mapper.Map<List<ResponseAdminGetAllProductDTO>>(products);
         for (int i = 0; i < products.Count; i++)
         {
+            _logger.LogDebug("Validating ProductId {ProductId}", products[i].ProductId);
             var validation = await _productValidation.ValidateProductChain(products[i]);
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductStatusId == (int)ProductStatusEnum.Active
@@ -21,7 +25,10 @@ public partial class AdminProductService : IAdminProductService
             && pv.Inventories.Any(inv => inv.AvailableQuantity > 0));
 
             response[i].ValidationIssues = validation.Issues;
+
+            _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
         }
+        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
         if (request.hasIssues.HasValue)
         {
             if (request.hasIssues.Value)
@@ -33,10 +40,12 @@ public partial class AdminProductService : IAdminProductService
                 response = response.Where(p => !p.ValidationIssues.Any()).ToList();
             }
         }
+        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.isAvailableForSale);
         if (request.isAvailableForSale.HasValue)
         {
             response = response.Where(p => p.IsAvailableForSale == request.isAvailableForSale.Value).ToList();
         }
+        _logger.LogInformation("Returning {Count} products after filtering", response.Count);
         return new PagedResponse<ResponseAdminGetAllProductDTO>
         {
             Items = response,
@@ -45,20 +54,26 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseGetAllProductVariant>> GetAllProductVariant(RequestAdminProductVariantFilter request)
+    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request)
     {
+        _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
         var result = await _productVariantRepsository.GetAllVariantsForAdmin(request);
+        _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}", result.Items.Count, result.TotalCount);
         var products = result.Items;
-        var response = _mapper.Map<List<ResponseGetAllProductVariant>>(products);
+        var response = _mapper.Map<List<ResponseAdminProductVariantDTO>>(products);
         for (int i = 0; i < products.Count; i++)
         {
+            _logger.LogDebug("Validating ProductVariantId {ProductVariantId}", products[i].ProductVariantId);
+
             var validation = await _productValidation.ValidateProductChain(products[i].Product!);
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
             && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0);
 
             response[i].ValidationIssues = validation.Issues;
+            _logger.LogDebug("Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);
         }
+        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
         if (request.hasIssues.HasValue)
         {
             if (request.hasIssues.Value)
@@ -70,13 +85,15 @@ public partial class AdminProductService : IAdminProductService
                 response = response.Where(p => !p.ValidationIssues.Any()).ToList();
             }
         }
-        if (request.isAvailableForSale.HasValue)
+        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.IsAvailableForSale);
+        if (request.IsAvailableForSale.HasValue)
         {
-            response = response.Where(p => p.IsAvailableForSale == request.isAvailableForSale.Value).ToList();
+            response = response.Where(p => p.IsAvailableForSale == request.IsAvailableForSale.Value).ToList();
         }
-        return new PagedResponse<ResponseGetAllProductVariant>
+        _logger.LogInformation("Returning {Count} product variants after filtering", response.Count);
+        return new PagedResponse<ResponseAdminProductVariantDTO>
         {
-            Items = _mapper.Map<List<ResponseGetAllProductVariant>>(products),
+            Items = _mapper.Map<List<ResponseAdminProductVariantDTO>>(products),
             TotalCount = result.TotalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
@@ -84,11 +101,14 @@ public partial class AdminProductService : IAdminProductService
     }
     public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId)
     {
+        _logger.LogInformation("Admin requested full details for ProductId {ProductId}", productId);
         var product = await _productRepsository.GetProductWithFullDetails(productId);
         if (product == null)
         {
+            _logger.LogWarning("Product not found for ProductId {ProductId}", productId);
             throw new DataNotFoundException("Product not found");
         }
+        _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
         return _mapper.Map<ResponseAdminGetAllProductDTO>(product);
     }
 }
