@@ -1,60 +1,109 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class VendorProductVariantService : IVendorProductVariantService
 {
     public async Task<ResponseAddProductVariantDTO> AddProductVariant(RequestAddProductVariantDTO requestAddProductVariantDTO, int vendorUserId)
     {
+        _logger.LogInformation("Vendor UserId {VendorUserId} started adding product variant for ProductId {ProductId}", vendorUserId, requestAddProductVariantDTO.ProductId);
+
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         await _vendorValidation.ValidateVendorIfApproved(vendorUser.VendorId);
+
         var product = await _productValidation.ValidateProductIfApproved(requestAddProductVariantDTO.ProductId);
-        await _productValidation.VendorValidateProduct(product.ProductId,vendorUser.VendorId);
-        if (requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs == null || !requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs.Any())
+        await _productValidation.VendorValidateProduct(product.ProductId, vendorUser.VendorId);
+
+        if (requestAddProductVariantDTO.ProductVariantAttribute == null || !requestAddProductVariantDTO.ProductVariantAttribute.Any())
         {
+            _logger.LogWarning("Variant creation failed for ProductId {ProductId}: attributes are missing", requestAddProductVariantDTO.ProductId);
             throw new InvalidDataException("Variant attributes are required");
         }
-        if (!requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs.Any(x => x.ProductSubCategoryAttributeId == requestAddProductVariantDTO.MainProductSubCategoryAttributeId))
+
+        if (!requestAddProductVariantDTO.ProductVariantAttribute.Any(x => x.ProductSubCategoryAttributeId == product.MainProductSubCategoryAttributeId))
         {
+            _logger.LogWarning("Variant creation failed for ProductId {ProductId}: main attribute missing", product.ProductId);
             throw new InvalidDataException("Main attribute value is required");
         }
-        await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantDTO.MainProductSubCategoryAttributeId, product.ProductSubCategoryId);
-        var duplicateAttribute = requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs.GroupBy(x => x.ProductSubCategoryAttributeId).FirstOrDefault(g => g.Count() > 1);
+
+        await _productAttributeValidation.ValidateProductSubCategoryAttribute(product.MainProductSubCategoryAttributeId, product.ProductSubCategoryId);
+
+        var duplicateAttribute = requestAddProductVariantDTO.ProductVariantAttribute.GroupBy(x => x.ProductSubCategoryAttributeId).FirstOrDefault(g => g.Count() > 1);
 
         if (duplicateAttribute != null)
         {
+            _logger.LogWarning("Duplicate variant attribute found for ProductId {ProductId}, ProductSubCategoryAttributeId {AttributeId}", product.ProductId, duplicateAttribute.Key);
             throw new InvalidDataException("Duplicate variant attributes are not allowed");
         }
+
         var productVariant = _mapper.Map<ProductVariant>(requestAddProductVariantDTO);
         productVariant.AddedByVendorUserId = vendorUser.VendorUserId;
         productVariant.SKU = await GenerateSku(product.ProductId);
 
         await _productVariantRepsository.Create(productVariant);
-        foreach (var list in requestAddProductVariantDTO.requestAddProductVariantAttributeDTOs)
+
+        _logger.LogInformation("Product Variant {ProductVariantId} created for ProductId {ProductId} with SKU {SKU}", productVariant.ProductVariantId, product.ProductId, productVariant.SKU);
+
+        foreach (var list in requestAddProductVariantDTO.ProductVariantAttribute)
         {
             RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO = new RequestAddProductVariantAttributeDTO();
             requestAddProductVariantAttributeDTO.AttributeValue = list.AttributeValue;
             requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId = list.ProductSubCategoryAttributeId;
             requestAddProductVariantAttributeDTO.ProductVariantId = productVariant.ProductVariantId;
+
             await AddProductVariantAttribute(requestAddProductVariantAttributeDTO, false, vendorUserId);
         }
+
+        var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();
+
+        _logger.LogInformation("Sending new product variant notification to {AdminCount} product admins for ProductVariantId {ProductVariantId}", productAdminUserIds.Count, productVariant.ProductVariantId);
+
+        foreach (var adminUserId in productAdminUserIds)
+        {
+            await _notificationService.SendToUser(adminUserId, "New Product Variant Submitted", $"A new variant '{productVariant.SKU}' for product '{product.ProductName}' has been submitted and is waiting for approval.", notificationTypeId: 1, referenceType: "ProductVariant", referenceId: productVariant.ProductVariantId);
+        }
+
+        _logger.LogInformation("Product variant notifications sent successfully for ProductVariantId {ProductVariantId}", productVariant.ProductVariantId);
+
         return _mapper.Map<ResponseAddProductVariantDTO>(productVariant);
     }
     public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, bool updation, int userId)
     {
+        _logger.LogInformation("Vendor UserId {UserId} started adding attribute for ProductVariantId {ProductVariantId}", userId, requestAddProductVariantAttributeDTO.ProductVariantId);
+
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(userId);
         var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId, userId);
         var product = await _productValidation.ValidateProduct(productVariant.ProductId);
+
         await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId, product.ProductSubCategoryId);
+
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
         productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
+
         await _productVariantAttributeRepsository.Create(productVariantAttribute);
+
+        _logger.LogInformation("Product variant attribute {AttributeId} added successfully for ProductVariantId {ProductVariantId}", productVariantAttribute.ProductVariantAttributeId, productVariant.ProductVariantId);
+
         if (updation)
         {
-            productVariant.ProductApprovalStatusId = 2;
+            productVariant.ProductApprovalStatusId = (int)ProductApprovalStatusEnum.Vendor_Approved;
             productVariant.UpdatedAt = DateTime.Now;
+
             await _productVariantRepsository.Update(productVariant.ProductVariantId, productVariant);
+
+            _logger.LogInformation("ProductVariantId {ProductVariantId} marked as Vendor_Approved after attribute update", productVariant.ProductVariantId);
+
+            var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();
+
+            _logger.LogInformation("Sending updated product variant notification to {AdminCount} product admins for ProductVariantId {ProductVariantId}", productAdminUserIds.Count, productVariant.ProductVariantId);
+
+            foreach (var adminUserId in productAdminUserIds)
+            {
+                await _notificationService.SendToUser(adminUserId, "Product Variant Updated", $"Variant '{productVariant.SKU}' for product '{product.ProductName}' has been updated by vendor and requires review.", notificationTypeId: 1, referenceType: "ProductVariant", referenceId: productVariant.ProductVariantId);
+            }
         }
+
         return _mapper.Map<ResponseAddProductVariantAttributeDTO>(productVariantAttribute);
     }
     private async Task<string> GenerateSku(int productId)
