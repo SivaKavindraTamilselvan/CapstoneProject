@@ -27,9 +27,9 @@ public class AdminProductAttributeController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ResponseAdminGetAttribute>>> GetAllAttributes([FromQuery] bool? status,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+    public async Task<ActionResult<List<ResponseAdminGetAttribute>>> GetAllAttributes([FromQuery] RequestAttributeFilter request)
     {
-        var result = await _service.GetAllAttributeAdmin(status, pageNumber, pageSize);
+        var result = await _service.GetAllAttributeAdmin(request);
         return Ok(result);
     }
 
@@ -56,9 +56,9 @@ public class AdminProductAttributeController : ControllerBase
     }
 
     [HttpGet("subcategory-attributes")]
-    public async Task<ActionResult<List<ResponseAdminGetCategoryAttribute>>> GetSubCategoryAttributes([FromQuery] bool? status,[FromQuery] int? subcategoryid,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+    public async Task<ActionResult<List<ResponseAdminGetCategoryAttribute>>> GetSubCategoryAttributes([FromQuery] RequestSubCategoryAttributeFilter request)
     {
-        var result = await _service.GetAdminCategoryAttribute(status,subcategoryid,pageNumber,pageSize);
+        var result = await _service.GetAdminCategoryAttribute(request);
         return Ok(result);
     }
 
