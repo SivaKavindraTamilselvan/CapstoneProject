@@ -1,40 +1,38 @@
 using System.Diagnostics.CodeAnalysis;
+using Ecommerce.DTOs;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 public partial class UserProductService : IUserProductService
 {
-    public async Task<List<ResponseUserGetAllProductDTO>> GetUserProducts([FromQuery]int? categoryId,[FromQuery] int? subcategoryId,[FromQuery] string? searchTerm,[FromQuery] int pageNumber=1,[FromQuery] int pageSize=10)
+    public async Task<PagedResponse<ResponseUserGetProductDetailDTO>> GetUserProducts(RequestUserProductFilter request)
     {
-        var products = await _productRepository.GetUserProducts(categoryId,subcategoryId,searchTerm,pageNumber,pageSize);
-        return _mapper.Map<List<ResponseUserGetAllProductDTO>>(products);
-    }
+        _logger.LogInformation("User requested product list with filters {@Request}", request);
 
-    public async Task<List<ResponseUserGetAllProductDTO>> GetAllAvailableProductsBySubCategoryId(int subCategoryId)
-    {
-        var products = await _productRepository.GetAllAvailableProductsBySubCategoryId(subCategoryId);
-        return _mapper.Map<List<ResponseUserGetAllProductDTO>>(products);
-    }
+        var products = await _productRepository.GetUserProducts(request);
+        _logger.LogInformation("Retrieved {ProductCount} products. TotalCount {TotalCount}", products.items.Count, products.totalCount);
 
-    public async Task<List<ResponseUserGetAllProductDTO>> GetAllAvailableProductsByCategoryId(int categoryId)
-    {
-        var products = await _productRepository.GetAllAvailableProductsByCategoryId(categoryId);
-        return _mapper.Map<List<ResponseUserGetAllProductDTO>>(products);
+        return new PagedResponse<ResponseUserGetProductDetailDTO>
+        {
+            Items = _mapper.Map<List<ResponseUserGetProductDetailDTO>>(products.items),
+            TotalCount = products.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
-    public async Task<List<ResponseUserGetAllProductDTO>> SearchProductsByName(string searchTerm)
-    {
-        var products = await _productRepository.SearchProductsByName(searchTerm);
-        return _mapper.Map<List<ResponseUserGetAllProductDTO>>(products);
-    }
-
     public async Task<ResponseUserGetProductDetailDTO> GetProductWithFullDetails(int productId)
     {
+        _logger.LogInformation("User requested full details for ProductId {ProductId}", productId);
         var product = await _productRepository.GetProductWithFullDetails(productId);
         if (product == null)
         {
+            _logger.LogWarning("Product not found for ProductId {ProductId}", productId);
             throw new DataNotFoundException("Product not found");
         }
+        _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
+
         return _mapper.Map<ResponseUserGetProductDetailDTO>(product);
     }
 }
