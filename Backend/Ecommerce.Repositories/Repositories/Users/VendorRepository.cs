@@ -70,10 +70,6 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
         var vendor = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (vendor, totalCount);
     }
-    public async Task<Vendor?> GetOwnerVendorUserByVendorId(int vendorId)
-    {
-        return await _ecommerceContext.Vendor.Include(v => v.VendorUsers.Where(vu => vu.VendorRoleId == 1)).ThenInclude(v => v.User).Where(v => v.VendorId == vendorId).FirstOrDefaultAsync();
-    }
     public async Task<List<int>> GetAllVendorOwnerUserIds()
     {
         return await _ecommerceContext.Vendor.Where(v => v.IsActive && v.ApprovalStatusId == 2).SelectMany(v => v.VendorUsers

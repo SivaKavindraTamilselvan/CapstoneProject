@@ -16,4 +16,8 @@ public class VendorUserRepsository : AbstractRepository<int, VendorUser> ,IVendo
         var vendorUser = await _ecommerceContext.VendorUser.FirstOrDefaultAsync(v=>v.UserId == userId);
         return vendorUser;
     }
+    public async Task<VendorUser?> GetOwnerVendorUserByVendorId(int vendorId)
+    {
+        return await _ecommerceContext.VendorUser.Where(v=>v.VendorId == vendorId && v.VendorRoleId == 1).FirstOrDefaultAsync();
+    }
 }
