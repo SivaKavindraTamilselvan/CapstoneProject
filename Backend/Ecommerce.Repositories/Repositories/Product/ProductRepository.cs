@@ -1,5 +1,6 @@
 using System.Runtime.CompilerServices;
 using Ecommerce.Data;
+using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -11,228 +12,209 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
     {
 
     }
-    // Base includes
+
     private IQueryable<Product> BaseQuery()
     {
-        return _ecommerceContext.Product
-            .Include(p => p.ProductApprovalStatus)
-            .Include(p => p.ProductStatus)
-            .Include(p => p.ProductSubCategory)
-                .ThenInclude(p => p!.ProductCategory)
-            .Include(p => p.Vendor)
-            .Include(p => p.ProductImages)
-            .Include(p => p.ProductVariants)
-                .ThenInclude(pv => pv.Inventories)
-            .Include(p => p.ProductVariants)
-                .ThenInclude(pv => pv.ProductVariantAttributes)
-                    .ThenInclude(pva => pva.ProductSubCategoryAttribute)
-                        .ThenInclude(psa => psa!.AttributeMaster)
-            .Include(p => p.ProductVariants)
-                .ThenInclude(pv => pv.MainProductSubCategoryAttribute)
-                    .ThenInclude(psa => psa!.AttributeMaster)
-            .Include(p => p.ProductVariants)
-                .ThenInclude(pv => pv.ProductImages);
+        return _ecommerceContext.Product.Include(p => p.ProductApprovalStatus).Include(p => p.ProductStatus)
+        .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
+        .Include(p => p.Vendor)
+        .Include(p => p.ProductImages).Include(p => p.ProductVariants).ThenInclude(pv => pv.Inventories)
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+        .Include(pv => pv.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductImages);
     }
 
-    public async Task<List<Product>> GetAdminProduct(int? approval, int? status, int? vendorid, int? subcategory, int pageNumber, int pageSize)
+    public async Task<(List<Product> items, int totalCount)> GetAdminProduct(RequestAdminProductFilter request)
     {
         var query = BaseQuery();
-        if (approval.HasValue)
+        if (request.ProductApprovalStatusId.HasValue)
         {
-            query = query.Where(p => p.ProductApprovalStatusId == approval);
+            query = query.Where(p => p.ProductApprovalStatusId == request.ProductApprovalStatusId.Value);
         }
-        if (status.HasValue)
+        if (request.ProductCategoryId.HasValue)
         {
-            query = query.Where(p => p.ProductStatusId == status);
+            query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == request.ProductCategoryId.Value);
         }
-        if (vendorid.HasValue)
+        if (request.ProductStatusId.HasValue)
         {
-            query = query.Where(p => p.VendorId == vendorid);
+            query = query.Where(p => p.ProductStatusId == request.ProductStatusId.Value);
         }
-        if (subcategory.HasValue)
+        if (request.VendorId.HasValue)
         {
-            query = query.Where(p => p.ProductSubCategoryId == subcategory);
+            query = query.Where(p => p.VendorId == request.VendorId.Value);
         }
-        return await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        if (request.ProductSubCategoryId.HasValue)
+        {
+            query = query.Where(p => p.ProductSubCategoryId == request.ProductSubCategoryId.Value);
+        }
+        if (request.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price >= request.MinPrice.Value));
+        }
+        if (request.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price <= request.MaxPrice.Value));
+        }
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            query = query.Where(p => p.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
+        }
+        if (!string.IsNullOrWhiteSpace(request.ProductName))
+        {
+            query = query.Where(p => p.ProductName.ToLower() == request.ProductName.ToLower());
+        }
+        if (request.MaxAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity <= request.MaxAvailableQuantity)));
+        }
+        if (request.MaxReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity <= request.MaxReservedQuantity)));
+        }
+        if (request.MinAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity >= request.MinAvailableQuantity)));
+        }
+        if (request.MinReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
+        }
+        var totalCount = await query.CountAsync();
+        var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+        return (items, totalCount);
     }
 
-    public async Task<List<Product>> GetVendorProduct(int? approval, int? status, int vendorid, int? subcategory, int pageNumber, int pageSize)
+    public async Task<(List<Product> items, int totalCount)> GetVendorProduct(RequestProductFilter request, int vendorid)
     {
         var query = BaseQuery().Where(v => v.VendorId == vendorid);
-        if (approval.HasValue)
+        if (request.ProductApprovalStatusId.HasValue)
         {
-            query = query.Where(p => p.ProductApprovalStatusId == approval);
+            query = query.Where(p => p.ProductApprovalStatusId == request.ProductApprovalStatusId.Value);
         }
-        if (status.HasValue)
+        if (request.ProductCategoryId.HasValue)
         {
-            query = query.Where(p => p.ProductStatusId == status);
+            query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == request.ProductCategoryId.Value);
         }
-        if (subcategory.HasValue)
+        if (request.ProductStatusId.HasValue)
         {
-            query = query.Where(p => p.ProductSubCategoryId == subcategory);
+            query = query.Where(p => p.ProductStatusId == request.ProductStatusId.Value);
         }
-        return await query.OrderByDescending(p => p.CreatedAt).ToListAsync();
+        if (request.ProductSubCategoryId.HasValue)
+        {
+            query = query.Where(p => p.ProductSubCategoryId == request.ProductSubCategoryId.Value);
+        }
+        if (request.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price >= request.MinPrice.Value));
+        }
+        if (request.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price <= request.MaxPrice.Value));
+        }
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            query = query.Where(p => p.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
+        }
+        if (!string.IsNullOrWhiteSpace(request.ProductName))
+        {
+            query = query.Where(p => p.ProductName.ToLower() == request.ProductName.ToLower());
+        }
+        if (request.MaxAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity <= request.MaxAvailableQuantity)));
+        }
+        if (request.MaxReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity <= request.MaxReservedQuantity)));
+        }
+        if (request.MinAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity >= request.MinAvailableQuantity)));
+        }
+        if (request.MinReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
+        }
+        var totalCount = await query.CountAsync();
+        var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+        return (items, totalCount);
     }
-    public async Task<List<Product>> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm, int pageNumber, int pageSize)
+    public async Task<(List<Product> items, int totalCount)> GetUserProducts(RequestProductFilter request)
     {
-        var query = BaseQuery().Where(p =>
-            p.ProductApprovalStatusId == 4 &&
-            p.ProductStatusId == 2 &&
-            p.ProductSubCategory != null &&
-            p.ProductSubCategory.IsActive &&
+        var query = BaseQuery().Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+        p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+        p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+        p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+        p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+        pv.Inventories.Any(i => i.AvailableQuantity > 0) && pv.ProductVariantAttributes.All(a =>
+        a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
 
-            p.ProductSubCategory.ProductCategory != null &&
-            p.ProductSubCategory.ProductCategory.IsActive &&
-            p.ProductVariants.Any(pv =>
-                pv.ProductApprovalStatusId == 4 &&
-                pv.ProductVariantStatusId == 2 &&
-                pv.MainProductSubCategoryAttribute!.IsActive &&
-                pv.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
-                pv.Inventories.Any(i => i.AvailableQuantity > 0) &&
-                pv.ProductVariantAttributes.All(a =>
-                    a.ProductSubCategoryAttribute!.IsActive &&
-                    a.ProductSubCategoryAttribute.AttributeMaster!.IsActive
-                )
-            )
-        );
-        if (categoryId.HasValue)
+        if (request.ProductApprovalStatusId.HasValue)
         {
-            query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == categoryId);
+            query = query.Where(p => p.ProductApprovalStatusId == request.ProductApprovalStatusId.Value);
         }
-
-        if (subcategoryId.HasValue)
+        if (request.ProductCategoryId.HasValue)
         {
-            query = query.Where(p => p.ProductSubCategoryId == subcategoryId);
+            query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == request.ProductCategoryId.Value);
         }
-
-        if (!string.IsNullOrEmpty(searchTerm))
+        if (request.ProductStatusId.HasValue)
         {
-            query = query.Where(p => p.ProductName.ToLower().Contains(searchTerm.ToLower()));
+            query = query.Where(p => p.ProductStatusId == request.ProductStatusId.Value);
         }
-
-        return await query.OrderByDescending(p => p.CreatedAt).Skip((pageNumber - 1) * pageSize).Take(pageSize).ToListAsync();
+        if (request.ProductSubCategoryId.HasValue)
+        {
+            query = query.Where(p => p.ProductSubCategoryId == request.ProductSubCategoryId.Value);
+        }
+        if (request.MinPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price >= request.MinPrice.Value));
+        }
+        if (request.MaxPrice.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Price <= request.MaxPrice.Value));
+        }
+        if (!string.IsNullOrEmpty(request.SearchTerm))
+        {
+            query = query.Where(p => p.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
+        }
+        if (!string.IsNullOrWhiteSpace(request.ProductName))
+        {
+            query = query.Where(p => p.ProductName.ToLower() == request.ProductName.ToLower());
+        }
+        if (request.MaxAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity <= request.MaxAvailableQuantity)));
+        }
+        if (request.MaxReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity <= request.MaxReservedQuantity)));
+        }
+        if (request.MinAvailableQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity >= request.MinAvailableQuantity)));
+        }
+        if (request.MinReservedQuantity.HasValue)
+        {
+            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
+        }
+        var totalCount = await query.CountAsync();
+        var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+        return (items, totalCount);
     }
     public async Task<Product?> GetProductWithFullDetails(int productId)
     {
         return await BaseQuery().FirstOrDefaultAsync(p => p.ProductId == productId);
     }
-    // 13. Get all available products by vendor
-    public async Task<List<Product>> GetAllAvailableProductsByVendorId(int vendorId)
-    {
-        return await BaseQuery()
-            .Where(p => p.VendorId == vendorId
-                     && p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2
-                     && p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4
-                                                 && pv.ProductVariantStatusId == 2
-                                                 && pv.Inventories.Any(i => i.AvailableQuantity > 0)))
-            .ToListAsync();
-    }
-
-    // 14. Get all products by subcategory
-    public async Task<List<Product>> GetAllAvailableProductsBySubCategoryId(int subCategoryId)
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductSubCategoryId == subCategoryId
-                     && p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2
-                     && p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4
-                                                 && pv.ProductVariantStatusId == 2
-                                                 && pv.Inventories.Any(i => i.AvailableQuantity > 0)))
-            .ToListAsync();
-    }
-
-    // 15. Get all products by category
-    public async Task<List<Product>> GetAllAvailableProductsByCategoryId(int categoryId)
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductSubCategory!.ProductCategoryId == categoryId
-                     && p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2
-                     && p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4
-                                                 && pv.ProductVariantStatusId == 2
-                                                 && pv.Inventories.Any(i => i.AvailableQuantity > 0)))
-            .ToListAsync();
-    }
-
-    public async Task<List<Product>> GetAllVariantOutOfStockProducts()
-    {
-        return await _ecommerceContext.Product
-            .Include(p => p.ProductVariants)
-                .ThenInclude(pv => pv.Inventories)
-            .Where(p => p.ProductVariants.Any(                       // has at least one live variant
-                            pv => pv.ProductApprovalStatusId == 4    // Approved
-                               && pv.ProductVariantStatusId == 2)   // Active
-                     && p.ProductVariants
-                            .Where(pv => pv.ProductApprovalStatusId == 4
-                                      && pv.ProductVariantStatusId == 2)
-                            .All(pv => pv.Inventories
-                                          .Sum(i => i.AvailableQuantity) == 0))
-            .ToListAsync();
-    }
-    // 16. Get all out of stock products
-    public async Task<List<Product>> GetAllOutOfStockProducts()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2
-                     && p.ProductVariants.Any(pv => pv.Inventories.All(i => i.AvailableQuantity == 0)))
-            .ToListAsync();
-    }
-
-    // 17. Get all low stock products
-    public async Task<List<Product>> GetAllLowStockProducts(int threshold = 5)
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2
-                     && p.ProductVariants.Any(pv => pv.Inventories.Any(i => i.AvailableQuantity <= threshold
-                                                                          && i.AvailableQuantity > 0)))
-            .ToListAsync();
-    }
-
-    // 18. Search products by name
-    public async Task<List<Product>> SearchProductsByName(string searchTerm)
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductName.ToLower().Contains(searchTerm.ToLower())
-                     && p.ProductApprovalStatusId == 4
-                     && p.ProductStatusId == 2)
-            .ToListAsync();
-    }
-
-    // 19. Get single product with full details
-    // 20. Get all products with pending variant approvals
-    public async Task<List<Product>> GetAllProductsWithPendingVariants()
-    {
-        return await BaseQuery()
-            .Where(p => p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == 1))
-            .ToListAsync();
-    }
-
     public async Task<Product?> CheckTheProduct(int ProductVariantId, int Qunatity)
     {
-        var query = BaseQuery().Where(p =>
-           p.ProductApprovalStatusId == 4 &&
-           p.ProductStatusId == 2 &&
-           p.ProductSubCategory != null &&
-           p.ProductSubCategory.IsActive &&
-
-           p.ProductSubCategory.ProductCategory != null &&
-           p.ProductSubCategory.ProductCategory.IsActive &&
-           p.ProductVariants.Any(pv =>
-           pv.ProductVariantId == ProductVariantId &&
-               pv.ProductApprovalStatusId == 4 &&
-               pv.ProductVariantStatusId == 2 &&
-               pv.MainProductSubCategoryAttribute!.IsActive &&
-               pv.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
-               pv.Inventories.Any(i => i.AvailableQuantity > Qunatity) &&
-               pv.ProductVariantAttributes.All(a =>
-                   a.ProductSubCategoryAttribute!.IsActive &&
-                   a.ProductSubCategoryAttribute.AttributeMaster!.IsActive
-               )
-           )
-        );
+        var query = BaseQuery().Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+        p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+        p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+        p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+        p.ProductVariants.Any(pv => pv.ProductVariantId == ProductVariantId &&
+        pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+        pv.Inventories.Any(i => i.AvailableQuantity > Qunatity) && pv.ProductVariantAttributes.All(a =>
+        a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
         return await query.FirstOrDefaultAsync();
     }
 
