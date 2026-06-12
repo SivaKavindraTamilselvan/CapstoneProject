@@ -20,6 +20,10 @@ public class AdminRepsository : AbstractRepository<int, AdminUser>, IAdminUserRe
         var adminUser = await _ecommerceContext.AdminUser.Include(u=>u.AdminRole).Include(u=>u.User).FirstOrDefaultAsync(v => v.AdminUserId==adminUserId);
         return adminUser;
     }
+    public async Task<List<int>> GetProductAdminUserIds()
+    {
+        return await _ecommerceContext.AdminUser.Include(u=>u.User).Where(u=>(u.AdminRoleId == 2 || u.AdminRoleId == 1) && u.IsActive).Select(u=>u.User!.UserId).ToListAsync();
+    }
     public async Task<List<AdminUser>> GetAllAdminUser(int? role, bool? status, int pageNumber, int pageSize)
     {
         var query = _ecommerceContext.AdminUser.Include(u => u.User).Include(u => u.AdminRole).AsQueryable();
