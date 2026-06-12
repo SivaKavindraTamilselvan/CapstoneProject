@@ -1,24 +1,31 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class VendorProductService : IVendorProductService
 {
-    public async Task<List<ResponseVendorGetAllProductDTO>> GetAllProductsByVendorId(int? approval, int? status, int vendorId, int? subcategory, int pageNumber, int pageSize, bool? hasIssues, bool? isAvailableForSale)
+    public async Task<PagedResponse<ResponseVendorGetAllProductDTO>> GetAllProductsByVendorId(RequestVendorProductFilter request, int vendorId)
     {
+        _logger.LogInformation("Vendor UserId {VendorUserId} requested product list with filters {@Request}", vendorId, request);
         var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var products = await _productRepsository.GetVendorProduct(approval, status, vendor.VendorId, subcategory, pageNumber, pageSize);
-        var response = _mapper.Map<List<ResponseVendorGetAllProductDTO>>(products);
-        for (int i = 0; i < products.Count; i++)
+        var result = await _productRepsository.GetVendorProduct(request, vendor.VendorId);
+        var products = result.items;
+        _logger.LogInformation("Vendor UserId {VendorUserId} validated successfully. VendorId {VendorId}", vendorId, vendor.VendorId);
+        var response = _mapper.Map<List<ResponseVendorGetAllProductDTO>>(result.items);
+        for (int i = 0; i < result.totalCount; i++)
         {
+            _logger.LogDebug("Validating ProductId {ProductId}", products[i].ProductId);
             var validation = await _productValidation.ValidateProductChain(products[i]);
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == 4 && products[i].ProductStatusId == 2 && validation.IsValid && products[i]
             .ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4 && pv.ProductVariantStatusId == 2 && pv.Inventories.Any(inv => inv.AvailableQuantity > 0));
             response[i].ValidationIssues = validation.Issues;
+            _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid {IsValid}. IssuesCount {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
         }
-        if (hasIssues.HasValue)
+        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
+        if (request.hasIssues.HasValue)
         {
-            if (hasIssues.Value)
+            if (request.hasIssues.Value)
             {
                 response = response.Where(p => p.ValidationIssues.Any()).ToList();
             }
@@ -27,54 +34,46 @@ public partial class VendorProductService : IVendorProductService
                 response = response.Where(p => !p.ValidationIssues.Any()).ToList();
             }
         }
-        if (isAvailableForSale.HasValue)
+        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.isAvailableForSale);
+        if (request.isAvailableForSale.HasValue)
         {
-            response = response.Where(p => p.IsAvailableForSale == isAvailableForSale.Value).ToList();
+            response = response.Where(p => p.IsAvailableForSale == request.isAvailableForSale.Value).ToList();
         }
-        return response;
+        _logger.LogInformation("Returning {ProductCount} products for VendorId {VendorId}", response.Count, vendor.VendorId);
+        return new PagedResponse<ResponseVendorGetAllProductDTO>
+        {
+            Items = response,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize,
+            TotalCount = result.totalCount
+        };
     }
 
-    public async Task<List<ResponseVendorGetAllProductDTO>> GetAllAvailableProductsByVendorId(int vendorId)
+    public async Task<ResponseVendorGetAllProductDTO> GetProductWithFullDetails(int productId, int userId)
     {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var products = await _productRepsository.GetAllAvailableProductsByVendorId(vendor.VendorId);
-        return _mapper.Map<List<ResponseVendorGetAllProductDTO>>(products);
-    }
-
-    public async Task<List<ResponseVendorGetStockProductDTO>> GetAllLowStockProducts(int vendorId, int threshold = 5)
-    {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var products = await _productRepsository.GetAllLowStockProducts(threshold);
-        var vendorProducts = products.Where(p => p.VendorId == vendor.VendorId).ToList();
-        return _mapper.Map<List<ResponseVendorGetStockProductDTO>>(vendorProducts);
-    }
-    public async Task<List<ResponseVendorGetStockProductDTO>> GetAllOutOfStockProducts(int vendorId)
-    {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var products = await _productRepsository.GetAllOutOfStockProducts();
-        var vendorProducts = products.Where(p => p.VendorId == vendor.VendorId).ToList();
-        return _mapper.Map<List<ResponseVendorGetStockProductDTO>>(vendorProducts);
-    }
-
-    public async Task<List<ResponseVendorGetAllProductDTO>> GetAllProductsWithPendingVariants(int vendorId)
-    {
-        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
-        var products = await _productRepsository.GetAllProductsWithPendingVariants();
-        var vendorProducts = products.Where(p => p.VendorId == vendor.VendorId).ToList();
-        return _mapper.Map<List<ResponseVendorGetAllProductDTO>>(vendorProducts);
-    }
-     public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId)
-    {
+        _logger.LogInformation("Vendor UserId {VendorUserId} requested full details for ProductId {ProductId}", userId, productId);
+        await _productValidation.VendorValidateProduct(productId, userId);
+        _logger.LogInformation("Vendor access validated for ProductId {ProductId}", productId);
         var product = await _productRepsository.GetProductWithFullDetails(productId);
         if (product == null)
         {
+            _logger.LogWarning("Product not found for ProductId {ProductId}", productId);
             throw new DataNotFoundException("Product not found");
         }
-        return _mapper.Map<ResponseAdminGetAllProductDTO>(product);
+        _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
+        return _mapper.Map<ResponseVendorGetAllProductDTO>(product);
     }
-     public async Task<List<ResponseGetAllProductVariant>> GetAllProductVariant(ProductVariantFilterDto filter,int vendorUserId)
+    public async Task<PagedResponse<ResponseVendorGetProductVariant>> GetAllProductVariant(RequestVendorProductVariantFilter request, int vendorUserId)
     {
-        var product = await _productVariantRepsository.GetAllVariantsForVendor(vendorUserId,filter);
-        return _mapper.Map<List<ResponseGetAllProductVariant>>(product);
+        _logger.LogInformation("Vendor UserId {VendorUserId} requested product variant list with filters {@Request}", vendorUserId, request);
+        var result = await _productVariantRepsository.GetAllVariantsForVendor(request, vendorUserId);
+        _logger.LogInformation("Returning {VariantCount} variants for Vendor UserId {VendorUserId}", result.Items.Count, vendorUserId);
+        return new PagedResponse<ResponseVendorGetProductVariant>
+        {
+            Items = _mapper.Map<List<ResponseVendorGetProductVariant>>(result.Items),
+            TotalCount = result.TotalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
 }
