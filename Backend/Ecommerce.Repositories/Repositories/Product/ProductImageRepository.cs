@@ -15,5 +15,9 @@ public class ProductImageRepsository : AbstractRepository<int, ProductImage> ,IP
         var product = await _ecommerceContext.ProductImage.Where(p=>p.ProductId == productId).ToListAsync();
         return product;
     }
+    public async Task<ProductImage?> GetProductImageByImageURL(string url)
+    {
+        return await _ecommerceContext.ProductImage.Where(p=>p.ImageUrl == url).FirstOrDefaultAsync();
+    }
 
 }
