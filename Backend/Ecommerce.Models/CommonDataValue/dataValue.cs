@@ -5,3 +5,21 @@ public enum RoleEnum
     Vendor = 3,
     VendorOwner = 1
 }
+
+public enum ProductApprovalStatusEnum
+{
+    Pending = 1,
+    Vendor_Approved = 2,
+    Vendor_Rejected = 3,
+    Admin_Approved = 4,
+    Admin_Rejected = 5,
+    Deleted_By_Admin = 6
+}
+
+public enum ProductStatusEnum
+{
+    Draft = 1,
+    Active = 2,
+    Temporarily_Not_Available = 3,
+    Archived = 4
+}
