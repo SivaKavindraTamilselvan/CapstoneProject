@@ -11,7 +11,7 @@ public class ProductSubCategoryAttribute
     public int AddedByAdminId {get;set;}
     public AdminUser? AddedByAdminUser {get;set;}
     public DateTime CreatedAt {get;set;} = DateTime.Now;
-    public ICollection<ProductVariant> ProductVariants {get;set;} = new List<ProductVariant>();
+    public ICollection<Product> Products {get;set;} = new List<Product>();
     public ICollection<ProductVariantAttribute> ProductVariantAttributes { get; set; } = new List<ProductVariantAttribute>();
 
 }

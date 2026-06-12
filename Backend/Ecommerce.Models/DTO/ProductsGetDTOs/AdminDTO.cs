@@ -1,21 +1,4 @@
 // For admin viewing all products (full details)
-public class ResponseAdminGetAllProductDTO
-{
-    public int ProductId { get; set; }
-    public string ProductName { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public string ProductSubCategoryName { get; set; } = string.Empty;
-    public string ProductCategoryName { get; set; } = string.Empty;
-    public string VendorName { get; set; } = string.Empty;
-    public string ProductApprovalStatus { get; set; } = string.Empty;
-    public string ProductStatus { get; set; } = string.Empty;
-    public DateTime CreatedAt { get; set; }
-    public DateTime? UpdatedAt { get; set; }
-    public bool IsAvailableForSale { get; set; } 
-    public List<string> ValidationIssues { get; set; }  = new List<string>();
-    public List<ResponseAdminProductVariantDTO> ProductVariants { get; set; } = new();
-    public List<ResponseProductImageDTO> ProductImages { get; set; } = new();
-}
 
 public class ResponseAdminProductVariantDTO
 {
