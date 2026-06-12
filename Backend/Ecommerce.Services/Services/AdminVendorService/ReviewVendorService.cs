@@ -29,18 +29,17 @@ public partial class AdminVendorService : IAdminVendorService
         {
             message = "Your vendor account has been rejected.";
         }
-        var ownerUser = await _vendorRepsository.GetOwnerVendorUserByVendorId(vendor.VendorId);
-        var vendorOwnerUserId = ownerUser?.VendorUsers?.FirstOrDefault()?.UserId;
-        if (vendorOwnerUserId.HasValue)
+        var ownerUser = await _vendorUserRepsository.GetOwnerVendorUserByVendorId(vendor.VendorId);
+        if (ownerUser!=null)
         {
             await _notificationService.SendToUser(
-                vendorOwnerUserId.Value,
+                ownerUser.UserId,
                 requestReviewOfVendorDTO.ApprovalStatusId == 2 ? "Vendor Approved" : "Vendor Rejected",
                 message,
                 notificationTypeId: requestReviewOfVendorDTO.ApprovalStatusId == 2 ? 15 : 16,
                 referenceType: "Vendor",
                 referenceId: vendor.VendorId);
-            _logger.LogInformation("Sending vendor review notification to UserId {VendorOwnerUserId}", vendorOwnerUserId.Value);
+            _logger.LogInformation("Sending vendor review notification to UserId {VendorOwnerUserId}", ownerUser.UserId);
         }
         else
         {
