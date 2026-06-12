@@ -1,24 +1,45 @@
+using Ecommerce.DTOs;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class AdminProductCategoryService : IAdminProductCategoryService
 {
-    public async Task<List<ResponseAdminGetAllCategory>> GetAllProductCategoryForAdmin(bool? status, int pageNumber, int pageSize)
+    public async Task<PagedResponse<ResponseAdminGetAllCategory>> GetAllProductCategoryForAdmin(RequestProductCategoryFilter request)
     {
-        var (product, totalCount) = await _productCategoryRepsository.GetAllProductCategoryForAdmin(status, pageNumber, pageSize);
+        _logger.LogInformation("Fetching Product Categories. PageNumber: {PageNumber}, PageSize: {PageSize}, CategoryId: {CategoryId}, Status: {Status}", request.PageNumber, request.PageSize, request.ProductCategoryId, request.status);
+        var (product, totalCount) = await _productCategoryRepsository.GetAllProductCategoryForAdmin(request);
         if (totalCount == 0)
         {
+            _logger.LogWarning("No Product Categories found for the given filter criteria");
             throw new DataNotFoundException("No Product Category Found");
         }
-        return _mapper.Map<List<ResponseAdminGetAllCategory>>(product);
+        _logger.LogInformation("Retrieved {TotalCount} Product Categories", totalCount);
+        return new PagedResponse<ResponseAdminGetAllCategory>
+        {
+            Items = _mapper.Map<List<ResponseAdminGetAllCategory>>(product),
+            TotalCount = totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
-    public async Task<List<ResponseAdminGetAllSubCategory>> GetAllProductSubCategoryForAdminGetAllSubProductCategoryForAdmin(bool? status, int? categoryId, int pageNumber, int pageSize)
+    public async Task<PagedResponse<ResponseAdminGetAllSubCategory>> GetAllSubProductCategoryForAdmin(RequestProductSubCategoryFilter request)
     {
-        var (product, totalCount) = await _productSubCategoryRepsository.GetAllSubProductCategoryForAdmin(status, categoryId, pageNumber, pageSize);
+        _logger.LogInformation("Fetching Product SubCategories. PageNumber: {PageNumber}, PageSize: {PageSize}, SubCategoryId: {SubCategoryId}, CategoryId: {CategoryId}, Status: {Status}", request.PageNumber, request.PageSize, request.ProductSubCategoryId, request.ProductCategoryId, request.status);
+
+        var (product, totalCount) = await _productSubCategoryRepsository.GetAllSubProductCategoryForAdmin(request);
         if (totalCount == 0)
         {
+            _logger.LogWarning("No Product SubCategories found for the given filter criteria");
             throw new DataNotFoundException("No Product Sub Category Found");
         }
-        return _mapper.Map<List<ResponseAdminGetAllSubCategory>>(product);
+        _logger.LogInformation("Retrieved {TotalCount} Product SubCategories", totalCount);
+        return new PagedResponse<ResponseAdminGetAllSubCategory>
+        {
+            Items = _mapper.Map<List<ResponseAdminGetAllSubCategory>>(product),
+            TotalCount = totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
 }
