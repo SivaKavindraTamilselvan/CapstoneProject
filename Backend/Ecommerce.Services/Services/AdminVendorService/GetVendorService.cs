@@ -7,6 +7,7 @@ public partial class AdminVendorService : IAdminVendorService
 {
     public async Task<List<ResponseAdminGetVendorDTO>> GetVendorsForAdmin(RequestAdminVendorFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching all vendors");
         var vendor = await _vendorRepsository.GetVendorsForAdmin(request);
         if (vendor.totalCount == 0)
@@ -19,6 +20,7 @@ public partial class AdminVendorService : IAdminVendorService
     }
     public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching all vendors");
         var vendor = await _vendorRepsository.GetVendorsByVendorIdForAdmin(vendorId);
         if (vendor == null)
