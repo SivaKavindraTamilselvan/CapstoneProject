@@ -24,7 +24,7 @@ public partial class AdminProductService : IAdminProductService
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductStatusId == (int)ProductStatusEnum.Active
             && validation.IsValid && products[i].ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active
-            && pv.Inventories.Any(inv => inv.AvailableQuantity > 0));
+            && pv.Inventories.Any(inv => inv.AvailableQuantity > 0 && inv.Address!.IsActive));
 
             response[i].ValidationIssues = validation.Issues;
 
@@ -82,7 +82,7 @@ public partial class AdminProductService : IAdminProductService
             var validation = await _productValidation.ValidateProductChain(products[i].Product!);
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
-            && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0);
+            && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0 && inv.Address!.IsActive);
 
             response[i].ValidationIssues = validation.Issues;
             _logger.LogDebug("Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);

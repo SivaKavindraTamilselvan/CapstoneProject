@@ -18,7 +18,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         return _ecommerceContext.Product.Include(p => p.ProductApprovalStatus).Include(p => p.ProductStatus)
         .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
         .Include(p => p.Vendor)
-        .Include(p => p.ProductImages).ThenInclude(p=>p.DisplayOrder).Include(p => p.ProductVariants).ThenInclude(pv => pv.Inventories)
+        .Include(p => p.ProductImages).ThenInclude(p=>p.DisplayOrder).Include(p => p.ProductVariants).ThenInclude(pv => pv.Inventories).ThenInclude(a=>a.Address)
         .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductImages);
@@ -146,7 +146,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
         p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
         p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
-        pv.Inventories.Any(i => i.AvailableQuantity > 0) && pv.ProductVariantAttributes.All(a =>
+        pv.Inventories.Any(i => i.AvailableQuantity > 0 && i.Address!.IsActive) && pv.ProductVariantAttributes.All(a =>
         a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
         if (request.ProductCategoryId.HasValue)
         {
