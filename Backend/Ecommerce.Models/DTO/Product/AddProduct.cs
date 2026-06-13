@@ -20,5 +20,9 @@ public class RequestAddProduct
 public class ResponseAddProduct
 {
     public int ProductId { get; set; }
+    public string ProductName { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public int ProductSubCategoryId { get; set; }
+    public int MainProductSubCategoryAttributeId { get; set; }
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }
