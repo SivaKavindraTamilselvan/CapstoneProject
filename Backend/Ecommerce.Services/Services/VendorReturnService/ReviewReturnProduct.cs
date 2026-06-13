@@ -20,4 +20,17 @@ public partial class VendorReturnService : IVendorReturnService
         await _returnRepsository.Update(returnItem.ReturnId,returnItem);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);
     }
+    public async Task<PagedResponse<ReturnSummaryDto>> GetAllReturnsForVendor(RequestVendorReturnFilter request,int vendorUserId)
+    {
+        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
+        var result = await _returnRepsository.GetAllReturnsForVendor(request,vendor.VendorId);
+        return new PagedResponse<ReturnSummaryDto>
+        {
+            Items = _mapper.Map<List<ReturnSummaryDto>>(result.data),
+            TotalCount = result.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
+
+    }
 }
