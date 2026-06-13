@@ -19,13 +19,15 @@ namespace Ecommerce.Mappers
             CreateMap<Product, ResponseUserGetProductDetailDTO>()
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.ProductSubCategory!.ProductSubCategoryName))
             .ForMember(dest => dest.ProductCategoryName, opt => opt.MapFrom(src => src.ProductSubCategory!.ProductCategory!.ProductCategoryName))
-            .ForMember(dest => dest.VendorName, opt => opt.MapFrom(src => src.Vendor!.VendorCompanyName));
+            .ForMember(dest => dest.VendorName, opt => opt.MapFrom(src => src.Vendor!.VendorCompanyName))
+            .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Where(img => img.ProductVariantId == null)));
 
             CreateMap<Product, ResponseVendorGetAllProductDTO>()
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.ProductSubCategory!.ProductSubCategoryName))
             .ForMember(dest => dest.ProductApprovalStatus, opt => opt.MapFrom(src => src.ProductApprovalStatus!.ProductApprovalStatusName))
             .ForMember(dest => dest.MainProductSubCategoryAttributeName, opt => opt.MapFrom(src => src.MainProductSubCategoryAttribute!.AttributeMaster!.AttributeName))
-            .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus!.ProductStatusName));
+            .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus!.ProductStatusName))
+            .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Where(img => img.ProductVariantId == null)));
 
             CreateMap<Product, ResponseAdminGetAllProductDTO>()
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.ProductSubCategory!.ProductSubCategoryName))
@@ -56,7 +58,7 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.ReservedQuantity, opt => opt.MapFrom(src => src.Inventories.Sum(i => i.ReservedQuantity)))
             .ForMember(dest => dest.MinimuQuantityPerUser, opt => opt.MapFrom(src => src.MinimuQuantityPerUser))
             .ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.ProductVariantAttributes))
-            .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser.User.FirstName + " " + src.AddedByVendorUser.User.LastName));
+            .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser!.User!.FirstName + " " + src.AddedByVendorUser.User.LastName));
 
             CreateMap<ProductVariant, ResponseVendorGetProductVariantOnly>()
             .ForMember(dest => dest.ProductApprovalStatus, opt => opt.MapFrom(src => src.ProductApprovalStatus!.ProductApprovalStatusName))
@@ -65,7 +67,7 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.ReservedQuantity, opt => opt.MapFrom(src => src.Inventories.Sum(i => i.ReservedQuantity)))
             .ForMember(dest => dest.MinimuQuantityPerUser, opt => opt.MapFrom(src => src.MinimuQuantityPerUser))
             .ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.ProductVariantAttributes))
-            .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser.User.FirstName + " " + src.AddedByVendorUser.User.LastName))
+            .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser!.User!.FirstName + " " + src.AddedByVendorUser.User.LastName))
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.Product!.ProductSubCategory!.ProductSubCategoryName))
             .ForMember(dest => dest.ProductCategoryName, opt => opt.MapFrom(src => src.Product!.ProductSubCategory!.ProductCategory!.ProductCategoryName))
             .ForMember(dest => dest.MainProductSubCategoryAttributeName, opt => opt.MapFrom(src => src.Product!.MainProductSubCategoryAttribute!.AttributeMaster!.AttributeName))

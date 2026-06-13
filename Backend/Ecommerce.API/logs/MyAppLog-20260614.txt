@@ -1839,3 +1839,9 @@ ORDER BY s."CreatedAt" DESC, s."ProductVariantId", s."ProductId0", p1."ProductSu
 2026-06-14 01:28:31.742 +05:30 [INF] Executed action Ecommerce.API.Controllers.VendorProductController.GetAllProductsVariantByVendorId (Ecommerce.API) in 1535.1815ms
 2026-06-14 01:28:31.742 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.VendorProductController.GetAllProductsVariantByVendorId (Ecommerce.API)'
 2026-06-14 01:28:31.747 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/VendorProduct/ProductVariant - 200 null application/json; charset=utf-8 1623.8347ms
+2026-06-14 01:29:31.936 +05:30 [INF] Application is shutting down...
+2026-06-14 01:29:37.004 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 01:29:37.096 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 01:29:37.097 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 01:29:37.097 +05:30 [INF] Hosting environment: Development
+2026-06-14 01:29:37.098 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
