@@ -8,18 +8,23 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminService : IAdminService
 {
-    public async Task<List<ResponseGetAdminUserDTO>> GetAllAdminUser(int? role, bool? status, int pageNumber, int pageSize)
+    public async Task<PagedResponse<ResponseGetAdminUserDTO>> GetAllAdminUser(RequestAdiminUserFilter request)
     {
-        _logger.LogInformation("Fetching admin users. Role {Role}, Status {Status}, PageNumber {PageNumber}, PageSize {PageSize}", role, status, pageNumber, pageSize);
-        var user = await _adminUserRepsository.GetAllAdminUser(role, status, pageNumber, pageSize);
-        if (user.Count == 0)
+        _logger.LogInformation("Fetching admin users.");
+        var user = await _adminUserRepsository.GetAllAdminUser(request);
+        if (user.totalCount == 0)
         {
-            _logger.LogWarning("No admin users found. Role {Role}, Status {Status}", role, status);
+            _logger.LogWarning("No admin users found.");
             throw new DataNotFoundException("No Admin User Found");
         }
-        _logger.LogInformation("{Count} admin users found", user.Count);
-
-        return _mapper.Map<List<ResponseGetAdminUserDTO>>(user);
+        _logger.LogInformation("{Count} admin users found", user.totalCount);
+        return new PagedResponse<ResponseGetAdminUserDTO>
+        {
+            Items =  _mapper.Map<List<ResponseGetAdminUserDTO>>(user.items),
+            TotalCount = user.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
     public async Task<ResponseGetAdminUserDTO> GetAdminUserByUserId(int userId)
     {

@@ -1,3 +1,13 @@
+namespace Ecommerce.DTOs;
+
+public class RequestAdiminUserFilter : PaginationFilter
+{
+    public int? AdminRoleId {get;set;}
+    public bool? Status {get;set;}
+    public string? Email {get;set;}
+    public string? PhoneNumber{get;set;}
+}
+
 public class ResponseGetAdminUserDTO
 {
     public int AdminUserId {get;set;}
