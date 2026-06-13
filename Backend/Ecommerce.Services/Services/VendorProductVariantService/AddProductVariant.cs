@@ -70,40 +70,36 @@ public partial class VendorProductVariantService : IVendorProductVariantService
     }
     public async Task<ResponseAddProductVariantAttributeDTO> AddProductVariantAttribute(RequestAddProductVariantAttributeDTO requestAddProductVariantAttributeDTO, bool updation, int userId)
     {
-        _logger.LogInformation("Vendor UserId {UserId} started adding attribute for ProductVariantId {ProductVariantId}", userId, requestAddProductVariantAttributeDTO.ProductVariantId);
-
+        _logger.LogInformation("Vendor UserId {UserId} started processing attribute for ProductVariantId {ProductVariantId}", userId, requestAddProductVariantAttributeDTO.ProductVariantId);
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(userId);
         var productVariant = await _productValidation.ValidateProductVariant(requestAddProductVariantAttributeDTO.ProductVariantId, userId);
         var product = await _productValidation.ValidateProduct(productVariant.ProductId);
-
-        await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId, product.ProductSubCategoryId);
-
         var productVariantAttribute = _mapper.Map<ProductVariantAttribute>(requestAddProductVariantAttributeDTO);
-        productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
-
-        await _productVariantAttributeRepsository.Create(productVariantAttribute);
-
-        _logger.LogInformation("Product variant attribute {AttributeId} added successfully for ProductVariantId {ProductVariantId}", productVariantAttribute.ProductVariantAttributeId, productVariant.ProductVariantId);
-
+        await _productAttributeValidation.ValidateProductSubCategoryAttribute(requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId, product.ProductSubCategoryId);
+        if (!updation)
+        {
+            productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
+            await _productVariantAttributeRepsository.Create(productVariantAttribute);
+        }
+        /*
         if (updation)
         {
             productVariant.ProductApprovalStatusId = (int)ProductApprovalStatusEnum.Vendor_Approved;
             productVariant.UpdatedAt = DateTime.Now;
-
             await _productVariantRepsository.Update(productVariant.ProductVariantId, productVariant);
-
-            _logger.LogInformation("ProductVariantId {ProductVariantId} marked as Vendor_Approved after attribute update", productVariant.ProductVariantId);
-
-            var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();
-
-            _logger.LogInformation("Sending updated product variant notification to {AdminCount} product admins for ProductVariantId {ProductVariantId}", productAdminUserIds.Count, productVariant.ProductVariantId);
-
-            foreach (var adminUserId in productAdminUserIds)
-            {
-                await _notificationService.SendToUser(adminUserId, "Product Variant Updated", $"Variant '{productVariant.SKU}' for product '{product.ProductName}' has been updated by vendor and requires review.", notificationTypeId: 1, referenceType: "ProductVariant", referenceId: productVariant.ProductVariantId);
-            }
         }
-
+        */
+        var ownerUser = await _vendorUserRepsository.GetOwnerVendorUserByVendorId(vendorUser.VendorId);
+        if (ownerUser != null)
+        {
+            await _notificationService.SendToUser(
+                ownerUser.UserId,
+                "New Product Submitted",
+                $"A new product variant attribute'{product.ProductName}' has been submitted and is waiting for approval.",
+                notificationTypeId: 1,
+                referenceType: "Product",
+                referenceId: product.ProductId);
+        }
         return _mapper.Map<ResponseAddProductVariantAttributeDTO>(productVariantAttribute);
     }
     private async Task<string> GenerateSku(int productId)
