@@ -7,42 +7,50 @@ using Ecommerce.Services.Interfaces;
 
 public partial class CancelService : ICancelService
 {
-    public async Task<List<CancelSummaryDto>> GetAllCancelsForAdmin(RequestGetCancelsForAdminDTO request)
+    public async Task<PagedResponse<CancelSummaryDto>> GetAllCancelsForAdmin(RequestAdminCancelFilter request)
     {
-
         var result = await _cancelRepsository.GetAllCancelsForAdmin(request);
-
-        if (!result.data.Any())
+        if (result.data.Count == 0)
         {
             throw new DataNotFoundException("No cancel requests found");
         }
-
-        var cancels = _mapper.Map<List<CancelSummaryDto>>(result.data);
-        return cancels;
+        return new PagedResponse<CancelSummaryDto>
+        {
+            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            TotalCount = result.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
 
-    public async Task<List<CancelSummaryDto>> GetAllCancelsForUser(RequestGetCancelsForVendorDTO request, int user)
+    public async Task<PagedResponse<CancelSummaryDto>> GetAllCancelsForUser(RequestUserCancelFilter request, int user)
     {
-
         var result = await _cancelRepsository.GetAllCancelsForUser(request, user);
-        if (!result.data.Any())
+        if (result.data.Count == 0)
         {
             throw new DataNotFoundException("No cancel requests found");
         }
-
-        var cancels = _mapper.Map<List<CancelSummaryDto>>(result.data);
-        return cancels;
+        return new PagedResponse<CancelSummaryDto>
+        {
+            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            TotalCount = result.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
-    public async Task<List<CancelSummaryDto>> GetAllCancelsForVendor(RequestGetCancelsForVendorDTO request, int user)
+    public async Task<PagedResponse<CancelSummaryDto>> GetAllCancelsForVendor(RequestVendorCancelFilter request, int user)
     {
-
-        var result = await _cancelRepsository.GetAllCancelsForUser(request, user);
-        if (!result.data.Any())
+        var result = await _cancelRepsository.GetAllCancelsForVendor(request, user);
+        if (result.data.Count == 0)
         {
             throw new DataNotFoundException("No cancel requests found");
         }
-
-        var cancels = _mapper.Map<List<CancelSummaryDto>>(result.data);
-        return cancels;
+        return new PagedResponse<CancelSummaryDto>
+        {
+            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            TotalCount = result.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
     }
 }
