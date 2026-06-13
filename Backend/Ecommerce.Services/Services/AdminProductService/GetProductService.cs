@@ -67,14 +67,14 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request, int adminUserId)
+    public async Task<PagedResponse<ResponseAdminProductVariantOnlyDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
         var result = await _productVariantRepsository.GetAllVariantsForAdmin(request);
         _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}", result.Items.Count, result.TotalCount);
         var products = result.Items;
-        var response = _mapper.Map<List<ResponseAdminProductVariantDTO>>(products);
+        var response = _mapper.Map<List<ResponseAdminProductVariantOnlyDTO>>(products);
         for (int i = 0; i < products.Count; i++)
         {
             _logger.LogDebug("Validating ProductVariantId {ProductVariantId}", products[i].ProductVariantId);
@@ -105,9 +105,9 @@ public partial class AdminProductService : IAdminProductService
             response = response.Where(p => p.IsAvailableForSale == request.IsAvailableForSale.Value).ToList();
         }
         _logger.LogInformation("Returning {Count} product variants after filtering", response.Count);
-        return new PagedResponse<ResponseAdminProductVariantDTO>
+        return new PagedResponse<ResponseAdminProductVariantOnlyDTO>
         {
-            Items = _mapper.Map<List<ResponseAdminProductVariantDTO>>(products),
+            Items = response,
             TotalCount = result.TotalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize

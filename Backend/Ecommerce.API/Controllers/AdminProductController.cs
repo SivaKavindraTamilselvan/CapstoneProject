@@ -38,7 +38,7 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("ProductVariant")]
-    public async Task<IActionResult> GetAllProductsVariant(RequestAdminProductVariantFilter filter)
+    public async Task<IActionResult> GetAllProductsVariant([FromQuery] RequestAdminProductVariantFilter filter)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _adminProductService.GetAllProductVariant(filter,adminUserId);

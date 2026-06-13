@@ -35,8 +35,42 @@ public class ResponseVendorGetProductVariant
     public decimal HeightInCm { get; set; }
     public int MinimuQuantityPerUser { get; set; }
     public int AddedByVendorUserId { get; set; }
+    public string AddedByVendorUser {get;set;} = string.Empty;
     public string ProductVariantStatus { get; set; } = string.Empty;
     public string ProductApprovalStatus { get; set; } = string.Empty;
+    public int AvailableQuantity { get; set; }
+    public int ReservedQuantity { get; set; }
+    public bool IsAvailableForSale { get; set; }
+    public bool IsReturn { get; set; } = true;
+    public bool IsExchange { get; set; } = true;
+    public DateTime CreatedAt { get; set; }
+    public DateTime? UpdatedAt { get; set; }
+    public List<string> ValidationIssues { get; set; } = new List<string>();
+    public List<ResponseProductVariantAttributeDTO> Attributes { get; set; } = new List<ResponseProductVariantAttributeDTO>();
+    public List<ResponseProductImageDTO> ProductImages { get; set; } = new();
+}
+
+public class ResponseVendorGetProductVariantOnly
+{
+    public int ProductVariantId { get; set; }
+    public string SKU { get; set; } = string.Empty;
+    public string ProductName { get; set; } = string.Empty;
+    public string Description { get; set; } = string.Empty;
+    public string ProductSubCategoryName { get; set; } = string.Empty;
+    public string ProductCategoryName { get; set; } = string.Empty;
+    public string ProductApprovalStatus { get; set; } = string.Empty;
+    public string ProductStatus { get; set; } = string.Empty;
+    public string MainProductSubCategoryAttributeName { get; set; } = string.Empty;
+    public decimal Price { get; set; }
+    public decimal WeightInKgs { get; set; }
+    public decimal LengthInCm { get; set; }
+    public decimal WidthInCm { get; set; }
+    public decimal HeightInCm { get; set; }
+    public int MinimuQuantityPerUser { get; set; }
+    public int AddedByVendorUserId { get; set; }
+    public string AddedByVendorUser {get;set;} = string.Empty;
+    public string ProductVariantStatus { get; set; } = string.Empty;
+    public string ProductVariantApprovalStatus { get; set; } = string.Empty;
     public int AvailableQuantity { get; set; }
     public int ReservedQuantity { get; set; }
     public bool IsAvailableForSale { get; set; }

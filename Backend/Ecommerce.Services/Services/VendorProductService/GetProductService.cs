@@ -21,6 +21,17 @@ public partial class VendorProductService : IVendorProductService
             .ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4 && pv.ProductVariantStatusId == 2 && pv.Inventories.Any(inv => inv.AvailableQuantity > 0));
             response[i].ValidationIssues = validation.Issues;
             _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid {IsValid}. IssuesCount {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
+            foreach (var variantResponse in response[i].ProductVariants)
+            {
+                var variant = products[i].ProductVariants.FirstOrDefault(pv => pv.ProductVariantId == variantResponse.ProductVariantId);
+                if (variant == null)
+                {
+                    continue;
+                }
+                variantResponse.IsAvailableForSale = variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                validation.IsValid && variant.Inventories.Any(inv => inv.AvailableQuantity > 0);
+                variantResponse.ValidationIssues = new List<string> { "Same For All Product Variant. Present In The Main Product" };
+            }
         }
         _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
         if (request.hasIssues.HasValue)
@@ -63,14 +74,48 @@ public partial class VendorProductService : IVendorProductService
         _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
         return _mapper.Map<ResponseVendorGetAllProductDTO>(product);
     }
-    public async Task<PagedResponse<ResponseVendorGetProductVariant>> GetAllProductVariant(RequestVendorProductVariantFilter request, int vendorUserId)
+    public async Task<PagedResponse<ResponseVendorGetProductVariantOnly>> GetAllProductVariant(RequestVendorProductVariantFilter request, int vendorUserId)
     {
         _logger.LogInformation("Vendor UserId {VendorUserId} requested product variant list with filters {@Request}", vendorUserId, request);
-        var result = await _productVariantRepsository.GetAllVariantsForVendor(request, vendorUserId);
+        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
+        var result = await _productVariantRepsository.GetAllVariantsForVendor(request, vendor.VendorId);
         _logger.LogInformation("Returning {VariantCount} variants for Vendor UserId {VendorUserId}", result.Items.Count, vendorUserId);
-        return new PagedResponse<ResponseVendorGetProductVariant>
+
+        var products = result.Items;
+        var validation = await _productValidation.ValidateProductChain(products[0].Product);
+        //Console.WriteLine(validation.IsValid);
+        var response = _mapper.Map<List<ResponseVendorGetProductVariantOnly>>(products);
+        for (int i = 0; i < products.Count; i++)
         {
-            Items = _mapper.Map<List<ResponseVendorGetProductVariant>>(result.Items),
+            _logger.LogDebug("Validating ProductVariantId {ProductVariantId}", products[i].ProductVariantId);
+
+            response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
+            && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0);
+           
+            response[i].ValidationIssues = validation.Issues;
+            _logger.LogDebug("Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);
+        }
+        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
+        if (request.hasIssues.HasValue)
+        {
+            if (request.hasIssues.Value)
+            {
+                response = response.Where(p => p.ValidationIssues.Any()).ToList();
+            }
+            else
+            {
+                response = response.Where(p => !p.ValidationIssues.Any()).ToList();
+            }
+        }
+        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.IsAvailableForSale);
+        if (request.IsAvailableForSale.HasValue)
+        {
+            response = response.Where(p => p.IsAvailableForSale == request.IsAvailableForSale.Value).ToList();
+        }
+        _logger.LogInformation("Returning {Count} product variants after filtering", response.Count);
+        return new PagedResponse<ResponseVendorGetProductVariantOnly>
+        {
+            Items = response,
             TotalCount = result.TotalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize

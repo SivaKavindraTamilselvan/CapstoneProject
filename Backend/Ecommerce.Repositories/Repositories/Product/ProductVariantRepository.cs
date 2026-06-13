@@ -12,10 +12,11 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         return _ecommerceContext.ProductVariant.Include(pv => pv.Product)
         .ThenInclude(p => p!.ProductSubCategory).ThenInclude(sc => sc!.ProductCategory)
         .Include(pv => pv.AddedByVendorUser).ThenInclude(vu => vu!.Vendor)
+        .Include(pv => pv.AddedByVendorUser).ThenInclude(vu => vu!.User)
         .Include(pv => pv.ProductVariantStatus).Include(pv => pv.ProductApprovalStatus)
         .Include(p => p.Product).ThenInclude(pv => pv!.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
-        .Include(pv => pv.ProductImages)
+        .Include(pv => pv.ProductImages).ThenInclude(p=>p.DisplayOrder)
         .Include(pv => pv.Inventories);
     }
     public ProductVariantRepsository(EcommerceContext ecommerceContext) : base(ecommerceContext)

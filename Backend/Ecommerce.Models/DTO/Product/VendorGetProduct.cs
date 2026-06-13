@@ -29,6 +29,8 @@ public class ResponseVendorGetAllProductDTO
     public string ProductApprovalStatus { get; set; } = string.Empty;
     public string ProductStatus { get; set; } = string.Empty;
     public string MainProductSubCategoryAttributeName { get; set; } = string.Empty;
+    public int AddedByVendorUserId {get;set;}
+    public string AddedByVendorUser {get;set;} = string.Empty;
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsAvailableForSale { get; set; }
