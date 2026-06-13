@@ -29,21 +29,24 @@ public class AdminProductCategoryController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ResponseAdminGetAllCategory>>> GetAllProductCategories([FromQuery] RequestProductCategoryFilter request)
     {
-        var result = await _adminProductCategoryService.GetAllProductCategoryForAdmin(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.GetAllProductCategoryForAdmin(request,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("{productCategoryId}/activate")]
     public async Task<ActionResult<ResponseAdminGetAllCategory>> ActivateProductCategory(int productCategoryId)
     {
-        var result = await _adminProductCategoryService.ActivateProductCategory(productCategoryId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.ActivateProductCategory(productCategoryId,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("{productCategoryId}/deactivate")]
     public async Task<ActionResult<ResponseAdminGetAllCategory>> DeactivateProductCategory(int productCategoryId)
     {
-        var result = await _adminProductCategoryService.DeactivateProductCategory(productCategoryId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.DeactivateProductCategory(productCategoryId,adminUserId);
         return Ok(result);
     }
 
@@ -58,21 +61,24 @@ public class AdminProductCategoryController : ControllerBase
     [HttpGet("subcategories")]
     public async Task<ActionResult<List<ResponseAdminGetAllSubCategory>>> GetAllProductSubCategories([FromQuery] RequestProductSubCategoryFilter request)
     {
-        var result = await _adminProductCategoryService.GetAllSubProductCategoryForAdmin(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.GetAllSubProductCategoryForAdmin(request,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("subcategories/{productSubCategoryId}/activate")]
     public async Task<ActionResult<ResponseAdminGetAllSubCategory>> ActivateProductSubCategory(int productSubCategoryId)
     {
-        var result = await _adminProductCategoryService.ActivateProductSubCategory(productSubCategoryId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.ActivateProductSubCategory(productSubCategoryId,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("subcategories/{productSubCategoryId}/deactivate")]
     public async Task<ActionResult<ResponseAdminGetAllSubCategory>> DeactivateProductSubCategory(int productSubCategoryId)
     {
-        var result = await _adminProductCategoryService.DeactivateProductSubCategory(productSubCategoryId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductCategoryService.DeactivateProductSubCategory(productSubCategoryId,adminUserId);
         return Ok(result);
     }
 }

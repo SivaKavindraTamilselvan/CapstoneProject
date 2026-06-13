@@ -16,7 +16,7 @@ public class AdminVendorController : ControllerBase
     {
         _adminVendorService = adminVendorService;
     }
-    [HttpPost("ReviewVendor")]
+    [HttpPut("ReviewVendor")]
     public async Task<ActionResult<ResponseReviewOfVendorDTO>> ReviewVendor(RequestReviewOfVendorDTO dto)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
@@ -32,7 +32,7 @@ public class AdminVendorController : ControllerBase
         return Ok(result);
     }
     [HttpGet("GetVendor")]
-    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
+    public async Task<ActionResult<PagedResponse<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _adminVendorService.GetVendorsForAdmin(request,adminUserId);
