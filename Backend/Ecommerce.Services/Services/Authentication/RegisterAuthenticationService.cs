@@ -11,7 +11,7 @@ public partial class AuthenticationService : IAuthentication
     public async Task<ResponseRegisterUserDTO> RegisterUser(RequestRegisterUserDTO requestRegisterUserDTO, int RoleId)
     {
         await _registrationValidation.ValidateUserDetails(requestRegisterUserDTO);
-        User user = _mapper.Map<User>(requestRegisterUserDTO);
+        User user = _mapper.Map<User>(requestRegisterUserDTO); //authentication mapper
         HMACSHA256 hMACSHA256 = new HMACSHA256();
         user.Password = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(requestRegisterUserDTO.Password));
         user.HashedKey = hMACSHA256.Key;
@@ -21,7 +21,7 @@ public partial class AuthenticationService : IAuthentication
         {
             throw new DataRegistrationException($"Registration for User with the Email {user.Email} failed");
         }
-        return _mapper.Map<ResponseRegisterUserDTO>(createdUser);
+        return _mapper.Map<ResponseRegisterUserDTO>(createdUser); // authentication mapper
     }
 
     public async Task<ResponseRegisterUserDTO> Register(RequestRegisterUserDTO requestRegisterUserDTO)
@@ -49,7 +49,7 @@ public partial class AuthenticationService : IAuthentication
             }
             _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
             await transaction.CommitAsync();
-            return _mapper.Map<ResponseRegisterUserDTO>(user);
+            return _mapper.Map<ResponseRegisterUserDTO>(user); // authentication mapper
 
         }
         catch
@@ -84,7 +84,7 @@ public partial class AuthenticationService : IAuthentication
             }
             await transaction.CommitAsync();
             _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
-            var createdadmin =  _mapper.Map<ResponseRegisterAdminDTO>(createdAdminUser);
+            var createdadmin =  _mapper.Map<ResponseRegisterAdminDTO>(createdAdminUser); // authentication mapper
             createdadmin.Email = user.Email;
             return createdadmin;
         }
@@ -103,7 +103,7 @@ public partial class AuthenticationService : IAuthentication
             _logger.LogInformation("User registration started for {Email}", requestRegisterVendorDTO.requestRegisterUserDTO.Email);
             await _registrationValidation.ValidateVendorDetails(requestRegisterVendorDTO);
             var user = await RegisterUser(requestRegisterVendorDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
-            var vendor = _mapper.Map<Vendor>(requestRegisterVendorDTO);
+            var vendor = _mapper.Map<Vendor>(requestRegisterVendorDTO); // authentication mapper
             var createdVendor = await _vendorRepsository.Create(vendor);
             if (createdVendor == null)
             {
@@ -122,7 +122,7 @@ public partial class AuthenticationService : IAuthentication
             }
             await transaction.CommitAsync();
             _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
-            return _mapper.Map<ResponseRegisterVendorDTO>(createdVendor);
+            return _mapper.Map<ResponseRegisterVendorDTO>(createdVendor); // authentication mapper
         }
         catch
         {

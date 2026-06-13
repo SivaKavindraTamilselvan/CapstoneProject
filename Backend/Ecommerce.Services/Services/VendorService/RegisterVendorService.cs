@@ -10,7 +10,7 @@ public partial class VendorService : IVendorService
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
-            var user = await _authentication.RegisterUser(requestRegisterVendorUserDTO.requestRegisterUserDTO, 2);
+            var user = await _authentication.RegisterUser(requestRegisterVendorUserDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
 
             var OwnerVendor = (await _vendorUserRepsository.GetAll()).FirstOrDefault(u=>u.UserId == vendorUserId);
             if(OwnerVendor == null)
@@ -24,7 +24,7 @@ public partial class VendorService : IVendorService
             vendorUser.AddedByVendorUserId = OwnerVendor.VendorUserId;
             await _vendorUserRepsository.Create(vendorUser);
             await transaction.CommitAsync();
-            return _mapper.Map<ResponseRegisterVendorUserDTO>(vendorUser);
+            return _mapper.Map<ResponseRegisterVendorUserDTO>(vendorUser); // authentication mapper
         }
         catch
         {
