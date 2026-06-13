@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace Ecommerce.DTOs;
 
 public class RequestUpdateProductVariantDTO
@@ -33,6 +31,4 @@ public class ResponseUpdateProductVariantDTO
     public decimal HeightInCm { get; set; }
     public DateTime UpdatedAt {get;set;}
     public DateTime CreatedAt { get; set; }
-
-
 }

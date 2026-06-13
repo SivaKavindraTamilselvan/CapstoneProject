@@ -1,5 +1,7 @@
 namespace Ecommerce.DTOs;
 
+
+
 public class ResponseUserGetAllCategory
 {
     public int ProductCategoryId { get; set; }

@@ -90,9 +90,9 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, total);
     }
-    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(RequestVendorProductVariantFilter request)
+    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(RequestVendorProductVariantFilter request,int vendorid)
     {
-        var query = BaseQuery();
+        var query = BaseQuery().Where(p=>p.Product!.VendorId == vendorid);
         if (request.AddedByVendorUserId.HasValue)
         {
             query = query.Where(p => p.AddedByVendorUserId == request.AddedByVendorUserId.Value);

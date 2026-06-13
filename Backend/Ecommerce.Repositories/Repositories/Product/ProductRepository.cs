@@ -84,7 +84,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         return (items, totalCount);
     }
 
-    public async Task<(List<Product> items, int totalCount)> GetVendorProduct(RequestProductFilter request, int vendorid)
+    public async Task<(List<Product> items, int totalCount)> GetVendorProduct(RequestVendorProductFilter request, int vendorid)
     {
         var query = BaseQuery().Where(v => v.VendorId == vendorid);
         if (request.ProductApprovalStatusId.HasValue)
@@ -139,7 +139,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, totalCount);
     }
-    public async Task<(List<Product> items, int totalCount)> GetUserProducts(RequestProductFilter request)
+    public async Task<(List<Product> items, int totalCount)> GetUserProducts(RequestUserProductFilter request)
     {
         var query = BaseQuery().Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
         p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
@@ -148,18 +148,9 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
         pv.Inventories.Any(i => i.AvailableQuantity > 0) && pv.ProductVariantAttributes.All(a =>
         a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
-
-        if (request.ProductApprovalStatusId.HasValue)
-        {
-            query = query.Where(p => p.ProductApprovalStatusId == request.ProductApprovalStatusId.Value);
-        }
         if (request.ProductCategoryId.HasValue)
         {
             query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == request.ProductCategoryId.Value);
-        }
-        if (request.ProductStatusId.HasValue)
-        {
-            query = query.Where(p => p.ProductStatusId == request.ProductStatusId.Value);
         }
         if (request.ProductSubCategoryId.HasValue)
         {
@@ -180,22 +171,6 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         if (!string.IsNullOrWhiteSpace(request.ProductName))
         {
             query = query.Where(p => p.ProductName.ToLower() == request.ProductName.ToLower());
-        }
-        if (request.MaxAvailableQuantity.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity <= request.MaxAvailableQuantity)));
-        }
-        if (request.MaxReservedQuantity.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity <= request.MaxReservedQuantity)));
-        }
-        if (request.MinAvailableQuantity.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.AvailableQuantity >= request.MinAvailableQuantity)));
-        }
-        if (request.MinReservedQuantity.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
         }
         var totalCount = await query.CountAsync();
         var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();

@@ -36,20 +36,7 @@ public class RequestAddProductVariantDTO
     public bool IsReturn { get; set; } = true;
     [Required]
     public bool IsExchange { get; set; } = true;
-    public int MainProductSubCategoryAttributeId { get; set; }
-    public List<ProductVariantAttributeDTO> requestAddProductVariantAttributeDTOs { get; set; } = new List<ProductVariantAttributeDTO>();
-
-}
-
-public class ProductVariantAttributeDTO
-{
-    [Required(ErrorMessage = "Attribute Id Needed")]
-    [Range(1, int.MaxValue, ErrorMessage = "Product Id Should Be Greater Than 0")]
-    public int ProductSubCategoryAttributeId { get; set; }
-
-    [Required(ErrorMessage = "Attribute Value Is Needed")]
-    public string AttributeValue { get; set; } = string.Empty;
-
+    public List<RequestAddProductVariantAttributeDTO> ProductVariantAttribute { get; set; } = new List<RequestAddProductVariantAttributeDTO>();
 }
 
 public class ResponseAddProductVariantDTO
