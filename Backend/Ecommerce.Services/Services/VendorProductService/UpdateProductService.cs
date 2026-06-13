@@ -12,11 +12,7 @@ public partial class VendorProductService : IVendorProductService
         var product = await _productValidation.ValidateProduct(requestUpdateProduct.ProductId);
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         _logger.LogInformation("Product {ProductId} validated successfully for status update", product.ProductId);
-        await _productValidation.VendorValidateProduct(requestUpdateProduct.ProductId, vendorUserId);
-        if (vendorUser.VendorId != product.VendorId)
-        {
-            throw new InvalidCredentialException("You Cannot Access other vendor products");
-        }
+        await _productValidation.VendorValidateProduct(requestUpdateProduct.ProductId, vendorUser.VendorId);
         product = _mapper.Map<Product>(product);
         product.UpdatedAt = DateTime.Now;
         product.ProductStatusId = requestUpdateProduct.ProductStatusId;
@@ -32,11 +28,7 @@ public partial class VendorProductService : IVendorProductService
         var product = await _productValidation.ValidateProduct(requestUpdateProduct.ProductId);
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         _logger.LogInformation("Product {ProductId} validated successfully for modification", product.ProductId);
-        await _productValidation.VendorValidateProduct(requestUpdateProduct.ProductId, vendorUserId);
-        if (vendorUser.VendorId != product.VendorId)
-        {
-            throw new InvalidCredentialException("You Cannot Access other vendor products");
-        }
+        await _productValidation.VendorValidateProduct(requestUpdateProduct.ProductId, vendorUser.VendorId);
         _logger.LogInformation("Current Product Approval Status: {ApprovalStatusId} for ProductId {ProductId}", product.ProductApprovalStatusId, product.ProductId);
         if (product.ProductApprovalStatusId == 4 || product.ProductApprovalStatusId == 6)
         {
