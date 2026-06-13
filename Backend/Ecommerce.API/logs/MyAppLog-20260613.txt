@@ -4474,3 +4474,794 @@ DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
 2026-06-13 19:37:28.710 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-06-13 19:37:28.710 +05:30 [INF] Hosting environment: Development
 2026-06-13 19:37:28.710 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-13 20:26:31.507 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-13 20:26:31.538 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-13 20:26:31.556 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:26:31.569 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-13 20:26:31.718 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-13 20:26:31.733 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-13 20:26:32.617 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-13 20:26:32.713 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-13 20:26:32.783 +05:30 [INF] Generating token for UserId 1
+2026-06-13 20:26:32.809 +05:30 [INF] Login successful for UserId 1
+2026-06-13 20:26:32.816 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-13 20:26:32.829 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1257.6256ms
+2026-06-13 20:26:32.831 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:26:32.836 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1330.3322ms
+2026-06-13 20:36:05.477 +05:30 [INF] Application is shutting down...
+2026-06-13 20:36:13.384 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-13 20:36:13.479 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-13 20:36:13.480 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-13 20:36:13.480 +05:30 [INF] Hosting environment: Development
+2026-06-13 20:36:13.481 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-13 20:36:18.949 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-13 20:36:18.971 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-13 20:36:18.988 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:36:18.999 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-13 20:36:19.186 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-13 20:36:19.209 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-13 20:36:20.099 +05:30 [INF] Executed DbCommand (30ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-13 20:36:20.191 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-13 20:36:20.212 +05:30 [INF] Generating token for UserId 1
+2026-06-13 20:36:20.227 +05:30 [INF] Login successful for UserId 1
+2026-06-13 20:36:20.230 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-13 20:36:20.236 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 1235.262ms
+2026-06-13 20:36:20.236 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:36:20.241 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 1292.597ms
+2026-06-13 20:36:27.375 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-13 20:36:27.407 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 31.9766ms
+2026-06-13 20:36:27.460 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-13 20:36:27.543 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 83.1773ms
+2026-06-13 20:36:43.607 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - null null
+2026-06-13 20:36:43.627 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenMalformedException: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString, TryReadJwtClaim tryReadJwtClaim)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+2026-06-13 20:36:43.631 +05:30 [INF] Bearer was not authenticated. Failure message: IDX14100: JWT is not well formed, there are no dots (.).
+The token needs to be in JWS or JWE Compact Serialization Format. (JWS): 'EncodedHeader.EncodedPayload.EncodedSignature'. (JWE): 'EncodedProtectedHeader.EncodedEncryptedKey.EncodedInitializationVector.EncodedCiphertext.EncodedAuthenticationTag'.
+2026-06-13 20:36:43.633 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-13 20:36:43.636 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-13 20:36:43.636 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - 401 0 null 29.7848ms
+2026-06-13 20:37:05.807 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - null null
+2026-06-13 20:37:05.837 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:37:05.843 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:37:05.847 +05:30 [INF] Fetching all vendors
+2026-06-13 20:37:05.876 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+2026-06-13 20:37:05.903 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:37:05.916 +05:30 [INF] 5 vendors found
+2026-06-13 20:37:05.920 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:37:05.925 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 81.9142ms
+2026-06-13 20:37:05.925 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:37:05.925 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - 200 null application/json; charset=utf-8 117.9289ms
+2026-06-13 20:39:54.119 +05:30 [INF] Application is shutting down...
+2026-06-13 20:39:59.746 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-13 20:39:59.837 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-13 20:39:59.838 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-13 20:39:59.838 +05:30 [INF] Hosting environment: Development
+2026-06-13 20:39:59.838 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-13 20:40:04.023 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - null null
+2026-06-13 20:40:04.046 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-13 20:40:04.091 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:40:04.103 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:40:04.225 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-13 20:40:04.231 +05:30 [INF] Fetching all vendors
+2026-06-13 20:40:05.021 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+2026-06-13 20:40:05.126 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:40:05.187 +05:30 [INF] 5 vendors found
+2026-06-13 20:40:05.196 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:40:05.210 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 1105.7457ms
+2026-06-13 20:40:05.211 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:40:05.214 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - 200 null application/json; charset=utf-8 1192.1884ms
+2026-06-13 20:40:38.358 +05:30 [INF] Application is shutting down...
+2026-06-13 20:40:42.669 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-13 20:40:42.757 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-13 20:40:42.758 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-13 20:40:42.758 +05:30 [INF] Hosting environment: Development
+2026-06-13 20:40:42.758 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-13 20:40:47.681 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - null null
+2026-06-13 20:40:47.705 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-13 20:40:47.748 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:40:47.759 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:40:47.879 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-13 20:40:47.885 +05:30 [INF] Fetching all vendors
+2026-06-13 20:40:48.677 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+2026-06-13 20:40:48.787 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:40:48.848 +05:30 [INF] 5 vendors found
+2026-06-13 20:40:48.857 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:40:48.872 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 1110.709ms
+2026-06-13 20:40:48.872 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:40:48.876 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor - 200 null application/json; charset=utf-8 1196.0655ms
+2026-06-13 20:41:22.669 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com - null null
+2026-06-13 20:41:22.684 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:22.684 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:41:22.687 +05:30 [INF] Fetching all vendors
+2026-06-13 20:41:22.715 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@ToLower='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower
+2026-06-13 20:41:22.728 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:41:22.728 +05:30 [INF] 1 vendors found
+2026-06-13 20:41:22.729 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:41:22.729 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 44.801ms
+2026-06-13 20:41:22.730 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:22.730 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com - 200 null application/json; charset=utf-8 60.5879ms
+2026-06-13 20:41:38.537 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true - null null
+2026-06-13 20:41:38.543 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:38.543 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:41:38.552 +05:30 [INF] Fetching all vendors
+2026-06-13 20:41:38.592 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."IsActive" = @request_IsActive
+2026-06-13 20:41:38.603 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @request_IsActive='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p3 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:41:38.604 +05:30 [INF] 1 vendors found
+2026-06-13 20:41:38.604 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:41:38.604 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 61.1028ms
+2026-06-13 20:41:38.604 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:38.605 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true - 200 null application/json; charset=utf-8 68.1503ms
+2026-06-13 20:41:42.998 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=false - null null
+2026-06-13 20:41:42.999 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:42.999 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:41:43.000 +05:30 [INF] Fetching all vendors
+2026-06-13 20:41:43.007 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."IsActive" = @request_IsActive
+2026-06-13 20:41:43.010 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_IsActive='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p3 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:41:43.010 +05:30 [WRN] No vendors found
+2026-06-13 20:41:43.011 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 11.791ms
+2026-06-13 20:41:43.011 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:43.012 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsForAdmin(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendor(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:41:43.028 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=false - 404 null application/json 29.9794ms
+2026-06-13 20:41:50.323 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:41:50.324 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:50.325 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:41:50.326 +05:30 [INF] Fetching all vendors
+2026-06-13 20:41:50.338 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:41:50.353 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:41:50.354 +05:30 [WRN] No vendors found
+2026-06-13 20:41:50.354 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 29.1738ms
+2026-06-13 20:41:50.354 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:50.354 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsForAdmin(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendor(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:41:50.355 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true&ReviewedByAdminId=1 - 404 null application/json 32.2589ms
+2026-06-13 20:41:56.084 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:41:56.085 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:56.085 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:41:56.086 +05:30 [INF] Fetching all vendors
+2026-06-13 20:41:56.088 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:41:56.091 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:41:56.092 +05:30 [WRN] No vendors found
+2026-06-13 20:41:56.093 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 6.954ms
+2026-06-13 20:41:56.093 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:41:56.093 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsForAdmin(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendor(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:41:56.095 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=contact%40sports.com&IsActive=true&ReviewedByAdminId=1 - 404 null application/json 10.5067ms
+2026-06-13 20:42:00.879 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:00.880 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:00.880 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:00.881 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:00.887 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:00.900 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p3 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:00.903 +05:30 [INF] 2 vendors found
+2026-06-13 20:42:00.903 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:42:00.903 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 23.0072ms
+2026-06-13 20:42:00.903 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:00.903 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?IsActive=true&ReviewedByAdminId=1 - 200 null application/json; charset=utf-8 24.7513ms
+2026-06-13 20:42:13.763 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=priyaelectronics%40gmail.com&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:13.764 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:13.764 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:13.764 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:13.766 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:13.768 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:13.770 +05:30 [INF] 1 vendors found
+2026-06-13 20:42:13.771 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:42:13.771 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 7.302ms
+2026-06-13 20:42:13.771 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:13.771 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=priyaelectronics%40gmail.com&IsActive=true&ReviewedByAdminId=1 - 200 null application/json; charset=utf-8 8.5825ms
+2026-06-13 20:42:23.076 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=priyaelectronics%40gmail.com&CompanyPhoneNumber=8903748913&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:23.078 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:23.078 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:23.079 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:23.087 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@ToLower='?', @request_CompanyPhoneNumber='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."CompanyEmail") = @ToLower AND v."CompanyPhoneNumber" = @request_CompanyPhoneNumber AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:23.101 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@ToLower='?', @request_CompanyPhoneNumber='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p5='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."CompanyEmail") = @ToLower AND v."CompanyPhoneNumber" = @request_CompanyPhoneNumber AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p5 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:23.102 +05:30 [INF] 1 vendors found
+2026-06-13 20:42:23.102 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:42:23.102 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 24.2745ms
+2026-06-13 20:42:23.102 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:23.102 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?CompanyEmail=priyaelectronics%40gmail.com&CompanyPhoneNumber=8903748913&IsActive=true&ReviewedByAdminId=1 - 200 null application/json; charset=utf-8 26.2705ms
+2026-06-13 20:42:35.939 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=PriyaTextiles&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:35.940 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:35.940 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:35.941 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:35.947 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:35.960 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:35.961 +05:30 [WRN] No vendors found
+2026-06-13 20:42:35.961 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 20.3879ms
+2026-06-13 20:42:35.961 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:35.961 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsForAdmin(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendor(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:42:35.962 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=PriyaTextiles&IsActive=true&ReviewedByAdminId=1 - 404 null application/json 23.0419ms
+2026-06-13 20:42:47.745 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=Priya%20Electronics&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:47.746 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:47.746 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:47.747 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:47.749 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:47.750 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:47.751 +05:30 [WRN] No vendors found
+2026-06-13 20:42:47.751 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 4.56ms
+2026-06-13 20:42:47.751 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:47.751 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsForAdmin(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 15
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendor(RequestAdminVendorFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:42:47.753 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=Priya%20Electronics&IsActive=true&ReviewedByAdminId=1 - 404 null application/json 7.4186ms
+2026-06-13 20:42:51.380 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:42:51.381 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:51.381 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:42:51.382 +05:30 [INF] Fetching all vendors
+2026-06-13 20:42:51.384 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:42:51.387 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p3 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:42:51.388 +05:30 [INF] 2 vendors found
+2026-06-13 20:42:51.389 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:42:51.389 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 7.6873ms
+2026-06-13 20:42:51.389 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:42:51.389 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?IsActive=true&ReviewedByAdminId=1 - 200 null application/json; charset=utf-8 9.5931ms
+2026-06-13 20:43:08.252 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=PriyaDharshiniElectronics&IsActive=true&ReviewedByAdminId=1 - null null
+2026-06-13 20:43:08.253 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:43:08.253 +05:30 [INF] Route matched with {action = "GetVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendor(Ecommerce.DTOs.RequestAdminVendorFilter) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:43:08.253 +05:30 [INF] Fetching all vendors
+2026-06-13 20:43:08.256 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Vendor" AS v
+WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+2026-06-13 20:43:08.258 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@ToLower='?', @request_ReviewedByAdminId='?' (DbType = Int32), @request_IsActive='?' (DbType = Boolean), @p4='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM (
+    SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+    FROM "Vendor" AS v
+    WHERE lower(v."VendorCompanyName") = @ToLower AND v."ReviewedByAdminId" = @request_ReviewedByAdminId AND v."IsActive" = @request_IsActive
+    ORDER BY v."CreatedAt" DESC
+    LIMIT @p4 OFFSET @p
+) AS v0
+LEFT JOIN "AdminUser" AS a ON v0."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v0."ApprovalStatusId" = a0."ApprovalStatusId"
+ORDER BY v0."CreatedAt" DESC
+2026-06-13 20:43:08.262 +05:30 [INF] 1 vendors found
+2026-06-13 20:43:08.262 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.ResponseAdminGetVendorDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-13 20:43:08.262 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API) in 9.1007ms
+2026-06-13 20:43:08.262 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendor (Ecommerce.API)'
+2026-06-13 20:43:08.263 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor?VendorCompanyName=PriyaDharshiniElectronics&IsActive=true&ReviewedByAdminId=1 - 200 null application/json; charset=utf-8 10.9958ms
+2026-06-13 20:43:35.317 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/1 - null null
+2026-06-13 20:43:35.319 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:43:35.328 +05:30 [INF] Route matched with {action = "GetVendorByVendorId", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendorByVendorId(Int32) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:43:35.330 +05:30 [INF] Fetching all vendors
+2026-06-13 20:43:35.346 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM "Vendor" AS v
+LEFT JOIN "AdminUser" AS a ON v."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v."ApprovalStatusId" = a0."ApprovalStatusId"
+WHERE v."VendorId" = @vendorId
+LIMIT 1
+2026-06-13 20:43:35.347 +05:30 [WRN] No vendors found
+2026-06-13 20:43:35.347 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API) in 18.6895ms
+2026-06-13 20:43:35.347 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:43:35.347 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: No Vendors Found
+   at AdminVendorService.GetVendorsByVendorIdForAdmin(Int32 vendorId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminVendorService/GetVendorService.cs:line 27
+   at Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId(Int32 vendorId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminVendorController.cs:line 44
+   at lambda_method966(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:43:35.348 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/1 - 404 null application/json 30.5437ms
+2026-06-13 20:43:40.801 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/1?vendorId=1 - null null
+2026-06-13 20:43:40.802 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:43:40.802 +05:30 [INF] Route matched with {action = "GetVendorByVendorId", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendorByVendorId(Int32) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:43:40.803 +05:30 [INF] Fetching all vendors
+2026-06-13 20:43:40.806 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM "Vendor" AS v
+LEFT JOIN "AdminUser" AS a ON v."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v."ApprovalStatusId" = a0."ApprovalStatusId"
+WHERE v."VendorId" = @vendorId
+LIMIT 1
+2026-06-13 20:43:40.811 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAdminGetVendorDTO'.
+2026-06-13 20:43:40.812 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API) in 9.6652ms
+2026-06-13 20:43:40.812 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:43:40.812 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/1?vendorId=1 - 200 null application/json; charset=utf-8 11.6479ms
+2026-06-13 20:45:02.866 +05:30 [INF] Application is shutting down...
+2026-06-13 20:45:07.239 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-13 20:45:07.331 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-13 20:45:07.332 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-13 20:45:07.332 +05:30 [INF] Hosting environment: Development
+2026-06-13 20:45:07.332 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-13 20:45:57.125 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-13 20:45:57.159 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 34.7789ms
+2026-06-13 20:45:57.222 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-13 20:45:57.309 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 87.3159ms
+2026-06-13 20:46:23.036 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - application/json 44
+2026-06-13 20:46:23.064 +05:30 [INF] CORS policy execution successful.
+2026-06-13 20:46:23.064 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-13 20:46:23.088 +05:30 [INF] Failed to validate the token.
+System.ArgumentException: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+ ---> System.FormatException: IDX10400: Unable to decode: '[PII of type 'System.String' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64url encoded string.
+   at Microsoft.IdentityModel.Tokens.Base64UrlEncoder.Decode(ReadOnlySpan`1 strSpan, Span`1 output)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.CreateClaimSet(ReadOnlySpan`1 strSpan, Int32 startIndex, Int32 length, Boolean createHeaderClaimSet)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   --- End of inner exception stack trace ---
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken.ReadToken(ReadOnlyMemory`1 encodedTokenMemory)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebToken..ctor(String jwtEncodedString, TryReadJwtClaim tryReadJwtClaim)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ReadToken(String token, TokenValidationParameters validationParameters)
+2026-06-13 20:46:23.092 +05:30 [INF] Bearer was not authenticated. Failure message: IDX14102: Unable to decode the header '[PII of type 'Microsoft.IdentityModel.Logging.SecurityArtifact' is hidden. For more details, see https://aka.ms/IdentityModel/PII.]' as Base64Url encoded string.
+2026-06-13 20:46:23.094 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-13 20:46:23.096 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-13 20:46:23.096 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - 401 0 null 60.01ms
+2026-06-13 20:46:42.588 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - application/json 44
+2026-06-13 20:46:42.595 +05:30 [INF] CORS policy execution successful.
+2026-06-13 20:46:42.625 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API)'
+2026-06-13 20:46:42.636 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:46:42.763 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-13 20:46:42.776 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-13 20:46:42.785 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API) in 147.615ms
+2026-06-13 20:46:42.785 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API)'
+2026-06-13 20:46:42.786 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - 400 null application/problem+json; charset=utf-8 198.2082ms
+2026-06-13 20:46:54.555 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - application/json 44
+2026-06-13 20:46:54.556 +05:30 [INF] CORS policy execution successful.
+2026-06-13 20:46:54.560 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API)'
+2026-06-13 20:46:54.561 +05:30 [INF] Route matched with {action = "ReviewVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] ReviewVendor(Ecommerce.DTOs.RequestReviewOfVendorDTO) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:46:54.574 +05:30 [INF] Vendor review initiated by UserId 1 for VendorId 3
+2026-06-13 20:46:55.390 +05:30 [INF] Executed DbCommand (31ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-13 20:46:55.473 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-13 20:46:55.502 +05:30 [INF] Updating VendorId 3 with ApprovalStatusId 2
+2026-06-13 20:46:55.569 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-13 20:46:55.573 +05:30 [INF] VendorId 3 reviewed successfully by AdminUserId 1
+2026-06-13 20:46:55.582 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId"
+FROM "VendorUser" AS v
+WHERE v."VendorId" = @vendorId AND v."VendorRoleId" = 1
+LIMIT 1
+2026-06-13 20:46:55.622 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = DateTime2), @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?', @p6='?', @p7='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Notification" ("CreatedAt", "Message", "NotificationTypeId", "ReadAt", "ReferenceId", "ReferenceType", "Title", "UserId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7)
+RETURNING "NotificationId", "IsRead";
+2026-06-13 20:46:55.630 +05:30 [INF] Sending vendor review notification to UserId 8
+2026-06-13 20:46:55.630 +05:30 [INF] Vendor review process completed for VendorId 3
+2026-06-13 20:46:55.634 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfVendorDTO'.
+2026-06-13 20:46:55.638 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API) in 1076.6832ms
+2026-06-13 20:46:55.638 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.ReviewVendor (Ecommerce.API)'
+2026-06-13 20:46:55.641 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/AdminVendor/ReviewVendor - 200 null application/json; charset=utf-8 1086.516ms
+2026-06-13 20:47:32.088 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/3 - null null
+2026-06-13 20:47:32.090 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:47:32.099 +05:30 [INF] Route matched with {action = "GetVendorByVendorId", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendorByVendorId(Int32) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:47:32.109 +05:30 [INF] Fetching all vendors
+2026-06-13 20:47:32.154 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM "Vendor" AS v
+LEFT JOIN "AdminUser" AS a ON v."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v."ApprovalStatusId" = a0."ApprovalStatusId"
+WHERE v."VendorId" = @vendorId
+LIMIT 1
+2026-06-13 20:47:32.159 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAdminGetVendorDTO'.
+2026-06-13 20:47:32.161 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API) in 62.1982ms
+2026-06-13 20:47:32.161 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:47:32.162 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/3 - 200 null application/json; charset=utf-8 73.7204ms
+2026-06-13 20:47:44.470 +05:30 [INF] Request starting HTTP/1.1 PATCH http://localhost:5173/api/AdminVendor/DeleteVendor?vendorId=3 - null null
+2026-06-13 20:47:44.471 +05:30 [INF] CORS policy execution successful.
+2026-06-13 20:47:44.475 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.DeleteVendor (Ecommerce.API)'
+2026-06-13 20:47:44.482 +05:30 [INF] Route matched with {action = "DeleteVendor", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewOfVendorDTO]] DeleteVendor(Int32) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:47:44.498 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-13 20:47:44.501 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Vendor" AS v
+WHERE v."VendorId" = @p
+LIMIT 1
+2026-06-13 20:47:44.504 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p10='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?', @p2='?', @p3='?', @p4='?' (DbType = DateTime2), @p5='?', @p6='?' (DbType = Boolean), @p7='?' (DbType = DateTime2), @p8='?' (DbType = Int32), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Vendor" SET "ApprovalStatusId" = @p0, "CompanyEmail" = @p1, "CompanyPhoneNumber" = @p2, "ContactPersonName" = @p3, "CreatedAt" = @p4, "GSTNumber" = @p5, "IsActive" = @p6, "ReviewedAt" = @p7, "ReviewedByAdminId" = @p8, "VendorCompanyName" = @p9
+WHERE "VendorId" = @p10;
+2026-06-13 20:47:44.506 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewOfVendorDTO'.
+2026-06-13 20:47:44.506 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.DeleteVendor (Ecommerce.API) in 23.3989ms
+2026-06-13 20:47:44.506 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.DeleteVendor (Ecommerce.API)'
+2026-06-13 20:47:44.506 +05:30 [INF] Request finished HTTP/1.1 PATCH http://localhost:5173/api/AdminVendor/DeleteVendor?vendorId=3 - 200 null application/json; charset=utf-8 36.4161ms
+2026-06-13 20:47:51.241 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/3 - null null
+2026-06-13 20:47:51.243 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:47:51.243 +05:30 [INF] Route matched with {action = "GetVendorByVendorId", controller = "AdminVendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[System.Collections.Generic.List`1[Ecommerce.DTOs.ResponseGetVendor]]] GetVendorByVendorId(Int32) on controller Ecommerce.API.Controllers.AdminVendorController (Ecommerce.API).
+2026-06-13 20:47:51.244 +05:30 [INF] Fetching all vendors
+2026-06-13 20:47:51.246 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", a0."ApprovalStatusId", a0."ApprovalStatusName"
+FROM "Vendor" AS v
+LEFT JOIN "AdminUser" AS a ON v."ReviewedByAdminId" = a."AdminUserId"
+LEFT JOIN "User" AS u ON a."UserId" = u."UserId"
+INNER JOIN "ApprovalStatus" AS a0 ON v."ApprovalStatusId" = a0."ApprovalStatusId"
+WHERE v."VendorId" = @vendorId
+LIMIT 1
+2026-06-13 20:47:51.248 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAdminGetVendorDTO'.
+2026-06-13 20:47:51.249 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API) in 5.926ms
+2026-06-13 20:47:51.249 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminVendorController.GetVendorByVendorId (Ecommerce.API)'
+2026-06-13 20:47:51.249 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/AdminVendor/GetVendor/3 - 200 null application/json; charset=utf-8 7.9363ms
+2026-06-13 20:47:57.523 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-13 20:47:57.555 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 32.0588ms
+2026-06-13 20:48:14.611 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 65
+2026-06-13 20:48:14.611 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:48:14.617 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-13 20:48:14.622 +05:30 [INF] Login attempt for devadhayalan@gmail.com
+2026-06-13 20:48:14.634 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-13 20:48:14.649 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-13 20:48:14.655 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-13 20:48:14.656 +05:30 [INF] Generating token for UserId 8
+2026-06-13 20:48:14.668 +05:30 [INF] Login successful for UserId 8
+2026-06-13 20:48:14.669 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-13 20:48:14.670 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 52.5547ms
+2026-06-13 20:48:14.670 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-13 20:48:14.671 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 60.149ms
+2026-06-13 20:48:43.892 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Inventory/AddInventory - application/json 97
+2026-06-13 20:48:43.894 +05:30 [INF] Executing endpoint 'InventoryController.AddInventory (Ecommerce.API)'
+2026-06-13 20:48:43.902 +05:30 [INF] Route matched with {action = "AddInventory", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddInventoryDTO]] AddInventory(Ecommerce.DTOs.RequestAddInventoryDTO) on controller InventoryController (Ecommerce.API).
+2026-06-13 20:48:43.929 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@productVariantId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "ProductVariant" AS p
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE p."ProductVariantId" = @productVariantId
+LIMIT 1
+2026-06-13 20:48:43.959 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-13 20:48:43.960 +05:30 [INF] Executed action InventoryController.AddInventory (Ecommerce.API) in 57.4949ms
+2026-06-13 20:48:43.960 +05:30 [INF] Executed endpoint 'InventoryController.AddInventory (Ecommerce.API)'
+2026-06-13 20:48:43.960 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.Security.Authentication.InvalidCredentialException: Vendor Is Not Approved
+   at VendorUserValidation.ValidateVendorUserByUserId(Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/VendorUserValidation.cs:line 27
+   at ProductValidation.ValidateProductVariant(Int32 productVariantId, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ProductValidation.cs:line 81
+   at InventoryService.AddInventory(RequestAddInventoryDTO requestAddInventoryDTO, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorInventoryService/AddInventory.cs:line 27
+   at InventoryController.AddInventory(RequestAddInventoryDTO requestAddInventoryDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 22
+   at lambda_method1304(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-13 20:48:43.966 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Inventory/AddInventory - 401 null application/json 74.2109ms

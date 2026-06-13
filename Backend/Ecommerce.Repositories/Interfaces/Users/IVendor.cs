@@ -5,6 +5,7 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IVendorRepsository : IRepository<int,Vendor>
 {
+    public Task<Vendor?> GetVendorsByVendorIdForAdmin(int vendorId);
     public Task<Vendor?> GetVendorByCompanyName(string companyname);
     public Task<Vendor?> GetVendorByCompanyEmail(string Email);
     public Task<Vendor?> GetVendorByCompanyGSTNumber(string gst);

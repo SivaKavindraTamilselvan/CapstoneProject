@@ -17,4 +17,15 @@ public partial class AdminVendorService : IAdminVendorService
         _logger.LogInformation("{Count} vendors found", vendor.totalCount);
         return _mapper.Map<List<ResponseAdminGetVendorDTO>>(vendor.items);
     }
+    public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId)
+    {
+        _logger.LogInformation("Fetching all vendors");
+        var vendor = await _vendorRepsository.GetVendorsByVendorIdForAdmin(vendorId);
+        if (vendor == null)
+        {
+            _logger.LogWarning("No vendors found");
+            throw new DataNotFoundException("No Vendors Found");
+        }
+        return _mapper.Map<ResponseAdminGetVendorDTO>(vendor);
+    }
 }

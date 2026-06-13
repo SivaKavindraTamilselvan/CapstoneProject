@@ -76,4 +76,11 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
         .Where(vu => vu.VendorRoleId == 1 && vu.IsActive).Select(vu => vu.UserId)).Distinct().ToListAsync();
     }
 
+    public async Task<Vendor?> GetVendorsByVendorIdForAdmin(int vendorId)
+    {
+        var query = _ecommerceContext.Vendor.Include(v => v.ReviwedByAdmin).ThenInclude(a => a!.User).Include(a => a.ApprovalStatus).AsQueryable();
+        return await query.Where(v=>v.VendorId == vendorId).FirstOrDefaultAsync();
+    }
+
+
 }

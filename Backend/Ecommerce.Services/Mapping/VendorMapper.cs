@@ -10,7 +10,8 @@ namespace Ecommerce.Mappers
         {
             // get vendor for the admin dashboard
             CreateMap<Vendor, ResponseAdminGetVendorDTO>()
-            .ForMember(dest => dest.ApprovalStatusName, opt => opt.MapFrom(src => src.ApprovalStatus!.ApprovalStatusName));
+            .ForMember(dest => dest.ApprovalStatusName, opt => opt.MapFrom(src => src.ApprovalStatus!.ApprovalStatusName))
+            .ForMember(dest=>dest.ReviewAdminName,opt=>opt.MapFrom(src=>src.ReviwedByAdmin!.User!.FirstName  + " " + src.ReviwedByAdmin.User.LastName));
             // add inventory by the vendor
             CreateMap<RequestAddInventoryDTO, Inventory>();
             CreateMap<Inventory, ResponseAddInventoryDTO>();

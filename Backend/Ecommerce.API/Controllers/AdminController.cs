@@ -37,32 +37,6 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("ReviewVendor")]
-    public async Task<ActionResult<ResponseReviewOfVendorDTO>> ReviewVendor(RequestReviewOfVendorDTO dto)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.ReviewVendor(dto, adminUserId);
-
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPatch("DeleteVendor")]
-    public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor(int vendorId)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.DeleteVendor(vendorId, adminUserId);
-
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpGet("GetVendor")]
-    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
-    {
-        var result = await _adminVendorService.GetVendorsForAdmin(request);
-        return Ok(result);
-    }
-
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpPost("CreateReturnShipment")]
     public async Task<ActionResult> CreateShipmentForReturnProduct(int returnId)
     {
@@ -91,10 +65,10 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]
-    [HttpGet("GetAdminUsER")]
-    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery] int? roleid, [FromQuery] bool? status, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 5)
+    [HttpGet("GetAdminUser")]
+    public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery]RequestAdiminUserFilter request)
     {
-        var result = await _adminService.GetAllAdminUser(roleid, status, pageNumber, pageSize);
+        var result = await _adminService.GetAllAdminUser(request);
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]

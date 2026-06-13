@@ -1,0 +1,47 @@
+using System.Security.Claims;
+using Ecommerce.DTOs;
+using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace Ecommerce.API.Controllers;
+
+[Route("api/[controller]")]
+[ApiController]
+[Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
+public class AdminVendorController : ControllerBase
+{
+    private readonly IAdminVendorService _adminVendorService;
+    public AdminVendorController(IAdminVendorService adminVendorService)
+    {
+        _adminVendorService = adminVendorService;
+    }
+    [HttpPost("ReviewVendor")]
+    public async Task<ActionResult<ResponseReviewOfVendorDTO>> ReviewVendor(RequestReviewOfVendorDTO dto)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.ReviewVendor(dto, adminUserId);
+
+        return Ok(result);
+    }
+    [HttpPatch("DeleteVendor/{vendorId}")]
+    public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor([FromRoute]int vendorId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.DeleteVendor(vendorId, adminUserId);
+
+        return Ok(result);
+    }
+    [HttpGet("GetVendor")]
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
+    {
+        var result = await _adminVendorService.GetVendorsForAdmin(request);
+        return Ok(result);
+    }
+    [HttpGet("GetVendor/{vendorId}")]
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendorByVendorId([FromRoute] int vendorId)
+    {
+        var result = await _adminVendorService.GetVendorsByVendorIdForAdmin(vendorId);
+        return Ok(result);
+    }
+}
