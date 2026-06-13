@@ -34,6 +34,7 @@ public class EcommerceContext : DbContext
     public DbSet<ShipmentItems> ShipmentItems { get; set; }
     public DbSet<Shipment> Shipment { get; set; }
     public DbSet<Return> Return { get; set; }
+    public DbSet<Inventory> Inventory {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
