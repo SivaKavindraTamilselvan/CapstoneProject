@@ -5,8 +5,9 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductCategoryService : IAdminProductCategoryService
 {
-    public async Task<ResponseAdminGetAllCategory> DeactivateProductCategory(int productCategoryId)
+    public async Task<ResponseAdminGetAllCategory> DeactivateProductCategory(int productCategoryId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Deactivating Product Category {CategoryId}", productCategoryId);
 
         var productCategory = await _productCategoryValidation.ValidateCategory(productCategoryId);
@@ -29,8 +30,9 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
 
         return _mapper.Map<ResponseAdminGetAllCategory>(productCategory);
     }
-    public async Task<ResponseAdminGetAllSubCategory> DeactivateProductSubCategory(int productSubCategoryId)
+    public async Task<ResponseAdminGetAllSubCategory> DeactivateProductSubCategory(int productSubCategoryId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Deactivating Product SubCategory {SubCategoryId}", productSubCategoryId);
         var productSubCategory = await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
         productSubCategory.IsActive = false;

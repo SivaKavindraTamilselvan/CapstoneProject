@@ -6,8 +6,9 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductCategoryService : IAdminProductCategoryService
 {
-    public async Task<ResponseAdminGetAllCategory> ActivateProductCategory(int productCategoryId)
+    public async Task<ResponseAdminGetAllCategory> ActivateProductCategory(int productCategoryId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Activating Product Category {CategoryId}", productCategoryId);
         var productCategory = await _productCategoryRepsository.Get(productCategoryId);
         if (productCategory == null)
@@ -41,8 +42,9 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
         }
         return _mapper.Map<ResponseAdminGetAllCategory>(productCategory);
     }
-    public async Task<ResponseAdminGetAllSubCategory> ActivateProductSubCategory(int productSubCategoryId)
+    public async Task<ResponseAdminGetAllSubCategory> ActivateProductSubCategory(int productSubCategoryId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Activating Product SubCategory {SubCategoryId}", productSubCategoryId);
 
         var productSubCategory = await _productSubCategoryRepsository.Get(productSubCategoryId);

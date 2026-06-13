@@ -5,8 +5,9 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductCategoryService : IAdminProductCategoryService
 {
-    public async Task<PagedResponse<ResponseAdminGetAllCategory>> GetAllProductCategoryForAdmin(RequestProductCategoryFilter request)
+    public async Task<PagedResponse<ResponseAdminGetAllCategory>> GetAllProductCategoryForAdmin(RequestProductCategoryFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching Product Categories. PageNumber: {PageNumber}, PageSize: {PageSize}, CategoryId: {CategoryId}, Status: {Status}", request.PageNumber, request.PageSize, request.ProductCategoryId, request.status);
         var (product, totalCount) = await _productCategoryRepsository.GetAllProductCategoryForAdmin(request);
         if (totalCount == 0)
@@ -23,8 +24,9 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseAdminGetAllSubCategory>> GetAllSubProductCategoryForAdmin(RequestProductSubCategoryFilter request)
+    public async Task<PagedResponse<ResponseAdminGetAllSubCategory>> GetAllSubProductCategoryForAdmin(RequestProductSubCategoryFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching Product SubCategories. PageNumber: {PageNumber}, PageSize: {PageSize}, SubCategoryId: {SubCategoryId}, CategoryId: {CategoryId}, Status: {Status}", request.PageNumber, request.PageSize, request.ProductSubCategoryId, request.ProductCategoryId, request.status);
 
         var (product, totalCount) = await _productSubCategoryRepsository.GetAllSubProductCategoryForAdmin(request);
