@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Data.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    [Migration("20260609132102_initialcreate")]
-    partial class initialcreate
+    [Migration("20260612183814_ChangesInTheProductMainAttribute")]
+    partial class ChangesInTheProductMainAttribute
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -121,7 +121,7 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("AdminRoleName")
                         .IsUnique();
 
-                    b.ToTable("AdminRole");
+                    b.ToTable("AdminRoles");
 
                     b.HasData(
                         new
@@ -299,6 +299,11 @@ namespace Ecommerce.Data.Migrations
                         {
                             ApprovalStatusId = 3,
                             ApprovalStatusName = "Rejected"
+                        },
+                        new
+                        {
+                            ApprovalStatusId = 4,
+                            ApprovalStatusName = "Deleted_By_Admin"
                         });
                 });
 
@@ -1190,6 +1195,11 @@ namespace Ecommerce.Data.Migrations
                         {
                             OrderStatusId = 4,
                             OrderStatusName = "Cancelled"
+                        },
+                        new
+                        {
+                            OrderStatusId = 5,
+                            OrderStatusName = "Failed"
                         });
                 });
 
@@ -1326,6 +1336,9 @@ namespace Ecommerce.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("character varying(1000)");
 
+                    b.Property<int>("MainProductSubCategoryAttributeId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ProductApprovalStatusId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer")
@@ -1354,6 +1367,8 @@ namespace Ecommerce.Data.Migrations
                         .HasName("PK_Product");
 
                     b.HasIndex("AddedByVendorUserId");
+
+                    b.HasIndex("MainProductSubCategoryAttributeId");
 
                     b.HasIndex("ProductApprovalStatusId");
 
@@ -1664,9 +1679,6 @@ namespace Ecommerce.Data.Migrations
                         .HasMaxLength(15)
                         .HasColumnType("numeric");
 
-                    b.Property<int>("MainProductSubCategoryAttributeId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MinimuQuantityPerUser")
                         .HasColumnType("integer");
 
@@ -1705,8 +1717,6 @@ namespace Ecommerce.Data.Migrations
                         .HasName("PK_Product_Variant");
 
                     b.HasIndex("AddedByVendorUserId");
-
-                    b.HasIndex("MainProductSubCategoryAttributeId");
 
                     b.HasIndex("ProductApprovalStatusId");
 
@@ -2303,6 +2313,12 @@ namespace Ecommerce.Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ShipmentId"));
 
+                    b.Property<string>("CourierName")
+                        .IsRequired()
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("text")
+                        .HasDefaultValue("unassigned");
+
                     b.Property<DateTime>("CreatedAt")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("timestamp without time zone")
@@ -2325,11 +2341,11 @@ namespace Ecommerce.Data.Migrations
                         .HasColumnType("integer")
                         .HasDefaultValue(1);
 
+                    b.Property<int>("ShipmentTypeId")
+                        .HasColumnType("integer");
+
                     b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("timestamp without time zone");
-
-                    b.Property<int?>("ShipperId")
-                        .HasColumnType("integer");
 
                     b.Property<decimal>("ShippingCharge")
                         .ValueGeneratedOnAdd()
@@ -2349,7 +2365,7 @@ namespace Ecommerce.Data.Migrations
 
                     b.HasIndex("ShipmentStatusId");
 
-                    b.HasIndex("ShipperId");
+                    b.HasIndex("ShipmentTypeId");
 
                     b.HasIndex("TrackingNumber")
                         .IsUnique();
@@ -2492,44 +2508,42 @@ namespace Ecommerce.Data.Migrations
                     b.ToTable("ShipmentTracking");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Shipper", b =>
+            modelBuilder.Entity("Ecommerce.Models.ShipmentType", b =>
                 {
-                    b.Property<int>("ShipperId")
+                    b.Property<int>("ShipmentTypeId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ShipperId"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ShipmentTypeId"));
 
-                    b.Property<string>("APIBaseURL")
+                    b.Property<string>("ShipmentTypeName")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("CompanyName")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.HasKey("ShipmentTypeId")
+                        .HasName("PK_Shipment_Type");
 
-                    b.Property<DateTime>("CreatedAt")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("timestamp without time zone")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    b.Property<int>("CreatedByAdminId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IsActive")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
-                        .HasDefaultValue(true);
-
-                    b.HasKey("ShipperId")
-                        .HasName("PK_Shipper");
-
-                    b.HasIndex("CompanyName")
+                    b.HasIndex("ShipmentTypeName")
                         .IsUnique();
 
-                    b.HasIndex("CreatedByAdminId");
+                    b.ToTable("ShipmentType");
 
-                    b.ToTable("Shipper");
+                    b.HasData(
+                        new
+                        {
+                            ShipmentTypeId = 1,
+                            ShipmentTypeName = "Order"
+                        },
+                        new
+                        {
+                            ShipmentTypeId = 2,
+                            ShipmentTypeName = "Return"
+                        },
+                        new
+                        {
+                            ShipmentTypeId = 3,
+                            ShipmentTypeName = "Exchange"
+                        });
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Star", b =>
@@ -2847,6 +2861,217 @@ namespace Ecommerce.Data.Migrations
                     b.HasIndex("VendorRoleId");
 
                     b.ToTable("VendorUser");
+                });
+
+            modelBuilder.Entity("Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("CreatedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<bool>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false);
+
+                    b.Property<string>("Message")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<int>("NotificationTypeId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime?>("ReadAt")
+                        .HasColumnType("timestamp without time zone");
+
+                    b.Property<int?>("ReferenceId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("ReferenceType")
+                        .HasColumnType("text");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("NotificationId")
+                        .HasName("PK_Notifications");
+
+                    b.HasIndex("NotificationTypeId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notification");
+                });
+
+            modelBuilder.Entity("NotificationType", b =>
+                {
+                    b.Property<int>("NotificationTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("NotificationTypeId"));
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("NotificationTypeId")
+                        .HasName("PK_Notification_Type");
+
+                    b.HasIndex("TypeName")
+                        .IsUnique();
+
+                    b.ToTable("NotificationType");
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationTypeId = 1,
+                            IsActive = true,
+                            TypeName = "OrderPlaced"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 2,
+                            IsActive = true,
+                            TypeName = "OrderCancelled"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 3,
+                            IsActive = true,
+                            TypeName = "OrderPacked"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 4,
+                            IsActive = true,
+                            TypeName = "OrderShipped"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 5,
+                            IsActive = true,
+                            TypeName = "OutForDelivery"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 6,
+                            IsActive = true,
+                            TypeName = "OrderDelivered"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 7,
+                            IsActive = true,
+                            TypeName = "ReturnRequested"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 8,
+                            IsActive = true,
+                            TypeName = "ReturnApproved"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 9,
+                            IsActive = true,
+                            TypeName = "ReturnRejected"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 10,
+                            IsActive = true,
+                            TypeName = "RefundRequested"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 11,
+                            IsActive = true,
+                            TypeName = "RefundApproved"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 12,
+                            IsActive = true,
+                            TypeName = "RefundRejected"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 13,
+                            IsActive = true,
+                            TypeName = "RefundCompleted"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 14,
+                            IsActive = true,
+                            TypeName = "VendorRegistered"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 15,
+                            IsActive = true,
+                            TypeName = "VendorApproved"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 16,
+                            IsActive = true,
+                            TypeName = "VendorRejected"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 17,
+                            IsActive = true,
+                            TypeName = "ProductSubmitted"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 18,
+                            IsActive = true,
+                            TypeName = "ProductApproved"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 19,
+                            IsActive = true,
+                            TypeName = "ProductRejected"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 20,
+                            IsActive = true,
+                            TypeName = "ReviewReceived"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 21,
+                            IsActive = true,
+                            TypeName = "LowStockAlert"
+                        },
+                        new
+                        {
+                            NotificationTypeId = 22,
+                            IsActive = true,
+                            TypeName = "CouponAvailable"
+                        });
                 });
 
             modelBuilder.Entity("RefundType", b =>
@@ -3295,6 +3520,13 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Product_Added_Vendor_User");
 
+                    b.HasOne("Ecommerce.Models.ProductSubCategoryAttribute", "MainProductSubCategoryAttribute")
+                        .WithMany("Products")
+                        .HasForeignKey("MainProductSubCategoryAttributeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Product_Main_Attribute");
+
                     b.HasOne("Ecommerce.Models.ProductApprovalStatus", "ProductApprovalStatus")
                         .WithMany("Products")
                         .HasForeignKey("ProductApprovalStatusId")
@@ -3324,6 +3556,8 @@ namespace Ecommerce.Data.Migrations
                         .HasConstraintName("FK_Vendor_Products");
 
                     b.Navigation("AddedByVendorUser");
+
+                    b.Navigation("MainProductSubCategoryAttribute");
 
                     b.Navigation("ProductApprovalStatus");
 
@@ -3444,13 +3678,6 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Product_Variant_Added_Vendor_User");
 
-                    b.HasOne("Ecommerce.Models.ProductSubCategoryAttribute", "MainProductSubCategoryAttribute")
-                        .WithMany("ProductVariants")
-                        .HasForeignKey("MainProductSubCategoryAttributeId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired()
-                        .HasConstraintName("FK_Product_Variant_Main_Attribute");
-
                     b.HasOne("Ecommerce.Models.ProductApprovalStatus", "ProductApprovalStatus")
                         .WithMany("ProductVariants")
                         .HasForeignKey("ProductApprovalStatusId")
@@ -3473,8 +3700,6 @@ namespace Ecommerce.Data.Migrations
                         .HasConstraintName("FK_Product_Variant_Status");
 
                     b.Navigation("AddedByVendorUser");
-
-                    b.Navigation("MainProductSubCategoryAttribute");
 
                     b.Navigation("Product");
 
@@ -3653,19 +3878,17 @@ namespace Ecommerce.Data.Migrations
                         .IsRequired()
                         .HasConstraintName("FK_Shipment_Status");
 
-                    b.HasOne("Ecommerce.Models.Shipper", "Shipper")
+                    b.HasOne("Ecommerce.Models.ShipmentType", null)
                         .WithMany("Shipments")
-                        .HasForeignKey("ShipperId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .HasConstraintName("FK_Shipment_Shipper");
+                        .HasForeignKey("ShipmentTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Order");
 
                     b.Navigation("PickupAddress");
 
                     b.Navigation("ShipmentStatus");
-
-                    b.Navigation("Shipper");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ShipmentItems", b =>
@@ -3708,18 +3931,6 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("Shipment");
 
                     b.Navigation("ShipmentStatus");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.Shipper", b =>
-                {
-                    b.HasOne("Ecommerce.Models.AdminUser", "CreatedByAdmin")
-                        .WithMany("Shippers")
-                        .HasForeignKey("CreatedByAdminId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired()
-                        .HasConstraintName("FK_Shipper_Admin");
-
-                    b.Navigation("CreatedByAdmin");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.User", b =>
@@ -3790,6 +4001,27 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("VendorRole");
                 });
 
+            modelBuilder.Entity("Notification", b =>
+                {
+                    b.HasOne("NotificationType", "NotificationType")
+                        .WithMany("Notifications")
+                        .HasForeignKey("NotificationTypeId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Notification_Type");
+
+                    b.HasOne("Ecommerce.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired()
+                        .HasConstraintName("FK_Notification");
+
+                    b.Navigation("NotificationType");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.Address", b =>
                 {
                     b.Navigation("Inventories");
@@ -3813,8 +4045,6 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ProductSubCategories");
 
                     b.Navigation("ProductSubCategoryAttributes");
-
-                    b.Navigation("Shippers");
 
                     b.Navigation("Vendors");
                 });
@@ -3963,7 +4193,7 @@ namespace Ecommerce.Data.Migrations
                 {
                     b.Navigation("ProductVariantAttributes");
 
-                    b.Navigation("ProductVariants");
+                    b.Navigation("Products");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ProductVariant", b =>
@@ -4034,7 +4264,7 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("Shipments");
                 });
 
-            modelBuilder.Entity("Ecommerce.Models.Shipper", b =>
+            modelBuilder.Entity("Ecommerce.Models.ShipmentType", b =>
                 {
                     b.Navigation("Shipments");
                 });
@@ -4086,6 +4316,11 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("Products");
 
                     b.Navigation("Returns");
+                });
+
+            modelBuilder.Entity("NotificationType", b =>
+                {
+                    b.Navigation("Notifications");
                 });
 
             modelBuilder.Entity("RefundType", b =>

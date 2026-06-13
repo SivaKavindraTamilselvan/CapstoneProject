@@ -1,7 +1,8 @@
 {
-  "productName": "Apple iPhone 15",
-  "description": "Latest Apple iPhone with A16 Bionic chip, 48MP camera, and Dynamic Island",
-  "productSubCategoryId": 1
+    "productName": "Apple iPhone 15",
+    "description": "Latest Apple iPhone with A16 Bionic chip, 48MP camera, and Dynamic Island",
+    "productSubCategoryId": 1,
+    "mainProductSubCategoryAttributeId": 2
 }
 
 {
@@ -28,7 +29,8 @@
 {
   "productName": "Samsung Galaxy S24",
   "description": "Samsung flagship with Snapdragon 8 Gen 3, 50MP camera, and AI features",
-  "productSubCategoryId": 1
+  "productSubCategoryId": 1,
+  "mainProductSubCategoryAttributeId": 2
 }
 {
   "productId": 2,
@@ -53,7 +55,8 @@
 {
   "productName": "Dell XPS 15",
   "description": "Premium laptop with Intel Core i7, OLED display, and long battery life",
-  "productSubCategoryId": 2
+  "productSubCategoryId": 2,
+  "mainProductSubCategoryAttributeId": 8
 }
 {
   "productId": 3,
@@ -332,3 +335,10 @@
     "isDefault": false
   }
 ]
+
+{
+  "productId": 1,
+  "imageUrl": "imageUrl4",
+  "displayOrderId": 1,
+  "isMainImage": false
+}

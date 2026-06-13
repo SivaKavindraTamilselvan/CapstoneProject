@@ -9,12 +9,14 @@ public class EcommerceContext : DbContext
     {
 
     }
+    public DbSet<AdminRole> AdminRoles { get; set; }
+    public DbSet<Cancel> Cancel { get; set; }
     public DbSet<User> User { get; set; }
     public DbSet<Vendor> Vendor { get; set; }
     public DbSet<VendorUser> VendorUser { get; set; }
     public DbSet<AdminUser> AdminUser { get; set; }
     public DbSet<Address> Address { get; set; }
-    public DbSet<Order> Order {get;set;}
+    public DbSet<Order> Order { get; set; }
     public DbSet<ProductCategory> ProductCategory { get; set; }
     public DbSet<ProductSubCategory> ProductSubCategory { get; set; }
     public DbSet<ProductSubCategoryAttribute> ProductSubCategoryAttribute { get; set; }
@@ -211,6 +213,14 @@ public class EcommerceContext : DbContext
             sh.HasData(new ShipmentStatus() { ShipmentStatusId = 9, ShipmentStatusName = "Failed" });
             sh.HasData(new ShipmentStatus() { ShipmentStatusId = 10, ShipmentStatusName = "Returned" });
         });
+        modelBuilder.Entity<ShipmentType>(sh =>
+        {
+            sh.HasKey(sh => sh.ShipmentTypeId).HasName("PK_Shipment_Type");
+            sh.HasIndex(sh => sh.ShipmentTypeName).IsUnique();
+            sh.HasData(new ShipmentType() { ShipmentTypeId = 1, ShipmentTypeName = "Order" });
+            sh.HasData(new ShipmentType() { ShipmentTypeId = 2, ShipmentTypeName = "Return" });
+            sh.HasData(new ShipmentType() { ShipmentTypeId = 3, ShipmentTypeName = "Exchange" });
+        });
         modelBuilder.Entity<PaymentStatus>(p =>
         {
             p.HasKey(p => p.PaymentStatusId).HasName("PK_Payment_Status");
@@ -378,18 +388,6 @@ public class EcommerceContext : DbContext
             vu.HasOne(vu => vu.VendorRole).WithMany(a => a.VendorUsers).HasForeignKey(v => v.VendorRoleId).HasConstraintName("FK_Vendor_User_Role");
             vu.HasOne(v => v.AddedByVendor).WithMany().HasForeignKey(v => v.AddedByVendorUserId).HasConstraintName("FK_Vendor_User_Review");
         });
-        modelBuilder.Entity<Shipper>(s =>
-        {
-            s.HasKey(s => s.ShipperId).HasName("PK_Shipper");
-            s.Property(s => s.CompanyName).IsRequired();
-            s.HasIndex(s => s.CompanyName).IsUnique();
-            s.Property(s => s.APIBaseURL).IsRequired();
-            s.Property(s => s.IsActive).HasDefaultValue(true);
-            s.HasOne(s => s.CreatedByAdmin).WithMany(au => au.Shippers).HasForeignKey(s => s.CreatedByAdminId).HasConstraintName("FK_Shipper_Admin");
-            s.Property(s => s.CreatedAt).HasColumnType("timestamp without time zone");
-            s.Property(s => s.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-        });
-
         // Product
         modelBuilder.Entity<Product>(p =>
         {
@@ -400,6 +398,10 @@ public class EcommerceContext : DbContext
 
             p.Property(p => p.ProductName).IsRequired().HasMaxLength(100);
             p.Property(p => p.Description).IsRequired().HasMaxLength(1000);
+
+            p.Property(pv => pv.MainProductSubCategoryAttributeId).IsRequired();
+            p.HasOne(p => p.MainProductSubCategoryAttribute).WithMany(a => a.Products).HasForeignKey(p => p.MainProductSubCategoryAttributeId).HasConstraintName("FK_Product_Main_Attribute").OnDelete(DeleteBehavior.Restrict);
+
 
             p.Property(p => p.ProductSubCategoryId).IsRequired();
             p.HasOne(p => p.ProductSubCategory).WithMany(ps => ps.Products).HasForeignKey(p => p.ProductSubCategoryId).HasConstraintName("FK_Product_Sub_Category").OnDelete(DeleteBehavior.Restrict);
@@ -435,9 +437,6 @@ public class EcommerceContext : DbContext
             pv.Property(pv => pv.LengthInCm).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.WidthInCm).IsRequired().HasMaxLength(15);
             pv.Property(pv => pv.HeightInCm).IsRequired().HasMaxLength(15);
-
-            pv.Property(pv=>pv.MainProductSubCategoryAttributeId).IsRequired();
-            pv.HasOne(p=>p.MainProductSubCategoryAttribute).WithMany(a=>a.ProductVariants).HasForeignKey(p=>p.MainProductSubCategoryAttributeId).HasConstraintName("FK_Product_Variant_Main_Attribute").OnDelete(DeleteBehavior.Restrict);
 
             pv.Property(pv => pv.AddedByVendorUserId).IsRequired();
             pv.HasOne(p => p.AddedByVendorUser).WithMany(a => a.ProductVariants).HasForeignKey(p => p.AddedByVendorUserId).HasConstraintName("FK_Product_Variant_Added_Vendor_User").OnDelete(DeleteBehavior.Restrict);
@@ -593,14 +592,13 @@ public class EcommerceContext : DbContext
             s.Property(s => s.ShipmentStatusId).HasDefaultValue(1);
             s.Property(s => s.TrackingNumber).IsRequired(false).HasMaxLength(200);
             s.HasIndex(s => s.TrackingNumber).IsUnique();
-            s.Property(s=>s.CourierName).IsRequired().HasDefaultValue("unassigned");
+            s.Property(s => s.CourierName).IsRequired().HasDefaultValue("unassigned");
             s.Property(s => s.ShippingCharge).HasDefaultValue(0);
             s.Property(s => s.ExpectedDeliveryDate).HasColumnType("timestamp without time zone");
             s.Property(s => s.ShippedDate).HasColumnType("timestamp without time zone");
             s.Property(s => s.DeliveryDate).HasColumnType("timestamp without time zone");
             s.Property(s => s.CreatedAt).HasColumnType("timestamp without time zone");
             s.Property(s => s.CreatedAt).HasDefaultValueSql("CURRENT_TIMESTAMP");
-            s.HasOne(s => s.Shipper).WithMany(sh => sh.Shipments).HasForeignKey(s => s.ShipperId).HasConstraintName("FK_Shipment_Shipper").OnDelete(DeleteBehavior.Restrict);
             s.HasOne(s => s.Order).WithMany(o => o.Shipments).HasForeignKey(s => s.OrderId).HasConstraintName("FK_Shipment_Order").OnDelete(DeleteBehavior.Restrict);
             s.HasOne(s => s.PickupAddress).WithMany(a => a.Shipments).HasForeignKey(s => s.PickupAddressId).HasConstraintName("FK_Shipment_Pickup_Address").OnDelete(DeleteBehavior.Restrict);
             s.HasOne(s => s.ShipmentStatus).WithMany(ss => ss.Shipments).HasForeignKey(s => s.ShipmentStatusId).HasConstraintName("FK_Shipment_Status").OnDelete(DeleteBehavior.Restrict);
@@ -791,6 +789,50 @@ public class EcommerceContext : DbContext
             lc.HasIndex(lc => lc.RecordId);
             lc.HasIndex(lc => lc.ChangedAt);
             lc.HasOne(lc => lc.Users).WithMany(u => u.LogChanges).HasForeignKey(lc => lc.UserId).HasConstraintName("FK_Log_Changes_User").OnDelete(DeleteBehavior.Restrict);
+        });
+        modelBuilder.Entity<Notification>(entity =>
+        {
+            entity.HasKey(n => n.NotificationId).HasName("PK_Notifications");
+            entity.HasOne(n => n.User).WithMany().HasForeignKey(n => n.UserId).HasConstraintName("FK_Notification").OnDelete(DeleteBehavior.Restrict);
+            entity.Property(n => n.Title).HasMaxLength(100).IsRequired();
+            entity.Property(n => n.Message).HasMaxLength(500).IsRequired();
+            entity.HasOne(n => n.NotificationType).WithMany(n => n.Notifications).HasForeignKey(n => n.NotificationTypeId).HasConstraintName("FK_Notification_Type").OnDelete(DeleteBehavior.Restrict);
+            entity.Property(n => n.IsRead).HasDefaultValue(false);
+            entity.Property(n => n.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            entity.Property(n => n.ReadAt).HasColumnType("timestamp without time zone");
+        });
+        modelBuilder.Entity<NotificationType>(nt =>
+        {
+            nt.HasKey(nt => nt.NotificationTypeId).HasName("PK_Notification_Type");
+            nt.HasIndex(nt => nt.TypeName).IsUnique();
+            nt.HasData(
+                new NotificationType { NotificationTypeId = 1, TypeName = "OrderPlaced" },
+                new NotificationType { NotificationTypeId = 2, TypeName = "OrderCancelled" },
+                new NotificationType { NotificationTypeId = 3, TypeName = "OrderPacked" },
+                new NotificationType { NotificationTypeId = 4, TypeName = "OrderShipped" },
+                new NotificationType { NotificationTypeId = 5, TypeName = "OutForDelivery" },
+                new NotificationType { NotificationTypeId = 6, TypeName = "OrderDelivered" },
+
+                new NotificationType { NotificationTypeId = 7, TypeName = "ReturnRequested" },
+                new NotificationType { NotificationTypeId = 8, TypeName = "ReturnApproved" },
+                new NotificationType { NotificationTypeId = 9, TypeName = "ReturnRejected" },
+
+                new NotificationType { NotificationTypeId = 10, TypeName = "RefundRequested" },
+                new NotificationType { NotificationTypeId = 11, TypeName = "RefundApproved" },
+                new NotificationType { NotificationTypeId = 12, TypeName = "RefundRejected" },
+                new NotificationType { NotificationTypeId = 13, TypeName = "RefundCompleted" },
+
+                new NotificationType { NotificationTypeId = 14, TypeName = "VendorRegistered" },
+                new NotificationType { NotificationTypeId = 15, TypeName = "VendorApproved" },
+                new NotificationType { NotificationTypeId = 16, TypeName = "VendorRejected" },
+
+                new NotificationType { NotificationTypeId = 17, TypeName = "ProductSubmitted" },
+                new NotificationType { NotificationTypeId = 18, TypeName = "ProductApproved" },
+                new NotificationType { NotificationTypeId = 19, TypeName = "ProductRejected" },
+
+                new NotificationType { NotificationTypeId = 20, TypeName = "ReviewReceived" },
+                new NotificationType { NotificationTypeId = 21, TypeName = "LowStockAlert" },
+                new NotificationType { NotificationTypeId = 22, TypeName = "CouponAvailable" });
         });
     }
 }
