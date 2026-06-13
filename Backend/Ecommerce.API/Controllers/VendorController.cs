@@ -12,7 +12,7 @@ public class VendorController : ControllerBase
 {
     private readonly IVendorService _vendorService;
     private readonly IVendorReturnService _vendorReturnService;
-    public VendorController(IVendorService vendorService,IVendorReturnService vendorReturnService)
+    public VendorController(IVendorService vendorService, IVendorReturnService vendorReturnService)
     {
         _vendorService = vendorService;
         _vendorReturnService = vendorReturnService;
@@ -39,7 +39,7 @@ public class VendorController : ControllerBase
     public async Task<ActionResult> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorService.ReviewProductVariant(requestReviewOfProductDTO,vendorUserId);
+        var result = await _vendorService.ReviewProductVariant(requestReviewOfProductDTO, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -47,7 +47,7 @@ public class VendorController : ControllerBase
     public async Task<ActionResult<ResponseReviewReturnDTO>> ReviewReturnProduct(RequestReviewReturnDTO requestReviewReturnDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorReturnService.ReviewReturnOrder(requestReviewReturnDTO,vendorUserId);
+        var result = await _vendorReturnService.ReviewReturnOrder(requestReviewReturnDTO, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -55,7 +55,15 @@ public class VendorController : ControllerBase
     public async Task<ActionResult<ResponseReviewReturnDTO>> ReviewReturnOriginalProduct(RequestReviewReturnProductDTO requestReviewReturnDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorReturnService.ReviewReturnOrderProduct(requestReviewReturnDTO,vendorUserId);
+        var result = await _vendorReturnService.ReviewReturnOrderProduct(requestReviewReturnDTO, vendorUserId);
+        return Ok(result);
+    }
+    [HttpGet("returns")]
+    public async Task<IActionResult> GetAllReturnsForVendor([FromQuery] RequestGetReturnsForVendorDTO request)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _vendorReturnService.GetAllReturnsForVendor(request, vendorUserId);
         return Ok(result);
     }
 }

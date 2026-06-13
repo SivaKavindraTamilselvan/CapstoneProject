@@ -22,31 +22,9 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllProducts(int? approval,int? status,int? vendorId,int? subcategory,bool? hasIssues,[FromQuery] bool? isAvailableForSale = null,int pageNumber=1,int pageSize=10)
+    public async Task<IActionResult> GetAllProducts([FromQuery] RequestAdminProductFilter request)
     {
-        var result = await _adminProductService.GetAllProducts(approval,status,vendorId,subcategory,hasIssues,isAvailableForSale,pageNumber,pageSize);
-        return Ok(result);
-    }
-
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpGet("outofstock")]
-    public async Task<IActionResult> GetAllOutOfStockProducts()
-    {
-        var result = await _adminProductService.GetAllOutOfStockProducts();
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpGet("lowstock")]
-    public async Task<IActionResult> GetAllLowStockProducts([FromQuery] int threshold = 5)
-    {
-        var result = await _adminProductService.GetAllLowStockProducts(threshold);
-        return Ok(result);
-    }
-    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
-    [HttpGet("pending-variants")]
-    public async Task<IActionResult> GetAllProductsWithPendingVariants()
-    {
-        var result = await _adminProductService.GetAllProductsWithPendingVariants();
+        var result = await _adminProductService.GetAllProductsForAdmin(request);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
@@ -58,7 +36,7 @@ public class AdminProductController : ControllerBase
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("ProductVariant")]
-    public async Task<IActionResult> GetAllProductsVariant(ProductVariantFilterDto filter)
+    public async Task<IActionResult> GetAllProductsVariant(RequestAdminProductVariantFilter filter)
     {
         var result = await _adminProductService.GetAllProductVariant(filter);
         return Ok(result);

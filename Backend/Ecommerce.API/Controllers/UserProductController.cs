@@ -1,3 +1,4 @@
+using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -15,16 +16,16 @@ public class UserProductController : ControllerBase
     }
 
     [HttpGet("available")]
-    public async Task<IActionResult> GetUserProducts(int? categoryId, int? subcategoryId, string? searchTerm,int pageNumber=1,int pageSize=10)
+    public async Task<IActionResult> GetUserProducts([FromQuery] RequestUserProductFilter request)
     {
-        var result = await _userProductService.GetUserProducts(categoryId,subcategoryId,searchTerm,pageNumber,pageSize);
+        var result = await _userProductService.GetUserProducts(request);
         return Ok(result);
     }
-
+    /*
     [HttpGet("available/subcategory/{subCategoryId}")]
     public async Task<IActionResult> GetAllAvailableProductsBySubCategoryId(int subCategoryId)
     {
-        var result = await _userProductService.GetAllAvailableProductsBySubCategoryId(subCategoryId);
+        var result = await _userProductService.
         return Ok(result);
     }
     [HttpGet("available/category/{categoryId}")]
@@ -34,17 +35,11 @@ public class UserProductController : ControllerBase
         return Ok(result);
     }
 
-    [HttpGet("search")]
-    public async Task<IActionResult> SearchProductsByName([FromQuery] string searchTerm)
-    {
-        var result = await _userProductService.SearchProductsByName(searchTerm);
-        return Ok(result);
-    }
-
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
         var result = await _userProductService.GetProductWithFullDetails(productId);
         return Ok(result);
     }
+    */
 }

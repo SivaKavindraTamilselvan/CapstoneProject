@@ -11,68 +11,54 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class UserController : ControllerBase
 {
+    private readonly IUserCancelService _userCancelService;
+    private readonly IUserReturnService _userReturnService;
     private readonly IUserFavoriteService _userFavoriteService;
     private readonly IAddressService _addressService;
     private readonly IReviewService _reviewService;
-    public UserController(IUserFavoriteService userFavoriteService, IAddressService addressService, IReviewService reviewService)
+    public UserController(IUserCancelService userCancelService, IUserReturnService userReturnService, IUserFavoriteService userFavoriteService, IAddressService addressService, IReviewService reviewService)
     {
+        _userCancelService = userCancelService;
+        _userReturnService = userReturnService;
         _userFavoriteService = userFavoriteService;
         _addressService = addressService;
         _reviewService = reviewService;
     }
-    [Authorize]
-    [HttpPost("AddAdress")]
-    public async Task<ActionResult<ResponseAddAddressDTO>> AddAddress(RequestAddAddressDTO requestAddAddressDTO)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.AddAddress(requestAddAddressDTO, UserId);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpPut("MakeAdressAsDefault")]
-    public async Task<ActionResult<ResponseMakeDefaultAddressDTO>> UpdateAddressAsDefault(RequestMakeDefaultAddressDTO requestMakeDefaultAddressDTO)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.MakeAddressDefault(requestMakeDefaultAddressDTO, UserId);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpGet("ActiveAdress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> GetAddress([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.GetAllActiveAddress(UserId, pageNumber, pageSize);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpGet("AllVendorAdress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> GetAllVendorAddress([FromQuery] int pageNumber = 1, [FromQuery] bool? status = null,[FromQuery] int pageSize = 10)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.GetAllTheVendorAddress(UserId, status, pageNumber, pageSize);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpPatch("Adress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteAddress([FromQuery]int addressId)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.DeleteUserAddress(addressId,UserId);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpPatch("VendorAdress")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteVendorAddress([FromQuery]int addressId)
-    {
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.DeleteInventoryAddress(addressId,UserId);
-        return Ok(result);
-    }
+    
     [Authorize]
     [HttpPost("AddReview")]
     public async Task<ActionResult<ResponseAddReviewDTO>> AddReview(RequestAddReviewDTO requestAddReviewDTO)
     {
         var result = await _reviewService.AddReview(requestAddReviewDTO);
+        return Ok(result);
+    }
+    [HttpGet("returns")]
+    public async Task<IActionResult> GetAllReturnsForUser([FromQuery] RequestGetReturnsForVendorDTO request)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        var result = await _userReturnService.GetAllReturnsForUser(request, vendorUserId);
+        return Ok(result);
+    }
+    [HttpGet("admin-cancels")]
+    public async Task<IActionResult> GetAllCancelsForAdmin(
+        [FromQuery] RequestGetCancelsForAdminDTO request)
+    {
+        var result = await _userCancelService.GetAllCancelsForAdmin(request);
+        return Ok(result);
+    }
+    [HttpGet("user-cancels")]
+    public async Task<IActionResult> GetAllCancelsForUser(
+        [FromQuery] RequestGetCancelsForAdminDTO request)
+    {
+        var result = await _userCancelService.GetAllCancelsForAdmin(request);
+        return Ok(result);
+    }
+    [HttpGet("vendor-cancels")]
+    public async Task<IActionResult> GetAllCancelsForVendor(
+        [FromQuery] RequestGetCancelsForAdminDTO request)
+    {
+        var result = await _userCancelService.GetAllCancelsForAdmin(request);
         return Ok(result);
     }
 }

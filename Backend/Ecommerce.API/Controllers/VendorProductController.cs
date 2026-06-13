@@ -23,57 +23,26 @@ public class VendorProductController : ControllerBase
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet]
-    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] int? approval, [FromQuery] int? status, [FromQuery] int? subcategory, [FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] bool? hasIssues = null, [FromQuery] bool? isAvailableForSale = null)
+    public async Task<IActionResult> GetAllProductsByVendorId([FromQuery] RequestVendorProductFilter request)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductsByVendorId(approval, status, vendorUserId, subcategory, pageNumber, pageSize, hasIssues, isAvailableForSale);
+        var result = await _vendorProductService.GetAllProductsByVendorId(request, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet("ProductVariant")]
-    public async Task<IActionResult> GetAllProductsVariantByVendorId(ProductVariantFilterDto filter)
+    public async Task<IActionResult> GetAllProductsVariantByVendorId([FromQuery] RequestVendorProductVariantFilter filter)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductVariant(filter,vendorUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("available")]
-    public async Task<IActionResult> GetAllAvailableProductsByVendorId()
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllAvailableProductsByVendorId(vendorUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("lowstock")]
-    public async Task<IActionResult> GetAllLowStockProducts([FromQuery] int threshold = 5)
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllLowStockProducts(vendorUserId, threshold);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("outofstock")]
-    public async Task<IActionResult> GetAllOutOfStockProducts()
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllOutOfStockProducts(vendorUserId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpGet("pending-variants")]
-    public async Task<IActionResult> GetAllProductsWithPendingVariants()
-    {
-        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetAllProductsWithPendingVariants(vendorUserId);
+        var result = await _vendorProductService.GetAllProductVariant(filter, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
-        var result = await _vendorProductService.GetProductWithFullDetails(productId);
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetProductWithFullDetails(productId,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -98,6 +67,14 @@ public class VendorProductController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductVariantImage, vendorUserId);
+        return Ok(result);
+    }
+     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpDelete("DeleteProductImage/{productImageId}")]
+    public async Task<ActionResult<ResponseAddProductVariantImage>> DeleteImage(int productImageId)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductImageService.DeleteProductImage(productImageId,vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
