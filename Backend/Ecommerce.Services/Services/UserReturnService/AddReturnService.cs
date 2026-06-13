@@ -6,22 +6,15 @@ using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 
-public class UserReturnService : IUserReturnService
+public partial class UserReturnService : IUserReturnService
 {
-    private readonly IReturnRepsository _returnRepsository;
-    private readonly IOrderValidation _orderValidation;
-    private readonly IShipmentValidation _shipmentValidation;
-    private readonly IMapper _mapper;
-    public UserReturnService(IReturnRepsository returnRepsository, IOrderValidation orderValidation, IMapper mapper, IShipmentValidation shipmentValidation)
-    {
-        _returnRepsository = returnRepsository;
-        _orderValidation = orderValidation;
-        _shipmentValidation = shipmentValidation;
-        _mapper = mapper;
-    }
     public async Task<ResponseAddReturnDTO> AddReturn(RequestAddReturnDTO requestAddReturnDTO)
     {
         var orderItem = await _orderValidation.ValidateOrderItem(requestAddReturnDTO.OrderItemId);
+        if (!orderItem.ProductVariant!.IsReturn)
+        {
+            throw new DataApprovalStatusException("Order Is Not Available For Return");
+        }
         var shipment = await _shipmentValidation.ValidateGetShipmentByOrderItemId(orderItem.OrderItemsId);
         if (shipment.DeliveryDate == null || orderItem.OrderItemStatusId != 4)
         {
