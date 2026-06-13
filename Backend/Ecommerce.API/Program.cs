@@ -210,9 +210,12 @@ builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new VendorMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ShipmentMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new OrderMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new CancelMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new CouponMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new ImageMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductCategoryMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new RefundMappingProfile()));
-
-
+builder.Services.AddAutoMapper(m=>m.AddProfile(new ReturnMappingProfile()));
 #endregion
 
 #region Validation

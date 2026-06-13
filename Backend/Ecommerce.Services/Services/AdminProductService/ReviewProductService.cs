@@ -9,6 +9,10 @@ public partial class AdminProductService : IAdminProductService
     public async Task<ResponseReviewOfProductDTO> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO, int adminUserId)
     {
         var product = await _productValidation.ValidateProduct(requestReviewOfProductDTO.ProductId);
+        if(product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved || product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Rejected)
+        {
+            throw new DataApprovalStatusException("Product Already Reviewed by admin");
+        }
         if (product.ProductApprovalStatusId != (int)ProductApprovalStatusEnum.Vendor_Approved)
         {
             throw new DataApprovalStatusException("Product is not approved by vendor yet");
@@ -56,6 +60,10 @@ public partial class AdminProductService : IAdminProductService
     public async Task<ResponseReviewOfProductVariantDTO> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO, int adminUserId)
     {
         var product = await _productValidation.AdminValidateProductVariant(requestReviewOfProductDTO.ProductVariantId);
+        if(product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved || product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Rejected)
+        {
+            throw new DataApprovalStatusException("Product Already Reviewed by admin");
+        }
         if (product.ProductApprovalStatusId != (int)ProductApprovalStatusEnum.Vendor_Approved)
         {
             throw new DataApprovalStatusException("Product Variant is not approved by vendor yet");

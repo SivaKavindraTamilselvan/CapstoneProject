@@ -3,12 +3,13 @@ using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
+using Npgsql.Internal;
 using Org.BouncyCastle.Ocsp;
 
 public partial class AdminProductService : IAdminProductService
 {
 
-    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request,int adminUserId)
+    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product list with filters {@Request}", request);
@@ -28,6 +29,17 @@ public partial class AdminProductService : IAdminProductService
             response[i].ValidationIssues = validation.Issues;
 
             _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
+            foreach (var variantResponse in response[i].ProductVariants)
+            {
+                var variant = products[i].ProductVariants.FirstOrDefault(pv => pv.ProductVariantId == variantResponse.ProductVariantId);
+                if (variant == null)
+                {
+                    continue;
+                }
+                variantResponse.IsAvailableForSale = variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                validation.IsValid && variant.Inventories.Any(inv => inv.AvailableQuantity > 0);
+                variantResponse.ValidationIssues = new List<string> {"Same For All Product Variant. Present In The Main Product"};
+            }
         }
         _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
         if (request.hasIssues.HasValue)
@@ -55,7 +67,7 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request,int adminUserId)
+    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
@@ -101,7 +113,7 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId,int adminUserId)
+    public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested full details for ProductId {ProductId}", productId);
@@ -114,4 +126,5 @@ public partial class AdminProductService : IAdminProductService
         _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
         return _mapper.Map<ResponseAdminGetAllProductDTO>(product);
     }
+
 }

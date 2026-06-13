@@ -33,7 +33,8 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.VendorName, opt => opt.MapFrom(src => src.Vendor!.VendorCompanyName))
             .ForMember(dest => dest.ProductApprovalStatus, opt => opt.MapFrom(src => src.ProductApprovalStatus!.ProductApprovalStatusName))
             .ForMember(dest => dest.MainProductSubCategoryAttributeName, opt => opt.MapFrom(src => src.MainProductSubCategoryAttribute!.AttributeMaster!.AttributeName))
-            .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus!.ProductStatusName));
+            .ForMember(dest => dest.ProductStatus, opt => opt.MapFrom(src => src.ProductStatus!.ProductStatusName))
+            .ForMember(dest => dest.ProductImages, opt => opt.MapFrom(src => src.ProductImages.Where(img => img.ProductVariantId == null)));
 
             CreateMap<RequestAddProductVariantDTO, ProductVariant>();
             CreateMap<ProductVariant, ResponseAddProductVariantDTO>();
