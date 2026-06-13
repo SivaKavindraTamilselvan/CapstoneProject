@@ -27,9 +27,9 @@ public class AdminProductCategoryController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<List<ResponseAdminGetAllCategory>>> GetAllProductCategories([FromQuery] bool? status,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+    public async Task<ActionResult<List<ResponseAdminGetAllCategory>>> GetAllProductCategories([FromQuery] RequestProductCategoryFilter request)
     {
-        var result = await _adminProductCategoryService.GetAllProductCategoryForAdmin(status, pageNumber, pageSize);
+        var result = await _adminProductCategoryService.GetAllProductCategoryForAdmin(request);
         return Ok(result);
     }
 
@@ -56,9 +56,9 @@ public class AdminProductCategoryController : ControllerBase
     }
 
     [HttpGet("subcategories")]
-    public async Task<ActionResult<List<ResponseAdminGetAllSubCategory>>> GetAllProductSubCategories([FromQuery] bool? status,[FromQuery] int? categoryId,[FromQuery] int pageNumber = 1,[FromQuery] int pageSize = 10)
+    public async Task<ActionResult<List<ResponseAdminGetAllSubCategory>>> GetAllProductSubCategories([FromQuery] RequestProductSubCategoryFilter request)
     {
-        var result = await _adminProductCategoryService.GetAllProductSubCategoryForAdminGetAllSubProductCategoryForAdmin(status,categoryId,pageNumber,pageSize);
+        var result = await _adminProductCategoryService.GetAllSubProductCategoryForAdmin(request);
         return Ok(result);
     }
 
