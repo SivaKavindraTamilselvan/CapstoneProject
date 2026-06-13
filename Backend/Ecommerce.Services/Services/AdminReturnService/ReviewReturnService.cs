@@ -7,11 +7,17 @@ using Ecommerce.Services.Interfaces;
 
 public class AdminReturnService : IAdminReturnService
 {
+    private readonly IMapper _mapper;
+    private readonly IInventoryValidation _inventoryValidation;
+    private readonly IOrderValidation _orderValidation;
     private readonly IReturnRepsository _returnRepsository;
     private readonly IShipRocketService _shipRocketService;
     private readonly IShipmentService _shipmentService;
-    public AdminReturnService(IReturnRepsository returnRepsository, IShipRocketService shipRocketService, IShipmentService shipmentService)
+    public AdminReturnService(IMapper mapper,IInventoryValidation inventoryValidation, IOrderValidation orderValidation, IReturnRepsository returnRepsository, IShipRocketService shipRocketService, IShipmentService shipmentService)
     {
+        _mapper = mapper;
+        _inventoryValidation = inventoryValidation;
+        _orderValidation = orderValidation;
         _returnRepsository = returnRepsository;
         _shipRocketService = shipRocketService;
         _shipmentService = shipmentService;
@@ -54,13 +60,14 @@ public class AdminReturnService : IAdminReturnService
         if (inventory.OrderItems.Inventory.Address == null)
             throw new DataNotFoundException("Inventory Address Not Found");
 
-        var service = await CheckReturnShipmentServiceability(user,inventory,product);
+        var service = await CheckReturnShipmentServiceability(user, inventory, product);
 
-        var shipment = await CreateReturnShipmentRecord(user,service);
+        var shipment = await CreateReturnShipmentRecord(user, service);
 
-        await CreateReturnShipmentItem(shipment.ShipmentId,user.OrderItemId);
+        await CreateReturnShipmentItem(shipment.ShipmentId, user.OrderItemId);
 
-        var trackingRemarks = await CreateReturnShipmentTracking(shipment.ShipmentId,user);
+        var trackingRemarks = await CreateReturnShipmentTracking(shipment.ShipmentId, user);
+        await UpdateInventory(inventory.OrderItems.InventoryId, user.ReturnQuantity);
 
         return new ResponseCreateReturnShipmentDTO
         {
@@ -71,7 +78,7 @@ public class AdminReturnService : IAdminReturnService
             TrackingRemarks = trackingRemarks
         };
     }
-    private async Task<CourierEstimateResponseDTO?> CheckReturnShipmentServiceability(Return user,Return inventory,Return product)
+    private async Task<CourierEstimateResponseDTO?> CheckReturnShipmentServiceability(Return user, Return inventory, Return product)
     {
         var customerAddress = user.OrderItems!.Order!.Address!;
         var inventoryAddress = inventory.OrderItems!.Inventory!.Address!;
@@ -87,7 +94,7 @@ public class AdminReturnService : IAdminReturnService
 
         return await _shipRocketService.CheckServiceability(serviceabilityRequestDTO);
     }
-    private async Task<Shipment> CreateReturnShipmentRecord(Return user,CourierEstimateResponseDTO service)
+    private async Task<Shipment> CreateReturnShipmentRecord(Return user, CourierEstimateResponseDTO service)
     {
         var order = user.OrderItems!.Order!;
 
@@ -95,6 +102,8 @@ public class AdminReturnService : IAdminReturnService
 
         var requestAddShipmentDTO = new RequestAddShipmentDTO
         {
+            ShipmentTypeId = 2,
+            CourierName = service.CourierName,
             OrderId = order.OrderId,
             ExpectedDeliveryDate = DateTime.Now.AddDays(estimatedDays),
             ShippingCharge = service.Rate,
@@ -103,11 +112,11 @@ public class AdminReturnService : IAdminReturnService
 
         return await _shipmentService.CreateShipment(requestAddShipmentDTO);
     }
-    private async Task CreateReturnShipmentItem(int shipmentId,int orderItemId)
+    private async Task CreateReturnShipmentItem(int shipmentId, int orderItemId)
     {
-        await _shipmentService.CreateShipmentItems(shipmentId,orderItemId);
+        await _shipmentService.CreateShipmentItems(shipmentId, orderItemId);
     }
-    private async Task<string> CreateReturnShipmentTracking(int shipmentId,Return user)
+    private async Task<string> CreateReturnShipmentTracking(int shipmentId, Return user)
     {
         var customerAddress = user.OrderItems!.Order!.Address!;
 
@@ -116,7 +125,7 @@ public class AdminReturnService : IAdminReturnService
         var trackingDTO = new RequestAddShipmentTrackingDTO
         {
             ShipmentId = shipmentId,
-            ShipmentStatusId = 8,
+            ShipmentStatusId = 4,
             Location = customerAddress.City,
             Remarks = remarks
         };
@@ -125,4 +134,24 @@ public class AdminReturnService : IAdminReturnService
 
         return remarks;
     }
+
+    private async Task UpdateInventory(int inventoryId, int Quantity)
+    {
+        var inventory = await _inventoryValidation.ValidateInventory(inventoryId);
+        inventory.AvailableQuantity = inventory.AvailableQuantity + Quantity;
+        inventory.ReservedQuantity = inventory.ReservedQuantity - Quantity;
+        inventory.UpdatedAt = DateTime.Now;
+    }
+    public async Task<PagedResponse<ReturnSummaryDto>> GetAllReturnsForAdmin(RequestAdminReturnFilter request)
+    {
+        var result = await _returnRepsository.GetAllReturnsForAdmin(request);
+        return new PagedResponse<ReturnSummaryDto>
+        {
+            Items = _mapper.Map<List<ReturnSummaryDto>>(result.data),
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize,
+            TotalCount = result.totalCount
+        }; 
+    }
+
 }
