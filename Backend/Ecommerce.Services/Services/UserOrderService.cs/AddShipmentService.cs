@@ -58,6 +58,7 @@ public partial class UserOrderService : IUserOrderService
         requestAddShipmentDTO.PickupAddressId = pickupAddress.AddressId;
         requestAddShipmentDTO.ExpectedDeliveryDate = dateTime;
         requestAddShipmentDTO.CourierName = courier;
+        requestAddShipmentDTO.ShipmentTypeId = 1;
         var createdShipment = await _shipmentService.CreateShipment(requestAddShipmentDTO);
         return createdShipment;
     }
