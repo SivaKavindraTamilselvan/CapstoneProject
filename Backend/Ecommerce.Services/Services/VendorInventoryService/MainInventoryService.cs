@@ -4,6 +4,7 @@ using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class InventoryService : IInventoryService
 {
@@ -12,9 +13,9 @@ public partial class InventoryService : IInventoryService
     private readonly IUserValidation _userValidation;
     private readonly IInventoryRepsository _inventoryRepsository;
     private readonly IInventoryValidation _inventoryValidation;
-
+    private readonly ILogger<InventoryService> _logger;
     private readonly IMapper _mapper;
-    public InventoryService(IVendorUserValidation vendorUserValidation,IProductValidation productValidation, IMapper mapper, IInventoryRepsository inventoryRepsository, IUserValidation userValidation, IInventoryValidation inventoryValidation)
+    public InventoryService(ILogger<InventoryService> logger,IVendorUserValidation vendorUserValidation,IProductValidation productValidation, IMapper mapper, IInventoryRepsository inventoryRepsository, IUserValidation userValidation, IInventoryValidation inventoryValidation)
     {
         _vendorUserValidation = vendorUserValidation;
         _productValidation = productValidation;
@@ -22,6 +23,7 @@ public partial class InventoryService : IInventoryService
         _userValidation = userValidation;
         _inventoryValidation = inventoryValidation;
         _mapper = mapper;
+        _logger = logger;
 
     }
 }

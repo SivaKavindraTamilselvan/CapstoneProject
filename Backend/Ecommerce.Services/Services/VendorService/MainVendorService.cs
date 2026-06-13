@@ -2,9 +2,11 @@ using AutoMapper;
 using Ecommerce.Data;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class VendorService : IVendorService
 {
+    private readonly ILogger<VendorService> _logger;
     private readonly IAuthentication _authentication;
     private readonly EcommerceContext _ecommerceContext;
     private readonly IVendorUserRepsository _vendorUserRepsository;
@@ -16,7 +18,7 @@ public partial class VendorService : IVendorService
     private readonly IMapper _mapper;
 
 
-    public VendorService(IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
+    public VendorService(ILogger<VendorService> logger,IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
     {
         _authentication = authentication;
         _ecommerceContext = ecommerceContext;
@@ -27,5 +29,6 @@ public partial class VendorService : IVendorService
         _approvalHistoryRepsository = approvalHistoryRepsository;
         _productVariantRepsository = productVariantRepsository;
         _mapper = mapper;
+        _logger = logger;
     }
 }
