@@ -59,7 +59,7 @@ public class VendorController : ControllerBase
         return Ok(result);
     }
     [HttpGet("returns")]
-    public async Task<IActionResult> GetAllReturnsForVendor([FromQuery] RequestGetReturnsForVendorDTO request)
+    public async Task<IActionResult> GetAllReturnsForVendor([FromQuery] RequestVendorReturnFilter request)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 

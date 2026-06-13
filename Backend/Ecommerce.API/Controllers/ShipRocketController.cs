@@ -36,7 +36,7 @@ public class ShiprocketController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAllShipmentsForAdmin([FromQuery] ShipmentFilterDto filter)
+    public async Task<IActionResult> GetAllShipmentsForAdmin([FromQuery] RequestShipmentFilter filter)
     {
         var result = await _shipmentService.GetAllShipmentsForAdmin(filter);
         return Ok(result);
@@ -46,20 +46,6 @@ public class ShiprocketController : ControllerBase
     public async Task<IActionResult> GetShipmentDetailForAdmin(int shipmentId)
     {
         var result = await _shipmentService.GetShipmentDetailForAdmin(shipmentId);
-        return Ok(result);
-    }
-
-    [HttpGet("order/{orderId}")]
-    public async Task<IActionResult> GetShipmentsByOrderForAdmin(int orderId)
-    {
-        var result = await _shipmentService.GetShipmentsByOrderForAdmin(orderId);
-        return Ok(result);
-    }
-
-    [HttpGet("tracking/{trackingNumber}")]
-    public async Task<IActionResult> GetShipmentByTrackingForAdmin(string trackingNumber)
-    {
-        var result = await _shipmentService.GetShipmentByTrackingForAdmin(trackingNumber);
         return Ok(result);
     }
 }

@@ -4,7 +4,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class ShipmentService : IShipmentService
 {
-    public async Task<List<ShipmentSummaryResponseDto>> GetAllShipmentsForAdmin(ShipmentFilterDto filter)
+    public async Task<List<ShipmentSummaryResponseDto>> GetAllShipmentsForAdmin(RequestShipmentFilter filter)
     {
         var result = await _shipmentRepsository.GetAllShipmentsForAdmin(filter);
 

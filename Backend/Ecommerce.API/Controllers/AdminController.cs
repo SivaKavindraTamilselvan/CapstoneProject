@@ -119,8 +119,7 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [HttpGet("returns")]
-    public async Task<IActionResult> GetAllReturnsForAdmin(
-    [FromQuery] RequestGetReturnsForAdminDTO request)
+    public async Task<IActionResult> GetAllReturnsForAdmin([FromQuery] RequestAdminReturnFilter request)
     {
         var result = await _adminReturnService.GetAllReturnsForAdmin(request);
         return Ok(result);
