@@ -3,13 +3,11 @@ namespace Ecommerce.Models;
 public class Shipment
 {
     public int ShipmentId { get; set; }
-    public int? ShipperId { get; set; }
-    public Shipper? Shipper { get; set; }
     public int OrderId { get; set; }
     public Order? Order { get; set; }
     public int PickupAddressId { get; set; }
     public Address? PickupAddress { get; set; }
-
+    public int ShipmentTypeId {get;set;}
     public string? TrackingNumber { get; set; }
     public string CourierName {get;set;} = string.Empty;
     public decimal ShippingCharge { get; set; }
