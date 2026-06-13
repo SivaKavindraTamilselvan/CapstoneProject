@@ -310,7 +310,7 @@ builder.Services.AddScoped<IUserReturnService,UserReturnService>();
 builder.Services.AddScoped<IAdminRefundService,AdminRefundService>();
 builder.Services.AddScoped<ICancelRefundRepsository,CancelRefundRepsository>();
 builder.Services.AddScoped<ICancelRepsository,CancelRepsository>();
-builder.Services.AddScoped<IUserCancelService,UserCancelService>();
+builder.Services.AddScoped<ICancelService,CancelService>();
 #endregion
 
 
