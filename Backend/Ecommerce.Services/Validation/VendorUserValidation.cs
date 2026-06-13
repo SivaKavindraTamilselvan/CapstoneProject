@@ -22,6 +22,10 @@ public class VendorUserValidation : IVendorUserValidation
         {
             throw new InvalidCredentialException("Vendor User Is Removed");
         }
+        if(vendorUser.Vendor!.ApprovalStatusId !=2)
+        {
+            throw new InvalidCredentialException("Vendor Is Not Approved");
+        }
         return vendorUser;
     }
 
