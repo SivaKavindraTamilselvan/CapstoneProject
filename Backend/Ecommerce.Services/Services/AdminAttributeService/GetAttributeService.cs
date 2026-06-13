@@ -4,8 +4,9 @@ using Ecommerce.Services.Interfaces;
 
 public partial class AdminProductAttributeService : IAdminProductAttributeService
 {
-    public async Task<PagedResponse<ResponseAdminGetAttribute>> GetAllAttributeAdmin(RequestAttributeFilter request)
+    public async Task<PagedResponse<ResponseAdminGetAttribute>> GetAllAttributeAdmin(RequestAttributeFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         var (attribute,totalCount) = await _attributeRepsository.GetAllAttributeAdmin(request);
         if(totalCount == 0)
         {
@@ -20,8 +21,9 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         };
     }
 
-    public async Task<PagedResponse<ResponseAdminGetCategoryAttribute>> GetAdminCategoryAttribute(RequestSubCategoryAttributeFilter request)
+    public async Task<PagedResponse<ResponseAdminGetCategoryAttribute>> GetAdminCategoryAttribute(RequestSubCategoryAttributeFilter request,int adminUserId)
     {
+       await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         var productAttribute = await _productSubCategoryAttributeRepsository.GetAdminCategoryAttribute(request);
         if(productAttribute.totalCount == 0)
         {

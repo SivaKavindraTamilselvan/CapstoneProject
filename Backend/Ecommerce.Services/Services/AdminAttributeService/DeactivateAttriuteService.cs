@@ -5,8 +5,9 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductAttributeService : IAdminProductAttributeService
 {
-    public async Task<ResponseAdminGetAttribute> DeactivateProductAttribute(int attributeId)
+    public async Task<ResponseAdminGetAttribute> DeactivateProductAttribute(int attributeId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Attribute deactivation initiated for AttributeId {AttributeId}", attributeId);
 
         var attribute = await _productAttributeValidation.ValidateAttribute(attributeId);
@@ -32,8 +33,9 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
         _logger.LogInformation("Attribute deactivation process completed for AttributeId {AttributeId}", attribute.AttributeMasterId);
         return _mapper.Map<ResponseAdminGetAttribute>(attribute);
     }
-    public async Task<ResponseAdminGetCategoryAttribute> DectivateProductSubCategoryAttribute(int subcategoryAttribute)
+    public async Task<ResponseAdminGetCategoryAttribute> DectivateProductSubCategoryAttribute(int subcategoryAttribute,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("ProductSubCategoryAttribute deactivation initiated for Id {ProductSubCategoryAttributeId}", subcategoryAttribute);
         var productSubCategory = await _productSubCategoryAttributeRepsository.Get(subcategoryAttribute);
         if (productSubCategory == null)

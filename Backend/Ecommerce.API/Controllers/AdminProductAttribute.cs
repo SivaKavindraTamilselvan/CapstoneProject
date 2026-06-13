@@ -29,21 +29,24 @@ public class AdminProductAttributeController : ControllerBase
     [HttpGet]
     public async Task<ActionResult<List<ResponseAdminGetAttribute>>> GetAllAttributes([FromQuery] RequestAttributeFilter request)
     {
-        var result = await _service.GetAllAttributeAdmin(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.GetAllAttributeAdmin(request,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("{attributeId}/activate")]
     public async Task<ActionResult<ResponseAdminGetAttribute>> ActivateAttribute(int attributeId)
     {
-        var result = await _service.ActivateProductAttribute(attributeId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.ActivateProductAttribute(attributeId,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("{attributeId}/deactivate")]
     public async Task<ActionResult<ResponseAdminGetAttribute>> DeactivateAttribute(int attributeId)
     {
-        var result = await _service.DeactivateProductAttribute(attributeId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.DeactivateProductAttribute(attributeId,adminUserId);
         return Ok(result);
     }
 
@@ -58,21 +61,24 @@ public class AdminProductAttributeController : ControllerBase
     [HttpGet("subcategory-attributes")]
     public async Task<ActionResult<List<ResponseAdminGetCategoryAttribute>>> GetSubCategoryAttributes([FromQuery] RequestSubCategoryAttributeFilter request)
     {
-        var result = await _service.GetAdminCategoryAttribute(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.GetAdminCategoryAttribute(request,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("subcategory-attributes/{subcategoryAttributeId}/activate")]
     public async Task<ActionResult<ResponseAdminGetCategoryAttribute>> ActivateSubCategoryAttribute(int subcategoryAttributeId)
     {
-        var result = await _service.ActivateProductSubCategoryAttribute(subcategoryAttributeId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.ActivateProductSubCategoryAttribute(subcategoryAttributeId,adminUserId);
         return Ok(result);
     }
 
     [HttpPatch("subcategory-attributes/{subcategoryAttributeId}/deactivate")]
     public async Task<ActionResult<ResponseAdminGetCategoryAttribute>> DeactivateSubCategoryAttribute(int subcategoryAttributeId)
     {
-        var result = await _service.DectivateProductSubCategoryAttribute(subcategoryAttributeId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _service.DectivateProductSubCategoryAttribute(subcategoryAttributeId,adminUserId);
         return Ok(result);
     }
 }
