@@ -8,11 +8,12 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminService : IAdminService
 {
-    public async Task<ResponseGetAdminUserDTO> ActivateAdminUser(int adminUserId)
+    public async Task<ResponseGetAdminUserDTO> ActivateAdminUser(int adminUserId,int logedusedId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
+           
             _logger.LogInformation("Activating Admin User {AdminUserId}", adminUserId);
             var adminUser = await _adminUserRepsository.GetAdminUserByAdminUserId(adminUserId);
             if (adminUser == null)

@@ -68,28 +68,32 @@ public class AdminController : ControllerBase
     [HttpGet("GetAdminUser")]
     public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery]RequestAdiminUserFilter request)
     {
-        var result = await _adminService.GetAllAdminUser(request);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.GetAllAdminUser(request,UserId);
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpGet("GetAdminUser/{adminUserId}")]
     public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUserByAdminUserId(int adminUserId)
     {
-        var result = await _adminService.GetAdminUserByUserId(adminUserId);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.GetAdminUserByUserId(adminUserId,UserId);
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpPut("admin-users/{adminUserId}/deactivate")]
     public async Task<IActionResult> DeactivateAdminUser(int adminUserId)
     {
-        var result = await _adminService.DeactivateAdminUser(adminUserId);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.DeactivateAdminUser(adminUserId,UserId);
         return Ok(result);
     }
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpPut("admin-users/{adminUserId}/activate")]
     public async Task<IActionResult> ActivateAdminUser(int adminUserId)
     {
-        var result = await _adminService.ActivateAdminUser(adminUserId);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminService.ActivateAdminUser(adminUserId,UserId);
         return Ok(result);
     }
     [HttpGet("returns")]

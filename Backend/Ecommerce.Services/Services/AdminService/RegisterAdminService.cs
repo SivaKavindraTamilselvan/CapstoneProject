@@ -10,6 +10,7 @@ public partial class AdminService : IAdminService
 {
     public async Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO, int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin registration initiated by AdminUserId {AdminUserId} for Email {Email}", adminUserId, requestRegisterAdminDTO.requestRegisterUserDTO.Email);
         var result = await _authentication.RegisterAdmin(requestRegisterAdminDTO, adminUserId);
         _logger.LogInformation("Admin registration completed successfully. New UserId {UserId}", result.UserId);
