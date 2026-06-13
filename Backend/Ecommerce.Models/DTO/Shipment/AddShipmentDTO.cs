@@ -2,6 +2,7 @@ namespace Ecommerce.DTOs;
 
 public class RequestAddShipmentDTO
 {
+    public int ShipmentTypeId {get;set;}
     public int OrderId { get; set; }
     public string CourierName {get;set;} = string.Empty;
     public int PickupAddressId { get; set; }
