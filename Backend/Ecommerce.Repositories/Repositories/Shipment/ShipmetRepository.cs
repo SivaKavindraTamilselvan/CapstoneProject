@@ -18,7 +18,7 @@ public class ShipmentItemRepsository : AbstractRepository<int, ShipmentItems>, I
     }
     public async Task<List<ShipmentItems>> GetPendingPackedTheShipmentItemsByShipmentId(int shipmentId)
     {
-        var shipment = await _ecommerceContext.ShipmentItems.Include(s => s.OrderItems).Where(s => s.ShipmentId == shipmentId && s.OrderItems.OrderItemStatusId != 2).ToListAsync();
+        var shipment = await _ecommerceContext.ShipmentItems.Include(s => s.OrderItems).Where(s => s.ShipmentId == shipmentId && s.OrderItems!.OrderItemStatusId != 2).ToListAsync();
         return shipment;
     }
     public async Task<List<OrderItems>> GetOrderItemsByShippingId(int shipmentId)

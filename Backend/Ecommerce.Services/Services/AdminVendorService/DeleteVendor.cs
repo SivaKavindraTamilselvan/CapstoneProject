@@ -49,6 +49,7 @@ public partial class AdminVendorService : IAdminVendorService
         }
         catch (Exception ex)
         {
+            _logger.LogError(ex, "Error occurred while processing transaction");
             await transaction.RollbackAsync();
             throw;
         }

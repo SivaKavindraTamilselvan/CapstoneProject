@@ -58,7 +58,10 @@ public class AdminRefundService : IAdminRefundService
     public async Task<ResponseUpdateRefundDTO> ReviewRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
     {
         var refund = await _refundRepsository.Get(requestUpdateRefundDTO.RefundId);
-
+        if(refund == null)
+        {
+            throw new DataNotFoundException("Refund Data Not Found");
+        }
         refund.RefundStatusId = 7; // Processed
         refund.ProcessedDate = DateTime.Now;
         await _refundRepsository.Update(refund.RefundId, refund);

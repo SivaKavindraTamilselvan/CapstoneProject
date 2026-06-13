@@ -61,7 +61,10 @@ public class AdminReturnService : IAdminReturnService
             throw new DataNotFoundException("Inventory Address Not Found");
 
         var service = await CheckReturnShipmentServiceability(user, inventory, product);
-
+        if(service == null)
+        {
+            throw new Exception("No Service Is Found");
+        }
         var shipment = await CreateReturnShipmentRecord(user, service);
 
         await CreateReturnShipmentItem(shipment.ShipmentId, user.OrderItemId);

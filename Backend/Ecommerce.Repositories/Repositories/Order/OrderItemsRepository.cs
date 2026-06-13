@@ -20,7 +20,7 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
     // for vendor valid order
     public async Task<List<OrderItems>> GetOrderItemsByVendor(int vendorId,int? status)
     {
-        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).ThenInclude(p=>p.Vendor).Include(i => i.Inventory).ThenInclude(a=>a.Address).Where(p => p.ProductVariant.Product.VendorId == vendorId);
+        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p!.Product).ThenInclude(p=>p!.Vendor).Include(i => i!.Inventory).ThenInclude(a=>a!.Address).Where(p => p.ProductVariant!.Product!.VendorId == vendorId);
         if(status.HasValue)
         {
             orders = orders.Where(p=>p.OrderItemStatusId == status.Value);
@@ -29,7 +29,7 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
     }
     public async Task<List<OrderItems>> GetAllOrderItemsByVendor(int vendorId,int? status)
     {
-        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p.Product).Include(i => i.Inventory).Where(p => p.ProductVariant.Product.VendorId == vendorId);
+        var orders = _ecommerceContext.OrderItems.Include(o=>o.OrderItemStatus).Include(o => o.ProductVariant).ThenInclude(p => p!.Product).Include(i => i.Inventory).Where(p => p.ProductVariant!.Product!.VendorId == vendorId);
         if(status.HasValue)
         {
             orders.Where(o=>o.OrderItemStatusId == status.Value);

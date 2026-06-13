@@ -82,12 +82,12 @@ public partial class VendorProductService : IVendorProductService
         _logger.LogInformation("Returning {VariantCount} variants for Vendor UserId {VendorUserId}", result.Items.Count, vendorUserId);
 
         var products = result.Items;
-        var validation = await _productValidation.ValidateProductChain(products[0].Product);
         //Console.WriteLine(validation.IsValid);
         var response = _mapper.Map<List<ResponseVendorGetProductVariantOnly>>(products);
         for (int i = 0; i < products.Count; i++)
         {
             _logger.LogDebug("Validating ProductVariantId {ProductVariantId}", products[i].ProductVariantId);
+            var validation = await _productValidation.ValidateProductChain(products[i].Product!);
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
             && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0);
