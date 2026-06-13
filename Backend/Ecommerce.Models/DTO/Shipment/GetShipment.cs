@@ -1,15 +1,16 @@
 
 namespace Ecommerce.DTOs.Shipment;
 
-public class ShipmentFilterDto
+public class RequestShipmentFilter : PaginationFilter
 {
+    public int? ShipmentTypeId { get; set; }
     public int? ShipmentStatusId { get; set; }
     public int? OrderId { get; set; }
+    public string? CourierName { get; set; }
+    public int? PickUpAddressId { get; set; }
     public string? TrackingNumber { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
-    public int Page { get; set; } = 1;
-    public int PageSize { get; set; } = 10;
 }
 
 public class ShipmentTrackingResponseDto
