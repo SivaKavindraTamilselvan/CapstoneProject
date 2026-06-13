@@ -6,6 +6,14 @@ public enum RoleEnum
     VendorOwner = 1
 }
 
+public enum ApprovalStatusEnum
+{
+    Pending = 1,
+    Accepted = 2,
+    Rejected = 3,
+    Deleted_By_Admin = 4
+}
+
 public enum ProductApprovalStatusEnum
 {
     Pending = 1,

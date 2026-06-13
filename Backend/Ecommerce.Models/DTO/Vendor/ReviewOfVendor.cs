@@ -11,6 +11,8 @@ public class RequestReviewOfVendorDTO
     [Required(ErrorMessage = "Approval Status Cannot Be Empty")]
     [RegularExpression(@"^[2-3]+$",ErrorMessage = "Only can enter the registered Approval Status Id")]
     public int ApprovalStatusId { get; set; }
+
+    public string? Remark {get;set;}
 }
 
 public class ResponseReviewOfVendorDTO

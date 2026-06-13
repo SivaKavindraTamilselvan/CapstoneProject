@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminVendorService : IAdminVendorService
 {
-    public async Task<List<ResponseAdminGetVendorDTO>> GetVendorsForAdmin(RequestAdminVendorFilter request)
+    public async Task<List<ResponseAdminGetVendorDTO>> GetVendorsForAdmin(RequestAdminVendorFilter request,int adminUserId)
     {
         _logger.LogInformation("Fetching all vendors");
         var vendor = await _vendorRepsository.GetVendorsForAdmin(request);
@@ -17,7 +17,7 @@ public partial class AdminVendorService : IAdminVendorService
         _logger.LogInformation("{Count} vendors found", vendor.totalCount);
         return _mapper.Map<List<ResponseAdminGetVendorDTO>>(vendor.items);
     }
-    public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId)
+    public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId,int adminUserId)
     {
         _logger.LogInformation("Fetching all vendors");
         var vendor = await _vendorRepsository.GetVendorsByVendorIdForAdmin(vendorId);

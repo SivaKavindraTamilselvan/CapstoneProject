@@ -43,7 +43,7 @@ public partial class AuthenticationService : IAuthentication
             if(!vendor.IsActive)
             {
                 _logger.LogError("Login failed. Vendor Is deleted or deactivated");
-                throw new InvalidCredentialException("Vendor Is deleted or deactivated");
+                throw new InvalidCredentialException("Vendor Is deleted");
             }
         }
         int? adminRoleId = null;

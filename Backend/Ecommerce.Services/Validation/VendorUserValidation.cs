@@ -18,11 +18,11 @@ public class VendorUserValidation : IVendorUserValidation
         {
             throw new DataNotFoundException("Vendor User Not Found");
         }
-        if(!vendorUser.IsActive)
+        if (!vendorUser.IsActive)
         {
             throw new InvalidCredentialException("Vendor User Is Removed");
         }
-        if(vendorUser.Vendor!.ApprovalStatusId !=2)
+        if (vendorUser.Vendor!.ApprovalStatusId != 2)
         {
             throw new InvalidCredentialException("Vendor Is Not Approved");
         }
