@@ -24,24 +24,25 @@ public class AdminVendorController : ControllerBase
 
         return Ok(result);
     }
-    [HttpPatch("DeleteVendor/{vendorId}")]
-    public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor([FromRoute]int vendorId)
+    [HttpPatch("DeleteVendor")]
+    public async Task<ActionResult<ResponseReviewOfVendorDTO>> DeleteVendor(DeleteVendorDto deleteVendorDto)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.DeleteVendor(vendorId, adminUserId);
-
+        var result = await _adminVendorService.DeleteVendor(deleteVendorDto, adminUserId);
         return Ok(result);
     }
     [HttpGet("GetVendor")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
     {
-        var result = await _adminVendorService.GetVendorsForAdmin(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.GetVendorsForAdmin(request,adminUserId);
         return Ok(result);
     }
     [HttpGet("GetVendor/{vendorId}")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetVendorByVendorId([FromRoute] int vendorId)
     {
-        var result = await _adminVendorService.GetVendorsByVendorIdForAdmin(vendorId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.GetVendorsByVendorIdForAdmin(vendorId,adminUserId);
         return Ok(result);
     }
 }
