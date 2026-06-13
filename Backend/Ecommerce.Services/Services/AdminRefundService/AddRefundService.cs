@@ -58,18 +58,9 @@ public class AdminRefundService : IAdminRefundService
     public async Task<ResponseUpdateRefundDTO> ReviewRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
     {
         var refund = await _refundRepsository.Get(requestUpdateRefundDTO.RefundId);
-        refund.RefundStatusId = requestUpdateRefundDTO.RefundStatusId;
-        refund.ActualRefundAmount = requestUpdateRefundDTO.RefundAmount;
-        if (requestUpdateRefundDTO.RefundStatusId == 2) // Approved / Initiated
-        {
-            await _paymentService.ProcessRazorpayRefund(
-                refund.RefundId,
-                requestUpdateRefundDTO.RefundAmount
-            );
 
-            refund.RefundStatusId = 3; // Processed
-            refund.ProcessedDate = DateTime.Now;
-        }
+        refund.RefundStatusId = 7; // Processed
+        refund.ProcessedDate = DateTime.Now;
         await _refundRepsository.Update(refund.RefundId, refund);
         return _mapper.Map<ResponseUpdateRefundDTO>(refund);
     }
