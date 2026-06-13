@@ -8,8 +8,9 @@ using Org.BouncyCastle.Ocsp;
 public partial class AdminProductService : IAdminProductService
 {
 
-    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request)
+    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product list with filters {@Request}", request);
         var result = await _productRepsository.GetAdminProduct(request);
         _logger.LogInformation("Retrieved {ProductCount} products from repository. TotalCount: {TotalCount}", result.items.Count, result.totalCount);
@@ -54,8 +55,9 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request)
+    public async Task<PagedResponse<ResponseAdminProductVariantDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
         var result = await _productVariantRepsository.GetAllVariantsForAdmin(request);
         _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}", result.Items.Count, result.TotalCount);
@@ -99,8 +101,9 @@ public partial class AdminProductService : IAdminProductService
             PageSize = request.PageSize
         };
     }
-    public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId)
+    public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId,int adminUserId)
     {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested full details for ProductId {ProductId}", productId);
         var product = await _productRepsository.GetProductWithFullDetails(productId);
         if (product == null)

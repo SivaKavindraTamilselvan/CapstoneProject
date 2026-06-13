@@ -24,21 +24,24 @@ public class AdminProductController : ControllerBase
     [HttpGet("all")]
     public async Task<IActionResult> GetAllProducts([FromQuery] RequestAdminProductFilter request)
     {
-        var result = await _adminProductService.GetAllProductsForAdmin(request);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetAllProductsForAdmin(request,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
-        var result = await _adminProductService.GetProductWithFullDetails(productId);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetProductWithFullDetails(productId,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpGet("ProductVariant")]
     public async Task<IActionResult> GetAllProductsVariant(RequestAdminProductVariantFilter filter)
     {
-        var result = await _adminProductService.GetAllProductVariant(filter);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetAllProductVariant(filter,adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
