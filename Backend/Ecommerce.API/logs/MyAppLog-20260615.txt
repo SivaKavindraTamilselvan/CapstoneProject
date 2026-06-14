@@ -484,3 +484,620 @@ ORDER BY s."CancelledDate" DESC
 2026-06-15 00:15:36.708 +05:30 [INF] Executed action Ecommerce.API.Controllers.CancelController.GetAllCancelsForVendor (Ecommerce.API) in 802.5526ms
 2026-06-15 00:15:36.709 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CancelController.GetAllCancelsForVendor (Ecommerce.API)'
 2026-06-15 00:15:36.712 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Cancel/vendor-cancels - 200 null application/json; charset=utf-8 871.8949ms
+2026-06-15 00:19:24.381 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-15 00:19:24.420 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 39.507ms
+2026-06-15 00:19:24.477 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-15 00:19:24.559 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 81.9931ms
+2026-06-15 00:21:23.257 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Vendor/returns - null null
+2026-06-15 00:21:23.265 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.VendorController.GetAllReturnsForVendor (Ecommerce.API)'
+2026-06-15 00:21:23.275 +05:30 [INF] Route matched with {action = "GetAllReturnsForVendor", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllReturnsForVendor(RequestVendorReturnFilter) on controller Ecommerce.API.Controllers.VendorController (Ecommerce.API).
+2026-06-15 00:21:23.281 +05:30 [INF] Vendor UserId 6 requested returns with filter {"ReturnStatusId":null,"ReturnReasonId":null,"OrderItemId":null,"OrderId":null,"FromDate":null,"ToDate":null,"PageNumber":1,"PageSize":10,"$type":"RequestVendorReturnFilter"}
+2026-06-15 00:21:23.307 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:21:23.328 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Return" AS r
+INNER JOIN "OrderItems" AS o ON r."OrderItemId" = o."OrderItemsId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+WHERE p0."VendorId" = @vendorId
+2026-06-15 00:21:23.366 +05:30 [INF] Executed DbCommand (15ms) [Parameters=[@vendorId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ReturnId", s."AdditionalReason", s."DamageCost", s."OrderItemId", s."RequestedDate", s."ReturnQuantity", s."ReturnReasonId", s."ReturnStatusId", s."ReviewRemarks", s."ReviewedByVendorId", s."ReviewedDate", s."VendorReview", r0."ReturnReasonId", r0."ReturnReasonDescription", r1."ReturnStatusId", r1."ReturnStatusName", s."OrderItemsId", s."Discount", s."InventoryId", s."OrderId", s."OrderItemStatusId", s."ProductVariantId", s."Quantity", s."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a0."AddressId", a0."AddressLine", a0."City", a0."ContactName", a0."ContactPhoneNumber", a0."Country", a0."CreatedAt", a0."IsActive", a0."IsDefault", a0."LandMark", a0."PinCode", a0."State", a0."UpdatedAt", a0."UserId", s."ProductVariantId0", s."AddedByVendorUserId", s."CreatedAt", s."HeightInCm", s."IsExchange", s."IsReturn", s."LengthInCm", s."MinimuQuantityPerUser", s."Price", s."ProductApprovalStatusId", s."ProductId", s."ProductVariantStatusId", s."SKU", s."UpdatedAt", s."WeightInKgs", s."WidthInCm", s."ProductId0", s."AddedByVendorUserId0", s."CreatedAt0", s."Description", s."MainProductSubCategoryAttributeId", s."ProductApprovalStatusId0", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "Return" AS r
+    INNER JOIN "OrderItems" AS o ON r."OrderItemId" = o."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+    WHERE p0."VendorId" = @vendorId
+    ORDER BY r."RequestedDate" DESC
+    LIMIT @p2 OFFSET @p
+) AS s
+INNER JOIN "ReturnReason" AS r0 ON s."ReturnReasonId" = r0."ReturnReasonId"
+INNER JOIN "ReturnStatus" AS r1 ON s."ReturnStatusId" = r1."ReturnStatusId"
+INNER JOIN "Order" AS o0 ON s."OrderId" = o0."OrderId"
+INNER JOIN "Address" AS a ON o0."AddressId" = a."AddressId"
+INNER JOIN "Inventory" AS i ON s."InventoryId" = i."InventoryId"
+INNER JOIN "Address" AS a0 ON i."AddressId" = a0."AddressId"
+INNER JOIN "Vendor" AS v ON s."VendorId" = v."VendorId"
+ORDER BY s."RequestedDate" DESC
+2026-06-15 00:21:23.368 +05:30 [INF] Returning 1 returns for VendorId 1
+2026-06-15 00:21:23.373 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[ReturnSummaryDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-15 00:21:23.380 +05:30 [INF] Executed action Ecommerce.API.Controllers.VendorController.GetAllReturnsForVendor (Ecommerce.API) in 104.7651ms
+2026-06-15 00:21:23.380 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.VendorController.GetAllReturnsForVendor (Ecommerce.API)'
+2026-06-15 00:21:23.380 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Vendor/returns - 200 null application/json; charset=utf-8 123.082ms
+2026-06-15 00:21:49.233 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnProductByVendor - application/json 37
+2026-06-15 00:21:49.241 +05:30 [INF] Executing endpoint '405 HTTP Method Not Supported'
+2026-06-15 00:21:49.241 +05:30 [INF] Executed endpoint '405 HTTP Method Not Supported'
+2026-06-15 00:21:49.242 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnProductByVendor - 405 0 null 8.8602ms
+2026-06-15 00:22:04.020 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Vendor/ReviewReturnProductByVendor - application/json 37
+2026-06-15 00:22:04.026 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnProduct (Ecommerce.API)'
+2026-06-15 00:22:04.032 +05:30 [INF] Route matched with {action = "ReviewReturnProduct", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewReturnDTO]] ReviewReturnProduct(Ecommerce.DTOs.RequestReviewReturnDTO) on controller Ecommerce.API.Controllers.VendorController (Ecommerce.API).
+2026-06-15 00:22:04.044 +05:30 [INF] Vendor UserId 6 reviewing ReturnId 1. Review Decision: true
+2026-06-15 00:22:04.074 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:22:04.083 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:22:04.134 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Return" SET "AdditionalReason" = @p0, "DamageCost" = @p1, "OrderItemId" = @p2, "RequestedDate" = @p3, "ReturnQuantity" = @p4, "ReturnReasonId" = @p5, "ReturnStatusId" = @p6, "ReviewRemarks" = @p7, "ReviewedByVendorId" = @p8, "ReviewedDate" = @p9, "VendorReview" = @p10
+WHERE "ReturnId" = @p11;
+2026-06-15 00:22:04.137 +05:30 [INF] ReturnId 1 reviewed successfully by Vendor UserId 6. Status changed from 2 to 2
+2026-06-15 00:22:04.138 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewReturnDTO'.
+2026-06-15 00:22:04.138 +05:30 [INF] Executed action Ecommerce.API.Controllers.VendorController.ReviewReturnProduct (Ecommerce.API) in 105.1977ms
+2026-06-15 00:22:04.138 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnProduct (Ecommerce.API)'
+2026-06-15 00:22:04.138 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Vendor/ReviewReturnProductByVendor - 200 null application/json; charset=utf-8 118.48ms
+2026-06-15 00:24:12.015 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnShipment?returnId=1 - null 0
+2026-06-15 00:24:12.024 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:11:40 PM', Current time (UTC): '14/06/2026 6:54:12 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-15 00:24:12.030 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:11:40 PM', Current time (UTC): '14/06/2026 6:54:12 PM'.
+2026-06-15 00:24:12.032 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-15 00:24:12.035 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-15 00:24:12.035 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnShipment?returnId=1 - 401 0 null 20.9176ms
+2026-06-15 00:24:26.011 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-15 00:24:26.012 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:24:26.021 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-15 00:24:26.028 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-15 00:24:26.038 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-15 00:24:26.063 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-15 00:24:26.074 +05:30 [INF] Generating token for UserId 1
+2026-06-15 00:24:26.079 +05:30 [INF] Login successful for UserId 1
+2026-06-15 00:24:26.079 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-15 00:24:26.080 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 59.0367ms
+2026-06-15 00:24:26.080 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:24:26.081 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 69.6615ms
+2026-06-15 00:24:37.211 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnShipment?returnId=1 - null 0
+2026-06-15 00:24:37.216 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.CreateShipmentForReturnProduct (Ecommerce.API)'
+2026-06-15 00:24:37.223 +05:30 [INF] Route matched with {action = "CreateShipmentForReturnProduct", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] CreateShipmentForReturnProduct(Int32) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:24:37.257 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@returnId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ReturnId", s."AdditionalReason", s."DamageCost", s."OrderItemId", s."RequestedDate", s."ReturnQuantity", s."ReturnReasonId", s."ReturnStatusId", s."ReviewRemarks", s."ReviewedByVendorId", s."ReviewedDate", s."VendorReview", s."OrderItemsId", s."Discount", s."InventoryId", s."OrderId", s."OrderItemStatusId", s."ProductVariantId", s."Quantity", s."UnitPrice", s."OrderId0", s."AddressId", s."CreatedAt", s."FinalAmount", s."OrderDate", s."OrderNumber", s."OrderStatusId", s."TotalCouponAmount", s."TotalProductAmount", s."TotalShippingAmount", s."UpdatedAt", s."UserId", s."UserId0", s."CreatedAt0", s."Email", s."FirstName", s."HashedKey", s."IsActive", s."LastName", s."Password", s."PhoneNumber", s."RoleId", s."UpdatedAt0", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM (
+    SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId" AS "OrderId0", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", u."UserId" AS "UserId0", u."CreatedAt" AS "CreatedAt0", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt" AS "UpdatedAt0"
+    FROM "Return" AS r
+    INNER JOIN "OrderItems" AS o ON r."OrderItemId" = o."OrderItemsId"
+    INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+    INNER JOIN "User" AS u ON o0."UserId" = u."UserId"
+    WHERE r."ReturnId" = @returnId
+    LIMIT 1
+) AS s
+LEFT JOIN "Address" AS a ON s."UserId0" = a."UserId"
+ORDER BY s."ReturnId", s."OrderItemsId", s."OrderId0", s."UserId0"
+2026-06-15 00:24:37.293 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@returnId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Return" AS r
+INNER JOIN "OrderItems" AS o ON r."OrderItemId" = o."OrderItemsId"
+INNER JOIN "Inventory" AS i ON o."InventoryId" = i."InventoryId"
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+WHERE r."ReturnId" = @returnId
+LIMIT 1
+2026-06-15 00:24:37.306 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@returnId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId"
+FROM "Return" AS r
+INNER JOIN "OrderItems" AS o ON r."OrderItemId" = o."OrderItemsId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+WHERE r."ReturnId" = @returnId
+LIMIT 1
+2026-06-15 00:24:37.329 +05:30 [INF] Start processing HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-15 00:24:37.329 +05:30 [INF] Sending HTTP request POST https://apiv2.shiprocket.in/v1/external/auth/login
+2026-06-15 00:24:37.510 +05:30 [INF] Received HTTP response headers after 179.7819ms - 200
+2026-06-15 00:24:37.511 +05:30 [INF] End processing HTTP request after 182.5252ms - 200
+2026-06-15 00:24:37.514 +05:30 [INF] Start processing HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-15 00:24:37.514 +05:30 [INF] Sending HTTP request GET https://apiv2.shiprocket.in/v1/external/courier/serviceability/?*
+2026-06-15 00:24:37.758 +05:30 [INF] Received HTTP response headers after 244.0185ms - 200
+2026-06-15 00:24:37.759 +05:30 [INF] End processing HTTP request after 244.3726ms - 200
+2026-06-15 00:24:37.761 +05:30 [INF] Creating shipment for OrderId 9
+2026-06-15 00:24:37.799 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime2), @p7='?' (DbType = Decimal), @p8='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Shipment" ("CourierName", "DeliveryDate", "ExpectedDeliveryDate", "OrderId", "PickupAddressId", "ShipmentTypeId", "ShippedDate", "ShippingCharge", "TrackingNumber")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8)
+RETURNING "ShipmentId", "CreatedAt", "ShipmentStatusId";
+2026-06-15 00:24:37.804 +05:30 [INF] Shipment 18 created successfully
+2026-06-15 00:24:37.805 +05:30 [INF] Adding OrderItemId 21 to ShipmentId 18
+2026-06-15 00:24:37.814 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentItems" ("OrderItemsId", "ShipmentId")
+VALUES (@p0, @p1)
+RETURNING "ShipmentItemsId";
+2026-06-15 00:24:37.815 +05:30 [INF] ShipmentItem created successfully. ShipmentId: 18, OrderItemId: 21
+2026-06-15 00:24:37.815 +05:30 [INF] Creating tracking for ShipmentId 18 with StatusId 4
+2026-06-15 00:24:37.824 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentTracking" ("Location", "Remarks", "ShipmentId", "ShipmentStatusId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ShipmentTrackingId", "UpdatedAt";
+2026-06-15 00:24:37.826 +05:30 [INF] ShipmentTracking created successfully. ShipmentTrackingId: 68, ShipmentId: 18, StatusId: 4
+2026-06-15 00:24:37.827 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseCreateReturnShipmentDTO'.
+2026-06-15 00:24:37.827 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.CreateShipmentForReturnProduct (Ecommerce.API) in 604.373ms
+2026-06-15 00:24:37.827 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.CreateShipmentForReturnProduct (Ecommerce.API)'
+2026-06-15 00:24:37.827 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnShipment?returnId=1 - 200 null application/json; charset=utf-8 616.5098ms
+2026-06-15 00:25:16.747 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - application/json 47
+2026-06-15 00:25:16.749 +05:30 [INF] Executing endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-15 00:25:16.756 +05:30 [INF] Route matched with {action = "UpdateShipmentStatus", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateShipmentStatus(Ecommerce.DTOs.ShipmentStatusRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-15 00:25:16.766 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+FROM "Shipment" AS s
+WHERE s."ShipmentId" = @p
+LIMIT 1
+2026-06-15 00:25:16.775 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@shipmentId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "ShipmentItems" AS s
+INNER JOIN "OrderItems" AS o ON s."OrderItemsId" = o."OrderItemsId"
+WHERE s."ShipmentId" = @shipmentId
+2026-06-15 00:25:16.785 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p10='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "OrderItems" SET "Discount" = @p0, "InventoryId" = @p1, "OrderId" = @p2, "OrderItemStatusId" = @p3, "ProductVariantId" = @p4, "Quantity" = @p5, "UnitPrice" = @p6
+WHERE "OrderItemsId" = @p7;
+UPDATE "Shipment" SET "DeliveryDate" = @p8, "ShipmentStatusId" = @p9
+WHERE "ShipmentId" = @p10;
+2026-06-15 00:25:16.794 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Decimal), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Shipment" SET "CourierName" = @p0, "CreatedAt" = @p1, "DeliveryDate" = @p2, "ExpectedDeliveryDate" = @p3, "OrderId" = @p4, "PickupAddressId" = @p5, "ShipmentStatusId" = @p6, "ShipmentTypeId" = @p7, "ShippedDate" = @p8, "ShippingCharge" = @p9, "TrackingNumber" = @p10
+WHERE "ShipmentId" = @p11;
+2026-06-15 00:25:16.794 +05:30 [INF] Creating tracking for ShipmentId 18 with StatusId 10
+2026-06-15 00:25:16.796 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentTracking" ("Location", "Remarks", "ShipmentId", "ShipmentStatusId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ShipmentTrackingId", "UpdatedAt";
+2026-06-15 00:25:16.796 +05:30 [INF] ShipmentTracking created successfully. ShipmentTrackingId: 69, ShipmentId: 18, StatusId: 10
+2026-06-15 00:25:16.798 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ShipmentStatusResponseDTO'.
+2026-06-15 00:25:16.799 +05:30 [INF] Executed action ShiprocketController.UpdateShipmentStatus (Ecommerce.API) in 43.1442ms
+2026-06-15 00:25:16.799 +05:30 [INF] Executed endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-15 00:25:16.799 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - 200 null application/json; charset=utf-8 52.1374ms
+2026-06-15 00:25:39.731 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-15 00:25:39.734 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:25:39.735 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-15 00:25:39.736 +05:30 [INF] Login attempt for priyadharshini@gmail.com
+2026-06-15 00:25:39.737 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-15 00:25:39.739 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:25:39.742 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:25:39.743 +05:30 [INF] Generating token for UserId 7
+2026-06-15 00:25:39.743 +05:30 [INF] Login successful for UserId 7
+2026-06-15 00:25:39.743 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-15 00:25:39.743 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 8.3243ms
+2026-06-15 00:25:39.743 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:25:39.743 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 12.5783ms
+2026-06-15 00:25:55.083 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnOriginalProductByVendor - application/json 72
+2026-06-15 00:25:55.084 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API)'
+2026-06-15 00:25:55.091 +05:30 [INF] Route matched with {action = "ReviewReturnOriginalProduct", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewReturnDTO]] ReviewReturnOriginalProduct(Ecommerce.DTOs.RequestReviewReturnProductDTO) on controller Ecommerce.API.Controllers.VendorController (Ecommerce.API).
+2026-06-15 00:25:55.107 +05:30 [INF] Vendor UserId 7 reviewing ReturnId 1
+2026-06-15 00:25:55.109 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:25:55.110 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:25:55.114 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Return" SET "AdditionalReason" = @p0, "DamageCost" = @p1, "OrderItemId" = @p2, "RequestedDate" = @p3, "ReturnQuantity" = @p4, "ReturnReasonId" = @p5, "ReturnStatusId" = @p6, "ReviewRemarks" = @p7, "ReviewedByVendorId" = @p8, "ReviewedDate" = @p9, "VendorReview" = @p10
+WHERE "ReturnId" = @p11;
+2026-06-15 00:25:55.115 +05:30 [INF] ReturnId 1 reviewed successfully by Vendor UserId 7. DamageCost: 200
+2026-06-15 00:25:55.115 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewReturnDTO'.
+2026-06-15 00:25:55.115 +05:30 [INF] Executed action Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API) in 23.8322ms
+2026-06-15 00:25:55.116 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API)'
+2026-06-15 00:25:55.116 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnOriginalProductByVendor - 200 null application/json; charset=utf-8 32.795ms
+2026-06-15 00:25:58.719 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnOriginalProductByVendor - application/json 72
+2026-06-15 00:25:58.720 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API)'
+2026-06-15 00:25:58.721 +05:30 [INF] Route matched with {action = "ReviewReturnOriginalProduct", controller = "Vendor"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseReviewReturnDTO]] ReviewReturnOriginalProduct(Ecommerce.DTOs.RequestReviewReturnProductDTO) on controller Ecommerce.API.Controllers.VendorController (Ecommerce.API).
+2026-06-15 00:25:58.722 +05:30 [INF] Vendor UserId 7 reviewing ReturnId 1
+2026-06-15 00:25:58.724 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-15 00:25:58.725 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:25:58.728 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?', @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Return" SET "AdditionalReason" = @p0, "DamageCost" = @p1, "OrderItemId" = @p2, "RequestedDate" = @p3, "ReturnQuantity" = @p4, "ReturnReasonId" = @p5, "ReturnStatusId" = @p6, "ReviewRemarks" = @p7, "ReviewedByVendorId" = @p8, "ReviewedDate" = @p9, "VendorReview" = @p10
+WHERE "ReturnId" = @p11;
+2026-06-15 00:25:58.729 +05:30 [INF] ReturnId 1 reviewed successfully by Vendor UserId 7. DamageCost: 200
+2026-06-15 00:25:58.729 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseReviewReturnDTO'.
+2026-06-15 00:25:58.729 +05:30 [INF] Executed action Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API) in 8.6052ms
+2026-06-15 00:25:58.730 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.VendorController.ReviewReturnOriginalProduct (Ecommerce.API)'
+2026-06-15 00:25:58.730 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Vendor/ReviewReturnOriginalProductByVendor - 200 null application/json; charset=utf-8 11.056ms
+2026-06-15 00:45:44.738 +05:30 [INF] Application is shutting down...
+2026-06-15 00:45:51.667 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-15 00:45:51.742 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-15 00:45:51.743 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-15 00:45:51.743 +05:30 [INF] Hosting environment: Development
+2026-06-15 00:45:51.743 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-15 00:46:04.145 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-15 00:46:04.177 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 33.5109ms
+2026-06-15 00:46:04.239 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-15 00:46:04.313 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 74.309ms
+2026-06-15 00:46:31.783 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - application/json 65
+2026-06-15 00:46:31.809 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-15 00:46:31.842 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:17:09 PM', Current time (UTC): '14/06/2026 7:16:31 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-15 00:46:31.846 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:17:09 PM', Current time (UTC): '14/06/2026 7:16:31 PM'.
+2026-06-15 00:46:31.848 +05:30 [INF] Authorization failed. These requirements were not met:
+ClaimsAuthorizationRequirement:Claim.Type=http://schemas.microsoft.com/ws/2008/06/identity/claims/role and Claim.Value is one of the following values: (1)
+ClaimsAuthorizationRequirement:Claim.Type=AdminRoleId and Claim.Value is one of the following values: (1|2)
+2026-06-15 00:46:31.849 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-15 00:46:31.849 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - 401 0 null 66.7965ms
+2026-06-15 00:46:44.510 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-15 00:46:44.521 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:46:44.535 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-15 00:46:44.653 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-15 00:46:44.663 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-15 00:46:45.219 +05:30 [INF] Executed DbCommand (19ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-15 00:46:45.278 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-15 00:46:45.291 +05:30 [INF] Generating token for UserId 1
+2026-06-15 00:46:45.297 +05:30 [INF] Login successful for UserId 1
+2026-06-15 00:46:45.298 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-15 00:46:45.301 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 764.865ms
+2026-06-15 00:46:45.301 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-15 00:46:45.303 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 792.9744ms
+2026-06-15 00:46:57.559 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - application/json 65
+2026-06-15 00:46:57.576 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:46:57.581 +05:30 [INF] Route matched with {action = "CreateReturnRefund", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] CreateReturnRefund(Ecommerce.DTOs.RequestAddReturnRefundDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:46:57.609 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:46:57.625 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "OrderItems" AS o
+WHERE o."OrderItemsId" = @p
+LIMIT 1
+2026-06-15 00:46:57.698 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Refund" ("ActualRefundAmount", "OrderItemsId", "ProcessedDate", "RefundTypeId", "RequestedDate")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "RefundId", "RefundStatusId";
+2026-06-15 00:46:57.736 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ReturnRefund" ("DamageCost", "DeductionReason", "RefundId", "ReturnId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ReturnRefundId";
+2026-06-15 00:46:57.740 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API) in 158.1147ms
+2026-06-15 00:46:57.740 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:46:57.740 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+ReturnRefund -> ResponseAddRefundDTO
+Ecommerce.Models.ReturnRefund -> Ecommerce.DTOs.ResponseAddRefundDTO
+   at lambda_method1170(Closure, Object, ResponseAddRefundDTO, ResolutionContext)
+   at AdminRefundService.CreateReturnRefund(RequestAddReturnRefundDTO requestAddReturnRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminRefundService/AddRefundService.cs:line 61
+   at Ecommerce.API.Controllers.AdminController.CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 64
+   at lambda_method637(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-15 00:46:57.750 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - 500 null application/json 190.8142ms
+2026-06-15 00:48:12.126 +05:30 [INF] Application is shutting down...
+2026-06-15 00:48:16.704 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-15 00:48:16.772 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-15 00:48:16.773 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-15 00:48:16.773 +05:30 [INF] Hosting environment: Development
+2026-06-15 00:48:16.773 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-15 00:48:40.567 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - application/json 65
+2026-06-15 00:48:40.593 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-15 00:48:40.632 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:48:40.641 +05:30 [INF] Route matched with {action = "CreateReturnRefund", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] CreateReturnRefund(Ecommerce.DTOs.RequestAddReturnRefundDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:48:40.763 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-15 00:48:41.351 +05:30 [INF] Executed DbCommand (20ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:48:41.384 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "OrderItems" AS o
+WHERE o."OrderItemsId" = @p
+LIMIT 1
+2026-06-15 00:48:41.448 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Refund" ("ActualRefundAmount", "OrderItemsId", "ProcessedDate", "RefundTypeId", "RequestedDate")
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING "RefundId", "RefundStatusId";
+2026-06-15 00:48:41.465 +05:30 [ERR] Failed executing DbCommand (4ms) [Parameters=[@p0='?' (DbType = Decimal), @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ReturnRefund" ("DamageCost", "DeductionReason", "RefundId", "ReturnId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ReturnRefundId";
+2026-06-15 00:48:41.470 +05:30 [ERR] An exception occurred in the database while saving changes for context type 'Ecommerce.Data.EcommerceContext'.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ReturnRefund
+    ConstraintName: IX_ReturnRefund_ReturnId
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ReturnRefund
+    ConstraintName: IX_ReturnRefund_ReturnId
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+2026-06-15 00:48:41.473 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API) in 831.6281ms
+2026-06-15 00:48:41.474 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:48:41.474 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Microsoft.EntityFrameworkCore.DbUpdateException: An error occurred while saving the entity changes. See the inner exception for details.
+ ---> Npgsql.PostgresException (0x80004005): 23505: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+
+DETAIL: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+   at Npgsql.Internal.NpgsqlConnector.ReadMessageLong(Boolean async, DataRowLoadingMode dataRowLoadingMode, Boolean readingNotifications, Boolean isReadingPrependedMessage)
+   at System.Runtime.CompilerServices.PoolingAsyncValueTaskMethodBuilder`1.StateMachineBox`1.System.Threading.Tasks.Sources.IValueTaskSource<TResult>.GetResult(Int16 token)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlDataReader.NextResult(Boolean async, Boolean isConsuming, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteReader(Boolean async, CommandBehavior behavior, CancellationToken cancellationToken)
+   at Npgsql.NpgsqlCommand.ExecuteDbDataReaderAsync(CommandBehavior behavior, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalCommand.ExecuteReaderAsync(RelationalCommandParameterObject parameterObject, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+  Exception data:
+    Severity: ERROR
+    SqlState: 23505
+    MessageText: duplicate key value violates unique constraint "IX_ReturnRefund_ReturnId"
+    Detail: Detail redacted as it may contain sensitive data. Specify 'Include Error Detail' in the connection string to include this information.
+    SchemaName: public
+    TableName: ReturnRefund
+    ConstraintName: IX_ReturnRefund_ReturnId
+    File: nbtinsert.c
+    Line: 673
+    Routine: _bt_check_unique
+   --- End of inner exception stack trace ---
+   at Microsoft.EntityFrameworkCore.Update.ReaderModificationCommandBatch.ExecuteAsync(IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Update.Internal.BatchExecutor.ExecuteAsync(IEnumerable`1 commandBatches, IRelationalConnection connection, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.Storage.RelationalDatabase.SaveChangesAsync(IList`1 entries, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(IList`1 entriesToSave, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.ChangeTracking.Internal.StateManager.SaveChangesAsync(StateManager stateManager, Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Npgsql.EntityFrameworkCore.PostgreSQL.Storage.Internal.NpgsqlExecutionStrategy.ExecuteAsync[TState,TResult](TState state, Func`4 operation, Func`4 verifySucceeded, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Microsoft.EntityFrameworkCore.DbContext.SaveChangesAsync(Boolean acceptAllChangesOnSuccess, CancellationToken cancellationToken)
+   at Ecommerce.Repositories.Interfaces.AbstractRepository`2.Create(T item) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Repositories/Repositories/AbstractRepository.cs:line 16
+   at AdminRefundService.CreateReturnRefund(RequestAddReturnRefundDTO requestAddReturnRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminRefundService/AddRefundService.cs:line 60
+   at Ecommerce.API.Controllers.AdminController.CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 64
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-15 00:48:41.483 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - 500 null application/json 916.2978ms
+2026-06-15 00:49:47.938 +05:30 [INF] Application is shutting down...
+2026-06-15 00:49:52.013 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-15 00:49:52.084 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-15 00:49:52.084 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-15 00:49:52.084 +05:30 [INF] Hosting environment: Development
+2026-06-15 00:49:52.085 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-15 00:49:55.649 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - application/json 65
+2026-06-15 00:49:55.670 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-15 00:49:55.706 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:49:55.714 +05:30 [INF] Route matched with {action = "CreateReturnRefund", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] CreateReturnRefund(Ecommerce.DTOs.RequestAddReturnRefundDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:49:55.814 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-15 00:49:56.410 +05:30 [INF] Executed DbCommand (20ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+FROM "Return" AS r
+WHERE r."ReturnId" = @p
+LIMIT 1
+2026-06-15 00:49:56.443 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."ReturnRefundId", r."DamageCost", r."DeductionReason", r."RefundId", r."ReturnId"
+FROM "ReturnRefund" AS r
+WHERE r."ReturnRefundId" = @p
+LIMIT 1
+2026-06-15 00:49:56.453 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API) in 738.5584ms
+2026-06-15 00:49:56.454 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.CreateReturnRefund (Ecommerce.API)'
+2026-06-15 00:49:56.454 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataAlreadyRegisteredException: Refund already created for this return
+   at AdminRefundService.CreateReturnRefund(RequestAddReturnRefundDTO requestAddReturnRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/AdminRefundService/AddRefundService.cs:line 56
+   at Ecommerce.API.Controllers.AdminController.CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/AdminController.cs:line 64
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-15 00:49:56.461 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Admin/CreateReturnRefund - 500 null application/json 813.5528ms
+2026-06-15 00:51:28.534 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Admin/returns - null null
+2026-06-15 00:51:28.547 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.GetAllReturnsForAdmin (Ecommerce.API)'
+2026-06-15 00:51:28.555 +05:30 [INF] Route matched with {action = "GetAllReturnsForAdmin", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllReturnsForAdmin(RequestAdminReturnFilter) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:51:28.610 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Return" AS r
+2026-06-15 00:51:28.676 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r1."ReturnId", r1."AdditionalReason", r1."DamageCost", r1."OrderItemId", r1."RequestedDate", r1."ReturnQuantity", r1."ReturnReasonId", r1."ReturnStatusId", r1."ReviewRemarks", r1."ReviewedByVendorId", r1."ReviewedDate", r1."VendorReview", r0."ReturnReasonId", r0."ReturnReasonDescription", r2."ReturnStatusId", r2."ReturnStatusName", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a0."AddressId", a0."AddressLine", a0."City", a0."ContactName", a0."ContactPhoneNumber", a0."Country", a0."CreatedAt", a0."IsActive", a0."IsDefault", a0."LandMark", a0."PinCode", a0."State", a0."UpdatedAt", a0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT r."ReturnId", r."AdditionalReason", r."DamageCost", r."OrderItemId", r."RequestedDate", r."ReturnQuantity", r."ReturnReasonId", r."ReturnStatusId", r."ReviewRemarks", r."ReviewedByVendorId", r."ReviewedDate", r."VendorReview"
+    FROM "Return" AS r
+    ORDER BY r."RequestedDate" DESC
+    LIMIT @p1 OFFSET @p
+) AS r1
+INNER JOIN "ReturnReason" AS r0 ON r1."ReturnReasonId" = r0."ReturnReasonId"
+INNER JOIN "ReturnStatus" AS r2 ON r1."ReturnStatusId" = r2."ReturnStatusId"
+INNER JOIN "OrderItems" AS o ON r1."OrderItemId" = o."OrderItemsId"
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "Address" AS a ON o0."AddressId" = a."AddressId"
+INNER JOIN "Inventory" AS i ON o."InventoryId" = i."InventoryId"
+INNER JOIN "Address" AS a0 ON i."AddressId" = a0."AddressId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+ORDER BY r1."RequestedDate" DESC
+2026-06-15 00:51:28.686 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[ReturnSummaryDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-15 00:51:28.695 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.GetAllReturnsForAdmin (Ecommerce.API) in 139.3557ms
+2026-06-15 00:51:28.695 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.GetAllReturnsForAdmin (Ecommerce.API)'
+2026-06-15 00:51:28.695 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Admin/returns - 200 null application/json; charset=utf-8 161.2099ms
+2026-06-15 00:52:23.783 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Admin/reviewRefund - application/json 19
+2026-06-15 00:52:23.793 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AdminController.UpdateRefund (Ecommerce.API)'
+2026-06-15 00:52:23.799 +05:30 [INF] Route matched with {action = "UpdateRefund", controller = "Admin"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] UpdateRefund(Ecommerce.DTOs.RequestUpdateRefundDTO) on controller Ecommerce.API.Controllers.AdminController (Ecommerce.API).
+2026-06-15 00:52:23.833 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT r."RefundId", r."ActualRefundAmount", r."OrderItemsId", r."ProcessedDate", r."RefundStatusId", r."RefundTypeId", r."RequestedDate"
+FROM "Refund" AS r
+WHERE r."RefundId" = @p
+LIMIT 1
+2026-06-15 00:52:23.878 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Refund" SET "ActualRefundAmount" = @p0, "OrderItemsId" = @p1, "ProcessedDate" = @p2, "RefundStatusId" = @p3, "RefundTypeId" = @p4, "RequestedDate" = @p5
+WHERE "RefundId" = @p6;
+2026-06-15 00:52:23.882 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseUpdateRefundDTO'.
+2026-06-15 00:52:23.882 +05:30 [INF] Executed action Ecommerce.API.Controllers.AdminController.UpdateRefund (Ecommerce.API) in 83.1849ms
+2026-06-15 00:52:23.882 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AdminController.UpdateRefund (Ecommerce.API)'
+2026-06-15 00:52:23.883 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Admin/reviewRefund - 200 null application/json; charset=utf-8 99.3922ms
+2026-06-15 00:58:52.941 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Coupon/ActiveCoupons - text/plain 205
+2026-06-15 00:58:52.950 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '14/06/2026 1:11:33 PM', Current time (UTC): '14/06/2026 7:28:52 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-15 00:58:52.953 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '14/06/2026 1:11:33 PM', Current time (UTC): '14/06/2026 7:28:52 PM'.
+2026-06-15 00:58:52.956 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-15 00:58:52.960 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-15 00:58:52.961 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Coupon/ActiveCoupons - 401 0 null 19.7322ms

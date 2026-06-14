@@ -2,12 +2,9 @@ namespace Ecommerce.DTOs;
 
 public class RequestAddReturnRefundDTO
 {
-    public int RefundTypeId { get; set; }
-    public int OrderItemsId { get; set; }
-    public int RefundStatusId { get; set; }
     public int ReturnId { get; set; }
-    public decimal DamageCost { get; set; }
     public decimal RefundAmount { get; set; }
+    public string Remarks {get;set;} = string.Empty;
 
 }
 

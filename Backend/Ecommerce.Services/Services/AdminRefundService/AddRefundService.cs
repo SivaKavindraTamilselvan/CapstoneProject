@@ -7,13 +7,15 @@ using Ecommerce.Services.Interfaces;
 
 public class AdminRefundService : IAdminRefundService
 {
+    private readonly IReturnRepsository _returnRepsository;
     private readonly IRefundRepsository _refundRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IPaymentService _paymentService;
     private readonly IReturnRefundRepsository _returnRefundRepsository;
     private readonly IMapper _mapper;
-    public AdminRefundService(IReturnRefundRepsository returnRefundRepsository,IPaymentService paymentService, IMapper mapper, IRefundRepsository refundRepsository, IOrderItemRepsository orderItemRepsository)
+    public AdminRefundService(IReturnRepsository returnRepsository, IReturnRefundRepsository returnRefundRepsository, IPaymentService paymentService, IMapper mapper, IRefundRepsository refundRepsository, IOrderItemRepsository orderItemRepsository)
     {
+        _returnRepsository = returnRepsository;
         _mapper = mapper;
         _refundRepsository = refundRepsository;
         _paymentService = paymentService;
@@ -36,29 +38,61 @@ public class AdminRefundService : IAdminRefundService
         await _refundRepsository.Create(refund);
         return _mapper.Map<ResponseAddRefundDTO>(refund);
     }
-    public async Task<ResponseAddRefundDTO> CreateReturnRefund(RequestAddReturnRefundDTO requestAddReturnRefundDTO)
+    public async Task<ResponseAddRefundDTO> CreateReturnRefund(
+     RequestAddReturnRefundDTO requestAddReturnRefundDTO)
     {
-        var refund = _mapper.Map<RequestAddRefundDTO>(requestAddReturnRefundDTO);
-        var createdRefund = await CreateRefund(refund);
-        var ReturnRefund = _mapper.Map<ReturnRefund>(requestAddReturnRefundDTO);
-        ReturnRefund.RefundId = createdRefund.RefundId;
-        var order = await _orderItemRepsository.Get(requestAddReturnRefundDTO.OrderItemsId);
-        if (order == null)
+        var returnItem = await _returnRepsository.Get(requestAddReturnRefundDTO.ReturnId);
+
+        if (returnItem == null)
         {
-            throw new DataNotFoundException("OrderItem Not Found");
+            throw new DataNotFoundException("Return Not Found");
         }
-        decimal orderItemCost = (order.Quantity * order.UnitPrice) - order.Discount;
-        if(requestAddReturnRefundDTO.DamageCost>orderItemCost)
+
+        var existingReturnRefund =
+            await _returnRefundRepsository.Get(returnItem.ReturnId);
+
+        if (existingReturnRefund != null)
         {
-            throw new DataApprovalStatusException("DamageCost is greater than the original cost");
+            throw new DataAlreadyRegisteredException(
+                "Refund already created for this return");
         }
-        await _returnRefundRepsository.Create(ReturnRefund);
-        return _mapper.Map<ResponseAddRefundDTO>(ReturnRefund);
+
+        var orderItem = await _orderItemRepsository.Get(returnItem.OrderItemId);
+
+        if (orderItem == null)
+        {
+            throw new DataNotFoundException("Order Item Not Found");
+        }
+
+        var refund = new Refund
+        {
+            RefundTypeId = 2,
+            OrderItemsId = returnItem.OrderItemId,
+            ActualRefundAmount =
+                orderItem.Quantity * orderItem.UnitPrice
+                - orderItem.Discount
+                - requestAddReturnRefundDTO.RefundAmount,
+            RequestedDate = DateTime.Now
+        };
+
+        var createdRefund = await _refundRepsository.Create(refund);
+
+        var returnRefund = new ReturnRefund
+        {
+            RefundId = createdRefund.RefundId,
+            DamageCost = returnItem.DamageCost ?? 0,
+            DeductionReason = requestAddReturnRefundDTO.Remarks,
+            ReturnId = returnItem.ReturnId
+        };
+
+        await _returnRefundRepsository.Create(returnRefund);
+
+        return _mapper.Map<ResponseAddRefundDTO>(returnRefund);
     }
     public async Task<ResponseUpdateRefundDTO> ReviewRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
     {
         var refund = await _refundRepsository.Get(requestUpdateRefundDTO.RefundId);
-        if(refund == null)
+        if (refund == null)
         {
             throw new DataNotFoundException("Refund Data Not Found");
         }
