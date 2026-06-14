@@ -14,6 +14,8 @@ namespace Ecommerce.Mappers
             CreateMap<RequestAddReturnRefundDTO,ReturnRefund>();
             CreateMap<RequestCancelDTO,Cancel>();
             CreateMap<Cancel,ResponseCancelDTO>();
+
+            CreateMap<Refund, ResponseUpdateRefundDTO>();
         }
     }
 }

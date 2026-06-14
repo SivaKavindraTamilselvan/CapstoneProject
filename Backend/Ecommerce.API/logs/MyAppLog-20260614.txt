@@ -23438,3 +23438,475 @@ ORDER BY i0."UpdatedAt" DESC
 2026-06-14 23:31:05.956 +05:30 [INF] Executed action InventoryController.GetInventoryForAdmin (Ecommerce.API) in 817.801ms
 2026-06-14 23:31:05.956 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
 2026-06-14 23:31:05.959 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - 200 null application/json; charset=utf-8 889.5029ms
+2026-06-14 23:38:24.918 +05:30 [INF] Application is shutting down...
+2026-06-14 23:38:28.833 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:38:28.908 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:38:28.908 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:38:28.908 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:38:28.908 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:40:05.539 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:40:05.573 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 35.9219ms
+2026-06-14 23:40:05.629 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:40:05.702 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.6978ms
+2026-06-14 23:40:52.649 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 68
+2026-06-14 23:40:52.674 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:40:52.689 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:40:52.699 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-14 23:40:52.816 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:40:52.826 +05:30 [INF] Login attempt for priyadharshini@gmail.com
+2026-06-14 23:40:53.424 +05:30 [INF] Executed DbCommand (20ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-14 23:40:53.484 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-14 23:40:53.506 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-14 23:40:53.506 +05:30 [INF] Generating token for UserId 7
+2026-06-14 23:40:53.515 +05:30 [INF] Login successful for UserId 7
+2026-06-14 23:40:53.517 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-14 23:40:53.520 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 820.1983ms
+2026-06-14 23:40:53.520 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:40:53.522 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 873.458ms
+2026-06-14 23:41:06.629 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories - null null
+2026-06-14 23:41:06.664 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForVendor (Ecommerce.API)'
+2026-06-14 23:41:06.668 +05:30 [INF] Route matched with {action = "GetInventoryForVendor", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForVendor(Ecommerce.DTOs.RequestVendorInventoryFilter) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:41:06.673 +05:30 [INF] Vendor UserId 7 requested inventory list with filter {"ProductVariantId":null,"AddressId":null,"MinimumAvailableQuantity":null,"MinimumReservedQuantity":null,"MaximumAvailableQuantity":null,"MaximumReservedQuantity":null,"Status":null,"PageNumber":1,"PageSize":10,"$type":"RequestVendorInventoryFilter"}
+2026-06-14 23:41:06.681 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-14 23:41:06.704 +05:30 [INF] Executed DbCommand (9ms) [Parameters=[@vendorId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Inventory" AS i
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+WHERE p0."VendorId" = @vendorId
+2026-06-14 23:41:06.727 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@vendorId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."InventoryId", s."AddressId", s."AvailableQuantity", s."IsActive", s."ProductVariantId", s."ReservedQuantity", s."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", s."ProductVariantId0", s."AddedByVendorUserId", s."CreatedAt", s."HeightInCm", s."IsExchange", s."IsReturn", s."LengthInCm", s."MinimuQuantityPerUser", s."Price", s."ProductApprovalStatusId", s."ProductId", s."ProductVariantStatusId", s."SKU", s."UpdatedAt0", s."WeightInKgs", s."WidthInCm", s."ProductId0", s."AddedByVendorUserId0", s."CreatedAt0", s."Description", s."MainProductSubCategoryAttributeId", s."ProductApprovalStatusId0", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt1", s."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt" AS "UpdatedAt0", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt1", p0."VendorId"
+    FROM "Inventory" AS i
+    INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+    WHERE p0."VendorId" = @vendorId
+    ORDER BY i."UpdatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS s
+INNER JOIN "Address" AS a ON s."AddressId" = a."AddressId"
+INNER JOIN "Vendor" AS v ON s."VendorId" = v."VendorId"
+ORDER BY s."UpdatedAt" DESC
+2026-06-14 23:41:06.730 +05:30 [INF] Returning 1 inventory records for VendorId 2
+2026-06-14 23:41:06.734 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[Ecommerce.DTOs.ResponseVendorInventoryDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:41:06.738 +05:30 [INF] Executed action InventoryController.GetInventoryForVendor (Ecommerce.API) in 69.201ms
+2026-06-14 23:41:06.738 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForVendor (Ecommerce.API)'
+2026-06-14 23:41:06.738 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories - 200 null application/json; charset=utf-8 109.4124ms
+2026-06-14 23:41:26.787 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories/1 - null null
+2026-06-14 23:41:26.796 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:41:26.803 +05:30 [INF] Route matched with {action = "GetInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:41:26.808 +05:30 [INF] Vendor UserId 7 requested InventoryId 1
+2026-06-14 23:41:26.839 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-14 23:41:26.852 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@vendorId='?' (DbType = Int32), @inventoryid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Inventory" AS i
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE p0."VendorId" = @vendorId AND i."InventoryId" = @inventoryid
+LIMIT 1
+2026-06-14 23:41:26.863 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@inventoryid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Inventory" AS i
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE i."InventoryId" = @inventoryid
+LIMIT 1
+2026-06-14 23:41:26.864 +05:30 [INF] InventoryId 1 returned successfully for Vendor UserId 7
+2026-06-14 23:41:26.865 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseVendorInventoryDTO'.
+2026-06-14 23:41:26.865 +05:30 [INF] Executed action InventoryController.GetInventoryForVendorById (Ecommerce.API) in 61.916ms
+2026-06-14 23:41:26.865 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:41:26.865 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories/1 - 200 null application/json; charset=utf-8 77.7669ms
+2026-06-14 23:41:30.106 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories/2 - null null
+2026-06-14 23:41:30.107 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:41:30.107 +05:30 [INF] Route matched with {action = "GetInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:41:30.122 +05:30 [INF] Vendor UserId 7 requested InventoryId 2
+2026-06-14 23:41:30.124 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT v."VendorUserId", v."AddedByVendorUserId", v."CreatedAt", v."IsActive", v."UserId", v."VendorId", v."VendorRoleId", v0."VendorId", v0."ApprovalStatusId", v0."CompanyEmail", v0."CompanyPhoneNumber", v0."ContactPersonName", v0."CreatedAt", v0."GSTNumber", v0."IsActive", v0."ReviewedAt", v0."ReviewedByAdminId", v0."VendorCompanyName"
+FROM "VendorUser" AS v
+INNER JOIN "Vendor" AS v0 ON v."VendorId" = v0."VendorId"
+WHERE v."UserId" = @userId
+LIMIT 1
+2026-06-14 23:41:30.126 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@vendorId='?' (DbType = Int32), @inventoryid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Inventory" AS i
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE p0."VendorId" = @vendorId AND i."InventoryId" = @inventoryid
+LIMIT 1
+2026-06-14 23:41:30.127 +05:30 [WRN] Vendor UserId 7 attempted to access InventoryId 2 not belonging to VendorId 2
+2026-06-14 23:41:30.128 +05:30 [INF] Executed action InventoryController.GetInventoryForVendorById (Ecommerce.API) in 20.5465ms
+2026-06-14 23:41:30.128 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:41:30.128 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: You Cannot access other vendor inventory
+   at InventoryService.GetInventoryById(Int32 inventoryid, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorInventoryService/GetInventoryService.cs:line 43
+   at InventoryController.GetInventoryForVendorById(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 61
+   at lambda_method776(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:41:30.137 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/vendor-inventories/2 - 404 null application/json 31.385ms
+2026-06-14 23:42:22.186 +05:30 [INF] Application is shutting down...
+2026-06-14 23:42:25.294 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:42:25.365 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:42:25.365 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:42:25.366 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:42:25.366 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:42:31.046 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:42:31.079 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 33.9859ms
+2026-06-14 23:42:31.135 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:42:31.208 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.3123ms
+2026-06-14 23:42:41.286 +05:30 [INF] Application is shutting down...
+2026-06-14 23:42:44.317 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:42:44.385 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:42:44.386 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:42:44.386 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:42:44.386 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:43:00.763 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:43:00.797 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 34.774ms
+2026-06-14 23:43:00.843 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:43:00.914 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 70.8974ms
+2026-06-14 23:43:53.280 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - null 0
+2026-06-14 23:43:53.307 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:43:53.345 +05:30 [INF] Executing endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:43:53.354 +05:30 [INF] Route matched with {action = "DeleteInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] DeleteInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:43:53.468 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:43:53.471 +05:30 [INF] Vendor UserId 7 requested deletion of InventoryId 1
+2026-06-14 23:43:54.072 +05:30 [INF] Executed DbCommand (20ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:43:54.101 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-14 23:43:54.154 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@p6='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = Boolean), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Inventory" SET "AddressId" = @p0, "AvailableQuantity" = @p1, "IsActive" = @p2, "ProductVariantId" = @p3, "ReservedQuantity" = @p4, "UpdatedAt" = @p5
+WHERE "InventoryId" = @p6;
+2026-06-14 23:43:54.156 +05:30 [INF] InventoryId 1 deactivated successfully by Vendor UserId 7
+2026-06-14 23:43:54.160 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseUpdateInventoryDTO'.
+2026-06-14 23:43:54.166 +05:30 [INF] Executed action InventoryController.DeleteInventoryForVendorById (Ecommerce.API) in 810.5238ms
+2026-06-14 23:43:54.166 +05:30 [INF] Executed endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:43:54.168 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - 200 null application/json; charset=utf-8 887.6558ms
+2026-06-14 23:43:56.115 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - null 0
+2026-06-14 23:43:56.124 +05:30 [INF] Executing endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:43:56.124 +05:30 [INF] Route matched with {action = "DeleteInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] DeleteInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:43:56.127 +05:30 [INF] Vendor UserId 7 requested deletion of InventoryId 1
+2026-06-14 23:43:56.160 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:43:56.161 +05:30 [INF] Executed action InventoryController.DeleteInventoryForVendorById (Ecommerce.API) in 36.6032ms
+2026-06-14 23:43:56.161 +05:30 [INF] Executed endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:43:56.162 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Inventory is deactivated
+   at InventoryValidation.ValidateInventory(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/InventoryValidation.cs:line 22
+   at InventoryService.DeleteInventory(Int32 inventoryId, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorInventoryService/DeleteInventory.cs:line 15
+   at InventoryController.DeleteInventoryForVendorById(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 68
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:43:56.170 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - 404 null application/json 55.5735ms
+2026-06-14 23:44:00.135 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - null 0
+2026-06-14 23:44:00.140 +05:30 [INF] Executing endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:44:00.141 +05:30 [INF] Route matched with {action = "DeleteInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] DeleteInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:44:00.153 +05:30 [INF] Vendor UserId 7 requested deletion of InventoryId 1
+2026-06-14 23:44:00.162 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:44:00.162 +05:30 [INF] Executed action InventoryController.DeleteInventoryForVendorById (Ecommerce.API) in 21.1273ms
+2026-06-14 23:44:00.162 +05:30 [INF] Executed endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:44:00.163 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Inventory is deactivated
+   at InventoryValidation.ValidateInventory(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/InventoryValidation.cs:line 22
+   at InventoryService.DeleteInventory(Int32 inventoryId, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorInventoryService/DeleteInventory.cs:line 15
+   at InventoryController.DeleteInventoryForVendorById(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 68
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:44:00.164 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/1 - 404 null application/json 28.5436ms
+2026-06-14 23:44:04.306 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/2 - null 0
+2026-06-14 23:44:04.306 +05:30 [INF] Executing endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:44:04.307 +05:30 [INF] Route matched with {action = "DeleteInventoryForVendorById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] DeleteInventoryForVendorById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:44:04.307 +05:30 [INF] Vendor UserId 7 requested deletion of InventoryId 2
+2026-06-14 23:44:04.309 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:44:04.311 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId"
+FROM "Address" AS a
+WHERE a."AddressId" = @p
+LIMIT 1
+2026-06-14 23:44:04.312 +05:30 [INF] Executed action InventoryController.DeleteInventoryForVendorById (Ecommerce.API) in 5.0223ms
+2026-06-14 23:44:04.312 +05:30 [INF] Executed endpoint 'InventoryController.DeleteInventoryForVendorById (Ecommerce.API)'
+2026-06-14 23:44:04.312 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: You Cannot access other address datas
+   at UserValidation.ValidateAddress(Int32 addressId, Int32 userId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/UserAndAddressValidation.cs:line 41
+   at InventoryService.DeleteInventory(Int32 inventoryId, Int32 vendorUserId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/VendorInventoryService/DeleteInventory.cs:line 16
+   at InventoryController.DeleteInventoryForVendorById(Int32 inventoryId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 68
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:44:04.314 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Inventory/vendor-inventories/2 - 409 null application/json 8.2541ms
+2026-06-14 23:47:34.587 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 63
+2026-06-14 23:47:34.590 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:47:34.599 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-14 23:47:34.609 +05:30 [INF] Login attempt for sowmiya@gmail.com
+2026-06-14 23:47:34.622 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-14 23:47:34.635 +05:30 [INF] Generating token for UserId 2
+2026-06-14 23:47:34.641 +05:30 [INF] Login successful for UserId 2
+2026-06-14 23:47:34.641 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-14 23:47:34.643 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 44.088ms
+2026-06-14 23:47:34.643 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:47:34.643 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 55.7301ms
+2026-06-14 23:48:45.042 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:48:45.044 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 2.2493ms
+2026-06-14 23:48:45.092 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:48:45.125 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 32.93ms
+2026-06-14 23:52:59.252 +05:30 [INF] Application is shutting down...
+2026-06-14 23:53:03.959 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:53:04.029 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:53:04.029 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:53:04.030 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:53:04.030 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:53:11.530 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:53:11.563 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 34.0074ms
+2026-06-14 23:53:11.617 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:53:11.690 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 73.2307ms
+2026-06-14 23:55:50.257 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - application/json 124
+2026-06-14 23:55:50.280 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:55:50.299 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:55:50.309 +05:30 [INF] Route matched with {action = "RequestCancels", controller = "Cancel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RequestCancels(RequestCancelDTO) on controller Ecommerce.API.Controllers.CancelController (Ecommerce.API).
+2026-06-14 23:55:50.426 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:55:51.040 +05:30 [INF] Executed DbCommand (25ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:55:51.157 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cancel" ("AdditionalReason", "CancelQuantity", "CancelReasonId", "CancelStatusId", "CancelledDate", "ConvenienceFee", "OrderItemId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "CancelId";
+2026-06-14 23:55:51.167 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:55:51.173 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "OrderItems" AS o
+WHERE o."OrderId" = @orderId AND o."OrderItemStatusId" = 7
+2026-06-14 23:55:51.187 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?', @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Order" SET "AddressId" = @p0, "CreatedAt" = @p1, "FinalAmount" = @p2, "OrderDate" = @p3, "OrderNumber" = @p4, "OrderStatusId" = @p5, "TotalCouponAmount" = @p6, "TotalProductAmount" = @p7, "TotalShippingAmount" = @p8, "UpdatedAt" = @p9, "UserId" = @p10
+WHERE "OrderId" = @p11;
+UPDATE "OrderItems" SET "OrderItemStatusId" = @p12
+WHERE "OrderItemsId" = @p13;
+2026-06-14 23:55:51.198 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:55:51.225 +05:30 [INF] Executed DbCommand (11ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p4='?' (DbType = Decimal), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime2), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Inventory" SET "AvailableQuantity" = @p0, "ReservedQuantity" = @p1, "UpdatedAt" = @p2
+WHERE "InventoryId" = @p3;
+INSERT INTO "Refund" ("ActualRefundAmount", "OrderItemsId", "ProcessedDate", "RefundStatusId", "RefundTypeId", "RequestedDate")
+VALUES (@p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "RefundId";
+2026-06-14 23:55:51.235 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CancelRefund" ("CancelId", "RefundId")
+VALUES (@p0, @p1)
+RETURNING "CancelRefundId";
+2026-06-14 23:55:51.238 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCancelDTO'.
+2026-06-14 23:55:51.242 +05:30 [INF] Executed action Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API) in 931.79ms
+2026-06-14 23:55:51.243 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:55:51.245 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - 200 null application/json; charset=utf-8 988.4261ms
+2026-06-14 23:56:00.423 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - application/json 124
+2026-06-14 23:56:00.432 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:56:00.433 +05:30 [INF] Route matched with {action = "RequestCancels", controller = "Cancel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RequestCancels(RequestCancelDTO) on controller Ecommerce.API.Controllers.CancelController (Ecommerce.API).
+2026-06-14 23:56:00.450 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:56:00.454 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = DateTime2), @p5='?' (DbType = Decimal), @p6='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Cancel" ("AdditionalReason", "CancelQuantity", "CancelReasonId", "CancelStatusId", "CancelledDate", "ConvenienceFee", "OrderItemId")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6)
+RETURNING "CancelId";
+2026-06-14 23:56:00.455 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:56:00.456 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "OrderItems" AS o
+WHERE o."OrderId" = @orderId AND o."OrderItemStatusId" = 7
+2026-06-14 23:56:00.459 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?', @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Int32), @p13='?' (DbType = Int32), @p12='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Order" SET "AddressId" = @p0, "CreatedAt" = @p1, "FinalAmount" = @p2, "OrderDate" = @p3, "OrderNumber" = @p4, "OrderStatusId" = @p5, "TotalCouponAmount" = @p6, "TotalProductAmount" = @p7, "TotalShippingAmount" = @p8, "UpdatedAt" = @p9, "UserId" = @p10
+WHERE "OrderId" = @p11;
+UPDATE "OrderItems" SET "OrderItemStatusId" = @p12
+WHERE "OrderItemsId" = @p13;
+2026-06-14 23:56:00.462 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+FROM "Inventory" AS i
+WHERE i."InventoryId" = @p
+LIMIT 1
+2026-06-14 23:56:00.464 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p3='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = Int32), @p2='?' (DbType = DateTime2), @p4='?' (DbType = Decimal), @p5='?' (DbType = Int32), @p6='?' (DbType = DateTime2), @p7='?' (DbType = Int32), @p8='?' (DbType = Int32), @p9='?' (DbType = DateTime2)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Inventory" SET "AvailableQuantity" = @p0, "ReservedQuantity" = @p1, "UpdatedAt" = @p2
+WHERE "InventoryId" = @p3;
+INSERT INTO "Refund" ("ActualRefundAmount", "OrderItemsId", "ProcessedDate", "RefundStatusId", "RefundTypeId", "RequestedDate")
+VALUES (@p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "RefundId";
+2026-06-14 23:56:00.467 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p0='?' (DbType = Int32), @p1='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "CancelRefund" ("CancelId", "RefundId")
+VALUES (@p0, @p1)
+RETURNING "CancelRefundId";
+2026-06-14 23:56:00.468 +05:30 [INF] Executing OkObjectResult, writing value of type 'ResponseCancelDTO'.
+2026-06-14 23:56:00.468 +05:30 [INF] Executed action Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API) in 35.1614ms
+2026-06-14 23:56:00.468 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:56:00.468 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - 200 null application/json; charset=utf-8 45.0306ms
+2026-06-14 23:56:23.484 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - application/json 123
+2026-06-14 23:56:23.491 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:56:23.491 +05:30 [INF] Route matched with {action = "RequestCancels", controller = "Cancel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] RequestCancels(RequestCancelDTO) on controller Ecommerce.API.Controllers.CancelController (Ecommerce.API).
+2026-06-14 23:56:23.538 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:56:23.540 +05:30 [INF] Executed action Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API) in 48.3115ms
+2026-06-14 23:56:23.540 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CancelController.RequestCancels (Ecommerce.API)'
+2026-06-14 23:56:23.540 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Order Already Shipped. Cannot be cancelled
+   at CancelService.RequestCancel(RequestCancelDTO requestCancelDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/CancelService/CreateCancelService.cs:line 19
+   at Ecommerce.API.Controllers.CancelController.RequestCancels(RequestCancelDTO request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/CancelController.cs:line 51
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:56:23.548 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Cancel/request-cancels - 409 null application/json 64.0507ms
+2026-06-14 23:56:44.611 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Cancel/user-cancels - null null
+2026-06-14 23:56:44.648 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.CancelController.GetAllCancelsForUser (Ecommerce.API)'
+2026-06-14 23:56:44.652 +05:30 [INF] Route matched with {action = "GetAllCancelsForUser", controller = "Cancel"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCancelsForUser(RequestUserCancelFilter) on controller Ecommerce.API.Controllers.CancelController (Ecommerce.API).
+2026-06-14 23:56:44.671 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Cancel" AS c
+INNER JOIN "OrderItems" AS o ON c."OrderItemId" = o."OrderItemsId"
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+WHERE o0."UserId" = @userId
+2026-06-14 23:56:44.705 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."CancelId", s."AdditionalReason", s."CancelQuantity", s."CancelReasonId", s."CancelStatusId", s."CancelledDate", s."ConvenienceFee", s."OrderItemId", c0."CancelReasonId", c0."CancelReasonDescription", c1."CancelStatusId", c1."CancelStatusName", s."OrderItemsId", s."Discount", s."InventoryId", s."OrderId", s."OrderItemStatusId", s."ProductVariantId", s."Quantity", s."UnitPrice", s."OrderId0", s."AddressId", s."CreatedAt", s."FinalAmount", s."OrderDate", s."OrderNumber", s."OrderStatusId", s."TotalCouponAmount", s."TotalProductAmount", s."TotalShippingAmount", s."UpdatedAt", s."UserId", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT c."CancelId", c."AdditionalReason", c."CancelQuantity", c."CancelReasonId", c."CancelStatusId", c."CancelledDate", c."ConvenienceFee", c."OrderItemId", o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId" AS "OrderId0", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId"
+    FROM "Cancel" AS c
+    INNER JOIN "OrderItems" AS o ON c."OrderItemId" = o."OrderItemsId"
+    INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+    WHERE o0."UserId" = @userId
+    ORDER BY c."CancelledDate" DESC
+    LIMIT @p2 OFFSET @p
+) AS s
+INNER JOIN "CancelReason" AS c0 ON s."CancelReasonId" = c0."CancelReasonId"
+INNER JOIN "CancelStatus" AS c1 ON s."CancelStatusId" = c1."CancelStatusId"
+INNER JOIN "Address" AS a ON s."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON s."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+ORDER BY s."CancelledDate" DESC
+2026-06-14 23:56:44.711 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[CancelSummaryDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:56:44.714 +05:30 [INF] Executed action Ecommerce.API.Controllers.CancelController.GetAllCancelsForUser (Ecommerce.API) in 61.7873ms
+2026-06-14 23:56:44.714 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.CancelController.GetAllCancelsForUser (Ecommerce.API)'
+2026-06-14 23:56:44.715 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Cancel/user-cancels - 200 null application/json; charset=utf-8 103.2387ms
+2026-06-14 23:58:52.957 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:58:52.986 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 29.4185ms

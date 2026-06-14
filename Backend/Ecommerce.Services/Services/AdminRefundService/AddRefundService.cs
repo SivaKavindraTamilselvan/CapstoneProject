@@ -62,7 +62,8 @@ public class AdminRefundService : IAdminRefundService
         {
             throw new DataNotFoundException("Refund Data Not Found");
         }
-        refund.RefundStatusId = 7; // Processed
+        // needed to add refund status too cancel and return
+        refund.RefundStatusId = 7;
         refund.ProcessedDate = DateTime.Now;
         await _refundRepsository.Update(refund.RefundId, refund);
         return _mapper.Map<ResponseUpdateRefundDTO>(refund);

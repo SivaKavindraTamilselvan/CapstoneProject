@@ -40,7 +40,8 @@ public partial class CancelService : ICancelService
     }
     public async Task<PagedResponse<CancelSummaryDto>> GetAllCancelsForVendor(RequestVendorCancelFilter request, int user)
     {
-        var result = await _cancelRepsository.GetAllCancelsForVendor(request, user);
+        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(user);
+        var result = await _cancelRepsository.GetAllCancelsForVendor(request, vendor.VendorId);
         if (result.data.Count == 0)
         {
             throw new DataNotFoundException("No cancel requests found");

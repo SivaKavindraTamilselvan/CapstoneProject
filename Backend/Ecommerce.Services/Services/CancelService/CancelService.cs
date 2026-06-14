@@ -15,9 +15,11 @@ public partial class CancelService : ICancelService
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IRefundRepsository _refundRepsository;
     private readonly ICancelRefundRepsository _cancelRefundRepsository;
+    private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IMapper _mapper;
-    public CancelService(IOrderItemRepsository orderItemRepsository, IRefundRepsository refundRepsository, ICancelRefundRepsository cancelRefundRepsository, IOrderRepsository orderRepsository, IInventoryValidation inventoryValidation, ICancelRepsository cancelRepsository, IOrderValidation orderValidation, IMapper mapper)
+    public CancelService(IVendorUserValidation vendorUserValidation,IOrderItemRepsository orderItemRepsository, IRefundRepsository refundRepsository, ICancelRefundRepsository cancelRefundRepsository, IOrderRepsository orderRepsository, IInventoryValidation inventoryValidation, ICancelRepsository cancelRepsository, IOrderValidation orderValidation, IMapper mapper)
     {
+        _vendorUserValidation = vendorUserValidation;
         _orderItemRepsository = orderItemRepsository;
         _refundRepsository = refundRepsository;
         _orderRepsository = orderRepsository;

@@ -44,14 +44,14 @@ public class AdminController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("CreateRefund")]
+    [HttpPut("reviewRefund")]
     public async Task<ActionResult> UpdateRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
     {
         var result = await _adminRefundService.ReviewRefund(requestUpdateRefundDTO);
         return Ok(result);
     }
     [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPut("ReviewRefund")]
+    [HttpPost("createRefund")]
     public async Task<ActionResult> CreateRefund(RequestAddRefundDTO requestAddRefundDTO)
     {
         var result = await _adminRefundService.CreateRefund(requestAddRefundDTO);
