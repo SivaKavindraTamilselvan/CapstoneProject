@@ -18,7 +18,8 @@ namespace Ecommerce.Mappers
             // update vendor inventory (Active and quantity)
             CreateMap<RequestUpdateInventoryDTO, Inventory>();
             CreateMap<Inventory, ResponseUpdateInventoryDTO>();
-            CreateMap<Inventory, ResponseInventoryDTO>();
+            CreateMap<Inventory, ResponseAdminInventoryDTO>();
+            CreateMap<Inventory, ResponseVendorInventoryDTO>();
 
             CreateMap<Vendor, ResponseGetVendor>()
             .ForMember(dest => dest.ApprovalStatusName, opt => opt.MapFrom(src => src.ApprovalStatus!.ApprovalStatusName));

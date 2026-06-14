@@ -1939,3 +1939,8 @@ ORDER BY s."CreatedAt" DESC, s."ProductId", s."ProductSubCategoryId0", s."Produc
 2026-06-14 02:07:51.186 +05:30 [INF] Application started. Press Ctrl+C to shut down.
 2026-06-14 02:07:51.186 +05:30 [INF] Hosting environment: Development
 2026-06-14 02:07:51.186 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 13:21:02.371 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 13:21:02.468 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 13:21:02.469 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 13:21:02.470 +05:30 [INF] Hosting environment: Development
+2026-06-14 13:21:02.470 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API

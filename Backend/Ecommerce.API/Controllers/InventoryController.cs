@@ -27,7 +27,7 @@ public class InventoryController : ControllerBase
     public async Task<ActionResult<ResponseUpdateInventoryDTO>> UpdateInventory(RequestUpdateInventoryDTO requestUpdateInventoryDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _inventoryService.UpdateInventory(requestUpdateInventoryDTO);
+        var result = await _inventoryService.UpdateInventory(requestUpdateInventoryDTO,vendorUserId);
         return Ok(result);
     }
 }
