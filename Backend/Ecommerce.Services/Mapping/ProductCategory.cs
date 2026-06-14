@@ -22,7 +22,6 @@ namespace Ecommerce.Mappers
             CreateMap<ProductSubCategory, ResponseUserGetAllSubCategory>();
             CreateMap<ProductSubCategory, ResponseAdminGetAllSubCategory>()
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.ProductSubCategoryName))
-            .ForMember(dest => dest.CategoryIsActive, opt => opt.MapFrom(src => src.ProductCategory!.IsActive))
             .ForMember(dest => dest.AddedUserName, opt => opt.MapFrom(src => src.AddedByAdminUser != null && src.AddedByAdminUser.User != null ? src.AddedByAdminUser.User.FirstName + " " + src.AddedByAdminUser.User.LastName : null));
             CreateMap<ProductSubCategory, ResponseVendorGetAllProductSubCategory>();
 

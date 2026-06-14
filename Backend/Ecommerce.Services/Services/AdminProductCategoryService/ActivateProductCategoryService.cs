@@ -60,7 +60,7 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
 
             throw new DataAlreadyRegisteredException("Product Sub category is already active");
         }
-        productSubCategory.IsActive = false;
+        productSubCategory.IsActive = true;
         _logger.LogInformation("Product SubCategory {SubCategoryId} - {SubCategoryName} activated successfully",productSubCategory.ProductSubCategoryId,productSubCategory.ProductSubCategoryName);
 
         var vendorOwnerIds = await _vendorRepsository.GetAllVendorOwnerUserIds();

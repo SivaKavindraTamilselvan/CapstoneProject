@@ -31,7 +31,6 @@ public class ResponseAdminGetAllSubCategory
     public int ProductSubCategoryId { get; set; }
     public string ProductSubCategoryName { get; set; } = string.Empty;
     public int ProductCategoryId { get; set; }
-    public bool CategoryIsActive { get; set; } = true;
     public bool IsActive { get; set; } = true;
     public decimal CommissionPercentage { get; set; }
     public int AddedByAdminId { get; set; }
