@@ -25,6 +25,11 @@ public partial class UserProductService : IUserProductService
     public async Task<ResponseUserGetProductDetailDTO> GetProductWithFullDetails(int productId)
     {
         _logger.LogInformation("User requested full details for ProductId {ProductId}", productId);
+        var result = await _productRepository.CheckTheProduct(productId,1);
+        if(result == null)
+        {
+            throw new DataNotFoundException("Product Not Found");
+        }
         var product = await _productRepository.GetProductWithFullDetails(productId);
         if (product == null)
         {

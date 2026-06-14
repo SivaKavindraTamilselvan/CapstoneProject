@@ -10,4 +10,9 @@ public class ProductVariantAttributeRepsository : AbstractRepository<int, Produc
     {
 
     }
+    public async Task<ProductVariantAttribute?> CheckAttributeAlreadyAdded(int productvariantid,int subcategoryid)
+    {
+        return await _ecommerceContext.ProductVariantAttribute.Where(p=>p.ProductSubCategoryAttributeId == subcategoryid && p.ProductVariantId == productvariantid).FirstOrDefaultAsync();
+    }
+
 }

@@ -11,7 +11,7 @@ public partial class VendorProductImageService : IVendorProductImageService
         _logger.LogInformation("Vendor UserId {VendorUserId} started adding product image for ProductId {ProductId}", vendorUserId, requestAddProductImage.ProductId);
 
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
-        var product = await _productValidation.ValidateProduct(requestAddProductImage.ProductId);
+        var product = await _productValidation.VendorValidateProduct(requestAddProductImage.ProductId,vendorUser.VendorId);
         _logger.LogInformation("Product {ProductId} validated for image upload", product.ProductId);
 
         var image = await _productImageRepsository.GetProductImageByImageURL(requestAddProductImage.ImageUrl);

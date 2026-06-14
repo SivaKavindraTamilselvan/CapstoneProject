@@ -43,7 +43,7 @@ public class VendorController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
-    [HttpPost("ReviewReturnProductByVendor")]
+    [HttpPut("ReviewReturnProductByVendor")]
     public async Task<ActionResult<ResponseReviewReturnDTO>> ReviewReturnProduct(RequestReviewReturnDTO requestReviewReturnDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

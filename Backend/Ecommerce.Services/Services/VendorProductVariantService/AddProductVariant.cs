@@ -1,5 +1,6 @@
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -81,14 +82,17 @@ public partial class VendorProductVariantService : IVendorProductVariantService
             productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
             await _productVariantAttributeRepsository.Create(productVariantAttribute);
         }
-        /*
-        if (updation)
+        if(updation)
         {
-            productVariant.ProductApprovalStatusId = (int)ProductApprovalStatusEnum.Vendor_Approved;
-            productVariant.UpdatedAt = DateTime.Now;
-            await _productVariantRepsository.Update(productVariant.ProductVariantId, productVariant);
+            var result = await _productVariantAttributeRepsository.CheckAttributeAlreadyAdded(requestAddProductVariantAttributeDTO.ProductVariantId,requestAddProductVariantAttributeDTO.ProductSubCategoryAttributeId);
+            if(result !=null)
+            {
+                throw new DataAlreadyRegisteredException("Product Attribute Already Added");
+            }
+            productVariantAttribute.AddedByVendorUserId = vendorUser.VendorUserId;
+            productVariantAttribute.UpdatedAt = DateTime.Now;
+            await _productVariantAttributeRepsository.Create(productVariantAttribute);
         }
-        */
         var ownerUser = await _vendorUserRepsository.GetOwnerVendorUserByVendorId(vendorUser.VendorId);
         if (ownerUser != null)
         {

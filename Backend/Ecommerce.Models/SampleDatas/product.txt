@@ -1,0 +1,498 @@
+[
+  {
+    "product": {
+      "productName": "Dell XPS 15",
+      "description": "Premium laptop with Intel Core i7, 16GB RAM, OLED display, and long battery life",
+      "productSubCategoryId": 2,
+      "mainProductSubCategoryAttributeId": 7
+    },
+    "variant": {
+      "productId": 1,
+      "price": 149999,
+      "weightInKgs": 1.86,
+      "lengthInCm": 34.4,
+      "widthInCm": 23.0,
+      "heightInCm": 1.8,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 7, "attributeValue": "Dell" },
+        { "productSubCategoryAttributeId": 8, "attributeValue": "1TB SSD" },
+        { "productSubCategoryAttributeId": 9, "attributeValue": "16GB" },
+        { "productSubCategoryAttributeId": 10, "attributeValue": "Intel Core i7" },
+        { "productSubCategoryAttributeId": 11, "attributeValue": "Windows 11" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Apple MacBook Air M3",
+      "description": "Lightweight laptop with Apple M3 chip, 8GB RAM, and macOS",
+      "productSubCategoryId": 2,
+      "mainProductSubCategoryAttributeId": 7
+    },
+    "variant": {
+      "productId": 2,
+      "price": 114999,
+      "weightInKgs": 1.24,
+      "lengthInCm": 30.4,
+      "widthInCm": 21.5,
+      "heightInCm": 1.13,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 7, "attributeValue": "Apple" },
+        { "productSubCategoryAttributeId": 8, "attributeValue": "512GB SSD" },
+        { "productSubCategoryAttributeId": 9, "attributeValue": "8GB" },
+        { "productSubCategoryAttributeId": 10, "attributeValue": "Apple M3" },
+        { "productSubCategoryAttributeId": 11, "attributeValue": "macOS" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "iPhone 15",
+      "description": "Apple smartphone with A16 Bionic chip and Super Retina XDR display",
+      "productSubCategoryId": 1,
+      "mainProductSubCategoryAttributeId": 1
+    },
+    "variant": {
+      "productId": 3,
+      "price": 79999,
+      "weightInKgs": 0.171,
+      "lengthInCm": 14.76,
+      "widthInCm": 7.12,
+      "heightInCm": 0.78,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 1, "attributeValue": "Apple" },
+        { "productSubCategoryAttributeId": 2, "attributeValue": "Black" },
+        { "productSubCategoryAttributeId": 3, "attributeValue": "128GB" },
+        { "productSubCategoryAttributeId": 4, "attributeValue": "6GB" },
+        { "productSubCategoryAttributeId": 5, "attributeValue": "6.1 inch" },
+        { "productSubCategoryAttributeId": 6, "attributeValue": "3877 mAh" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Samsung Galaxy S24",
+      "description": "Samsung flagship smartphone with AMOLED display and powerful processor",
+      "productSubCategoryId": 1,
+      "mainProductSubCategoryAttributeId": 1
+    },
+    "variant": {
+      "productId": 4,
+      "price": 74999,
+      "weightInKgs": 0.168,
+      "lengthInCm": 14.7,
+      "widthInCm": 7.06,
+      "heightInCm": 0.76,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 1, "attributeValue": "Samsung" },
+        { "productSubCategoryAttributeId": 2, "attributeValue": "Grey" },
+        { "productSubCategoryAttributeId": 3, "attributeValue": "256GB" },
+        { "productSubCategoryAttributeId": 4, "attributeValue": "8GB" },
+        { "productSubCategoryAttributeId": 5, "attributeValue": "6.2 inch" },
+        { "productSubCategoryAttributeId": 6, "attributeValue": "4000 mAh" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Sony WH-1000XM5",
+      "description": "Wireless noise cancelling headphones with long battery life",
+      "productSubCategoryId": 5,
+      "mainProductSubCategoryAttributeId": 22
+    },
+    "variant": {
+      "productId": 5,
+      "price": 29990,
+      "weightInKgs": 0.25,
+      "lengthInCm": 20.0,
+      "widthInCm": 18.0,
+      "heightInCm": 8.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 22, "attributeValue": "Sony" },
+        { "productSubCategoryAttributeId": 23, "attributeValue": "Black" },
+        { "productSubCategoryAttributeId": 24, "attributeValue": "250g" },
+        { "productSubCategoryAttributeId": 25, "attributeValue": "30 Hours" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "JBL Flip 6",
+      "description": "Portable waterproof Bluetooth speaker with deep bass",
+      "productSubCategoryId": 6,
+      "mainProductSubCategoryAttributeId": 26
+    },
+    "variant": {
+      "productId": 6,
+      "price": 10999,
+      "weightInKgs": 0.55,
+      "lengthInCm": 17.8,
+      "widthInCm": 6.8,
+      "heightInCm": 7.2,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 26, "attributeValue": "JBL" },
+        { "productSubCategoryAttributeId": 27, "attributeValue": "Blue" },
+        { "productSubCategoryAttributeId": 28, "attributeValue": "550g" },
+        { "productSubCategoryAttributeId": 29, "attributeValue": "12 Hours" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Nike Men's T-Shirt",
+      "description": "Comfortable cotton regular fit T-shirt for men",
+      "productSubCategoryId": 7,
+      "mainProductSubCategoryAttributeId": 30
+    },
+    "variant": {
+      "productId": 7,
+      "price": 1499,
+      "weightInKgs": 0.25,
+      "lengthInCm": 30.0,
+      "widthInCm": 25.0,
+      "heightInCm": 2.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 30, "attributeValue": "Nike" },
+        { "productSubCategoryAttributeId": 31, "attributeValue": "Black" },
+        { "productSubCategoryAttributeId": 32, "attributeValue": "M" },
+        { "productSubCategoryAttributeId": 33, "attributeValue": "Cotton" },
+        { "productSubCategoryAttributeId": 34, "attributeValue": "Men" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Levi's Slim Fit Jeans",
+      "description": "Stylish denim slim fit jeans for men",
+      "productSubCategoryId": 9,
+      "mainProductSubCategoryAttributeId": 40
+    },
+    "variant": {
+      "productId": 8,
+      "price": 3299,
+      "weightInKgs": 0.65,
+      "lengthInCm": 35.0,
+      "widthInCm": 28.0,
+      "heightInCm": 3.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 40, "attributeValue": "Levi's" },
+        { "productSubCategoryAttributeId": 41, "attributeValue": "Blue" },
+        { "productSubCategoryAttributeId": 42, "attributeValue": "32" },
+        { "productSubCategoryAttributeId": 43, "attributeValue": "Denim" },
+        { "productSubCategoryAttributeId": 44, "attributeValue": "Men" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Puma Running Shoes",
+      "description": "Lightweight running shoes for daily training",
+      "productSubCategoryId": 11,
+      "mainProductSubCategoryAttributeId": 50
+    },
+    "variant": {
+      "productId": 9,
+      "price": 4599,
+      "weightInKgs": 0.8,
+      "lengthInCm": 32.0,
+      "widthInCm": 20.0,
+      "heightInCm": 12.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 50, "attributeValue": "Puma" },
+        { "productSubCategoryAttributeId": 51, "attributeValue": "White" },
+        { "productSubCategoryAttributeId": 52, "attributeValue": "9" },
+        { "productSubCategoryAttributeId": 53, "attributeValue": "Mesh" },
+        { "productSubCategoryAttributeId": 54, "attributeValue": "Men" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Himalaya Neem Face Wash",
+      "description": "Purifying neem face wash for clear skin",
+      "productSubCategoryId": 13,
+      "mainProductSubCategoryAttributeId": 60
+    },
+    "variant": {
+      "productId": 10,
+      "price": 199,
+      "weightInKgs": 0.15,
+      "lengthInCm": 12.0,
+      "widthInCm": 5.0,
+      "heightInCm": 4.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": false,
+      "isExchange": false,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 60, "attributeValue": "Himalaya" },
+        { "productSubCategoryAttributeId": 61, "attributeValue": "100ml" },
+        { "productSubCategoryAttributeId": 62, "attributeValue": "Oily Skin" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Nivea Soft Moisturizer",
+      "description": "Light moisturizing cream for daily use",
+      "productSubCategoryId": 14,
+      "mainProductSubCategoryAttributeId": 63
+    },
+    "variant": {
+      "productId": 11,
+      "price": 299,
+      "weightInKgs": 0.2,
+      "lengthInCm": 8.0,
+      "widthInCm": 8.0,
+      "heightInCm": 5.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": false,
+      "isExchange": false,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 63, "attributeValue": "Nivea" },
+        { "productSubCategoryAttributeId": 64, "attributeValue": "200ml" },
+        { "productSubCategoryAttributeId": 65, "attributeValue": "All Skin Types" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Prestige Non-Stick Cookware Set",
+      "description": "Durable non-stick cookware set for daily cooking",
+      "productSubCategoryId": 19,
+      "mainProductSubCategoryAttributeId": 75
+    },
+    "variant": {
+      "productId": 12,
+      "price": 2499,
+      "weightInKgs": 2.5,
+      "lengthInCm": 40.0,
+      "widthInCm": 30.0,
+      "heightInCm": 15.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 75, "attributeValue": "Prestige" },
+        { "productSubCategoryAttributeId": 76, "attributeValue": "Aluminium" },
+        { "productSubCategoryAttributeId": 77, "attributeValue": "3 Pieces" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Milton Storage Container Set",
+      "description": "Airtight kitchen storage container set",
+      "productSubCategoryId": 21,
+      "mainProductSubCategoryAttributeId": 81
+    },
+    "variant": {
+      "productId": 13,
+      "price": 899,
+      "weightInKgs": 1.2,
+      "lengthInCm": 25.0,
+      "widthInCm": 20.0,
+      "heightInCm": 15.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 81, "attributeValue": "Milton" },
+        { "productSubCategoryAttributeId": 82, "attributeValue": "Plastic" },
+        { "productSubCategoryAttributeId": 83, "attributeValue": "5 Litres" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Philips Mixer Grinder",
+      "description": "Powerful kitchen mixer grinder with stainless steel jars",
+      "productSubCategoryId": 24,
+      "mainProductSubCategoryAttributeId": 91
+    },
+    "variant": {
+      "productId": 14,
+      "price": 3499,
+      "weightInKgs": 3.1,
+      "lengthInCm": 35.0,
+      "widthInCm": 25.0,
+      "heightInCm": 25.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 91, "attributeValue": "Philips" },
+        { "productSubCategoryAttributeId": 92, "attributeValue": "3.1kg" },
+        { "productSubCategoryAttributeId": 93, "attributeValue": "750W" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Clean Code",
+      "description": "A handbook of agile software craftsmanship",
+      "productSubCategoryId": 25,
+      "mainProductSubCategoryAttributeId": 94
+    },
+    "variant": {
+      "productId": 15,
+      "price": 699,
+      "weightInKgs": 0.7,
+      "lengthInCm": 23.0,
+      "widthInCm": 15.0,
+      "heightInCm": 3.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": false,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 94, "attributeValue": "Pearson" },
+        { "productSubCategoryAttributeId": 95, "attributeValue": "Robert C. Martin" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "The Alchemist",
+      "description": "Popular inspirational novel by Paulo Coelho",
+      "productSubCategoryId": 26,
+      "mainProductSubCategoryAttributeId": 96
+    },
+    "variant": {
+      "productId": 16,
+      "price": 299,
+      "weightInKgs": 0.3,
+      "lengthInCm": 20.0,
+      "widthInCm": 13.0,
+      "heightInCm": 2.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": false,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 96, "attributeValue": "HarperCollins" },
+        { "productSubCategoryAttributeId": 97, "attributeValue": "Paulo Coelho" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "MRF Cricket Bat",
+      "description": "Premium English willow cricket bat",
+      "productSubCategoryId": 29,
+      "mainProductSubCategoryAttributeId": 102
+    },
+    "variant": {
+      "productId": 17,
+      "price": 7999,
+      "weightInKgs": 1.25,
+      "lengthInCm": 85.0,
+      "widthInCm": 11.0,
+      "heightInCm": 6.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 102, "attributeValue": "MRF" },
+        { "productSubCategoryAttributeId": 103, "attributeValue": "English Willow" },
+        { "productSubCategoryAttributeId": 104, "attributeValue": "1.25kg" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Nivia Football",
+      "description": "Durable training football for outdoor play",
+      "productSubCategoryId": 30,
+      "mainProductSubCategoryAttributeId": 105
+    },
+    "variant": {
+      "productId": 18,
+      "price": 999,
+      "weightInKgs": 0.45,
+      "lengthInCm": 22.0,
+      "widthInCm": 22.0,
+      "heightInCm": 22.0,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 105, "attributeValue": "Nivia" },
+        { "productSubCategoryAttributeId": 106, "attributeValue": "Synthetic Rubber" },
+        { "productSubCategoryAttributeId": 107, "attributeValue": "450g" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "Adidas Yoga Mat",
+      "description": "Anti-slip yoga mat for home workout and fitness",
+      "productSubCategoryId": 32,
+      "mainProductSubCategoryAttributeId": 111
+    },
+    "variant": {
+      "productId": 19,
+      "price": 1599,
+      "weightInKgs": 1.0,
+      "lengthInCm": 180.0,
+      "widthInCm": 60.0,
+      "heightInCm": 0.6,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 111, "attributeValue": "Adidas" },
+        { "productSubCategoryAttributeId": 112, "attributeValue": "PVC" },
+        { "productSubCategoryAttributeId": 113, "attributeValue": "1kg" }
+      ]
+    }
+  },
+  {
+    "product": {
+      "productName": "boAt Smart Watch",
+      "description": "Smart watch with fitness tracking and long battery life",
+      "productSubCategoryId": 4,
+      "mainProductSubCategoryAttributeId": 19
+    },
+    "variant": {
+      "productId": 20,
+      "price": 2499,
+      "weightInKgs": 0.05,
+      "lengthInCm": 4.5,
+      "widthInCm": 3.8,
+      "heightInCm": 1.1,
+      "minimuQuantityPerUser": 1,
+      "isReturn": true,
+      "isExchange": true,
+      "productVariantAttribute": [
+        { "productSubCategoryAttributeId": 19, "attributeValue": "boAt" },
+        { "productSubCategoryAttributeId": 20, "attributeValue": "Black" },
+        { "productSubCategoryAttributeId": 21, "attributeValue": "7 Days" }
+      ]
+    }
+  }
+]

@@ -63,7 +63,8 @@ public partial class VendorProductService : IVendorProductService
     public async Task<ResponseVendorGetAllProductDTO> GetProductWithFullDetails(int productId, int userId)
     {
         _logger.LogInformation("Vendor UserId {VendorUserId} requested full details for ProductId {ProductId}", userId, productId);
-        await _productValidation.VendorValidateProduct(productId, userId);
+        var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(userId);
+        await _productValidation.VendorValidateProduct(productId, vendor.VendorId);
         _logger.LogInformation("Vendor access validated for ProductId {ProductId}", productId);
         var product = await _productRepsository.GetProductWithFullDetails(productId);
         if (product == null)

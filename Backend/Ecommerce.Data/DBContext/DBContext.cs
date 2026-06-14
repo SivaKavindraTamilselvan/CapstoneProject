@@ -39,6 +39,7 @@ public class EcommerceContext : DbContext
     public DbSet<CouponUsage> CouponUsage {get;set;}
     public DbSet<Refund> Refund {get;set;}
     public DbSet<CancelRefund> CancelRefund {get;set;}
+    public DbSet<ProductVariantAttribute> ProductVariantAttribute {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
