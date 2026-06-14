@@ -33,14 +33,6 @@ public class OrderController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
-    [HttpGet("GetOrder")]
-    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetOrder(int? status)
-    {
-        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorOrderService.GetAllTheActiveOrder(vendorId,status);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
     [HttpPut("UpdateOrderStatus")]
     public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
     {

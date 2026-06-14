@@ -33,7 +33,7 @@ public partial class OrderService : IOrderService
     public async Task<OrderSummaryDto> GetOrderForUserByOrderId(int orderId)
     {
         var order = await _orderRepsository.GetOrderByOrderId(orderId);
-        if (order == null || order.UserId != orderId)
+        if (order == null || order.OrderId != orderId)
         {
             throw new DataNotFoundException("Order Not Found");
         }

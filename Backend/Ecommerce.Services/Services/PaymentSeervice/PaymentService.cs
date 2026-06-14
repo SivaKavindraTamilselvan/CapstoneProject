@@ -34,7 +34,7 @@ public class PaymentService : IPaymentService
         {
             OrderId = order.OrderId,
             ModeOfPaymentId = modeOfPaymentId,
-            Amount = 100,
+            Amount = order.FinalAmount,
             PaymentStatusId = 1, // Pending
             PaymentDate = DateTime.Now,
             CreatedAt = DateTime.Now
@@ -58,11 +58,12 @@ public class PaymentService : IPaymentService
             };
         }
 
+        decimal paymentAmount = order.FinalAmount;
+        paymentAmount = 5000;
         // Razorpay
         string keyId = _configuration["Razorpay:KeyId"] ?? string.Empty;
         string keySecret = _configuration["Razorpay:KeySecret"] ?? string.Empty;
-        //order.FinalAmount = 500;
-        int amountInPaise = (int)Math.Round(order.FinalAmount * 100);
+        int amountInPaise = (int)Math.Round(paymentAmount * 100);
 
         RazorpayClient client = new RazorpayClient(keyId, keySecret);
 

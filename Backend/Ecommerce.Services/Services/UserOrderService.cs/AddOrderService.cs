@@ -84,7 +84,10 @@ public partial class UserOrderService : IUserOrderService
         var order = await _orderService.CreateOrder(requestCreateOrderDTO);
         var orderItems = await _orderService.CreateOrderItems(selectedItems, order, selectedCoupon);
         var payment = await _paymentService.CreatePayment(order.OrderId, requestAddOrderDTO.PaymentMethod);
-
+        if(cod == 1)
+        {
+            await OnPaymentVerified(order.OrderId);
+        }
         foreach (var group in groupedShipments)
         {
             var pickupAddress = group.First().Inventory.Address!;
