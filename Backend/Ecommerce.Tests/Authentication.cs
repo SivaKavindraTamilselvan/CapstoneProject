@@ -109,6 +109,190 @@ public class AuthenticationServiceTest
         Assert.That(user.HashedKey, Is.Not.Null);
     }
 
+    [Test]
+    public async Task Register_ShouldCreateUserCartAndFavorites()
+    {
+        var request = new RequestRegisterUserDTO
+        {
+            FirstName = "Siva",
+            LastName = "Kavindra",
+            Email = "siva@test.com",
+            PhoneNumber = "9876543210",
+            Password = "Test@123"
+        };
+
+        var result = await _authenticationService.Register(request);
+
+        Assert.That(result, Is.Not.Null);
+
+        var user = await _context.User.FirstOrDefaultAsync(u => u.Email == "siva@test.com");
+        Assert.That(user, Is.Not.Null);
+        Assert.That(user!.RoleId, Is.EqualTo((int)RoleEnum.User));
+
+        var cart = await _context.Cart.FirstOrDefaultAsync(c => c.UserId == user.UserId);
+        Assert.That(cart, Is.Not.Null);
+
+        var favorites = await _context.Favorites.FirstOrDefaultAsync(f => f.UserId == user.UserId);
+        Assert.That(favorites, Is.Not.Null);
+    }
+    [Test]
+    public async Task Register_ShouldThrowException_WhenEmailAlreadyExists()
+    {
+        var request = new RequestRegisterUserDTO
+        {
+            FirstName = "Siva",
+            LastName = "Kavindra",
+            Email = "siva@test.com",
+            PhoneNumber = "9876543210",
+            Password = "Test@123"
+        };
+
+        await _authenticationService.Register(request);
+
+        var ex = Assert.ThrowsAsync<DataAlreadyRegisteredException>(async () =>
+            await _authenticationService.Register(request));
+
+        Assert.That(ex!.Message, Is.EqualTo("User Already Registered With The Email."));
+    }
+
+    [Test]
+    public async Task Register_ShouldThrowException_WhenPhoneNumberAlreadyExists()
+    {
+        var request1 = new RequestRegisterUserDTO
+        {
+            FirstName = "Siva",
+            LastName = "Kavindra",
+            Email = "siva1@test.com",
+            PhoneNumber = "9876543210",
+            Password = "Test@123"
+        };
+
+        var request2 = new RequestRegisterUserDTO
+        {
+            FirstName = "Ravi",
+            LastName = "Kumar",
+            Email = "ravi@test.com",
+            PhoneNumber = "9876543210",
+            Password = "Test@123"
+        };
+
+        await _authenticationService.Register(request1);
+
+        var ex = Assert.ThrowsAsync<DataAlreadyRegisteredException>(async () =>
+            await _authenticationService.Register(request2));
+
+        Assert.That(ex!.Message, Is.EqualTo("User Already Registered With The PhoneNumber."));
+    }
+
+    [Test]
+    public async Task RegisterAdmin_ShouldCreateAdminUser()
+    {
+        _context.AdminRoles.Add(new AdminRole { AdminRoleId = 1, AdminRoleName = "SuperAdmin" });
+        await _context.SaveChangesAsync();
+        var existingUser = new User
+        {
+            FirstName = "Main",
+            LastName = "Admin",
+            Email = "mainadmin@test.com",
+            PhoneNumber = "1111111111",
+            Password = new byte[] { 1 },
+            HashedKey = new byte[] { 1 },
+            RoleId = (int)RoleEnum.Admin
+        };
+
+        var createdUser = await _userRepository.Create(existingUser);
+
+        var existingAdmin = new AdminUser
+        {
+            UserId = createdUser!.UserId,
+            AdminRoleId = 1,
+            IsActive = true
+        };
+
+        var createdAdmin = await _adminRepository.Create(existingAdmin);
+
+        var directAdmin = await _context.AdminUser
+            .FirstOrDefaultAsync(a => a.UserId == createdUser.UserId && a.IsActive);
+
+        Assert.That(directAdmin, Is.Not.Null);
+        var request = new RequestRegisterAdminDTO
+        {
+            AdminRoleId = 1,
+            requestRegisterUserDTO = new RequestRegisterUserDTO
+            {
+                FirstName = "New",
+                LastName = "Admin",
+                Email = "newadmin@test.com",
+                PhoneNumber = "2222222222",
+                Password = "Test@123"
+            }
+        };
+        var result = await _authenticationService.RegisterAdmin(
+            request,
+            createdUser.UserId
+        );
+
+    }
+    [Test]
+    public async Task RegisterAdmin_ShouldThrowException_WhenAssignedAdminNotFound()
+    {
+        var request = new RequestRegisterAdminDTO
+        {
+            AdminRoleId = 1,
+            requestRegisterUserDTO = new RequestRegisterUserDTO
+            {
+                FirstName = "New",
+                LastName = "Admin",
+                Email = "newadmin@test.com",
+                PhoneNumber = "2222222222",
+                Password = "Test@123"
+            }
+        };
+
+        var ex = Assert.ThrowsAsync<DataNotFoundException>(async () =>
+            await _authenticationService.RegisterAdmin(request, 999));
+
+        Assert.That(ex!.Message, Is.EqualTo("Assining Admin User not found"));
+    }
+
+    [Test]
+    public async Task RegisterVendor_ShouldCreateVendorAndVendorUser()
+    {
+        var request = new RequestRegisterVendorDTO
+        {
+            requestRegisterUserDTO = new RequestRegisterUserDTO
+            {
+                FirstName = "Vendor",
+                LastName = "Owner",
+                Email = "vendor@test.com",
+                PhoneNumber = "3333333333",
+                Password = "Test@123"
+            },
+
+            VendorCompanyName = "Siva Stores",
+            ContactPersonName = "Siva",
+            CompanyEmail = "company@test.com",
+            CompanyPhoneNumber = "9999999999",
+            GSTNumber = "GST123456"
+        };
+
+        var result = await _authenticationService.RegisterVendor(request);
+
+        Assert.That(result, Is.Not.Null);
+
+        var user = await _context.User.FirstOrDefaultAsync(u => u.Email == "vendor@test.com");
+        Assert.That(user, Is.Not.Null);
+        Assert.That(user!.RoleId, Is.EqualTo((int)RoleEnum.Vendor));
+
+        var vendor = await _context.Vendor.FirstOrDefaultAsync(v => v.VendorCompanyName == "Siva Stores");
+        Assert.That(vendor, Is.Not.Null);
+
+        var vendorUser = await _context.VendorUser
+            .FirstOrDefaultAsync(vu => vu.UserId == user.UserId && vu.VendorId == vendor!.VendorId);
+
+        Assert.That(vendorUser, Is.Not.Null);
+        Assert.That(vendorUser!.VendorRoleId, Is.EqualTo((int)RoleEnum.VendorOwner));
+    }
     [TearDown]
     public void TearDown()
     {
