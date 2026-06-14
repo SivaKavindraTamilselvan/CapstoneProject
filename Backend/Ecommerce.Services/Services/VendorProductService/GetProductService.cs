@@ -18,7 +18,7 @@ public partial class VendorProductService : IVendorProductService
             _logger.LogDebug("Validating ProductId {ProductId}", products[i].ProductId);
             var validation = await _productValidation.ValidateProductChain(products[i]);
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == 4 && products[i].ProductStatusId == 2 && validation.IsValid && products[i]
-            .ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4 && pv.ProductVariantStatusId == 2 && pv.Inventories.Any(inv => inv.AvailableQuantity > 0 && inv.Address!.IsActive));
+            .ProductVariants.Any(pv => pv.ProductApprovalStatusId == 4 && pv.ProductVariantStatusId == 2 && pv.Inventories.Any(inv=> inv!= null && inv.IsActive && inv.AvailableQuantity > 0 && inv.Address != null && inv.Address!.IsActive));
             response[i].ValidationIssues = validation.Issues;
             _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid {IsValid}. IssuesCount {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
             foreach (var variantResponse in response[i].ProductVariants)
@@ -91,7 +91,7 @@ public partial class VendorProductService : IVendorProductService
             var validation = await _productValidation.ValidateProductChain(products[i].Product!);
 
             response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
-            && validation.IsValid && products[i].Inventories.Any(inv => inv.AvailableQuantity > 0 && inv.Address!.IsActive);
+            && validation.IsValid && products[i].Inventories.Any(inv=> inv!= null && inv.IsActive && inv.AvailableQuantity > 0 && inv.Address != null && inv.Address!.IsActive);
            
             response[i].ValidationIssues = validation.Issues;
             _logger.LogDebug("Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);

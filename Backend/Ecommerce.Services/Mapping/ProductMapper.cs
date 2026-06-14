@@ -13,7 +13,11 @@ namespace Ecommerce.Mappers
 
             CreateMap<Product, ResponseReviewOfProductDTO>();
 
-            CreateMap<RequestUpdateProduct, Product>();
+            CreateMap<RequestUpdateProduct, Product>()
+            .ForMember(dest => dest.ProductId, opt => opt.Ignore())
+            .ForMember(dest => dest.VendorId, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.AddedByVendorUserId, opt => opt.Ignore());
             CreateMap<Product, ResponseUpdateProduct>();
 
             CreateMap<Product, ResponseUserGetProductDetailDTO>()
@@ -45,7 +49,19 @@ namespace Ecommerce.Mappers
 
             CreateMap<ProductVariant, ResponseReviewOfProductVariantDTO>();
 
-            CreateMap<RequestUpdateProductVariant, ProductVariant>();
+            CreateMap<RequestUpdateProductVariant, ProductVariant>()
+            .ForMember(dest => dest.ProductVariantId, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductId, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.UpdatedAt, opt => opt.Ignore())
+            .ForMember(dest => dest.AddedByVendorUserId, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductApprovalStatusId, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductVariantStatusId, opt => opt.Ignore())
+            .ForMember(dest => dest.Product, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductVariantAttributes, opt => opt.Ignore())
+            .ForMember(dest => dest.ProductImages, opt => opt.Ignore())
+            .ForMember(dest => dest.Inventories, opt => opt.Ignore())
+            .ForMember(dest => dest.OrderItems, opt => opt.Ignore());
             CreateMap<ProductVariant, ResponseUpdateProductVariantDTO>();
 
             CreateMap<ProductVariant, ResponseUserProductVariant>()
@@ -63,12 +79,15 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser!.User!.FirstName + " " + src.AddedByVendorUser.User.LastName));
 
             CreateMap<ProductVariant, ResponseVendorGetProductVariantOnly>()
-            .ForMember(dest => dest.ProductApprovalStatus, opt => opt.MapFrom(src => src.ProductApprovalStatus!.ProductApprovalStatusName))
+            .ForMember(dest => dest.ProductVariantApprovalStatus, opt => opt.MapFrom(src => src.ProductApprovalStatus!.ProductApprovalStatusName))
             .ForMember(dest => dest.ProductVariantStatus, opt => opt.MapFrom(src => src.ProductVariantStatus!.ProductStatusName))
             .ForMember(dest => dest.AvailableQuantity, opt => opt.MapFrom(src => src.Inventories.Sum(i => i.AvailableQuantity)))
             .ForMember(dest => dest.ReservedQuantity, opt => opt.MapFrom(src => src.Inventories.Sum(i => i.ReservedQuantity)))
             .ForMember(dest => dest.MinimuQuantityPerUser, opt => opt.MapFrom(src => src.MinimuQuantityPerUser))
             .ForMember(dest => dest.Attributes, opt => opt.MapFrom(src => src.ProductVariantAttributes))
+             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.Product!.ProductName))
+            .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Product!.Description))
+            .ForMember(dest => dest.ProductApprovalStatus, opt => opt.MapFrom(src => src.Product!.ProductApprovalStatus!.ProductApprovalStatusName))
             .ForMember(dest => dest.AddedByVendorUser, opt => opt.MapFrom(src => src.AddedByVendorUser!.User!.FirstName + " " + src.AddedByVendorUser.User.LastName))
             .ForMember(dest => dest.ProductSubCategoryName, opt => opt.MapFrom(src => src.Product!.ProductSubCategory!.ProductSubCategoryName))
             .ForMember(dest => dest.ProductCategoryName, opt => opt.MapFrom(src => src.Product!.ProductSubCategory!.ProductCategory!.ProductCategoryName))

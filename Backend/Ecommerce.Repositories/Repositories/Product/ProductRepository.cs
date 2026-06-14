@@ -193,5 +193,17 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
         return await query.FirstOrDefaultAsync();
     }
+    public async Task<Product?> CheckTheWholeProduct(int ProductId, int Qunatity)
+    {
+        var query = BaseQuery().Where(p => p.ProductId == ProductId &&  p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+        p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+        p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+        p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+        p.ProductVariants.Any(pv =>
+        pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+        pv.Inventories.Any(i => i.AvailableQuantity > Qunatity) && pv.ProductVariantAttributes.All(a =>
+        a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
+        return await query.FirstOrDefaultAsync();
+    }
 
 }

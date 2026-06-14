@@ -34,10 +34,10 @@ public partial class VendorProductService : IVendorProductService
         {
             throw new InvalidCredentialException("You Cannot update th admin approved product datas");
         }
-        product = _mapper.Map<Product>(product);
+        _mapper.Map(requestUpdateProduct, product);
         product.UpdatedAt = DateTime.Now;
         _logger.LogInformation("Updating ProductId {ProductId}. Product will be resubmitted for admin review", product.ProductId);
-        await _productRepsository.Update(product.ProductId, product);
+        product = await _productRepsository.Update(product.ProductId, product);
         _logger.LogInformation("ProductId {ProductId} updated successfully by Vendor UserId {VendorUserId}", product.ProductId, vendorUserId);
        
         var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();

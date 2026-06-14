@@ -27,7 +27,7 @@ public class VendorController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOwnerOnly")]
-    [HttpPost("ReviewProductByVendor")]
+    [HttpPut("ReviewProductByVendor")]
     public async Task<ActionResult> ReviewProduct(RequestReviewOfProductDTO requestReviewOfProductDTO)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);

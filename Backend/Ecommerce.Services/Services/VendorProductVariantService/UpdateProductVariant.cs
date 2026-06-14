@@ -27,10 +27,10 @@ public partial class VendorProductVariantService : IVendorProductVariantService
             _logger.LogWarning("ProductVariantId {ProductVariantId} cannot be updated because ApprovalStatusId is {ApprovalStatusId}",productVariant.ProductVariantId,productVariant.ProductApprovalStatusId);
             throw new DataApprovalStatusException("Product Variant Cannot be updated if admin approved");
         }
-        var updatedProductVariant = _mapper.Map<ProductVariant>(productVariant);
-        updatedProductVariant.UpdatedAt = DateTime.Now;
-        await _productVariantRepsository.Update(productVariant.ProductVariantId,updatedProductVariant);
+        _mapper.Map(requestUpdateProductVariantDTO, productVariant);
+        productVariant.UpdatedAt = DateTime.Now;
+        await _productVariantRepsository.Update(productVariant.ProductVariantId,productVariant);
          _logger.LogInformation("Rejected ProductVariantId {ProductVariantId} updated successfully by Vendor UserId {VendorUserId}",productVariant.ProductVariantId,vendoruserId);
-        return _mapper.Map<ResponseUpdateProductVariantDTO>(updatedProductVariant);
+        return _mapper.Map<ResponseUpdateProductVariantDTO>(productVariant);
     }
 }

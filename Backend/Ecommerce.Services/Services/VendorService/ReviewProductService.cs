@@ -8,6 +8,8 @@ public partial class VendorService : IVendorService
 {
     public async Task<ResponseReviewOfProductDTO> ReviewProductByVendor(RequestReviewOfProductDTO requestReviewOfProductDTO, int vendorUserId)
     {
+        var User = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
+        await _productValidation.VendorValidateProduct(requestReviewOfProductDTO.ProductId,User.VendorId);
         _logger.LogInformation("Vendor UserId {VendorUserId} reviewing ProductId {ProductId} with StatusId {StatusId}", vendorUserId, requestReviewOfProductDTO.ProductId, requestReviewOfProductDTO.ApprovalStatusId);
         if (requestReviewOfProductDTO.ApprovalStatusId != 2 && requestReviewOfProductDTO.ApprovalStatusId != 3)
         {
@@ -41,6 +43,7 @@ public partial class VendorService : IVendorService
     }
     public async Task<ResponseReviewOfProductVariantDTO> ReviewProductVariant(RequestReviewOfProductVariantDTO requestReviewOfProductDTO, int vendorUserId)
     {
+        await _productValidation.ValidateProductVariant(requestReviewOfProductDTO.ProductVariantId,vendorUserId);
         _logger.LogInformation("Vendor UserId {VendorUserId} reviewing ProductVariantId {ProductVariantId} with StatusId {StatusId}", vendorUserId, requestReviewOfProductDTO.ProductVariantId, requestReviewOfProductDTO.ApprovalStatusId);
         if (requestReviewOfProductDTO.ApprovalStatusId != 2 && requestReviewOfProductDTO.ApprovalStatusId != 3)
         {
