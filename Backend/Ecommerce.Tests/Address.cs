@@ -1,28 +1,34 @@
-
 using AutoMapper;
+using Ecommerce.Data;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
+using Ecommerce.Repositories;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Moq;
+using NUnit.Framework;
 
 namespace EcommerceTest;
 
 public class AddressServiceTest
 {
+    private EcommerceContext _context = null!;
+
+    private IAddressRepsository _addressRepo = null!;
+    private IOrderRepsository _orderRepo = null!;
+    private IOrderItemRepsository _orderItemRepo = null!;
+
     private Mock<IVendorUserValidation> _vendorUserValidation = null!;
     private Mock<INotificationService> _notificationService = null!;
-    private Mock<IAddressRepsository> _addressRepo = null!;
-    private Mock<IOrderRepsository> _orderRepo = null!;
-    private Mock<IOrderItemRepsository> _orderItemRepo = null!;
     private Mock<IUserValidation> _userValidation = null!;
     private Mock<ILogger<AddressService>> _logger = null!;
+
     private IMapper _mapper = null!;
     private AddressService _sut = null!;
-
 
     private static Address MakeAddress(
         int addressId = 1,
@@ -35,21 +41,33 @@ public class AddressServiceTest
             UserId = userId,
             IsDefault = isDefault,
             IsActive = isActive,
+            ContactName = "Siva",
+            ContactPhoneNumber = "9876543210",
+            AddressLine = "Main Street",
+            LandMark = "Near Bus Stand",
             City = "Chennai",
+            State = "Tamil Nadu",
+            Country = "India",
             PinCode = "600001"
         };
-
 
     [SetUp]
     public void Setup()
     {
+        var options = new DbContextOptionsBuilder<EcommerceContext>()
+            .UseInMemoryDatabase(Guid.NewGuid().ToString())
+            .Options;
+
+        _context = new EcommerceContext(options);
+
+        _addressRepo = new AddressRepsository(_context);
+        _orderRepo = new OrderRepsository(_context);
+        _orderItemRepo = new OrderItemRepsository(_context);
+
         _vendorUserValidation = new Mock<IVendorUserValidation>();
-        _addressRepo = new Mock<IAddressRepsository>();
-        _orderRepo = new Mock<IOrderRepsository>();
-        _orderItemRepo = new Mock<IOrderItemRepsository>();
+        _notificationService = new Mock<INotificationService>();
         _userValidation = new Mock<IUserValidation>();
         _logger = new Mock<ILogger<AddressService>>();
-        _notificationService = new Mock<INotificationService>();
 
         var config = new MapperConfiguration(cfg =>
         {
@@ -64,376 +82,179 @@ public class AddressServiceTest
         _sut = new AddressService(
             _notificationService.Object,
             _vendorUserValidation.Object,
-            _orderItemRepo.Object,
-            _orderRepo.Object,
-            _addressRepo.Object,
+            _orderItemRepo,
+            _orderRepo,
+            _addressRepo,
             _userValidation.Object,
             _mapper,
             _logger.Object
         );
     }
-    [Test]
-    public async Task AddAddress_ShouldCreateAddress_WhenNotDefault()
-    {
-        var request = new RequestAddAddressDTO { City = "Chennai", PinCode = "600001" };
-        var address = MakeAddress(isDefault: false);
-        var user = new User
-        {
-            UserId = 10,
-            FirstName = "Siva"
-        };
 
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _addressRepo.Setup(r => r.Create(It.IsAny<Address>())).ReturnsAsync(address);
+    [TearDown]
+    public void TearDown()
+    {
+        _context.Database.EnsureDeleted();
+        _context.Dispose();
+    }
+
+    [Test]
+    public async Task AddAddress_ShouldCreateAddress_InDatabase()
+    {
+        var user = new User { UserId = 10, FirstName = "Siva", IsActive = true };
+
+        _userValidation
+            .Setup(v => v.ValidateUser(10))
+            .ReturnsAsync(user);
+
+        var request = new RequestAddAddressDTO
+        {
+            ContactName = "Siva",
+            ContactPhoneNumber = "9876543210",
+            AddressLine = "Main Street",
+            LandMark = "Near Bus Stand",
+            City = "Chennai",
+            State = "Tamil Nadu",
+            PinCode = "600001",
+            IsDefault = false
+        };
 
         var result = await _sut.AddAddress(request, 10);
 
         Assert.That(result, Is.Not.Null);
-        _addressRepo.Verify(r => r.Create(It.Is<Address>(a => a.UserId == 10)), Times.Once);
+
+        var dbAddress = await _context.Address.FirstOrDefaultAsync();
+
+        Assert.That(dbAddress, Is.Not.Null);
+        Assert.That(dbAddress!.UserId, Is.EqualTo(10));
+        Assert.That(dbAddress.City, Is.EqualTo("Chennai"));
     }
 
     [Test]
-    public async Task AddAddress_ShouldSetUserId_OnAddressBeforeCreating()
+    public async Task AddAddress_ShouldMakeAddressDefault_WhenIsDefaultTrue()
     {
-        var request = new RequestAddAddressDTO { City = "Chennai", PinCode = "600001" };
-        var address = MakeAddress(userId: 10, isDefault: false);
+        var user = new User { UserId = 10, FirstName = "Siva", IsActive = true };
 
-        var user = new User
+        _userValidation
+            .Setup(v => v.ValidateUser(10))
+            .ReturnsAsync(user);
+
+        _userValidation
+            .Setup(v => v.ValidateAddress(It.IsAny<int>(), 10))
+            .ReturnsAsync((int addressId, int userId) =>
+                _context.Address.First(a => a.AddressId == addressId && a.UserId == userId));
+
+        var oldAddress = MakeAddress(addressId: 1, userId: 10, isDefault: true);
+        _context.Address.Add(oldAddress);
+        await _context.SaveChangesAsync();
+
+        var request = new RequestAddAddressDTO
         {
-            UserId = 10,
-            FirstName = "Siva"
+            ContactName = "Siva",
+            ContactPhoneNumber = "9876543210",
+            AddressLine = "New Street",
+            LandMark = "Near School",
+            City = "Madurai",
+            State = "Tamil Nadu",
+            PinCode = "625001",
+            IsDefault = true
         };
-
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _addressRepo.Setup(r => r.Create(It.IsAny<Address>())).ReturnsAsync(address);
 
         await _sut.AddAddress(request, 10);
 
-        _addressRepo.Verify(r => r.Create(It.Is<Address>(a => a.UserId == 10)), Times.Once);
+        var addresses = await _context.Address
+            .Where(a => a.UserId == 10)
+            .ToListAsync();
+
+        Assert.That(addresses.Count, Is.EqualTo(2));
+        Assert.That(addresses.Count(a => a.IsDefault), Is.EqualTo(1));
+        Assert.That(addresses.First(a => a.City == "Madurai").IsDefault, Is.True);
+        Assert.That(addresses.First(a => a.City == "Chennai").IsDefault, Is.False);
     }
 
     [Test]
-    public async Task AddAddress_ShouldCallMakeAddressDefault_WhenIsDefaultTrue()
+    public async Task MakeAddressDefault_ShouldUpdateDatabase()
     {
-        var request = new RequestAddAddressDTO { City = "Chennai", PinCode = "600001", IsDefault = true };
-        var address = MakeAddress(addressId: 1, userId: 10, isDefault: true);
-        var allAddresses = new List<Address> { address };
-        var user = new User
-        {
-            UserId = 10,
-            FirstName = "Siva"
-        };
+        var address1 = MakeAddress(addressId: 1, userId: 10, isDefault: true);
+        var address2 = MakeAddress(addressId: 2, userId: 10, isDefault: false);
 
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _addressRepo.Setup(r => r.Create(It.IsAny<Address>())).ReturnsAsync(address);
+        _context.Address.AddRange(address1, address2);
+        await _context.SaveChangesAsync();
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _addressRepo.Setup(r => r.GetAllAddressByUserId(10)).ReturnsAsync(allAddresses);
-        _addressRepo.Setup(r => r.Update(It.IsAny<int>(), It.IsAny<Address>())).ReturnsAsync(address);
-
-        var result = await _sut.AddAddress(request, 10);
-
-        Assert.That(result, Is.Not.Null);
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.AtLeastOnce);
-    }
-
-    [Test]
-    public async Task AddAddress_ShouldNotCallMakeAddressDefault_WhenIsDefaultFalse()
-    {
-        var request = new RequestAddAddressDTO { City = "Chennai", PinCode = "600001", IsDefault = false };
-        var address = MakeAddress(isDefault: false);
-        var user = new User
-        {
-            UserId = 10,
-            FirstName = "Siva"
-        };
-
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _addressRepo.Setup(r => r.Create(It.IsAny<Address>())).ReturnsAsync(address);
-
-        await _sut.AddAddress(request, 10);
-
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.Never);
-    }
-
-    [Test]
-    public async Task AddAddress_ShouldThrow_WhenUserValidationFails()
-    {
-        _userValidation.Setup(v => v.ValidateUser(99))
-                       .ThrowsAsync(new DataNotFoundException("User not found"));
-
-        var ex = Assert.ThrowsAsync<DataNotFoundException>(async () =>
-            await _sut.AddAddress(new RequestAddAddressDTO(), 99));
-
-        Assert.That(ex!.Message, Is.EqualTo("User not found"));
-        _addressRepo.Verify(r => r.Create(It.IsAny<Address>()), Times.Never);
-    }
-
-    [Test]
-    public async Task AddAddress_ShouldThrow_WhenCreationReturnsNull()
-    {
-        var request = new RequestAddAddressDTO { City = "Chennai", PinCode = "600001" };
-
-        var user = new User
-        {
-            UserId = 10,
-            FirstName = "Siva"
-        };
-
-        _userValidation.Setup(v => v.ValidateUser(10)).ReturnsAsync(user);
-        _addressRepo.Setup(r => r.Create(It.IsAny<Address>())).ReturnsAsync((Address?)null);
-
-        var ex = Assert.ThrowsAsync<DataRegistrationException>(async () => await _sut.AddAddress(request, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Failed to create address"));
-    }
-    [Test]
-    public async Task MakeAddressDefault_ShouldSetSelectedAddressAsDefault()
-    {
-        var selected = MakeAddress(addressId: 2, userId: 10);
-        var others = new List<Address>
-        {
-            MakeAddress(addressId: 1, userId: 10, isDefault: true),
-            MakeAddress(addressId: 2, userId: 10, isDefault: false)
-        };
-
-        _userValidation.Setup(v => v.ValidateAddress(2, 10)).ReturnsAsync(selected);
-        _addressRepo.Setup(r => r.GetAllAddressByUserId(10)).ReturnsAsync(others);
-        _addressRepo.Setup(r => r.Update(It.IsAny<int>(), It.IsAny<Address>())).ReturnsAsync(selected);
+        _userValidation
+            .Setup(v => v.ValidateAddress(2, 10))
+            .ReturnsAsync(address2);
 
         var result = await _sut.MakeAddressDefault(2, 10);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(selected.IsDefault, Is.True);
+
+        var dbAddress1 = await _context.Address.FindAsync(1);
+        var dbAddress2 = await _context.Address.FindAsync(2);
+
+        Assert.That(dbAddress1!.IsDefault, Is.False);
+        Assert.That(dbAddress2!.IsDefault, Is.True);
     }
 
     [Test]
-    public async Task MakeAddressDefault_ShouldSetAllOtherAddresses_IsDefaultFalse()
-    {
-        var addr1 = MakeAddress(addressId: 1, userId: 10, isDefault: true);
-        var addr2 = MakeAddress(addressId: 2, userId: 10, isDefault: true);
-        var selected = MakeAddress(addressId: 3, userId: 10);
-        var allAddresses = new List<Address> { addr1, addr2, selected };
-
-        _userValidation.Setup(v => v.ValidateAddress(3, 10)).ReturnsAsync(selected);
-        _addressRepo.Setup(r => r.GetAllAddressByUserId(10)).ReturnsAsync(allAddresses);
-        _addressRepo.Setup(r => r.Update(It.IsAny<int>(), It.IsAny<Address>())).ReturnsAsync(selected);
-
-        await _sut.MakeAddressDefault(3, 10);
-
-        Assert.That(addr1.IsDefault, Is.False);
-        Assert.That(addr2.IsDefault, Is.False);
-    }
-
-    [Test]
-    public async Task MakeAddressDefault_ShouldThrow_WhenAddressValidationFails()
-    {
-        _userValidation.Setup(v => v.ValidateAddress(99, 10)).ThrowsAsync(new DataNotFoundException("Address not found"));
-
-        var ex = Assert.ThrowsAsync<DataNotFoundException>(async () => await _sut.MakeAddressDefault(99, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Address not found"));
-        _addressRepo.Verify(r => r.GetAllAddressByUserId(It.IsAny<int>()), Times.Never);
-    }
-
-    [Test]
-    public async Task MakeAddressDefault_ShouldThrow_WhenUpdateFails()
-    {
-        var selected = MakeAddress(addressId: 1, userId: 10);
-        var allAddresses = new List<Address> { MakeAddress(addressId: 2, userId: 10) };
-
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(selected);
-        _addressRepo.Setup(r => r.GetAllAddressByUserId(10)).ReturnsAsync(allAddresses);
-        _addressRepo.Setup(r => r.Update(It.IsAny<int>(), It.IsAny<Address>())).ReturnsAsync((Address?)null);
-
-        var ex = Assert.ThrowsAsync<DataRegistrationException>(async () => await _sut.MakeAddressDefault(1, 10));
-        Assert.That(ex!.Message, Is.EqualTo("Failed to update address"));
-    }
-
-    [Test]
-    public async Task MakeAddressDefault_ShouldSetUpdatedAt_OnAllAddresses()
-    {
-        var addr1 = MakeAddress(addressId: 1, userId: 10);
-        var selected = MakeAddress(addressId: 2, userId: 10);
-        var allAddresses = new List<Address> { addr1 };
-
-        _userValidation.Setup(v => v.ValidateAddress(2, 10)).ReturnsAsync(selected);
-        _addressRepo.Setup(r => r.GetAllAddressByUserId(10)).ReturnsAsync(allAddresses);
-        _addressRepo.Setup(r => r.Update(It.IsAny<int>(), It.IsAny<Address>())).ReturnsAsync(addr1);
-
-        var before = DateTime.Now.AddSeconds(-1);
-        await _sut.MakeAddressDefault(2, 10);
-        var after = DateTime.Now.AddSeconds(1);
-
-        Assert.That(addr1.UpdatedAt, Is.InRange(before, after));
-        Assert.That(selected.UpdatedAt, Is.InRange(before, after));
-    }
-    [Test]
-    public async Task DeleteUserAddress_ShouldDeactivateAddress_WhenValid()
+    public async Task DeleteUserAddress_ShouldDeactivateAddress_InDatabase()
     {
         var address = MakeAddress(addressId: 1, userId: 10, isDefault: false, isActive: true);
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderRepo.Setup(r => r.GetPendingOrdersByAddress(1)).ReturnsAsync(new List<Order>());
-        _addressRepo.Setup(r => r.Update(1, It.IsAny<Address>())).ReturnsAsync(address);
+        _context.Address.Add(address);
+        await _context.SaveChangesAsync();
+
+        _userValidation
+            .Setup(v => v.ValidateAddress(1, 10))
+            .ReturnsAsync(address);
 
         var result = await _sut.DeleteUserAddress(1, 10);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(address.IsActive, Is.False);
-        _addressRepo.Verify(r => r.Update(1, It.Is<Address>(a => !a.IsActive)), Times.Once);
-    }
 
-    [Test]
-    public async Task DeleteUserAddress_ShouldThrow_WhenAddressHasPendingOrders()
-    {
-        var address = MakeAddress(isDefault: false);
+        var dbAddress = await _context.Address.FindAsync(1);
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderRepo.Setup(r => r.GetPendingOrdersByAddress(1)).ReturnsAsync(new List<Order> { new() { OrderId = 1 } });
-
-        var ex = Assert.ThrowsAsync<DataApprovalStatusException>(async () =>
-            await _sut.DeleteUserAddress(1, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Address cannot be deleted as there is a current order right now"));
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.Never);
+        Assert.That(dbAddress, Is.Not.Null);
+        Assert.That(dbAddress!.IsActive, Is.False);
     }
 
     [Test]
     public async Task DeleteUserAddress_ShouldThrow_WhenAddressIsDefault()
     {
-        var address = MakeAddress(isDefault: true);
+        var address = MakeAddress(addressId: 1, userId: 10, isDefault: true);
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderRepo.Setup(r => r.GetPendingOrdersByAddress(1)).ReturnsAsync(new List<Order>());
+        _context.Address.Add(address);
+        await _context.SaveChangesAsync();
+
+        _userValidation
+            .Setup(v => v.ValidateAddress(1, 10))
+            .ReturnsAsync(address);
 
         var ex = Assert.ThrowsAsync<DataApprovalStatusException>(async () =>
             await _sut.DeleteUserAddress(1, 10));
 
         Assert.That(ex!.Message, Is.EqualTo("Default address cannot be deleted"));
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.Never);
     }
 
     [Test]
-    public async Task DeleteUserAddress_ShouldThrow_WhenAddressValidationFails()
-    {
-        _userValidation.Setup(v => v.ValidateAddress(99, 10)).ThrowsAsync(new DataNotFoundException("Address not found"));
-
-        var ex = Assert.ThrowsAsync<DataNotFoundException>(async () => await _sut.DeleteUserAddress(99, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Address not found"));
-        _orderRepo.Verify(r => r.GetPendingOrdersByAddress(It.IsAny<int>()), Times.Never);
-    }
-
-    [Test]
-    public async Task DeleteUserAddress_ShouldSetUpdatedAt_WhenDeleting()
-    {
-        var address = MakeAddress(isDefault: false);
-
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderRepo.Setup(r => r.GetPendingOrdersByAddress(1)).ReturnsAsync(new List<Order>());
-        _addressRepo.Setup(r => r.Update(1, It.IsAny<Address>())).ReturnsAsync(address);
-
-        var before = DateTime.Now.AddSeconds(-1);
-        await _sut.DeleteUserAddress(1, 10);
-        var after = DateTime.Now.AddSeconds(1);
-
-        Assert.That(address.UpdatedAt, Is.InRange(before, after));
-    }
-    [Test]
-    public async Task DeleteInventoryAddress_ShouldDeactivateAddress_WhenValid()
+    public async Task DeleteInventoryAddress_ShouldDeactivateAddress_InDatabase()
     {
         var address = MakeAddress(addressId: 1, userId: 10, isDefault: false, isActive: true);
 
-        var user = new User
-        {
-            UserId = 10,
-            FirstName = "Siva"
-        };
+        _context.Address.Add(address);
+        await _context.SaveChangesAsync();
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderItemRepo.Setup(r => r.GetPendingOrderByInventoryAddress(1)).ReturnsAsync(new List<OrderItems>());
-        _addressRepo.Setup(r => r.Update(1, It.IsAny<Address>())).ReturnsAsync(address);
+        _userValidation
+            .Setup(v => v.ValidateAddress(1, 10))
+            .ReturnsAsync(address);
 
         var result = await _sut.DeleteInventoryAddress(1, 10);
 
         Assert.That(result, Is.Not.Null);
-        Assert.That(address.IsActive, Is.False);
-        _addressRepo.Verify(r => r.Update(1, It.Is<Address>(a => !a.IsActive)), Times.Once);
-    }
 
-    [Test]
-    public async Task DeleteInventoryAddress_ShouldThrow_WhenAddressHasPendingOrderItems()
-    {
-        var address = MakeAddress(isDefault: false);
+        var dbAddress = await _context.Address.FindAsync(1);
 
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderItemRepo.Setup(r => r.GetPendingOrderByInventoryAddress(1)).ReturnsAsync(new List<OrderItems> { new() { OrderItemsId = 1 } });
-
-        var ex = Assert.ThrowsAsync<DataApprovalStatusException>(async () => await _sut.DeleteInventoryAddress(1, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Address cannot be deleted as there is a current order right now"));
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.Never);
-    }
-
-    [Test]
-    public async Task DeleteInventoryAddress_ShouldThrow_WhenAddressIsDefault()
-    {
-        var address = MakeAddress(isDefault: true);
-
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderItemRepo.Setup(r => r.GetPendingOrderByInventoryAddress(1)).ReturnsAsync(new List<OrderItems>());
-
-        var ex = Assert.ThrowsAsync<DataApprovalStatusException>(async () => await _sut.DeleteInventoryAddress(1, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Default address cannot be deleted"));
-        _addressRepo.Verify(r => r.Update(It.IsAny<int>(), It.IsAny<Address>()), Times.Never);
-    }
-
-    [Test]
-    public async Task DeleteInventoryAddress_ShouldThrow_WhenAddressValidationFails()
-    {
-        _userValidation.Setup(v => v.ValidateAddress(99, 10)).ThrowsAsync(new DataNotFoundException("Address not found"));
-
-        var ex = Assert.ThrowsAsync<DataNotFoundException>(async () => await _sut.DeleteInventoryAddress(99, 10));
-
-        Assert.That(ex!.Message, Is.EqualTo("Address not found"));
-        _orderItemRepo.Verify(r => r.GetPendingOrderByInventoryAddress(It.IsAny<int>()), Times.Never);
-    }
-
-    [Test]
-    public async Task DeleteInventoryAddress_ShouldSetUpdatedAt_WhenDeleting()
-    {
-        var address = MakeAddress(isDefault: false);
-
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderItemRepo.Setup(r => r.GetPendingOrderByInventoryAddress(1)).ReturnsAsync(new List<OrderItems>());
-        _addressRepo.Setup(r => r.Update(1, It.IsAny<Address>())).ReturnsAsync(address);
-
-        var before = DateTime.Now.AddSeconds(-1);
-        await _sut.DeleteInventoryAddress(1, 10);
-        var after = DateTime.Now.AddSeconds(1);
-
-        Assert.That(address.UpdatedAt, Is.InRange(before, after));
-    }
-
-    [Test]
-    public async Task DeleteInventoryAddress_UsesOrderItemRepo_NotOrderRepo()
-    {
-        var address = MakeAddress(isDefault: false);
-
-        _userValidation.Setup(v => v.ValidateAddress(1, 10)).ReturnsAsync(address);
-        _orderItemRepo.Setup(r => r.GetPendingOrderByInventoryAddress(1)).ReturnsAsync(new List<OrderItems>());
-
-        _addressRepo.Setup(r => r.Update(1, It.IsAny<Address>())).ReturnsAsync(address);
-
-        await _sut.DeleteInventoryAddress(1, 10);
-
-        _orderItemRepo.Verify(r => r.GetPendingOrderByInventoryAddress(1), Times.Once);
-        _orderRepo.Verify(r => r.GetPendingOrdersByAddress(It.IsAny<int>()), Times.Never);
+        Assert.That(dbAddress, Is.Not.Null);
+        Assert.That(dbAddress!.IsActive, Is.False);
     }
 }

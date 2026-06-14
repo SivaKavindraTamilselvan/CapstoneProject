@@ -1,3 +1,4 @@
+using System.Security.Cryptography.X509Certificates;
 using Ecommerce.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -35,6 +36,9 @@ public class EcommerceContext : DbContext
     public DbSet<Shipment> Shipment { get; set; }
     public DbSet<Return> Return { get; set; }
     public DbSet<Inventory> Inventory {get;set;}
+    public DbSet<CouponUsage> CouponUsage {get;set;}
+    public DbSet<Refund> Refund {get;set;}
+    public DbSet<CancelRefund> CancelRefund {get;set;}
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables

@@ -67,7 +67,7 @@ builder.Services.AddCors(options =>
         builder.WithOrigins("http://localhost:7163", "http://localhost:4200", "http://localhost:5173","null" )
                .AllowAnyHeader()
                .AllowAnyMethod()
-               .AllowCredentials();// Allow credentials for SignalR
+               .AllowCredentials();
     });
 });
 
@@ -84,8 +84,7 @@ builder.Services.AddAuthentication(options =>
         ValidateAudience         = false,
         ValidIssuer              = builder.Configuration["JWT:Issuer"],
         ValidateIssuerSigningKey = true,
-        IssuerSigningKey         = new SymmetricSecurityKey(
-                                       Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"] ?? "")),
+        IssuerSigningKey         = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWT:Key"] ?? "")),
         ValidateLifetime         = true
     };
     opts.Events = new JwtBearerEvents
@@ -105,12 +104,23 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
+
+# region AdminAuthorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("SuperAdminOnly", policy =>
     {
         policy.RequireClaim(ClaimTypes.Role, "1");
         policy.RequireClaim("AdminRoleId",   "1");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProductAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "3");
     });
 });
 
@@ -123,6 +133,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ProductAdminOrSuperAdminOnly", policy =>
@@ -131,6 +142,11 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("AdminRoleId",  "1" , "3");
     });
 });
+
+# endregion
+
+
+
 
 builder.Services.AddAuthorization(options =>
 {

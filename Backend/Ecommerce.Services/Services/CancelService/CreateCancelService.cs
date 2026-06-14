@@ -26,9 +26,9 @@ public partial class CancelService : ICancelService
         cancel.CancelStatusId = 2;
         cancel.ConvenienceFee = ConvenienceFee;
         await _cancelRepsository.Create(cancel);
-        await UpdateOrderItemStatus(order.OrderItemsId, order.Quantity);
+        await UpdateOrderItemStatus(order.OrderItemsId, requestCancelDTO.CancelQuantity);
         await UpdateOrder(order.OrderId);
-        await UpdateInventory(order.InventoryId, order.Quantity);
+        await UpdateInventory(order.InventoryId, requestCancelDTO.CancelQuantity);
         await CreateRefund(order.OrderItemsId, 1, cancel.CancelId, refundAmount);
         return _mapper.Map<ResponseCancelDTO>(cancel);
     }
