@@ -232,6 +232,8 @@ builder.Services.AddAutoMapper(m=>m.AddProfile(new ImageMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ProductCategoryMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new RefundMappingProfile()));
 builder.Services.AddAutoMapper(m=>m.AddProfile(new ReturnMappingProfile()));
+builder.Services.AddAutoMapper(m=>m.AddProfile(new InventoryMappingProfile()));
+
 #endregion
 
 #region Validation

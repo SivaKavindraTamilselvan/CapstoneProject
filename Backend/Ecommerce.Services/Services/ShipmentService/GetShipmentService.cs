@@ -4,12 +4,12 @@ using Ecommerce.Services.Interfaces;
 
 public partial class ShipmentService : IShipmentService
 {
-    public async Task<List<ShipmentSummaryResponseDto>> GetAllShipmentsForAdmin(RequestShipmentFilter filter)
+    public async Task<List<ShipmentDetailResponseDto>> GetAllShipmentsForAdmin(RequestShipmentFilter filter)
     {
         var result = await _shipmentRepsository.GetAllShipmentsForAdmin(filter);
 
 
-        return _mapper.Map<List<ShipmentSummaryResponseDto>>(result);
+        return _mapper.Map<List<ShipmentDetailResponseDto>>(result.Items);
     }
 
     public async Task<ShipmentDetailResponseDto> GetShipmentDetailForAdmin(int shipmentId)

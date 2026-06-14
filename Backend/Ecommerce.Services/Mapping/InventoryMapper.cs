@@ -10,6 +10,7 @@ namespace Ecommerce.Mappers
         {
             CreateMap<Inventory,ResponseAdminInventoryDTO>()
             .ForMember(dest=>dest.VendorName,opt=>opt.MapFrom(a=>a.ProductVariant!.Product!.Vendor!.VendorCompanyName))
+            .ForMember(dest=>dest.VendorId,opt=>opt.MapFrom(a=>a.ProductVariant!.Product!.VendorId))
             .ForMember(dest=>dest.ContactPhoneNumber,opt=>opt.MapFrom(a=>a.Address!.ContactPhoneNumber))
             .ForMember(dest=>dest.PinCode,opt=>opt.MapFrom(a=>a.Address!.PinCode))
             .ForMember(dest=>dest.Country,opt=>opt.MapFrom(a=>a.Address!.Country))

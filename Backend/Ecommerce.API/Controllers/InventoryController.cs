@@ -9,9 +9,11 @@ using Microsoft.AspNetCore.Mvc;
 [ApiController]
 public class InventoryController : ControllerBase
 {
+    private readonly IAdminInventoryService _adminInventoryService;
     private readonly IInventoryService _inventoryService;
-    public InventoryController(IInventoryService inventoryService)
+    public InventoryController(IInventoryService inventoryService,IAdminInventoryService adminInventoryService)
     {
+        _adminInventoryService = adminInventoryService;
         _inventoryService = inventoryService;
     }
     [Authorize(Policy = "VendorOwnerOnly")]
@@ -28,6 +30,20 @@ public class InventoryController : ControllerBase
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _inventoryService.UpdateInventory(requestUpdateInventoryDTO,vendorUserId);
+        return Ok(result);
+    }
+    [HttpGet("inventories")]
+    public async Task<ActionResult> GetInventoryForAdmin([FromQuery] RequestAdminInventoryFilter request)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminInventoryService.GetInventory(request,adminUserId);
+        return Ok(result);
+    }
+    [HttpGet("inventories/{inventoryId}")]
+    public async Task<ActionResult> GetInventoryForAdminById([FromRoute] int inventoryId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminInventoryService.GetInventoryById(inventoryId,adminUserId);
         return Ok(result);
     }
 }

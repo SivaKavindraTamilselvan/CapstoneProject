@@ -13,7 +13,7 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
     }
     public async Task<OrderItems?> GetOrderItemByOrderItemId(int orderItemId)
     {
-        var order = _ecommerceContext.OrderItems.Include(o=>o.Order).Where(o=>o.OrderItemsId == orderItemId);
+        var order = _ecommerceContext.OrderItems.Include(o=>o.Order).Include(o=>o.ProductVariant).Where(o=>o.OrderItemsId == orderItemId);
         return await order.FirstOrDefaultAsync();
     }
 

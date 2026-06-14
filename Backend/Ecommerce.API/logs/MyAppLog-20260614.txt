@@ -22471,3 +22471,970 @@ ORDER BY o1."CreatedAt" DESC, o1."OrderId", u."UserId", o2."OrderStatusId", s."O
 2026-06-14 22:47:20.297 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.GetOrdersVendor (Ecommerce.API) in 75.7542ms
 2026-06-14 22:47:20.297 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersVendor (Ecommerce.API)'
 2026-06-14 22:47:20.297 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Order/vendor - 200 null application/json; charset=utf-8 94.8233ms
+2026-06-14 22:51:51.880 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket - null null
+2026-06-14 22:51:51.883 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:51:51.911 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:51:51.969 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+2026-06-14 22:51:51.982 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-14 22:51:52.016 +05:30 [INF] Executed DbCommand (19ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:51:52.024 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 112.3104ms
+2026-06-14 22:51:52.024 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:51:52.024 +05:30 [ERR] An unhandled exception occurred while processing the request.
+AutoMapper.AutoMapperMappingException: Missing type map configuration or unsupported mapping.
+
+Mapping types:
+ValueTuple`2 -> List`1
+System.ValueTuple`2[[System.Collections.Generic.List`1[[Ecommerce.Models.Shipment, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]], System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e],[System.Int32, System.Private.CoreLib, Version=10.0.0.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e]] -> System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentSummaryResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]
+   at lambda_method3952(Closure, Object, List`1, ResolutionContext)
+   at ShipmentService.GetAllShipmentsForAdmin(RequestShipmentFilter filter) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/ShipmentService/GetShipmentService.cs:line 12
+   at ShiprocketController.GetAllShipmentsForAdmin(RequestShipmentFilter filter) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ShipRocketController.cs:line 41
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 22:51:52.033 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket - 500 null application/json 153.2437ms
+2026-06-14 22:54:18.861 +05:30 [INF] Application is shutting down...
+2026-06-14 22:54:27.003 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 22:54:27.095 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 22:54:27.096 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 22:54:27.096 +05:30 [INF] Hosting environment: Development
+2026-06-14 22:54:27.096 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 22:54:33.275 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket - null null
+2026-06-14 22:54:33.301 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 22:54:33.318 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:54:33.331 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:54:33.490 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 22:54:34.299 +05:30 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+2026-06-14 22:54:34.403 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-14 22:54:34.454 +05:30 [INF] Executed DbCommand (23ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:54:34.479 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentSummaryResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 22:54:34.496 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 1163.251ms
+2026-06-14 22:54:34.496 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:54:34.501 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket - 200 null application/json; charset=utf-8 1227.0861ms
+2026-06-14 22:55:11.110 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket?ShipmentStatusId=3 - null null
+2026-06-14 22:55:11.124 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:55:11.124 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:55:11.147 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@filter_ShipmentStatusId_Value='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+WHERE s."ShipmentStatusId" = @filter_ShipmentStatusId_Value
+2026-06-14 22:55:11.158 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-14 22:55:11.181 +05:30 [INF] Executed DbCommand (6ms) [Parameters=[@filter_ShipmentStatusId_Value='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    WHERE s."ShipmentStatusId" = @filter_ShipmentStatusId_Value
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:55:11.188 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentSummaryResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 22:55:11.189 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 64.0552ms
+2026-06-14 22:55:11.189 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:55:11.189 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket?ShipmentStatusId=3 - 200 null application/json; charset=utf-8 79.2197ms
+2026-06-14 22:55:18.185 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket?ShipmentStatusId=4 - null null
+2026-06-14 22:55:18.190 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:55:18.190 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:55:18.241 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@filter_ShipmentStatusId_Value='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+WHERE s."ShipmentStatusId" = @filter_ShipmentStatusId_Value
+2026-06-14 22:55:18.244 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@filter_ShipmentStatusId_Value='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    WHERE s."ShipmentStatusId" = @filter_ShipmentStatusId_Value
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:55:18.245 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentSummaryResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 22:55:18.245 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 54.7266ms
+2026-06-14 22:55:18.245 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:55:18.245 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket?ShipmentStatusId=4 - 200 null application/json; charset=utf-8 60.0622ms
+2026-06-14 22:56:06.225 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket - null null
+2026-06-14 22:56:06.226 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:56:06.227 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:56:06.231 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+2026-06-14 22:56:06.254 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:56:06.255 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentSummaryResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 22:56:06.256 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 28.5002ms
+2026-06-14 22:56:06.256 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:56:06.256 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket - 200 null application/json; charset=utf-8 31.5388ms
+2026-06-14 22:57:51.082 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket/1 - null null
+2026-06-14 22:57:51.086 +05:30 [INF] Executing endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:57:51.099 +05:30 [INF] Route matched with {action = "GetShipmentDetailForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetShipmentDetailForAdmin(Int32) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:57:51.119 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-14 22:57:51.144 +05:30 [INF] Executed DbCommand (7ms) [Parameters=[@shipmentId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s4."ShipmentId", s4."CourierName", s4."CreatedAt", s4."DeliveryDate", s4."ExpectedDeliveryDate", s4."OrderId", s4."PickupAddressId", s4."ShipmentStatusId", s4."ShipmentTypeId", s4."ShippedDate", s4."ShippingCharge", s4."TrackingNumber", s4."ShipmentStatusId0", s4."ShipmentStatusName", s4."AddressId", s4."AddressLine", s4."City", s4."ContactName", s4."ContactPhoneNumber", s4."Country", s4."CreatedAt0", s4."IsActive", s4."IsDefault", s4."LandMark", s4."PinCode", s4."State", s4."UpdatedAt", s4."UserId", s4."OrderId0", s4."AddressId0", s4."CreatedAt1", s4."FinalAmount", s4."OrderDate", s4."OrderNumber", s4."OrderStatusId", s4."TotalCouponAmount", s4."TotalProductAmount", s4."TotalShippingAmount", s4."UpdatedAt0", s4."UserId0", s4."UserId1", s4."CreatedAt2", s4."Email", s4."FirstName", s4."HashedKey", s4."IsActive0", s4."LastName", s4."Password", s4."PhoneNumber", s4."RoleId", s4."UpdatedAt1", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s0."ShipmentStatusId" AS "ShipmentStatusId0", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt" AS "CreatedAt0", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId" AS "OrderId0", o."AddressId" AS "AddressId0", o."CreatedAt" AS "CreatedAt1", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt" AS "UpdatedAt0", o."UserId" AS "UserId0", u."UserId" AS "UserId1", u."CreatedAt" AS "CreatedAt2", u."Email", u."FirstName", u."HashedKey", u."IsActive" AS "IsActive0", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt" AS "UpdatedAt1"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s0 ON s."ShipmentStatusId" = s0."ShipmentStatusId"
+    INNER JOIN "Address" AS a ON s."PickupAddressId" = a."AddressId"
+    INNER JOIN "Order" AS o ON s."OrderId" = o."OrderId"
+    INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+    WHERE s."ShipmentId" = @shipmentId
+    LIMIT 1
+) AS s4
+LEFT JOIN (
+    SELECT s1."ShipmentItemsId", s1."OrderItemsId", s1."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s1
+    INNER JOIN "OrderItems" AS o0 ON s1."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s4."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s2."ShipmentTrackingId", s2."Location", s2."Remarks", s2."ShipmentId", s2."ShipmentStatusId", s2."UpdatedAt", s3."ShipmentStatusId" AS "ShipmentStatusId0", s3."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s2
+    INNER JOIN "ShipmentStatus" AS s3 ON s2."ShipmentStatusId" = s3."ShipmentStatusId"
+) AS s6 ON s4."ShipmentId" = s6."ShipmentId"
+ORDER BY s4."ShipmentId", s4."ShipmentStatusId0", s4."AddressId", s4."OrderId0", s4."UserId1", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:57:51.146 +05:30 [INF] Executed action ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API) in 46.2026ms
+2026-06-14 22:57:51.146 +05:30 [INF] Executed endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:57:51.146 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Shipment not found
+   at ShipmentService.GetShipmentDetailForAdmin(Int32 shipmentId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/ShipmentService/GetShipmentService.cs:line 20
+   at ShiprocketController.GetShipmentDetailForAdmin(Int32 shipmentId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/ShipRocketController.cs:line 48
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 22:57:51.158 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket/1 - 404 null application/json 76.1524ms
+2026-06-14 22:57:56.111 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket/2 - null null
+2026-06-14 22:57:56.112 +05:30 [INF] Executing endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:57:56.113 +05:30 [INF] Route matched with {action = "GetShipmentDetailForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetShipmentDetailForAdmin(Int32) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:57:56.119 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@shipmentId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s4."ShipmentId", s4."CourierName", s4."CreatedAt", s4."DeliveryDate", s4."ExpectedDeliveryDate", s4."OrderId", s4."PickupAddressId", s4."ShipmentStatusId", s4."ShipmentTypeId", s4."ShippedDate", s4."ShippingCharge", s4."TrackingNumber", s4."ShipmentStatusId0", s4."ShipmentStatusName", s4."AddressId", s4."AddressLine", s4."City", s4."ContactName", s4."ContactPhoneNumber", s4."Country", s4."CreatedAt0", s4."IsActive", s4."IsDefault", s4."LandMark", s4."PinCode", s4."State", s4."UpdatedAt", s4."UserId", s4."OrderId0", s4."AddressId0", s4."CreatedAt1", s4."FinalAmount", s4."OrderDate", s4."OrderNumber", s4."OrderStatusId", s4."TotalCouponAmount", s4."TotalProductAmount", s4."TotalShippingAmount", s4."UpdatedAt0", s4."UserId0", s4."UserId1", s4."CreatedAt2", s4."Email", s4."FirstName", s4."HashedKey", s4."IsActive0", s4."LastName", s4."Password", s4."PhoneNumber", s4."RoleId", s4."UpdatedAt1", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s0."ShipmentStatusId" AS "ShipmentStatusId0", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt" AS "CreatedAt0", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId" AS "OrderId0", o."AddressId" AS "AddressId0", o."CreatedAt" AS "CreatedAt1", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt" AS "UpdatedAt0", o."UserId" AS "UserId0", u."UserId" AS "UserId1", u."CreatedAt" AS "CreatedAt2", u."Email", u."FirstName", u."HashedKey", u."IsActive" AS "IsActive0", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt" AS "UpdatedAt1"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s0 ON s."ShipmentStatusId" = s0."ShipmentStatusId"
+    INNER JOIN "Address" AS a ON s."PickupAddressId" = a."AddressId"
+    INNER JOIN "Order" AS o ON s."OrderId" = o."OrderId"
+    INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+    WHERE s."ShipmentId" = @shipmentId
+    LIMIT 1
+) AS s4
+LEFT JOIN (
+    SELECT s1."ShipmentItemsId", s1."OrderItemsId", s1."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s1
+    INNER JOIN "OrderItems" AS o0 ON s1."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s4."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s2."ShipmentTrackingId", s2."Location", s2."Remarks", s2."ShipmentId", s2."ShipmentStatusId", s2."UpdatedAt", s3."ShipmentStatusId" AS "ShipmentStatusId0", s3."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s2
+    INNER JOIN "ShipmentStatus" AS s3 ON s2."ShipmentStatusId" = s3."ShipmentStatusId"
+) AS s6 ON s4."ShipmentId" = s6."ShipmentId"
+ORDER BY s4."ShipmentId", s4."ShipmentStatusId0", s4."AddressId", s4."OrderId0", s4."UserId1", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:57:56.136 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.Shipment.ShipmentDetailResponseDto'.
+2026-06-14 22:57:56.142 +05:30 [INF] Executed action ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API) in 28.8527ms
+2026-06-14 22:57:56.142 +05:30 [INF] Executed endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:57:56.142 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket/2 - 200 null application/json; charset=utf-8 31.4936ms
+2026-06-14 22:58:28.237 +05:30 [INF] Application is shutting down...
+2026-06-14 22:59:08.592 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 22:59:08.688 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 22:59:08.689 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 22:59:08.689 +05:30 [INF] Hosting environment: Development
+2026-06-14 22:59:08.689 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 22:59:13.375 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket - null null
+2026-06-14 22:59:13.402 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 22:59:13.422 +05:30 [INF] Executing endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:59:13.436 +05:30 [INF] Route matched with {action = "GetAllShipmentsForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllShipmentsForAdmin(Ecommerce.DTOs.Shipment.RequestShipmentFilter) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:59:13.631 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 22:59:14.517 +05:30 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Shipment" AS s
+2026-06-14 22:59:14.625 +05:30 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2026-06-14 22:59:14.677 +05:30 [INF] Executed DbCommand (22ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s1."ShipmentId", s1."CourierName", s1."CreatedAt", s1."DeliveryDate", s1."ExpectedDeliveryDate", s1."OrderId", s1."PickupAddressId", s1."ShipmentStatusId", s1."ShipmentTypeId", s1."ShippedDate", s1."ShippingCharge", s1."TrackingNumber", s0."ShipmentStatusId", s0."ShipmentStatusName", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", s5."ShipmentItemsId", s5."OrderItemsId", s5."ShipmentId", s5."OrderItemsId0", s5."Discount", s5."InventoryId", s5."OrderId", s5."OrderItemStatusId", s5."ProductVariantId", s5."Quantity", s5."UnitPrice", s5."ProductVariantId0", s5."AddedByVendorUserId", s5."CreatedAt", s5."HeightInCm", s5."IsExchange", s5."IsReturn", s5."LengthInCm", s5."MinimuQuantityPerUser", s5."Price", s5."ProductApprovalStatusId", s5."ProductId", s5."ProductVariantStatusId", s5."SKU", s5."UpdatedAt", s5."WeightInKgs", s5."WidthInCm", s5."ProductId0", s5."AddedByVendorUserId0", s5."CreatedAt0", s5."Description", s5."MainProductSubCategoryAttributeId", s5."ProductApprovalStatusId0", s5."ProductName", s5."ProductStatusId", s5."ProductSubCategoryId", s5."UpdatedAt0", s5."VendorId", s6."ShipmentTrackingId", s6."Location", s6."Remarks", s6."ShipmentId", s6."ShipmentStatusId", s6."UpdatedAt", s6."ShipmentStatusId0", s6."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+    FROM "Shipment" AS s
+    ORDER BY s."CreatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS s1
+INNER JOIN "ShipmentStatus" AS s0 ON s1."ShipmentStatusId" = s0."ShipmentStatusId"
+INNER JOIN "Address" AS a ON s1."PickupAddressId" = a."AddressId"
+INNER JOIN "Order" AS o ON s1."OrderId" = o."OrderId"
+INNER JOIN "User" AS u ON o."UserId" = u."UserId"
+LEFT JOIN (
+    SELECT s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", o0."OrderItemsId" AS "OrderItemsId0", o0."Discount", o0."InventoryId", o0."OrderId", o0."OrderItemStatusId", o0."ProductVariantId", o0."Quantity", o0."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId"
+    FROM "ShipmentItems" AS s2
+    INNER JOIN "OrderItems" AS o0 ON s2."OrderItemsId" = o0."OrderItemsId"
+    INNER JOIN "ProductVariant" AS p ON o0."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+) AS s5 ON s1."ShipmentId" = s5."ShipmentId"
+LEFT JOIN (
+    SELECT s3."ShipmentTrackingId", s3."Location", s3."Remarks", s3."ShipmentId", s3."ShipmentStatusId", s3."UpdatedAt", s4."ShipmentStatusId" AS "ShipmentStatusId0", s4."ShipmentStatusName"
+    FROM "ShipmentTracking" AS s3
+    INNER JOIN "ShipmentStatus" AS s4 ON s3."ShipmentStatusId" = s4."ShipmentStatusId"
+) AS s6 ON s1."ShipmentId" = s6."ShipmentId"
+ORDER BY s1."CreatedAt" DESC, s1."ShipmentId", s0."ShipmentStatusId", a."AddressId", o."OrderId", u."UserId", s5."ShipmentItemsId", s5."OrderItemsId0", s5."ProductVariantId0", s5."ProductId0", s6."ShipmentTrackingId"
+2026-06-14 22:59:14.706 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[Ecommerce.DTOs.Shipment.ShipmentDetailResponseDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 22:59:14.725 +05:30 [INF] Executed action ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API) in 1287.2116ms
+2026-06-14 22:59:14.726 +05:30 [INF] Executed endpoint 'ShiprocketController.GetAllShipmentsForAdmin (Ecommerce.API)'
+2026-06-14 22:59:14.730 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket - 200 null application/json; charset=utf-8 1356.1115ms
+2026-06-14 22:59:37.936 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Shiprocket/{shipmentId} - null null
+2026-06-14 22:59:37.944 +05:30 [INF] Executing endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:59:37.953 +05:30 [INF] Route matched with {action = "GetShipmentDetailForAdmin", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetShipmentDetailForAdmin(Int32) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 22:59:37.958 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-14 22:59:37.966 +05:30 [INF] Executed action ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API) in 13.1502ms
+2026-06-14 22:59:37.966 +05:30 [INF] Executed endpoint 'ShiprocketController.GetShipmentDetailForAdmin (Ecommerce.API)'
+2026-06-14 22:59:37.967 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Shiprocket/{shipmentId} - 400 null application/problem+json; charset=utf-8 30.863ms
+2026-06-14 23:00:00.817 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - application/json 46
+2026-06-14 23:00:00.853 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:00:42 PM', Current time (UTC): '14/06/2026 5:30:00 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-14 23:00:00.857 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:00:42 PM', Current time (UTC): '14/06/2026 5:30:00 PM'.
+2026-06-14 23:00:00.857 +05:30 [INF] Executing endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-14 23:00:00.861 +05:30 [INF] Route matched with {action = "UpdateShipmentStatus", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateShipmentStatus(Ecommerce.DTOs.ShipmentStatusRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 23:00:00.893 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+FROM "Shipment" AS s
+WHERE s."ShipmentId" = @p
+LIMIT 1
+2026-06-14 23:00:00.929 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@shipmentId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "ShipmentItems" AS s
+INNER JOIN "OrderItems" AS o ON s."OrderItemsId" = o."OrderItemsId"
+WHERE s."ShipmentId" = @shipmentId
+2026-06-14 23:00:01.008 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p10='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "OrderItems" SET "Discount" = @p0, "InventoryId" = @p1, "OrderId" = @p2, "OrderItemStatusId" = @p3, "ProductVariantId" = @p4, "Quantity" = @p5, "UnitPrice" = @p6
+WHERE "OrderItemsId" = @p7;
+UPDATE "Shipment" SET "DeliveryDate" = @p8, "ShipmentStatusId" = @p9
+WHERE "ShipmentId" = @p10;
+2026-06-14 23:00:01.026 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+FROM "Shipment" AS s
+WHERE s."OrderId" = @orderId AND s."ShipmentStatusId" <> 8
+2026-06-14 23:00:01.031 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Decimal), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Shipment" SET "CourierName" = @p0, "CreatedAt" = @p1, "DeliveryDate" = @p2, "ExpectedDeliveryDate" = @p3, "OrderId" = @p4, "PickupAddressId" = @p5, "ShipmentStatusId" = @p6, "ShipmentTypeId" = @p7, "ShippedDate" = @p8, "ShippingCharge" = @p9, "TrackingNumber" = @p10
+WHERE "ShipmentId" = @p11;
+2026-06-14 23:00:01.032 +05:30 [INF] Creating tracking for ShipmentId 3 with StatusId 8
+2026-06-14 23:00:01.057 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentTracking" ("Location", "Remarks", "ShipmentId", "ShipmentStatusId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ShipmentTrackingId", "UpdatedAt";
+2026-06-14 23:00:01.065 +05:30 [INF] ShipmentTracking created successfully. ShipmentTrackingId: 66, ShipmentId: 3, StatusId: 8
+2026-06-14 23:00:01.067 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ShipmentStatusResponseDTO'.
+2026-06-14 23:00:01.069 +05:30 [INF] Executed action ShiprocketController.UpdateShipmentStatus (Ecommerce.API) in 207.4416ms
+2026-06-14 23:00:01.069 +05:30 [INF] Executed endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-14 23:00:01.069 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - 200 null application/json; charset=utf-8 252.3715ms
+2026-06-14 23:00:23.737 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Order/user - null null
+2026-06-14 23:00:23.739 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '14/06/2026 4:33:26 PM', Current time (UTC): '14/06/2026 5:30:23 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-14 23:00:23.740 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '14/06/2026 4:33:26 PM', Current time (UTC): '14/06/2026 5:30:23 PM'.
+2026-06-14 23:00:23.740 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:00:23.751 +05:30 [INF] Route matched with {action = "GetOrdersUser", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetOrdersUser(OrderFilterParams) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:00:23.755 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API) in 4.2017ms
+2026-06-14 23:00:23.755 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:00:23.756 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at Ecommerce.API.Controllers.OrderController.GetOrdersUser(OrderFilterParams filters) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 66
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:00:23.763 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Order/user - 500 null application/json 27.0008ms
+2026-06-14 23:01:08.115 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 63
+2026-06-14 23:01:08.117 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:01:08.123 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-14 23:01:08.129 +05:30 [INF] Login attempt for sowmiya@gmail.com
+2026-06-14 23:01:08.168 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-14 23:01:08.183 +05:30 [INF] Generating token for UserId 2
+2026-06-14 23:01:08.190 +05:30 [INF] Login successful for UserId 2
+2026-06-14 23:01:08.191 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-14 23:01:08.192 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 68.7233ms
+2026-06-14 23:01:08.192 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:01:08.192 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 77.4621ms
+2026-06-14 23:01:18.953 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Order/user - null null
+2026-06-14 23:01:18.968 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:01:18.968 +05:30 [INF] Route matched with {action = "GetOrdersUser", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetOrdersUser(OrderFilterParams) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:01:18.978 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-14 23:01:19.030 +05:30 [INF] Executed DbCommand (25ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", o1."OrderStatusId", o1."OrderStatusName", s."OrderItemsId", s."Discount", s."InventoryId", s."OrderId", s."OrderItemStatusId", s."ProductVariantId", s."Quantity", s."UnitPrice", s."ProductVariantId0", s."AddedByVendorUserId", s."CreatedAt", s."HeightInCm", s."IsExchange", s."IsReturn", s."LengthInCm", s."MinimuQuantityPerUser", s."Price", s."ProductApprovalStatusId", s."ProductId", s."ProductVariantStatusId", s."SKU", s."UpdatedAt", s."WeightInKgs", s."WidthInCm", s."ProductId0", s."AddedByVendorUserId0", s."CreatedAt0", s."Description", s."MainProductSubCategoryAttributeId", s."ProductApprovalStatusId0", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", s."VendorId0", s."ApprovalStatusId", s."CompanyEmail", s."CompanyPhoneNumber", s."ContactPersonName", s."CreatedAt1", s."GSTNumber", s."IsActive", s."ReviewedAt", s."ReviewedByAdminId", s."VendorCompanyName", s."OrderItemStatusId0", s."OrderItemStatusName", s."InventoryId0", s."AddressId", s."AvailableQuantity", s."IsActive0", s."ProductVariantId1", s."ReservedQuantity", s."UpdatedAt1", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt2", s."IsActive1", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt2", s."UserId"
+FROM (
+    SELECT o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+    FROM "Order" AS o
+    WHERE o."UserId" = @userId
+    ORDER BY o."CreatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS o0
+INNER JOIN "User" AS u ON o0."UserId" = u."UserId"
+INNER JOIN "OrderStatus" AS o1 ON o0."OrderStatusId" = o1."OrderStatusId"
+LEFT JOIN (
+    SELECT o2."OrderItemsId", o2."Discount", o2."InventoryId", o2."OrderId", o2."OrderItemStatusId", o2."ProductVariantId", o2."Quantity", o2."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId", v."VendorId" AS "VendorId0", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt" AS "CreatedAt1", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", o3."OrderItemStatusId" AS "OrderItemStatusId0", o3."OrderItemStatusName", i."InventoryId" AS "InventoryId0", i."AddressId", i."AvailableQuantity", i."IsActive" AS "IsActive0", i."ProductVariantId" AS "ProductVariantId1", i."ReservedQuantity", i."UpdatedAt" AS "UpdatedAt1", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt" AS "CreatedAt2", a."IsActive" AS "IsActive1", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt2", a."UserId"
+    FROM "OrderItems" AS o2
+    INNER JOIN "ProductVariant" AS p ON o2."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+    INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+    INNER JOIN "OrderItemStatus" AS o3 ON o2."OrderItemStatusId" = o3."OrderItemStatusId"
+    INNER JOIN "Inventory" AS i ON o2."InventoryId" = i."InventoryId"
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON o0."OrderId" = s."OrderId"
+ORDER BY o0."CreatedAt" DESC, o0."OrderId", u."UserId", o1."OrderStatusId", s."OrderItemsId", s."ProductVariantId0", s."ProductId0", s."VendorId0", s."OrderItemStatusId0", s."InventoryId0"
+2026-06-14 23:01:19.045 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[OrderSummaryDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:01:19.047 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API) in 79.245ms
+2026-06-14 23:01:19.048 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:01:19.048 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Order/user - 200 null application/json; charset=utf-8 94.4142ms
+2026-06-14 23:02:32.078 +05:30 [INF] Request starting HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - application/json 47
+2026-06-14 23:02:32.084 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:00:42 PM', Current time (UTC): '14/06/2026 5:32:32 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-14 23:02:32.086 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 12:00:42 PM', Current time (UTC): '14/06/2026 5:32:32 PM'.
+2026-06-14 23:02:32.087 +05:30 [INF] Executing endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-14 23:02:32.088 +05:30 [INF] Route matched with {action = "UpdateShipmentStatus", controller = "Shiprocket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UpdateShipmentStatus(Ecommerce.DTOs.ShipmentStatusRequestDTO) on controller ShiprocketController (Ecommerce.API).
+2026-06-14 23:02:32.105 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+FROM "Shipment" AS s
+WHERE s."ShipmentId" = @p
+LIMIT 1
+2026-06-14 23:02:32.109 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@shipmentId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice"
+FROM "ShipmentItems" AS s
+INNER JOIN "OrderItems" AS o ON s."OrderItemsId" = o."OrderItemsId"
+WHERE s."ShipmentId" = @shipmentId
+2026-06-14 23:02:32.114 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p7='?' (DbType = Int32), @p0='?' (DbType = Decimal), @p1='?' (DbType = Int32), @p2='?' (DbType = Int32), @p3='?' (DbType = Int32), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p10='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "OrderItems" SET "Discount" = @p0, "InventoryId" = @p1, "OrderId" = @p2, "OrderItemStatusId" = @p3, "ProductVariantId" = @p4, "Quantity" = @p5, "UnitPrice" = @p6
+WHERE "OrderItemsId" = @p7;
+UPDATE "Shipment" SET "DeliveryDate" = @p8, "ShipmentStatusId" = @p9
+WHERE "ShipmentId" = @p10;
+2026-06-14 23:02:32.118 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@orderId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber"
+FROM "Shipment" AS s
+WHERE s."OrderId" = @orderId AND s."ShipmentStatusId" <> 8
+2026-06-14 23:02:32.133 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+FROM "Order" AS o
+WHERE o."OrderId" = @p
+LIMIT 1
+2026-06-14 23:02:32.159 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?' (DbType = Int32), @p1='?' (DbType = DateTime2), @p2='?' (DbType = Decimal), @p3='?' (DbType = DateTime2), @p4='?', @p5='?' (DbType = Int32), @p6='?' (DbType = Decimal), @p7='?' (DbType = Decimal), @p8='?' (DbType = Decimal), @p9='?' (DbType = DateTime2), @p10='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Order" SET "AddressId" = @p0, "CreatedAt" = @p1, "FinalAmount" = @p2, "OrderDate" = @p3, "OrderNumber" = @p4, "OrderStatusId" = @p5, "TotalCouponAmount" = @p6, "TotalProductAmount" = @p7, "TotalShippingAmount" = @p8, "UpdatedAt" = @p9, "UserId" = @p10
+WHERE "OrderId" = @p11;
+2026-06-14 23:02:32.162 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p11='?' (DbType = Int32), @p0='?', @p1='?' (DbType = DateTime2), @p2='?' (DbType = DateTime2), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?' (DbType = Int32), @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?' (DbType = Decimal), @p10='?'], CommandType='"Text"', CommandTimeout='30']
+UPDATE "Shipment" SET "CourierName" = @p0, "CreatedAt" = @p1, "DeliveryDate" = @p2, "ExpectedDeliveryDate" = @p3, "OrderId" = @p4, "PickupAddressId" = @p5, "ShipmentStatusId" = @p6, "ShipmentTypeId" = @p7, "ShippedDate" = @p8, "ShippingCharge" = @p9, "TrackingNumber" = @p10
+WHERE "ShipmentId" = @p11;
+2026-06-14 23:02:32.162 +05:30 [INF] Creating tracking for ShipmentId 17 with StatusId 8
+2026-06-14 23:02:32.165 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@p0='?', @p1='?', @p2='?' (DbType = Int32), @p3='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "ShipmentTracking" ("Location", "Remarks", "ShipmentId", "ShipmentStatusId")
+VALUES (@p0, @p1, @p2, @p3)
+RETURNING "ShipmentTrackingId", "UpdatedAt";
+2026-06-14 23:02:32.166 +05:30 [INF] ShipmentTracking created successfully. ShipmentTrackingId: 67, ShipmentId: 17, StatusId: 8
+2026-06-14 23:02:32.166 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ShipmentStatusResponseDTO'.
+2026-06-14 23:02:32.167 +05:30 [INF] Executed action ShiprocketController.UpdateShipmentStatus (Ecommerce.API) in 78.3571ms
+2026-06-14 23:02:32.167 +05:30 [INF] Executed endpoint 'ShiprocketController.UpdateShipmentStatus (Ecommerce.API)'
+2026-06-14 23:02:32.167 +05:30 [INF] Request finished HTTP/1.1 PUT http://localhost:5173/api/Shiprocket/updateShipmentStatus - 200 null application/json; charset=utf-8 89.0596ms
+2026-06-14 23:02:37.981 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Order/user - null null
+2026-06-14 23:02:37.983 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:02:37.984 +05:30 [INF] Route matched with {action = "GetOrdersUser", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetOrdersUser(OrderFilterParams) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:02:38.005 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[@p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."UserId" = @p
+LIMIT 1
+2026-06-14 23:02:38.028 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[@userId='?' (DbType = Int32), @p2='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt", o1."OrderStatusId", o1."OrderStatusName", s."OrderItemsId", s."Discount", s."InventoryId", s."OrderId", s."OrderItemStatusId", s."ProductVariantId", s."Quantity", s."UnitPrice", s."ProductVariantId0", s."AddedByVendorUserId", s."CreatedAt", s."HeightInCm", s."IsExchange", s."IsReturn", s."LengthInCm", s."MinimuQuantityPerUser", s."Price", s."ProductApprovalStatusId", s."ProductId", s."ProductVariantStatusId", s."SKU", s."UpdatedAt", s."WeightInKgs", s."WidthInCm", s."ProductId0", s."AddedByVendorUserId0", s."CreatedAt0", s."Description", s."MainProductSubCategoryAttributeId", s."ProductApprovalStatusId0", s."ProductName", s."ProductStatusId", s."ProductSubCategoryId", s."UpdatedAt0", s."VendorId", s."VendorId0", s."ApprovalStatusId", s."CompanyEmail", s."CompanyPhoneNumber", s."ContactPersonName", s."CreatedAt1", s."GSTNumber", s."IsActive", s."ReviewedAt", s."ReviewedByAdminId", s."VendorCompanyName", s."OrderItemStatusId0", s."OrderItemStatusName", s."InventoryId0", s."AddressId", s."AvailableQuantity", s."IsActive0", s."ProductVariantId1", s."ReservedQuantity", s."UpdatedAt1", s."AddressId0", s."AddressLine", s."City", s."ContactName", s."ContactPhoneNumber", s."Country", s."CreatedAt2", s."IsActive1", s."IsDefault", s."LandMark", s."PinCode", s."State", s."UpdatedAt2", s."UserId"
+FROM (
+    SELECT o."OrderId", o."AddressId", o."CreatedAt", o."FinalAmount", o."OrderDate", o."OrderNumber", o."OrderStatusId", o."TotalCouponAmount", o."TotalProductAmount", o."TotalShippingAmount", o."UpdatedAt", o."UserId"
+    FROM "Order" AS o
+    WHERE o."UserId" = @userId
+    ORDER BY o."CreatedAt" DESC
+    LIMIT @p2 OFFSET @p
+) AS o0
+INNER JOIN "User" AS u ON o0."UserId" = u."UserId"
+INNER JOIN "OrderStatus" AS o1 ON o0."OrderStatusId" = o1."OrderStatusId"
+LEFT JOIN (
+    SELECT o2."OrderItemsId", o2."Discount", o2."InventoryId", o2."OrderId", o2."OrderItemStatusId", o2."ProductVariantId", o2."Quantity", o2."UnitPrice", p."ProductVariantId" AS "ProductVariantId0", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId" AS "ProductId0", p0."AddedByVendorUserId" AS "AddedByVendorUserId0", p0."CreatedAt" AS "CreatedAt0", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId" AS "ProductApprovalStatusId0", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt" AS "UpdatedAt0", p0."VendorId", v."VendorId" AS "VendorId0", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt" AS "CreatedAt1", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName", o3."OrderItemStatusId" AS "OrderItemStatusId0", o3."OrderItemStatusName", i."InventoryId" AS "InventoryId0", i."AddressId", i."AvailableQuantity", i."IsActive" AS "IsActive0", i."ProductVariantId" AS "ProductVariantId1", i."ReservedQuantity", i."UpdatedAt" AS "UpdatedAt1", a."AddressId" AS "AddressId0", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt" AS "CreatedAt2", a."IsActive" AS "IsActive1", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt" AS "UpdatedAt2", a."UserId"
+    FROM "OrderItems" AS o2
+    INNER JOIN "ProductVariant" AS p ON o2."ProductVariantId" = p."ProductVariantId"
+    INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+    INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+    INNER JOIN "OrderItemStatus" AS o3 ON o2."OrderItemStatusId" = o3."OrderItemStatusId"
+    INNER JOIN "Inventory" AS i ON o2."InventoryId" = i."InventoryId"
+    INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+) AS s ON o0."OrderId" = s."OrderId"
+ORDER BY o0."CreatedAt" DESC, o0."OrderId", u."UserId", o1."OrderStatusId", s."OrderItemsId", s."ProductVariantId0", s."ProductId0", s."VendorId0", s."OrderItemStatusId0", s."InventoryId0"
+2026-06-14 23:02:38.031 +05:30 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[OrderSummaryDto, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:02:38.031 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API) in 47.4555ms
+2026-06-14 23:02:38.031 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.GetOrdersUser (Ecommerce.API)'
+2026-06-14 23:02:38.032 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Order/user - 200 null application/json; charset=utf-8 50.5292ms
+2026-06-14 23:12:13.896 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 94
+2026-06-14 23:12:13.899 +05:30 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 11:26:54 PM', Current time (UTC): '14/06/2026 5:42:13 PM'.
+   at Microsoft.IdentityModel.Tokens.ValidatorUtilities.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2026-06-14 23:12:13.900 +05:30 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '10/06/2026 11:26:54 PM', Current time (UTC): '14/06/2026 5:42:13 PM'.
+2026-06-14 23:12:13.906 +05:30 [INF] Authorization failed. These requirements were not met:
+DenyAnonymousAuthorizationRequirement: Requires an authenticated user.
+2026-06-14 23:12:13.910 +05:30 [INF] AuthenticationScheme: Bearer was challenged.
+2026-06-14 23:12:13.910 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 401 0 null 13.9685ms
+2026-06-14 23:12:29.565 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 94
+2026-06-14 23:12:29.569 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:12:29.578 +05:30 [INF] Route matched with {action = "RequestAddReturn", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddReturnDTO]] RequestAddReturn(Ecommerce.DTOs.RequestAddReturnDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:12:29.609 +05:30 [INF] Executed DbCommand (8ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:12:29.611 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API) in 32.2855ms
+2026-06-14 23:12:29.611 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:12:29.611 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at UserReturnService.AddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserReturnService/AddReturnService.cs:line 14
+   at Ecommerce.API.Controllers.OrderController.RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 46
+   at lambda_method1532(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:12:29.613 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 500 null application/json 48.3563ms
+2026-06-14 23:16:07.687 +05:30 [INF] Application is shutting down...
+2026-06-14 23:16:11.622 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:16:11.693 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:16:11.693 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:16:11.694 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:16:11.694 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:16:15.621 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 94
+2026-06-14 23:16:15.642 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:16:15.679 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:16:15.686 +05:30 [INF] Route matched with {action = "RequestAddReturn", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddReturnDTO]] RequestAddReturn(Ecommerce.DTOs.RequestAddReturnDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:16:15.798 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:16:16.419 +05:30 [INF] Executed DbCommand (25ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:16:16.493 +05:30 [INF] Executed DbCommand (5ms) [Parameters=[@orderitemid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3."ShipmentId", s3."CourierName", s3."CreatedAt", s3."DeliveryDate", s3."ExpectedDeliveryDate", s3."OrderId", s3."PickupAddressId", s3."ShipmentStatusId", s3."ShipmentTypeId", s3."ShippedDate", s3."ShippingCharge", s3."TrackingNumber", s3."ShipmentStatusId0", s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", s3."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s1."ShipmentStatusId" AS "ShipmentStatusId0", s1."ShipmentStatusName"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s1 ON s."ShipmentStatusId" = s1."ShipmentStatusId"
+    WHERE EXISTS (
+        SELECT 1
+        FROM "ShipmentItems" AS s0
+        WHERE s."ShipmentId" = s0."ShipmentId" AND s0."OrderItemsId" = @orderitemid)
+    LIMIT 1
+) AS s3
+LEFT JOIN "ShipmentItems" AS s2 ON s3."ShipmentId" = s2."ShipmentId"
+ORDER BY s3."ShipmentId", s3."ShipmentStatusId0"
+2026-06-14 23:16:16.496 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API) in 807.8987ms
+2026-06-14 23:16:16.496 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:16:16.496 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataNotFoundException: Shipment Not Found
+   at ShipmentValidation.ValidateGetShipmentByOrderItemId(Int32 orderItemId) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Validation/ShipmentValidation.cs:line 20
+   at UserReturnService.AddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserReturnService/AddReturnService.cs:line 18
+   at Ecommerce.API.Controllers.OrderController.RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 46
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:16:16.505 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 404 null application/json 884.7224ms
+2026-06-14 23:17:34.188 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 94
+2026-06-14 23:17:34.200 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:17:34.200 +05:30 [INF] Route matched with {action = "RequestAddReturn", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddReturnDTO]] RequestAddReturn(Ecommerce.DTOs.RequestAddReturnDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:17:34.218 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:17:34.223 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@orderitemid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3."ShipmentId", s3."CourierName", s3."CreatedAt", s3."DeliveryDate", s3."ExpectedDeliveryDate", s3."OrderId", s3."PickupAddressId", s3."ShipmentStatusId", s3."ShipmentTypeId", s3."ShippedDate", s3."ShippingCharge", s3."TrackingNumber", s3."ShipmentStatusId0", s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", s3."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s1."ShipmentStatusId" AS "ShipmentStatusId0", s1."ShipmentStatusName"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s1 ON s."ShipmentStatusId" = s1."ShipmentStatusId"
+    WHERE EXISTS (
+        SELECT 1
+        FROM "ShipmentItems" AS s0
+        WHERE s."ShipmentId" = s0."ShipmentId" AND s0."OrderItemsId" = @orderitemid)
+    LIMIT 1
+) AS s3
+LEFT JOIN "ShipmentItems" AS s2 ON s3."ShipmentId" = s2."ShipmentId"
+ORDER BY s3."ShipmentId", s3."ShipmentStatusId0"
+2026-06-14 23:17:34.243 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API) in 43.0192ms
+2026-06-14 23:17:34.243 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:17:34.243 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Order Still Not Delivered Yet
+   at UserReturnService.AddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserReturnService/AddReturnService.cs:line 21
+   at Ecommerce.API.Controllers.OrderController.RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 46
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:17:34.245 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 409 null application/json 56.5257ms
+2026-06-14 23:17:41.464 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 95
+2026-06-14 23:17:41.470 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:17:41.471 +05:30 [INF] Route matched with {action = "RequestAddReturn", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddReturnDTO]] RequestAddReturn(Ecommerce.DTOs.RequestAddReturnDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:17:41.514 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:17:41.517 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@orderitemid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3."ShipmentId", s3."CourierName", s3."CreatedAt", s3."DeliveryDate", s3."ExpectedDeliveryDate", s3."OrderId", s3."PickupAddressId", s3."ShipmentStatusId", s3."ShipmentTypeId", s3."ShippedDate", s3."ShippingCharge", s3."TrackingNumber", s3."ShipmentStatusId0", s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", s3."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s1."ShipmentStatusId" AS "ShipmentStatusId0", s1."ShipmentStatusName"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s1 ON s."ShipmentStatusId" = s1."ShipmentStatusId"
+    WHERE EXISTS (
+        SELECT 1
+        FROM "ShipmentItems" AS s0
+        WHERE s."ShipmentId" = s0."ShipmentId" AND s0."OrderItemsId" = @orderitemid)
+    LIMIT 1
+) AS s3
+LEFT JOIN "ShipmentItems" AS s2 ON s3."ShipmentId" = s2."ShipmentId"
+ORDER BY s3."ShipmentId", s3."ShipmentStatusId0"
+2026-06-14 23:17:41.517 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API) in 46.4599ms
+2026-06-14 23:17:41.518 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:17:41.518 +05:30 [ERR] An unhandled exception occurred while processing the request.
+Ecommerce.Models.Exceptions.DataApprovalStatusException: Order Still Not Delivered Yet
+   at UserReturnService.AddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.Services/Services/UserReturnService/AddReturnService.cs:line 21
+   at Ecommerce.API.Controllers.OrderController.RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/OrderController.cs:line 46
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.AwaitableObjectResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:17:41.518 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 409 null application/json 54.9617ms
+2026-06-14 23:18:03.993 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - application/json 95
+2026-06-14 23:18:03.998 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:18:03.999 +05:30 [INF] Route matched with {action = "RequestAddReturn", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseAddReturnDTO]] RequestAddReturn(Ecommerce.DTOs.RequestAddReturnDTO) on controller Ecommerce.API.Controllers.OrderController (Ecommerce.API).
+2026-06-14 23:18:04.008 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@orderItemId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT o."OrderItemsId", o."Discount", o."InventoryId", o."OrderId", o."OrderItemStatusId", o."ProductVariantId", o."Quantity", o."UnitPrice", o0."OrderId", o0."AddressId", o0."CreatedAt", o0."FinalAmount", o0."OrderDate", o0."OrderNumber", o0."OrderStatusId", o0."TotalCouponAmount", o0."TotalProductAmount", o0."TotalShippingAmount", o0."UpdatedAt", o0."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm"
+FROM "OrderItems" AS o
+INNER JOIN "Order" AS o0 ON o."OrderId" = o0."OrderId"
+INNER JOIN "ProductVariant" AS p ON o."ProductVariantId" = p."ProductVariantId"
+WHERE o."OrderItemsId" = @orderItemId
+LIMIT 1
+2026-06-14 23:18:04.013 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@orderitemid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT s3."ShipmentId", s3."CourierName", s3."CreatedAt", s3."DeliveryDate", s3."ExpectedDeliveryDate", s3."OrderId", s3."PickupAddressId", s3."ShipmentStatusId", s3."ShipmentTypeId", s3."ShippedDate", s3."ShippingCharge", s3."TrackingNumber", s3."ShipmentStatusId0", s2."ShipmentItemsId", s2."OrderItemsId", s2."ShipmentId", s3."ShipmentStatusName"
+FROM (
+    SELECT s."ShipmentId", s."CourierName", s."CreatedAt", s."DeliveryDate", s."ExpectedDeliveryDate", s."OrderId", s."PickupAddressId", s."ShipmentStatusId", s."ShipmentTypeId", s."ShippedDate", s."ShippingCharge", s."TrackingNumber", s1."ShipmentStatusId" AS "ShipmentStatusId0", s1."ShipmentStatusName"
+    FROM "Shipment" AS s
+    INNER JOIN "ShipmentStatus" AS s1 ON s."ShipmentStatusId" = s1."ShipmentStatusId"
+    WHERE EXISTS (
+        SELECT 1
+        FROM "ShipmentItems" AS s0
+        WHERE s."ShipmentId" = s0."ShipmentId" AND s0."OrderItemsId" = @orderitemid)
+    LIMIT 1
+) AS s3
+LEFT JOIN "ShipmentItems" AS s2 ON s3."ShipmentId" = s2."ShipmentId"
+ORDER BY s3."ShipmentId", s3."ShipmentStatusId0"
+2026-06-14 23:18:04.108 +05:30 [INF] Executed DbCommand (21ms) [Parameters=[@p0='?', @p1='?' (DbType = Decimal), @p2='?' (DbType = Int32), @p3='?' (DbType = DateTime2), @p4='?' (DbType = Int32), @p5='?' (DbType = Int32), @p6='?', @p7='?' (DbType = Int32), @p8='?' (DbType = DateTime2), @p9='?'], CommandType='"Text"', CommandTimeout='30']
+INSERT INTO "Return" ("AdditionalReason", "DamageCost", "OrderItemId", "RequestedDate", "ReturnQuantity", "ReturnReasonId", "ReviewRemarks", "ReviewedByVendorId", "ReviewedDate", "VendorReview")
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5, @p6, @p7, @p8, @p9)
+RETURNING "ReturnId", "ReturnStatusId";
+2026-06-14 23:18:04.120 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseAddReturnDTO'.
+2026-06-14 23:18:04.122 +05:30 [INF] Executed action Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API) in 123.3554ms
+2026-06-14 23:18:04.123 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.OrderController.RequestAddReturn (Ecommerce.API)'
+2026-06-14 23:18:04.123 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Order/RequestReturnOrder - 200 null application/json; charset=utf-8 130.4323ms
+2026-06-14 23:25:16.501 +05:30 [INF] Application is shutting down...
+2026-06-14 23:25:20.612 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:25:20.685 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:25:20.686 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:25:20.686 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:25:20.686 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:25:27.103 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/index.html - null null
+2026-06-14 23:25:27.135 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/index.html - 200 null text/html;charset=utf-8 33.8817ms
+2026-06-14 23:25:27.205 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - null null
+2026-06-14 23:25:27.278 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 72.5469ms
+2026-06-14 23:25:36.724 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - null null
+2026-06-14 23:25:36.753 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:25:36.767 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:25:36.777 +05:30 [INF] Route matched with {action = "GetInventoryForAdmin", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdmin(Ecommerce.DTOs.RequestAdminInventoryFilter) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:25:36.882 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:25:36.888 +05:30 [INF] Executed action InventoryController.GetInventoryForAdmin (Ecommerce.API) in 109.0362ms
+2026-06-14 23:25:36.888 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:25:36.888 +05:30 [ERR] An unhandled exception occurred while processing the request.
+System.NullReferenceException: Object reference not set to an instance of an object.
+   at InventoryController.GetInventoryForAdmin(RequestAdminInventoryFilter request) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Controllers/InventoryController.cs:line 38
+   at lambda_method6(Closure, Object)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.InvokeInnerFilterAsync()
+--- End of stack trace from previous location ---
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at BankingAPI.Middlewares.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API/Middleware/ExceptionHandlingMiddleware.cs:line 21
+2026-06-14 23:25:36.895 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - 500 null application/json 171.0457ms
+2026-06-14 23:26:50.670 +05:30 [INF] Request starting HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - application/json 59
+2026-06-14 23:26:50.677 +05:30 [INF] Executing endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:26:50.684 +05:30 [INF] Route matched with {action = "CustomerLogin", controller = "Authentication"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult`1[Ecommerce.DTOs.ResponseLoginUserDTO]] CustomerLogin(Ecommerce.DTOs.RequestLoginUserDTO) on controller Ecommerce.API.Controllers.AuthenticationController (Ecommerce.API).
+2026-06-14 23:26:50.696 +05:30 [INF] Login attempt for admin@gmail.com
+2026-06-14 23:26:51.474 +05:30 [INF] Executed DbCommand (40ms) [Parameters=[@Email='?'], CommandType='"Text"', CommandTimeout='30']
+SELECT u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "User" AS u
+WHERE u."Email" = @Email
+LIMIT 1
+2026-06-14 23:26:51.532 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:26:51.546 +05:30 [INF] Generating token for UserId 1
+2026-06-14 23:26:51.555 +05:30 [INF] Login successful for UserId 1
+2026-06-14 23:26:51.557 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseLoginUserDTO'.
+2026-06-14 23:26:51.559 +05:30 [INF] Executed action Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API) in 874.0631ms
+2026-06-14 23:26:51.559 +05:30 [INF] Executed endpoint 'Ecommerce.API.Controllers.AuthenticationController.CustomerLogin (Ecommerce.API)'
+2026-06-14 23:26:51.561 +05:30 [INF] Request finished HTTP/1.1 POST http://localhost:5173/api/Authentication/Login - 200 null application/json; charset=utf-8 891.3185ms
+2026-06-14 23:27:03.444 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - null null
+2026-06-14 23:27:03.479 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:27:03.479 +05:30 [INF] Route matched with {action = "GetInventoryForAdmin", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdmin(Ecommerce.DTOs.RequestAdminInventoryFilter) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:27:03.493 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:27:03.510 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Inventory" AS i
+2026-06-14 23:27:03.538 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i0."InventoryId", i0."AddressId", i0."AvailableQuantity", i0."IsActive", i0."ProductVariantId", i0."ReservedQuantity", i0."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+    FROM "Inventory" AS i
+    ORDER BY i."UpdatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS i0
+INNER JOIN "Address" AS a ON i0."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i0."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+ORDER BY i0."UpdatedAt" DESC
+2026-06-14 23:27:03.545 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[Ecommerce.DTOs.ResponseAdminInventoryDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:27:03.549 +05:30 [INF] Executed action InventoryController.GetInventoryForAdmin (Ecommerce.API) in 69.4645ms
+2026-06-14 23:27:03.549 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:27:03.549 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - 200 null application/json; charset=utf-8 104.6795ms
+2026-06-14 23:27:18.771 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/{inventoryId} - null null
+2026-06-14 23:27:18.773 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:27:18.781 +05:30 [INF] Route matched with {action = "GetInventoryForAdminById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdminById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:27:18.792 +05:30 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2026-06-14 23:27:18.799 +05:30 [INF] Executed action InventoryController.GetInventoryForAdminById (Ecommerce.API) in 17.426ms
+2026-06-14 23:27:18.799 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:27:18.799 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/{inventoryId} - 400 null application/problem+json; charset=utf-8 28.3423ms
+2026-06-14 23:27:24.027 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/1 - null null
+2026-06-14 23:27:24.028 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:27:24.028 +05:30 [INF] Route matched with {action = "GetInventoryForAdminById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdminById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:27:24.072 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:27:24.084 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[@inventoryid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Inventory" AS i
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE i."InventoryId" = @inventoryid
+LIMIT 1
+2026-06-14 23:27:24.086 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseVendorInventoryDTO'.
+2026-06-14 23:27:24.087 +05:30 [INF] Executed action InventoryController.GetInventoryForAdminById (Ecommerce.API) in 58.089ms
+2026-06-14 23:27:24.087 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:27:24.087 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/1 - 200 null application/json; charset=utf-8 59.9626ms
+2026-06-14 23:29:17.520 +05:30 [INF] Application is shutting down...
+2026-06-14 23:29:21.142 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:29:21.212 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:29:21.213 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:29:21.213 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:29:21.213 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:29:26.017 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/1 - null null
+2026-06-14 23:29:26.039 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:29:26.074 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:29:26.081 +05:30 [INF] Route matched with {action = "GetInventoryForAdminById", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdminById(Int32) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:29:26.180 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:29:26.793 +05:30 [INF] Executed DbCommand (24ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:29:26.859 +05:30 [INF] Executed DbCommand (12ms) [Parameters=[@inventoryid='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM "Inventory" AS i
+INNER JOIN "Address" AS a ON i."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+WHERE i."InventoryId" = @inventoryid
+LIMIT 1
+2026-06-14 23:29:26.866 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.ResponseVendorInventoryDTO'.
+2026-06-14 23:29:26.874 +05:30 [INF] Executed action InventoryController.GetInventoryForAdminById (Ecommerce.API) in 792.0421ms
+2026-06-14 23:29:26.875 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdminById (Ecommerce.API)'
+2026-06-14 23:29:26.877 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories/1 - 200 null application/json; charset=utf-8 862.0752ms
+2026-06-14 23:29:31.575 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - null null
+2026-06-14 23:29:31.585 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:29:31.594 +05:30 [INF] Route matched with {action = "GetInventoryForAdmin", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdmin(Ecommerce.DTOs.RequestAdminInventoryFilter) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:29:31.612 +05:30 [INF] Executed DbCommand (2ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:29:31.627 +05:30 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Inventory" AS i
+2026-06-14 23:29:31.647 +05:30 [INF] Executed DbCommand (4ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i0."InventoryId", i0."AddressId", i0."AvailableQuantity", i0."IsActive", i0."ProductVariantId", i0."ReservedQuantity", i0."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+    FROM "Inventory" AS i
+    ORDER BY i."UpdatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS i0
+INNER JOIN "Address" AS a ON i0."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i0."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+ORDER BY i0."UpdatedAt" DESC
+2026-06-14 23:29:31.652 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[Ecommerce.DTOs.ResponseAdminInventoryDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:29:31.656 +05:30 [INF] Executed action InventoryController.GetInventoryForAdmin (Ecommerce.API) in 61.1217ms
+2026-06-14 23:29:31.656 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:29:31.656 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - 200 null application/json; charset=utf-8 81.4682ms
+2026-06-14 23:30:54.051 +05:30 [INF] Application is shutting down...
+2026-06-14 23:30:57.772 +05:30 [INF] User profile is available. Using '/Users/sivakavindra/.aspnet/DataProtection-Keys' as key repository; keys will not be encrypted at rest.
+2026-06-14 23:30:57.847 +05:30 [INF] Now listening on: http://localhost:5173
+2026-06-14 23:30:57.847 +05:30 [INF] Application started. Press Ctrl+C to shut down.
+2026-06-14 23:30:57.848 +05:30 [INF] Hosting environment: Development
+2026-06-14 23:30:57.848 +05:30 [INF] Content root path: /Users/sivakavindra/InternProgram/CapStoneProject_Ecommerce/Backend/Ecommerce.API
+2026-06-14 23:31:05.070 +05:30 [INF] Request starting HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - null null
+2026-06-14 23:31:05.091 +05:30 [WRN] Failed to determine the https port for redirect.
+2026-06-14 23:31:05.128 +05:30 [INF] Executing endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:31:05.137 +05:30 [INF] Route matched with {action = "GetInventoryForAdmin", controller = "Inventory"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.ActionResult] GetInventoryForAdmin(Ecommerce.DTOs.RequestAdminInventoryFilter) on controller InventoryController (Ecommerce.API).
+2026-06-14 23:31:05.244 +05:30 [WRN] You do not have a valid license key for the Lucky Penny software AutoMapper. This is allowed for development and testing scenarios. If you are running in production you are required to have a licensed version. Please visit https://luckypennysoftware.com to obtain a valid license.
+2026-06-14 23:31:05.859 +05:30 [INF] Executed DbCommand (24ms) [Parameters=[@userId='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT a."AdminUserId", a."AdminRoleId", a."AssignedByAdminUserId", a."CreatedAt", a."IsActive", a."UserId", a0."AdminRoleId", a0."AdminRoleName", u."UserId", u."CreatedAt", u."Email", u."FirstName", u."HashedKey", u."IsActive", u."LastName", u."Password", u."PhoneNumber", u."RoleId", u."UpdatedAt"
+FROM "AdminUser" AS a
+INNER JOIN "AdminRoles" AS a0 ON a."AdminRoleId" = a0."AdminRoleId"
+INNER JOIN "User" AS u ON a."UserId" = u."UserId"
+WHERE a."UserId" = @userId
+LIMIT 1
+2026-06-14 23:31:05.913 +05:30 [INF] Executed DbCommand (3ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT count(*)::int
+FROM "Inventory" AS i
+2026-06-14 23:31:05.938 +05:30 [INF] Executed DbCommand (10ms) [Parameters=[@p1='?' (DbType = Int32), @p='?' (DbType = Int32)], CommandType='"Text"', CommandTimeout='30']
+SELECT i0."InventoryId", i0."AddressId", i0."AvailableQuantity", i0."IsActive", i0."ProductVariantId", i0."ReservedQuantity", i0."UpdatedAt", a."AddressId", a."AddressLine", a."City", a."ContactName", a."ContactPhoneNumber", a."Country", a."CreatedAt", a."IsActive", a."IsDefault", a."LandMark", a."PinCode", a."State", a."UpdatedAt", a."UserId", p."ProductVariantId", p."AddedByVendorUserId", p."CreatedAt", p."HeightInCm", p."IsExchange", p."IsReturn", p."LengthInCm", p."MinimuQuantityPerUser", p."Price", p."ProductApprovalStatusId", p."ProductId", p."ProductVariantStatusId", p."SKU", p."UpdatedAt", p."WeightInKgs", p."WidthInCm", p0."ProductId", p0."AddedByVendorUserId", p0."CreatedAt", p0."Description", p0."MainProductSubCategoryAttributeId", p0."ProductApprovalStatusId", p0."ProductName", p0."ProductStatusId", p0."ProductSubCategoryId", p0."UpdatedAt", p0."VendorId", v."VendorId", v."ApprovalStatusId", v."CompanyEmail", v."CompanyPhoneNumber", v."ContactPersonName", v."CreatedAt", v."GSTNumber", v."IsActive", v."ReviewedAt", v."ReviewedByAdminId", v."VendorCompanyName"
+FROM (
+    SELECT i."InventoryId", i."AddressId", i."AvailableQuantity", i."IsActive", i."ProductVariantId", i."ReservedQuantity", i."UpdatedAt"
+    FROM "Inventory" AS i
+    ORDER BY i."UpdatedAt" DESC
+    LIMIT @p1 OFFSET @p
+) AS i0
+INNER JOIN "Address" AS a ON i0."AddressId" = a."AddressId"
+INNER JOIN "ProductVariant" AS p ON i0."ProductVariantId" = p."ProductVariantId"
+INNER JOIN "Product" AS p0 ON p."ProductId" = p0."ProductId"
+INNER JOIN "Vendor" AS v ON p0."VendorId" = v."VendorId"
+ORDER BY i0."UpdatedAt" DESC
+2026-06-14 23:31:05.946 +05:30 [INF] Executing OkObjectResult, writing value of type 'Ecommerce.DTOs.PagedResponse`1[[Ecommerce.DTOs.ResponseAdminInventoryDTO, Ecommerce.Models, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2026-06-14 23:31:05.956 +05:30 [INF] Executed action InventoryController.GetInventoryForAdmin (Ecommerce.API) in 817.801ms
+2026-06-14 23:31:05.956 +05:30 [INF] Executed endpoint 'InventoryController.GetInventoryForAdmin (Ecommerce.API)'
+2026-06-14 23:31:05.959 +05:30 [INF] Request finished HTTP/1.1 GET http://localhost:5173/api/Inventory/inventories - 200 null application/json; charset=utf-8 889.5029ms
