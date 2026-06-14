@@ -84,6 +84,31 @@ public class AuthenticationServiceTest
         );
     }
 
+    [Test]
+    public async Task RegisterUser_ShouldCreateUser_WithGivenRole()
+    {
+        var request = new RequestRegisterUserDTO
+        {
+            FirstName = "Siva",
+            LastName = "Kavindra",
+            Email = "siva@test.com",
+            PhoneNumber = "9876543210",
+            Password = "Test@123"
+        };
+
+        var result = await _authenticationService.RegisterUser(request, (int)RoleEnum.User);
+
+        Assert.That(result, Is.Not.Null);
+        Assert.That(result.Email, Is.EqualTo("siva@test.com"));
+
+        var user = await _context.User.FirstOrDefaultAsync(u => u.Email == "siva@test.com");
+
+        Assert.That(user, Is.Not.Null);
+        Assert.That(user!.RoleId, Is.EqualTo((int)RoleEnum.User));
+        Assert.That(user.Password, Is.Not.Null);
+        Assert.That(user.HashedKey, Is.Not.Null);
+    }
+
     [TearDown]
     public void TearDown()
     {
