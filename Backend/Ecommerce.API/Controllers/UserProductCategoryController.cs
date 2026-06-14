@@ -24,6 +24,7 @@ public class UserProductCategoryController : ControllerBase
         var result = await _userProductCategoryService.GetAllProductSubCategor(productCategoryId);
         return Ok(result);
     }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpGet("vendor-categories/{productCategoryId}/subcategories")]
     public async Task<IActionResult> GetSubCategoriesForVendor(int productCategoryId)
     {
