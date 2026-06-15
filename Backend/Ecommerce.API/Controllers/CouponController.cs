@@ -41,7 +41,7 @@ public class CouponController : ControllerBase
     public async Task<ActionResult<ResponseGetAllCoupon>> GetAllAvailableCouponsByUser()
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userCouponService.GetAllAvailableCoupons(UserId);
+        var result = await _userCouponService.GetAllAvailableCouponsUser(UserId);
         return Ok(result);
     }
 }

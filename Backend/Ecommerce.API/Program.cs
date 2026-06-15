@@ -133,6 +133,60 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("OrderAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "4");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("CouponLogisticAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "5");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ReturnAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "6");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RefundAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "7");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ExchangeAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "8");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("PaymentAdminOrSuperAdminOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId",  "1" , "9");
+    });
+});
+
 
 builder.Services.AddAuthorization(options =>
 {
@@ -193,12 +247,22 @@ builder.Services.AddAuthorization(options =>
 });
 builder.Services.AddAuthorization(options =>
 {
-    options.AddPolicy("VendorOwnerAndInventoryVendorOnly", policy =>
+    options.AddPolicy("VendorOwnerAndReturnVendorOnly", policy =>
     {
         policy.RequireClaim(ClaimTypes.Role, "3");
-        policy.RequireClaim("VendorRoleId",  "1","4","2");
+        policy.RequireClaim("VendorRoleId",  "1","5","2");
     });
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("RefundOwnerAndReturnVendorOnly", policy =>
+    {
+        policy.RequireClaim(ClaimTypes.Role, "3");
+        policy.RequireClaim("VendorRoleId",  "1","6","2");
+    });
+});
+
 
 builder.Services.AddAuthorization(options =>
 {
