@@ -43,7 +43,11 @@ export class Register {
         console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
-        if (error.status == 401) {
+        if(error.status == 409)
+        {
+          this.errorMessage.set(error.error.message)
+        }
+        else if (error.status == 401) {
           this.errorMessage.set("Invalid Email or Password");
         }
         else if (error.status === 400 && error.error?.errors) {
