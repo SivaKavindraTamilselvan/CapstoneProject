@@ -1,1 +1,35 @@
-<p>register works!</p>
+<section
+    class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 flex justify-center items-center">
+    <div class="bg-white p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-xl w-full space-y-5">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">REGISTER USER</h1>
+        @if(errorMessage())
+        {
+        <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
+        }
+        <form (ngSubmit)="handleRegisterClick()" class="flex flex-col space-y-5">
+            <label class="font-bold text-lg">Email</label>
+            <input type="email" placeholder="Enter your Email" [formField]="registerForm.email"
+                class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+            <div class="flex max-w-lg gap-4">
+                <div class="flex-1">
+                    <label class="font-bold text-lg">First Name</label>
+                    <input placeholder="Enter your First Name" [formField]="registerForm.firstName"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                </div>
+                <div class="flex-1">
+                    <label class="font-bold text-lg">Last Name</label>
+                    <input placeholder="Enter your Last Name" [formField]="registerForm.lastName"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                </div>
+            </div>
+            <label class="font-bold text-lg">Phone Number</label>
+            <input type="text" placeholder="Enter your PhoneNumber" [formField]="registerForm.phoneNumber"
+                class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+            
+            <label class="font-bold text-lg">Password</label>
+            <input type="password" placeholder="Enter your Password" [formField]="registerForm.password"
+                class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+            <button type="submit" class="bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900">Submit</button>
+        </form>
+    </div>
+</section>
