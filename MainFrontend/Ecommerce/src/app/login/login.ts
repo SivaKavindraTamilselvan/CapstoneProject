@@ -4,6 +4,7 @@ import { FormField, form, required, email } from '@angular/forms/signals';
 import { LoginModel } from '../models/login.model';
 import { AuthService } from '../services/auth.Service';
 import { Router } from '@angular/router';
+import { AuthStateService } from '../services/auth-State.Service';
 
 @Component({
   selector: 'app-login',
@@ -15,7 +16,7 @@ export class Login {
   errorMessage = signal<string | null>(null);
   loginModel = signal(new LoginModel());
   progress = signal(false);
-  constructor(private authService: AuthService, private router: Router) {
+  constructor(private authService: AuthService, private router: Router,private authStateService : AuthStateService) {
 
   }
   loginForm = form(this.loginModel, (path) => {
@@ -32,7 +33,7 @@ export class Login {
     this.authService.loginAPICall(this.loginModel()).subscribe({
       next: (response: any) => {
         console.log("Login Successfull", response);
-        sessionStorage.setItem("token", response.token);
+        this.authStateService.login(response.token);
         alert("Login successful!")
         this.progress.set(false);
       },
