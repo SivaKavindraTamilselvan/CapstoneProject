@@ -1,5 +1,6 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
+import { ADMIN_ROLES } from "../admin.role.constant";
 
 @Injectable({
     providedIn: "root"
@@ -10,12 +11,14 @@ export class AuthStateService {
     private roleIdSubject = new BehaviorSubject<string | undefined>(undefined);
     private adminRoleIdSubject = new BehaviorSubject<string | undefined>(undefined);
     private vendorRoleIdSubject = new BehaviorSubject<string | undefined>(undefined);
+    private adminRoleNameSubject = new BehaviorSubject<string | undefined>(undefined);
 
     userId = this.userIdSubject.asObservable();
     roleId = this.roleIdSubject.asObservable();
     adminRoleId = this.adminRoleIdSubject.asObservable();
     vendorRoleId = this.vendorRoleIdSubject.asObservable();
     userName = this.userNameSubject.asObservable();
+    adminRoleName = this.adminRoleNameSubject.asObservable();
 
     constructor() {
         this.loadUserToken();
@@ -35,7 +38,9 @@ export class AuthStateService {
     }
     private loadUserToken() {
         const payload = this.getPayLoad();
+        const adminRoleId = payload?.["AdminRoleId"];
         this.adminRoleIdSubject.next(payload?.["AdminRoleId"]);
+        this.adminRoleNameSubject.next(adminRoleId ? ADMIN_ROLES[adminRoleId] : undefined);
         this.vendorRoleIdSubject.next(payload?.["VendorRoleId"]);
         this.roleIdSubject.next(payload?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
         this.userNameSubject.next(payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
