@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { LoginModel } from "../models/login.model";
 import { BaseURL } from "../environment";
 import { RegisterModel } from "../models/register-user.model";
+import { RegisterAdminModel } from "../models/register-admin.model";
 
 @Injectable({
     providedIn: 'root'
@@ -17,6 +18,10 @@ export class AuthService {
     }
     public registerUserAPICall(registerModel : RegisterModel){
         let url = BaseURL + "/Authentication/Register";
+        return this.http.post(url,registerModel);
+    }
+    public registerAdminAPICall(registerModel : RegisterAdminModel){
+        let url = BaseURL + "/Admin/RegisterAdmin";
         return this.http.post(url,registerModel);
     }
 }

@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { SIDEBAR_MENU, SidebarItem } from '../admin-sidebar.config';
 import { AuthStateService } from '../services/auth-State.Service';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [RouterOutlet, CommonModule],
+  imports: [RouterOutlet, CommonModule,RouterLink],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.css',
 })

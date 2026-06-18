@@ -15,7 +15,7 @@
             {
             @for(child of menu.children;track child.route)
             {
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
+            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer" [routerLink]="child.route">
                 {{child.label}}
             </a>
             }
@@ -64,6 +64,8 @@
                 </button>
             </div>
         </header>
-
+        <main>
+            <router-outlet></router-outlet>
+        </main>
     </div>
 </div>
