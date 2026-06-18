@@ -46,11 +46,4 @@ export const SIDEBAR_MENU: SidebarItem[] = [
       { label: 'Delete Product', route: '/admin/products/delete' },
     ]
   },
-  { key: 'orders', label: 'Orders', roles: ['super-admin', 'order-admin'] },
-  { key: 'coupons', label: 'Coupons', roles: ['super-admin', 'product-admin'] },
-  { key: 'shipment', label: 'Shipment', roles: ['super-admin', 'order-admin'] },
-  { key: 'return', label: 'Return', roles: ['super-admin', 'order-admin'] },
-  { key: 'refund', label: 'Refund', roles: ['super-admin', 'finance-admin'] },
-  { key: 'payment', label: 'Payment', roles: ['super-admin', 'finance-admin'] },
-  { key: 'report', label: 'Report', roles: ['super-admin'] },
 ];
