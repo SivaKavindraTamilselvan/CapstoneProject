@@ -25,13 +25,33 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'vendor',
     label: 'Vendor',
-    roles: ['super-admin', 'vendor-admin'],
+    roles: ['super-admin'],
     children: [
       { label: 'Review Vendor', route: '/admin/vendors/review' },
       { label: 'Active Vendors', route: '/admin/vendors/active' },
       { label: 'Vendor List', route: '/admin/vendors/list' },
       { label: 'Delete Vendor', route: '/admin/vendors/delete' },
     ]
+  },
+  {
+    key: 'review-vendor',
+    label: 'Review Vendor',
+    roles: ['vendor-admin'],
+  },
+  {
+    key: 'active-vendor',
+    label: 'Active Vendor',
+    roles: ['vendor-admin'],
+  },
+  {
+    key: 'vendor-list',
+    label: 'Vendor List',
+    roles: ['vendor-admin'],
+  },
+  {
+    key: 'delete-vendor',
+    label: 'Delete Vendor',
+    roles: ['vendor-admin'],
   },
   {
     key: 'products',

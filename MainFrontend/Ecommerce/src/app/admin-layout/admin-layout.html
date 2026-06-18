@@ -4,122 +4,24 @@
             <h1 class="text-blue-200 font-extrabold text-center text-xl">ADMIN PANEL</h1>
         </div>
         <nav class="gap-1 overflow-y-auto w-full flex flex-col">
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('admin-user')"
-                [ngClass]="activeMenu()==='admin-user' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Admin User
-            </a>
-            @if(activeMenu()==='admin-user'){
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
-                Register Admin
-            </a>
 
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Admin List
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Activate Admin
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Deactivate Admin
-            </a>
+            @for (menu of menus ; track menu.key)
+            {
+                <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu(menu.key)"
+                    [ngClass]="activeMenu()===menu.key ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
+                    {{menu.label}}
+                </a>
+                @if(activeMenu()===menu.key)
+                {
+                    @for(child of menu.children;track child.route)
+                    {
+                        <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
+                            {{child.label}}
+                        </a>
+                    }
+                }
             }
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('vendor')"
-                [ngClass]="activeMenu()==='vendor' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Vendor
-            </a>
-            @if(activeMenu()==='vendor'){
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
-                Review Vendor
-            </a>
 
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Active Vendors
-            </a>
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Vendor List
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Delete Vendor
-            </a>
-             <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Inventory
-            </a>
-            }
-           <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('products')"
-                [ngClass]="activeMenu()==='products' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Products
-            </a>
-            @if(activeMenu()==='products'){
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
-                Review Product
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Available Product
-            </a>
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Active Product
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Archived Product
-            </a>
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Product List
-            </a>
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Delete Product
-            </a>
-            }
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('orders')"
-                [ngClass]="activeMenu()==='orders' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Orders
-            </a>
-             @if(activeMenu()==='orders'){
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
-                Update Orders
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Get Orders
-            </a>
-            }
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('coupons')"
-                [ngClass]="activeMenu()==='coupons' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Coupons
-            </a>
-            @if(activeMenu()==='coupons'){
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer">
-                Add Coupons
-            </a>
-
-            <a class="px-10 py-2 text-white hover:text-gray-400 cursor-pointer">
-                Get Coupons
-            </a>
-            }
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('shipment')"
-                [ngClass]="activeMenu()==='shipment' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Shipment
-            </a>
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('return')"
-                [ngClass]="activeMenu()==='return' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Return
-            </a>
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('refund')"
-                [ngClass]="activeMenu()==='refund' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Refund
-            </a>
-            <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('payment')"
-                [ngClass]="activeMenu()==='payment' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Payment
-            </a>
-           <a class="px-4 py-3 transition font-medium cursor-pointer" (click)="toggleMenu('report')"
-                [ngClass]="activeMenu()==='report' ? 'bg-white text-black' : 'text-white hover:text-black hover:bg-white' ">
-                Report
-            </a>
         </nav>
     </section>
 </div>

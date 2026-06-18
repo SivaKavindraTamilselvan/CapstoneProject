@@ -64,4 +64,7 @@ export class AuthStateService {
     isLoggedIn(): boolean {
         return sessionStorage.getItem("token") !== null;
     }
+    getAdminRole(): string | undefined {
+        return this.adminRoleNameSubject.getValue();
+    }
 }
