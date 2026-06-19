@@ -1,1 +1,82 @@
-<p>review-vendor works!</p>
+<section class="bg-white p-8">
+    <div class="pb-8">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">
+            Pending Vendors
+        </h1>
+    </div>
+    <table class="border border-collapse w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white text-center">
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Company Name</th>
+                <th class="px-4 py-3">Email</th>
+                <th class="px-4 py-3">Phone Number</th>
+                <th class="px-4 py-3">GST Number</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(vendors()) {
+            @for(vendor of vendors()!.items; track vendor.vendorId) {
+            <tr class="border-b text-center">
+                <td class="px-4 py-3">{{ vendor.vendorId }}</td>
+                <td class="px-4 py-3">{{ vendor.vendorCompanyName }}</td>
+                <td class="px-4 py-3">{{ vendor.companyEmail }}</td>
+                <td class="px-4 py-3">{{ vendor.companyPhoneNumber }}</td>
+                <td class="px-4 py-3">{{ vendor.gstNumber }}</td>
+                <td class="px-4 py-3">
+                    {{ vendor.isActive ? "Active" : "Inactive" }}
+                </td>
+                <td class="px-4 py-3">
+                    <div class="flex justify-center gap-2">
+                        <button
+                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
+                            View
+                        </button>
+                        <button
+                            class="bg-slate-600 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-slate-900"
+                            (click)="openReviewPopup(vendor.vendorId)">
+                            Review
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+
+    @if(showActivatePopup()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
+            <h1 class="text-2xl font-bold text-blue-950 text-center">
+                Review Vendor
+            </h1>
+            <h2 class="text-gray-600 text-center mt-2 mb-6">
+                Enter the details to review
+            </h2>
+            <form class="space-y-4" (ngSubmit)="handleReview()">
+                <select [formField]="reviewForm.approvalStatusId"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
+                    <option value="">Select The Status</option>
+                    <option value="2">Approve</option>
+                    <option value="3">Reject</option>
+                </select>
+                <input [formField]="reviewForm.remark" type="text" placeholder="Enter The Remarks"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                        (click)="closePopup()">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+</section>
