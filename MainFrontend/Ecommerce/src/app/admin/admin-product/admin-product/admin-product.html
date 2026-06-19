@@ -1,0 +1,38 @@
+<section class="bg-white px-8 py-8">
+    <div class="pb-8">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Products</h1>
+    </div>
+    <table class="border border-collapse border-gray-500 w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white">
+                <th class="px-4 py-3 text-center">ID</th>
+                <th class="px-4 py-3 text-center">Name</th>
+                <th class="px-4 py-3 text-center">Category</th>
+                <th class="px-4 py-3 text-center">SubCategory</th>
+                <th class="px-4 py-3 text-center">Vendor</th>
+                <th class="px-4 py-3 text-center">Approval</th>
+                <th class="px-4 py-3 text-center">Status</th>
+                <th class="px-4 py-3 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if(products()){
+            @for(product of products()!.items;track product.productId)
+            {
+            <tr class="border-b text-center">
+                <td class="px-4 py-3">{{product.productId}}</td>
+                <td class="px-4 py-3">{{product.productName}}</td>
+                <td class="px-4 py-3">{{product.productCategoryName}}</td>
+                <td class="px-4 py-3">{{product.productSubCategoryName}}</td>
+                <td class="px-4 py-3">{{product.vendorName}}</td>
+                <td class="px-4 py-3">{{product.productApprovalStatus}}</td>
+                <td class="px-4 py-3">{{product.productStatus}}</td>
+                <td class="px-4 py-3"><button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button></td>
+            </tr>
+            }
+            }
+
+        </tbody>
+    </table>
+</section>

@@ -1,1 +1,58 @@
-<p>deactivate-admin works!</p>
+<section class="bg-white p-8">
+    <div class="pb-8">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Deactive Admin Users</h1>
+    </div>
+    <table class="border border-collapse w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white text-center">
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Name</th>
+                <th class="px-4 py-3">Role</th>
+                <th class="px-4 py-3">Email</th>
+                <th class="px-4 py-3">Phone Number</th>
+                <th class="px-4 py-3">Status</th>
+                <th class="px-4 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(adminUsers()){
+            @for(admin of adminUsers()!.items;track admin.adminUserId){
+            <tr class="border-b text-center">
+                <td class="px-4 py-3">{{admin.adminUserId}}</td>
+                <td class="px-4 py-3">{{admin.firstName + ' ' + admin.lastName}}</td>
+                <td class="px-4 py-3">{{admin.adminRoleName}}</td>
+                <td class="px-4 py-3">{{admin.email}}</td>
+                <td class="px-4 py-3">{{admin.phoneNumber}}</td>
+                <td class="px-4 py-3">{{admin.isActive ? "Active" : "Inactive"}}</td>
+                <td class="px-4 py-3"><button
+                        class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900"
+                        (click)="confirmActivate(admin.adminUserId)">Activate</button>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+    @if(showActivatePopup()){
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white shadow-2xl rounded-xl w-96 p-6">
+            <h2 class="text-xl font-bold text-green-700 text-center">
+                Confirm Activation
+            </h2>
+            <p class="text-gray-600 text-center mt-4">
+                Are you sure you want to deactivate this administrator?
+            </p>
+            <div class="flex justify-center gap-4 mt-8">
+                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400 cursor-pointer" (click)="closePopup()">
+                    Cancel
+                </button>
+
+                <button class="px-5 py-2 rounded-md bg-green-700 text-white font-semibold hover:bg-green-900 cursor-pointer"
+                    (click)="activateAdmin()">
+                    Activate
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</section>
