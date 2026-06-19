@@ -9,9 +9,9 @@
             <tr class="bg-slate-800 text-white text-center">
                 <th class="px-4 py-3">ID</th>
                 <th class="px-4 py-3">Company Name</th>
+                <th class="px-4 py-3">Contact Person</th>
                 <th class="px-4 py-3">Email</th>
                 <th class="px-4 py-3">Phone Number</th>
-                <th class="px-4 py-3">GST Number</th>
                 <th class="px-4 py-3">Status</th>
                 <th class="px-4 py-3">Actions</th>
             </tr>
@@ -22,6 +22,7 @@
             <tr class="border-b text-center">
                 <td class="px-4 py-3">{{ vendor.vendorId }}</td>
                 <td class="px-4 py-3">{{ vendor.vendorCompanyName }}</td>
+                <td class="px-4 py-3">{{vendor.contactPersonName}}</td>
                 <td class="px-4 py-3">{{ vendor.companyEmail }}</td>
                 <td class="px-4 py-3">{{ vendor.companyPhoneNumber }}</td>
                 <td class="px-4 py-3">{{ vendor.gstNumber }}</td>

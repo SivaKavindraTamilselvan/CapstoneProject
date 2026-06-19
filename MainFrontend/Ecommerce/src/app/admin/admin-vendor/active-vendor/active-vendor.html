@@ -1,1 +1,35 @@
-<p>active-vendor works!</p>
+<section class="bg-white p-8">
+    <div class="pb-8">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Vendors</h1>
+    </div>
+    <table class="border border-collapse w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white text-center">
+                <th class="px-4 py-3">ID</th>
+                <th class="px-4 py-3">Company Name</th>
+                <th class="px-4 py-3">Contact Person</th>
+                <th class="px-4 py-3">Email</th>
+                <th class="px-4 py-3">Phone Number</th>
+                <th class="px-4 py-3">Approval</th>
+                <th class="px-4 py-3">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if(vendors()){
+            @for(vendor of vendors()!.items;track vendor.vendorId){
+            <tr class="border-b text-center">
+                <td class="px-4 py-3">{{vendor.vendorId}}</td>
+                <td class="px-4 py-3">{{vendor.vendorCompanyName}}</td>
+                <td class="px-4 py-3">{{vendor.contactPersonName}}</td>
+                <td class="px-4 py-3">{{vendor.companyEmail}}</td>
+                <td class="px-4 py-3">{{vendor.companyPhoneNumber}}</td>
+                <td class="px-4 py-3">{{vendor.approvalStatusName}}</td>
+                <td class="px-4 py-3"><button
+                        class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button>
+                </td>
+            </tr>
+            }
+            }
+        </tbody>
+    </table>
+</section>

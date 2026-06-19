@@ -25,4 +25,8 @@ export class AdminVendorService{
         let url = BaseURL + "/AdminVendor/ReviewVendor";
         return this.http.put(url,request);
     }
+    getActiveVendor(){
+        let url = BaseURL + "/AdminVendor/GetVendor?IsActive=true";
+        return this.http.get<PagedResponse<AdminVendorModel>>(url);
+    }
 }
