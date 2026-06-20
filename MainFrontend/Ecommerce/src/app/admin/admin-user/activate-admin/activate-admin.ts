@@ -1,8 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal,computed } from '@angular/core';
 import { AdminUserService } from '../../../services/admin-user.Service'; 
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model'; 
 import { AdminUserModel } from '../../../models/admin-user.model'; 
+import { AdminUserFilter } from '../../../models/admin-user.filter';
 
 @Component({
   selector: 'app-activate-admin',
@@ -14,6 +15,11 @@ export class ActivateAdmin {
   adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
   showDeactivatePopup = signal(false);
   selectedAdminId = signal<number | null>(null);
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(10);
+  totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
+  adminRoleId = signal<number | null>(null);
+  filterPanelOpen = signal<boolean>(false);
   constructor(private route: Router, private adminUserService: AdminUserService) {
 
   }
@@ -21,7 +27,7 @@ export class ActivateAdmin {
     this.loadActiveAdminUser();
   }
   loadActiveAdminUser() {
-    this.adminUserService.getActiveAdminUser().subscribe({
+    this.adminUserService.getActiveAdminUser(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.adminUsers.set(response);
       },
@@ -54,4 +60,62 @@ export class ActivateAdmin {
     this.showDeactivatePopup.set(false);
     this.selectedAdminId.set(null);
   }
+  onPageSizeChange(event: Event): void {
+      const value = Number((event.target as HTMLInputElement).value);
+      this.pageNumber.set(1);
+      this.pageSize.set(value);
+      this.loadActiveAdminUser();
+    }
+    goToPage(page: number): void {
+      if (page < 1 || page > this.totalPages()) {
+        return;
+      }
+      this.pageNumber.set(page);
+      this.loadActiveAdminUser();
+    }
+    nextPage(): void {
+      this.goToPage(this.pageNumber() + 1);
+    }
+    previousPage(): void {
+      this.goToPage(this.pageNumber() - 1);
+    }
+    adminRoleOption = [
+      { id: 1, label: 'Overall Admin' },
+      { id: 2, label: 'Vendor Admin' },
+      { id: 3, label: 'Product Admin' },
+      { id: 4, label: 'Order Admin' },
+      { id: 5, label: 'Coupons Logistic Admin' },
+      { id: 6, label: 'Return Admin' },
+      { id: 7, label: 'Refund Admin' },
+      { id: 8, label: 'Exchange Admin' },
+      { id: 9, label: 'Payment Admin' }
+    ]
+    onAdminRoleChange(event: Event): void {
+      const v = (event.target as HTMLSelectElement).value;
+      this.adminRoleId.set(v ? Number(v) : null);
+    }
+    toggleFilterPanel(): void {
+      this.filterPanelOpen.update((open) => !open);
+    }
+    closeFilterPanel(): void {
+      this.filterPanelOpen.set(false);
+    }
+    applyFilter(): void {
+      this.pageNumber.set(1);
+      this.loadActiveAdminUser();
+      this.closeFilterPanel();
+    }
+    resetFilter(): void {
+      this.adminRoleId.set(null);
+      this.pageNumber.set(1);
+      this.loadActiveAdminUser();
+    }
+    private buildFilter(): AdminUserFilter {
+      return {
+        pageNumber: this.pageNumber(),
+        pageSize: this.pageSize(),
+        adminRoleId: this.adminRoleId(),
+        isActive : false
+      };
+    }
 }

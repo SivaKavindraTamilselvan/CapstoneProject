@@ -13,37 +13,42 @@ export class AdminUserService {
     constructor(private http: HttpClient) {
 
     }
-    getAdminUser(filter :AdminUserFilter) : Observable<PagedResponse<AdminUserModel>> {
+    getAdminUser(filter: AdminUserFilter): Observable<PagedResponse<AdminUserModel>> {
         let url = BaseURL + "/Admin/GetAdminUser";
         let params = new HttpParams();
-        Object.entries(filter).forEach(([key,value])=>{
-            if(value!==null && value!==undefined && value!==''){
-                params = params.set(key,value.toString());
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
             }
         });
-        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
+        return this.http.get<PagedResponse<AdminUserModel>>(url, { params });
     }
     activateAdminUser(adminId: number) {
         let url = `${BaseURL}/Admin/admin-users/${adminId}/activate`;
-        return this.http.put(url,{});
+        return this.http.put(url, {});
     }
     deactivateAdminUser(adminId: number) {
         let url = `${BaseURL}/Admin/admin-users/${adminId}/deactivate`;
-        return this.http.put(url,{});
+        return this.http.put(url, {});
     }
-    getActiveAdminUser(){
+    getActiveAdminUser(filter: AdminUserFilter): Observable<PagedResponse<AdminUserModel>> {
         let url = BaseURL + "/Admin/GetAdminUser?status=true";
         let params = new HttpParams();
-        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
-    }
-    getDeactiveAdminUser(filter : AdminUserFilter) : Observable<PagedResponse<AdminUserModel>> {
-        let url = BaseURL + "/Admin/GetAdminUser?status=false";
-         let params = new HttpParams();
-        Object.entries(filter).forEach(([key,value])=>{
-            if(value!==null && value!==undefined && value!==''){
-                params = params.set(key,value.toString());
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
             }
         });
-        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
+        return this.http.get<PagedResponse<AdminUserModel>>(url, { params });
+    }
+    getDeactiveAdminUser(filter: AdminUserFilter): Observable<PagedResponse<AdminUserModel>> {
+        let url = BaseURL + "/Admin/GetAdminUser?status=false";
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminUserModel>>(url, { params });
     }
 }

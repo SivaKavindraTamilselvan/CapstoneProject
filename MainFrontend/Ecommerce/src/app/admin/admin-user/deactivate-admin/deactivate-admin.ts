@@ -19,7 +19,6 @@ export class DeactivateAdmin {
   pageSize = signal<number>(10);
   totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
   adminRoleId = signal<number | null>(null);
-  isActive = signal<boolean | null>(null);
   filterPanelOpen = signal<boolean>(false);
   constructor(private route: Router, private adimUserService: AdminUserService) {
 
@@ -94,15 +93,6 @@ export class DeactivateAdmin {
     const v = (event.target as HTMLSelectElement).value;
     this.adminRoleId.set(v ? Number(v) : null);
   }
-  onStatusChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    if (value === '') {
-      this.isActive.set(null);
-    }
-    else {
-      this.isActive.set(value === 'true');
-    }
-  }
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
   }
@@ -116,7 +106,6 @@ export class DeactivateAdmin {
   }
   resetFilter(): void {
     this.adminRoleId.set(null);
-    this.isActive.set(null);
     this.pageNumber.set(1);
     this.loadDeactiveAdminUser();
   }
@@ -125,7 +114,7 @@ export class DeactivateAdmin {
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       adminRoleId: this.adminRoleId(),
-      isActive: this.isActive(),
+      isActive : false
     };
   }
 }
