@@ -31,12 +31,19 @@ export class AdminUserService {
         let url = `${BaseURL}/Admin/admin-users/${adminId}/deactivate`;
         return this.http.put(url,{});
     }
-    getActiveAdminUser() {
+    getActiveAdminUser(){
         let url = BaseURL + "/Admin/GetAdminUser?status=true";
-        return this.http.get<PagedResponse<AdminUserModel>>(url);
+        let params = new HttpParams();
+        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
     }
-    getDeactiveAdminUser() {
+    getDeactiveAdminUser(filter : AdminUserFilter) : Observable<PagedResponse<AdminUserModel>> {
         let url = BaseURL + "/Admin/GetAdminUser?status=false";
-        return this.http.get<PagedResponse<AdminUserModel>>(url);
+         let params = new HttpParams();
+        Object.entries(filter).forEach(([key,value])=>{
+            if(value!==null && value!==undefined && value!==''){
+                params = params.set(key,value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
     }
 }
