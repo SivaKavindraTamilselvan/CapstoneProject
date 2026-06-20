@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormField, form, required, email } from '@angular/forms/signals';
 import { LoginModel } from '../models/login.model';
 import { AuthService } from '../services/auth.Service';
@@ -8,7 +7,7 @@ import { AuthStateService } from '../services/auth-State.Service';
 
 @Component({
   selector: 'app-login',
-  imports: [FormsModule, ReactiveFormsModule, FormField],
+  imports: [FormField],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

@@ -1,20 +1,35 @@
 <section
-    class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 flex justify-center items-center">
-    <div class="bg-white p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-lg w-lg space-y-5">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">LOGIN</h1>
+    class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 flex justify-center items-center px-4 py-10">
+    <div class="bg-white p-10 sm:p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-xl w-full space-y-5">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Login</h1>
         @if(errorMessage())
         {
         <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
         }
-        <form (ngSubmit)="handleLoginClick()" class="flex flex-col space-y-5">
-            <label class="font-bold text-lg">Email</label>
-            <input type="email" placeholder="Enter Your Email" [formField]="loginForm.email"
-                class="border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
-            <label class="font-bold text-lg">Password</label>
-            <input type="password" placeholder="Enter Your Password" [formField]="loginForm.password"
-                class="border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
-            <button type="submit" [disabled]="progress() || loginForm().invalid()"
-                class="bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900">Submit</button>
+        <form (ngSubmit)="handleLoginClick()" class="flex flex-col gap-5">
+            <div>
+                <label class="font-bold text-md mb-1.5 block">Email<span class="text-red-600">*</span> </label>
+                <input type="email" placeholder="Enter Your Email" [formField]="loginForm.email"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                @if (loginForm.email().touched() && loginForm.email().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ loginForm.email().errors()[0].message }}</p>
+                }
+            </div>
+
+            <div>
+                <label class="font-bold text-md mb-1.5 block">Password<span class="text-red-600">*</span> </label>
+                <input type="password" placeholder="Enter Your Password" [formField]="loginForm.password"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                @if (loginForm.password().touched() && loginForm.password().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ loginForm.password().errors()[0].message }}</p>
+                }
+            </div>
+            <div>
+                <button type="submit" [disabled]="progress() || loginForm().invalid()"
+                    class="bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900">Submit</button>
+            </div>
         </form>
     </div>
 </section>
