@@ -1,8 +1,10 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminUserModel } from "../models/admin-user.model";
+import { AdminUserFilter } from "../models/admin-user.filter";
+import { Observable } from "rxjs";
 
 @Injectable({
     providedIn: "root"
@@ -11,9 +13,15 @@ export class AdminUserService {
     constructor(private http: HttpClient) {
 
     }
-    getAdminUser() {
+    getAdminUser(filter :AdminUserFilter) : Observable<PagedResponse<AdminUserModel>> {
         let url = BaseURL + "/Admin/GetAdminUser";
-        return this.http.get<PagedResponse<AdminUserModel>>(url);
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key,value])=>{
+            if(value!==null && value!==undefined && value!==''){
+                params = params.set(key,value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminUserModel>>(url,{params});
     }
     activateAdminUser(adminId: number) {
         let url = `${BaseURL}/Admin/admin-users/${adminId}/activate`;
