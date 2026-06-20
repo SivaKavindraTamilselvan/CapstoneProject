@@ -64,4 +64,9 @@ export class RegisterAdmin {
       }
     })
   }
+  resetFilter()
+  {
+    this.adminModel.set(new RegisterAdminModel());
+    this.errorMessage.set(null);  
+  }
 }
