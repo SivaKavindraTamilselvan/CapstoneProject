@@ -1,32 +1,51 @@
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminVendorModel } from "../models/admin-vendor.model";
 import { ReviewVendorRequestModel } from "../models/review-vendor.dto";
+import { filter, Observable } from "rxjs";
+import { AdminVendorFilter } from "../models/admin-vendor.filter";
 
 @Injectable({
-    providedIn : "root"
+    providedIn: "root"
 })
-export class AdminVendorService{
-    constructor(private http:HttpClient)
-    {
+export class AdminVendorService {
+    constructor(private http: HttpClient) {
 
     }
-    getVendor(){
+    getVendor(filter : AdminVendorFilter) : Observable<PagedResponse<AdminVendorModel>> {
         let url = BaseURL + "/AdminVendor/GetVendor";
-        return this.http.get<PagedResponse<AdminVendorModel>>(url);
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
     }
-    getPendingVendor(){
+    getPendingVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
         let url = BaseURL + "/AdminVendor/GetVendor?ApprovalStatusId=1";
-        return this.http.get<PagedResponse<AdminVendorModel>>(url);
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
     }
-    reviewVendor(request : ReviewVendorRequestModel){
+    reviewVendor(request: ReviewVendorRequestModel) {
         let url = BaseURL + "/AdminVendor/ReviewVendor";
-        return this.http.put(url,request);
+        return this.http.put(url, request);
     }
-    getActiveVendor(){
+    getActiveVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
         let url = BaseURL + "/AdminVendor/GetVendor?IsActive=true";
-        return this.http.get<PagedResponse<AdminVendorModel>>(url);
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
     }
 }

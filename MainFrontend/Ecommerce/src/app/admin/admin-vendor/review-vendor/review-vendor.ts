@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal ,computed} from '@angular/core';
 import { AdminVendorService } from '../../../services/admin-vendor.Service';
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
@@ -6,6 +6,7 @@ import { AdminVendorModel } from '../../../models/admin-vendor.model';
 import { ReviewVendorModel } from '../../../models/review.vendor.model';
 import { FormField, form, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminVendorFilter } from '../../../models/admin-vendor.filter';
 
 @Component({
   selector: 'app-review-vendor',
@@ -18,6 +19,18 @@ export class ReviewVendor {
   showActivatePopup = signal(false);
   selectedVendorId = signal<number | null>(null);
   reviewVendorModel = signal(new ReviewVendorModel());
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(10);
+  totalPages = computed(() => this.vendors()?.totalPages ?? 1);
+  filterPanelOpen = signal<boolean>(false);
+  contactPersonName = signal<string>("");
+  companyEmail = signal<string>("");
+  companyPhoneNumber = signal<string>("");
+  vendorCompanyName = signal<string>("");
+  gstNumber = signal<string>("");
+  approvalStatusId = signal<number | null>(null);
+  isActive = signal<boolean | null>(null);
+  reviewedByAdminId = signal<number | null>(null);
   constructor(private route: Router, private adminVendorService: AdminVendorService) {
 
   }
@@ -33,7 +46,7 @@ export class ReviewVendor {
   })
 
   loadPendingVendor() {
-    this.adminVendorService.getPendingVendor().subscribe({
+    this.adminVendorService.getPendingVendor(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.vendors.set(response);
 
@@ -93,4 +106,103 @@ export class ReviewVendor {
       }
     });
   }
+  approvalStatusOption = [
+      { id: 1, label: 'Pending' },
+      { id: 2, label: 'Accepted' },
+      { id: 3, label: 'Rejected' },
+      { id: 4, label: 'Deleted By Admin' }
+    ]
+    onPageSizeChange(event: Event): void {
+      const value = Number((event.target as HTMLInputElement).value);
+      this.pageSize.set(value);
+      this.pageNumber.set(1);
+      this.loadPendingVendor();
+    }
+    goToPage(page: number): void {
+      if (page < 1 || page > this.totalPages()) {
+        return;
+      }
+      this.pageNumber.set(page);
+      this.loadPendingVendor();
+    }
+    nextPage(): void {
+      this.goToPage(this.pageNumber() + 1);
+    }
+    previousPage(): void {
+      this.goToPage(this.pageNumber() - 1);
+    }
+    toggleFilterPanel(): void {
+      this.filterPanelOpen.update((open) => !open);
+    }
+    closeFilterPanel(): void {
+      this.filterPanelOpen.set(false);
+    }
+    applyFilter(): void {
+      this.pageNumber.set(1);
+      this.loadPendingVendor();
+      this.closeFilterPanel();
+    }
+    resetFilter(): void {
+      this.isActive.set(null);
+      this.approvalStatusId.set(null);
+      this.companyEmail.set("");
+      this.contactPersonName.set("");
+      this.companyPhoneNumber.set("");
+      this.gstNumber.set("");
+      this.vendorCompanyName.set("");
+      this.reviewedByAdminId.set(null);
+      this.pageNumber.set(1);
+      this.loadPendingVendor();
+    }
+    private buildFilter(): AdminVendorFilter {
+      return {
+        pageNumber: this.pageNumber(),
+        pageSize: this.pageSize(),
+        isActive: this.isActive(),
+        contactPersonName: this.contactPersonName(),
+        companyEmail: this.companyEmail(),
+        companyPhoneNumber: this.companyPhoneNumber(),
+        vendorCompanyName: this.vendorCompanyName(),
+        gstNumber: this.gstNumber(),
+        approvalStatusId: this.approvalStatusId(),
+        reviewedByAdminId: this.reviewedByAdminId()
+      };
+    }
+    onStatusChange(event: Event): void {
+      const value = (event.target as HTMLSelectElement).value;
+      if (value === '') {
+        this.isActive.set(null);
+      }
+      else {
+        this.isActive.set(value === 'true');
+      }
+    }
+    onApprovalChange(event: Event): void {
+      const v = (event.target as HTMLSelectElement).value;
+      this.approvalStatusId.set(v ? Number(v) : null);
+    }
+    onReviewedAdminChange(event: Event): void {
+      const v = (event.target as HTMLSelectElement).value;
+      this.reviewedByAdminId.set(v ? Number(v) : null);
+    }
+    onVendorCompanyNameInput(event: Event): void {
+      const v = (event.target as HTMLInputElement).value;
+      this.vendorCompanyName.set(v);
+    }
+    onVendorCompanyEmailInput(event: Event): void {
+      const v = (event.target as HTMLInputElement).value;
+      this.companyEmail.set(v);
+    }
+    onContactPersonInput(event: Event): void {
+      const v = (event.target as HTMLInputElement).value;
+      this.contactPersonName.set(v);
+    }
+    onVendorCompanyPhoneNumberInput(event: Event): void {
+      const v = (event.target as HTMLInputElement).value;
+      this.companyPhoneNumber.set(v);
+    }
+    onGstNumberInput(event: Event): void {
+      const v = (event.target as HTMLInputElement).value;
+      this.gstNumber.set(v);
+    }
 }
