@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { PagedResponse } from '../../models/paged-response.model';
-import { AdminUserService } from '../../services/admin-user.Service';
-import { AdminUserModel } from '../../models/admin-user.model';
+import { PagedResponse } from '../../../models/paged-response.model';
+import { AdminUserService } from '../../../services/admin-user.Service';
+import { AdminUserModel } from '../../../models/admin-user.model';
 
 @Component({
   selector: 'app-admin-list',

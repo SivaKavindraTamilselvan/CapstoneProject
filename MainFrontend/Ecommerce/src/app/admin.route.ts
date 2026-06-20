@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { RegisterAdmin } from './admin-user/register-admin/register-admin';
-import { AdminList } from './admin-user/admin-list/admin-list';
+import { RegisterAdmin } from './admin/admin-user/register-admin/register-admin';
+import { AdminList } from './admin/admin-user/admin-list/admin-list'; 
 import { AdminProduct } from './admin/admin-product/admin-product/admin-product';
-import { ActivateAdmin } from './admin-user/activate-admin/activate-admin';
-import { DeactivateAdmin } from './admin-user/deactivate-admin/deactivate-admin';
+import { ActivateAdmin } from './admin/admin-user/activate-admin/activate-admin'; 
+import { DeactivateAdmin } from './admin/admin-user/deactivate-admin/deactivate-admin'; 
 import { ReviewVendor } from './admin/admin-vendor/review-vendor/review-vendor';
 import { ActiveVendor } from './admin/admin-vendor/active-vendor/active-vendor';
 import { VendorList } from './admin/admin-vendor/vendor-list/vendor-list';

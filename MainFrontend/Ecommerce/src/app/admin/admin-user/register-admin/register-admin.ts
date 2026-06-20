@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../services/auth.Service';
-import { RegisterAdminModel } from '../../models/register-admin.model';
+import { AuthService } from '../../../services/auth.Service'; 
+import { RegisterAdminModel } from '../../../models/register-admin.model'; 
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
 

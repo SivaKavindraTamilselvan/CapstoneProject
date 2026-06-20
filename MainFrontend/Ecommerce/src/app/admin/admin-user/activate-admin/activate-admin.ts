@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { AdminUserService } from '../../services/admin-user.Service';
+import { AdminUserService } from '../../../services/admin-user.Service'; 
 import { Router } from '@angular/router';
-import { PagedResponse } from '../../models/paged-response.model';
-import { AdminUserModel } from '../../models/admin-user.model';
+import { PagedResponse } from '../../../models/paged-response.model'; 
+import { AdminUserModel } from '../../../models/admin-user.model'; 
 
 @Component({
   selector: 'app-activate-admin',
