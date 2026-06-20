@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveVendor } from './active-vendor';
+import { DeleteProduct } from './delete-product';
 
-describe('ActiveVendor', () => {
-  let component: ActiveVendor;
-  let fixture: ComponentFixture<ActiveVendor>;
+describe('DeleteProduct', () => {
+  let component: DeleteProduct;
+  let fixture: ComponentFixture<DeleteProduct>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveVendor],
+      imports: [DeleteProduct],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ActiveVendor);
+    fixture = TestBed.createComponent(DeleteProduct);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

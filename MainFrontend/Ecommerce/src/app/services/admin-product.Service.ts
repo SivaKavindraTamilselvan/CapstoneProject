@@ -4,7 +4,8 @@ import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { ProductModel } from "../models/product.model";
-import { AdminProductFilter } from "../models/admin-product.filter"; 
+import { AdminProductFilter } from "../models/admin-product.filter";
+import { ReviewProductRequestModel } from "../models/review-product.dto";
 
 @Injectable({
     providedIn: "root"
@@ -25,5 +26,9 @@ export class AdminProductService {
         });
 
         return this.http.get<PagedResponse<ProductModel>>(url, { params });
+    }
+    reviewProduct(request: ReviewProductRequestModel) {
+        let url = BaseURL + "/AdminProduct/ReviewProduct";
+        return this.http.put(url, request);
     }
 }

@@ -18,8 +18,8 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     children: [
       { label: 'Register Admin', route: '/admin/users/register' },
       { label: 'Admin List', route: '/admin/users/list' },
-      { label: 'Activate Admin', route: '/admin/users/activate' },
-      { label: 'Deactivate Admin', route: '/admin/users/deactivate' },
+      { label: 'Active Admin', route: '/admin/users/activate' },
+      { label: 'Inactive Admin', route: '/admin/users/deactivate' },
     ]
   },
   {
@@ -28,9 +28,8 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin'],
     children: [
       { label: 'Review Vendor', route: '/admin/vendors/review' },
-      { label: 'Active Vendors', route: '/admin/vendors/active' },
       { label: 'Vendor List', route: '/admin/vendors/list' },
-      { label: 'Delete Vendor', route: '/admin/vendors/delete' },
+      { label: 'Deleted Vendor', route: '/admin/vendors/delete' },
     ]
   },
   {
@@ -59,9 +58,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin', 'product-admin'],
     children: [
       { label: 'Review Product', route: '/admin/products/review' },
-      { label: 'Available Product', route: '/admin/products/available' },
-      { label: 'Active Product', route: '/admin/products/active' },
-      { label: 'Archived Product', route: '/admin/products/archived' },
       { label: 'Product List', route: '/admin/products/list' },
       { label: 'Delete Product', route: '/admin/products/delete' },
     ]

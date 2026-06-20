@@ -5,9 +5,10 @@ import { AdminProduct } from './admin/admin-product/admin-product/admin-product'
 import { ActivateAdmin } from './admin/admin-user/activate-admin/activate-admin'; 
 import { DeactivateAdmin } from './admin/admin-user/deactivate-admin/deactivate-admin'; 
 import { ReviewVendor } from './admin/admin-vendor/review-vendor/review-vendor';
-import { ActiveVendor } from './admin/admin-vendor/active-vendor/active-vendor';
 import { VendorList } from './admin/admin-vendor/vendor-list/vendor-list';
 import { DeleteVendor } from './admin/admin-vendor/delete-vendor/delete-vendor';
+import { ReviewProduct } from './admin/admin-product/review-product/review-product';
+import { DeleteProduct } from './admin/admin-product/delete-product/delete-product';
 
 export const AdminRoutes: Routes = [
     {
@@ -31,10 +32,6 @@ export const AdminRoutes: Routes = [
         component: ReviewVendor
     },
     {
-        path: 'vendors/active',
-        component: ActiveVendor
-    },
-    {
         path: 'vendors/list',
         component: VendorList
     },
@@ -45,5 +42,13 @@ export const AdminRoutes: Routes = [
     {
         path : 'products/list',
         component : AdminProduct
+    },
+    {
+        path : 'products/review',
+        component : ReviewProduct
+    },
+    {
+        path : 'products/delete',
+        component : DeleteProduct
     },
 ];

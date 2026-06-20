@@ -1,0 +1,153 @@
+<section class="bg-white px-8 py-8">
+    <div class="pb-8 relative flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Products</h1>
+        <button (click)="toggleFilterPanel()" aria-label="Open filters"
+                class="absolute right-0 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
+                 stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+    <!-- Backdrop -->
+    @if(filterPanelOpen()) {
+    <div class="fixed inset-0 bg-black/40 z-40" (click)="toggleFilterPanel()"></div>
+    }
+
+    <!-- Filter Drawer -->
+    <aside
+        class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300 ease-in-out overflow-y-auto"
+        [class.translate-x-0]="filterPanelOpen()"
+        [class.translate-x-full]="!filterPanelOpen()">
+
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+            <h2 class="text-lg font-bold text-blue-950">Filters</h2>
+            <button (click)="toggleFilterPanel()" aria-label="Close filters"
+                    class="p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                     stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex flex-col gap-4 p-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
+                <input type="text" placeholder="Product name..." [value]="searchTerm()" (input)="onSearchTermInput($event)"
+                       class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor ID</label>
+                <input type="number" placeholder="Vendor ID" [value]="vendorId()" (input)="onVendorIdInput($event)"
+                       class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
+                <select (change)="onApprovalStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(opt of approvalStatusOptions; track opt.id) {
+                    <option [value]="opt.id" [selected]="productApprovalStatusId() === opt.id">{{opt.label}}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Min" [value]="minPrice()" (input)="onMinPriceInput($event)"
+                           class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxPrice()" (input)="onMaxPriceInput($event)"
+                           class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="hasIssues" [checked]="hasIssues()" (change)="onHasIssuesChange($event)" />
+                <label for="hasIssues" class="text-sm font-semibold text-gray-700">Has Issues</label>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="availableForSale" [checked]="isAvailableForSale()" (change)="onAvailableForSaleChange($event)" />
+                <label for="availableForSale" class="text-sm font-semibold text-gray-700">Available For Sale</label>
+            </div>
+
+            <div class="flex gap-2 pt-2">
+                <button (click)="applyFilters()"
+                        class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full">
+                    Apply Filters
+                </button>
+                <button (click)="resetFilters()"
+                        class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 cursor-pointer w-full">
+                    Reset
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <table class="border border-collapse border-gray-500 w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white">
+                <th class="px-4 py-3 text-center">ID</th>
+                <th class="px-4 py-3 text-center">Name</th>
+                <th class="px-4 py-3 text-center">Category</th>
+                <th class="px-4 py-3 text-center">SubCategory</th>
+                <th class="px-4 py-3 text-center">Vendor</th>
+                <th class="px-4 py-3 text-center">Approval</th>
+                <th class="px-4 py-3 text-center">Status</th>
+                <th class="px-4 py-3 text-center">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+
+            @if(products()){
+            @for(product of products()!.items;track product.productId)
+            {
+            <tr class="border-b text-center">
+                <td class="px-4 py-3">{{product.productId}}</td>
+                <td class="px-4 py-3">{{product.productName}}</td>
+                <td class="px-4 py-3">{{product.productCategoryName}}</td>
+                <td class="px-4 py-3">{{product.productSubCategoryName}}</td>
+                <td class="px-4 py-3">{{product.vendorName}}</td>
+                <td class="px-4 py-3">{{product.productApprovalStatus}}</td>
+                <td class="px-4 py-3">{{product.productStatus}}</td>
+                <td class="px-4 py-3"><button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button></td>
+            </tr>
+            }
+            @empty {
+            <tr>
+                <td colspan="8" class="px-4 py-6 text-center text-gray-500">No products found.</td>
+            </tr>
+            }
+            }
+
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    @if(products()){
+    <div class="flex items-center justify-between mt-6">
+        <div class="text-sm text-gray-600">
+            Page {{pageNumber()}} of {{totalPages()}} &middot; {{products()!.totalCount}} total products
+        </div>
+        <div class="flex items-center gap-2">
+            <select (change)="onPageSizeChange($event)" class="border border-gray-400 rounded-md px-2 py-1">
+                <option value="10" [selected]="pageSize() === 10">10 / page</option>
+                <option value="25" [selected]="pageSize() === 25">25 / page</option>
+                <option value="50" [selected]="pageSize() === 50">50 / page</option>
+            </select>
+            <button (click)="previousPage()" [disabled]="pageNumber() === 1"
+                    class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                Previous
+            </button>
+            <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
+                    class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                Next
+            </button>
+        </div>
+    </div>
+    }
+</section>
