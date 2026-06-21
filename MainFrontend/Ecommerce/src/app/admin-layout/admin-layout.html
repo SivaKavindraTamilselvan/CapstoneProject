@@ -23,7 +23,7 @@
             {
             @for(child of menu.children;track child.route)
             {
-            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer" [routerLink]="child.route">
+            <a class="px-10 py-3 text-white hover:text-gray-400 cursor-pointer" [routerLink]="child.route" (click)="closeMobileMenu()">
                 {{child.label}}
             </a>
             }
