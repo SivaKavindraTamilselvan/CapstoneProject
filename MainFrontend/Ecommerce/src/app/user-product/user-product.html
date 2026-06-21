@@ -1,0 +1,132 @@
+<section class="bg-white">
+    <div class="flex">
+
+        @if(filterPanelOpen()) {
+        <div class="fixed inset-0 bg-black/40 z-40 lg:hidden" (click)="toggleFilterPanel()"></div>
+        }
+
+        <aside
+            class="fixed top-0 left-0 h-screen w-full sm:w-80 bg-white z-50 shadow-2xl lg:shadow-none lg:z-30 lg:border-r lg:border-gray-200 transform transition-transform duration-300 ease-in-out lg:translate-x-0 overflow-y-auto"
+            [class.translate-x-0]="filterPanelOpen()"
+            [class.-translate-x-full]="!filterPanelOpen()">
+
+            <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+                <h2 class="text-lg font-bold text-blue-950">Filters</h2>
+                <button (click)="toggleFilterPanel()" aria-label="Close filters"
+                        class="p-2 rounded-md hover:bg-gray-100 cursor-pointer lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-4 p-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
+                    <input type="text" placeholder="Product name..." [value]="searchTerm()" (input)="onSearchTermInput($event)"
+                           class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor ID</label>
+                    <input type="number" placeholder="Vendor ID" [value]="vendorId()" (input)="onVendorIdInput($event)"
+                           class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
+                    <div class="flex gap-2">
+                        <input type="number" placeholder="Min" [value]="minPrice()" (input)="onMinPriceInput($event)"
+                               class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                        <input type="number" placeholder="Max" [value]="maxPrice()" (input)="onMaxPriceInput($event)"
+                               class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    </div>
+                </div>
+                <div class="flex gap-2 pt-2">
+                    <button (click)="applyFilters()"
+                            class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full">
+                        Apply Filters
+                    </button>
+                    <button (click)="resetFilters()"
+                            class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 cursor-pointer w-full">
+                        Reset
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <div class="flex-1 lg:ml-80 px-6 sm:px-8 py-8 min-w-0">
+
+            <div class="pb-8 relative flex items-center justify-center">
+                <h1 class="text-blue-950 font-extrabold text-center text-2xl">Products</h1>
+                <button (click)="toggleFilterPanel()" aria-label="Open filters"
+                        class="absolute right-0 p-2 rounded-md hover:bg-gray-100 cursor-pointer lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
+                         stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 gap-6">
+                @if(products()) {
+                @for(product of products()!.items; track product.productId) {
+                <div class="border border-gray-200 rounded-xl overflow-hidden bg-white flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all">
+                    <div class="aspect-square bg-gray-100 overflow-hidden">
+                        @if(getMainImage(product); as imageUrl) {
+                        <img [src]="imageUrl" [alt]="product.productName" class="w-full h-full object-cover" />
+                        } @else {
+                        <div class="w-full h-full flex items-center justify-center text-gray-300">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5l4.5-4.5 3 3 5-5 5.5 5.5M3 7.5h18M3 7.5v9a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5v-9" />
+                            </svg>
+                        </div>
+                        }
+                    </div>
+                    <div class="p-4 flex flex-col gap-1 flex-1">
+                        <p class="text-xs text-gray-400 uppercase tracking-wide truncate">
+                            {{product.productCategoryName}} · {{product.productSubCategoryName}}
+                        </p>
+                        <h3 class="font-bold text-blue-950 text-base leading-snug line-clamp-2">{{product.productName}}</h3>
+                        <p class="text-xs text-gray-500">Sold by {{product.vendorName}}</p>
+                        <div class="mt-auto pt-3 flex items-center justify-between gap-2">
+                            <span class="font-extrabold text-lg text-slate-900">{{getDisplayPrice(product)}}</span>
+                            <button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900 shrink-0">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                }
+                @empty {
+                <div class="col-span-full px-4 py-16 text-center text-gray-500">No products found.</div>
+                }
+                }
+            </div>
+
+            @if(products()) {
+            <div class="flex flex-wrap items-center justify-between gap-4 mt-8">
+                <div class="text-sm text-gray-600">
+                    Page {{pageNumber()}} of {{totalPages()}} . {{products()!.totalCount}} total products
+                </div>
+                <div class="flex items-center gap-2">
+                    <select (change)="onPageSizeChange($event)" class="border border-gray-400 rounded-md px-2 py-1">
+                        <option value="10" [selected]="pageSize() === 10">10 / page</option>
+                        <option value="25" [selected]="pageSize() === 25">25 / page</option>
+                        <option value="50" [selected]="pageSize() === 50">50 / page</option>
+                    </select>
+                    <button (click)="previousPage()" [disabled]="pageNumber() === 1"
+                            class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                        Previous
+                    </button>
+                    <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
+                            class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                        Next
+                    </button>
+                </div>
+            </div>
+            }
+        </div>
+    </div>
+</section>
