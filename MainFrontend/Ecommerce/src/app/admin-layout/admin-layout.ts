@@ -6,12 +6,13 @@ import { AuthStateService } from '../services/auth-State.Service';
 
 @Component({
   selector: 'app-admin-layout',
-  imports: [RouterOutlet, CommonModule,RouterLink],
+  imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './admin-layout.html',
   styleUrl: './admin-layout.css',
 })
 export class AdminLayout {
   activeMenu = signal<string | null>(null);
+  mobileMenuOpen = signal(false);
   menus: SidebarItem[] = [];
   constructor(private authState: AuthStateService) {
     const role = this.authState.getAdminRole();
@@ -29,5 +30,12 @@ export class AdminLayout {
     else {
       this.activeMenu.set(menu);
     }
+  }
+  toggleMobileMenu() {
+    this.mobileMenuOpen.update(v => !v);
+  }
+
+  closeMobileMenu() {
+    this.mobileMenuOpen.set(false);
   }
 }
