@@ -23,4 +23,8 @@ export class UserProductService{
         });
         return this.http.get<PagedResponse<UserProductModel>>(url, { params });
     }
+    getProductCategory(){
+        let url = BaseURL + "/UserProductCategory/categories";
+        return this.http.get(url);
+    }
 }

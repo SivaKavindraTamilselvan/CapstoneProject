@@ -94,7 +94,13 @@
                     Logout
                 </span>
             </button>
-
         </nav>
     </header>
+    @if(productCategoryModel()){
+    <div class="flex justify-around bg-white border-b-2 border-gray-400 py-4 gap-4">
+        @for(category of productCategoryModel(); track category.productCategoryId){
+        <p class="cursor-pointer text-md font-semibold">{{category.productCategoryName}}</p>
+        }
+    </div>
+    }
 </div>
