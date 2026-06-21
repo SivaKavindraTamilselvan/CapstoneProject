@@ -4,10 +4,11 @@ import { LoginModel } from '../models/login.model';
 import { AuthService } from '../services/auth.Service';
 import { Router } from '@angular/router';
 import { AuthStateService } from '../services/auth-State.Service';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField],
+  imports: [FormField,FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
