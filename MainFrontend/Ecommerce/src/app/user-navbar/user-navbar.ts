@@ -2,6 +2,7 @@ import { Component, signal } from '@angular/core';
 import { UserProductService } from '../services/user-product.Service';
 import { UserProductCategoryModel } from '../models/user-product-category.model';
 import { UserSubProductCategoryModel } from '../models/user-sub-category.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-navbar',
@@ -14,7 +15,7 @@ export class UserNavbar {
   selectedProductCategory = signal<number | null>(null);
   productCategoryModel = signal<UserProductCategoryModel[]>([]);
   subProductCategoryModel = signal<UserSubProductCategoryModel[]>([]);
-  constructor(private userProductService: UserProductService) {
+  constructor(private userProductService: UserProductService,private router : Router) {
 
   }
   ngOnInit() {
@@ -38,7 +39,7 @@ export class UserNavbar {
       return;
     }
     this.userProductService.getSubCategory(categoryId).subscribe({
-      next: (response: any)=>{
+      next: (response: any) => {
         this.subProductCategoryModel.set(response);
       },
       error: (error) => {
@@ -49,5 +50,8 @@ export class UserNavbar {
   selectCategory(categoryId: number) {
     this.selectedProductCategory.set(categoryId);
     this.loadSubCategory();
+  }
+  goToCategories(): void {
+    this.router.navigate(['/categories']);
   }
 }
