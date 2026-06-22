@@ -4,6 +4,7 @@ import { AdminProductCategoryFilter } from "../models/admin-category.filter";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { ProductCategoryModel } from "../models/admin-category";
+import { AddProductCategoryModel } from "../models/add-category.model";
 
 @Injectable({
     providedIn: "root"
@@ -23,5 +24,9 @@ export class AdminProductCategoryService {
         });
 
         return this.http.get<PagedResponse<ProductCategoryModel>>(url, { params });
+    }
+    addCategory(categoryModel : AddProductCategoryModel){
+        let url = BaseURL + "/admin/product-categories";
+        return this.http.post(url,categoryModel);
     }
 }

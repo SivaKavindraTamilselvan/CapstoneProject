@@ -66,7 +66,10 @@
             </div>
         </div>
     </aside>
-
+    <div class="flex justify-end pb-4">
+        <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openPopup()">Add
+            Category</h1>
+    </div>
     <div class="hidden md:block min-w-0 overflow-x-auto">
         <table class="border border-collapse border-gray-500 w-full">
             <thead>
@@ -199,6 +202,33 @@
                 class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
                 Next
             </button>
+        </div>
+    </div>
+    }
+    @if (showActivatePopup()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
+            <h1 class="text-2xl font-bold text-blue-950 text-center mb-4">
+                Add Category
+            </h1>
+
+            <form (ngSubmit)="addCategory()">
+
+                <input type="text" [formField]="addForm.productCategoryName"
+                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="Enter category name">
+
+                <div class="flex justify-end gap-3 mt-5">
+                    <button type="button" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
+                        (click)="closePopup()">
+                        Cancel
+                    </button>
+
+                    <button type="submit" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-900">
+                        Add
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     }

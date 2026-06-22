@@ -5,10 +5,13 @@ import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductCategoryModel } from '../../../models/admin-category';
 import { AdminProductCategoryFilter } from '../../../models/admin-category.filter';
 import { DatePipe } from '@angular/common';
+import { AddProductCategoryModel } from '../../../models/add-category.model';
+import { FormField,form, required } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-category-list',
-  imports: [DatePipe],
+  imports: [DatePipe,FormField,ReactiveFormsModule,FormsModule],
   templateUrl: './category-list.html',
   styleUrl: './category-list.css',
 })
@@ -24,6 +27,9 @@ export class CategoryList {
   pageSize = signal<number>(10);
   totalPages = computed(() => this.category()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
+
+  showActivatePopup = signal(false);
+  addCategoryModel = signal(new AddProductCategoryModel());
 
   constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
 
@@ -120,5 +126,31 @@ export class CategoryList {
     else {
       this.status.set(value === 'true');
     }
+  }
+  openPopup():void{
+    this.showActivatePopup.set(true);
+  }
+  closePopup():void{
+    this.showActivatePopup.set(false);
+  }
+  addForm = form(this.addCategoryModel,(path)=>{
+    required(path.productCategoryName, {message: "Enter The Product Category Name"});
+  });
+  addCategory(){
+    if(this.addForm().invalid()){
+      alert("Category Is Invalid");
+      return;
+    }
+    this.adminCategoryService.addCategory(this.addCategoryModel()).subscribe({
+      next :(response:any)=>{
+        alert("Category added successfully");
+        console.log(response);
+        this.loadCategory();
+        this.closePopup();
+      },
+      error : (error)=>{
+        console.error(error);
+      }
+    })
   }
 }
