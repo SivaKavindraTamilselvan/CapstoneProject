@@ -49,10 +49,9 @@ export class Subcategorylist {
     });
   });
 
-  constructor(
-    private route: Router,
-    private adminCategoryService: AdminProductCategoryService
-  ) {}
+  constructor(private route: Router,private adminCategoryService: AdminProductCategoryService) {
+    
+  }
 
   ngOnInit(): void {
     this.loadSubCategory();

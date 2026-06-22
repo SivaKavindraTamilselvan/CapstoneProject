@@ -13,7 +13,6 @@ import { CategoryList } from './admin/admin-category/category-list/category-list
 import { ActiveCategory } from './admin/admin-category/active-category/active-category';
 import { InactiveCategory } from './admin/admin-category/inactive-category/inactive-category';
 import { Subcategorylist } from './admin/admin-subcategory/subcategorylist/subcategorylist';
-import { AddSubcategory } from './admin/admin-subcategory/add-subcategory/add-subcategory';
 import { InactiveSubCategory } from './admin/admin-subcategory/inactive-sub-category/inactive-sub-category';
 import { ActiveSubCategory } from './admin/admin-subcategory/active-sub-category/active-sub-category';
 
@@ -69,10 +68,6 @@ export const AdminRoutes: Routes = [
     {
         path : 'product-category/list?status=inactive',
         component : InactiveCategory
-    },
-    {
-        path : 'product-sub-category/add',
-        component : AddSubcategory
     },
     {
         path : 'product-sub-category/list',
