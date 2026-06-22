@@ -58,6 +58,7 @@ export class AuthStateService {
         this.roleIdSubject.next(undefined);
         this.adminRoleIdSubject.next(undefined);
         this.vendorRoleIdSubject.next(undefined);
+        this.adminRoleNameSubject.next(undefined);
         this.userNameSubject.next(undefined);
     }
 
@@ -69,5 +70,8 @@ export class AuthStateService {
     }
     getVendorRole(): string | undefined {
         return this.vendorRoleIdSubject.getValue();
+    }
+    getRoleId(): string | undefined {
+        return this.roleIdSubject.getValue();
     }
 }

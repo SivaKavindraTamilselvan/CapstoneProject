@@ -8,7 +8,7 @@ import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField,FormsModule],
+  imports: [FormField, FormsModule],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -16,7 +16,7 @@ export class Login {
   errorMessage = signal<string | null>(null);
   loginModel = signal(new LoginModel());
   progress = signal(false);
-  constructor(private authService: AuthService, private router: Router,private authStateService : AuthStateService) {
+  constructor(private authService: AuthService, private router: Router, private authStateService: AuthStateService) {
 
   }
   loginForm = form(this.loginModel, (path) => {
@@ -35,6 +35,20 @@ export class Login {
         console.log("Login Successfull", response);
         this.authStateService.login(response.token);
         alert("Login successful!")
+        const roleId = this.authStateService.getRoleId();
+
+        if (roleId === '1') {
+          this.router.navigate(['/admin']);
+        }
+        else if (roleId === '3') {
+          this.router.navigate(['/vendor']);
+        }
+        else if (roleId === '2') {
+          this.router.navigate(['/products']);
+        }
+        else {
+          this.router.navigate(['/']);
+        }
         this.progress.set(false);
       },
       error: (error) => {
