@@ -27,7 +27,6 @@ export class AdminProduct implements OnInit {
 
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
-
   filterPanelOpen = signal<boolean>(false);
 
   toggleFilterPanel(): void {
