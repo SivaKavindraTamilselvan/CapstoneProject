@@ -1,5 +1,5 @@
 <section class="bg-white p-8">
-     <div class="pb-8 flex items-center justify-center relative">
+    <div class="pb-8 flex items-center justify-center relative">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Pending Vendors</h1>
         <button (click)="toggleFilterPanel()" class="right-0 absolute p-2 hover:bg-gray-100 cursor-pointer rounded-md">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
@@ -8,7 +8,7 @@
             </svg>
         </button>
     </div>
-     @if(filterPanelOpen()){
+    @if(filterPanelOpen()){
     <div class="fixed inset-0 bg-black/40 z-40" (click)="toggleFilterPanel()"></div>
     }
     <aside
@@ -85,49 +85,138 @@
             </div>
         </div>
     </aside>
-    <table class="border border-collapse w-full">
-        <thead>
-            <tr class="bg-slate-800 text-white text-center">
-                <th class="px-4 py-3">ID</th>
-                <th class="px-4 py-3">Company Name</th>
-                <th class="px-4 py-3">Contact Person</th>
-                <th class="px-4 py-3">Email</th>
-                <th class="px-4 py-3">Phone Number</th>
-                <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(vendors()) {
-            @for(vendor of vendors()!.items; track vendor.vendorId) {
-            <tr class="border-b text-center">
-                <td class="px-4 py-3">{{ vendor.vendorId }}</td>
-                <td class="px-4 py-3">{{ vendor.vendorCompanyName }}</td>
-                <td class="px-4 py-3">{{vendor.contactPersonName}}</td>
-                <td class="px-4 py-3">{{ vendor.companyEmail }}</td>
-                <td class="px-4 py-3">{{ vendor.companyPhoneNumber }}</td>
-                <td class="px-4 py-3">{{ vendor.gstNumber }}</td>
-                <td class="px-4 py-3">
-                    {{ vendor.isActive ? "Active" : "Inactive" }}
-                </td>
-                <td class="px-4 py-3">
-                    <div class="flex justify-center gap-2">
-                        <button
-                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
-                            View
-                        </button>
-                        <button
-                            class="bg-slate-600 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-slate-900"
-                            (click)="openReviewPopup(vendor.vendorId)">
-                            Review
-                        </button>
-                    </div>
-                </td>
-            </tr>
-            }
-            }
-        </tbody>
-    </table>
+
+    <div class="hidden md:block min-w-0 overflow-x-auto">
+        <table class="border border-collapse w-full">
+            <thead>
+                <tr class="bg-slate-800 text-white text-center">
+                    <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Company Name</th>
+                    <th class="px-4 py-3">Contact Person</th>
+                    <th class="px-4 py-3">Email</th>
+                    <th class="px-4 py-3">Phone Number</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(vendors()) {
+                @for(vendor of vendors()!.items; track vendor.vendorId) {
+                <tr class="border-b text-center">
+                    <td class="px-4 py-3">{{ vendor.vendorId }}</td>
+                    <td class="px-4 py-3">{{ vendor.vendorCompanyName }}</td>
+                    <td class="px-4 py-3">{{vendor.contactPersonName}}</td>
+                    <td class="px-4 py-3">{{ vendor.companyEmail }}</td>
+                    <td class="px-4 py-3">{{ vendor.companyPhoneNumber }}</td>
+                    <td class="px-4 py-3">{{ vendor.gstNumber }}</td>
+                    <td class="px-4 py-3">
+                        {{ vendor.isActive ? "Active" : "Inactive" }}
+                    </td>
+                    <td class="px-4 py-3">
+                        <div class="flex justify-center gap-2">
+                            <button
+                                class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
+                                View
+                            </button>
+                            <button
+                                class="bg-slate-600 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-slate-900"
+                                (click)="openReviewPopup(vendor.vendorId)">
+                                Review
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+
+     <div class="md:hidden flex flex-col gap-4">
+        @if(vendors())
+        {
+        @for(vendor of vendors()!.items;track vendor.vendorId)
+        {
+        <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                <span class="font-bold text-blue-950">#{{vendor.vendorId}}</span>
+                <div class="flex gap-2">
+                    <button
+                    class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
+                    <button
+                        class="bg-slate-600 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-slate-900" (click)="openReviewPopup(vendor.vendorId)">Review</button>
+                </div>
+
+            </div>
+            <table class="w-full border border-gray-300 border-collapse table-fixed">
+                <colgroup>
+                    <col class="w-1/3">
+                    <col class="w-2/3">
+                </colgroup>
+                <tbody>
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Company
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.vendorCompanyName}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Contact
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.contactPersonName}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Email
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.companyEmail}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Phone
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.companyPhoneNumber}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Approval
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.approvalStatusName}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{vendor.isActive ? "Active" : "Inactive"}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        @empty
+        {
+        <div class="text-center text-gray-500 py-6">No vendors found.</div>
+        }
+        }
+    </div>
 
     @if(showActivatePopup()) {
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
@@ -161,8 +250,8 @@
         </div>
     </div>
     }
-     @if(vendors()){
-    <div class="flex items-center justify-between mt-6">
+    @if(vendors()){
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
         <div class="text-sm text-gray-600">
             Page {{pageNumber()}} of {{totalPages()}} . {{vendors()!.totalCount}} total vendors
         </div>
