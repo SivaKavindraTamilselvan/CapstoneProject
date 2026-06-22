@@ -15,6 +15,7 @@ import { InactiveCategory } from './admin/admin-category/inactive-category/inact
 import { Subcategorylist } from './admin/admin-subcategory/subcategorylist/subcategorylist';
 import { InactiveSubCategory } from './admin/admin-subcategory/inactive-sub-category/inactive-sub-category';
 import { ActiveSubCategory } from './admin/admin-subcategory/active-sub-category/active-sub-category';
+import { AttributeList } from './admin/admin-attribute/attribute-list/attribute-list';
 
 export const AdminRoutes: Routes = [
     {
@@ -80,6 +81,10 @@ export const AdminRoutes: Routes = [
     {
         path : 'product-sub-category/list?status=inactive',
         component : InactiveSubCategory
+    },
+    {
+        path : 'product-attribute/list',
+        component : AttributeList
     },
     
 ];
