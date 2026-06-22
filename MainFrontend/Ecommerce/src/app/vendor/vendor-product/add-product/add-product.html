@@ -1,1 +1,73 @@
-<p>add-product works!</p>
+<div class="max-w-3xl mx-auto bg-white p-6 rounded-xl shadow">
+    <h2 class="text-2xl font-bold mb-5 text-blue-950">Add Product</h2>
+
+    @if(errorMessage()){
+    <p class="bg-red-100 text-red-700 px-4 py-2 rounded mb-4">
+        {{ errorMessage() }}
+    </p>
+    }
+
+    @if(successMessage()){
+    <p class="bg-green-100 text-green-700 px-4 py-2 rounded mb-4">
+        {{ successMessage() }}
+    </p>
+    }
+
+    <form (ngSubmit)="addProduct()" class="space-y-4">
+
+        <div>
+            <label class="block font-semibold mb-1">Product Name</label>
+            <input type="text" [formField]="addForm.productName" class="w-full border rounded-lg px-3 py-2"
+                placeholder="Enter product name">
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Description</label>
+            <textarea [formField]="addForm.description" class="w-full border rounded-lg px-3 py-2" rows="4"
+                placeholder="Enter product description"></textarea>
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Sub Category ID</label>
+            <input type="number" [formField]="addForm.productSubCategoryId" class="w-full border rounded-lg px-3 py-2"
+                placeholder="Enter sub-category ID">
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Main Attribute ID</label>
+            <input type="number" [formField]="addForm.mainProductSubCategoryAttributeId"
+                class="w-full border rounded-lg px-3 py-2" placeholder="Enter main attribute ID">
+        </div>
+
+        <div>
+            <label class="block font-semibold mb-1">Product Images</label>
+            <input type="file" multiple accept="image/*" (change)="onImageSelected($event)"
+                class="w-full border rounded-lg px-3 py-2">
+        </div>
+
+        @if(productImages().length > 0){
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+            @for(img of productImages(); track $index){
+            <div class="border rounded-lg p-2 relative">
+                <img [src]="img.imageUrl" class="w-full h-28 object-cover rounded">
+
+                <button type="button" (click)="setMainImage($index)" class="mt-2 w-full text-sm py-1 rounded text-white"
+                    [class.bg-green-700]="img.isMainImage" [class.bg-blue-700]="!img.isMainImage">
+                    {{ img.isMainImage ? 'Main Image' : 'Set Main' }}
+                </button>
+
+                <button type="button" (click)="removeImage($index)"
+                    class="mt-2 w-full bg-red-600 text-white text-sm py-1 rounded">
+                    Remove
+                </button>
+            </div>
+            }
+        </div>
+        }
+
+        <button type="submit" class="bg-blue-950 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-900">
+            Add Product
+        </button>
+
+    </form>
+</div>
