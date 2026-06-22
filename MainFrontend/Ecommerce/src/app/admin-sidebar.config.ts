@@ -67,7 +67,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     label: 'Product Category',
     roles: ['super-admin', 'product-admin'],
     children: [
-      { label: 'Add Category', route: '/admin/product-category/add' },
       { label: 'Category List', route: '/admin/product-category/list' },
       { label: 'Active Category', route: '/admin/product-category/list?status=active' },
       { label: 'Inactive Category', route: '/admin/product-category/list?status=inactive' },
