@@ -10,7 +10,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-review-product',
-  imports: [ReactiveFormsModule],
+  imports: [FormField,ReactiveFormsModule],
   templateUrl: './review-product.html',
   styleUrl: './review-product.css',
 })
