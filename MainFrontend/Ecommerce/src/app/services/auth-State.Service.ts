@@ -67,4 +67,7 @@ export class AuthStateService {
     getAdminRole(): string | undefined {
         return this.adminRoleNameSubject.getValue();
     }
+    getVendorRole(): string | undefined {
+        return this.vendorRoleIdSubject.getValue();
+    }
 }

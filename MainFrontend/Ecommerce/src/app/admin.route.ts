@@ -18,6 +18,7 @@ import { ActiveSubCategory } from './admin/admin-subcategory/active-sub-category
 import { AttributeList } from './admin/admin-attribute/attribute-list/attribute-list';
 import { ActiveAttribute } from './admin/admin-attribute/active-attribute/active-attribute';
 import { InactiveAttribute } from './admin/admin-attribute/inactive-attribute/inactive-attribute';
+import { MappedAttributeList } from './admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list';
 
 export const AdminRoutes: Routes = [
     {
@@ -87,6 +88,18 @@ export const AdminRoutes: Routes = [
     {
         path: 'product-attribute/list',
         component: AttributeList
+    },
+    {
+        path: 'product-attribute/list?status=active',
+        component: ActiveAttribute
+    },
+    {
+        path: 'product-attribute/list?status=inactive',
+        component: InactiveAttribute
+    },
+    {
+        path: 'attribute-mapping/list',
+        component: MappedAttributeList
     },
     {
         path: 'product-attribute/list?status=active',

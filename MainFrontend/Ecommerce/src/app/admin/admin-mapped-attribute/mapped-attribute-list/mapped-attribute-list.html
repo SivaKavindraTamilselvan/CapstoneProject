@@ -1,0 +1,363 @@
+<section class="bg-gray-50 min-h-screen px-4 sm:px-8 py-8">
+
+  <!-- ── Header ─────────────────────────────────────────────── -->
+  <div class="pb-6 relative flex items-center justify-center">
+    <div class="text-center">
+      <p class="text-xs font-semibold tracking-widest text-blue-600 uppercase mb-1">Admin Panel</p>
+      <h1 class="text-blue-950 font-extrabold text-2xl sm:text-3xl">Mapped Attributes</h1>
+    </div>
+    <button
+      (click)="toggleFilterPanel()"
+      class="absolute right-0 p-2 rounded-lg hover:bg-white border border-transparent hover:border-gray-200 hover:shadow-sm transition-all cursor-pointer">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-blue-950" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- ── Filter backdrop ────────────────────────────────────── -->
+  @if (filterPanelOpen()) {
+  <div class="fixed inset-0 bg-black/40 z-40" (click)="toggleFilterPanel()"></div>
+  }
+
+  <!-- ── Filter drawer ──────────────────────────────────────── -->
+  <aside
+    class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
+    [class.translate-x-0]="filterPanelOpen()"
+    [class.translate-x-full]="!filterPanelOpen()">
+
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200 bg-slate-800">
+      <div class="flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2a1 1 0 01-.293.707L13 13.414V19a1 1 0 01-.553.894l-4 2A1 1 0 017 21v-7.586L3.293 6.707A1 1 0 013 6V4z" />
+        </svg>
+        <h2 class="text-lg font-bold text-white">Filter Mappings</h2>
+      </div>
+      <button (click)="toggleFilterPanel()" class="p-1.5 rounded-md hover:bg-slate-700 cursor-pointer transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <div class="flex flex-col gap-5 p-6 overflow-y-auto h-[calc(100%-4rem)]">
+
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">SubCategory ID</label>
+        <input type="number" placeholder="e.g. 23"
+          [value]="productSubCategoryId()"
+          (input)="onSubCategoryIdInput($event)"
+          class="border border-gray-300 rounded-lg px-3 py-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Attribute Master ID</label>
+        <input type="number" placeholder="e.g. 1"
+          [value]="attributeMasterId()"
+          (input)="onAttributeMasterIdInput($event)"
+          class="border border-gray-300 rounded-lg px-3 py-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Added By Admin ID</label>
+        <input type="number" placeholder="Admin ID"
+          [value]="addedByAdminId()"
+          (input)="onAdminIdInput($event)"
+          class="border border-gray-300 rounded-lg px-3 py-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Status</label>
+        <select (change)="onStatusChange($event)"
+          class="border border-gray-300 rounded-lg px-3 py-2.5 w-full text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 bg-white">
+          <option value="">All</option>
+          <option value="true" [selected]="status() === true">Active</option>
+          <option value="false" [selected]="status() === false">Inactive</option>
+        </select>
+      </div>
+
+      <div class="flex gap-3 pt-2 mt-auto">
+        <button (click)="applyFilters()"
+          class="flex-1 bg-slate-800 text-white text-sm font-bold py-2.5 px-4 rounded-lg hover:bg-slate-950 cursor-pointer transition-colors">
+          Apply
+        </button>
+        <button (click)="resetFilters()"
+          class="flex-1 bg-gray-100 text-gray-700 text-sm font-bold py-2.5 px-4 rounded-lg hover:bg-gray-200 cursor-pointer transition-colors">
+          Reset
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ── Toolbar: stats + Add button ───────────────────────── -->
+  @if (attribute()) {
+  <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6">
+    <div class="flex items-center gap-4">
+      <div class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+        <p class="text-xs text-gray-500 font-medium">Total Mappings</p>
+        <p class="text-xl font-extrabold text-blue-950">{{ attribute()!.totalCount }}</p>
+      </div>
+      <div class="bg-white border border-gray-200 rounded-xl px-4 py-2.5 shadow-sm">
+        <p class="text-xs text-gray-500 font-medium">SubCategories (page)</p>
+        <p class="text-xl font-extrabold text-blue-950">{{ groupedItems().length }}</p>
+      </div>
+    </div>
+    <button (click)="openPopup()"
+      class="flex items-center gap-2 bg-blue-700 text-white font-semibold py-2.5 px-5 rounded-lg hover:bg-blue-900 cursor-pointer transition-colors shadow-sm">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+      </svg>
+      Add Mapping
+    </button>
+  </div>
+  }
+
+  <!-- ══ DESKTOP TABLE ══════════════════════════════════════════ -->
+  <div class="hidden md:block">
+    @if (attribute()) {
+      @for (group of groupedItems(); track group.subCategoryId) {
+
+      <!-- SubCategory group card -->
+      <div class="mb-6 rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+
+        <!-- Group header -->
+        <div class="bg-slate-800 px-5 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <span class="bg-blue-500 text-white text-xs font-bold px-2.5 py-1 rounded-full">
+              #{{ group.subCategoryId }}
+            </span>
+            <h3 class="text-white font-bold text-base tracking-wide">{{ group.subCategoryName }}</h3>
+          </div>
+          <div class="flex items-center gap-3">
+            <span class="text-slate-400 text-xs">{{ group.attributes.length }} attribute{{ group.attributes.length !== 1 ? 's' : '' }}</span>
+            @if (group.isActive) {
+              <span class="bg-emerald-500/20 text-emerald-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-emerald-500/30">Active</span>
+            } @else {
+              <span class="bg-red-500/20 text-red-300 text-xs font-semibold px-2.5 py-1 rounded-full border border-red-500/30">Inactive</span>
+            }
+          </div>
+        </div>
+
+        <!-- Attribute rows -->
+        <table class="w-full bg-white">
+          <thead>
+            <tr class="bg-gray-50 border-b border-gray-200">
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Map ID</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Attribute</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Master ID</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Admin ID</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Status</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Created</th>
+              <th class="px-5 py-2.5 text-left text-xs font-bold text-gray-500 uppercase tracking-wider">Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (attr of group.attributes; track attr.productSubCategoryAttributeId; let odd = $odd) {
+            <tr class="border-b border-gray-100 hover:bg-blue-50/40 transition-colors" [class.bg-gray-50]="odd">
+              <td class="px-5 py-3 text-sm text-gray-400 font-mono">{{ attr.productSubCategoryAttributeId }}</td>
+              <td class="px-5 py-3">
+                <span class="inline-flex items-center gap-1.5 bg-blue-100 text-blue-800 text-sm font-semibold px-3 py-1 rounded-full">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                  </svg>
+                  {{ attr.attributeName }}
+                </span>
+              </td>
+              <td class="px-5 py-3 text-sm text-gray-600 font-mono">{{ attr.attributeMasterId }}</td>
+              <td class="px-5 py-3 text-sm text-gray-600">{{ attr.addedByAdminId }}</td>
+              <td class="px-5 py-3">
+                @if (attr.isActive) {
+                  <span class="inline-flex items-center gap-1 text-xs font-semibold text-emerald-700 bg-emerald-100 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>Active
+                  </span>
+                } @else {
+                  <span class="inline-flex items-center gap-1 text-xs font-semibold text-red-700 bg-red-100 px-2.5 py-1 rounded-full">
+                    <span class="w-1.5 h-1.5 rounded-full bg-red-500"></span>Inactive
+                  </span>
+                }
+              </td>
+              <td class="px-5 py-3 text-sm text-gray-500">{{ attr.createdAt | date:'dd MMM yyyy' }}</td>
+              <td class="px-5 py-3">
+                <button class="bg-slate-800 text-white text-xs font-bold py-1.5 px-3 rounded-lg hover:bg-slate-950 cursor-pointer transition-colors">
+                  View
+                </button>
+              </td>
+            </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      }
+
+      @empty {
+      <div class="text-center text-gray-400 py-16 bg-white rounded-xl border border-gray-200">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 mx-auto mb-3 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+        </svg>
+        <p class="font-semibold text-gray-500">No mapped attributes found.</p>
+        <p class="text-sm mt-1">Try adjusting your filters or add a new mapping.</p>
+      </div>
+      }
+    }
+  </div>
+
+  <!-- ══ MOBILE CARDS ═══════════════════════════════════════════ -->
+  <div class="md:hidden flex flex-col gap-5">
+    @if (attribute()) {
+      @for (group of groupedItems(); track group.subCategoryId) {
+
+      <div class="rounded-xl overflow-hidden border border-gray-200 shadow-sm">
+
+        <!-- Group header -->
+        <div class="bg-slate-800 px-4 py-3 flex items-center justify-between">
+          <div class="flex items-center gap-2.5">
+            <span class="bg-blue-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">#{{ group.subCategoryId }}</span>
+            <h3 class="text-white font-bold text-sm">{{ group.subCategoryName }}</h3>
+          </div>
+          @if (group.isActive) {
+            <span class="text-emerald-300 text-xs font-semibold">● Active</span>
+          } @else {
+            <span class="text-red-300 text-xs font-semibold">● Inactive</span>
+          }
+        </div>
+
+        <!-- Attribute pills -->
+        <div class="bg-white px-4 py-3 flex flex-wrap gap-2 border-b border-gray-100">
+          @for (attr of group.attributes; track attr.productSubCategoryAttributeId) {
+          <span class="inline-flex items-center gap-1.5 bg-blue-50 border border-blue-200 text-blue-800 text-xs font-semibold px-3 py-1.5 rounded-full">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+            </svg>
+            {{ attr.attributeName }}
+            <span class="text-blue-400 font-normal ml-0.5">· #{{ attr.attributeMasterId }}</span>
+          </span>
+          }
+        </div>
+
+        <!-- Detail rows for each attribute -->
+        @for (attr of group.attributes; track attr.productSubCategoryAttributeId; let last = $last) {
+        <div class="bg-white px-4 py-3" [class.border-b]="!last" [class.border-gray-100]="!last">
+          <div class="flex items-center justify-between mb-2">
+            <span class="font-bold text-blue-950 text-sm flex items-center gap-1.5">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-3.5 w-3.5 text-blue-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+              </svg>
+              {{ attr.attributeName }}
+            </span>
+            <button class="bg-slate-800 text-white text-xs font-bold py-1 px-3 rounded-lg hover:bg-slate-950 cursor-pointer transition-colors">View</button>
+          </div>
+          <table class="w-full border border-gray-200 border-collapse table-fixed rounded-lg overflow-hidden text-sm">
+            <colgroup><col class="w-2/5"><col class="w-3/5"></colgroup>
+            <tbody>
+              <tr class="bg-gray-50">
+                <td class="font-semibold py-2 px-3 border border-gray-200 text-gray-600 text-xs">Map ID</td>
+                <td class="py-2 px-3 border border-gray-200 text-gray-700 font-mono text-xs">{{ attr.productSubCategoryAttributeId }}</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="font-semibold py-2 px-3 border border-gray-200 text-gray-600 text-xs">Master ID</td>
+                <td class="py-2 px-3 border border-gray-200 text-gray-700 font-mono text-xs">{{ attr.attributeMasterId }}</td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="font-semibold py-2 px-3 border border-gray-200 text-gray-600 text-xs">Admin ID</td>
+                <td class="py-2 px-3 border border-gray-200 text-gray-700 text-xs">{{ attr.addedByAdminId }}</td>
+              </tr>
+              <tr class="bg-white">
+                <td class="font-semibold py-2 px-3 border border-gray-200 text-gray-600 text-xs">Status</td>
+                <td class="py-2 px-3 border border-gray-200 text-xs">
+                  @if (attr.isActive) {
+                    <span class="text-emerald-700 font-semibold">● Active</span>
+                  } @else {
+                    <span class="text-red-600 font-semibold">● Inactive</span>
+                  }
+                </td>
+              </tr>
+              <tr class="bg-gray-50">
+                <td class="font-semibold py-2 px-3 border border-gray-200 text-gray-600 text-xs">Created</td>
+                <td class="py-2 px-3 border border-gray-200 text-gray-700 text-xs">{{ attr.createdAt | date:'dd MMM yyyy' }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        }
+      </div>
+
+      }
+
+      @empty {
+      <div class="text-center text-gray-400 py-12 bg-white rounded-xl border border-gray-200">
+        <p class="font-semibold">No mapped attributes found.</p>
+      </div>
+      }
+    }
+  </div>
+
+  <!-- ── Pagination ──────────────────────────────────────────── -->
+  @if (attribute()) {
+  <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6 bg-white border border-gray-200 rounded-xl px-5 py-3 shadow-sm">
+    <p class="text-sm text-gray-500">
+      Page <span class="font-bold text-blue-950">{{ pageNumber() }}</span> of
+      <span class="font-bold text-blue-950">{{ totalPages() }}</span>
+      &mdash; <span class="font-semibold text-blue-950">{{ attribute()!.totalCount }}</span> total mappings
+    </p>
+    <div class="flex items-center gap-2">
+      <select (change)="onPageSizeChange($event)" class="border border-gray-300 rounded-lg px-2 py-1.5 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-blue-500">
+        <option value="5"  [selected]="pageSize() === 5">5 / page</option>
+        <option value="10" [selected]="pageSize() === 10">10 / page</option>
+        <option value="25" [selected]="pageSize() === 25">25 / page</option>
+        <option value="50" [selected]="pageSize() === 50">50 / page</option>
+      </select>
+      <button (click)="previousPage()" [disabled]="pageNumber() === 1"
+        class="bg-slate-800 text-white py-1.5 px-4 rounded-lg text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer transition-colors">
+        ← Prev
+      </button>
+      <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
+        class="bg-slate-800 text-white py-1.5 px-4 rounded-lg text-sm font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer transition-colors">
+        Next →
+      </button>
+    </div>
+  </div>
+  }
+
+  <!-- ── Add Mapping Popup ──────────────────────────────────── -->
+  @if (showActivatePopup()) {
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 px-4">
+    <div class="bg-white rounded-2xl shadow-2xl w-full max-w-sm overflow-hidden">
+
+      <div class="bg-slate-800 px-6 py-4">
+        <h2 class="text-white font-bold text-lg">Add Attribute Mapping</h2>
+        <p class="text-slate-400 text-xs mt-0.5">Link an attribute to a subcategory</p>
+      </div>
+
+      <form (ngSubmit)="addAttribute()" class="p-6 flex flex-col gap-4">
+
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">SubCategory ID</label>
+          <input type="number" [formField]="addForm.productSubCategoryId"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="e.g. 23" />
+        </div>
+
+        <div>
+          <label class="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-1.5">Attribute Master ID</label>
+          <input type="number" [formField]="addForm.attributeMasterId"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            placeholder="e.g. 1" />
+        </div>
+
+        <div class="flex gap-3 pt-1">
+          <button type="button" (click)="closePopup()"
+            class="flex-1 py-2.5 rounded-lg bg-gray-100 text-gray-700 text-sm font-bold hover:bg-gray-200 cursor-pointer transition-colors">
+            Cancel
+          </button>
+          <button type="submit"
+            class="flex-1 py-2.5 rounded-lg bg-blue-700 text-white text-sm font-bold hover:bg-blue-900 cursor-pointer transition-colors">
+            Add Mapping
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+
+</section>
