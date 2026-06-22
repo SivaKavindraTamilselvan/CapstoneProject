@@ -9,6 +9,10 @@ import { VendorList } from './admin/admin-vendor/vendor-list/vendor-list';
 import { DeleteVendor } from './admin/admin-vendor/delete-vendor/delete-vendor';
 import { ReviewProduct } from './admin/admin-product/review-product/review-product';
 import { DeleteProduct } from './admin/admin-product/delete-product/delete-product';
+import { AddCategory } from './admin/admin-category/add-category/add-category';
+import { CategoryList } from './admin/admin-category/category-list/category-list';
+import { ActiveCategory } from './admin/admin-category/active-category/active-category';
+import { InactiveCategory } from './admin/admin-category/inactive-category/inactive-category';
 
 export const AdminRoutes: Routes = [
     {
@@ -51,4 +55,21 @@ export const AdminRoutes: Routes = [
         path : 'products/delete',
         component : DeleteProduct
     },
+    {
+        path : 'product-category/add',
+        component : AddCategory
+    },
+    {
+        path : 'product-category/list',
+        component : CategoryList
+    },
+    {
+        path : 'product-category/list?status=active',
+        component : ActiveCategory
+    },
+    {
+        path : 'product-category/list?status=inactive',
+        component : InactiveCategory
+    },
+    
 ];
