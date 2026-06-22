@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ADMIN_ROLES } from "../admin.role.constant";
+import { VENDOR_ROLES } from "../vendor.role.constant";
 
 @Injectable({
     providedIn: "root"
@@ -12,6 +13,7 @@ export class AuthStateService {
     private adminRoleIdSubject = new BehaviorSubject<string | undefined>(undefined);
     private vendorRoleIdSubject = new BehaviorSubject<string | undefined>(undefined);
     private adminRoleNameSubject = new BehaviorSubject<string | undefined>(undefined);
+    private vendorRoleNameSubject = new BehaviorSubject<string | undefined>(undefined);
 
     userId = this.userIdSubject.asObservable();
     roleId = this.roleIdSubject.asObservable();
@@ -19,6 +21,7 @@ export class AuthStateService {
     vendorRoleId = this.vendorRoleIdSubject.asObservable();
     userName = this.userNameSubject.asObservable();
     adminRoleName = this.adminRoleNameSubject.asObservable();
+    vendorRoleName = this.vendorRoleNameSubject.asObservable();
 
     constructor() {
         this.loadUserToken();
@@ -39,9 +42,11 @@ export class AuthStateService {
     private loadUserToken() {
         const payload = this.getPayLoad();
         const adminRoleId = payload?.["AdminRoleId"];
+        const vendorRoleId = payload?.["VendorRoleId"];
         this.adminRoleIdSubject.next(payload?.["AdminRoleId"]);
         this.adminRoleNameSubject.next(adminRoleId ? ADMIN_ROLES[adminRoleId] : undefined);
         this.vendorRoleIdSubject.next(payload?.["VendorRoleId"]);
+        this.vendorRoleNameSubject.next(this.vendorRoleId ? VENDOR_ROLES[vendorRoleId] : undefined);
         this.roleIdSubject.next(payload?.["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"]);
         this.userNameSubject.next(payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"]);
         this.userIdSubject.next(payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]);
@@ -69,7 +74,7 @@ export class AuthStateService {
         return this.adminRoleNameSubject.getValue();
     }
     getVendorRole(): string | undefined {
-        return this.vendorRoleIdSubject.getValue();
+        return this.vendorRoleNameSubject.getValue();
     }
     getRoleId(): string | undefined {
         return this.roleIdSubject.getValue();

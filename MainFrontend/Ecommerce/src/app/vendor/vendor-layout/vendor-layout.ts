@@ -1,22 +1,24 @@
 import { Component, signal } from '@angular/core';
-import { SIDEBAR_MENU, SidebarItem } from '../../admin-sidebar.config';
 import { AuthStateService } from '../../services/auth-State.Service';
+import { VENDOR_SIDEBAR_MENU, VendorSidebarItem } from '../../vendor-sidebar.config';
+import { RouterLink, RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-vendor-layout',
-  imports: [],
+  imports: [RouterOutlet, CommonModule, RouterLink],
   templateUrl: './vendor-layout.html',
   styleUrl: './vendor-layout.css',
 })
 export class VendorLayout {
   activeMenu = signal<string | null>(null);
   mobileMenuOpen = signal(false);
-  menus: SidebarItem[] = [];
+  menus: VendorSidebarItem[] = [];
   constructor(private authState: AuthStateService) {
     const role = this.authState.getVendorRole();
     console.log(role);
     if (role) {
-      this.menus = SIDEBAR_MENU.filter(menu =>
+      this.menus = VENDOR_SIDEBAR_MENU.filter(menu =>
         role ? menu.roles.includes(role) : false
       );
     }
