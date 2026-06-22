@@ -5,6 +5,9 @@ import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { ProductCategoryModel } from "../models/admin-category";
 import { AddProductCategoryModel } from "../models/add-category.model";
+import { AdminProductSubCategoryFilter } from "../models/admin-subcategory.filter";
+import { AddProductSubCategoryModel } from "../models/add-subcategory.model";
+import { AdminProductSubCategoryModel } from "../models/admin-subcategory.model";
 
 @Injectable({
     providedIn: "root"
@@ -27,6 +30,21 @@ export class AdminProductCategoryService {
     }
     addCategory(categoryModel : AddProductCategoryModel){
         let url = BaseURL + "/admin/product-categories";
+        return this.http.post(url,categoryModel);
+    }
+    getProductSubCategory(filter : AdminProductSubCategoryFilter){
+        let url = BaseURL + "/admin/product-categories/subcategories";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminProductSubCategoryModel>>(url, { params });
+    }
+    addSubCategory(categoryModel : AddProductSubCategoryModel){
+        let url = BaseURL + "/admin/product-categories/subcategories";
         return this.http.post(url,categoryModel);
     }
 }
