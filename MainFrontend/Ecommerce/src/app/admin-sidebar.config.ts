@@ -87,7 +87,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     label: 'Product Attribute',
     roles: ['super-admin', 'product-admin'],
     children: [
-      { label: 'Add Attribute', route: '/admin/product-attribute/add' },
       { label: 'Attribute List', route: '/admin/product-attribute/list' },
       { label: 'Active Attributes', route: '/admin/product-attribute/list?status=active' },
       { label: 'Inactive Attributes', route: '/admin/product-attribute/list?status=inactive' },

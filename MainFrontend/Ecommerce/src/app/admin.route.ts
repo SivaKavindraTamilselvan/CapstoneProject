@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { RegisterAdmin } from './admin/admin-user/register-admin/register-admin';
-import { AdminList } from './admin/admin-user/admin-list/admin-list'; 
+import { AdminList } from './admin/admin-user/admin-list/admin-list';
 import { AdminProduct } from './admin/admin-product/admin-product/admin-product';
-import { ActivateAdmin } from './admin/admin-user/activate-admin/activate-admin'; 
-import { DeactivateAdmin } from './admin/admin-user/deactivate-admin/deactivate-admin'; 
+import { ActivateAdmin } from './admin/admin-user/activate-admin/activate-admin';
+import { DeactivateAdmin } from './admin/admin-user/deactivate-admin/deactivate-admin';
 import { ReviewVendor } from './admin/admin-vendor/review-vendor/review-vendor';
 import { VendorList } from './admin/admin-vendor/vendor-list/vendor-list';
 import { DeleteVendor } from './admin/admin-vendor/delete-vendor/delete-vendor';
@@ -16,6 +16,8 @@ import { Subcategorylist } from './admin/admin-subcategory/subcategorylist/subca
 import { InactiveSubCategory } from './admin/admin-subcategory/inactive-sub-category/inactive-sub-category';
 import { ActiveSubCategory } from './admin/admin-subcategory/active-sub-category/active-sub-category';
 import { AttributeList } from './admin/admin-attribute/attribute-list/attribute-list';
+import { ActiveAttribute } from './admin/admin-attribute/active-attribute/active-attribute';
+import { InactiveAttribute } from './admin/admin-attribute/inactive-attribute/inactive-attribute';
 
 export const AdminRoutes: Routes = [
     {
@@ -47,44 +49,52 @@ export const AdminRoutes: Routes = [
         component: DeleteVendor
     },
     {
-        path : 'products/list',
-        component : AdminProduct
+        path: 'products/list',
+        component: AdminProduct
     },
     {
-        path : 'products/review',
-        component : ReviewProduct
+        path: 'products/review',
+        component: ReviewProduct
     },
     {
-        path : 'products/delete',
-        component : DeleteProduct
+        path: 'products/delete',
+        component: DeleteProduct
     },
     {
-        path : 'product-category/list',
-        component : CategoryList
+        path: 'product-category/list',
+        component: CategoryList
     },
     {
-        path : 'product-category/list?status=active',
-        component : ActiveCategory
+        path: 'product-category/list?status=active',
+        component: ActiveCategory
     },
     {
-        path : 'product-category/list?status=inactive',
-        component : InactiveCategory
+        path: 'product-category/list?status=inactive',
+        component: InactiveCategory
     },
     {
-        path : 'product-sub-category/list',
-        component : Subcategorylist
+        path: 'product-sub-category/list',
+        component: Subcategorylist
     },
     {
-        path : 'product-sub-category/list?status=active',
-        component : ActiveSubCategory
+        path: 'product-sub-category/list?status=active',
+        component: ActiveSubCategory
     },
     {
-        path : 'product-sub-category/list?status=inactive',
-        component : InactiveSubCategory
+        path: 'product-sub-category/list?status=inactive',
+        component: InactiveSubCategory
     },
     {
-        path : 'product-attribute/list',
-        component : AttributeList
+        path: 'product-attribute/list',
+        component: AttributeList
     },
-    
+    {
+        path: 'product-attribute/list?status=active',
+        component: ActiveAttribute
+    },
+    {
+        path: 'product-attribute/list?status=inactive',
+        component: InactiveAttribute
+    },
+
 ];
