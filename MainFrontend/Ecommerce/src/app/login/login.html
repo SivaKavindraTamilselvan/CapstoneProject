@@ -1,6 +1,6 @@
 <section
     class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 flex justify-center items-center px-4 py-10">
-    <div class="bg-white p-10 sm:p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-xl w-full space-y-5">
+    <div class="bg-white p-10 sm:p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-lg w-full space-y-5">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Login</h1>
         @if(errorMessage())
         {
@@ -28,7 +28,7 @@
             </div>
             <div>
                 <button type="submit" [disabled]="progress() || loginForm().invalid()"
-                    class="bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900">Submit</button>
+                    class="w-full bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900">Submit</button>
             </div>
         </form>
     </div>

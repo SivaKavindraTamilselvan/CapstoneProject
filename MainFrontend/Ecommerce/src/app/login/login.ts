@@ -27,7 +27,7 @@ export class Login {
   })
   handleLoginClick() {
     if (this.loginForm().invalid()) {
-      alert("Please fix the errors in the form before submitting");
+      this.errorMessage.set("Please fix the errors in the form before submitting");
       return;
     }
     this.progress.set(true);
@@ -35,7 +35,6 @@ export class Login {
       next: (response: any) => {
         console.log("Login Successfull", response);
         this.authStateService.login(response.token);
-        alert("Login successful!")
         const roleId = this.authStateService.getRoleId();
 
         if (roleId === ROLES.ADMIN) {
