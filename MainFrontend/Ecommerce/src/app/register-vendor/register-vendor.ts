@@ -1,17 +1,20 @@
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../services/auth.Service';
 import { RegisterVendorModel } from '../models/authentication/regiser-vendor.model';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register-vendor',
-  imports: [FormField],
+  imports: [FormField, RouterLink, FormsModule],
   templateUrl: './register-vendor.html',
   styleUrl: './register-vendor.css',
 })
 export class RegisterVendor {
+
   registerModel = signal(new RegisterVendorModel());
+  successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
   progress = signal(false);
   showPassword = signal(false);
@@ -30,27 +33,29 @@ export class RegisterVendor {
     required(path.contactPersonName, { message: "Enter The Contact Person Name" })
     required(path.vendorCompanyName, { message: "Enter The Company Name" })
     required(path.companyEmail, { message: "Enter The Company Email" })
-    required(path.gstNumber, { message: "Enter The Company Email" })
+    required(path.gstNumber, { message: "Enter The GST Number" })
     email(path.companyEmail, { message: "Enter Valid Email Address" })
     pattern(path.companyPhoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: "Enter Valid Phone Number" })
   })
-  handleRegisterClick(){
+  handleRegisterClick() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     if (this.registerForm().invalid()) {
-      alert("Enter Proper Details");
+      this.errorMessage.set("Enter Proper Details");
       return;
     }
     this.progress.set(true);
     this.authService.registerVendorAPICall(this.registerModel()).subscribe({
       next: (response: any) => {
-        alert("Registration Successfull");
+        this.successMessage.set("Vendor registration submitted successfully. Please wait for admin approval.");
         this.progress.set(false);
       },
       error: (error) => {
         console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
-        if(error.status == 409)
-        {
+        if (error.status == 409) {
           this.errorMessage.set(error.error.message)
         }
         else if (error.status == 401) {
@@ -73,9 +78,8 @@ export class RegisterVendor {
     this.showPassword.update(v => !v);
   }
 
-  resetFilter()
-    {
-      this.registerModel.set(new RegisterVendorModel());
-      this.errorMessage.set(null);  
-    }
+  resetFilter() {
+    this.registerModel.set(new RegisterVendorModel());
+    this.errorMessage.set(null);
+  }
 }

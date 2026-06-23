@@ -4,7 +4,9 @@
         <div class="text-center space-y-1">
             <h1 class="text-blue-950 font-extrabold text-2xl tracking-tight">Register Vendor</h1>
         </div>
-
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
+        }
         @if(errorMessage()) {
         <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold">{{errorMessage()}}</div>
         }
@@ -156,5 +158,10 @@
                 </button>
             </div>
         </form>
+        <div class="flex items-center justify-center gap-2">
+            <p>Already have account?</p>
+            <button routerLink="/"
+                class="text-blue-600 hover:text-blue-800 cursor-pointer font-bold">Login</button>
+        </div>
     </div>
 </section>

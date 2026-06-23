@@ -2,14 +2,14 @@ import { Component, signal } from '@angular/core';
 import { FormField, form, required, email } from '@angular/forms/signals';
 import { LoginModel } from '../models/authentication/login.model';
 import { AuthService } from '../services/auth.Service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AuthStateService } from '../services/auth-State.Service';
 import { FormsModule } from '@angular/forms';
 import { ROLES } from '../role.constant';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, FormsModule],
+  imports: [FormField, FormsModule,RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })

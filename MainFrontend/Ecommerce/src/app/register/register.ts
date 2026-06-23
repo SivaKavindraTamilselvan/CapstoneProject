@@ -1,12 +1,12 @@
 import { Component, signal } from '@angular/core';
 import { RegisterModel } from '../models/authentication/register-user.model';
 import { AuthService } from '../services/auth.Service';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField],
+  imports: [FormField,RouterLink],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
@@ -15,7 +15,7 @@ export class Register {
   registerModel = signal(new RegisterModel());
   progress = signal(false);
   showPassword = signal(false);
-  constructor(private router: Router, private authService: AuthService) {
+  constructor(private authService: AuthService) {
 
   }
   togglePasswordVisibility() {
