@@ -4,8 +4,9 @@ import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminVendorModel } from "../models/admin/vendor/admin-vendor.model";
 import { ReviewVendorRequestModel } from "../models/admin/vendor/review-vendor.dto";
-import { filter, Observable } from "rxjs";
+import { filter, map, Observable } from "rxjs";
 import { AdminVendorFilter } from "../models/admin/vendor/admin-vendor.filter";
+import { AdminDeleteVendorModel } from "../models/admin/vendor/delete-vendor.model";
 
 @Injectable({
     providedIn: "root"
@@ -14,8 +15,31 @@ export class AdminVendorService {
     constructor(private http: HttpClient) {
 
     }
-    getVendor(filter : AdminVendorFilter) : Observable<PagedResponse<AdminVendorModel>> {
+    getVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
         let url = BaseURL + "/AdminVendor/GetVendor";
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params }).pipe(
+            map(response => {
+                const filteredItems = response.items.filter(
+                    v => v.approvalStatusId !== 4 && v.approvalStatusId !== 1
+                );
+
+                return {
+                    ...response,
+                    items: filteredItems,
+                    totalCount: filteredItems.length,
+                    totalPages: Math.ceil(filteredItems.length / response.pageSize)
+                };
+            })
+        );
+    }
+    getPendingVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
+        let url = BaseURL + "/AdminVendor/GetVendor?ApprovalStatusId=1";
         let params = new HttpParams();
         Object.entries(filter).forEach(([key, value]) => {
             if (value !== null && value !== undefined && value !== '') {
@@ -24,8 +48,8 @@ export class AdminVendorService {
         });
         return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
     }
-    getPendingVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
-        let url = BaseURL + "/AdminVendor/GetVendor?ApprovalStatusId=1";
+    getDeletedVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
+        let url = BaseURL + "/AdminVendor/GetVendor?ApprovalStatusId=4";
         let params = new HttpParams();
         Object.entries(filter).forEach(([key, value]) => {
             if (value !== null && value !== undefined && value !== '') {
@@ -38,14 +62,8 @@ export class AdminVendorService {
         let url = BaseURL + "/AdminVendor/ReviewVendor";
         return this.http.put(url, request);
     }
-    getActiveVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
-        let url = BaseURL + "/AdminVendor/GetVendor?IsActive=true";
-        let params = new HttpParams();
-        Object.entries(filter).forEach(([key, value]) => {
-            if (value !== null && value !== undefined && value !== '') {
-                params = params.set(key, value.toString());
-            }
-        });
-        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
+    DeleteVendor(request : AdminDeleteVendorModel){
+        let url = BaseURL + "/AdminVendor/DeleteVendor";
+        return this.http.patch(url, request);
     }
 }
