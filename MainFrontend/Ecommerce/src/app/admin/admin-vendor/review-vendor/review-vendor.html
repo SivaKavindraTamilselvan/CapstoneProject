@@ -52,22 +52,7 @@
                 <input type="string" placeholder="Contact Person" [value]="contactPersonName()"
                     (input)="onContactPersonInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Reviewed By Admin</label>
-                <input type="number" placeholder="GST Number" [value]="reviewedByAdminId()"
-                    (input)="onReviewedAdminChange($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-            </div>
 
-            <div>
-                <label class="text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
-                <select (change)="onApprovalChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
-                    <option>All</option>
-                    @for(opt of approvalStatusOption; track opt.id){
-                    <option [value]="opt.id" [selected]="approvalStatusId() == opt.id">{{opt.label}}</option>
-                    }
-                </select>
-            </div>
             <div>
                 <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
                 <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
@@ -95,6 +80,7 @@
                     <th class="px-4 py-3">Contact Person</th>
                     <th class="px-4 py-3">Email</th>
                     <th class="px-4 py-3">Phone Number</th>
+                    <th class="px-4 py-3">GST Number</th>
                     <th class="px-4 py-3">Status</th>
                     <th class="px-4 py-3">Actions</th>
                 </tr>
@@ -127,12 +113,18 @@
                     </td>
                 </tr>
                 }
+                @empty
+                {
+                <tr>
+                    <td colspan="7" class="px-4 py-6 text-center text-gray-500">No pending vendors.</td>
+                </tr>
+                }
                 }
             </tbody>
         </table>
     </div>
 
-     <div class="md:hidden flex flex-col gap-4">
+    <div class="md:hidden flex flex-col gap-4">
         @if(vendors())
         {
         @for(vendor of vendors()!.items;track vendor.vendorId)
@@ -142,9 +134,10 @@
                 <span class="font-bold text-blue-950">#{{vendor.vendorId}}</span>
                 <div class="flex gap-2">
                     <button
-                    class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
+                        class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
                     <button
-                        class="bg-slate-600 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-slate-900" (click)="openReviewPopup(vendor.vendorId)">Review</button>
+                        class="bg-slate-600 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-slate-900"
+                        (click)="openReviewPopup(vendor.vendorId)">Review</button>
                 </div>
 
             </div>
@@ -220,30 +213,42 @@
 
     @if(showActivatePopup()) {
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6 space-y-6">
+
             <h1 class="text-2xl font-bold text-blue-950 text-center">
                 Review Vendor
             </h1>
-            <h2 class="text-gray-600 text-center mt-2 mb-6">
-                Enter the details to review
-            </h2>
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-2">{{successMessage()}}
+            </div>
+            }
+            @if(errorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold my-2"> {{errorMessage()}}
+            </div>
+            }
             <form class="space-y-4" (ngSubmit)="handleReview()">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
                 <select [formField]="reviewForm.approvalStatusId"
                     class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
                     <option value="">Select The Status</option>
                     <option value="2">Approve</option>
                     <option value="3">Reject</option>
                 </select>
-                <input [formField]="reviewForm.remark" type="text" placeholder="Enter The Remarks"
-                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Remarks</label>
+                <textarea rows="4" [formField]="reviewForm.remark" type="text" placeholder="Enter The Remarks"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
+                </textarea>
+                <div class="flex justify-center gap-3 pt-4 w-full">
+
+                    <button type="submit"
+                        class="w-full px-5 py-2 rounded-md bg-green-700 text-white font-semibold hover:bg-green-900">
+                        Submit
+                    </button>
+                    <button type="button"
+                        class="w-full px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
                         (click)="closePopup()">
                         Cancel
-                    </button>
-                    <button type="submit"
-                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
-                        Submit
                     </button>
                 </div>
             </form>

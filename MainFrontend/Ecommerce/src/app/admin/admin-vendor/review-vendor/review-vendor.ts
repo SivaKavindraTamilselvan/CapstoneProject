@@ -1,4 +1,4 @@
-import { Component, signal ,computed} from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { AdminVendorService } from '../../../services/admin-vendor.Service';
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
@@ -31,6 +31,8 @@ export class ReviewVendor {
   approvalStatusId = signal<number | null>(null);
   isActive = signal<boolean | null>(null);
   reviewedByAdminId = signal<number | null>(null);
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
   constructor(private route: Router, private adminVendorService: AdminVendorService) {
 
   }
@@ -62,8 +64,15 @@ export class ReviewVendor {
             totalPages: 0
           });
         }
+        else if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
         else {
-          console.log(error);
+          this.errorMessage.set(error.errorMessage);
         }
       }
     })
@@ -71,9 +80,12 @@ export class ReviewVendor {
   openReviewPopup(vendorId: number) {
     this.selectedVendorId.set(vendorId);
 
-    this.reviewVendorModel.set(
-      new ReviewVendorModel(vendorId, "", "")
-    );
+    this.reviewVendorModel.update(model => ({
+      ...model,
+      vendorId: vendorId,
+      approvalStatusId: '',
+      remark: ''
+    }));
 
     this.showActivatePopup.set(true);
   }
@@ -82,10 +94,15 @@ export class ReviewVendor {
     this.showActivatePopup.set(false);
     this.selectedVendorId.set(null);
     this.reviewVendorModel.set(new ReviewVendorModel());
+    this.errorMessage.set(null);
   }
+
   handleReview() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     if (this.reviewForm().invalid()) {
-      alert("Enter proper details");
+      this.errorMessage.set("Enter proper details");
       return;
     }
 
@@ -97,112 +114,128 @@ export class ReviewVendor {
 
     this.adminVendorService.reviewVendor(request).subscribe({
       next: () => {
-        alert("Vendor reviewed successfully");
-        this.closePopup();
-        this.loadPendingVendor();
+        this.successMessage.set("Vendor reviewed successfully");
+
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadPendingVendor();
+        }, 3000);
       },
       error: (error) => {
-        console.log(error);
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
       }
     });
   }
+
   approvalStatusOption = [
-      { id: 1, label: 'Pending' },
-      { id: 2, label: 'Accepted' },
-      { id: 3, label: 'Rejected' },
-      { id: 4, label: 'Deleted By Admin' }
-    ]
-    onPageSizeChange(event: Event): void {
-      const value = Number((event.target as HTMLInputElement).value);
-      this.pageSize.set(value);
-      this.pageNumber.set(1);
-      this.loadPendingVendor();
+    { id: 2, label: 'Accepted' },
+    { id: 3, label: 'Rejected' },
+  ]
+  onPageSizeChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+    this.pageSize.set(value);
+    this.pageNumber.set(1);
+    this.loadPendingVendor();
+  }
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages()) {
+      return;
     }
-    goToPage(page: number): void {
-      if (page < 1 || page > this.totalPages()) {
-        return;
-      }
-      this.pageNumber.set(page);
-      this.loadPendingVendor();
-    }
-    nextPage(): void {
-      this.goToPage(this.pageNumber() + 1);
-    }
-    previousPage(): void {
-      this.goToPage(this.pageNumber() - 1);
-    }
-    toggleFilterPanel(): void {
-      this.filterPanelOpen.update((open) => !open);
-    }
-    closeFilterPanel(): void {
-      this.filterPanelOpen.set(false);
-    }
-    applyFilter(): void {
-      this.pageNumber.set(1);
-      this.loadPendingVendor();
-      this.closeFilterPanel();
-    }
-    resetFilter(): void {
+    this.pageNumber.set(page);
+    this.loadPendingVendor();
+  }
+  nextPage(): void {
+    this.goToPage(this.pageNumber() + 1);
+  }
+  previousPage(): void {
+    this.goToPage(this.pageNumber() - 1);
+  }
+  toggleFilterPanel(): void {
+    this.filterPanelOpen.update((open) => !open);
+  }
+  closeFilterPanel(): void {
+    this.filterPanelOpen.set(false);
+  }
+  applyFilter(): void {
+    this.pageNumber.set(1);
+    this.loadPendingVendor();
+    this.closeFilterPanel();
+  }
+  resetFilter(): void {
+    this.isActive.set(null);
+    this.approvalStatusId.set(null);
+    this.companyEmail.set("");
+    this.contactPersonName.set("");
+    this.companyPhoneNumber.set("");
+    this.gstNumber.set("");
+    this.vendorCompanyName.set("");
+    this.reviewedByAdminId.set(null);
+    this.pageNumber.set(1);
+    this.loadPendingVendor();
+  }
+  private buildFilter(): AdminVendorFilter {
+    return {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      isActive: this.isActive(),
+      contactPersonName: this.contactPersonName(),
+      companyEmail: this.companyEmail(),
+      companyPhoneNumber: this.companyPhoneNumber(),
+      vendorCompanyName: this.vendorCompanyName(),
+      gstNumber: this.gstNumber(),
+      approvalStatusId: this.approvalStatusId(),
+      reviewedByAdminId: this.reviewedByAdminId()
+    };
+  }
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    if (value === '') {
       this.isActive.set(null);
-      this.approvalStatusId.set(null);
-      this.companyEmail.set("");
-      this.contactPersonName.set("");
-      this.companyPhoneNumber.set("");
-      this.gstNumber.set("");
-      this.vendorCompanyName.set("");
-      this.reviewedByAdminId.set(null);
-      this.pageNumber.set(1);
-      this.loadPendingVendor();
     }
-    private buildFilter(): AdminVendorFilter {
-      return {
-        pageNumber: this.pageNumber(),
-        pageSize: this.pageSize(),
-        isActive: this.isActive(),
-        contactPersonName: this.contactPersonName(),
-        companyEmail: this.companyEmail(),
-        companyPhoneNumber: this.companyPhoneNumber(),
-        vendorCompanyName: this.vendorCompanyName(),
-        gstNumber: this.gstNumber(),
-        approvalStatusId: this.approvalStatusId(),
-        reviewedByAdminId: this.reviewedByAdminId()
-      };
+    else {
+      this.isActive.set(value === 'true');
     }
-    onStatusChange(event: Event): void {
-      const value = (event.target as HTMLSelectElement).value;
-      if (value === '') {
-        this.isActive.set(null);
-      }
-      else {
-        this.isActive.set(value === 'true');
-      }
-    }
-    onApprovalChange(event: Event): void {
-      const v = (event.target as HTMLSelectElement).value;
-      this.approvalStatusId.set(v ? Number(v) : null);
-    }
-    onReviewedAdminChange(event: Event): void {
-      const v = (event.target as HTMLSelectElement).value;
-      this.reviewedByAdminId.set(v ? Number(v) : null);
-    }
-    onVendorCompanyNameInput(event: Event): void {
-      const v = (event.target as HTMLInputElement).value;
-      this.vendorCompanyName.set(v);
-    }
-    onVendorCompanyEmailInput(event: Event): void {
-      const v = (event.target as HTMLInputElement).value;
-      this.companyEmail.set(v);
-    }
-    onContactPersonInput(event: Event): void {
-      const v = (event.target as HTMLInputElement).value;
-      this.contactPersonName.set(v);
-    }
-    onVendorCompanyPhoneNumberInput(event: Event): void {
-      const v = (event.target as HTMLInputElement).value;
-      this.companyPhoneNumber.set(v);
-    }
-    onGstNumberInput(event: Event): void {
-      const v = (event.target as HTMLInputElement).value;
-      this.gstNumber.set(v);
-    }
+  }
+  onApprovalChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.approvalStatusId.set(v ? Number(v) : null);
+  }
+  onReviewedAdminChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.reviewedByAdminId.set(v ? Number(v) : null);
+  }
+  onVendorCompanyNameInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.vendorCompanyName.set(v);
+  }
+  onVendorCompanyEmailInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.companyEmail.set(v);
+  }
+  onContactPersonInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.contactPersonName.set(v);
+  }
+  onVendorCompanyPhoneNumberInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.companyPhoneNumber.set(v);
+  }
+  onGstNumberInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.gstNumber.set(v);
+  }
 }
