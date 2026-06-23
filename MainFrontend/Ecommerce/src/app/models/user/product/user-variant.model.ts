@@ -1,5 +1,5 @@
-import { ProductImageModel } from "./product-image.model";
-import { UserProductAttributeModel } from "./user-product-attribute.model";
+import { ProductImageModel } from "../../product/product-image.model";
+import { UserProductAttributeModel } from "../product-category/user-product-attribute.model";
 
 export class UserProductVariantModel {
     constructor(

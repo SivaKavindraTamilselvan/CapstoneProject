@@ -2,11 +2,11 @@ import { Component, signal ,computed} from '@angular/core';
 import { AdminVendorService } from '../../../services/admin-vendor.Service';
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminVendorModel } from '../../../models/admin-vendor.model';
-import { ReviewVendorModel } from '../../../models/review.vendor.model';
+import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.model';
+import { ReviewVendorModel } from '../../../models/admin/vendor/review.vendor.model';
 import { FormField, form, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminVendorFilter } from '../../../models/admin-vendor.filter';
+import { AdminVendorFilter } from '../../../models/vendor/admin-vendor.filter';
 
 @Component({
   selector: 'app-review-vendor',

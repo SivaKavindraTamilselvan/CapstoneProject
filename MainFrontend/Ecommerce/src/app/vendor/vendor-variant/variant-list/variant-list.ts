@@ -6,8 +6,8 @@ import { VendorProductService } from '../../../services/vendor-product.Service';
 import { VendorProductVariantFilter } from '../../../models/vendor/vendor-product/vendor.varaint.filter';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { UserProductService } from '../../../services/user-product.Service';
-import { UserSubProductCategoryModel } from '../../../models/user-sub-category.model';
-import { UserProductCategoryModel } from '../../../models/user-product-category.model';
+import { UserSubProductCategoryModel } from '../../../models/user/product-category/user-sub-category.model';
+import { UserProductCategoryModel } from '../../../models/user/product-category/user-product-category.model';
 
 @Component({
   selector: 'app-variant-list',

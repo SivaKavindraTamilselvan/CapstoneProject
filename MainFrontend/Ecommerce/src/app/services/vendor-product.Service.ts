@@ -1,14 +1,15 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddProductModel } from "../models/add-product.model";
+import { AddProductModel } from "../models/vendor/vendor-product/add-product.model";
 import { BaseURL } from "../environment";
-import { AddProductImageModel } from "../models/add-product-image";
+import { AddProductImageModel } from "../models/vendor/vendor-product/add-product-image";
 import { VendorProductFilter } from "../models/vendor/vendor-product/vendor-product.filter";
 import { PagedResponse } from "../models/paged-response.model";
 import { VendorProductModel } from "../models/vendor/vendor-product/vendor-product.model";
 import { VendorProductVariantFilter } from "../models/vendor/vendor-product/vendor.varaint.filter";
-import { ProductVariantModel } from "../models/product-variant.model";
 import { VendorProductVariantModel } from "../models/vendor/vendor-product/vendor-variant.model";
+import { AddProductVariantModel } from "../models/vendor/vendor-product/add-product-variant.model";
+import { AddProductVariantImageModel } from "../models/vendor/vendor-product/add-variant-image.model";
 
 @Injectable({
     providedIn: "root"
@@ -36,7 +37,7 @@ export class VendorProductService {
         });
         return this.http.get<PagedResponse<VendorProductModel>>(url, { params });
     }
-    getProductVariant(filter : VendorProductVariantFilter){
+    getProductVariant(filter: VendorProductVariantFilter) {
         let url = BaseURL + "/VendorProduct/ProductVariant"
         let params = new HttpParams();
 
@@ -46,5 +47,13 @@ export class VendorProductService {
             }
         });
         return this.http.get<PagedResponse<VendorProductVariantModel>>(url, { params });
+    }
+    addProductVariant(productVariant: AddProductVariantModel) {
+        let url = BaseURL + "/VendorProduct/AddProductVariant";
+        return this.http.post(url, productVariant);
+    }
+    addProductVariantImage(productVariantImage: AddProductVariantImageModel) {
+        let url = BaseURL + "/VendorProduct/AddProductVariantImage";
+        return this.http.post(url, productVariantImage);
     }
 }

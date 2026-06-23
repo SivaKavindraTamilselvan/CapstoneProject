@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { UserProductService } from '../services/user-product.Service';
-import { UserProductCategoryModel } from '../models/user-product-category.model';
-import { UserSubProductCategoryModel } from '../models/user-sub-category.model';
+import { UserProductCategoryModel } from '../models/user/product-category/user-product-category.model';
+import { UserSubProductCategoryModel } from '../models/user/product-category/user-sub-category.model';
 import { Router } from '@angular/router';
 
 @Component({

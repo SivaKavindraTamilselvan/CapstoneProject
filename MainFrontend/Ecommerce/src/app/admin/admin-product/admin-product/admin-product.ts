@@ -3,7 +3,7 @@ import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductModel } from '../../../models/product.model';
 import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
-import { AdminProductFilter } from '../../../models/admin-product.filter'; 
+import { AdminProductFilter } from '../../../models/admin/admin-product-category/admin-product.filter'; 
 
 @Component({
   selector: 'app-admin-product',

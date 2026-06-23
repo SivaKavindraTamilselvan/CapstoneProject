@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.Service';
-import { RegisterVendorModel } from '../models/regiser-vendor.model';
+import { RegisterVendorModel } from '../models/authentication/regiser-vendor.model';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
 
 @Component({

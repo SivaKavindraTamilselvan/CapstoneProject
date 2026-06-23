@@ -2,8 +2,8 @@ import { Component, signal, computed } from '@angular/core';
 import { AdminUserService } from '../../../services/admin-user.Service';
 import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminUserModel } from '../../../models/admin-user.model';
-import { AdminUserFilter } from '../../../models/admin-user.filter';
+import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
+import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.filter';
 
 @Component({
   selector: 'app-deactivate-admin',

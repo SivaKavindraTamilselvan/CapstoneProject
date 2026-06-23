@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
-import { AdminUserModel } from "../models/admin-user.model";
-import { AdminUserFilter } from "../models/admin-user.filter";
+import { AdminUserModel } from "../models/admin/admin-user/admin-user.model";
+import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { Observable } from "rxjs";
 
 @Injectable({

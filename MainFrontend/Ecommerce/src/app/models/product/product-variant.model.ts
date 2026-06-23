@@ -1,4 +1,4 @@
-import { ProductAttributeModel } from "./product-attribute.model";
+import { ProductAttributeModel } from "../admin/admin-product-category/product-attribute.model";
 import { ProductImageModel } from "./product-image.model";
 
 export class ProductVariantModel {

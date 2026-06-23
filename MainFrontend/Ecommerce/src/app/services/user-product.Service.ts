@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
 import { UserProductModel } from "../models/user-product.model";
 import { PagedResponse } from "../models/paged-response.model";
-import { UserProductFilter } from "../models/user-product.filter";
+import { UserProductFilter } from "../models/user/product/user-product.filter";
 import { Observable } from "rxjs";
 
 @Injectable({

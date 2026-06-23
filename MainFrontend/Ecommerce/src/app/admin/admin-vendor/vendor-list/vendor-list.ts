@@ -2,8 +2,8 @@ import { Component, signal,computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminVendorService } from '../../../services/admin-vendor.Service';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminVendorModel } from '../../../models/admin-vendor.model';
-import { AdminVendorFilter } from '../../../models/admin-vendor.filter';
+import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.model';
+import { AdminVendorFilter } from '../../../models/vendor/admin-vendor.filter';
 
 @Component({
   selector: 'app-vendor-list',

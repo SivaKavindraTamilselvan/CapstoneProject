@@ -1,10 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { LoginModel } from "../models/login.model";
+import { LoginModel } from "../models/authentication/login.model";
 import { BaseURL } from "../environment";
-import { RegisterModel } from "../models/register-user.model";
+import { RegisterModel } from "../models/authentication/register-user.model";
 import { RegisterAdminModel } from "../models/register-admin.model";
-import { RegisterVendorModel } from "../models/regiser-vendor.model";
+import { RegisterVendorModel } from "../models/authentication/regiser-vendor.model";
 
 @Injectable({
     providedIn: 'root'

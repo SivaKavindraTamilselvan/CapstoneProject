@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { UserNavbar } from '../user-navbar/user-navbar';
-import { UserSubProductCategoryModel } from '../models/user-sub-category.model';
+import { UserSubProductCategoryModel } from '../models/user/product-category/user-sub-category.model';
 import { UserProductService } from '../services/user-product.Service';
 
 @Component({

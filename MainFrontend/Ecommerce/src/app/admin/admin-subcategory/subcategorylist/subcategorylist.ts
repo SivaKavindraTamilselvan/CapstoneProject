@@ -3,10 +3,10 @@ import { Router } from '@angular/router';
 import { FormField, form, required, min } from '@angular/forms/signals';
 
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminProductSubCategoryModel } from '../../../models/admin-subcategory.model';
-import { AddProductSubCategoryModel } from '../../../models/add-subcategory.model';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/admin-subcategory.model';
+import { AddProductSubCategoryModel } from '../../../models/admin/admin-product-category/add-subcategory.model';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
-import { AdminProductSubCategoryFilter } from '../../../models/admin-subcategory.filter';
+import { AdminProductSubCategoryFilter } from '../../../models/admin/admin-product-category/admin-subcategory.filter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 

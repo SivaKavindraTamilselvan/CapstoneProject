@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
-import { AttributeModel } from '../../../models/admin-attribute.model';
+import { AttributeModel } from '../../../models/admin/admin-product-category/admin-attribute.model';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
-import { AttributeFilter } from '../../../models/attribute.filter';
+import { AttributeFilter } from '../../../models/admin/admin-product-category/attribute.filter';
 import { DatePipe } from '@angular/common';
 
 @Component({
