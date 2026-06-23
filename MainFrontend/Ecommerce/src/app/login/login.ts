@@ -5,6 +5,7 @@ import { AuthService } from '../services/auth.Service';
 import { Router } from '@angular/router';
 import { AuthStateService } from '../services/auth-State.Service';
 import { FormsModule } from '@angular/forms';
+import { ROLES } from '../role.constant';
 
 @Component({
   selector: 'app-login',
@@ -37,13 +38,13 @@ export class Login {
         alert("Login successful!")
         const roleId = this.authStateService.getRoleId();
 
-        if (roleId === '1') {
+        if (roleId === ROLES.ADMIN) {
           this.router.navigate(['/admin']);
         }
-        else if (roleId === '3') {
+        else if (roleId === ROLES.VENDOR) {
           this.router.navigate(['/vendor']);
         }
-        else if (roleId === '2') {
+        else if (roleId === ROLES.USER) {
           this.router.navigate(['/products']);
         }
         else {
