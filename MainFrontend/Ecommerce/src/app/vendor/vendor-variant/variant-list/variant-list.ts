@@ -1,18 +1,23 @@
 import { Component, computed, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { VendorProductVariantModel } from '../../../models/vendor-variant.model';
+import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/vendor-variant.model';
 import { Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { VendorProductVariantFilter } from '../../../models/vendor/vendor-product/vendor.varaint.filter';
 import { DatePipe, DecimalPipe } from '@angular/common';
+import { UserProductService } from '../../../services/user-product.Service';
+import { UserSubProductCategoryModel } from '../../../models/user-sub-category.model';
+import { UserProductCategoryModel } from '../../../models/user-product-category.model';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DatePipe,DecimalPipe],
+  imports: [DatePipe, DecimalPipe],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })
 export class VariantList {
+  categories = signal<UserProductCategoryModel[]>([]);
+  subCategories = signal<UserSubProductCategoryModel[]>([]);
   variant = signal<PagedResponse<VendorProductVariantModel> | null>(null);
   sku = signal<string>('');
   productId = signal<number | null>(null);
@@ -39,20 +44,14 @@ export class VariantList {
   totalPages = computed(() => this.variant()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
-  constructor(private route: Router, private vendorProductService: VendorProductService) { }
+  constructor(private route: Router, private vendorProductService: VendorProductService, private userProductService: UserProductService) {
 
-  ngOnInit(): void {
-    this.loadProductVariant();
   }
 
-  approvalStatusOptions = [
-    { id: 1, label: 'Pending' },
-    { id: 2, label: 'Vendor Approved' },
-    { id: 3, label: 'Vendor Rejected' },
-    { id: 4, label: 'Admin Approved' },
-    { id: 5, label: 'Admin Rejected' },
-    { id: 6, label: 'Deleted By Admin' },
-  ];
+  ngOnInit(): void {
+    this.loadCategories();
+    this.loadProductVariant();
+  }
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
@@ -98,6 +97,23 @@ export class VariantList {
       pageSize: this.pageSize(),
     };
   }
+
+  approvalStatusOptions = [
+    { id: 1, label: 'Pending' },
+    { id: 2, label: 'Vendor Approved' },
+    { id: 3, label: 'Vendor Rejected' },
+    { id: 4, label: 'Admin Approved' },
+    { id: 5, label: 'Admin Rejected' },
+    { id: 6, label: 'Deleted By Admin' },
+  ];
+
+  statusOptions = [
+    { id: 1, label: 'Draft' },
+    { id: 2, label: 'Active' },
+    { id: 3, label: 'Temporarily_Not_Available' },
+    { id: 4, label: 'Archived' },
+  ];
+
   applyFilters(): void {
     this.pageNumber.set(1);
     this.loadProductVariant();
@@ -148,7 +164,31 @@ export class VariantList {
     this.pageNumber.set(1);
     this.loadProductVariant();
   }
-   onMinPriceInput(event: Event): void {
+
+  onSKUInput(event: Event): void {
+    this.sku.set((event.target as HTMLInputElement).value);
+  }
+
+  onSearchTermInput(event: Event): void {
+    this.searchTearm.set((event.target as HTMLInputElement).value);
+  }
+
+  onProductIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.productId.set(v ? Number(v) : null);
+  }
+
+  onCategoryIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.categoryId.set(v ? Number(v) : null);
+  }
+
+  onSubcategoryIdInput(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.subcategoryId.set(v ? Number(v) : null);
+  }
+
+  onMinPriceInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.minPrice.set(v ? Number(v) : null);
   }
@@ -158,6 +198,41 @@ export class VariantList {
     this.maxPrice.set(v ? Number(v) : null);
   }
 
+  onMinAvailableQuantityInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxAvailableQuantityInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMinReservedQuantityInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minReservedQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxReservedQuantityInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxReservedQuantity.set(v ? Number(v) : null);
+  }
+
+  onMinimumQuantityPerUserInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minimuQuantityPerUser.set(v ? Number(v) : null);
+  }
+
+  onAddedByVendorUserIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.addedByVendorUserId.set(v ? Number(v) : null);
+  }
+
+  onMainAttributeIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.mainProductSubCategoryAttributeId.set(v ? Number(v) : null);
+  }
+
   onHasIssuesChange(event: Event): void {
     this.hasIssues.set((event.target as HTMLInputElement).checked || null);
   }
@@ -165,12 +240,52 @@ export class VariantList {
   onAvailableForSaleChange(event: Event): void {
     this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
   }
-  onSearchTermInput(event: Event): void {
-    this.searchTearm.set((event.target as HTMLInputElement).value);
+
+  onStatusChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.statusId.set(v ? Number(v) : null);
   }
 
   onApprovalStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.approvalstatusId.set(v ? Number(v) : null);
+  }
+
+  onIsReturnChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.isReturn.set(checked ? true : null);
+  }
+
+  onIsExchangeChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.isExchange.set(checked ? true : null);
+  }
+
+  loadCategories(): void {
+    this.userProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.categoryId.set(id);
+    this.subcategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.userProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.subcategoryId.set(v ? Number(v) : null);
   }
 }

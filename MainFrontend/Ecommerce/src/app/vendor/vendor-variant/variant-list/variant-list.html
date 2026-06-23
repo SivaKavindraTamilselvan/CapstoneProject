@@ -1,6 +1,6 @@
 <section class="bg-white px-8 py-8">
     <div class="pb-8 relative flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Products</h1>
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product Variant</h1>
         <button (click)="toggleFilterPanel()" class="absolute right-0 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
@@ -14,7 +14,7 @@
     }
 
     <aside
-        class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
+        class="fixed flex flex-col overflow-y-auto top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
         [class.translate-x-0]="filterPanelOpen()" [class.translate-x-full]="!filterPanelOpen()">
 
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
@@ -31,10 +31,25 @@
         <div class="flex flex-col gap-4 p-6">
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
-                <input type="text" placeholder="Product name..." [value]="searchTerm()"
+                <input type="text" placeholder="Product name..." [value]="searchTearm()"
                     (input)="onSearchTermInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
 
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">SKU</label>
+                <input type="text" placeholder="SKU..." [value]="sku()" (input)="onSKUInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Variant Status</label>
+                <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(opt of statusOptions; track opt.id) {
+                    <option [value]="opt.id" [selected]="statusId() === opt.id">{{opt.label}}</option>
+                    }
+                </select>
+            </div>
 
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
@@ -42,9 +57,60 @@
                     class="border border-gray-400 rounded-md px-3 py-2 w-full">
                     <option value="">All</option>
                     @for(opt of approvalStatusOptions; track opt.id) {
-                    <option [value]="opt.id" [selected]="approvalStatusId() === opt.id">{{opt.label}}</option>
+                    <option [value]="opt.id" [selected]="approvalstatusId() === opt.id">{{opt.label}}</option>
                     }
                 </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Product ID</label>
+                <input type="number" placeholder="Product ID..." [value]="productId()"
+                    (input)="onProductIdInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                <select (change)="onCategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(cat of categories(); track cat.productCategoryId) {
+                    <option [value]="cat.productCategoryId" [selected]="categoryId() === cat.productCategoryId">
+                        {{cat.productCategoryName}}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+                <select (change)="onSubcategoryChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!categoryId()">
+                    <option value="">All</option>
+                    @for(sub of subCategories(); track sub.productSubCategoryId) {
+                    <option [value]="sub.productSubCategoryId" [selected]="subcategoryId() === sub.productSubCategoryId">
+                        {{sub.productSubCategoryName}}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Min Quantity Per User</label>
+                <input type="number" placeholder="Min quantity..." [value]="minimuQuantityPerUser()"
+                    (input)="onMinimumQuantityPerUserInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor User ID</label>
+                <input type="number" placeholder="Vendor user ID..." [value]="addedByVendorUserId()"
+                    (input)="onAddedByVendorUserIdInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Main Attribute ID</label>
+                <input type="number" placeholder="Attribute ID..." [value]="mainProductSubCategoryAttributeId()"
+                    (input)="onMainAttributeIdInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
 
             <div>
@@ -53,6 +119,30 @@
                     <input type="number" placeholder="Min" [value]="minPrice()" (input)="onMinPriceInput($event)"
                         class="border border-gray-400 rounded-md px-3 py-2 w-full" />
                     <input type="number" placeholder="Max" [value]="maxPrice()" (input)="onMaxPriceInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity Range</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Min" [value]="minAvailableQuantity()"
+                        (input)="onMinAvailableQuantityInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxAvailableQuantity()"
+                        (input)="onMaxAvailableQuantityInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity Range</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Min" [value]="minReservedQuantity()"
+                        (input)="onMinReservedQuantityInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxReservedQuantity()"
+                        (input)="onMaxReservedQuantityInput($event)"
                         class="border border-gray-400 rounded-md px-3 py-2 w-full" />
                 </div>
             </div>
@@ -68,6 +158,16 @@
                 <label for="availableForSale" class="text-sm font-semibold text-gray-700">Available For Sale</label>
             </div>
 
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="isReturn" [checked]="isReturn()" (change)="onIsReturnChange($event)" />
+                <label for="isReturn" class="text-sm font-semibold text-gray-700">Is Return</label>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <input type="checkbox" id="isExchange" [checked]="isExchange()" (change)="onIsExchangeChange($event)" />
+                <label for="isExchange" class="text-sm font-semibold text-gray-700">Is Exchange</label>
+            </div>
+
             <div class="flex gap-2 pt-2">
                 <button (click)="applyFilters()"
                     class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full">
@@ -81,55 +181,38 @@
         </div>
     </aside>
 
-   <div class="hidden md:block min-w-0 overflow-x-auto">
-    <table class="border border-collapse border-gray-500 w-full">
-        <thead>
-            <tr class="bg-slate-800 text-white">
-                <th class="px-4 py-3 text-center">SKU</th>
-                <th class="px-4 py-3 text-center">Name</th>
-                <th class="px-4 py-3 text-center">Category</th>
-                <th class="px-4 py-3 text-center">Sub Category</th>
-                <th class="px-4 py-3 text-center">Price</th>
-                <th class="px-4 py-3 text-center">Stock</th>
-                <th class="px-4 py-3 text-center">Variant Status</th>
-                <th class="px-4 py-3 text-center">Approval</th>
-                <th class="px-4 py-3 text-center">For Sale</th>
-                <th class="px-4 py-3 text-center">Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @if(variant()) {
+    <div class="hidden md:block min-w-0 overflow-x-auto">
+        <table class="border border-collapse border-gray-500 w-full">
+            <thead>
+                <tr class="bg-slate-800 text-white">
+                    <th class="px-4 py-3 text-center">SKU</th>
+                    <th class="px-4 py-3 text-center">Name</th>
+                    <th class="px-4 py-3 text-center">Category</th>
+                    <th class="px-4 py-3 text-center">Sub Category</th>
+                    <th class="px-4 py-3 text-center">Price</th>
+                    <th class="px-4 py-3 text-center">Stock</th>
+                    <th class="px-4 py-3 text-center">Variant Status</th>
+                    <th class="px-4 py-3 text-center">Approval</th>
+                    <th class="px-4 py-3 text-center">For Sale</th>
+                    <th class="px-4 py-3 text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(variant()) {
                 @for(v of variant()!.items; track v.productVariantId) {
                 <tr class="border-b text-center hover:bg-gray-50">
-                    <td class="px-4 py-3 text-sm font-mono text-gray-600">{{v.sku}}</td>
-                    <td class="px-4 py-3 font-medium">{{v.productName}}</td>
+                    <td class="px-4 py-3 ">{{v.sku}}</td>
+                    <td class="px-4 py-3 ">{{v.productName}}</td>
                     <td class="px-4 py-3">{{v.productCategoryName}}</td>
                     <td class="px-4 py-3">{{v.productSubCategoryName}}</td>
                     <td class="px-4 py-3">₹{{v.price | number}}</td>
                     <td class="px-4 py-3">{{v.availableQuantity}}</td>
+                    <td class="px-4 py-3">{{v.productVariantStatus}}</td>
+                    <td class="px-4 py-3">{{v.productVariantApprovalStatus}}</td>
+                    <td class="px-4 py-3"> {{v.isAvailableForSale ? 'Yes' : 'No'}}</td>
                     <td class="px-4 py-3">
-                        <span [class]="v.productVariantStatus === 'Active'
-                            ? 'bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full'
-                            : 'bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full'">
-                            {{v.productVariantStatus}}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3">
-                        <span [class]="v.productVariantApprovalStatus === 'Admin_Approved'
-                            ? 'bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full'
-                            : 'bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full'">
-                            {{v.productVariantApprovalStatus}}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3">
-                        <span [class]="v.isAvailableForSale
-                            ? 'bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full'
-                            : 'bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full'">
-                            {{v.isAvailableForSale ? 'Yes' : 'No'}}
-                        </span>
-                    </td>
-                    <td class="px-4 py-3">
-                        <button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
+                        <button
+                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
                             View
                         </button>
                     </td>
@@ -140,21 +223,22 @@
                     <td colspan="10" class="px-4 py-6 text-center text-gray-500">No variants found.</td>
                 </tr>
                 }
-            }
-        </tbody>
-    </table>
-</div>
+                }
+            </tbody>
+        </table>
+    </div>
 
-<div class="md:hidden flex flex-col gap-4">
-    @if(variant()) {
+    <div class="md:hidden flex flex-col gap-4">
+        @if(variant()) {
         @for(v of variant()!.items; track v.productVariantId) {
         <div class="border border-gray-300 rounded-lg p-4 shadow-sm">
             <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
                 <div>
+                    <p class="font-semibold">{{v.sku}}</p>
                     <p class="font-bold text-blue-950">{{v.productName}}</p>
-                    <p class="text-xs font-mono text-gray-500">{{v.sku}}</p>
                 </div>
-                <button class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">
+                <button
+                    class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">
                     View
                 </button>
             </div>
@@ -165,49 +249,33 @@
                 </colgroup>
                 <tbody>
                     <tr class="bg-gray-50">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Category</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm break-words">{{v.productCategoryName}}</td>
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Category</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.productCategoryName}}</td>
                     </tr>
                     <tr class="bg-white">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Sub Category</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm break-words">{{v.productSubCategoryName}}</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Price</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm">₹{{v.price | number}}</td>
-                    </tr>
-                    <tr class="bg-white">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Stock</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm">{{v.availableQuantity}}</td>
-                    </tr>
-                    <tr class="bg-gray-50">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Variant Status</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm">
-                            <span [class]="v.productVariantStatus === 'Active'
-                                ? 'bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full'
-                                : 'bg-red-100 text-red-800 text-xs font-semibold px-2 py-1 rounded-full'">
-                                {{v.productVariantStatus}}
-                            </span>
-                        </td>
-                    </tr>
-                    <tr class="bg-white">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">Approval</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm">
-                            <span [class]="v.productVariantApprovalStatus === 'Admin_Approved'
-                                ? 'bg-blue-100 text-blue-800 text-xs font-semibold px-2 py-1 rounded-full'
-                                : 'bg-yellow-100 text-yellow-800 text-xs font-semibold px-2 py-1 rounded-full'">
-                                {{v.productVariantApprovalStatus}}
-                            </span>
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Sub Category</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.productSubCategoryName}}
                         </td>
                     </tr>
                     <tr class="bg-gray-50">
-                        <td class="font-semibold py-2 px-2 border border-gray-300 text-sm">For Sale</td>
-                        <td class="py-2 px-2 border border-gray-300 text-sm">
-                            <span [class]="v.isAvailableForSale
-                                ? 'bg-green-100 text-green-800 text-xs font-semibold px-2 py-1 rounded-full'
-                                : 'bg-gray-100 text-gray-600 text-xs font-semibold px-2 py-1 rounded-full'">
-                                {{v.isAvailableForSale ? 'Yes' : 'No'}}
-                            </span>
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Price</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">₹{{v.price | number}}</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Stock</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.availableQuantity}}</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Variant Status</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.productVariantStatus}}</td>
+                    </tr>
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">Approval</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.productVariantApprovalStatus}}</td>
+                    </tr>
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">For Sale</td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">{{v.isAvailableForSale ? 'Yes' : 'No'}}
                         </td>
                     </tr>
                 </tbody>
@@ -217,8 +285,9 @@
         @empty {
         <div class="text-center text-gray-500 py-6">No variants found.</div>
         }
-    }
-</div>
+        }
+    </div>
+
     @if(variant()){
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
         <div class="text-sm text-gray-600">

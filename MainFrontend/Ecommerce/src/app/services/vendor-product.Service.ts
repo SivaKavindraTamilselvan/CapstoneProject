@@ -8,7 +8,7 @@ import { PagedResponse } from "../models/paged-response.model";
 import { VendorProductModel } from "../models/vendor/vendor-product/vendor-product.model";
 import { VendorProductVariantFilter } from "../models/vendor/vendor-product/vendor.varaint.filter";
 import { ProductVariantModel } from "../models/product-variant.model";
-import { VendorProductVariantModel } from "../models/vendor-variant.model";
+import { VendorProductVariantModel } from "../models/vendor/vendor-product/vendor-variant.model";
 
 @Injectable({
     providedIn: "root"
