@@ -9,7 +9,7 @@ import { ROLES } from '../role.constant';
 
 @Component({
   selector: 'app-login',
-  imports: [FormField, FormsModule,RouterLink],
+  imports: [FormField, FormsModule, RouterLink],
   templateUrl: './login.html',
   styleUrl: './login.css',
 })
@@ -26,8 +26,9 @@ export class Login {
     email(path.email, { message: "Enter Valid Email Address" });
   })
   handleLoginClick() {
+    this.errorMessage.set(null);
     if (this.loginForm().invalid()) {
-      this.errorMessage.set("Please fix the errors in the form before submitting");
+      this.errorMessage.set("Enter Proper Details");
       return;
     }
     this.progress.set(true);

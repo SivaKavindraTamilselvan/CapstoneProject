@@ -3,15 +3,17 @@ import { RegisterModel } from '../models/authentication/register-user.model';
 import { AuthService } from '../services/auth.Service';
 import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register',
-  imports: [FormField,RouterLink],
+  imports: [FormField, RouterLink, FormsModule],
   templateUrl: './register.html',
   styleUrl: './register.css',
 })
 export class Register {
   errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
   registerModel = signal(new RegisterModel());
   progress = signal(false);
   showPassword = signal(false);
@@ -33,15 +35,17 @@ export class Register {
     pattern(path.password, /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/, { message: "Password must contains 8-12 characters,uppercase,lowercase,symbols and number" })
   })
   handleRegisterClick() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     if (this.registerForm().invalid()) {
-      alert("Enter Proper Details");
+      this.errorMessage.set("Enter Proper Details");
       return;
     }
-    this.errorMessage.set(null);
     this.progress.set(true);
     this.authService.registerUserAPICall(this.registerModel()).subscribe({
       next: (response: any) => {
-        alert("Registration Successfull");
+        this.successMessage.set("User registration submitted successfully. Please login to access your account.");
         this.progress.set(false);
       },
       error: (error) => {
