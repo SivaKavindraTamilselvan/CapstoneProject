@@ -3,9 +3,12 @@ import { Injectable } from "@angular/core";
 import { AddProductModel } from "../models/add-product.model";
 import { BaseURL } from "../environment";
 import { AddProductImageModel } from "../models/add-product-image";
-import { VendorProductFilter } from "../models/vendor-product.filter";
+import { VendorProductFilter } from "../models/vendor/vendor-product/vendor-product.filter";
 import { PagedResponse } from "../models/paged-response.model";
-import { VendorProductModel } from "../models/vendor-product.model";
+import { VendorProductModel } from "../models/vendor/vendor-product/vendor-product.model";
+import { VendorProductVariantFilter } from "../models/vendor/vendor-product/vendor.varaint.filter";
+import { ProductVariantModel } from "../models/product-variant.model";
+import { VendorProductVariantModel } from "../models/vendor-variant.model";
 
 @Injectable({
     providedIn: "root"
@@ -32,5 +35,16 @@ export class VendorProductService {
             }
         });
         return this.http.get<PagedResponse<VendorProductModel>>(url, { params });
+    }
+    getProductVariant(filter : VendorProductVariantFilter){
+        let url = BaseURL + "/VendorProduct/ProductVariant"
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<VendorProductVariantModel>>(url, { params });
     }
 }

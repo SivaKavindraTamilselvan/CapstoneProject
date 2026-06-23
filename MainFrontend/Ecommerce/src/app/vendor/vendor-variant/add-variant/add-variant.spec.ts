@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { VendorProductVariant } from './vendor-product-variant';
+import { AddVariant } from './add-variant';
 
-describe('VendorProductVariant', () => {
-  let component: VendorProductVariant;
-  let fixture: ComponentFixture<VendorProductVariant>;
+describe('AddVariant', () => {
+  let component: AddVariant;
+  let fixture: ComponentFixture<AddVariant>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [VendorProductVariant],
+      imports: [AddVariant],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(VendorProductVariant);
+    fixture = TestBed.createComponent(AddVariant);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });
