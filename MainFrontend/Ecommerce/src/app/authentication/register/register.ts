@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
-import { RegisterModel } from '../models/authentication/register-user.model';
-import { AuthService } from '../services/auth.Service';
+import { RegisterModel } from '../../models/authentication/register-user.model';
+import { AuthService } from '../../services/auth.Service';
 import { Router, RouterLink } from '@angular/router';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
 import { FormsModule } from '@angular/forms';
