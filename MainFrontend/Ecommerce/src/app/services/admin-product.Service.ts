@@ -29,6 +29,6 @@ export class AdminProductService {
     }
     reviewProduct(request: ReviewProductRequestModel) {
         let url = BaseURL + "/AdminProduct/ReviewProduct";
-        return this.http.put(url, request);
+        return this.http.post(url, request);
     }
 }

@@ -6,11 +6,11 @@ import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 import { ReviewProductModel } from '../../../models/product/review-product.model';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-review-product',
-  imports: [FormField,ReactiveFormsModule],
+  imports: [FormField,ReactiveFormsModule,FormsModule],
   templateUrl: './review-product.html',
   styleUrl: './review-product.css',
 })
@@ -34,6 +34,9 @@ export class ReviewProduct {
   pageSize = signal<number>(10);
 
   filterPanelOpen = signal<boolean>(false);
+
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
@@ -84,6 +87,25 @@ export class ReviewProduct {
       },
       error: (error) => {
         console.log(error);
+        if (error.status === 404) {
+          this.products.set({
+            items: [],
+            pageNumber: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0
+          });
+        }
+        else if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.errorMessage);
+        }
       },
     });
   }
@@ -168,6 +190,7 @@ export class ReviewProduct {
     required(path.remark, { message: "Enter The Remarks" });
     pattern(path.approvalStatusId, /^[45]$/, { message: "Select valid approval status" })
   });
+
   openReviewPopup(productId: number) {
     this.selectedProductId.set(productId);
 
@@ -182,10 +205,13 @@ export class ReviewProduct {
     this.showActivatePopup.set(false);
     this.selectedProductId.set(null);
     this.reviewProductModel.set(new ReviewProductModel());
+    this.errorMessage.set(null);
   }
   handleReview() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
     if (this.reviewForm().invalid()) {
-      alert("Enter proper details");
+      this.errorMessage.set("Enter proper details");
       return;
     }
     const request = {
@@ -195,12 +221,28 @@ export class ReviewProduct {
     };
     this.adminProductService.reviewProduct(request).subscribe({
       next: () => {
-        alert("Vendor reviewed successfully");
-        this.closePopup();
-        this.loadProduct();
+        this.successMessage.set("Vendor reviewed successfully");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
       },
       error: (error) => {
-        console.log(error);
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
       }
     });
   }
