@@ -1,9 +1,9 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
-import { AddProductVariantModel } from '../../../models/vendor/vendor-product/add-product-variant.model';
-import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-variant-image.model';
-import { AddProductVariantAttributeModel } from '../../../models/vendor/vendor-product/add-variant-attribute.model';
+import { AddProductVariantModel } from '../../../models/vendor/vendor-product/add-model/add-product-variant.model';
+import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-model/add-variant-image.model';
+import { AddProductVariantAttributeModel } from '../../../models/vendor/vendor-product/add-model/add-variant-attribute.model';
 import { form, FormField, min, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

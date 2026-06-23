@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { VendorProductService } from '../../../services/vendor-product.Service';
-import { AddProductModel } from '../../../models/vendor/vendor-product/add-product.model';
-import { AddProductImageModel } from '../../../models/vendor/vendor-product/add-product-image';
+import { AddProductModel } from '../../../models/vendor/vendor-product/add-model/add-product.model';
+import { AddProductImageModel } from '../../../models/vendor/vendor-product/add-model/add-product-image';
 import { form, FormField, maxLength, min, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

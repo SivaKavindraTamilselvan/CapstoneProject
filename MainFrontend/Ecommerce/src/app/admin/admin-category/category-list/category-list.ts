@@ -2,10 +2,10 @@ import { Component, signal, computed } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { ProductCategoryModel } from '../../../models/admin/admin-product-category/admin-category';
-import { AdminProductCategoryFilter } from '../../../models/admin/admin-product-category/admin-category.filter';
+import { ProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductCategoryFilter } from '../../../models/admin/admin-product-category/filter-models/admin-category.filter';
 import { DatePipe } from '@angular/common';
-import { AddProductCategoryModel } from '../../../models/admin/admin-product-category/add-category.model';
+import { AddProductCategoryModel } from '../../../models/admin/admin-product-category/add-models/add-category.model';
 import { FormField,form, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 

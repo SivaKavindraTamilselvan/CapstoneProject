@@ -1,4 +1,4 @@
-import { ProductAttributeModel } from "../admin/admin-product-category/product-attribute.model";
+import { VendorProductAttributeModel } from "../vendor/vendor-product/response/product-attribute.model";
 import { ProductImageModel } from "./product-image.model";
 
 export class ProductVariantModel {
@@ -21,7 +21,7 @@ export class ProductVariantModel {
         public createdAt: string = "",
         public updatedAt: string | null,
         public validationIssues: string[],
-        public attributes: ProductAttributeModel[],
+        public attributes: VendorProductAttributeModel[],
         public productImages: ProductImageModel[] 
     ) {}
 }

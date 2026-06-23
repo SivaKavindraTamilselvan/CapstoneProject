@@ -1,4 +1,4 @@
-export class ProductAttributeModel{
+export class VendorProductAttributeModel{
     constructor(
         public productVariantAttributeId: number,
         public attributeName: string = "",

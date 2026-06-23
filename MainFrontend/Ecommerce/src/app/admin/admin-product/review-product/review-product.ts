@@ -3,7 +3,7 @@ import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductModel } from '../../../models/product.model';
 import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
-import { AdminProductFilter } from '../../../models/admin/admin-product-category/admin-product.filter';
+import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 import { ReviewProductModel } from '../../../models/product/review-product.model';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { ReactiveFormsModule } from '@angular/forms';

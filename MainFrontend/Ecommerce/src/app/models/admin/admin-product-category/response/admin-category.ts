@@ -1,4 +1,4 @@
-export class ProductCategoryModel {
+export class AdminProductCategoryModel {
     constructor(
         public productCategoryId: number,
         public productCategoryName: string | null,

@@ -5,7 +5,7 @@ import { PagedResponse } from "../models/paged-response.model";
 import { AdminVendorModel } from "../models/admin/vendor/admin-vendor.model";
 import { ReviewVendorRequestModel } from "../models/admin/vendor/review-vendor.dto";
 import { filter, Observable } from "rxjs";
-import { AdminVendorFilter } from "../models/vendor/admin-vendor.filter";
+import { AdminVendorFilter } from "../models/admin/vendor/admin-vendor.filter";
 
 @Injectable({
     providedIn: "root"

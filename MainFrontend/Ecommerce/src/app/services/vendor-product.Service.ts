@@ -1,15 +1,15 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddProductModel } from "../models/vendor/vendor-product/add-product.model";
+import { AddProductModel } from "../models/vendor/vendor-product/add-model/add-product.model";
 import { BaseURL } from "../environment";
-import { AddProductImageModel } from "../models/vendor/vendor-product/add-product-image";
-import { VendorProductFilter } from "../models/vendor/vendor-product/vendor-product.filter";
+import { AddProductImageModel } from "../models/vendor/vendor-product/add-model/add-product-image";
+import { VendorProductFilter } from "../models/vendor/vendor-product/filter/vendor-product.filter";
 import { PagedResponse } from "../models/paged-response.model";
-import { VendorProductModel } from "../models/vendor/vendor-product/vendor-product.model";
-import { VendorProductVariantFilter } from "../models/vendor/vendor-product/vendor.varaint.filter";
-import { VendorProductVariantModel } from "../models/vendor/vendor-product/vendor-variant.model";
+import { VendorProductModel } from "../models/vendor/vendor-product/response/vendor-product.model";
+import { VendorProductVariantFilter } from "../models/vendor/vendor-product/filter/vendor.varaint.filter";
+import { VendorProductVariantModel } from "../models/vendor/vendor-product/response/vendor-variant.model";
 import { AddProductVariantModel } from "../models/vendor/vendor-product/add-product-variant.model";
-import { AddProductVariantImageModel } from "../models/vendor/vendor-product/add-variant-image.model";
+import { AddProductVariantImageModel } from "../models/vendor/vendor-product/add-model/add-variant-image.model";
 
 @Injectable({
     providedIn: "root"

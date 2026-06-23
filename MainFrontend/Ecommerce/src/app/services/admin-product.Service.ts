@@ -3,8 +3,8 @@ import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
-import { ProductModel } from "../models/product.model";
-import { AdminProductFilter } from "../models/admin/admin-product-category/admin-product.filter";
+import { ProductModel } from "../models/product/product.model"; 
+import { AdminProductFilter } from "../models/admin/admin-product/filter/admin-product.filter";
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
 
 @Injectable({

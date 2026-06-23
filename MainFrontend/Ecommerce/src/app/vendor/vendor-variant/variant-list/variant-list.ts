@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/vendor-variant.model';
+import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/response/vendor-variant.model';
 import { Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
-import { VendorProductVariantFilter } from '../../../models/vendor/vendor-product/vendor.varaint.filter';
+import { VendorProductVariantFilter } from '../../../models/vendor/vendor-product/filter/vendor.varaint.filter';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { UserProductService } from '../../../services/user-product.Service';
 import { UserSubProductCategoryModel } from '../../../models/user/product-category/user-sub-category.model';

@@ -1,19 +1,19 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AdminProductCategoryFilter } from "../models/admin/admin-product-category/admin-category.filter";
+import { AdminProductCategoryFilter } from "../models/admin/admin-product-category/filter-models/admin-category.filter";
 import { BaseURL } from "../environment";
 import { PagedResponse } from "../models/paged-response.model";
-import { ProductCategoryModel } from "../models/admin/admin-product-category/admin-category";
-import { AddProductCategoryModel } from "../models/admin/admin-product-category/add-category.model";
-import { AdminProductSubCategoryFilter } from "../models/admin/admin-product-category/admin-subcategory.filter";
-import { AddProductSubCategoryModel } from "../models/admin/admin-product-category/add-subcategory.model";
-import { AdminProductSubCategoryModel } from "../models/admin/admin-product-category/admin-subcategory.model";
-import { AttributeModel } from "../models/admin/admin-product-category/admin-attribute.model";
-import { AddAttributeModel } from "../models/admin/admin-product-category/add-attribute.model";
-import { AttributeFilter } from "../models/admin/admin-product-category/attribute.filter";
-import { MappedAttributeFilter } from "../models/admin/admin-product-category/mapped-attribute.filter";
-import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/admin-mapped.model";
-import { AddMapedAttributeModel } from "../models/admin/admin-product-category/add-mapped.model";
+import { ProductCategoryModel } from "../models/admin/admin-product-category/response/admin-category";
+import { AddProductCategoryModel } from "../models/admin/admin-product-category/add-models/add-category.model";
+import { AdminProductSubCategoryFilter } from "../models/admin/admin-product-category/filter-models/admin-subcategory.filter";
+import { AddProductSubCategoryModel } from "../models/admin/admin-product-category/add-models/add-subcategory.model";
+import { AdminProductSubCategoryModel } from "../models/admin/admin-product-category/response/admin-subcategory.model";
+import { AttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
+import { AddAttributeModel } from "../models/admin/admin-product-category/add-models/add-attribute.model";
+import { AttributeFilter } from "../models/admin/admin-product-category/filter-models/attribute.filter";
+import { MappedAttributeFilter } from "../models/admin/admin-product-category/filter-models/mapped-attribute.filter";
+import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/response/admin-mapped.model";
+import { AddMapedAttributeModel } from "../models/admin/admin-product-category/add-models/add-mapped.model";
 
 @Injectable({
     providedIn: "root"

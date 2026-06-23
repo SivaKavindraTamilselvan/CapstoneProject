@@ -1,9 +1,9 @@
 import { Component, computed, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { VendorProductModel } from '../../../models/vendor/vendor-product/vendor-product.model';
+import { VendorProductModel } from '../../../models/vendor/vendor-product/response/vendor-product.model';
 import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
-import { VendorProductFilter } from '../../../models/vendor/vendor-product/vendor-product.filter';
+import { VendorProductFilter } from '../../../models/vendor/vendor-product/filter/vendor-product.filter';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 
 @Component({

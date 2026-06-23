@@ -6,7 +6,7 @@ import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.mode
 import { ReviewVendorModel } from '../../../models/admin/vendor/review.vendor.model';
 import { FormField, form, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { AdminVendorFilter } from '../../../models/vendor/admin-vendor.filter';
+import { AdminVendorFilter } from '../../../models/admin/vendor/admin-vendor.filter';
 
 @Component({
   selector: 'app-review-vendor',

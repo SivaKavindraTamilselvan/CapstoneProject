@@ -1,4 +1,4 @@
-export class AttributeModel{
+export class AdminAttributeModel{
     constructor(
         public attributeMasterId : number = 0,
         public attributeName : string = "",

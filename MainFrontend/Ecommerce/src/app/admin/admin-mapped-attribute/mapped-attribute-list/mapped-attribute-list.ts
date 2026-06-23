@@ -1,11 +1,11 @@
 import { Component, computed, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/admin-mapped.model';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AddMapedAttributeModel } from '../../../models/admin/admin-product-category/add-mapped.model';
+import { AddMapedAttributeModel } from '../../../models/admin/admin-product-category/add-models/add-mapped.model';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { Router } from '@angular/router';
-import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/mapped-attribute.filter';
+import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
 import { form, FormField, required } from '@angular/forms/signals';
 
 export interface GroupedSubCategory {
