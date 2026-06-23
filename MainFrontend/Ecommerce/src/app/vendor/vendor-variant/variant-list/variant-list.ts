@@ -4,14 +4,14 @@ import { VendorProductVariantModel } from '../../../models/vendor/vendor-product
 import { Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { VendorProductVariantFilter } from '../../../models/vendor/vendor-product/filter/vendor.varaint.filter';
-import { DatePipe, DecimalPipe } from '@angular/common';
+import { DecimalPipe } from '@angular/common';
 import { UserProductService } from '../../../services/user-product.Service';
 import { UserSubProductCategoryModel } from '../../../models/user/product-category/user-sub-category.model';
 import { UserProductCategoryModel } from '../../../models/user/product-category/user-product-category.model';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DatePipe, DecimalPipe],
+  imports: [DecimalPipe],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })

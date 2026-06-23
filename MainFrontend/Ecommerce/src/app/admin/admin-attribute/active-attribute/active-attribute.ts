@@ -1,5 +1,5 @@
 import { Component, computed, signal } from '@angular/core';
-import { AttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
@@ -13,7 +13,7 @@ import { DatePipe } from '@angular/common';
   styleUrl: './active-attribute.css',
 })
 export class ActiveAttribute {
-  attribute = signal<PagedResponse<AttributeModel> | null>(null);
+  attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
   status = signal<boolean | null>(null);
   addedByAdminId = signal<number | null>(null);

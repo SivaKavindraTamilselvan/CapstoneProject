@@ -1,7 +1,7 @@
 import { Component, computed, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
-import { AttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
 import { AttributeFilter } from '../../../models/admin/admin-product-category/filter-models/attribute.filter';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddAttributeModel } from '../../../models/admin/admin-product-category/add-models/add-attribute.model';
@@ -16,7 +16,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   styleUrl: './attribute-list.css',
 })
 export class AttributeList { 
-  attribute = signal<PagedResponse<AttributeModel> | null>(null);
+  attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
   status = signal<boolean | null>(null);
   addedByAdminId = signal<number | null>(null);

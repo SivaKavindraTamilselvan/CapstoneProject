@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { LoginModel } from "../models/authentication/login.model";
 import { BaseURL } from "../environment";
 import { RegisterModel } from "../models/authentication/register-user.model";
-import { RegisterAdminModel } from "../models/register-admin.model";
+import { RegisterAdminModel } from "../models/authentication/register-admin.model"; 
 import { RegisterVendorModel } from "../models/authentication/regiser-vendor.model";
 
 @Injectable({

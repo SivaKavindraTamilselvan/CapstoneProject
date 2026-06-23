@@ -1,6 +1,6 @@
 import { Component, signal, computed } from '@angular/core';
 import { UserProductService } from '../services/user-product.Service';
-import { UserProductModel } from '../models/user-product.model';
+import { UserProductModel } from '../models/user/product/user-product.model'; 
 import { PagedResponse } from '../models/paged-response.model';
 import { UserProductFilter } from '../models/user/product/user-product.filter';
 

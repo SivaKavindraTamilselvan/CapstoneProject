@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
-import { UserProductModel } from "../models/user-product.model";
+import { UserProductModel } from "../models/user/product/user-product.model"; 
 import { PagedResponse } from "../models/paged-response.model";
 import { UserProductFilter } from "../models/user/product/user-product.filter";
 import { Observable } from "rxjs";

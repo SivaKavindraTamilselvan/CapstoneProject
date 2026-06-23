@@ -1,5 +1,5 @@
-import { ProductImageModel } from "./product-image.model";
-import { UserProductVariantModel } from "./user/product/user-variant.model";
+import { ProductImageModel } from "../../product/product-image.model"; 
+import { UserProductVariantModel } from "./user-variant.model"; 
 
 export class UserProductModel {
     constructor(
