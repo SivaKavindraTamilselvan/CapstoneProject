@@ -38,6 +38,14 @@ export class AdminProductCategoryService {
         let url = BaseURL + "/admin/product-categories";
         return this.http.post(url, categoryModel);
     }
+    deactivateCategory(categoryId : number){
+        let url = `${BaseURL}/admin/product-categories/${categoryId}/deactivate`;
+        return this.http.patch(url,{});
+    }
+    activateCategory(categoryId : number){
+        let url = `${BaseURL}/admin/product-categories/${categoryId}/activate`;
+        return this.http.patch(url,{});
+    }
     getProductSubCategory(filter: AdminProductSubCategoryFilter) {
         let url = BaseURL + "/admin/product-categories/subcategories";
         let params = new HttpParams();

@@ -1,4 +1,4 @@
-import { Component, signal,computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { Router } from '@angular/router';
@@ -24,6 +24,9 @@ export class ActiveCategory {
   pageSize = signal<number>(10);
   totalPages = computed(() => this.category()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
+
+  showDeactivatePopup = signal(false);
+  selectedCategoryId = signal<number | null>(null);
 
   constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
 
@@ -112,6 +115,29 @@ export class ActiveCategory {
   onCategoryNameInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.ProductCategoryName.set(v);
+  }
+  confirmDeactivate(id: number) {
+    this.selectedCategoryId.set(id);
+    this.showDeactivatePopup.set(true);
+  }
+  closePopup() {
+    this.showDeactivatePopup.set(false);
+    this.selectedCategoryId.set(null);
+  }
+  deactivateCategory() {
+    const id = this.selectedCategoryId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.deactivateCategory(id).subscribe({
+      next: (response: any) => {
+        this.loadCategory();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
 

@@ -25,6 +25,9 @@ export class InactiveCategory {
   totalPages = computed(() => this.category()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
+  showDeactivatePopup = signal(false);
+  selectedCategoryId = signal<number | null>(null);
+
   constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
 
   }
@@ -112,6 +115,29 @@ export class InactiveCategory {
   onCategoryNameInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.ProductCategoryName.set(v);
+  }
+  confirmActivate(id: number) {
+    this.selectedCategoryId.set(id);
+    this.showDeactivatePopup.set(true);
+  }
+  closePopup() {
+    this.showDeactivatePopup.set(false);
+    this.selectedCategoryId.set(null);
+  }
+  activateCategory() {
+    const id = this.selectedCategoryId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateCategory(id).subscribe({
+      next: (response: any) => {
+        this.loadCategory();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
 
