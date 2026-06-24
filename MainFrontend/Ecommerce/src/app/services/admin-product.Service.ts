@@ -7,6 +7,7 @@ import { ProductModel } from "../models/product/product.model";
 import { AdminProductFilter } from "../models/admin/admin-product/filter/admin-product.filter";
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
 import { AdminDeleteProductModel } from "../models/admin/admin-product/models/delete-product.model";
+import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
 
 @Injectable({
     providedIn: "root"
@@ -67,5 +68,10 @@ export class AdminProductService {
     getSubCategory(category: number) {
         let url = `${BaseURL}/admin/product-categories/subcategories?ProductCategoryId=${category}`;
         return this.http.get(url);
+    }
+    getAttribute() {
+        let url = BaseURL + "/admin/product-attributes";
+        let params = new HttpParams();
+        return this.http.get<PagedResponse<AdminAttributeModel>>(url, { params });
     }
 }

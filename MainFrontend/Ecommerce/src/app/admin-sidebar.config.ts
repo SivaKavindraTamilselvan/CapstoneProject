@@ -97,7 +97,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     label: 'Map Attribute',
     roles: ['super-admin', 'product-admin'],
     children: [
-      { label: 'Map Attribute', route: '/admin/attribute-mapping/add' },
       { label: 'Mapped Attribute List', route: '/admin/attribute-mapping/list' },
       { label: 'Active Mapped Attributes', route: '/admin/attribute-mapping/list?status=active' },
       { label: 'Inactive Mapped Attributes', route: '/admin/attribute-mapping/list?status=inactive' },

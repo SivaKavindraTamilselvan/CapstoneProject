@@ -19,6 +19,8 @@ import { AttributeList } from './admin/admin-attribute/attribute-list/attribute-
 import { ActiveAttribute } from './admin/admin-attribute/active-attribute/active-attribute';
 import { InactiveAttribute } from './admin/admin-attribute/inactive-attribute/inactive-attribute';
 import { MappedAttributeList } from './admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list';
+import { ActiveMappedAttribute } from './admin/admin-mapped-attribute/active-mapped-attribute/active-mapped-attribute';
+import { InactiveMappedAttribute } from './admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
 
 export const AdminRoutes: Routes = [
     {
@@ -102,12 +104,11 @@ export const AdminRoutes: Routes = [
         component: MappedAttributeList
     },
     {
-        path: 'product-attribute/list?status=active',
-        component: ActiveAttribute
+        path: 'attribute-mapping/list?status=active',
+        component: ActiveMappedAttribute
     },
     {
-        path: 'product-attribute/list?status=inactive',
-        component: InactiveAttribute
+        path: 'attribute-mapping/list?status=inactive',
+        component: InactiveMappedAttribute
     },
-
 ];

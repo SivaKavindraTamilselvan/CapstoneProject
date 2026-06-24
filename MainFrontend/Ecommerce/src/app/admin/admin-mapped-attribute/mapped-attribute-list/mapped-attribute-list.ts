@@ -7,6 +7,10 @@ import { AdminProductCategoryService } from '../../../services/admin-category.Se
 import { Router } from '@angular/router';
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
 import { form, FormField, required } from '@angular/forms/signals';
+import { AdminProductService } from '../../../services/admin-product.Service';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
 
 export interface GroupedSubCategory {
   subCategoryId: number;
@@ -17,14 +21,16 @@ export interface GroupedSubCategory {
 
 @Component({
   selector: 'app-mapped-attribute-list',
-  imports: [CommonModule,FormField],
+  imports: [CommonModule],
   templateUrl: './mapped-attribute-list.html',
   styleUrl: './mapped-attribute-list.css',
 })
 export class MappedAttributeList {
+  masterattribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attribute = signal<PagedResponse<AdminMappedAttributeModel> | null>(null);
   status = signal<boolean | null>(null);
   addedByAdminId = signal<number | null>(null);
+  productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
   attributeMasterId = signal<number | null>(null);
 
@@ -36,33 +42,17 @@ export class MappedAttributeList {
   showActivatePopup = signal(false);
   addAttributeModel = signal(new AddMapedAttributeModel());
 
-  /** Groups flat items into subcategory buckets for the card layout */
-  groupedItems = computed<GroupedSubCategory[]>(() => {
-    const items = this.attribute()?.items ?? [];
-    const map = new Map<number, GroupedSubCategory>();
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
-    for (const item of items) {
-      if (!map.has(item.productSubCategoryId)) {
-        map.set(item.productSubCategoryId, {
-          subCategoryId: item.productSubCategoryId,
-          subCategoryName: item.productSubCategoryName,
-          isActive: item.isSubCategoryActive,
-          attributes: [],
-        });
-      }
-      map.get(item.productSubCategoryId)!.attributes.push(item);
-    }
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
 
-    return Array.from(map.values());
-  });
-
-  constructor(
-    private router: Router,
-    private adminCategoryService: AdminProductCategoryService
-  ) {}
+  }
 
   ngOnInit() {
     this.loadAttribute();
+    this.loadCategories();
+    this.loadAttributes();
   }
 
   loadAttribute() {
@@ -166,6 +156,7 @@ export class MappedAttributeList {
   }
 
   closePopup(): void {
+    this.productCategoryId.set(null);
     this.showActivatePopup.set(false);
   }
 
@@ -189,5 +180,56 @@ export class MappedAttributeList {
         console.error(error);
       },
     });
+  }
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.adminProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
+  }
+  onAddFormSubcategoryChange(event: Event): void {
+   const value = Number((event.target as HTMLSelectElement).value);
+    this.addAttributeModel.update(m => ({
+      ...m,
+      productSubCategoryId:value
+    }));
+  }
+   onAddFormAttributeChange(event: Event): void {
+   const value = Number((event.target as HTMLSelectElement).value);
+    this.addAttributeModel.update(m => ({
+      ...m,
+      attributeMasterId:value
+    }));
+  }
+  loadAttributes(){
+    this.adminProductService.getAttribute().subscribe({
+     next:(response:any)=>{
+      this.masterattribute.set(response);
+     },
+     error : (error)=>{
+      console.error(error);
+     }
+    })
   }
 }

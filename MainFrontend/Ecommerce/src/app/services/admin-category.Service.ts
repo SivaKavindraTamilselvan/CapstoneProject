@@ -103,8 +103,38 @@ export class AdminProductCategoryService {
         });
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
     }
+    getactivemappedAttribute(filter: MappedAttributeFilter) {
+        let url = BaseURL + "/admin/product-attributes/subcategory-attributes?status=true";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
+    }
+    getinactiveAttribute(filter: MappedAttributeFilter) {
+        let url = BaseURL + "/admin/product-attributes/subcategory-attributes?status=false";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
+    }
     addMappedAttribute(mappedAttributeModel : AddMapedAttributeModel){
         let url = BaseURL + "/admin/product-attributes/subcategory-attributes";
         return this.http.post(url, mappedAttributeModel);
+    }
+    deactivateMappedAttribute(attributeId : number){
+        let url = `${BaseURL}/admin/product-attributes/subcategory-attributes/${attributeId}/deactivate`;
+        return this.http.patch(url,{});
+    }
+    activateMappedAttribute(attributeId : number){
+        let url = `${BaseURL}/admin/product-attributes/subcategory-attributes/${attributeId}/activate`;
+        return this.http.patch(url,{});
     }
 }
