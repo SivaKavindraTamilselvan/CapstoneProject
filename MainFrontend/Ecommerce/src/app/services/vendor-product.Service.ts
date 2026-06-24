@@ -8,8 +8,11 @@ import { PagedResponse } from "../models/paged-response.model";
 import { VendorProductModel } from "../models/vendor/vendor-product/response/vendor-product.model";
 import { VendorProductVariantFilter } from "../models/vendor/vendor-product/filter/vendor.varaint.filter";
 import { VendorProductVariantModel } from "../models/vendor/vendor-product/response/vendor-variant.model";
-import { AddProductVariantModel } from "../models/vendor/vendor-product/add-model/add-product-variant.model"; 
+import { AddProductVariantModel } from "../models/vendor/vendor-product/add-model/add-product-variant.model";
 import { AddProductVariantImageModel } from "../models/vendor/vendor-product/add-model/add-variant-image.model";
+import { ReviewProductRequestModel } from "../models/product/review-product.dto";
+import { Observable } from "rxjs";
+import { ProductModel } from "../models/product/product.model";
 
 @Injectable({
     providedIn: "root"
@@ -63,5 +66,21 @@ export class VendorProductService {
     getSubCategory(category: number) {
         let url = `${BaseURL}/UserProductCategory/vendor-categories/${category}/subcategories`;
         return this.http.get(url);
+    }
+    getReviewProducts(filter: VendorProductFilter): Observable<PagedResponse<ProductModel>> {
+        let url = BaseURL + "/VendorProduct?ProductApprovalStatusId=1";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+
+        return this.http.get<PagedResponse<ProductModel>>(url, { params });
+    }
+    reviewProduct(request: ReviewProductRequestModel) {
+        let url = BaseURL + "/Vendor/ReviewProductByVendor";
+        return this.http.put(url, request);
     }
 }
