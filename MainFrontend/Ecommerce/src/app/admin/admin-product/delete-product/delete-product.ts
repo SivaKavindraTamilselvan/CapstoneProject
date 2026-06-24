@@ -1,9 +1,11 @@
-import { Component,signal,computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { ProductModel } from '../../../models/product/product.model'; 
+import { ProductModel } from '../../../models/product/product.model';
 import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 
 @Component({
   selector: 'app-delete-product',
@@ -16,14 +18,16 @@ export class DeleteProduct {
 
   searchTerm = signal<string>('');
   vendorId = signal<number | null>(null);
+  addedId = signal<number | null>(null);
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
-  productApprovalStatusId = signal<number | null>(null);
   productStatusId = signal<number | null>(null);
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
   hasIssues = signal<boolean | null>(null);
-  isAvailableForSale = signal<boolean | null>(null);
+
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
@@ -49,10 +53,18 @@ export class DeleteProduct {
     { id: 6, label: 'Deleted By Admin' },
   ];
 
-  constructor(private route: Router, private adminProductService: AdminProductService) {}
+  productStatusOptions = [
+    { id: 1, label: 'Draft' },
+    { id: 2, label: 'Active' },
+    { id: 3, label: 'Temporarily Not Available' },
+    { id: 4, label: 'Archived' },
+  ];
+
+  constructor(private route: Router, private adminProductService: AdminProductService) { }
 
   ngOnInit(): void {
     this.loadProduct();
+    this.loadCategories();
   }
 
   private buildFilter(): AdminProductFilter {
@@ -63,12 +75,10 @@ export class DeleteProduct {
       vendorId: this.vendorId(),
       productCategoryId: this.productCategoryId(),
       productSubCategoryId: this.productSubCategoryId(),
-      productApprovalStatusId: this.productApprovalStatusId(),
       productStatusId: this.productStatusId(),
       minPrice: this.minPrice(),
       maxPrice: this.maxPrice(),
       hasIssues: this.hasIssues(),
-      isAvailableForSale: this.isAvailableForSale(),
     };
   }
 
@@ -94,12 +104,10 @@ export class DeleteProduct {
     this.vendorId.set(null);
     this.productCategoryId.set(null);
     this.productSubCategoryId.set(null);
-    this.productApprovalStatusId.set(null);
     this.productStatusId.set(null);
     this.minPrice.set(null);
     this.maxPrice.set(null);
     this.hasIssues.set(null);
-    this.isAvailableForSale.set(null);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
@@ -135,9 +143,14 @@ export class DeleteProduct {
     this.vendorId.set(v ? Number(v) : null);
   }
 
-  onApprovalStatusChange(event: Event): void {
+  onAdminIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.addedId.set(v ? Number(v) : null);
+  }
+
+  onProductStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
-    this.productApprovalStatusId.set(v ? Number(v) : null);
+    this.productStatusId.set(v ? Number(v) : null);
   }
 
   onMinPriceInput(event: Event): void {
@@ -154,7 +167,31 @@ export class DeleteProduct {
     this.hasIssues.set((event.target as HTMLInputElement).checked || null);
   }
 
-  onAvailableForSaleChange(event: Event): void {
-    this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.adminProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
   }
 }

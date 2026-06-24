@@ -60,4 +60,12 @@ export class AdminProductService {
         let url = BaseURL + "/AdminProduct/DeleteProduct";
         return this.http.patch(url, request);
     }
+    getProductCategory() {
+        let url = BaseURL + "/admin/product-categories";
+        return this.http.get(url);
+    }
+    getSubCategory(category: number) {
+        let url = `${BaseURL}/admin/product-categories/subcategories?ProductCategoryId=${category}`;
+        return this.http.get(url);
+    }
 }

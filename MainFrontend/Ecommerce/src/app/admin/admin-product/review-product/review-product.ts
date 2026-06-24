@@ -7,10 +7,12 @@ import { AdminProductFilter } from '../../../models/admin/admin-product/filter/a
 import { ReviewProductModel } from '../../../models/product/review-product.model';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 
 @Component({
   selector: 'app-review-product',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './review-product.html',
   styleUrl: './review-product.css',
 })
@@ -23,12 +25,8 @@ export class ReviewProduct {
   vendorId = signal<number | null>(null);
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
-  productApprovalStatusId = signal<number | null>(null);
   productStatusId = signal<number | null>(null);
-  minPrice = signal<number | null>(null);
-  maxPrice = signal<number | null>(null);
   hasIssues = signal<boolean | null>(null);
-  isAvailableForSale = signal<boolean | null>(null);
 
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
@@ -37,6 +35,8 @@ export class ReviewProduct {
 
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
@@ -57,6 +57,13 @@ export class ReviewProduct {
     { id: 6, label: 'Deleted By Admin' },
   ];
 
+  productStatusOptions = [
+    { id: 1, label: 'Draft' },
+    { id: 2, label: 'Active' },
+    { id: 3, label: 'Temporarily Not Available' },
+    { id: 4, label: 'Archived' },
+  ];
+
   constructor(private route: Router, private adminProductService: AdminProductService) { }
 
   ngOnInit(): void {
@@ -71,12 +78,8 @@ export class ReviewProduct {
       vendorId: this.vendorId(),
       productCategoryId: this.productCategoryId(),
       productSubCategoryId: this.productSubCategoryId(),
-      productApprovalStatusId: this.productApprovalStatusId(),
       productStatusId: this.productStatusId(),
-      minPrice: this.minPrice(),
-      maxPrice: this.maxPrice(),
       hasIssues: this.hasIssues(),
-      isAvailableForSale: this.isAvailableForSale(),
     };
   }
 
@@ -121,12 +124,8 @@ export class ReviewProduct {
     this.vendorId.set(null);
     this.productCategoryId.set(null);
     this.productSubCategoryId.set(null);
-    this.productApprovalStatusId.set(null);
     this.productStatusId.set(null);
-    this.minPrice.set(null);
-    this.maxPrice.set(null);
     this.hasIssues.set(null);
-    this.isAvailableForSale.set(null);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
@@ -162,27 +161,13 @@ export class ReviewProduct {
     this.vendorId.set(v ? Number(v) : null);
   }
 
-  onApprovalStatusChange(event: Event): void {
+  onStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
-    this.productApprovalStatusId.set(v ? Number(v) : null);
-  }
-
-  onMinPriceInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(v ? Number(v) : null);
-  }
-
-  onMaxPriceInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(v ? Number(v) : null);
+    this.productStatusId.set(v ? Number(v) : null);
   }
 
   onHasIssuesChange(event: Event): void {
     this.hasIssues.set((event.target as HTMLInputElement).checked || null);
-  }
-
-  onAvailableForSaleChange(event: Event): void {
-    this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
   }
 
   reviewForm = form(this.reviewProductModel, (path) => {
@@ -246,5 +231,31 @@ export class ReviewProduct {
       }
     });
   }
-  
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.adminProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
+  }
 }

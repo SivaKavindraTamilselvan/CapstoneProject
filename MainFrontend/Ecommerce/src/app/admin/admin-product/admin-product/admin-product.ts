@@ -7,6 +7,8 @@ import { AdminProductFilter } from '../../../models/admin/admin-product/filter/a
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
 import { form, FormField, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 
 @Component({
   selector: 'app-admin-product',
@@ -19,12 +21,17 @@ export class AdminProduct implements OnInit {
 
   searchTerm = signal<string>('');
   vendorId = signal<number | null>(null);
+  addedId = signal<number | null>(null);
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
   productApprovalStatusId = signal<number | null>(null);
   productStatusId = signal<number | null>(null);
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
+  minAvailableQuantity = signal<number | null>(null);
+  maxAvailableQuantity = signal<number | null>(null);
+  minReservedQuantity = signal<number | null>(null);
+  maxReservedQuantity = signal<number | null>(null);
   hasIssues = signal<boolean | null>(null);
   isAvailableForSale = signal<boolean | null>(null);
 
@@ -37,6 +44,9 @@ export class AdminProduct implements OnInit {
   errorMessage = signal<string | null>(null);
   deleteProductModel = signal(new AdminDeleteProductModel());
   selectedProductId = signal<number | null>(null);
+
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
@@ -53,18 +63,26 @@ export class AdminProduct implements OnInit {
     { id: 2, label: 'Vendor Approved' },
     { id: 3, label: 'Vendor Rejected' },
     { id: 4, label: 'Admin Approved' },
-    { id: 5, label: 'Admin Rejected' },
-    { id: 6, label: 'Deleted By Admin' },
+    { id: 5, label: 'Admin Rejected' }
+  ];
+
+  productStatusOptions = [
+    { id: 1, label: 'Draft' },
+    { id: 2, label: 'Active' },
+    { id: 3, label: 'Temporarily Not Available' },
+    { id: 4, label: 'Archived' },
   ];
 
   constructor(private route: Router, private adminProductService: AdminProductService) { }
 
   ngOnInit(): void {
     this.loadProduct();
+    this.loadCategories();
   }
 
   private buildFilter(): AdminProductFilter {
     return {
+      addedId: this.addedId(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       searchTerm: this.searchTerm() || null,
@@ -77,6 +95,10 @@ export class AdminProduct implements OnInit {
       maxPrice: this.maxPrice(),
       hasIssues: this.hasIssues(),
       isAvailableForSale: this.isAvailableForSale(),
+      minAvailableQuantity: this.minAvailableQuantity(),
+      maxAvailableQuantity: this.maxAvailableQuantity(),
+      minReservedQuantity: this.minReservedQuantity(),
+      maxReservedQuantity: this.maxReservedQuantity()
     };
   }
 
@@ -107,7 +129,12 @@ export class AdminProduct implements OnInit {
     this.minPrice.set(null);
     this.maxPrice.set(null);
     this.hasIssues.set(null);
+    this.addedId.set(null);
     this.isAvailableForSale.set(null);
+    this.minAvailableQuantity.set(null);
+    this.maxAvailableQuantity.set(null);
+    this.minReservedQuantity.set(null);
+    this.maxReservedQuantity.set(null);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
@@ -142,10 +169,39 @@ export class AdminProduct implements OnInit {
     const v = (event.target as HTMLInputElement).value;
     this.vendorId.set(v ? Number(v) : null);
   }
+  onAdminIdInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.addedId.set(v ? Number(v) : null);
+  }
 
   onApprovalStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productApprovalStatusId.set(v ? Number(v) : null);
+  }
+
+  onProductStatusChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productStatusId.set(v ? Number(v) : null);
+  }
+
+  onMinAvailableInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxAvailableInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMinReservedInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minReservedQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxReservedInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxReservedQuantity.set(v ? Number(v) : null);
   }
 
   onMinPriceInput(event: Event): void {
@@ -228,5 +284,32 @@ export class AdminProduct implements OnInit {
     this.selectedProductId.set(null);
     this.deleteProductModel.set(new AdminDeleteProductModel());
     this.errorMessage.set(null);
+  }
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.adminProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
   }
 }
