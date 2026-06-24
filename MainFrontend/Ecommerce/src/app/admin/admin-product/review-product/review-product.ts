@@ -81,7 +81,7 @@ export class ReviewProduct {
   }
 
   loadProduct(): void {
-    this.adminProductService.getProducts(this.buildFilter()).subscribe({
+    this.adminProductService.getReviewProducts(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
       },

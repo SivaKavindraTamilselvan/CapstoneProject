@@ -73,7 +73,7 @@ export class DeleteProduct {
   }
 
   loadProduct(): void {
-    this.adminProductService.getProducts(this.buildFilter()).subscribe({
+    this.adminProductService.getDeletedProducts(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
       },
