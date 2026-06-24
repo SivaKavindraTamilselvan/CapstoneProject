@@ -1,10 +1,12 @@
-import { Component, signal,computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminProductSubCategoryFilter } from '../../../models/admin/admin-product-category/filter-models/admin-subcategory.filter';
 import { DatePipe } from '@angular/common';
+import { AdminProductService } from '../../../services/admin-product.Service';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 
 @Component({
   selector: 'app-active-sub-category',
@@ -27,13 +29,15 @@ export class ActiveSubCategory {
   totalPages = computed(() => this.subcategory()?.totalPages ?? 1);
 
   filterPanelOpen = signal<boolean>(false);
+  categories = signal<AdminProductCategoryModel[]>([]);
 
-  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
-    
+  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+
   }
 
   ngOnInit(): void {
     this.loadSubCategory();
+    this.loadCategories();
   }
 
   loadSubCategory(): void {
@@ -146,5 +150,21 @@ export class ActiveSubCategory {
   onMaximumCommissionInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.maximumCommissionPercentage.set(value ? Number(value) : null);
+  }
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+  onCategoryFilterChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+
+    this.ProductCategoryId.set(
+      value ? Number(value) : null
+    );
   }
 }

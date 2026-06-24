@@ -9,10 +9,12 @@ import { AdminProductCategoryService } from '../../../services/admin-category.Se
 import { AdminProductSubCategoryFilter } from '../../../models/admin/admin-product-category/filter-models/admin-subcategory.filter';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductService } from '../../../services/admin-product.Service';
 
 @Component({
   selector: 'app-subcategorylist',
-  imports: [FormField,ReactiveFormsModule,FormsModule,DatePipe],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DatePipe],
   templateUrl: './subcategorylist.html',
   styleUrl: './subcategorylist.css',
 })
@@ -34,6 +36,7 @@ export class Subcategorylist {
   showActivatePopup = signal<boolean>(false);
 
   addSubCategoryModel = signal(new AddProductSubCategoryModel());
+  categories = signal<AdminProductCategoryModel[]>([]);
 
   addForm = form(this.addSubCategoryModel, (path) => {
     required(path.productSubCategoryName, {
@@ -49,12 +52,13 @@ export class Subcategorylist {
     });
   });
 
-  constructor(private route: Router,private adminCategoryService: AdminProductCategoryService) {
-    
+  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+
   }
 
   ngOnInit(): void {
     this.loadSubCategory();
+    this.loadCategories();
   }
 
   loadSubCategory(): void {
@@ -179,6 +183,7 @@ export class Subcategorylist {
   }
 
   openPopup(): void {
+    this.loadCategories();
     this.showActivatePopup.set(true);
   }
 
@@ -205,5 +210,28 @@ export class Subcategorylist {
         console.error(error);
       },
     });
+  }
+  loadCategories(): void {
+    this.adminProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+  onCategoryChange(event: Event) {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.addSubCategoryModel.update(m => ({
+      ...m,
+      productCategoryId: value
+    }));
+  }
+  onCategoryFilterChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+
+    this.ProductCategoryId.set(
+      value ? Number(value) : null
+    );
   }
 }
