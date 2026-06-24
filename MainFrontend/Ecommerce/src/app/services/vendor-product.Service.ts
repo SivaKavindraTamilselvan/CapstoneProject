@@ -56,4 +56,12 @@ export class VendorProductService {
         let url = BaseURL + "/VendorProduct/AddProductVariantImage";
         return this.http.post(url, productVariantImage);
     }
+    getProductCategory() {
+        let url = BaseURL + "/UserProductCategory/categories";
+        return this.http.get(url);
+    }
+    getSubCategory(category: number) {
+        let url = `${BaseURL}/UserProductCategory/vendor-categories/${category}/subcategories`;
+        return this.http.get(url);
+    }
 }

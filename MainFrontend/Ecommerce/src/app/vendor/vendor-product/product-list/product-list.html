@@ -1,6 +1,6 @@
 <section class="bg-white px-8 py-8">
     <div class="pb-8 relative flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Products</h1>
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product List</h1>
         <button (click)="toggleFilterPanel()" class="absolute right-0 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
                 stroke="currentColor" stroke-width="2">
@@ -14,7 +14,7 @@
     }
 
     <aside
-        class="fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
+        class="flex flex-col overflow-y-auto fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
         [class.translate-x-0]="filterPanelOpen()" [class.translate-x-full]="!filterPanelOpen()">
 
         <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
@@ -35,7 +35,7 @@
                     (input)="onSearchTermInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
 
-            
+
             <div>
                 <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
                 <select (change)="onApprovalStatusChange($event)"
@@ -43,6 +43,48 @@
                     <option value="">All</option>
                     @for(opt of approvalStatusOptions; track opt.id) {
                     <option [value]="opt.id" [selected]="productApprovalStatusId() === opt.id">{{opt.label}}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Status</label>
+                <select (change)="onProductStatusChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(opt of productStatusOptions; track opt.id) {
+                    <option [value]="opt.id" [selected]="productStatusId() === opt.id">{{opt.label}}</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                <select (change)="onCategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(cat of categories(); track cat.productCategoryId) {
+                    <option [value]="cat.productCategoryId" [selected]="productCategoryId() === cat.productCategoryId">
+                        {{cat.productCategoryName}}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+                <select (change)="onSubcategoryChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
+                    @if(!productCategoryId()) {
+                    <option value="">Select category first</option>
+                    }
+                    @else{
+                    <option value="">All</option>
+                    }
+                    @for(sub of subCategories(); track sub.productSubCategoryId) {
+                    <option [value]="sub.productSubCategoryId"
+                        [selected]="productSubCategoryId() === sub.productSubCategoryId">
+                        {{sub.productSubCategoryName}}
+                    </option>
                     }
                 </select>
             </div>
@@ -56,6 +98,27 @@
                         class="border border-gray-400 rounded-md px-3 py-2 w-full" />
                 </div>
             </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Min" [value]="minAvailableQuantity()" (input)="onMinAvailableInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxAvailableQuantity()" (input)="onMaxAvailableInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
+                <div class="flex gap-2">
+                    <input type="number" placeholder="Min" [value]="minReservedQuantity()" (input)="onMinReservedInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxReservedQuantity()" (input)="onMaxReservedInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
 
             <div class="flex items-center gap-2">
                 <input type="checkbox" id="hasIssues" [checked]="hasIssues()" (change)="onHasIssuesChange($event)" />
@@ -89,7 +152,6 @@
                     <th class="px-4 py-3 text-center">Name</th>
                     <th class="px-4 py-3 text-center">Category</th>
                     <th class="px-4 py-3 text-center">SubCategory</th>
-                    <th class="px-4 py-3 text-center">Vendor</th>
                     <th class="px-4 py-3 text-center">Approval</th>
                     <th class="px-4 py-3 text-center">Status</th>
                     <th class="px-4 py-3 text-center">Actions</th>
@@ -107,12 +169,17 @@
                     <td class="px-4 py-3">{{product.productSubCategoryName}}</td>
                     <td class="px-4 py-3">{{product.productApprovalStatus}}</td>
                     <td class="px-4 py-3">{{product.productStatus}}</td>
-                    <td class="px-4 py-3"><button
-                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button>
+                    <td class="px-4 py-3">
+                        <div class="flex justify-center gap-2">
+                            <button
+                                class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
+                                View
+                            </button>
+                        </div>
                     </td>
                 </tr>
                 }
-                @empty 
+                @empty
                 {
                 <tr>
                     <td colspan="8" class="px-4 py-6 text-center text-gray-500">No products found.</td>
@@ -173,7 +240,7 @@
                             Vendor
                         </td>
                         <td class="py-3 px-2 border border-gray-300 break-words">
-                            
+
                         </td>
                     </tr>
 

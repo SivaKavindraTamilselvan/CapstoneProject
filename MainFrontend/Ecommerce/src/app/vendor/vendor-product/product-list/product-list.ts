@@ -5,6 +5,10 @@ import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { VendorProductFilter } from '../../../models/vendor/vendor-product/filter/vendor-product.filter';
 import { VendorProductService } from '../../../services/vendor-product.Service';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
+import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
+import { form, required } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-product-list',
@@ -37,6 +41,15 @@ export class ProductList {
   pageSize = signal<number>(10);
   filterPanelOpen = signal<boolean>(false);
 
+  showActivatePopup = signal(false);
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  deleteProductModel = signal(new AdminDeleteProductModel());
+  selectedProductId = signal<number | null>(null);
+
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
+
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
   }
@@ -56,7 +69,14 @@ export class ProductList {
     { id: 6, label: 'Deleted By Admin' },
   ];
 
-  constructor(private route: Router, private vendorProductService : VendorProductService) { }
+  productStatusOptions = [
+    { id: 1, label: 'Draft' },
+    { id: 2, label: 'Active' },
+    { id: 3, label: 'Temporarily Not Available' },
+    { id: 4, label: 'Archived' },
+  ];
+
+  constructor(private route: Router, private vendorProductService: VendorProductService) { }
 
   ngOnInit(): void {
     this.loadProduct();
@@ -154,6 +174,31 @@ export class ProductList {
     this.productApprovalStatusId.set(v ? Number(v) : null);
   }
 
+  onProductStatusChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productStatusId.set(v ? Number(v) : null);
+  }
+
+  onMinAvailableInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxAvailableInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxAvailableQuantity.set(v ? Number(v) : null);
+  }
+
+  onMinReservedInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minReservedQuantity.set(v ? Number(v) : null);
+  }
+
+  onMaxReservedInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxReservedQuantity.set(v ? Number(v) : null);
+  }
+
   onMinPriceInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.minPrice.set(v ? Number(v) : null);
@@ -170,5 +215,37 @@ export class ProductList {
 
   onAvailableForSaleChange(event: Event): void {
     this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
+  }
+
+  deleteForm = form(this.deleteProductModel, (path) => {
+    required(path.remark, { message: "Enter The Remarks" });
+  })
+
+  loadCategories(): void {
+    this.vendorProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+        console.log(this.categories);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.vendorProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
   }
 }
