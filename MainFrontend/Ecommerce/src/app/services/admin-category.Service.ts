@@ -61,6 +61,14 @@ export class AdminProductCategoryService {
         let url = BaseURL + "/admin/product-categories/subcategories";
         return this.http.post(url, categoryModel);
     }
+    deactivateSubCategory(subcategoryId : number){
+        let url = `${BaseURL}/admin/product-categories/subcategories/${subcategoryId}/deactivate`;
+        return this.http.patch(url,{});
+    }
+    activateSubCategory(subcategoryId : number){
+        let url = `${BaseURL}/admin/product-categories/subcategories/${subcategoryId}/activate`;
+        return this.http.patch(url,{});
+    }
     getAttribute(filter: AttributeFilter) {
         let url = BaseURL + "/admin/product-attributes";
         let params = new HttpParams();

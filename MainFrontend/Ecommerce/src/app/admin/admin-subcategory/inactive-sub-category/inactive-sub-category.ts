@@ -32,6 +32,9 @@ export class InactiveSubCategory {
   filterPanelOpen = signal<boolean>(false);
   categories = signal<AdminProductCategoryModel[]>([]);
 
+  showDeactivatePopup = signal(false);
+  selectedSubCategoryId = signal<number | null>(null);
+
 
   constructor(private route: Router, private adminCategoryService: AdminProductCategoryService,private adminProductService: AdminProductService) {
 
@@ -168,6 +171,29 @@ export class InactiveSubCategory {
     this.ProductCategoryId.set(
       value ? Number(value) : null
     );
+  }
+  confirmActivate(id: number) {
+    this.selectedSubCategoryId.set(id);
+    this.showDeactivatePopup.set(true);
+  }
+  closePopup() {
+    this.showDeactivatePopup.set(false);
+    this.selectedSubCategoryId.set(null);
+  }
+  activateCategory() {
+    const id = this.selectedSubCategoryId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateSubCategory(id).subscribe({
+      next: (response: any) => {
+        this.loadSubCategory();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
 
