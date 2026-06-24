@@ -1,13 +1,16 @@
 import { Component, OnInit, computed, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { ProductModel } from '../../../models/product/product.model'; 
+import { ProductModel } from '../../../models/product/product.model';
 import { Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
-import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter'; 
+import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
+import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
+import { form, FormField, required } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-product',
-  imports: [],
+  imports: [FormField, FormsModule, ReactiveFormsModule],
   templateUrl: './admin-product.html',
   styleUrl: './admin-product.css',
 })
@@ -29,6 +32,12 @@ export class AdminProduct implements OnInit {
   pageSize = signal<number>(10);
   filterPanelOpen = signal<boolean>(false);
 
+  showActivatePopup = signal(false);
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  deleteProductModel = signal(new AdminDeleteProductModel());
+  selectedProductId = signal<number | null>(null);
+
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
   }
@@ -48,7 +57,7 @@ export class AdminProduct implements OnInit {
     { id: 6, label: 'Deleted By Admin' },
   ];
 
-  constructor(private route: Router, private adminProductService: AdminProductService) {}
+  constructor(private route: Router, private adminProductService: AdminProductService) { }
 
   ngOnInit(): void {
     this.loadProduct();
@@ -155,5 +164,69 @@ export class AdminProduct implements OnInit {
 
   onAvailableForSaleChange(event: Event): void {
     this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
+  }
+  deleteForm = form(this.deleteProductModel, (path) => {
+    required(path.remark, { message: "Enter The Remarks" });
+  })
+
+  handleDelete() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    if (this.deleteForm().invalid()) {
+      this.errorMessage.set("Enter proper details");
+      return;
+    }
+
+    const request = {
+      productId: this.deleteProductModel().productId,
+      remark: this.deleteProductModel().remark
+    };
+
+    this.adminProductService.deleteProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+      }
+    });
+  }
+
+  openDeletePopup(productId: number) {
+    this.selectedProductId.set(productId);
+
+    this.deleteProductModel.update(model => ({
+      ...model,
+      productId: productId,
+      remark: ''
+    }));
+
+    this.showActivatePopup.set(true);
+  }
+
+  closePopup() {
+    this.showActivatePopup.set(false);
+    this.selectedProductId.set(null);
+    this.deleteProductModel.set(new AdminDeleteProductModel());
+    this.errorMessage.set(null);
   }
 }

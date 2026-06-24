@@ -6,6 +6,7 @@ import { PagedResponse } from "../models/paged-response.model";
 import { ProductModel } from "../models/product/product.model";
 import { AdminProductFilter } from "../models/admin/admin-product/filter/admin-product.filter";
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
+import { AdminDeleteProductModel } from "../models/admin/admin-product/models/delete-product.model";
 
 @Injectable({
     providedIn: "root"
@@ -16,7 +17,7 @@ export class AdminProductService {
     }
 
     getProducts(filter: AdminProductFilter): Observable<PagedResponse<ProductModel>> {
-        let url = BaseURL + "/AdminProduct/all";
+        let url = BaseURL + "/AdminProduct/all?includeIsDeleted=false";
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {
@@ -54,5 +55,9 @@ export class AdminProductService {
     reviewProduct(request: ReviewProductRequestModel) {
         let url = BaseURL + "/AdminProduct/ReviewProduct";
         return this.http.post(url, request);
+    }
+    deleteProduct(request: AdminDeleteProductModel) {
+        let url = BaseURL + "/AdminProduct/DeleteProduct";
+        return this.http.patch(url, request);
     }
 }
