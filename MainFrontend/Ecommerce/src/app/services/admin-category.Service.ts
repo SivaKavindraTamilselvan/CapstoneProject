@@ -84,6 +84,14 @@ export class AdminProductCategoryService {
         let url = BaseURL + "/admin/product-attributes";
         return this.http.post(url, attributeModel);
     }
+    deactivateAttribute(attributeId : number){
+        let url = `${BaseURL}/admin/product-attributes/${attributeId}/deactivate`;
+        return this.http.patch(url,{});
+    }
+    activateAttribute(attributeId : number){
+        let url = `${BaseURL}/admin/product-attributes/${attributeId}/activate`;
+        return this.http.patch(url,{});
+    }
     getmappedAttribute(filter: MappedAttributeFilter) {
         let url = BaseURL + "/admin/product-attributes/subcategory-attributes";
         let params = new HttpParams();

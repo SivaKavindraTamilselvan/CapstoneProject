@@ -23,6 +23,9 @@ export class InactiveAttribute {
   totalPages = computed(() => this.attribute()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
+  showDeactivatePopup = signal(false);
+  selectedAttributeId = signal<number | null>(null);
+
   constructor(private router:Router,private adminCategoryService : AdminProductCategoryService){
 
   }
@@ -111,6 +114,29 @@ export class InactiveAttribute {
     else {
       this.status.set(value === 'true');
     }
+  }
+  confirmActivate(id: number) {
+    this.selectedAttributeId.set(id);
+    this.showDeactivatePopup.set(true);
+  }
+  closePopup() {
+    this.showDeactivatePopup.set(false);
+    this.selectedAttributeId.set(null);
+  }
+  activateCategory() {
+    const id = this.selectedAttributeId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateAttribute(id).subscribe({
+      next: (response: any) => {
+        this.loadAttribute();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
 
