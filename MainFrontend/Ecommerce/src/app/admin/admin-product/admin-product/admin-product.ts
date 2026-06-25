@@ -109,6 +109,7 @@ export class AdminProduct implements OnInit {
       },
       error: (error) => {
         console.log(error);
+        
       },
     });
   }
