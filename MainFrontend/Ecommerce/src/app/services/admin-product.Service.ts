@@ -74,4 +74,8 @@ export class AdminProductService {
         let params = new HttpParams();
         return this.http.get<PagedResponse<AdminAttributeModel>>(url, { params });
     }
+    getProductDetails(productId : number){
+        let url = `${BaseURL}/AdminProduct/${productId}`;
+        return this.http.get<ProductModel>(url,{});
+    }
 }

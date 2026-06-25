@@ -1,7 +1,7 @@
 import { Component, OnInit, computed, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductModel } from '../../../models/product/product.model';
-import { Router } from '@angular/router';
+import { Router  } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
@@ -311,5 +311,8 @@ export class AdminProduct implements OnInit {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/admin/product-details', productId]);
   }
 }
