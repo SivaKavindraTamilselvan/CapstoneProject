@@ -5,6 +5,7 @@ import { AddVariant } from "./vendor/vendor-variant/add-variant/add-variant";
 import { VariantList } from "./vendor/vendor-variant/variant-list/variant-list";
 import { ReviewProduct } from "./vendor/vendor-product/review-product/review-product";
 import { UpdateProduct } from "./vendor/vendor-product/update-product/update-product";
+import { AddAddress } from "./address/add-address/add-address";
 
 export const VendorRoute: Routes = [
     {
@@ -30,5 +31,13 @@ export const VendorRoute: Routes = [
     {
         path: 'products/update-status',
         component: UpdateProduct
+    },
+    {
+        path: 'products/update-status',
+        component: UpdateProduct
+    },
+    {
+        path: 'warehouses/add',
+        component : AddAddress
     }
 ]

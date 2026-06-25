@@ -1,0 +1,189 @@
+<section class="bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
+    <div class="pb-4 flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Add Address</h1>
+    </div>
+
+    <div class="flex justify-center px-2">
+        <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl p-8 space-y-6">
+
+            @if (errorMessage()) {
+            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold">
+                {{ errorMessage() }}
+            </div>
+            }
+
+            @if (successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">
+                {{ successMessage() }}
+            </div>
+            }
+
+            <form (ngSubmit)="addAddress()" class="flex flex-col gap-5">
+
+                <div class="flex gap-4 flex-col sm:flex-row">
+                    <div class="flex-1">
+                        <label class="font-semibold text-md mb-1.5 block">
+                            Contact Name <span class="text-red-600">*</span>
+                        </label>
+
+                        <input placeholder="Enter your name" [formField]="addForm.contactName"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+
+                        @if (submitted() && addForm.contactName().touched() && addForm.contactName().invalid()) {
+                        <p class="text-red-600 text-xs mt-1">
+                            {{ addForm.contactName().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="font-semibold text-md mb-1.5 block">
+                            Phone Number <span class="text-red-600">*</span>
+                        </label>
+
+                        <input type="text" placeholder="Enter 10-digit mobile number"
+                            [formField]="addForm.contactPhoneNumber"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+
+                        @if (submitted() && addForm.contactPhoneNumber().touched() && addForm.contactPhoneNumber().invalid()) {
+                        <p class="text-red-600 text-xs mt-1">
+                            {{ addForm.contactPhoneNumber().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+                </div>
+
+                <div>
+                    <label class="font-semibold text-md mb-1.5 block">
+                        Address Line <span class="text-red-600">*</span>
+                    </label>
+
+                    <textarea rows="3" placeholder="House No., Street, Area" [formField]="addForm.addressLine"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition resize-none"></textarea>
+
+                    @if (submitted() && addForm.addressLine().touched() && addForm.addressLine().invalid()) {
+                    <p class="text-red-600 text-xs mt-1">
+                        {{ addForm.addressLine().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+
+                <div>
+                    <label class="font-semibold text-md mb-1.5 block">
+                        Landmark <span class="text-red-600">*</span>
+                    </label>
+
+                    <input placeholder="Near school, mall, etc." [formField]="addForm.landMark"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+
+                    @if (submitted() && addForm.landMark().touched() && addForm.landMark().invalid()) {
+                    <p class="text-red-600 text-xs mt-1">
+                        {{ addForm.landMark().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+
+                <div>
+                    <label class="font-semibold text-md mb-1.5 block">
+                        PIN Code <span class="text-red-600">*</span>
+                    </label>
+
+                    <div class="relative">
+                        <input type="text" placeholder="Enter 6-digit PIN code" [formField]="addForm.pinCode"
+                            (input)="onPinCodeInput($event)"
+                            class="w-full border rounded-lg px-4 py-3 pr-10 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+
+                        @if (pinLookupLoading()) {
+                        <span class="absolute right-3 top-1/2 -translate-y-1/2">
+                            <svg class="animate-spin h-5 w-5 text-blue-600" xmlns="http://www.w3.org/2000/svg"
+                                fill="none" viewBox="0 0 24 24">
+                                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor"
+                                    stroke-width="4"></circle>
+                                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z"></path>
+                            </svg>
+                        </span>
+                        }
+                    </div>
+
+                    @if (submitted() && addForm.pinCode().touched() && addForm.pinCode().invalid()) {
+                    <p class="text-red-600 text-xs mt-1">
+                        {{ addForm.pinCode().errors()[0].message }}
+                    </p>
+                    }
+
+                    @if (pinLookupError()) {
+                    <p class="text-orange-600 text-xs mt-1">
+                        {{ pinLookupError() }}
+                    </p>
+                    }
+                </div>
+
+                <div class="flex gap-4 flex-col sm:flex-row">
+
+                    <div class="flex-1">
+                        <label class="font-semibold text-md mb-1.5 block">
+                            City / Post Office <span class="text-red-600">*</span>
+                        </label>
+
+                        @if (cityOptions().length > 0) {
+                        <select [value]="address().city" (change)="onCityChange($event)"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition bg-white">
+                            <option value="" disabled>Select a locality</option>
+
+                            @for (city of cityOptions(); track city) {
+                            <option [value]="city">{{ city }}</option>
+                            }
+                        </select>
+                        } @else {
+                        <input placeholder="Auto-filled after PIN entry" [value]="address().city" readonly
+                            class="w-full border rounded-lg px-4 py-3 outline-none bg-gray-50 text-gray-500 cursor-not-allowed transition" />
+                        }
+
+                        @if (submitted() && addForm.city().touched() && addForm.city().invalid()) {
+                        <p class="text-red-600 text-xs mt-1">
+                            {{ addForm.city().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="font-semibold text-md mb-1.5 block">
+                            State <span class="text-red-600">*</span>
+                        </label>
+
+                        <input placeholder="Auto-filled after PIN entry" [value]="address().state" readonly
+                            class="w-full border rounded-lg px-4 py-3 outline-none bg-gray-50 text-gray-500 cursor-not-allowed transition" />
+
+                        @if (submitted() && addForm.state().touched() && addForm.state().invalid()) {
+                        <p class="text-red-600 text-xs mt-1">
+                            {{ addForm.state().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <input type="checkbox" id="isDefault" [checked]="address().isDefault"
+                        (change)="onIsDefaultChange($event)" class="w-4 h-4 accent-blue-700 cursor-pointer" />
+
+                    <label for="isDefault" class="font-semibold text-md cursor-pointer select-none">
+                        Set as default address
+                    </label>
+                </div>
+
+                <div class="flex w-full gap-4 pt-2">
+                    <button type="submit" [disabled]="progress()"
+                        class="flex-1 bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900 disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+                        {{ progress() ? 'Saving...' : 'Save Address' }}
+                    </button>
+
+                    <button type="button" (click)="resetFilter()" [disabled]="progress()"
+                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+                        Reset
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</section>

@@ -60,5 +60,16 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
             { label: 'Update Product Variant', route: '/vendor/products/variants/update', roles: ['owner'] },
             { label: 'Update Rejected Variant', route: '/vendor/products/variants/update-rejected', roles: ['owner'] },
         ]
+    },
+    {
+        key: 'inventory',
+        label: 'Inventory',
+        roles: ['owner'],
+        children: [
+            { label: 'Inventory List', route: '/vendor/inventory', roles: ['owner'] },
+            { label: 'Add Inventory', route: '/vendor/inventory/add', roles: ['owner'] },
+            { label: 'Warehouse List', route: '/vendor/warehouses', roles: ['owner'] },
+            { label: 'Add Warehouse', route: '/vendor/warehouses/add', roles: ['owner'] }
+        ]
     }
 ];
