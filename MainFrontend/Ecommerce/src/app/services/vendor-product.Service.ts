@@ -13,6 +13,7 @@ import { AddProductVariantImageModel } from "../models/vendor/vendor-product/add
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
 import { Observable } from "rxjs";
 import { ProductModel } from "../models/product/product.model";
+import { UpdateProductStatus } from "../models/vendor/vendor-product/add-model/update-product-status.model";
 
 @Injectable({
     providedIn: "root"
@@ -81,6 +82,10 @@ export class VendorProductService {
     }
     reviewProduct(request: ReviewProductRequestModel) {
         let url = BaseURL + "/Vendor/ReviewProductByVendor";
+        return this.http.put(url, request);
+    }
+    updateProduct(request: UpdateProductStatus) {
+        let url = BaseURL + "/VendorProduct/UpdateProduct";
         return this.http.put(url, request);
     }
 }
