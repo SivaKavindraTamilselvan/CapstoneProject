@@ -7,6 +7,7 @@ import { ReviewProduct } from "./vendor/vendor-product/review-product/review-pro
 import { UpdateProduct } from "./vendor/vendor-product/update-product/update-product";
 import { AddAddress } from "./address/add-address/add-address";
 import { GetVendorAddress } from "./address/get-vendor-address/get-vendor-address";
+import { AddInventory } from "./vendor/inventory/add-inventory/add-inventory";
 
 export const VendorRoute: Routes = [
     {
@@ -44,5 +45,9 @@ export const VendorRoute: Routes = [
     {
         path: 'warehouses',
         component : GetVendorAddress
+    },
+    {
+        path: 'inventory/add',
+        component : AddInventory
     }
 ]
