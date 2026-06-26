@@ -1,20 +1,17 @@
 import { Component, computed, signal } from '@angular/core';
-import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { VendorInventoryModel } from '../../../models/inventory/inventory.model';
+import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
+import { Router } from '@angular/router';
 import { VendorInventoryFilterModel } from '../../../models/inventory/inventory.filter';
-import { ActivatedRoute, Router } from '@angular/router';
-import { UpdateInventoryModel } from '../../../models/inventory/update-inventory.model';
-import { form, FormField, required } from '@angular/forms/signals';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
-  selector: 'app-inventory-list',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
-  templateUrl: './inventory-list.html',
-  styleUrl: './inventory-list.css',
+  selector: 'app-deleted-inventory',
+  imports: [],
+  templateUrl: './deleted-inventory.html',
+  styleUrl: './deleted-inventory.css',
 })
-export class InventoryList {
+export class DeletedInventory {
   inventoryList = signal<PagedResponse<VendorInventoryModel> | null>(null);
 
   addressId = signal<number | null>(null);
@@ -23,23 +20,16 @@ export class InventoryList {
   minimumReservedQuantity = signal<number | null>(null);
   maximumAvailableQuantity = signal<number | null>(null);
   maximumReservedQuantity = signal<number | null>(null);
-  status = signal(true);
+  status = signal(false);
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
   totalPages = computed(() => this.inventoryList()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
-  selectedInvetoryId = signal<number | null>(null);
-  showDeactivatePopup = signal(false);
-
-  showUpdatePopup = signal(false);
-  updateModel = signal(new UpdateInventoryModel());
-
-
-  constructor(private inventoryService: VendorInventoryService, private route: Router) {
+  constructor(private inventoryService: VendorInventoryService,private route : Router) {
 
   }
-  ngOnInit() {
+  ngOnInit(){
     this.loadInventory();
   }
   loadInventory() {
@@ -151,59 +141,5 @@ export class InventoryList {
   viewInventory(inventoryId: number) {
     this.route.navigate(['/vendor/inventory-details', inventoryId]);
   }
-
-
-  updateForm = form(this.updateModel, (path) => {
-    required(path.availableQuantity, { message: 'Enter The currently available Quantity' });
-    required(path.inventoryId, { message: 'Choose The Inventory Id' });
-  });
-
-  updateInventory() {
-    const inventoryId = this.selectedInvetoryId();
-    if (inventoryId == null) {
-      return;
-    }
-    this.updateModel.update((i)=>({...i,inventoryId:inventoryId}));
-    this.inventoryService.updateInventory(this.updateModel()).subscribe({
-      next : (response:any)=>{
-        alert("Updated Successfully");
-        this.loadInventory();
-        this.selectedInvetoryId.set(null);
-        this.closePopup();
-      },
-      error : (error)=>{
-        console.error(error);
-      }
-    })
-  }
-
-  deleteInventory() {
-    const inventoryId = this.selectedInvetoryId();
-    if (inventoryId == null) {
-      return;
-    }
-    this.inventoryService.deleteInventory(inventoryId).subscribe({
-      next: (response: any) => {
-        alert("Inventory Deleted");
-        this.loadInventory();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
-  }
-  confirmUpdate(id :number){
-    this.selectedInvetoryId.set(id);
-    this.showUpdatePopup.set(true);
-  }
-  confirmDeactivate(id: number) {
-    this.selectedInvetoryId.set(id);
-    this.showDeactivatePopup.set(true);
-  }
-  closePopup() {
-    this.showUpdatePopup.set(false);
-    this.showDeactivatePopup.set(false);
-    this.selectedInvetoryId.set(null);
-  }
 }
+

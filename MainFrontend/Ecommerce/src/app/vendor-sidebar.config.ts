@@ -67,6 +67,7 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         roles: ['owner'],
         children: [
             { label: 'Inventory List', route: '/vendor/inventory', roles: ['owner'] },
+            { label: 'Deleted Inventory List', route: '/vendor/deleted-inventory/', roles: ['owner'] },
             { label: 'Add Inventory', route: '/vendor/inventory/add', roles: ['owner'] },
             { label: 'Warehouse List', route: '/vendor/warehouses', roles: ['owner'] },
             { label: 'Add Warehouse', route: '/vendor/warehouses/add', roles: ['owner'] }

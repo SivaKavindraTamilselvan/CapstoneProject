@@ -5,6 +5,7 @@ import { BaseURL } from "../environment";
 import { VendorInventoryFilterModel } from "../models/inventory/inventory.filter";
 import { PagedResponse } from "../models/paged-response.model";
 import { VendorInventoryModel } from "../models/inventory/inventory.model";
+import { UpdateInventoryModel } from "../models/inventory/update-inventory.model";
 
 @Injectable({
     providedIn: "root"
@@ -31,5 +32,14 @@ export class VendorInventoryService {
     getInventoryDetails(inventoryId : number){
         let url = BaseURL + `/Inventory/vendor-inventories/${inventoryId}`;
         return this.http.get<VendorInventoryModel>(url,{});
+    }
+    deleteInventory(inventoryId : number){
+        let url = BaseURL + `/Inventory/vendor-inventories/${inventoryId}`;
+        return this.http.put<VendorInventoryModel>(url,{});
+    }
+    updateInventory(request : UpdateInventoryModel){
+        console.log(request);
+        let url = BaseURL + "/Inventory/UpdateInventory";
+        return this.http.post(url,request);
     }
 }

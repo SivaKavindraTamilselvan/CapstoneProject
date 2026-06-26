@@ -10,6 +10,7 @@ import { GetVendorAddress } from "./address/get-vendor-address/get-vendor-addres
 import { AddInventory } from "./vendor/inventory/add-inventory/add-inventory";
 import { InventoryList } from "./vendor/inventory/inventory-list/inventory-list";
 import { VendorInventoryDetails } from "./vendor/inventory/vendor-inventory-details/vendor-inventory-details";
+import { DeletedInventory } from "./vendor/inventory/deleted-inventory/deleted-inventory";
 
 export const VendorRoute: Routes = [
     {
@@ -55,6 +56,10 @@ export const VendorRoute: Routes = [
     {
         path: 'inventory',
         component: InventoryList
+    },
+    {
+        path: 'deleted-inventory',
+        component: DeletedInventory
     },
     {
         path: 'inventory-details/:id',
