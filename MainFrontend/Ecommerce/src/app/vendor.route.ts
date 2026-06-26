@@ -8,6 +8,7 @@ import { UpdateProduct } from "./vendor/vendor-product/update-product/update-pro
 import { AddAddress } from "./address/add-address/add-address";
 import { GetVendorAddress } from "./address/get-vendor-address/get-vendor-address";
 import { AddInventory } from "./vendor/inventory/add-inventory/add-inventory";
+import { InventoryList } from "./vendor/inventory/inventory-list/inventory-list";
 
 export const VendorRoute: Routes = [
     {
@@ -49,5 +50,9 @@ export const VendorRoute: Routes = [
     {
         path: 'inventory/add',
         component : AddInventory
+    },
+    {
+        path: 'inventory',
+        component : InventoryList
     }
 ]
