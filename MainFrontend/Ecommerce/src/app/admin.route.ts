@@ -22,6 +22,7 @@ import { MappedAttributeList } from './admin/admin-mapped-attribute/mapped-attri
 import { ActiveMappedAttribute } from './admin/admin-mapped-attribute/active-mapped-attribute/active-mapped-attribute';
 import { InactiveMappedAttribute } from './admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
 import { AdminDetailProduct } from './admin/admin-product/admin-detail-product/admin-detail-product';
+import { AdminUserDetail } from './admin/admin-user/admin-user-detail/admin-user-detail';
 
 export const AdminRoutes: Routes = [
     {
@@ -31,6 +32,10 @@ export const AdminRoutes: Routes = [
     {
         path: 'users/list',
         component: AdminList
+    },
+    {
+        path: 'users/:id',
+        component: AdminUserDetail
     },
     {
         path: 'users/activate',

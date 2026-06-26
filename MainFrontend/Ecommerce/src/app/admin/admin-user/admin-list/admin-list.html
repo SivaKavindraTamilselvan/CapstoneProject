@@ -98,7 +98,7 @@
                     <td class="px-4 py-3">{{admin.phoneNumber}}</td>
                     <td class="px-4 py-3">{{admin.isActive ? "Active" : "Inactive"}}</td>
                     <td class="px-4 py-3"><button
-                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button>
+                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900" (click)="viewAdminUser(admin.adminUserId)">View</button>
                     </td>
                 </tr>
                 }

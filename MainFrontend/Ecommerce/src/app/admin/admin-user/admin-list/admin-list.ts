@@ -111,7 +111,7 @@ export class AdminList {
   }
 
   onEmailChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim();
+    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
     this.adminUserFilter.update(filter => ({ ...filter, email: value }));
   }
 
@@ -127,5 +127,8 @@ export class AdminList {
     this.adminUserFilter.set(new AdminUserFilter());
     this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadAdminUser();
+  }
+  viewAdminUser(productId: number) {
+    this.route.navigate(['/admin/users', productId]);
   }
 }

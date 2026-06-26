@@ -23,6 +23,10 @@ export class AdminUserService {
         });
         return this.http.get<PagedResponse<AdminUserModel>>(url, { params });
     }
+    getAdminUserDetail(id :number){
+        let url = BaseURL + `/Admin/GetAdminUser/${id}`;
+        return this.http.get<AdminUserModel>(url, {});
+    }
     activateAdminUser(adminId: number) {
         let url = `${BaseURL}/Admin/admin-users/${adminId}/activate`;
         return this.http.put(url, {});
