@@ -29,11 +29,29 @@
 
         <div class="flex flex-col gap-4 p-6">
             <div>
+                <label class="text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+                <input (change)="onPhoneNumberChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full"
+                    placeholder="Enter the phone number" />
+                @if (filterForm.phoneNumber().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.phoneNumber().errors()[0].message }}</p>
+                }
+            </div>
+            <div>
+                <label class="text-sm font-semibold text-gray-700 mb-1">Email</label>
+                <input (change)="onEmailChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full"
+                    placeholder="Enter the email" />
+                @if (filterForm.email().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.email().errors()[0].message }}</p>
+                }
+            </div>
+            <div>
                 <label class="text-sm font-semibold text-gray-700 mb-1">Admin Role</label>
                 <select (change)="onAdminRoleChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
                     <option>All</option>
                     @for(opt of adminRoleOption; track opt.id){
-                    <option [value]="opt.id" [selected]="adminRoleId() == opt.id">{{opt.label}}</option>
+                    <option [value]="opt.id" [selected]="adminUserFilter().adminRoleId == opt.id">{{opt.label}}</option>
                     }
                 </select>
             </div>
@@ -41,8 +59,8 @@
                 <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
                 <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
                     <option>All</option>
-                    <option value="true" [selected]="isActive() === true">Active</option>
-                    <option value="false" [selected]="isActive() === false">Inactive</option>
+                    <option value="true" [selected]="adminUserFilter().status === true">Active</option>
+                    <option value="false" [selected]="adminUserFilter().status === false">Inactive</option>
                 </select>
             </div>
             <div class="flex gap-2 pt-2">
@@ -137,7 +155,7 @@
                             {{admin.email}}
                         </td>
                     </tr>
-                     <tr class="bg-white">
+                    <tr class="bg-white">
                         <td class="font-semibold py-3 px-2 border border-gray-300">
                             Phone
                         </td>
@@ -157,7 +175,7 @@
             </table>
         </div>
         }
-        @empty 
+        @empty
         {
         <div class="text-center text-gray-500 py-6">No admin users found.</div>
         }
@@ -167,20 +185,20 @@
     @if(adminUsers()){
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
         <div class="text-sm text-gray-600">
-            Page {{pageNumber()}} of {{totalPages()}} . {{adminUsers()!.totalCount}} total adminUsers
+            Page {{adminUserFilter().pageNumber}} of {{totalPages()}} . {{adminUsers()!.totalCount}} total adminUsers
         </div>
         <div class="flex items-center gap-2">
             <select (change)="onPageSizeChange($event)" class="border border-gray-400 rounded-md px-2 py-1">
-                <option value="5" [selected]="pageSize() === 5">5 / page</option>
-                <option value="10" [selected]="pageSize() === 10">10 / page</option>
-                <option value="25" [selected]="pageSize() === 25">25 / page</option>
-                <option value="50" [selected]="pageSize() === 50">50 / page</option>
+                <option value="5" [selected]="adminUserFilter().pageSize === 5">5 / page</option>
+                <option value="10" [selected]="adminUserFilter().pageSize === 10">10 / page</option>
+                <option value="25" [selected]="adminUserFilter().pageSize === 25">25 / page</option>
+                <option value="50" [selected]="adminUserFilter().pageSize === 50">50 / page</option>
             </select>
-            <button (click)="previousPage()" [disabled]="pageNumber() === 1"
+            <button (click)="previousPage()" [disabled]="adminUserFilter().pageNumber === 1"
                 class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
                 Previous
             </button>
-            <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
+            <button (click)="nextPage()" [disabled]="adminUserFilter().pageNumber === totalPages()"
                 class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
                 Next
             </button>

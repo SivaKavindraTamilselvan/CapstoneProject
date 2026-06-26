@@ -4,6 +4,7 @@ import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminUserService } from '../../../services/admin-user.Service';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
 import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.filter';
+import { email, form, pattern } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-admin-list',
@@ -12,48 +13,25 @@ import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.fil
   styleUrl: './admin-list.css',
 })
 export class AdminList {
-  adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-  totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
-  filterPanelOpen = signal<boolean>(false);
-  adminRoleId = signal<number | null>(null);
-  isActive = signal<boolean | null>(null);
   constructor(private route: Router, private adminUserService: AdminUserService) {
 
   }
+
   ngOnInit(): void {
     this.loadAdminUser();
   }
-  loadAdminUser() {
-    this.adminUserService.getAdminUser(this.buildFilter()).subscribe({
-      next: (response: any) => {
-        this.adminUsers.set(response);
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) {
-      return;
-    }
-    this.pageNumber.set(page);
-    this.loadAdminUser();
-  }
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
-  }
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
+
+  adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
+
+  totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
+
+  filterPanelOpen = signal<boolean>(false);
+  adminUserFilter = signal(new AdminUserFilter());
+
+  filterForm = form(this.adminUserFilter, (path) => {
+    email(path.email, { message: 'Enter a valid email address.' });
+    pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
+  });
 
   adminRoleOption = [
     { id: 1, label: 'Overall Admin' },
@@ -66,42 +44,88 @@ export class AdminList {
     { id: 8, label: 'Exchange Admin' },
     { id: 9, label: 'Payment Admin' }
   ]
+
+
+  loadAdminUser() {
+    this.adminUserService.getAdminUser(this.adminUserFilter()).subscribe({
+      next: (response: any) => {
+        this.adminUsers.set(response);
+      },
+      error: (error) => {
+        if (error.status == 404) {
+          this.adminUsers.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: 1,
+            pageSize: 10,
+            totalPages: 1
+          });
+        }
+      }
+    })
+  }
+
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages()) {
+      return;
+    }
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: page }));
+    this.loadAdminUser();
+  }
+
+  nextPage(): void {
+    this.goToPage(this.adminUserFilter().pageNumber + 1);
+  }
+  
+  previousPage(): void {
+    this.goToPage(this.adminUserFilter().pageNumber - 1);
+  }
+
+  onPageSizeChange(event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1, pageSize: value }));
+    this.loadAdminUser();
+  }
+
+  toggleFilterPanel(): void {
+    this.filterPanelOpen.update((open) => !open);
+  }
+
+  closeFilterPanel(): void {
+    this.filterPanelOpen.set(false);
+  }
+
   onAdminRoleChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
-    this.adminRoleId.set(v ? Number(v) : null);
+    this.adminUserFilter.update(filter => ({ ...filter, adminRoleId: v ? Number(v) : null }));
   }
+
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    if (value === '') {
-      this.isActive.set(null);
-    }
-    else {
-      this.isActive.set(value === 'true');
-    }
+    this.adminUserFilter.update(filter => ({ ...filter, status: value === '' ? null : value === 'true' }));
   }
+
+  onPhoneNumberChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+    this.adminUserFilter.update(filter => ({ ...filter, phoneNumber: value }));
+  }
+
+  onEmailChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+    this.adminUserFilter.update(filter => ({ ...filter, email: value }));
+  }
+
   applyFilter(): void {
-    this.pageNumber.set(1);
+    if (this.filterForm().invalid()) {
+      return;
+    }
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadAdminUser();
     this.closeFilterPanel();
   }
   resetFilter(): void {
-    this.adminRoleId.set(null);
-    this.isActive.set(null);
-    this.pageNumber.set(1);
-    this.loadAdminUser();
-  }
-  private buildFilter(): AdminUserFilter {
-    return {
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      adminRoleId: this.adminRoleId(),
-      isActive: this.isActive(),
-    };
-  }
-  onPageSizeChange(event : Event) : void{
-    const value = Number((event.target as HTMLInputElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
+    this.adminUserFilter.set(new AdminUserFilter());
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadAdminUser();
   }
 }

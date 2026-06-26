@@ -114,7 +114,9 @@ export class DeactivateAdmin {
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       adminRoleId: this.adminRoleId(),
-      isActive : false
+      status : false,
+      email : '',
+      phoneNumber : ''
     };
   }
 }
