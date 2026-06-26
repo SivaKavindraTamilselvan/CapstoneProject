@@ -9,6 +9,7 @@ import { AddAddress } from "./address/add-address/add-address";
 import { GetVendorAddress } from "./address/get-vendor-address/get-vendor-address";
 import { AddInventory } from "./vendor/inventory/add-inventory/add-inventory";
 import { InventoryList } from "./vendor/inventory/inventory-list/inventory-list";
+import { VendorInventoryDetails } from "./vendor/inventory/vendor-inventory-details/vendor-inventory-details";
 
 export const VendorRoute: Routes = [
     {
@@ -41,18 +42,22 @@ export const VendorRoute: Routes = [
     },
     {
         path: 'warehouses/add',
-        component : AddAddress
+        component: AddAddress
     },
     {
         path: 'warehouses',
-        component : GetVendorAddress
+        component: GetVendorAddress
     },
     {
         path: 'inventory/add',
-        component : AddInventory
+        component: AddInventory
     },
     {
         path: 'inventory',
-        component : InventoryList
-    }
+        component: InventoryList
+    },
+    {
+        path: 'inventory-details/:id',
+        component: VendorInventoryDetails
+    },
 ]

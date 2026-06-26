@@ -28,4 +28,8 @@ export class VendorInventoryService {
         });
         return this.http.get<PagedResponse<VendorInventoryModel>>(url,{params});
     }
+    getInventoryDetails(inventoryId : number){
+        let url = BaseURL + `/Inventory/vendor-inventories/${inventoryId}`;
+        return this.http.get<VendorInventoryModel>(url,{});
+    }
 }

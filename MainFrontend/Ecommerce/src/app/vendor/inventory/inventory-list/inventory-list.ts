@@ -3,6 +3,7 @@ import { VendorInventoryService } from '../../../services/vendor-inventory.Servi
 import { PagedResponse } from '../../../models/paged-response.model';
 import { VendorInventoryModel } from '../../../models/inventory/inventory.model';
 import { VendorInventoryFilterModel } from '../../../models/inventory/inventory.filter';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-inventory-list',
@@ -25,7 +26,7 @@ export class InventoryList {
   totalPages = computed(() => this.inventoryList()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
-  constructor(private inventoryService: VendorInventoryService) {
+  constructor(private inventoryService: VendorInventoryService,private route : Router) {
 
   }
   ngOnInit(){
@@ -146,5 +147,8 @@ export class InventoryList {
     else {
       this.status.set(value === 'true');
     }
+  }
+  viewInventory(inventoryId: number) {
+    this.route.navigate(['/vendor/inventory-details', inventoryId]);
   }
 }
