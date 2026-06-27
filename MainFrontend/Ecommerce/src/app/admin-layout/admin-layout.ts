@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { SIDEBAR_MENU, SidebarItem } from '../admin-sidebar.config';
+import { SIDEBAR_MENU, SidebarItem } from '../constant/admin-sidebar.config';
 import { AuthStateService } from '../services/auth-State.Service';
 
 @Component({

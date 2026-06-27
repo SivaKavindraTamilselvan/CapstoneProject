@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { AuthStateService } from '../../services/auth-State.Service';
-import { VENDOR_SIDEBAR_MENU, VendorSidebarItem } from '../../vendor-sidebar.config';
+import { VENDOR_SIDEBAR_MENU, VendorSidebarItem } from '../../constant/vendor-sidebar.config';
 import { RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 

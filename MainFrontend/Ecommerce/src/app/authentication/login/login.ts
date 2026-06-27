@@ -5,7 +5,7 @@ import { AuthService } from '../../services/auth.Service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthStateService } from '../../services/auth-State.Service';
 import { FormsModule } from '@angular/forms';
-import { ROLES } from '../../role.constant';
+import { ROLES } from '../../constant/role.constant';
 
 @Component({
   selector: 'app-login',

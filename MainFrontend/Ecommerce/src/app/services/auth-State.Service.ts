@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
-import { ADMIN_ROLES } from "../admin.role.constant";
-import { VENDOR_ROLES } from "../vendor.role.constant";
+import { ADMIN_ROLES } from "../constant/admin.role.constant";
+import { VENDOR_ROLES } from "../constant/vendor.role.constant";
 
 @Injectable({
     providedIn: "root"

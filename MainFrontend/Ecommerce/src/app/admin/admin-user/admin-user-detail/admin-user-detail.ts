@@ -2,11 +2,11 @@ import { Component, signal } from '@angular/core';
 import { AdminUserService } from '../../../services/admin-user.Service';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
 import { ActivatedRoute } from '@angular/router';
-import { DatePipe, NgClass } from '@angular/common';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-admin-user-detail',
-  imports: [DatePipe,NgClass],
+  imports: [DatePipe],
   templateUrl: './admin-user-detail.html',
   styleUrl: './admin-user-detail.css',
 })

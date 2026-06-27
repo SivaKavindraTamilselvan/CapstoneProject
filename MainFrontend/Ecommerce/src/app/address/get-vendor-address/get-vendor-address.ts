@@ -3,7 +3,7 @@ import { AddressService } from '../../services/address.Service';
 import { PagedResponse } from '../../models/paged-response.model';
 import { AddressModel } from '../../models/address/address-response.model';
 import { AddressFilter } from '../../models/address/address-filter';
-import { INDIA_STATES } from '../../indian-state.constant';
+import { INDIA_STATES } from '../../constant/indian-state.constant';
 
 @Component({
   selector: 'app-get-vendor-address',

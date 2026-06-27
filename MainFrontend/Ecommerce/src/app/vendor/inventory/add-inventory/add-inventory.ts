@@ -3,7 +3,7 @@ import { VendorInventoryService } from '../../../services/vendor-inventory.Servi
 import { AddressService } from '../../../services/address.Service';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddressModel } from '../../../models/address/address-response.model';
-import { INDIA_STATES } from '../../../indian-state.constant';
+import { INDIA_STATES } from '../../../constant/indian-state.constant';
 import { AddressFilter } from '../../../models/address/address-filter';
 import { form, FormField, required } from '@angular/forms/signals';
 import { AddInventoryModel } from '../../../models/inventory/add-inventory.model';
