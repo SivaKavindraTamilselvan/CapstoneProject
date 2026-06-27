@@ -23,6 +23,7 @@ import { ActiveMappedAttribute } from './admin/admin-mapped-attribute/active-map
 import { InactiveMappedAttribute } from './admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
 import { AdminDetailProduct } from './admin/admin-product/admin-detail-product/admin-detail-product';
 import { AdminUserDetail } from './admin/admin-user/admin-user-detail/admin-user-detail';
+import { VendorDetails } from './admin/admin-vendor/vendor-details/vendor-details';
 
 export const AdminRoutes: Routes = [
     {
@@ -34,16 +35,16 @@ export const AdminRoutes: Routes = [
         component: AdminList
     },
     {
-        path: 'users/:id',
-        component: AdminUserDetail
-    },
-    {
         path: 'users/activate',
         component: ActivateAdmin
     },
     {
         path: 'users/deactivate',
         component: DeactivateAdmin
+    },
+    {
+        path: 'users/:id',
+        component: AdminUserDetail
     },
     {
         path: 'vendors/review',
@@ -56,6 +57,10 @@ export const AdminRoutes: Routes = [
     {
         path: 'vendors/delete',
         component: DeleteVendor
+    },
+    {
+        path: 'vendors/:id',
+        component: VendorDetails
     },
     {
         path: 'products/list',

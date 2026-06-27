@@ -212,4 +212,7 @@ export class VendorList {
     const v = (event.target as HTMLInputElement).value;
     this.gstNumber.set(v);
   }
+  viewVendor(vendorId : number){
+     this.route.navigate(['/admin/vendors', vendorId]);
+  }
 }

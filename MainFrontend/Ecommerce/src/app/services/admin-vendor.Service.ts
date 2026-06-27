@@ -38,6 +38,10 @@ export class AdminVendorService {
             })
         );
     }
+    getVendorDetails(vendorId : number) {
+        let url = BaseURL + `/AdminVendor/GetVendor/${vendorId}`;
+        return this.http.get<AdminVendorModel>(url, {});
+    }
     getPendingVendor(filter: AdminVendorFilter): Observable<PagedResponse<AdminVendorModel>> {
         let url = BaseURL + "/AdminVendor/GetVendor?ApprovalStatusId=1";
         let params = new HttpParams();
