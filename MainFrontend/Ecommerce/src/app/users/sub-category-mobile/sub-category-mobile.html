@@ -1,9 +1,8 @@
-<app-user-navbar></app-user-navbar>
 <section class="bg-white p-4 pb-20">
     @if(subProductCategoryModel()){
     <div class="md:hidden min-h-screen">
         @for(category of subProductCategoryModel(); track category.productSubCategoryId){
-        <div class="flex justify-between items-center border-b border-black">
+        <div class="flex justify-between items-center border-b border-black" (click)="goToProducts(category.productSubCategoryId)">
             <p class="text-md font-bold py-4">
                 {{category.productSubCategoryName}}
             </p>

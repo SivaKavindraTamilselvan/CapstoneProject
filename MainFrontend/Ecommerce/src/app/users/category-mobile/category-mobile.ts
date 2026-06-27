@@ -1,5 +1,4 @@
 import { Component, signal } from '@angular/core';
-import { UserNavbar } from '../user-navbar/user-navbar';
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
 import { UserProductService } from '../../services/user-product.Service';
@@ -7,7 +6,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-category-mobile',
-  imports: [UserNavbar],
+  imports: [],
   templateUrl: './category-mobile.html',
   styleUrl: './category-mobile.css',
 })
@@ -34,6 +33,6 @@ export class CategoryMobile {
   }
 
   selectCategory(categoryId: number) {
-    this.router.navigate(['/categories', categoryId, 'subcategories']);
+    this.router.navigate(['/user/categories', categoryId, 'subcategories']);
   }
 }

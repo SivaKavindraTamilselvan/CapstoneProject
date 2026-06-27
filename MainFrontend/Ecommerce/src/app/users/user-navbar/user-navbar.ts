@@ -2,11 +2,11 @@ import { Component, signal } from '@angular/core';
 import { UserProductService } from '../../services/user-product.Service'; 
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model'; 
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model'; 
-import { Router } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-user-navbar',
-  imports: [],
+  imports: [RouterOutlet],
   templateUrl: './user-navbar.html',
   styleUrl: './user-navbar.css',
 })
@@ -52,6 +52,9 @@ export class UserNavbar {
     this.loadSubCategory();
   }
   goToCategories(): void {
-    this.router.navigate(['/categories']);
+    this.router.navigate(['/user/categories']);
+  }
+  goToHome():void{
+    this.router.navigate(['/user']);
   }
 }

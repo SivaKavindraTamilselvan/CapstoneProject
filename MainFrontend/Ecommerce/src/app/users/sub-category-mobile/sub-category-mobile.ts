@@ -1,12 +1,11 @@
 import { Component, signal } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { UserNavbar } from '../user-navbar/user-navbar';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
 import { UserProductService } from '../../services/user-product.Service';
 
 @Component({
   selector: 'app-sub-category-mobile',
-  imports: [UserNavbar],
+  imports: [],
   templateUrl: './sub-category-mobile.html',
   styleUrl: './sub-category-mobile.css',
 })
@@ -14,10 +13,10 @@ export class SubCategoryMobile {
   selectedProductCategory = signal<number | null>(null);
   subProductCategoryModel = signal<UserSubProductCategoryModel[]>([]);
 
-  constructor(
-    private userProductService: UserProductService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private userProductService: UserProductService, private route: ActivatedRoute, private router: Router) {
+
+  }
+
 
   ngOnInit() {
     const categoryId = Number(this.route.snapshot.paramMap.get('categoryId'));
@@ -38,5 +37,8 @@ export class SubCategoryMobile {
         console.error(error);
       },
     });
+  }
+  goToProducts(subCategoryId: number): void {
+    this.router.navigate(['/user/subcategory', subCategoryId, 'products']);
   }
 }

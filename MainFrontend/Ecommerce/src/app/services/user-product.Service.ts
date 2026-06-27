@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { BaseURL } from "../environment";
-import { UserProductModel } from "../models/user/product/user-product.model"; 
+import { UserProductModel } from "../models/user/product/user-product.model";
 import { PagedResponse } from "../models/paged-response.model";
 import { UserProductFilter } from "../models/user/product/user-product.filter";
 import { Observable } from "rxjs";
@@ -28,7 +28,19 @@ export class UserProductService {
         return this.http.get(url);
     }
     getSubCategory(category: number) {
-        let url = `${BaseURL}/UserProductCategory/categories/${category}/subcategories`; 
+        let url = `${BaseURL}/UserProductCategory/categories/${category}/subcategories`;
         return this.http.get(url);
+    }
+    getProductDetails(productId: number) {
+        let url = `${BaseURL}/UserProduct/${productId}`;
+        return this.http.get(url);
+    }
+    getProductBySubCategories(subcategoryId: number) {
+        let url = BaseURL + `/UserProduct/available?ProductSubCategoryId=${subcategoryId}`;
+        return this.http.get<PagedResponse<UserProductModel>>(url, {});
+    }
+    getProductByCategories(categoryId: number) {
+        let url = BaseURL + `/UserProduct/available?ProductCategoryId=${categoryId}`;
+        return this.http.get<PagedResponse<UserProductModel>>(url, {});
     }
 }

@@ -1,8 +1,9 @@
 import { Component, signal, computed } from '@angular/core';
-import { UserProductService } from '../../services/user-product.Service'; 
-import { UserProductModel } from '../../models/user/product/user-product.model'; 
-import { PagedResponse } from '../../models/paged-response.model'; 
-import { UserProductFilter } from '../../models/user/product/user-product.filter'; 
+import { UserProductService } from '../../services/user-product.Service';
+import { UserProductModel } from '../../models/user/product/user-product.model';
+import { PagedResponse } from '../../models/paged-response.model';
+import { UserProductFilter } from '../../models/user/product/user-product.filter';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-user-product',
@@ -11,7 +12,7 @@ import { UserProductFilter } from '../../models/user/product/user-product.filter
   styleUrl: './user-product.css',
 })
 export class UserProduct {
-  constructor(private userProductService: UserProductService) {
+  constructor(private userProductService: UserProductService, private router: ActivatedRoute) {
 
   }
   products = signal<PagedResponse<UserProductModel> | null>(null);
@@ -25,7 +26,13 @@ export class UserProduct {
   pageSize = signal<number>(10);
   filterPanelOpen = signal<boolean>(false);
   totalPages = computed(() => this.products()?.totalPages ?? 1);
+
   ngOnInit(): void {
+
+    const subCategoryId = this.router.snapshot.paramMap.get('subCategoryId');
+    if (subCategoryId) {
+      this.productSubCategoryId.set(Number(subCategoryId));
+    }
     this.loadProduct();
   }
 
