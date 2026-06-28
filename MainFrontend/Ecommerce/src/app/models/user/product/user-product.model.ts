@@ -1,5 +1,5 @@
-import { ProductImageModel } from "../../product/product-image.model"; 
-import { UserProductVariantModel } from "./user-variant.model"; 
+import { ProductImageModel } from "../../product/product-image.model";
+import { UserProductVariantModel } from "./user-variant.model";
 
 export class UserProductModel {
     constructor(
@@ -9,6 +9,7 @@ export class UserProductModel {
         public productSubCategoryName: string = "",
         public productCategoryName: string = "",
         public vendorName: string = "",
+        public mainProductSubCategoryAttributeName: string = "",
         public productVariants: UserProductVariantModel[],
         public productImages: ProductImageModel[]
     ) { }

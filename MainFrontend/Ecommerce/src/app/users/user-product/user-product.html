@@ -92,7 +92,7 @@
                         <p class="text-xs text-gray-500">Sold by {{product.vendorName}}</p>
                         <div class="mt-auto pt-3 flex items-center justify-between gap-2">
                             <span class="font-extrabold text-lg text-slate-900">{{getDisplayPrice(product)}}</span>
-                            <button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900 shrink-0">
+                            <button class="bg-green-700 py-2 px-4 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900 shrink-0" (click)="goToProductDetails(product.productId)">
                                 View
                             </button>
                         </div>

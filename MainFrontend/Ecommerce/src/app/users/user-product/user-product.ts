@@ -3,7 +3,7 @@ import { UserProductService } from '../../services/user-product.Service';
 import { UserProductModel } from '../../models/user/product/user-product.model';
 import { PagedResponse } from '../../models/paged-response.model';
 import { UserProductFilter } from '../../models/user/product/user-product.filter';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-product',
@@ -12,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   styleUrl: './user-product.css',
 })
 export class UserProduct {
-  constructor(private userProductService: UserProductService, private router: ActivatedRoute) {
+  constructor(private userProductService: UserProductService, private router: ActivatedRoute,private route : Router) {
 
   }
   products = signal<PagedResponse<UserProductModel> | null>(null);
@@ -141,5 +141,9 @@ export class UserProduct {
     const max = Math.max(...prices);
     const format = (n: number) => '₹' + n.toLocaleString('en-IN');
     return min === max ? format(min) : `${format(min)} - ${format(max)}`;
+  }
+
+  goToProductDetails(productId : any){
+    this.route.navigate(['/user/product-details',productId]);
   }
 }
