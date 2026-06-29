@@ -13,6 +13,7 @@ import { VendorInventoryDetails } from "../vendor/inventory/vendor-inventory-det
 import { DeletedInventory } from "../vendor/inventory/deleted-inventory/deleted-inventory";
 import { VendorProductDetails } from "../vendor/vendor-product/vendor-product-details/vendor-product-details";
 import { UpdateRejectedProduct } from "../vendor/vendor-product/update-rejected-product/update-rejected-product";
+import { ReviewVariant } from "../vendor/vendor-variant/review-variant/review-variant";
 
 export const VendorRoute: Routes = [
     {
@@ -30,6 +31,10 @@ export const VendorRoute: Routes = [
     {
         path: 'products/variants/list',
         component: VariantList
+    },
+    {
+        path: 'products/variants/review',
+        component: ReviewVariant
     },
     {
         path: 'products/review',

@@ -19,6 +19,7 @@ import { UpdateRejectedProductModel } from "../models/vendor/vendor-product/add-
 import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
 import { MappedAttributeFilter } from "../models/admin/admin-product-category/filter-models/mapped-attribute.filter";
 import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/response/admin-mapped.model";
+import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
 
 @Injectable({
     providedIn: "root"
@@ -89,6 +90,10 @@ export class VendorProductService {
         let url = BaseURL + "/Vendor/ReviewProductByVendor";
         return this.http.put(url, request);
     }
+    reviewProductVariant(request: ReviewProductVariantRequestModel) {
+        let url = BaseURL + "/Vendor/ReviewProductVariantByVendor";
+        return this.http.put(url, request);
+    }
     updateProduct(request: UpdateProductStatus) {
         let url = BaseURL + "/VendorProduct/UpdateProduct";
         return this.http.put(url, request);
@@ -102,7 +107,7 @@ export class VendorProductService {
         return this.http.get<ProductModel>(url, {});
     }
     getmappedAttribute(id: number) {
-        console.log("skmxs"+id);
+        console.log("skmxs" + id);
         const url = BaseURL + `/VendorProduct/subcategory-attributes?ProductSubCategoryId=${id}`;
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url);
     }
