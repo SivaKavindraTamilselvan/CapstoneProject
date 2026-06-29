@@ -30,4 +30,9 @@ export class VendorOrderService {
 
         return this.http.get<PagedResponse<OrderItemSummaryModel>>(url, { params });
     }
+
+    updateOrder(orderId : number){
+         const url = BaseURL + `/Order/UpdateOrderStatus?orderitemid=${orderId}`;
+         return this.http.put(url, {});
+    }
 }
