@@ -4,6 +4,8 @@ import { UserProductModel } from '../../models/user/product/user-product.model';
 import { PagedResponse } from '../../models/paged-response.model';
 import { UserProductFilter } from '../../models/user/product/user-product.filter';
 import { ActivatedRoute, Route, Router } from '@angular/router';
+import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
+import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
 
 @Component({
   selector: 'app-user-product',
@@ -17,7 +19,6 @@ export class UserProduct {
   }
   products = signal<PagedResponse<UserProductModel> | null>(null);
   searchTerm = signal<string>('');
-  vendorId = signal<number | null>(null);
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
   minPrice = signal<number | null>(null);
@@ -27,6 +28,9 @@ export class UserProduct {
   filterPanelOpen = signal<boolean>(false);
   totalPages = computed(() => this.products()?.totalPages ?? 1);
 
+  categories = signal<UserProductCategoryModel[]>([]);
+  subCategories = signal<UserSubProductCategoryModel[]>([]);
+
   ngOnInit(): void {
 
     const subCategoryId = this.router.snapshot.paramMap.get('subCategoryId');
@@ -34,8 +38,8 @@ export class UserProduct {
       this.productSubCategoryId.set(Number(subCategoryId));
     }
     this.loadProduct();
+    this.loadCategories();
   }
-
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
@@ -74,7 +78,6 @@ export class UserProduct {
 
   resetFilters(): void {
     this.searchTerm.set('');
-    this.vendorId.set(null);
     this.productCategoryId.set(null);
     this.productSubCategoryId.set(null);
 
@@ -111,11 +114,6 @@ export class UserProduct {
     this.searchTerm.set((event.target as HTMLInputElement).value);
   }
 
-  onVendorIdInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.vendorId.set(v ? Number(v) : null);
-  }
-
   onMinPriceInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.minPrice.set(v ? Number(v) : null);
@@ -145,5 +143,32 @@ export class UserProduct {
 
   goToProductDetails(productId : any){
     this.route.navigate(['/user/product-details',productId]);
+  }
+
+  loadCategories(): void {
+    this.userProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.subCategories.set([]);
+    if (id) {
+      this.userProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
   }
 }
