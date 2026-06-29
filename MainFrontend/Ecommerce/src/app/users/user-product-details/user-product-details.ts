@@ -4,6 +4,8 @@ import { UserProductModel } from '../../models/user/product/user-product.model';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserProductVariantModel } from '../../models/user/product/user-variant.model';
+import { UserCartService } from '../../services/user-cart.Service';
+import { AddCartItemModel } from '../../models/user/cart/add-cart,model';
 
 @Component({
   selector: 'app-user-product-details',
@@ -66,7 +68,7 @@ export class UserProductDetails {
       .join(' · ') || 'Base';
   }
 
-  constructor(private userProductService: UserProductService, private route: ActivatedRoute) {}
+  constructor(private userProductService: UserProductService, private route: ActivatedRoute, private userCartService: UserCartService) { }
 
   ngOnInit() {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -77,7 +79,25 @@ export class UserProductDetails {
     this.userProductService.getProductDetails(productId).subscribe({
       next: (response: any) => {
         this.product.set(response);
-        console.log(response);
+
+        const firstMainAttr = response.productVariants
+          ?.find((v: UserProductVariantModel) =>
+            v.attributes.find((a: any) => a.attributeName === response.mainProductSubCategoryAttributeName)
+          )
+          ?.attributes.find((a: any) => a.attributeName === response.mainProductSubCategoryAttributeName)
+          ?.attributeValue ?? null;
+
+        this.selectedMainAttrValue.set(firstMainAttr);
+
+        // Auto-select first available variant too
+        const firstVariant = response.productVariants?.find(
+          (v: UserProductVariantModel) => v.isAvailableForSale &&
+            v.attributes.find((a: any) =>
+              a.attributeName === response.mainProductSubCategoryAttributeName &&
+              a.attributeValue === firstMainAttr
+            )
+        ) ?? null;
+        this.selectedVariant.set(firstVariant);
       },
       error: (error) => console.error(error)
     });
@@ -85,7 +105,10 @@ export class UserProductDetails {
 
   selectMainAttr(value: string) {
     this.selectedMainAttrValue.set(value);
-    this.selectedVariant.set(null);
+
+    // Always auto-select first available variant under this attr
+    const firstMatch = this.filteredVariants().find(v => v.isAvailableForSale) ?? null;
+    this.selectedVariant.set(firstMatch);
   }
 
   selectVariant(variant: UserProductVariantModel) {
@@ -101,5 +124,25 @@ export class UserProductDetails {
   nextImage() {
     const total = this.product()?.productImages?.length ?? 0;
     this.currentImageIndex.update(i => (i + 1) % total);
+  }
+  addToCart() {
+    const addmodel = new AddCartItemModel();
+    const variant = this.selectedVariant();
+    if (!variant) return;
+    addmodel.productVariantId = variant.productVariantId;
+    this.userCartService.addToCart(addmodel).subscribe({
+      next: () => console.log('Added to cart'),
+      error: (err) => console.error(err)
+    });
+  }
+  addToFavorites() {
+    const addmodel = new AddCartItemModel();
+    const variant = this.selectedVariant();
+    if (!variant) return;
+    addmodel.productVariantId = variant.productVariantId;
+    this.userCartService.addToCart(addmodel).subscribe({
+      next: () => console.log('Added to cart'),
+      error: (err) => console.error(err)
+    });
   }
 }
