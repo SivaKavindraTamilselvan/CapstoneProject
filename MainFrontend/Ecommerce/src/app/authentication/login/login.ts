@@ -45,7 +45,7 @@ export class Login {
           this.router.navigate(['/vendor']);
         }
         else if (roleId === ROLES.USER) {
-          this.router.navigate(['/products']);
+          this.router.navigate(['/user']);
         }
         else {
           this.router.navigate(['/']);
