@@ -28,4 +28,8 @@ export class AddressService {
         });
         return this.http.get<PagedResponse<AddressModel>>(url,{params});
     }
+    getUserAddress(){
+        let url = BaseURL + "/Address/actice-address";
+        return this.http.get<AddressModel[]>(url,{});
+    }
 }

@@ -1,0 +1,227 @@
+<!-- ORDER LIST VIEW -->
+<div class="min-h-screen bg-gray-50 px-4 py-6 max-w-2xl mx-auto font-sans" *ngIf="!selectedOrder()">
+  <div class="flex items-center justify-between mb-6">
+    <h1 class="text-xl font-bold text-gray-900">My Orders</h1>
+    <span class="text-xs text-gray-500 bg-white border border-gray-200 px-3 py-1 rounded-full">
+      {{ orders().length }} orders
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-3">
+    <div
+      class="bg-white border border-gray-200 rounded-xl shadow-sm cursor-pointer hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 overflow-hidden"
+      *ngFor="let order of orders()"
+      (click)="openOrder(order)"
+    >
+      <!-- Card Header -->
+      <div class="flex items-start justify-between px-4 pt-4 pb-2">
+        <div class="flex flex-col gap-0.5">
+          <span class="text-xs font-semibold text-gray-800 font-mono tracking-wide">{{ order.orderNumber }}</span>
+          <span class="text-xs text-gray-400">{{ formatDate(order.orderDate) }}</span>
+        </div>
+        <span class="text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide"
+          [ngClass]="{
+            'bg-green-100 text-green-700': order.orderStatus === 'Confirmed' || order.orderStatus === 'Delivered',
+            'bg-amber-100 text-amber-700': order.orderStatus === 'Pending',
+            'bg-red-100 text-red-700': order.orderStatus === 'Failed'
+          }">
+          {{ order.orderStatus }}
+        </span>
+      </div>
+
+      <!-- Card Body -->
+      <div class="px-4 pb-3 border-b border-gray-100">
+        <div class="flex gap-6 mb-2">
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs text-gray-400 uppercase tracking-wide">Items</span>
+            <span class="text-sm font-semibold text-gray-900">{{ order.totalItems }}</span>
+          </div>
+          <div class="flex flex-col gap-0.5">
+            <span class="text-xs text-gray-400 uppercase tracking-wide">Total</span>
+            <span class="text-sm font-semibold text-indigo-600">{{ formatCurrency(order.finalAmount) }}</span>
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-1.5">
+          <span
+            class="text-xs bg-gray-50 border border-gray-200 text-gray-500 px-2.5 py-0.5 rounded-full"
+            *ngFor="let item of order.orderItems"
+          >
+            {{ item.productName }} × {{ item.quantity }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Card Footer -->
+      <div class="flex justify-end px-4 py-2.5">
+        <span class="flex items-center gap-1 text-xs font-medium text-indigo-600">
+          View Details
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ORDER DETAIL VIEW -->
+<div class="min-h-screen bg-gray-50 px-4 py-6 max-w-2xl mx-auto font-sans" *ngIf="selectedOrder() as order">
+
+  <!-- Back + Status -->
+  <div class="flex items-center justify-between mb-5">
+    <button
+      class="flex items-center gap-1.5 text-sm font-medium text-gray-500 hover:text-gray-900 transition-colors"
+      (click)="closeOrder()"
+    >
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      Back to Orders
+    </button>
+    <span class="text-xs font-semibold px-2.5 py-1 rounded-full uppercase tracking-wide"
+      [ngClass]="{
+        'bg-green-100 text-green-700': order.orderStatus === 'Confirmed' || order.orderStatus === 'Delivered',
+        'bg-amber-100 text-amber-700': order.orderStatus === 'Pending',
+        'bg-red-100 text-red-700': order.orderStatus === 'Failed'
+      }">
+      {{ order.orderStatus }}
+    </span>
+  </div>
+
+  <div class="flex flex-col gap-4">
+
+    <!-- Order Info + Price Breakdown -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
+      <h2 class="text-sm font-bold text-gray-900 font-mono tracking-wide">{{ order.orderNumber }}</h2>
+      <p class="text-xs text-gray-400 mt-0.5 mb-4">Placed on {{ formatDate(order.orderDate) }}</p>
+
+      <div class="flex flex-col gap-2 border-t border-gray-100 pt-4">
+        <div class="flex justify-between text-sm text-gray-500">
+          <span>Product Total</span>
+          <span>{{ formatCurrency(order.totalProductAmount) }}</span>
+        </div>
+        <div class="flex justify-between text-sm text-gray-500">
+          <span>Shipping</span>
+          <span>{{ formatCurrency(order.totalShippingAmount) }}</span>
+        </div>
+        <div class="flex justify-between text-sm" *ngIf="order.totalCouponAmount > 0">
+          <span class="text-gray-500">Coupon Discount</span>
+          <span class="text-green-600 font-medium">− {{ formatCurrency(order.totalCouponAmount) }}</span>
+        </div>
+        <div class="flex justify-between text-sm font-bold text-gray-900 border-t border-dashed border-gray-200 pt-2 mt-1">
+          <span>Final Amount</span>
+          <span class="text-indigo-600">{{ formatCurrency(order.finalAmount) }}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Progress Stepper -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5" *ngIf="!isFailed(order)">
+      <h3 class="text-sm font-semibold text-gray-900 mb-5">Order Progress</h3>
+
+      <div class="flex items-start justify-between overflow-x-auto pb-1">
+        <ng-container *ngFor="let step of ORDER_STEPS; let i = index; let last = last">
+
+          <!-- Step Node -->
+          <div class="flex flex-col items-center gap-2 min-w-[60px]">
+            <div
+              class="w-9 h-9 rounded-full flex items-center justify-center text-xs font-semibold border-2 transition-all duration-300"
+              [ngClass]="{
+                'bg-indigo-600 border-indigo-600 text-white': i < getStepIndex(order.orderStatus),
+                'bg-indigo-50 border-indigo-500 text-indigo-600 ring-4 ring-indigo-100': i === getStepIndex(order.orderStatus),
+                'bg-white border-gray-200 text-gray-400': i > getStepIndex(order.orderStatus)
+              }"
+            >
+              <svg *ngIf="i < getStepIndex(order.orderStatus)" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M5 13l4 4L19 7"/>
+              </svg>
+              <span *ngIf="i >= getStepIndex(order.orderStatus)">{{ i + 1 }}</span>
+            </div>
+            <span
+              class="text-center leading-tight"
+              [ngClass]="{
+                'text-indigo-600 font-medium text-[10px]': i <= getStepIndex(order.orderStatus),
+                'text-gray-400 text-[10px]': i > getStepIndex(order.orderStatus)
+              }"
+            >{{ step }}</span>
+          </div>
+
+          <!-- Connector Line -->
+          <div
+            class="flex-1 h-0.5 mt-[18px] min-w-[12px] transition-colors duration-300"
+            *ngIf="!last"
+            [ngClass]="{
+              'bg-indigo-500': i < getStepIndex(order.orderStatus),
+              'bg-gray-200': i >= getStepIndex(order.orderStatus)
+            }"
+          ></div>
+
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Failed Banner -->
+    <div class="flex items-start gap-3 bg-red-50 border border-red-200 rounded-xl p-4 text-red-700" *ngIf="isFailed(order)">
+      <svg class="shrink-0 mt-0.5" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <div>
+        <strong class="block text-sm font-semibold mb-0.5">Order Failed</strong>
+        <p class="text-xs text-red-600 m-0">This order could not be processed. Your payment was not captured.</p>
+      </div>
+    </div>
+
+    <!-- Order Items -->
+    <div class="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
+      <h3 class="text-sm font-semibold text-gray-900 mb-4">Items ({{ order.totalItems }})</h3>
+
+      <div
+        class="flex gap-3 py-4 border-b border-gray-100 last:border-b-0 last:pb-0 first:pt-0"
+        *ngFor="let item of order.orderItems"
+      >
+        <!-- Image Placeholder -->
+        <div class="w-16 h-16 shrink-0 rounded-lg bg-gray-50 border border-gray-200 flex items-center justify-center text-gray-400">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>
+          </svg>
+        </div>
+
+        <!-- Item Details -->
+        <div class="flex-1 min-w-0 flex flex-col gap-1">
+          <div class="flex items-center justify-between gap-2">
+            <span class="text-sm font-semibold text-gray-900 truncate">{{ item.productName }}</span>
+            <span
+              class="text-[9px] font-semibold px-2 py-0.5 rounded-full uppercase tracking-wide shrink-0"
+              [ngClass]="{
+                'bg-amber-100 text-amber-700': item.orderItemStatus === 'Pending',
+                'bg-indigo-100 text-indigo-700': item.orderItemStatus === 'Packed',
+                'bg-blue-100 text-blue-700': item.orderItemStatus === 'Shipped',
+                'bg-green-100 text-green-700': item.orderItemStatus === 'Delivered',
+                'bg-red-100 text-red-700': item.orderItemStatus === 'Cancelled'
+              }"
+            >{{ item.orderItemStatus }}</span>
+          </div>
+
+          <span class="text-[10px] text-gray-400 font-mono">SKU: {{ item.sku }}</span>
+          <span class="text-xs text-gray-400">Sold by {{ item.vendorName }}</span>
+
+          <div class="flex items-center justify-between mt-1">
+            <div class="flex items-center gap-1.5">
+              <span class="text-sm font-semibold text-gray-800">{{ formatCurrency(item.unitPrice) }}</span>
+              <span class="text-xs text-gray-400">× {{ item.quantity }}</span>
+            </div>
+            <span class="text-sm font-bold text-indigo-600">{{ formatCurrency(item.itemTotal) }}</span>
+          </div>
+
+          <div class="flex items-center gap-1 text-[10px] text-gray-400 mt-0.5">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+            </svg>
+            {{ item.inventoryCity }} — {{ item.inventoryAddress }}
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

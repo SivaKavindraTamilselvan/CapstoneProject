@@ -1,0 +1,33 @@
+<section class="bg-white min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-sm w-full text-center flex flex-col items-center gap-5">
+
+    <div class="w-20 h-20 rounded-full bg-red-100 flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-red-500" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </div>
+
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Payment Failed</h1>
+      <p class="text-sm text-gray-500 mt-1">
+        Your payment could not be processed. Your order has been saved.
+      </p>
+      @if(orderId()) {
+      <p class="text-xs text-gray-400 mt-1">Order ID: #{{ orderId() }}</p>
+      }
+    </div>
+
+    <div class="flex flex-col w-full gap-3 mt-2">
+      <button (click)="retry()"
+        class="w-full py-3 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-700 transition">
+        Retry Payment
+      </button>
+      <button (click)="goToOrders()"
+        class="w-full py-3 border border-gray-300 text-gray-600 font-medium text-sm rounded-lg hover:bg-gray-50 transition">
+        View My Orders
+      </button>
+    </div>
+
+  </div>
+</section>

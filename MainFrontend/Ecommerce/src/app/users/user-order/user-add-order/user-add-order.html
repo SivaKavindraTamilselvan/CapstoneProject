@@ -1,0 +1,314 @@
+<section class="min-h-screen p-6" style="background: var(--surface-0)">
+  <div class="pb-10">
+    <h1 class="text-blue-950 font-extrabold text-center text-2xl">Order Placing Progress</h1>
+  </div>
+  <div class="max-w-2xl mx-auto">
+
+    <!-- ── Stepper ── -->
+    <div class="flex items-center mb-10">
+      @for(step of steps; track step; let last = $last) {
+      <button (click)="goToStep(step)" class="flex flex-col items-center gap-1.5 cursor-pointer group z-10">
+        <div
+          class="w-9 h-9 rounded-full flex items-center justify-center text-sm font-medium border transition-all duration-200"
+          [ngClass]="{
+              'bg-blue-600 border-blue-600 text-white': currentStep() === step,
+              'bg-green-50 border-green-400 text-green-600': currentStep() > step,
+              'bg-white border-gray-300 text-gray-400 group-hover:border-blue-400 group-hover:text-blue-400': currentStep() < step
+            }">
+          @if(currentStep() > step) {
+          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+          </svg>
+          } @else {
+          {{ step }}
+          }
+        </div>
+        <span class="text-xs font-medium hidden sm:block transition-colors"
+          [ngClass]="currentStep() >= step ? 'text-blue-600' : 'text-gray-400'">
+          {{ step === 1 ? 'Address' : step === 2 ? 'Payment' : 'Review' }}
+        </span>
+      </button>
+
+      @if(!last) {
+      <div class="flex-1 h-px mx-2 mb-5 transition-colors duration-300"
+        [ngClass]="currentStep() > step ? 'bg-green-400' : 'bg-gray-200'">
+      </div>
+      }
+      }
+    </div>
+
+    <!-- ── Error Banner ── -->
+    @if(error()) {
+    <div class="mb-5 px-4 py-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-xl">
+      {{ error() }}
+    </div>
+    }
+
+    @if(currentStep() === 1) {
+    <div class="animate-fade-in">
+      <h1 class="font-bold text-center text-gray-900 mb-4 text-lg">Choose Delivery Address</h1>
+
+      @if(isLoading()) {
+      <p class="text-sm text-gray-400 py-10 text-center">Loading addresses…</p>
+      } @else {
+      <div class="flex flex-col gap-2.5">
+        <div class="flex justify-end">
+          <button class="px-4 py-2 bg-blue-700 text-white font-bold rounded-md text-sm">
+            Add Address
+          </button>
+        </div>
+
+        @for(address of addresses(); track address.addressId) {
+        <button (click)="selectAddress(address.addressId)"
+          class="w-full text-left border rounded-xl p-4 transition-all duration-150 bg-white" [ngClass]="selectedAddressId() === address.addressId
+                  ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                  : 'border-gray-200 hover:border-gray-300'">
+          <div class="flex items-start gap-3">
+            <div class="mt-0.5 w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition"
+              [ngClass]="selectedAddressId() === address.addressId ? 'border-blue-600' : 'border-gray-300'">
+              @if(selectedAddressId() === address.addressId) {
+              <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+              }
+            </div>
+            <!-- Content -->
+            <div class="min-w-0 space-y-1 text-gray-700">
+              <p>
+                <span class="font-semibold text-gray-900">Contact Name:</span>
+                {{ address.contactName }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">Address:</span>
+                {{ address.addressLine }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">City:</span>
+                {{ address.city }}, {{ address.state }} – {{ address.pinCode }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">Phone Number:</span>
+                {{ address.contactPhoneNumber }}
+              </p>
+            </div>
+            @if(address.isDefault) {
+            <span
+              class="ml-auto shrink-0 text-xs bg-blue-50 text-blue-600 font-medium px-2.5 py-0.5 rounded-full border border-blue-200">
+              Default
+            </span>
+            }
+          </div>
+        </button>
+        }
+      </div>
+      }
+
+      <div class="mt-6 flex justify-end">
+        <button (click)="nextStep()" [disabled]="!step1Valid()"
+          class="px-6 py-2.5 bg-blue-600 text-white text-sm font-bold cursor-pointer rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          Continue to payment
+        </button>
+      </div>
+    </div>
+    }
+    @if(currentStep() === 2) {
+    <div class="animate-fade-in">
+      <h2 class="text-base font-bold text-gray-900 mb-4">Payment method</h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-8">
+        @for(pm of paymentMethods; track pm.id) {
+        <button (click)="selectPayment(pm.id)"
+          class="flex items-center gap-3 border rounded-xl p-4 text-left transition-all duration-150 bg-white"
+          [ngClass]="selectedPaymentId() === pm.id
+                ? 'border-blue-500 bg-blue-50 ring-1 ring-blue-500'
+                : 'border-gray-200 hover:border-gray-300'">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center shrink-0 transition-colors"
+            [ngClass]="selectedPaymentId() === pm.id ? 'bg-blue-100' : 'bg-gray-100'">
+            @if(pm.icon === 'cod') {
+            <svg class="w-5 h-5" [ngClass]="selectedPaymentId() === pm.id ? 'text-blue-600' : 'text-gray-500'"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a5 5 0 00-10 0v2M3 9h18l-1.5 9H4.5L3 9z" />
+            </svg>
+            }
+            @if(pm.icon === 'card') {
+            <svg class="w-5 h-5" [ngClass]="selectedPaymentId() === pm.id ? 'text-blue-600' : 'text-gray-500'"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M3 6h18v12H3V6zm0 4h18" />
+            </svg>
+            }
+            @if(pm.icon === 'upi') {
+            <svg class="w-5 h-5" [ngClass]="selectedPaymentId() === pm.id ? 'text-blue-600' : 'text-gray-500'"
+              fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.8">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 2L2 7v10l10 5 10-5V7L12 2zm0 0v17" />
+            </svg>
+            }
+          </div>
+          <span class="text-sm font-medium text-gray-800">{{ pm.label }}</span>
+          <!-- Radio dot -->
+          <div class="ml-auto w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition"
+            [ngClass]="selectedPaymentId() === pm.id ? 'border-blue-600' : 'border-gray-300'">
+            @if(selectedPaymentId() === pm.id) {
+            <div class="w-2 h-2 bg-blue-600 rounded-full"></div>
+            }
+          </div>
+        </button>
+        }
+      </div>
+
+      <div>
+        <h3 class=" font-bold  tracking-wider mb-3">Available coupons</h3>
+
+        @if(coupons().length === 0) {
+        <p class="text-xs text-gray-400 py-2">No active coupons at the moment.</p>
+        } @else {
+        <div class="flex flex-col gap-2">
+          @for(coupon of coupons(); track coupon.couponId) {
+          <button (click)="toggleCoupon(coupon.couponId)"
+            class="flex items-center gap-3 border rounded-xl px-4 py-3 text-left w-full transition-all duration-150"
+            [ngClass]="selectedCouponId() === coupon.couponId
+                    ? 'border-green-400 bg-green-50 border-solid'
+                    : 'border-dashed border-gray-300 bg-white hover:border-green-300'">
+            <svg class="w-4 h-4 shrink-0 transition-colors"
+              [ngClass]="selectedCouponId() === coupon.couponId ? 'text-green-600' : 'text-gray-400'" fill="none"
+              viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round"
+                d="M7 7h.01M3 3h8l10 10a2 2 0 010 2.828l-5.172 5.172a2 2 0 01-2.828 0L3 11V3z" />
+            </svg>
+            <div class="min-w-0">
+              <p class="text-sm font-medium font-mono tracking-wide"
+                [ngClass]="selectedCouponId() === coupon.couponId ? 'text-green-700' : 'text-gray-700'">
+                {{ coupon.couponCode }}
+              </p>
+            </div>
+            <div class="ml-auto text-right shrink-0">
+              <p class="text-sm font-medium"
+                [ngClass]="selectedCouponId() === coupon.couponId ? 'text-green-600' : 'text-gray-500'">
+
+                ₹{{ coupon.discountValue }} OFF
+
+              </p>
+              @if(selectedCouponId() === coupon.couponId) {
+              <p class="text-xs text-green-600 font-medium mt-0.5">Applied</p>
+              }
+            </div>
+          </button>
+          }
+        </div>
+        }
+      </div>
+
+      <div class="mt-6 flex justify-between">
+        <button (click)="prevStep()"
+          class="px-5 py-2.5 border border-gray-200 text-gray-600 text-sm font-medium rounded-lg hover:bg-gray-50 transition-colors">
+          Back
+        </button>
+        <button (click)="nextStep()" [disabled]="!step2Valid()"
+          class="px-6 py-2.5 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          Review order
+        </button>
+      </div>
+    </div>
+    }
+
+    @if(currentStep() === 3) {
+    <div class="animate-fade-in">
+      <h1 class="text-lg font-bold text-gray-900 mb-5 text-center">Review your order</h1>
+
+      <div class="flex flex-col gap-3">
+
+        <div class="border border-gray-200 rounded-md overflow-hidden bg-white">
+          <div class="flex items-center justify-between px-4 py-2.5 bg-blue-700 text-white border-b border-gray-100">
+            <p class="font-semibold ">Delivery Address</p>
+            <button (click)="goToStep(1)" class=" text-white text-md hover:underline">Change</button>
+          </div>
+          @if(selectedAddress(); as addr) {
+         <div class="min-w-0 space-y-1 text-gray-700 p-4">
+              <p>
+                <span class="font-semibold text-gray-900">Contact Name:</span>
+                {{ addr.contactName }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">Address:</span>
+                {{ addr.addressLine }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">City:</span>
+                {{ addr.city }}, {{ addr.state }} – {{ addr.pinCode }}
+              </p>
+
+              <p>
+                <span class="font-semibold text-gray-900">Phone Number:</span>
+                {{ addr.contactPhoneNumber }}
+              </p>
+            </div>
+          }
+        </div>
+
+        <div class="border border-gray-200 rounded-md overflow-hidden bg-white ">
+          <div class="flex items-center justify-between px-4 py-2.5 bg-blue-700 border-b border-gray-100">
+            <p class="font-semibold text-white">Payment</p>
+            <button (click)="goToStep(2)" class=" text-white text-md hover:underline">Change</button>
+          </div>
+          <div class="px-4 py-3">
+            <p class="font-medium text-gray-900">
+              {{ paymentMethods.find(p => p.id === selectedPaymentId())?.label ?? '—' }}
+            </p>
+          </div>
+        </div>
+
+        <div class="border border-gray-200 rounded-md overflow-hidden bg-white">
+          <div class="px-4 py-2.5 bg-blue-700 text-white border-b border-gray-100">
+            <p class="font-semibold ">Price details</p>
+          </div>
+          <div class="px-4 py-3 space-y-2">
+            <div class="flex justify-between text-gray-600">
+              <span>Subtotal ({{ cartItemCount() }} items)</span>
+              <span>₹{{ cartTotal() | number }}</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-gray-600">Delivery</span>
+              <span class="text-green-600 font-medium">Free</span>
+            </div>
+            @if(selectedCoupon()) {
+            <div class="flex justify-between text-green-600">
+              <span>Coupon ({{ selectedCoupon()!.couponCode }})</span>
+              <span>– ₹{{ discount() | number }}</span>
+            </div>
+            }
+            <div class="flex justify-between font-medium text-gray-900 pt-2 border-t border-gray-100">
+              <span>Total</span>
+              <span>₹{{ finalTotal() | number }}</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="mt-6 flex justify-between items-center">
+        <button (click)="prevStep()"
+          class="px-5 py-2.5 border border-gray-200 text-gray-600 font-medium rounded-lg hover:bg-gray-50 transition-colors">
+          Back
+        </button>
+        <button (click)="placeOrder()" [disabled]="isLoading()"
+          class="px-8 py-3 bg-blue-600 text-white font-bold rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+          @if(isLoading()) {
+          <span class="flex items-center gap-2">
+            <svg class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4" />
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+            </svg>
+            Placing order…
+          </span>
+          } @else {
+          Place order
+          }
+        </button>
+      </div>
+    </div>
+    }
+
+  </div>
+</section>

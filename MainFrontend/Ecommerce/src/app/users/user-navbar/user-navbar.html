@@ -38,7 +38,7 @@
                     Orders
                 </span>
             </button>
-            <button class="group relative cursor-pointer hover:text-gray-500 transition">
+            <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="goToCart()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -50,8 +50,8 @@
                     Cart
                 </span>
             </button>
-
-            <button class="group relative cursor-pointer hover:text-red-400 transition">
+ 
+            <button class="group relative cursor-pointer hover:text-red-400 transition" (click)="goToFavorites()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="size-6">
                     <path stroke-linecap="round" stroke-linejoin="round"

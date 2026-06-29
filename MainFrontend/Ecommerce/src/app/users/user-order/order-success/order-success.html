@@ -1,0 +1,33 @@
+<section class="bg-white min-h-screen flex items-center justify-center p-6">
+  <div class="max-w-sm w-full text-center flex flex-col items-center gap-5">
+
+    <div class="w-20 h-20 rounded-full bg-green-100 flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 text-green-500" fill="none" viewBox="0 0 24 24"
+        stroke="currentColor" stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+
+    <div>
+      <h1 class="text-xl font-bold text-gray-900">Order Placed!</h1>
+      <p class="text-sm text-gray-500 mt-1">
+        Your payment was successful and your order is confirmed.
+      </p>
+      @if(orderId()) {
+      <p class="text-xs text-gray-400 mt-1">Order ID: #{{ orderId() }}</p>
+      }
+    </div>
+
+    <div class="flex flex-col w-full gap-3 mt-2">
+      <button (click)="goToOrders()"
+        class="w-full py-3 bg-blue-600 text-white font-semibold text-sm rounded-lg hover:bg-blue-700 transition">
+        View My Orders
+      </button>
+      <button (click)="goToHome()"
+        class="w-full py-3 border border-gray-300 text-gray-600 font-medium text-sm rounded-lg hover:bg-gray-50 transition">
+        Continue Shopping
+      </button>
+    </div>
+
+  </div>
+</section>
