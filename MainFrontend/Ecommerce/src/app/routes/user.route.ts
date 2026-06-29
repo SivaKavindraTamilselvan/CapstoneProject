@@ -4,6 +4,13 @@ import { CategoryMobile } from '../users/category-mobile/category-mobile';
 import { SubCategoryMobile } from '../users/sub-category-mobile/sub-category-mobile';
 import { UserHome } from '../users/user-home/user-home';
 import { UserProductDetails } from '../users/user-product-details/user-product-details';
+import { UserCart } from '../users/user-cart/user-cart';
+import { UserOrderService } from '../services/user-order.Service';
+import { UserAddOrder } from '../users/user-order/user-add-order/user-add-order';
+import { OrderSuccess } from '../users/user-order/order-success/order-success';
+import { OrderFailure } from '../users/user-order/order-failure/order-failure';
+import { UserGetOrder } from '../users/user-order/user-get-order/user-get-order';
+import { UserFavorite } from '../users/user-favorite/user-favorite';
 
 export const UserRoutes: Routes = [
     {
@@ -30,5 +37,29 @@ export const UserRoutes: Routes = [
         path: 'product-details/:id',
         component: UserProductDetails
     },
+    {
+        path: 'cart',
+        component: UserCart
+    },
+    {
+        path: 'favorite',
+        component: UserFavorite
+    },
+    {
+        path: 'checkout',
+        component: UserAddOrder
+    },
+    {
+        path: 'order-success',
+        component: OrderSuccess
+    },
+    {
+        path: 'order-failed',
+        component: OrderFailure
+    },
+    {
+        path: 'orders',
+        component: UserGetOrder
+    }
 
 ];
