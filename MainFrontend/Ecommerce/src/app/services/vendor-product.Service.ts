@@ -21,6 +21,7 @@ import { MappedAttributeFilter } from "../models/admin/admin-product-category/fi
 import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/response/admin-mapped.model";
 import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
 import { UpdateProductVariantStatus } from "../models/vendor/vendor-product/add-model/update-variant-status.model";
+import { UpdateRejectedProductVariantModel } from "../models/vendor/vendor-product/add-model/update-rejected-status.model";
 
 @Injectable({
     providedIn: "root"
@@ -105,6 +106,10 @@ export class VendorProductService {
     }
     updateRejectedProduct(request: UpdateRejectedProductModel) {
         let url = BaseURL + "/VendorProduct/UpdateProductDetails";
+        return this.http.put(url, request);
+    }
+    updateRejectedVariant(request: UpdateRejectedProductVariantModel) {
+        let url = BaseURL + "/VendorProduct/UpdateRejectedProductVariant";
         return this.http.put(url, request);
     }
     getProductDetails(productId: number) {
