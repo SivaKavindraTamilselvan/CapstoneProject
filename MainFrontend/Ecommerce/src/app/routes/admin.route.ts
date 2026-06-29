@@ -25,6 +25,7 @@ import { AdminDetailProduct } from '../admin/admin-product/admin-detail-product/
 import { AdminUserDetail } from '../admin/admin-user/admin-user-detail/admin-user-detail';
 import { VendorDetails } from '../admin/admin-vendor/vendor-details/vendor-details';
 import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
+import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
 
 export const AdminRoutes: Routes = [
     {
@@ -130,5 +131,9 @@ export const AdminRoutes: Routes = [
     {
         path: 'coupon/add',
         component: AddCoupon
+    },
+    {
+        path: 'orders/list',
+        component: GetAdminOrders
     },
 ];

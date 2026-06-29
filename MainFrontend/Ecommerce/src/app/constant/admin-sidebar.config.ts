@@ -112,5 +112,14 @@ export const SIDEBAR_MENU: SidebarItem[] = [
       { label: 'Inactive Coupons', route: '/admin/coupon/list?status=inactive' },
       { label: 'All Coupons', route: '/admin/coupon/list' }
     ]
+  },
+  {
+    key: 'orders',
+    label: 'Orders',
+    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    children: [
+      { label: 'Pending Orders', route: '/admin/orders/list?status=pending' },
+      { label: 'All Orders', route: '/admin/orders/list' }
+    ]
   }
 ];

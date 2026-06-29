@@ -1,0 +1,198 @@
+import { Component, computed, signal } from '@angular/core';
+import { Router } from '@angular/router';
+import { AdminOrderService } from '../../../services/admin-order.Service';
+import { AdminOrderFilter } from '../../../models/admin/admin-orders/get-order.filter';
+import { DatePipe, DecimalPipe } from '@angular/common';
+
+@Component({
+  selector: 'app-get-admin-orders',
+  imports: [DecimalPipe, DatePipe],
+  templateUrl: './get-admin-orders.html',
+  styleUrl: './get-admin-orders.css',
+})
+export class GetAdminOrders {
+
+  // =========================
+  // DATA STATE
+  // =========================
+  orders = signal<any | null>(null);
+
+  // =========================
+  // FILTER STATE
+  // =========================
+  orderNumber = signal<string>('');
+  orderStatusId = signal<number | null>(null);
+  userId = signal<number | null>(null);
+  vendorId = signal<number | null>(null);
+
+  fromDate = signal<string>('');
+  toDate = signal<string>('');
+
+  minAmount = signal<number | null>(null);
+  maxAmount = signal<number | null>(null);
+
+  // =========================
+  // PAGINATION
+  // =========================
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(10);
+
+  totalPages = computed(() => this.orders()?.totalPages ?? 1);
+
+  // =========================
+  // UI STATE
+  // =========================
+  filterPanelOpen = signal<boolean>(false);
+
+  constructor(
+    private router: Router,
+    private adminOrderService: AdminOrderService
+  ) { }
+
+  ngOnInit() {
+    this.loadOrders();
+  }
+
+  // =========================
+  // LOAD DATA
+  // =========================
+  loadOrders() {
+    this.adminOrderService.getOrders(this.buildFilter()).subscribe({
+      next: (response: any) => {
+        this.orders.set(response);
+        console.log(response);
+      },
+      error: (error) => {
+        console.error(error);
+
+        if (error.status === 404) {
+          this.orders.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: this.pageNumber(),
+            pageSize: this.pageSize(),
+            totalPages: 1
+          });
+        }
+      }
+    });
+  }
+
+  // =========================
+  // BUILD FILTER
+  // =========================
+  private buildFilter(): AdminOrderFilter {
+    return {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+
+      orderNumber: this.orderNumber() || undefined,
+      orderStatusId: this.orderStatusId() ?? undefined,
+      userId: this.userId() ?? undefined,
+      vendorId: this.vendorId() ?? undefined,
+
+      fromDate: this.fromDate() || undefined,
+      toDate: this.toDate() || undefined,
+
+      minAmount: this.minAmount() ?? undefined,
+      maxAmount: this.maxAmount() ?? undefined
+    };
+  }
+
+  // =========================
+  // FILTER PANEL
+  // =========================
+  toggleFilterPanel(): void {
+    this.filterPanelOpen.update(open => !open);
+  }
+
+  closeFilterPanel(): void {
+    this.filterPanelOpen.set(false);
+  }
+
+  applyFilters(): void {
+    this.pageNumber.set(1);
+    this.loadOrders();
+    this.closeFilterPanel();
+  }
+
+  resetFilters(): void {
+    this.pageNumber.set(1);
+
+    this.orderNumber.set('');
+    this.orderStatusId.set(null);
+    this.userId.set(null);
+    this.vendorId.set(null);
+    this.fromDate.set('');
+    this.toDate.set('');
+    this.minAmount.set(null);
+    this.maxAmount.set(null);
+
+    this.loadOrders();
+    this.closeFilterPanel();
+  }
+
+  // =========================
+  // PAGINATION
+  // =========================
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages()) return;
+
+    this.pageNumber.set(page);
+    this.loadOrders();
+  }
+
+  nextPage(): void {
+    this.goToPage(this.pageNumber() + 1);
+  }
+
+  previousPage(): void {
+    this.goToPage(this.pageNumber() - 1);
+  }
+
+  onPageSizeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.pageSize.set(value);
+    this.pageNumber.set(1);
+    this.loadOrders();
+  }
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+
+    if (value === '') {
+      this.orderStatusId.set(null);
+    } else {
+      this.orderStatusId.set(Number(value));
+    }
+  }
+  onOrderNumberInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.orderNumber.set(value);
+  }
+  onUserIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.userId.set(value ? Number(value) : null);
+  }
+  onVendorIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.vendorId.set(value ? Number(value) : null);
+  }
+  onMinPriceInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minAmount.set(v ? Number(v) : null);
+  }
+
+  onMaxPriceInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxAmount.set(v ? Number(v) : null);
+  }
+  onFromDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+  }
+
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+  }
+}
