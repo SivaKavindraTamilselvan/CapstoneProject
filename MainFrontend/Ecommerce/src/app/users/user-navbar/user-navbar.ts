@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
-import { UserProductService } from '../../services/user-product.Service'; 
-import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model'; 
-import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model'; 
+import { UserProductService } from '../../services/user-product.Service';
+import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
+import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
 import { Router, RouterOutlet } from '@angular/router';
 
 @Component({
@@ -15,7 +15,7 @@ export class UserNavbar {
   selectedProductCategory = signal<number | null>(null);
   productCategoryModel = signal<UserProductCategoryModel[]>([]);
   subProductCategoryModel = signal<UserSubProductCategoryModel[]>([]);
-  constructor(private userProductService: UserProductService,private router : Router) {
+  constructor(private userProductService: UserProductService, private router: Router) {
 
   }
   ngOnInit() {
@@ -51,10 +51,32 @@ export class UserNavbar {
     this.selectedProductCategory.set(categoryId);
     this.loadSubCategory();
   }
+
   goToCategories(): void {
     this.router.navigate(['/user/categories']);
   }
-  goToHome():void{
+  
+  goToHome(): void {
     this.router.navigate(['/user']);
+  }
+
+  goToCart(): void {
+    this.router.navigate(['/user/cart']);
+  }
+
+  goToFavorites(): void {
+    this.router.navigate(['/user/favorite']);
+  }
+
+  goToOrders(): void {
+    this.router.navigate(['/user/orders']);
+  }
+
+  goToProfile(): void {
+    this.router.navigate(['/user/profile']);
+  }
+
+  goToNotifications(): void {
+    this.router.navigate(['/user/notifications']);
   }
 }
