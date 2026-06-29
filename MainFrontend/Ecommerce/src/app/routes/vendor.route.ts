@@ -12,6 +12,7 @@ import { InventoryList } from "../vendor/inventory/inventory-list/inventory-list
 import { VendorInventoryDetails } from "../vendor/inventory/vendor-inventory-details/vendor-inventory-details";
 import { DeletedInventory } from "../vendor/inventory/deleted-inventory/deleted-inventory";
 import { VendorProductDetails } from "../vendor/vendor-product/vendor-product-details/vendor-product-details";
+import { UpdateRejectedProduct } from "../vendor/vendor-product/update-rejected-product/update-rejected-product";
 
 export const VendorRoute: Routes = [
     {
@@ -39,8 +40,8 @@ export const VendorRoute: Routes = [
         component: UpdateProduct
     },
     {
-        path: 'products/update-status',
-        component: UpdateProduct
+        path: 'products/update-rejected',
+        component: UpdateRejectedProduct
     },
     {
         path: 'warehouses/add',

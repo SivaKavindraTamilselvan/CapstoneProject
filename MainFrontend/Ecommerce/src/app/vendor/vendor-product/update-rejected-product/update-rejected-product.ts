@@ -5,10 +5,15 @@ import { VendorProductModel } from '../../../models/vendor/vendor-product/respon
 import { VendorProductFilter } from '../../../models/vendor/vendor-product/filter/vendor-product.filter';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
+import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-product/add-model/update-rejected-product.model';
+import { form, FormField, min, required } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
+import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
 
 @Component({
   selector: 'app-update-rejected-product',
-  imports: [],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './update-rejected-product.html',
   styleUrl: './update-rejected-product.css',
 })
@@ -30,6 +35,7 @@ export class UpdateRejectedProduct {
   minReservedQuantity = signal<number | null>(null);
   maxReservedQuantity = signal<number | null>(null);
   mainProductSubCategoryAttributeId = signal<number | null>(null);
+  showUpdatePopup = signal(false);
 
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
@@ -39,7 +45,18 @@ export class UpdateRejectedProduct {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
-   approvalStatusOptions = [
+  updateProductModel = signal(new UpdateRejectedProductModel());
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  updateCategoryId = signal<number | null>(null);
+  updateSubCategoryId = signal<number | null>(null);
+
+  updateSubCategories = signal<AdminProductSubCategoryModel[]>([]);
+  allAttributes = signal<AdminMappedAttributeModel[]>([]);
+  filteredAttributes = signal<AdminMappedAttributeModel[]>([]);
+
+
+  approvalStatusOptions = [
     { id: 1, label: 'Pending' },
     { id: 2, label: 'Vendor Approved' },
     { id: 3, label: 'Vendor Rejected' },
@@ -58,11 +75,13 @@ export class UpdateRejectedProduct {
 
   }
   ngOnInit(): void {
-
+    this.loadRejectedProduct();
+    this.loadCategories();
   }
   loadRejectedProduct() {
     this.vendorProductservice.getProduct(this.buildFilter()).subscribe({
       next: (response: any) => {
+        console.log(response);
         this.products.set(response);
       },
       error: (error) => {
@@ -75,7 +94,7 @@ export class UpdateRejectedProduct {
       productName: this.productName() || null,
       productCategoryId: this.productCategoryId(),
       productSubCategoryId: this.productSubCategoryId(),
-      productApprovalStatusId: this.productApprovalStatusId(),
+      productApprovalStatusId: 5,
       productStatusId: this.productStatusId(),
       addedByVendorUserId: this.addedByVendorUserId(),
       minPrice: this.minPrice(),
@@ -127,7 +146,7 @@ export class UpdateRejectedProduct {
     this.closeFilterPanel();
   }
 
-   goToPage(page: number): void {
+  goToPage(page: number): void {
     if (page < 1 || page > this.totalPages()) return;
     this.pageNumber.set(page);
     this.loadRejectedProduct();
@@ -225,5 +244,184 @@ export class UpdateRejectedProduct {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+  }
+  updateRejectedForm = form(this.updateProductModel, (path) => {
+    required(path.productName, {
+      message: 'Product name is required'
+    });
+
+    required(path.description, {
+      message: 'Description is required'
+    });
+
+    required(path.productSubCategoryId, {
+      message: 'Sub category is required'
+    });
+
+    min(path.productSubCategoryId, 1, {
+      message: 'Invalid sub category'
+    });
+
+    required(path.mainProductSubCategoryAttributeId, {
+      message: 'Main attribute is required'
+    });
+
+    min(path.mainProductSubCategoryAttributeId, 1, {
+      message: 'Invalid attribute'
+    });
+  });
+  loadAttributes(subCategoryId: number, product?: VendorProductModel): void {
+
+    const request = new MappedAttributeFilter();
+    request.productSubCategoryId = subCategoryId;
+    request.status = true;
+
+    this.vendorProductservice.getmappedAttribute(subCategoryId).subscribe({
+      next: (res: any) => {
+
+        const data = res.items ?? res;
+
+        this.allAttributes.set(data);
+
+        console.log("ALL ATTRIBUTES:", data);
+        const attribute = data.find(
+          (x: AdminMappedAttributeModel) =>
+            x.attributeName.trim().toLowerCase() ===
+            product?.mainProductSubCategoryAttributeName?.trim().toLowerCase()
+        );
+
+        console.log("MATCHED:", attribute);
+
+        this.updateProductModel.set(
+          new UpdateRejectedProductModel(
+            product!.productId,
+            product!.productName,
+            product!.description,
+            subCategoryId,
+            attribute?.productSubCategoryAttributeId ?? 0
+          )
+        );
+
+        this.showUpdatePopup.set(true);
+
+      },
+      error: err => console.log(err)
+    });
+  }
+  openUpdatePopup(product: VendorProductModel) {
+
+    const category = this.categories().find(
+      c => c.productCategoryName === product.productCategoryName
+    );
+
+
+    if (!category) {
+      return;
+    }
+
+    this.updateCategoryId.set(Number(category.productCategoryId));
+    this.vendorProductservice.getSubCategory(category.productCategoryId).subscribe({
+      next: (res: any) => {
+
+        this.updateSubCategories.set(res.items ?? res);
+
+        const subCategory = this.updateSubCategories().find(
+          s => s.productSubCategoryName === product.productSubCategoryName
+        );
+
+        if (!subCategory) {
+          return;
+        }
+        this.loadAttributes(subCategory.productSubCategoryId, product);
+
+      }
+    });
+  }
+  closeUpdatePopup() {
+
+    this.showUpdatePopup.set(false);
+
+    this.updateProductModel.set(
+      new UpdateRejectedProductModel()
+    );
+
+    this.errorMessage.set(null);
+  }
+  updateRejectedProduct() {
+
+    if (this.updateRejectedForm().invalid()) {
+      this.errorMessage.set("Enter valid details");
+      return;
+    }
+
+    this.vendorProductservice
+      .updateRejectedProduct(this.updateProductModel())
+      .subscribe({
+
+        next: () => {
+
+          this.successMessage.set("Product updated successfully");
+
+          this.closeUpdatePopup();
+
+          this.loadRejectedProduct();
+        },
+
+        error: err => {
+
+          this.errorMessage.set(
+            err.error?.message ?? "Failed to update product"
+          );
+
+        }
+
+      });
+
+  }
+  onUpdateCategoryChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateCategoryId.set(id);
+
+    this.vendorProductservice.getSubCategory(id).subscribe({
+      next: (res: any) => {
+
+        this.updateSubCategories.set(res.items ?? res);
+
+        this.updateProductModel.update(model => ({
+          ...model,
+          productSubCategoryId: 0,
+          mainProductSubCategoryAttributeId: 0
+        }));
+
+        this.filteredAttributes.set([]);
+      }
+    });
+  }
+  onUpdateSubCategoryChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateProductModel.update(model => ({
+      ...model,
+      productSubCategoryId: id,
+      mainProductSubCategoryAttributeId: 0
+    }));
+
+    this.filteredAttributes.set(
+      this.allAttributes().filter(
+        x => x.productSubCategoryId === id
+      )
+    );
+  }
+  onUpdateAttributeChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateProductModel.update(model => ({
+      ...model,
+      mainProductSubCategoryAttributeId: id
+    }));
   }
 }

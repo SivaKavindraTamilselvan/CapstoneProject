@@ -9,6 +9,7 @@ import { VendorProductFilter } from '../../../models/vendor/vendor-product/filte
 import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-model/update-product-status.model';
 import { form, required, min, max, FormField } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-product/add-model/update-rejected-product.model';
 
 @Component({
   selector: 'app-update-product',
@@ -49,6 +50,7 @@ export class UpdateProduct {
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   reviewProductModel = signal(new UpdateProductStatus());
+
 
   updateForm = form(this.reviewProductModel, (path) => {
     required(path.productId, { message: "Enter The Approval Status" });

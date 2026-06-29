@@ -14,6 +14,11 @@ import { ReviewProductRequestModel } from "../models/product/review-product.dto"
 import { Observable } from "rxjs";
 import { ProductModel } from "../models/product/product.model";
 import { UpdateProductStatus } from "../models/vendor/vendor-product/add-model/update-product-status.model";
+import { UpdateRejectedProduct } from "../vendor/vendor-product/update-rejected-product/update-rejected-product";
+import { UpdateRejectedProductModel } from "../models/vendor/vendor-product/add-model/update-rejected-product.model";
+import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
+import { MappedAttributeFilter } from "../models/admin/admin-product-category/filter-models/mapped-attribute.filter";
+import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/response/admin-mapped.model";
 
 @Injectable({
     providedIn: "root"
@@ -88,8 +93,17 @@ export class VendorProductService {
         let url = BaseURL + "/VendorProduct/UpdateProduct";
         return this.http.put(url, request);
     }
-    getProductDetails(productId : number){
+    updateRejectedProduct(request: UpdateRejectedProductModel) {
+        let url = BaseURL + "/VendorProduct/UpdateProductDetails";
+        return this.http.put(url, request);
+    }
+    getProductDetails(productId: number) {
         let url = `${BaseURL}/VendorProduct/${productId}`;
-        return this.http.get<ProductModel>(url,{});
+        return this.http.get<ProductModel>(url, {});
+    }
+    getmappedAttribute(id: number) {
+        console.log("skmxs"+id);
+        const url = BaseURL + `/VendorProduct/subcategory-attributes?ProductSubCategoryId=${id}`;
+        return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url);
     }
 }
