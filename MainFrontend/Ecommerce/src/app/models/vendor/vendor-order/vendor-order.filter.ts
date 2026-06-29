@@ -6,6 +6,7 @@ export class VendorOrderFilter {
         public fromDate?: string, // ISO string (date-time)
         public toDate?: string,   // ISO string (date-time)
         public orderStatusId?: number,
+        public orderItemStatusId?: number,
         public minAmount?: number,
         public maxAmount?: number,
         public userId?: number,

@@ -49,8 +49,6 @@
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
 
-            
-
             <div>
                 <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
                 <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
@@ -61,6 +59,24 @@
                     <option value="3">Completed</option>
                     <option value="4">Cancelled</option>
                     <option value="5">Failed</option>
+
+                </select>
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-gray-700 mb-1">Order Item Status</label>
+                <select (change)="onOrderStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+
+                    <option value="">All</option>
+
+                    <option value="1">Pending</option>
+                    <option value="2">Packed</option>
+                    <option value="3">Processed</option>
+                    <option value="4">Delivered</option>
+                    <option value="5">Delayed</option>
+                    <option value="6">Returned</option>
+                    <option value="7">Cancelled</option>
+                    <option value="8">Refunded</option>
 
                 </select>
             </div>
@@ -166,7 +182,7 @@
         </table>
     </div>
 
-   
+
     @if(orders()){
     <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
 

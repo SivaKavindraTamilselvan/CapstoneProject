@@ -19,6 +19,7 @@ export class VendorOrderList {
 
   orderNumber = signal<string>('');
   orderStatusId = signal<number | null>(null);
+  orderItemStatusId = signal<number | null>(null);
   userId = signal<number | null>(null);
 
   fromDate = signal<string>('');
@@ -75,6 +76,7 @@ export class VendorOrderList {
 
       orderNumber: this.orderNumber() || undefined,
       orderStatusId: this.orderStatusId() ?? undefined,
+      orderItemStatusId : this.orderItemStatusId() ?? undefined,
 
       userId: this.userId() ?? undefined,
 
@@ -105,6 +107,7 @@ export class VendorOrderList {
 
     this.orderNumber.set('');
     this.orderStatusId.set(null);
+    this.orderItemStatusId.set(null);
     this.userId.set(null);
 
     this.fromDate.set('');
@@ -142,6 +145,11 @@ export class VendorOrderList {
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.orderStatusId.set(value ? Number(value) : null);
+  }
+
+  onOrderStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.orderItemStatusId.set(value ? Number(value) : null);
   }
 
   onOrderNumberInput(event: Event): void {
