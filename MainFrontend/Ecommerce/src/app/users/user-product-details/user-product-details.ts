@@ -6,6 +6,8 @@ import { CommonModule } from '@angular/common';
 import { UserProductVariantModel } from '../../models/user/product/user-variant.model';
 import { UserCartService } from '../../services/user-cart.Service';
 import { AddCartItemModel } from '../../models/user/cart/add-cart,model';
+import { UserFavoriteService } from '../../services/user-favorite.Service';
+import { AddFavoriteItemModel } from '../../models/user/favorites/add-favorite.model';
 
 @Component({
   selector: 'app-user-product-details',
@@ -68,7 +70,7 @@ export class UserProductDetails {
       .join(' · ') || 'Base';
   }
 
-  constructor(private userProductService: UserProductService, private route: ActivatedRoute, private userCartService: UserCartService) { }
+  constructor(private userFavoriteService:UserFavoriteService,private userProductService: UserProductService, private route: ActivatedRoute, private userCartService: UserCartService) { }
 
   ngOnInit() {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
@@ -136,12 +138,12 @@ export class UserProductDetails {
     });
   }
   addToFavorites() {
-    const addmodel = new AddCartItemModel();
+    const addmodel = new AddFavoriteItemModel();
     const variant = this.selectedVariant();
     if (!variant) return;
     addmodel.productVariantId = variant.productVariantId;
-    this.userCartService.addToCart(addmodel).subscribe({
-      next: () => console.log('Added to cart'),
+    this.userFavoriteService.addToFavorite(addmodel).subscribe({
+      next: () => console.log('Added to Favorites'),
       error: (err) => console.error(err)
     });
   }
