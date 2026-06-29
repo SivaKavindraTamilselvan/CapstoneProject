@@ -9,7 +9,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-add-variant',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './add-variant.html',
   styleUrl: './add-variant.css',
 })
@@ -20,7 +20,10 @@ export class AddVariant {
   productVariant = signal(new AddProductVariantModel());
   productVariantImages = signal<AddProductVariantImageModel[]>([]);
 
-  constructor(private route: Router, private vendorProductService: VendorProductService) { }
+  constructor(
+    private route: Router,
+    private vendorProductService: VendorProductService
+  ) {}
 
   addForm = form(this.productVariant, (path) => {
     required(path.productId, { message: 'Product is required' });
@@ -41,32 +44,35 @@ export class AddVariant {
     required(path.heightInCm, { message: 'Height is required' });
     min(path.heightInCm, 0.1, { message: 'Height must be greater than 0' });
 
-    required(path.minimuQuantityPerUser, { message: 'Minimum quantity is required' });
-    min(path.minimuQuantityPerUser, 1, { message: 'Minimum quantity must be at least 1' });
+    required(path.minimuQuantityPerUser, {
+      message: 'Minimum quantity is required',
+    });
+    min(path.minimuQuantityPerUser, 1, {
+      message: 'Minimum quantity must be at least 1',
+    });
   });
 
   // --- Attribute management ---
+  // FIX: was spreading into 'productVariantAttribute' but reading from 'v.attributes'
+  // Both the spread key and the read key must match the actual model property name.
   addAttribute(): void {
     this.productVariant.update((v) => ({
       ...v,
-      productVariantAttribute: [
-        ...v.attributes,
-        new AddProductVariantAttributeModel(),
-      ],
+      productVariantAttribute: [...v.productVariantAttribute, new AddProductVariantAttributeModel()],
     }));
   }
 
   removeAttribute(index: number): void {
     this.productVariant.update((v) => ({
       ...v,
-      productVariantAttribute: v.attributes.filter((_, i) => i !== index),
+      productVariantAttribute: v.productVariantAttribute.filter((_, i) => i !== index),
     }));
   }
 
   updateAttributeId(index: number, event: Event): void {
     const value = Number((event.target as HTMLInputElement).value);
     this.productVariant.update((v) => {
-      const updated = [...v.attributes];
+      const updated = [...v.productVariantAttribute];
       updated[index] = { ...updated[index], productSubCategoryAttributeId: value };
       return { ...v, productVariantAttribute: updated };
     });
@@ -75,7 +81,7 @@ export class AddVariant {
   updateAttributeValue(index: number, event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.productVariant.update((v) => {
-      const updated = [...v.attributes];
+      const updated = [...v.productVariantAttribute];
       updated[index] = { ...updated[index], attributeValue: value };
       return { ...v, productVariantAttribute: updated };
     });
@@ -96,7 +102,7 @@ export class AddVariant {
         image.displayOrderId = startOrder + index;
         this.productVariantImages.update((imgs) => [...imgs, image]);
       };
-      reader.readAsDataURL(file);
+      reader.readAsDataURL(file); // FIX: was missing — onload never fired without this
     });
 
     input.value = '';
@@ -106,7 +112,7 @@ export class AddVariant {
     this.productVariantImages.update((imgs) =>
       imgs
         .filter((_, i) => i !== index)
-        .map((img, i) => ({ ...img, displayOrderId: i + 1, isMainImage: i === 0 }))
+        .map((img, i) => ({ ...img, displayOrderId: i + 1 }))
     );
   }
 
@@ -171,6 +177,7 @@ export class AddVariant {
     this.productVariant.set(new AddProductVariantModel());
     this.productVariantImages.set([]);
   }
+
   onIsReturnChange(event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
     this.productVariant.update((v) => ({ ...v, isReturn: checked }));

@@ -11,6 +11,6 @@ export class AddProductVariantModel {
     public minimuQuantityPerUser: number = 1,
     public isReturn: boolean = true,
     public isExchange: boolean = true,
-    public attributes: AddProductVariantAttributeModel[] = []
+    public productVariantAttribute : AddProductVariantAttributeModel[] = []
   ) {}
 }
