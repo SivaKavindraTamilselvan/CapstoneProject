@@ -1,22 +1,21 @@
 import { Component, computed, signal } from '@angular/core';
+import { PagedResponse } from '../../../models/paged-response.model';
+import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
 import { Router } from '@angular/router';
 import { AdminOrderService } from '../../../services/admin-order.Service';
 import { AdminOrderFilter } from '../../../models/admin/admin-orders/get-order.filter';
-import { DatePipe, DecimalPipe } from '@angular/common';
-import { PagedResponse } from '../../../models/paged-response.model';
-import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
+import { DatePipe } from '@angular/common';
 
 @Component({
-  selector: 'app-get-admin-orders',
-  imports: [DecimalPipe, DatePipe],
-  templateUrl: './get-admin-orders.html',
-  styleUrl: './get-admin-orders.css',
+  selector: 'app-admin-confirmed-orders',
+  imports: [DatePipe],
+  templateUrl: './admin-confirmed-orders.html',
+  styleUrl: './admin-confirmed-orders.css',
 })
-export class GetAdminOrders {
-
+export class AdminConfirmedOrders {
   orders = signal<PagedResponse<OrderModel> | null>(null);
 
-  
+
   orderNumber = signal<string>('');
   orderStatusId = signal<number | null>(null);
   userId = signal<number | null>(null);
@@ -33,7 +32,7 @@ export class GetAdminOrders {
 
   totalPages = computed(() => this.orders()?.totalPages ?? 1);
 
- 
+
   filterPanelOpen = signal<boolean>(false);
 
   constructor(
@@ -45,7 +44,7 @@ export class GetAdminOrders {
     this.loadOrders();
   }
 
- 
+
   loadOrders() {
     this.adminOrderService.getOrders(this.buildFilter()).subscribe({
       next: (response: any) => {
@@ -68,14 +67,14 @@ export class GetAdminOrders {
     });
   }
 
-  
+
   private buildFilter(): AdminOrderFilter {
     return {
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
 
       orderNumber: this.orderNumber() || undefined,
-      orderStatusId: this.orderStatusId() ?? undefined,
+      orderStatusId: 2,
       userId: this.userId() ?? undefined,
       vendorId: this.vendorId() ?? undefined,
 
@@ -87,7 +86,7 @@ export class GetAdminOrders {
     };
   }
 
-  
+
   toggleFilterPanel(): void {
     this.filterPanelOpen.update(open => !open);
   }
@@ -106,7 +105,6 @@ export class GetAdminOrders {
     this.pageNumber.set(1);
 
     this.orderNumber.set('');
-    this.orderStatusId.set(null);
     this.userId.set(null);
     this.vendorId.set(null);
     this.fromDate.set('');
@@ -118,7 +116,7 @@ export class GetAdminOrders {
     this.closeFilterPanel();
   }
 
-  
+
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages()) return;
 
@@ -139,15 +137,6 @@ export class GetAdminOrders {
     this.pageSize.set(value);
     this.pageNumber.set(1);
     this.loadOrders();
-  }
-  onStatusChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-
-    if (value === '') {
-      this.orderStatusId.set(null);
-    } else {
-      this.orderStatusId.set(Number(value));
-    }
   }
   onOrderNumberInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
