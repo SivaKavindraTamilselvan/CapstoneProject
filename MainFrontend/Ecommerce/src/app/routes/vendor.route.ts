@@ -18,6 +18,8 @@ import { UpdateProductVariantStatus } from "../models/vendor/vendor-product/add-
 import { UpdateVariant } from "../vendor/vendor-variant/update-variant/update-variant";
 import { UpdateRejectedVariant } from "../vendor/vendor-variant/update-rejected-variant/update-rejected-variant";
 import { AddCoupon } from "../admin/admin-coupon/add-coupon/add-coupon";
+import { VendorOrderList } from "../vendor/vendor-order/vendor-order-list/vendor-order-list";
+import { VendorUpdateOrder } from "../vendor/vendor-order/vendor-update-order/vendor-update-order";
 
 export const VendorRoute: Routes = [
     {
@@ -88,5 +90,14 @@ export const VendorRoute: Routes = [
     {
         path: 'products/:id',
         component: VendorProductDetails
-    }
+    },
+
+    {
+        path: 'orders/list',
+        component: VendorOrderList
+    },
+    {
+        path: 'orders/confirmed-orders',
+        component: VendorUpdateOrder
+    },
 ]
