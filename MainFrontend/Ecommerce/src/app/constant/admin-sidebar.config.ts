@@ -101,5 +101,16 @@ export const SIDEBAR_MENU: SidebarItem[] = [
       { label: 'Active Mapped Attributes', route: '/admin/attribute-mapping/list?status=active' },
       { label: 'Inactive Mapped Attributes', route: '/admin/attribute-mapping/list?status=inactive' },
     ]
+  },
+  {
+    key: 'coupon',
+    label: 'Coupons',
+    roles: ['super-admin', 'product-admin'],
+    children: [
+      { label: 'Add Coupon', route: '/admin/coupon/add' },
+      { label: 'Active Coupons', route: '/admin/coupon/list?status=active' },
+      { label: 'Inactive Coupons', route: '/admin/coupon/list?status=inactive' },
+      { label: 'All Coupons', route: '/admin/coupon/list' }
+    ]
   }
 ];

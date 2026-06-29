@@ -17,6 +17,7 @@ import { ReviewVariant } from "../vendor/vendor-variant/review-variant/review-va
 import { UpdateProductVariantStatus } from "../models/vendor/vendor-product/add-model/update-variant-status.model";
 import { UpdateVariant } from "../vendor/vendor-variant/update-variant/update-variant";
 import { UpdateRejectedVariant } from "../vendor/vendor-variant/update-rejected-variant/update-rejected-variant";
+import { AddCoupon } from "../admin/admin-coupon/add-coupon/add-coupon";
 
 export const VendorRoute: Routes = [
     {
@@ -87,5 +88,5 @@ export const VendorRoute: Routes = [
     {
         path: 'products/:id',
         component: VendorProductDetails
-    },
+    }
 ]

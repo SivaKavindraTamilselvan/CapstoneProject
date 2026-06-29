@@ -24,6 +24,7 @@ import { InactiveMappedAttribute } from '../admin/admin-mapped-attribute/inactiv
 import { AdminDetailProduct } from '../admin/admin-product/admin-detail-product/admin-detail-product';
 import { AdminUserDetail } from '../admin/admin-user/admin-user-detail/admin-user-detail';
 import { VendorDetails } from '../admin/admin-vendor/vendor-details/vendor-details';
+import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
 
 export const AdminRoutes: Routes = [
     {
@@ -125,5 +126,9 @@ export const AdminRoutes: Routes = [
     {
         path: 'attribute-mapping/list?status=inactive',
         component: InactiveMappedAttribute
+    },
+    {
+        path: 'coupon/add',
+        component: AddCoupon
     },
 ];

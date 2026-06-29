@@ -1,0 +1,116 @@
+<section class="bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
+
+    <!-- Title -->
+    <div class="pb-4 flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">
+            Add Coupon
+        </h1>
+    </div>
+
+    <!-- Card Wrapper -->
+    <div class="flex justify-center px-2">
+        <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl p-8 space-y-6">
+
+            @if(errorMessage()) {
+            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold">
+                {{ errorMessage() }}
+            </div>
+            }
+
+            <form class="flex flex-col gap-5">
+
+                <div class="flex gap-4 flex-col sm:flex-row">
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">Coupon Code</label>
+                        <input
+                            type="text"
+                            placeholder="Enter Coupon Code"
+                            [formField]="couponForm.couponCode"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">Discount Value</label>
+                        <input
+                            type="number"
+                            placeholder="Enter Discount Value"
+                            [formField]="couponForm.discountValue"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                </div>
+
+                <div class="flex gap-4 flex-col sm:flex-row">
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">Minimum Order Amount</label>
+                        <input
+                            type="number"
+                            placeholder="Enter Minimum Order"
+                            [formField]="couponForm.minimumOrderAmount"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">Minimum Usage</label>
+                        <input
+                            type="number"
+                            placeholder="Enter Minimum Usage"
+                            [formField]="couponForm.minimumNumberOfUsage"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                </div>
+
+                <div class="flex gap-4 flex-col sm:flex-row">
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">Start Date</label>
+                        <input
+                            type="date"
+                            [formField]="couponForm.startDate"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                    <div class="flex-1">
+                        <label class="font-bold text-lg mb-2 block">End Date</label>
+                        <input
+                            type="date"
+                            [formField]="couponForm.endDate"
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    </div>
+
+                </div>
+
+                <div>
+                    <label class="font-bold text-lg mb-2 block">Coupon Description</label>
+                    <textarea
+                        rows="4"
+                        placeholder="Enter Coupon Description"
+                        [formField]="couponForm.couponDescription"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
+                    </textarea>
+                </div>
+
+                <div class="flex w-full gap-4">
+
+                    <button
+                        type="button"
+                        (click)="handleAddCouponClick()"
+                        [disabled]="progress()"
+                        class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer">
+                        {{ progress() ? 'Saving...' : 'Add Coupon' }}
+                    </button>
+                    <button
+                        type="button"
+                        (click)="resetForm()"
+                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer">
+                        Reset
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+</section>
