@@ -116,4 +116,13 @@ export class GetVendorAddress {
     this.pageNumber.set(1);
     this.loadAddress();
   }
+
+  deleteAddress(addressId : number){
+    this.addressService.deleteAddress(addressId).subscribe({
+      next : (response:any)=>{
+        alert("Warehouse deleted");
+        this.loadAddress();
+      }
+    })
+  }
 }

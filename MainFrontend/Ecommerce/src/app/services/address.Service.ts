@@ -5,6 +5,7 @@ import { AddAddressModel } from "../models/address/add-address.model";
 import { AddressFilter } from "../models/address/address-filter";
 import { PagedResponse } from "../models/paged-response.model";
 import { AddressModel } from "../models/address/address-response.model";
+import { DeleteAddress } from "../address/delete-address/delete-address";
 
 @Injectable({
     providedIn: "root"
@@ -13,11 +14,11 @@ export class AddressService {
     constructor(private http: HttpClient) {
 
     }
-    addAddress(request : AddAddressModel) {
+    addAddress(request: AddAddressModel) {
         let url = BaseURL + "/Address/add-address";
         return this.http.post(url, request);
     }
-    getAddress(filter : AddressFilter){
+    getAddress(filter: AddressFilter) {
         let url = BaseURL + "/Address/vendor-address";
         let params = new HttpParams();
 
@@ -26,10 +27,14 @@ export class AddressService {
                 params = params.set(key, value.toString());
             }
         });
-        return this.http.get<PagedResponse<AddressModel>>(url,{params});
+        return this.http.get<PagedResponse<AddressModel>>(url, { params });
     }
-    getUserAddress(){
+    getUserAddress() {
         let url = BaseURL + "/Address/actice-address";
-        return this.http.get<AddressModel[]>(url,{});
+        return this.http.get<AddressModel[]>(url, {});
+    }
+    deleteAddress(addressId : number) {
+        let url = BaseURL + `/Address/${addressId}/deactivate`;
+        return this.http.patch(url, {});
     }
 }
