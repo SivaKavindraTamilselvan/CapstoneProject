@@ -88,4 +88,8 @@ export class VendorProductService {
         let url = BaseURL + "/VendorProduct/UpdateProduct";
         return this.http.put(url, request);
     }
+    getProductDetails(productId : number){
+        let url = `${BaseURL}/VendorProduct/${productId}`;
+        return this.http.get<ProductModel>(url,{});
+    }
 }

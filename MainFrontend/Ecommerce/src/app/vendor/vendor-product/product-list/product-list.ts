@@ -80,6 +80,7 @@ export class ProductList {
 
   ngOnInit(): void {
     this.loadProduct();
+    this.loadCategories();
   }
 
   private buildFilter(): VendorProductFilter {
@@ -247,5 +248,27 @@ export class ProductList {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+  }
+
+  openDeletePopup(productId: number) {
+    this.selectedProductId.set(productId);
+
+    this.deleteProductModel.update(model => ({
+      ...model,
+      productId: productId,
+      remark: ''
+    }));
+
+    this.showActivatePopup.set(true);
+  }
+
+  closePopup() {
+    this.showActivatePopup.set(false);
+    this.selectedProductId.set(null);
+    this.deleteProductModel.set(new AdminDeleteProductModel());
+    this.errorMessage.set(null);
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/vendor/products', productId]);
   }
 }

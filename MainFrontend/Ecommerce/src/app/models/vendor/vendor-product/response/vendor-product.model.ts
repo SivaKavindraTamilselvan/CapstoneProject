@@ -15,7 +15,7 @@ export class VendorProductModel {
         public addedByVendorUser: string = "",
         public createdAt: string = "",
         public updatedAt: string = "",
-        public isAvailableForSale: boolean = false,
+        public isAvailableForSale: boolean | null = null,
         public validationIssues: string[] = [],
         public productVariants: ProductVariantModel[] = [],
         public productImages: ProductImageModel[] = []
