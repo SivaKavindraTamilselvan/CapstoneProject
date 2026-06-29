@@ -20,6 +20,7 @@ import { AdminAttributeModel } from "../models/admin/admin-product-category/resp
 import { MappedAttributeFilter } from "../models/admin/admin-product-category/filter-models/mapped-attribute.filter";
 import { AdminMappedAttributeModel } from "../models/admin/admin-product-category/response/admin-mapped.model";
 import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
+import { UpdateProductVariantStatus } from "../models/vendor/vendor-product/add-model/update-variant-status.model";
 
 @Injectable({
     providedIn: "root"
@@ -96,6 +97,10 @@ export class VendorProductService {
     }
     updateProduct(request: UpdateProductStatus) {
         let url = BaseURL + "/VendorProduct/UpdateProduct";
+        return this.http.put(url, request);
+    }
+    updateProductVariant(request: UpdateProductVariantStatus) {
+        let url = BaseURL + "/VendorProduct/UpdateProductVariant";
         return this.http.put(url, request);
     }
     updateRejectedProduct(request: UpdateRejectedProductModel) {
