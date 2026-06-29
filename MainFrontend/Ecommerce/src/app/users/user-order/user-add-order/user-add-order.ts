@@ -3,7 +3,7 @@ import { UserCartService } from '../../../services/user-cart.Service';
 import { UserCouponService } from '../../../services/user-coupon.Service';
 import { UserOrderService } from '../../../services/user-order.Service';
 import { Router } from '@angular/router';
-import { UserCouponModel } from '../../../models/user/coupon/coupon.model';
+import { UserCouponModel } from '../../../models/user/coupon/user-coupon.model';
 import { AddUserOrderModel } from '../../../models/user/order/place-order.model';
 import { AddressService } from '../../../services/address.Service';
 import { AddressModel } from '../../../models/address/address-response.model';

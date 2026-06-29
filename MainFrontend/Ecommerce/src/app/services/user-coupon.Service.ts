@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { AddUserOrderModel } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
-import { UserCouponModel } from "../models/user/coupon/coupon.model";
+import { UserCouponModel } from "../models/user/coupon/user-coupon.model"; 
 
 @Injectable({
     providedIn: "root"
