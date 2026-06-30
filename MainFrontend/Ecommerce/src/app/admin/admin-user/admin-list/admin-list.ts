@@ -103,7 +103,6 @@ export class AdminList {
     }
     this.filterapplied.set(true);
     this.filterPanelOpen.set(false);
-    this.closeFilterPanel();
 
   }
 

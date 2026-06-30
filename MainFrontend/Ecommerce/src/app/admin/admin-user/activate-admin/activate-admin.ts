@@ -134,16 +134,14 @@ export class ActivateAdmin {
       this.resetFilter();
     }
   }
-  closeFilterPanel(): void {
+   closeFilterPanel(): void {
+    this.filterPanelOpen.set(false);
+  }
+  applyFilter(): void {
     if (this.filtererrorMessage()) {
       return;
     }
     this.filterapplied.set(true);
-    this.filterPanelOpen.set(false);
-    this.closeFilterPanel();
-
-  }
-  applyFilter(): void {
     this.pageNumber.set(1);
     this.loadActiveAdminUser();
     this.closeFilterPanel();
