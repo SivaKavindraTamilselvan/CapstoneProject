@@ -33,6 +33,7 @@ export class ReviewVendor {
   reviewedByAdminId = signal<number | null>(null);
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
+  progress = signal(false);
   constructor(private route: Router, private adminVendorService: AdminVendorService) {
 
   }
@@ -105,6 +106,7 @@ export class ReviewVendor {
       this.errorMessage.set("Enter proper details");
       return;
     }
+    this.progress.set(true);
 
     const request = {
       vendorId: this.reviewVendorModel().vendorId,
@@ -114,12 +116,12 @@ export class ReviewVendor {
 
     this.adminVendorService.reviewVendor(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
-
+        this.successMessage.set("Vendor reviewed successfully.Closing in 3 seconds...");
         setTimeout(() => {
           this.closePopup();
           this.successMessage.set(null);
           this.loadPendingVendor();
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {
@@ -137,6 +139,7 @@ export class ReviewVendor {
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
+        this.progress.set(false);
       }
     });
   }

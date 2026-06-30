@@ -23,20 +23,7 @@ export class AdminVendorService {
                 params = params.set(key, value.toString());
             }
         });
-        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params }).pipe(
-            map(response => {
-                const filteredItems = response.items.filter(
-                    v => v.approvalStatusId !== 4 && v.approvalStatusId !== 1
-                );
-
-                return {
-                    ...response,
-                    items: filteredItems,
-                    totalCount: filteredItems.length,
-                    totalPages: Math.ceil(filteredItems.length / response.pageSize)
-                };
-            })
-        );
+        return this.http.get<PagedResponse<AdminVendorModel>>(url, { params });
     }
     getVendorDetails(vendorId : number) {
         let url = BaseURL + `/AdminVendor/GetVendor/${vendorId}`;
