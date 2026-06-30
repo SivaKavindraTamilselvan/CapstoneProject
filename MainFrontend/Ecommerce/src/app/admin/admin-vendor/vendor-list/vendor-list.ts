@@ -5,7 +5,7 @@ import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.model';
 import { AdminVendorFilter } from '../../../models/admin/vendor/admin-vendor.filter';
 import { AdminDeleteVendorModel } from '../../../models/admin/vendor/delete-vendor.model';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, maxLength, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
@@ -74,16 +74,24 @@ export class VendorList {
   }
   deleteForm = form(this.deleteVendorModel, (path) => {
     required(path.remark, { message: "Enter The Remarks" });
+    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
   })
 
   handleDelete() {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
+    const errors = [];
+
+    if (this.deleteForm.remark().invalid()) {
+      errors.push(this.deleteForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(", "));
+
     if (this.deleteForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
       return;
     }
+    this.progress.set(true);
 
     const request = {
       vendorId: this.deleteVendorModel().vendorId,
@@ -92,12 +100,13 @@ export class VendorList {
 
     this.adminVendorService.DeleteVendor(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
+        this.successMessage.set("Vendor deleted successfully");
 
         setTimeout(() => {
           this.closePopup();
           this.successMessage.set(null);
           this.loadVendor();
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {
@@ -115,6 +124,7 @@ export class VendorList {
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
+        this.progress.set(false);
       }
     });
   }
