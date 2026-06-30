@@ -6,10 +6,12 @@
     </div>
     <div class="flex justify-center px-2">
         <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl p-8 space-y-6">
-            @if(errorMessage()) {
-            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold">
-                {{errorMessage()}}
-            </div>
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
+            }
+            @if(errorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
             }
             <form (ngSubmit)="handleRegisterClick()" class="flex flex-col gap-5">
                 <div class="flex gap-4 flex-col sm:flex-row">
@@ -17,13 +19,25 @@
                         <label class="font-bold text-lg mb-2 block">Email</label>
                         <input type="email" placeholder="Enter your Email"
                             [formField]="registerForm.requestRegisterUserDTO.email"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
+                        @if (registerForm.requestRegisterUserDTO.email().touched() &&
+                        registerForm.requestRegisterUserDTO.email().invalid())
+                        {
+                        <p class="text-red-600 text-xs mt-1">{{
+                            registerForm.requestRegisterUserDTO.email().errors()[0].message }}</p>
+                        }
                     </div>
                     <div class="flex-1">
                         <label class="font-bold text-lg mb-2 block">Phone Number</label>
                         <input type="text" placeholder="Enter your Phone Number"
                             [formField]="registerForm.requestRegisterUserDTO.phoneNumber"
                             class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                        @if (registerForm.requestRegisterUserDTO.phoneNumber().touched() &&
+                        registerForm.requestRegisterUserDTO.phoneNumber().invalid())
+                        {
+                        <p class="text-red-600 text-xs mt-1">{{
+                            registerForm.requestRegisterUserDTO.phoneNumber().errors()[0].message }}</p>
+                        }
                     </div>
                 </div>
                 <div class="flex gap-4 flex-col sm:flex-row">
@@ -32,12 +46,24 @@
                         <input placeholder="Enter your First Name"
                             [formField]="registerForm.requestRegisterUserDTO.firstName"
                             class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                        @if (registerForm.requestRegisterUserDTO.firstName().touched() &&
+                        registerForm.requestRegisterUserDTO.firstName().invalid())
+                        {
+                        <p class="text-red-600 text-xs mt-1">{{
+                            registerForm.requestRegisterUserDTO.firstName().errors()[0].message }}</p>
+                        }
                     </div>
                     <div class="flex-1">
                         <label class="font-bold text-lg mb-2 block">Last Name</label>
                         <input placeholder="Enter your Last Name"
                             [formField]="registerForm.requestRegisterUserDTO.lastName"
                             class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                        @if (registerForm.requestRegisterUserDTO.lastName().touched() &&
+                        registerForm.requestRegisterUserDTO.lastName().invalid())
+                        {
+                        <p class="text-red-600 text-xs mt-1">{{
+                            registerForm.requestRegisterUserDTO.lastName().errors()[0].message }}</p>
+                        }
                     </div>
                 </div>
                 <div>
@@ -45,6 +71,12 @@
                     <input type="password" placeholder="Enter your Password"
                         [formField]="registerForm.requestRegisterUserDTO.password"
                         class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                    @if (registerForm.requestRegisterUserDTO.password().touched() &&
+                    registerForm.requestRegisterUserDTO.password().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1">{{
+                        registerForm.requestRegisterUserDTO.password().errors()[0].message }}</p>
+                    }
                 </div>
                 <div>
                     <label class="font-bold text-lg mb-2 block">Admin Role</label>
@@ -66,7 +98,7 @@
                         class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer">
                         Submit
                     </button>
-                    <button type="button" (click) = "resetFilter()"
+                    <button type="button" (click)="resetFilter()"
                         class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer">
                         Reset
                     </button>

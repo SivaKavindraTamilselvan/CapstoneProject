@@ -28,6 +28,12 @@ export class AdminList {
   filterPanelOpen = signal<boolean>(false);
   adminUserFilter = signal(new AdminUserFilter());
 
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
+
   filterForm = form(this.adminUserFilter, (path) => {
     email(path.email, { message: 'Enter a valid email address.' });
     pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
@@ -92,7 +98,13 @@ export class AdminList {
   }
 
   closeFilterPanel(): void {
+     if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.filterPanelOpen.set(false);
+    this.closeFilterPanel();
+
   }
 
   onAdminRoleChange(event: Event): void {
@@ -127,6 +139,7 @@ export class AdminList {
     this.adminUserFilter.set(new AdminUserFilter());
     this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadAdminUser();
+    this.filterapplied.set(false);
   }
   viewAdminUser(productId: number) {
     this.route.navigate(['/admin/users', productId]);

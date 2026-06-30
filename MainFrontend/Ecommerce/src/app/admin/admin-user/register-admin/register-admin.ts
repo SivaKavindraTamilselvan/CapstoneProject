@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../services/auth.Service'; 
-import { RegisterAdminModel } from '../../../models/authentication/register-admin.model'; 
+import { AuthService } from '../../../services/auth.Service';
+import { RegisterAdminModel } from '../../../models/authentication/register-admin.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FormField, email, form, pattern, required } from '@angular/forms/signals';
 
@@ -13,6 +13,8 @@ import { FormField, email, form, pattern, required } from '@angular/forms/signal
 })
 export class RegisterAdmin {
   errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
   adminModel = signal(new RegisterAdminModel());
   progress = signal(false);
   constructor(private router: Router, private authService: AuthService) {
@@ -31,14 +33,16 @@ export class RegisterAdmin {
     pattern(path.adminRoleId, /^[2-9]{1}$/, { message: "Select a valid admin role" })
   })
   handleRegisterClick() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
     if (this.registerForm().invalid()) {
-      alert("Enter Proper Details");
+      this.errorMessage.set("Enter Proper Details");
       return;
     }
     this.progress.set(true);
     this.authService.registerAdminAPICall(this.adminModel()).subscribe({
       next: (response: any) => {
-        alert("Registration Successfull");
+        this.successMessage.set("Registration Successfull");
         this.progress.set(false);
       },
       error: (error) => {
@@ -64,9 +68,8 @@ export class RegisterAdmin {
       }
     })
   }
-  resetFilter()
-  {
+  resetFilter() {
     this.adminModel.set(new RegisterAdminModel());
-    this.errorMessage.set(null);  
+    this.errorMessage.set(null);
   }
 }

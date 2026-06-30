@@ -20,6 +20,12 @@ export class ActivateAdmin {
   totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
   adminRoleId = signal<number | null>(null);
   filterPanelOpen = signal<boolean>(false);
+  progress = signal(false);
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
   constructor(private route: Router, private adminUserService: AdminUserService) {
 
   }
@@ -33,6 +39,33 @@ export class ActivateAdmin {
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(null);
+        if (error.status === 404) {
+          this.adminUsers.set({
+            items: [],
+            pageNumber: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0
+          });
+        }
+        if (error.status == 409) {
+          this.errorMessage.set(error.error.message)
+        }
+        else if (error.status == 401) {
+          this.errorMessage.set("Invalid Email or Password");
+        }
+        else if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set("Something went wrong. Please try again.")
+        }
       }
     })
 
@@ -95,10 +128,20 @@ export class ActivateAdmin {
     this.adminRoleId.set(v ? Number(v) : null);
   }
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilter();
+    }
   }
   closeFilterPanel(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.filterPanelOpen.set(false);
+    this.closeFilterPanel();
+
   }
   applyFilter(): void {
     this.pageNumber.set(1);
@@ -106,6 +149,8 @@ export class ActivateAdmin {
     this.closeFilterPanel();
   }
   resetFilter(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.adminRoleId.set(null);
     this.pageNumber.set(1);
     this.loadActiveAdminUser();
@@ -116,8 +161,8 @@ export class ActivateAdmin {
       pageSize: this.pageSize(),
       adminRoleId: this.adminRoleId(),
       status: false,
-      email : '',
-      phoneNumber : '',
+      email: '',
+      phoneNumber: ''
     };
   }
 }
