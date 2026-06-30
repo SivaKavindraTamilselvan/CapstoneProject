@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.model';
 import { ReviewVendorModel } from '../../../models/admin/vendor/review.vendor.model';
-import { FormField, form, pattern, required } from '@angular/forms/signals';
+import { FormField, form, maxLength, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminVendorFilter } from '../../../models/admin/vendor/admin-vendor.filter';
 
@@ -33,7 +33,9 @@ export class ReviewVendor {
   reviewedByAdminId = signal<number | null>(null);
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
+  filtererrorMessage = signal<string | null>(null);
   progress = signal(false);
+  filterapplied = signal(false);
   constructor(private route: Router, private adminVendorService: AdminVendorService) {
 
   }
@@ -45,7 +47,8 @@ export class ReviewVendor {
   reviewForm = form(this.reviewVendorModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
     required(path.remark, { message: "Enter The Remarks" });
-    pattern(path.approvalStatusId, /^[23]$/, { message: "Select valid approval status" })
+    pattern(path.approvalStatusId, /^[23]$/, { message: "Select valid approval status" });
+    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
   })
 
   loadPendingVendor() {
@@ -102,8 +105,19 @@ export class ReviewVendor {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
+    const errors = [];
+
+    if (this.reviewForm.approvalStatusId().invalid()) {
+      errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
+    }
+
+    if (this.reviewForm.remark().invalid()) {
+      errors.push(this.reviewForm.remark().errors()[0].message);
+    }
+
+    this.errorMessage.set(errors.join(", "));
+
     if (this.reviewForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
       return;
     }
     this.progress.set(true);
@@ -111,7 +125,7 @@ export class ReviewVendor {
     const request = {
       vendorId: this.reviewVendorModel().vendorId,
       approvalStatusId: Number(this.reviewVendorModel().approvalStatusId),
-      remark: this.reviewVendorModel().remark
+      remark: this.reviewVendorModel().remark.trim()
     };
 
     this.adminVendorService.reviewVendor(request).subscribe({
@@ -168,17 +182,27 @@ export class ReviewVendor {
     this.goToPage(this.pageNumber() - 1);
   }
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilter();
+    }
   }
   closeFilterPanel(): void {
     this.filterPanelOpen.set(false);
   }
   applyFilter(): void {
+    if(this.filtererrorMessage()){
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadPendingVendor();
     this.closeFilterPanel();
   }
   resetFilter(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.isActive.set(null);
     this.approvalStatusId.set(null);
     this.companyEmail.set("");
@@ -196,10 +220,10 @@ export class ReviewVendor {
       pageSize: this.pageSize(),
       isActive: this.isActive(),
       contactPersonName: this.contactPersonName(),
-      companyEmail: this.companyEmail(),
+      companyEmail: this.companyEmail().trim(),
       companyPhoneNumber: this.companyPhoneNumber(),
-      vendorCompanyName: this.vendorCompanyName(),
-      gstNumber: this.gstNumber(),
+      vendorCompanyName: this.vendorCompanyName().trim(),
+      gstNumber: this.gstNumber().trim(),
       approvalStatusId: this.approvalStatusId(),
       reviewedByAdminId: this.reviewedByAdminId()
     };
@@ -226,19 +250,43 @@ export class ReviewVendor {
     this.vendorCompanyName.set(v);
   }
   onVendorCompanyEmailInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.companyEmail.set(v);
+    const value = (event.target as HTMLInputElement).value.trim();
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    this.companyEmail.set(value);
+    if (value === "" || emailRegex.test(value)) {
+      this.filtererrorMessage.set(null);
+    }
+    else {
+      this.filtererrorMessage.set("Enter a valid email address.");
+    }
   }
   onContactPersonInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.contactPersonName.set(v);
   }
   onVendorCompanyPhoneNumberInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.companyPhoneNumber.set(v);
+    const value = (event.target as HTMLInputElement).value.trim();
+
+    const phoneRegex = /^\d{0,10}$/;
+    this.companyPhoneNumber.set(value);
+    if (phoneRegex.test(value)) {
+      this.filtererrorMessage.set(null);
+    }
+    else {
+      this.filtererrorMessage.set("Phone number must contain only digits and be at most 10 digits.");
+    }
   }
   onGstNumberInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.gstNumber.set(v);
+    const value = (event.target as HTMLInputElement).value.trim().toUpperCase();
+
+    const gstRegex = /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z][1-9A-Z]Z[0-9A-Z]$/;
+    this.gstNumber.set(value);
+    if (value === "" || gstRegex.test(value)) {
+      this.filtererrorMessage.set(null);
+    }
+    else {
+      this.filtererrorMessage.set("Enter a valid GST number.");
+    }
   }
 }
