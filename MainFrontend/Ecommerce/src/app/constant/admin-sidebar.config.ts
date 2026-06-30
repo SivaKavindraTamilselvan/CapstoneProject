@@ -63,6 +63,16 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     ]
   },
   {
+    key: 'products-variant',
+    label: 'Product Variant',
+    roles: ['super-admin', 'product-admin'],
+    children: [
+      { label: 'Review Product Variant', route: '/admin/product-variant/review' },
+      { label: 'Product Variant List', route: '/admin/product-variant/list' },
+      { label: 'Delete Product', route: '/admin/products-variant/delete' },
+    ]
+  },
+  {
     key: 'product-category',
     label: 'Product Category',
     roles: ['super-admin', 'product-admin'],

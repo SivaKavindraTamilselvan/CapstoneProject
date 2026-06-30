@@ -5,7 +5,7 @@ import { UserProduct } from '../user-product/user-product';
 
 @Component({
   selector: 'app-user-home',
-  imports: [UserProduct],
+  imports: [],
   templateUrl: './user-home.html',
   styleUrl: './user-home.css',
 })

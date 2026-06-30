@@ -68,7 +68,7 @@ export class UserNavbar {
   }
 
   goToHome(): void {
-    this.router.navigate(['/user']);
+    this.router.navigate(['/']);
   }
 
   goToCart(): void {

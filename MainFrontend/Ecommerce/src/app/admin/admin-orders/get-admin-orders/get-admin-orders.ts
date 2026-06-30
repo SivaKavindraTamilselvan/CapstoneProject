@@ -8,7 +8,7 @@ import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
 
 @Component({
   selector: 'app-get-admin-orders',
-  imports: [DecimalPipe, DatePipe],
+  imports: [DatePipe],
   templateUrl: './get-admin-orders.html',
   styleUrl: './get-admin-orders.css',
 })

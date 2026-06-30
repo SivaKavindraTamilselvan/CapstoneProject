@@ -8,6 +8,9 @@ import { AdminProductFilter } from "../models/admin/admin-product/filter/admin-p
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
 import { AdminDeleteProductModel } from "../models/admin/admin-product/models/delete-product.model";
 import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
+import { AdminProductVariantFilter } from "../models/admin/admin-product/filter/admin-variant.filter";
+import { ProductVariantModel } from "../models/product/product-variant.model";
+import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
 
 @Injectable({
     providedIn: "root"
@@ -74,8 +77,23 @@ export class AdminProductService {
         let params = new HttpParams();
         return this.http.get<PagedResponse<AdminAttributeModel>>(url, { params });
     }
-    getProductDetails(productId : number){
+    getProductDetails(productId: number) {
         let url = `${BaseURL}/AdminProduct/${productId}`;
-        return this.http.get<ProductModel>(url,{});
+        return this.http.get<ProductModel>(url, {});
+    }
+    getProductVariant(filter: AdminProductVariantFilter) {
+        let url = BaseURL + "/AdminProduct/ProductVariant"
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<ProductVariantModel>>(url, { params });
+    }
+    reviewProductVariant(request: ReviewProductVariantRequestModel) {
+        let url = BaseURL + "/AdminProduct/ReviewProductVariant";
+        return this.http.post(url, request);
     }
 }

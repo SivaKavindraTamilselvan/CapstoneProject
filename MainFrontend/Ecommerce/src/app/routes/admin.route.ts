@@ -29,6 +29,8 @@ import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin
 import { AdminConfirmedOrders } from '../admin/admin-orders/admin-confirmed-orders/admin-confirmed-orders';
 import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';
 import { UpdateShipment } from '../admin/admin-shipment/update-shipment/update-shipment';
+import { ReviewVariant } from '../admin/admin-product/review-variant/review-variant';
+import { VariantList } from '../admin/admin-product/variant-list/variant-list';
 
 export const AdminRoutes: Routes = [
     {
@@ -78,6 +80,14 @@ export const AdminRoutes: Routes = [
     {
         path: 'products/review',
         component: ReviewProduct
+    },
+     {
+        path: 'product-variant/review',
+        component: ReviewVariant
+    },
+    {
+        path: 'product-variant/list',
+        component: VariantList
     },
     {
         path: 'products/delete',

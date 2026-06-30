@@ -34,7 +34,6 @@ export class Login {
     this.progress.set(true);
     this.authService.loginAPICall(this.loginModel()).subscribe({
       next: (response: any) => {
-        console.log("Login Successfull", response);
         this.authStateService.login(response.token);
         const roleId = this.authStateService.getRoleId();
 
@@ -45,10 +44,10 @@ export class Login {
           this.router.navigate(['/vendor']);
         }
         else if (roleId === ROLES.USER) {
-          this.router.navigate(['/user']);
+          this.router.navigate(['/']);
         }
         else {
-          this.router.navigate(['/']);
+          this.router.navigate(['/user/product']);
         }
         this.progress.set(false);
       },
