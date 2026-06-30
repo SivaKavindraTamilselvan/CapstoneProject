@@ -3,6 +3,7 @@ import { UserProductService } from '../../services/user-product.Service';
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
 import { Router, RouterOutlet } from '@angular/router';
+import { AuthStateService } from '../../services/auth-State.Service';
 
 @Component({
   selector: 'app-user-navbar',
@@ -15,11 +16,12 @@ export class UserNavbar {
   selectedProductCategory = signal<number | null>(null);
   productCategoryModel = signal<UserProductCategoryModel[]>([]);
   subProductCategoryModel = signal<UserSubProductCategoryModel[]>([]);
-  constructor(private userProductService: UserProductService, private router: Router) {
+  constructor(private userProductService: UserProductService, private router: Router, public authState: AuthStateService) {
 
   }
   ngOnInit() {
     this.loadProductCategory();
+    this.authState.validateSession();
   }
   loadProductCategory() {
     this.userProductService.getProductCategory().subscribe({
@@ -31,6 +33,11 @@ export class UserNavbar {
         console.error(error);
       }
     });
+  }
+
+  logout(){
+    this.authState.logout();
+    this.router.navigate(["/login"]);
   }
   loadSubCategory() {
     const categoryId = this.selectedProductCategory();
@@ -55,7 +62,11 @@ export class UserNavbar {
   goToCategories(): void {
     this.router.navigate(['/user/categories']);
   }
-  
+
+  goToLogin() {
+    this.router.navigate(["/login"]);
+  }
+
   goToHome(): void {
     this.router.navigate(['/user']);
   }
