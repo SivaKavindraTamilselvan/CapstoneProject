@@ -27,6 +27,8 @@ import { VendorDetails } from '../admin/admin-vendor/vendor-details/vendor-detai
 import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
 import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
 import { AdminConfirmedOrders } from '../admin/admin-orders/admin-confirmed-orders/admin-confirmed-orders';
+import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';
+import { UpdateShipment } from '../admin/admin-shipment/update-shipment/update-shipment';
 
 export const AdminRoutes: Routes = [
     {
@@ -133,7 +135,7 @@ export const AdminRoutes: Routes = [
         path: 'coupon/add',
         component: AddCoupon
     },
-    
+
     {
         path: 'orders/list',
         component: GetAdminOrders
@@ -142,4 +144,13 @@ export const AdminRoutes: Routes = [
         path: 'orders/confirmed-orders',
         component: AdminConfirmedOrders
     },
+    {
+        path: 'shipments/list',
+        component: ShipmentList
+    },
+    {
+        path: 'shipments/update',
+        component: UpdateShipment
+    },
+
 ];

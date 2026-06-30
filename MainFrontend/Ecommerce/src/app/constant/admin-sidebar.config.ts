@@ -121,5 +121,15 @@ export const SIDEBAR_MENU: SidebarItem[] = [
       { label: 'OnGoing Orders', route: '/admin/orders/confirmed-orders' },
       { label: 'All Orders', route: '/admin/orders/list' }
     ]
-  }
+  },
+  {
+  key: 'shipments',
+  label: 'Shipments',
+  roles: ['super-admin', 'order-admin', 'vendor-admin'],
+  children: [
+    { label: 'Shipment List', route: '/admin/shipments/list' },
+    { label: 'Update Shipment', route: '/admin/shipments/update' },
+    { label: 'Shipment Lost', route: '/admin/shipments/lost' }
+  ]
+}
 ];
