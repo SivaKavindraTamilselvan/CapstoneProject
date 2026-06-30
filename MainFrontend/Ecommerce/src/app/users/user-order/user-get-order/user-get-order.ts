@@ -1,34 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
-
-interface OrderItem {
-  orderItemsId: number;
-  sku: string;
-  productName: string;
-  vendorName: string;
-  quantity: number;
-  unitPrice: number;
-  discount: number;
-  inventoryId: number;
-  inventoryCity: string;
-  inventoryAddress: string;
-  itemTotal: number;
-  orderItemStatus: string;
-}
- 
-interface Order {
-  orderId: number;
-  orderNumber: string;
-  userName: string;
-  totalProductAmount: number;
-  totalShippingAmount: number;
-  totalCouponAmount: number;
-  finalAmount: number;
-  orderStatus: string;
-  orderDate: string;
-  totalItems: number;
-  orderItems: OrderItem[];
-}
+import { Component, computed, signal } from '@angular/core';
+import { PagedResponse } from '../../../models/paged-response.model';
+import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
+import { Router } from '@angular/router';
+import { UserOrderService } from '../../../services/user-order.Service';
+import { UserOrderFilter } from '../../../models/user/order/order-fiter';
 
 @Component({
   selector: 'app-user-get-order',
@@ -37,147 +13,160 @@ interface Order {
   styleUrl: './user-get-order.css',
 })
 export class UserGetOrder {
-  selectedOrder = signal<Order | null>(null);
- 
-  orders = signal<Order[]>([
-    {
-      orderId: 20,
-      orderNumber: 'ORD-20260628-528973',
-      userName: 'Pranesh T',
-      totalProductAmount: 79999,
-      totalShippingAmount: 159.71,
-      totalCouponAmount: 0.0,
-      finalAmount: 80158.71,
-      orderStatus: 'Failed',
-      orderDate: '2026-06-28T22:05:27.179109',
-      totalItems: 1,
-      orderItems: [{
-        orderItemsId: 32,
-        sku: 'PV-000006-8B505E82',
-        productName: 'iPhone 15',
-        vendorName: 'SameenaTextiles',
-        quantity: 1,
-        unitPrice: 79999,
-        discount: 0.0,
-        inventoryId: 3,
-        inventoryCity: 'Hyderabad',
-        inventoryAddress: '22 Banjara Hills Road No. 3',
-        itemTotal: 79999.0,
-        orderItemStatus: 'Pending'
-      }]
-    },
-    {
-      orderId: 17,
-      orderNumber: 'ORD-20260628-330644',
-      userName: 'Pranesh T',
-      totalProductAmount: 79999,
-      totalShippingAmount: 159.71,
-      totalCouponAmount: 100,
-      finalAmount: 80058.71,
-      orderStatus: 'Confirmed',
-      orderDate: '2026-06-28T22:00:15.470855',
-      totalItems: 1,
-      orderItems: [{
-        orderItemsId: 29,
-        sku: 'PV-000006-8B505E82',
-        productName: 'iPhone 15',
-        vendorName: 'SameenaTextiles',
-        quantity: 1,
-        unitPrice: 79999,
-        discount: 0.0,
-        inventoryId: 3,
-        inventoryCity: 'Hyderabad',
-        inventoryAddress: '22 Banjara Hills Road No. 3',
-        itemTotal: 79999.0,
-        orderItemStatus: 'Pending'
-      }]
-    },
-    {
-      orderId: 14,
-      orderNumber: 'ORD-20260628-634954',
-      userName: 'Pranesh T',
-      totalProductAmount: 79999,
-      totalShippingAmount: 159.71,
-      totalCouponAmount: 0.0,
-      finalAmount: 80158.71,
-      orderStatus: 'Pending',
-      orderDate: '2026-06-28T21:56:19.506364',
-      totalItems: 1,
-      orderItems: [{
-        orderItemsId: 26,
-        sku: 'PV-000006-8B505E82',
-        productName: 'iPhone 15',
-        vendorName: 'SameenaTextiles',
-        quantity: 1,
-        unitPrice: 79999,
-        discount: 0.0,
-        inventoryId: 3,
-        inventoryCity: 'Hyderabad',
-        inventoryAddress: '22 Banjara Hills Road No. 3',
-        itemTotal: 79999.0,
-        orderItemStatus: 'Pending'
-      }]
+  orders = signal<PagedResponse<OrderModel> | null>(null);
+
+
+  orderNumber = signal<string>('');
+  orderStatusId = signal<number | null>(null);
+  userId = signal<number | null>(null);
+  vendorId = signal<number | null>(null);
+
+  fromDate = signal<string>('');
+  toDate = signal<string>('');
+
+  minAmount = signal<number | null>(null);
+  maxAmount = signal<number | null>(null);
+
+  pageNumber = signal<number>(1);
+  pageSize = signal<number>(10);
+
+  totalPages = computed(() => this.orders()?.totalPages ?? 1);
+
+
+  filterPanelOpen = signal<boolean>(false);
+  constructor(private router: Router,private userOrderService : UserOrderService){
+
+  }
+  ngOnInit(){
+    this.loadOrders();
+  }
+  loadOrders() {
+      this.userOrderService.getOrders(this.buildFilter()).subscribe({
+        next: (response: any) => {
+          this.orders.set(response);
+          console.log(response);
+        },
+        error: (error) => {
+          console.error(error);
+  
+          if (error.status === 404) {
+            this.orders.set({
+              items: [],
+              totalCount: 0,
+              pageNumber: this.pageNumber(),
+              pageSize: this.pageSize(),
+              totalPages: 1
+            });
+          }
+        }
+      });
     }
-  ]);
- 
-  readonly ORDER_STEPS = ['Pending', 'Confirmed', 'Packed', 'Shipped', 'Out for Delivery'];
- 
-  getStepIndex(status: string): number {
-    const map: Record<string, number> = {
-      'Pending': 0,
-      'Confirmed': 1,
-      'Packed': 2,
-      'Shipped': 3,
-      'Out for Delivery': 4,
-      'Delivered': 4
-    };
-    return map[status] ?? 0;
+  
+    
+    private buildFilter(): UserOrderFilter {
+      return {
+        pageNumber: this.pageNumber(),
+        pageSize: this.pageSize(),
+  
+        orderNumber: this.orderNumber() || undefined,
+        orderStatusId: this.orderStatusId() ?? undefined,
+  
+        fromDate: this.fromDate() || undefined,
+        toDate: this.toDate() || undefined,
+  
+        minAmount: this.minAmount() ?? undefined,
+        maxAmount: this.maxAmount() ?? undefined
+      };
+    }
+    toggleFilterPanel(): void {
+    this.filterPanelOpen.update(open => !open);
   }
- 
-  isFailed(order: Order): boolean {
-    return order.orderStatus === 'Failed';
+
+  closeFilterPanel(): void {
+    this.filterPanelOpen.set(false);
   }
- 
-  getStatusClass(status: string): string {
-    const map: Record<string, string> = {
-      'Confirmed': 'status-confirmed',
-      'Pending': 'status-pending',
-      'Failed': 'status-failed',
-      'Delivered': 'status-delivered'
-    };
-    return map[status] ?? 'status-pending';
+
+  applyFilters(): void {
+    this.pageNumber.set(1);
+    this.loadOrders();
+    this.closeFilterPanel();
   }
- 
-  getItemStatusClass(status: string): string {
-    const map: Record<string, string> = {
-      'Pending': 'item-status-pending',
-      'Packed': 'item-status-packed',
-      'Shipped': 'item-status-shipped',
-      'Delivered': 'item-status-delivered',
-      'Cancelled': 'item-status-cancelled'
-    };
-    return map[status] ?? 'item-status-pending';
+
+  resetFilters(): void {
+    this.pageNumber.set(1);
+
+    this.orderNumber.set('');
+    this.orderStatusId.set(null);
+    this.userId.set(null);
+    this.vendorId.set(null);
+    this.fromDate.set('');
+    this.toDate.set('');
+    this.minAmount.set(null);
+    this.maxAmount.set(null);
+
+    this.loadOrders();
+    this.closeFilterPanel();
   }
- 
-  openOrder(order: Order): void {
-    this.selectedOrder.set(order);
+
+  
+  goToPage(page: number): void {
+    if (page < 1 || page > this.totalPages()) return;
+
+    this.pageNumber.set(page);
+    this.loadOrders();
   }
- 
-  closeOrder(): void {
-    this.selectedOrder.set(null);
+
+  nextPage(): void {
+    this.goToPage(this.pageNumber() + 1);
   }
- 
-  formatDate(dateStr: string): string {
-    const date = new Date(dateStr);
-    return date.toLocaleDateString('en-IN', {
-      day: '2-digit', month: 'short', year: 'numeric',
-      hour: '2-digit', minute: '2-digit'
-    });
+
+  previousPage(): void {
+    this.goToPage(this.pageNumber() - 1);
   }
- 
-  formatCurrency(amount: number): string {
-    return new Intl.NumberFormat('en-IN', {
-      style: 'currency', currency: 'INR', maximumFractionDigits: 2
-    }).format(amount);
+
+  onPageSizeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.pageSize.set(value);
+    this.pageNumber.set(1);
+    this.loadOrders();
+  }
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+
+    if (value === '') {
+      this.orderStatusId.set(null);
+    } else {
+      this.orderStatusId.set(Number(value));
+    }
+  }
+  onOrderNumberInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.orderNumber.set(value);
+  }
+  onUserIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.userId.set(value ? Number(value) : null);
+  }
+  onVendorIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.vendorId.set(value ? Number(value) : null);
+  }
+  onMinPriceInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.minAmount.set(v ? Number(v) : null);
+  }
+
+  onMaxPriceInput(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.maxAmount.set(v ? Number(v) : null);
+  }
+  onFromDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+  }
+
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
   }
 }
