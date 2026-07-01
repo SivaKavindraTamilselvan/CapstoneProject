@@ -46,5 +46,6 @@ export class VendorProductDetails {
     const total = this.productModel()?.productImages?.length ?? 0;
     this.currentImageIndex.update(i => (i + 1) % total);
   }
+  
 }
 

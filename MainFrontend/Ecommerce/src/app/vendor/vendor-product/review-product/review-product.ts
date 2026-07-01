@@ -38,14 +38,21 @@ export class ReviewProduct {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
+  filtererrorMessage = signal<string | null>(null);
+  progress = signal(false);
+  filterapplied = signal(false);
+
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
     this.filterPanelOpen.set(false);
   }
-
   totalPages = computed(() => this.products()?.totalPages ?? 1);
 
   approvalStatusOptions = [
@@ -129,6 +136,10 @@ export class ReviewProduct {
   }
 
   applyFilters(): void {
+     if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
@@ -143,7 +154,6 @@ export class ReviewProduct {
     this.hasIssues.set(null);
     this.pageNumber.set(1);
     this.loadProduct();
-    this.closeFilterPanel();
   }
 
   goToPage(page: number): void {

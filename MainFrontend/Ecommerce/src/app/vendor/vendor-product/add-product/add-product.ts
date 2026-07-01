@@ -29,7 +29,7 @@ export class AddProduct {
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   constructor(private vendorProductService: VendorProductService) { }
-  ngOnInit(){
+  ngOnInit() {
     this.loadCategories();
     this.loadAttributes();
   }
@@ -72,7 +72,6 @@ export class AddProduct {
         imageModel.imageUrl = file.name;
         imageModel.displayOrderId = startOrder + index;
         imageModel.isMainImage = this.productImages().length === 0;
-
         this.productImages.update((imgs) => [...imgs, imageModel]);
       };
 
@@ -107,7 +106,7 @@ export class AddProduct {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
-    if(this.addForm().invalid()){
+    if (this.addForm().invalid()) {
       this.errorMessage.set("Enter proper details");
       return;
     }
@@ -168,6 +167,7 @@ export class AddProduct {
   resetForm(): void {
     this.product.set(new AddProductModel());
     this.productImages.set([]);
+    this.addForm().reset();
   }
 
   loadCategories(): void {

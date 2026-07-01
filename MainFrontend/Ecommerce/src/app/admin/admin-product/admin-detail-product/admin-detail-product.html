@@ -1,28 +1,35 @@
-<section class="bg-white p-8">
-    <div class="relative flex flex-col items-center justify-center">
-        <span class="py-2 px-4 rounded-md font-extrabold text-xl"
-            [ngClass]="productModel()!.isAvailableForSale ? 'text-green-700' : 'text-red-700'">
-            {{productModel()!.isAvailableForSale ? 'Available For Sale' : 'Not Available For Sale' }} </span>
+<section class="p-4 sm:p-12 mx-auto">
 
+    <!-- Availability Badge -->
+    <div class="flex flex-col items-center justify-center mb-6">
+        <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm" [ngClass]="productModel()!.isAvailableForSale 
+        ? 'bg-green-100 text-green-700 border border-green-300' 
+        : 'bg-red-100 text-red-700 border border-red-300'">
+            {{ productModel()!.isAvailableForSale ? 'Available For Sale' : 'Not Available For Sale' }}
+        </span>
     </div>
-    @if(productModel()){
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start py-8">
-        <div>
-            @if(productModel()?.productImages?.length) {
+
+
+    @if (productModel()) {
+    <div class="flex flex-col lg:flex-row gap-8 mb-10">
+
+        <!-- Image Gallery -->
+        <div class="lg:w-1/3 flex-shrink-0">
+            @if (productModel()?.productImages?.length) {
             <div class="relative group">
+                <div
+                    class="relative h-[320px] w-full border border-gray-200 rounded-xl flex items-center justify-center bg-white shadow-sm overflow-hidden">
+                    <img [src]="'http://localhost:5173/images/' + productModel()!.productImages[currentImageIndex()].imageUrl"
+                        alt="Product Image" class="max-h-full max-w-full object-contain p-4" />
 
-                <div class="relative h-80 border-2 border-slate-950 overflow-hidden">
-                    <img [src]="productModel()!.productImages[currentImageIndex()].imageUrl" alt="Product Image"
-                        class="w-full h-full object-cover transition-opacity duration-300" />
-
-                    <div class="absolute bottom-3 right-3 bg-black/50 text-white text-xs px-2 py-1 rounded-full">
+                    <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">
                         {{ currentImageIndex() + 1 }} / {{ productModel()!.productImages.length }}
                     </div>
                 </div>
 
-                @if(productModel()!.productImages.length > 1) {
+                @if (productModel()!.productImages.length > 1) {
                 <button (click)="prevImage()"
-                    class="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow transition"
+                    class="absolute left-2 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-md transition"
                     aria-label="Previous image">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -31,7 +38,7 @@
                 </button>
 
                 <button (click)="nextImage()"
-                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow transition"
+                    class="absolute right-2 top-1/2 -translate-y-1/2 bg-white hover:bg-gray-100 border border-gray-200 rounded-full w-9 h-9 flex items-center justify-center shadow-md transition"
                     aria-label="Next image">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 text-gray-700" fill="none"
                         viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -40,11 +47,12 @@
                 </button>
                 }
 
-                @if(productModel()!.productImages.length > 1) {
-                <div class="flex justify-center gap-1.5 mt-2">
-                    @for(img of productModel()!.productImages; track img.productImageId; let i = $index) {
-                    <button (click)="currentImageIndex.set(i)" class="w-2 h-2 rounded-full transition-colors"
-                        [class.bg-blue-600]="i === currentImageIndex()" [class.bg-gray-300]="i !== currentImageIndex()"
+                @if (productModel()!.productImages.length > 1) {
+                <div class="flex justify-center gap-1.5 mt-3">
+                    @for (img of productModel()!.productImages; track img.productImageId; let i = $index) {
+                    <button (click)="currentImageIndex.set(i)" class="w-2 h-2 rounded-full transition-all"
+                        [class.bg-blue-600]="i === currentImageIndex()" [class.w-5]="i === currentImageIndex()"
+                        [class.bg-gray-300]="i !== currentImageIndex()"
                         [attr.aria-label]="'Go to image ' + (i + 1)"></button>
                     }
                 </div>
@@ -52,178 +60,123 @@
             </div>
             }
             @else {
-            <div class="flex items-center justify-center text-gray-800 h-40 border-2 border-slate-950">
+            <div
+                class="flex items-center justify-center text-gray-400 text-sm h-[320px] border border-dashed border-gray-300 rounded-xl bg-white">
                 No Images Added for this Product
             </div>
             }
         </div>
-        <div>
-            <div>
-                <h1 class="text-green-900 font-bold text-xl px-2 py-2" >#{{productModel()!.productId}}</h1>
+
+        <!-- Basic Information Card -->
+        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
+                <h2 class="">
+                    Basic Information
+                </h2>
+                <h1>
+                    #{{ productModel()!.productId }}
+                </h1>
+
             </div>
 
-            <div class="flex items-center gap-4">
-                <label class=" px-2 font-bold text-blue-900">
-                    Product Approval Status
-                </label>
-                <p>
-                    :
-                </p>
-                <p class="text-gray-900 font-medium">
-                    {{ productModel()!.productApprovalStatus }}
-                </p>
-                
-            </div>
-            <div class="flex items-center gap-4">
-                <label class=" px-2 font-bold text-blue-900">
-                    Product Status
-                </label>
-                <p>
-                    :
-                </p>
-                <p class="text-gray-900 font-medium">
-                    {{ productModel()!.productStatus }}
-                </p>
-            </div>
-            <div class="flex items-center p-4 gap-4">
-                <button class="bg-red-600 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-red-900">
-                    Delete
-                </button>
-                @if(productModel()!.productApprovalStatus == "Vendor_Approved"){
-                <button
-                    class="bg-slate-600 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-slate-900">
-                    Review
-                </button>
-                }
+            <div class="divide-y divide-gray-100">
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Product Name</span>
+                    <span class="text-gray-900 font-medium text-sm">{{ productModel()!.productName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Category</span>
+                    <span class="text-gray-900 text-sm">{{ productModel()!.productCategoryName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Sub Category</span>
+                    <span class="text-gray-900 text-sm">{{ productModel()!.productSubCategoryName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Vendor</span>
+                    <span class="text-gray-900 text-sm">{{ productModel()!.vendorName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Main Attribute</span>
+                    <span class="text-gray-900 text-sm">{{ productModel()!.mainProductSubCategoryAttributeName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Created Date</span>
+                    <span class="text-gray-900 text-sm">{{ productModel()!.createdAt | date:'dd/MM/yyyy' }}</span>
+                </div>
+                <div class="flex px-5 py-4">
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Description</span>
+                    <p class="flex-1 text-gray-700 text-sm leading-relaxed">
+                        {{ productModel()!.description }}
+                    </p>
+                </div>
+                <div class="flex px-5 py-4">
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Approval Status</span>
+                    <p class="flex-1 text-sm leading-relaxed font-bold">
+                        {{ productModel()!.productApprovalStatus }}
+                    </p>
+                </div>
+                <div class="flex px-5 py-4">
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Status</span>
+                    <p class="flex-1 text-sm leading-relaxed font-bold">
+                        {{ productModel()!.productStatus }}
+                    </p>
+                </div>
             </div>
         </div>
+
     </div>
-    <div class="bg-white rounded-xl shadow-md">
-
-        <h2
-            class="text-xl font-bold text-blue-950 border-b mb-5 p-4 rounded-t-xl bg-slate-800 text-white flex items-center">
-            Basic Information
-        </h2>
-
-        <div class="space-y-4">
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Product Name
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900 font-medium">
-                    {{ productModel()!.productName }}
-                </p>
-            </div>
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Category
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900">
-                    {{ productModel()!.productCategoryName }}
-                </p>
-            </div>
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Sub Category
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900">
-                    {{ productModel()!.productSubCategoryName }}
-                </p>
-            </div>
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Vendor
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900">
-                    {{ productModel()!.vendorName }}
-                </p>
-            </div>
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Main Attribute
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900">
-                    {{ productModel()!.mainProductSubCategoryAttributeName }}
-                </p>
-            </div>
-            <div class="flex">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Created Date
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="text-gray-900">
-                    {{ productModel()!.createdAt | date:'dd/MM/yyyy' }}
-                </p>
-            </div>
-            <div class="flex pb-8">
-                <label class="w-42 px-4 font-semibold text-gray-500">
-                    Description
-                </label>
-                <p class="px-4">
-                    :
-                </p>
-                <p class="flex-1 text-gray-900 break-words leading-7 text-justify">
-                    {{ productModel()!.description }}A mobile phone (or smartphone) is a portable, wireless electronic
-                    device used for voice calls, text messaging, internet browsing, and running mobile applications. It
-                    operates by connecting to cellular networks or Wi-Fi using radio frequencies.
-                </p>
-            </div>
-        </div>
-    </div>
-
     }
 
-    <div class="py-8 relative flex items-center justify-center">
+   
+    <!-- Product Variant Section -->
+    <div class="mb-6">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product Variant</h1>
     </div>
 
-    <div class="hidden md:block min-w-0 overflow-x-auto">
-        <table class="border border-collapse border-gray-500 w-full">
+    <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+        <table class="w-full border-collapse bg-white">
             <thead>
-                <tr class="bg-slate-800 text-white">
-                    <th class="px-4 py-3 text-center">SKU</th>
-                    <th class="px-4 py-3 text-center">Price</th>
-                    <th class="px-4 py-3 text-center">Variant Status</th>
-                    <th class="px-4 py-3 text-center">Approval</th>
-                    <th class="px-4 py-3 text-center">Maximum Order Quantity</th>
-                    <th class="px-4 py-3 text-center">Return</th>
-                    <th class="px-4 py-3 text-center">Exchange</th>
-                    <th class="px-4 py-3 text-center">Available For Sale</th>
-                    <th class="px-4 py-3 text-center">Actions</th>
+                <tr class="bg-slate-800 text-white text-sm">
+                    <th class="px-4 py-3 text-center font-semibold">SKU</th>
+                    <th class="px-4 py-3 text-center font-semibold">Price</th>
+                    <th class="px-4 py-3 text-center font-semibold">Variant Status</th>
+                    <th class="px-4 py-3 text-center font-semibold">Approval</th>
+                    <th class="px-4 py-3 text-center font-semibold">Max Qty</th>
+                    <th class="px-4 py-3 text-center font-semibold">Return</th>
+                    <th class="px-4 py-3 text-center font-semibold">Exchange</th>
+                    <th class="px-4 py-3 text-center font-semibold">Available</th>
+                    <th class="px-4 py-3 text-center font-semibold">Actions</th>
                 </tr>
             </thead>
-            <tbody>
-                @if(productModel()?.productVariants) {
-                @for(v of productModel()!.productVariants; track v.productVariantId) {
-                <tr class="border-b text-center hover:bg-gray-50">
-                    <td class="px-4 py-3 ">{{v.sku}}</td>
-                    <td class="px-4 py-3">₹{{v.price | number}}</td>
-                    <td class="px-4 py-3">{{v.productVariantStatus}}</td>
-                    <td class="px-4 py-3">{{v.productApprovalStatus}}</td>
-                    <td class="px-4 py-3 ">{{v.minimumQuantityPerUser}}</td>
-                    <td class="px-4 py-3">{{v.isReturn ? 'Yes' : 'No'}}</td>
-                    <td class="px-4 py-3">{{v.isExchange ? 'Yes' : 'No'}}</td>
-                    <td class="px-4 py-3"> {{v.isAvailableForSale ? 'Yes' : 'No'}}</td>
+            <tbody class="divide-y divide-gray-100">
+                @if (productModel()?.productVariants) {
+                @for (v of productModel()!.productVariants; track v.productVariantId) {
+                <tr class="text-center text-sm hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ v.sku }}</td>
+                    <td class="px-4 py-3 text-gray-900">₹{{ v.price | number }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ v.productVariantStatus }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ v.productApprovalStatus }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ v.minimumQuantityPerUser }}</td>
+                    <td class="px-4 py-3">
+                        <span [class]="v.isReturn ? 'text-green-700 font-medium' : 'text-gray-400'">
+                            {{ v.isReturn ? 'Yes' : 'No' }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span [class]="v.isExchange ? 'text-green-700 font-medium' : 'text-gray-400'">
+                            {{ v.isExchange ? 'Yes' : 'No' }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span
+                            [class]="v.isAvailableForSale ? 'text-green-700 font-medium' : 'text-red-600 font-medium'">
+                            {{ v.isAvailableForSale ? 'Yes' : 'No' }}
+                        </span>
+                    </td>
                     <td class="px-4 py-3">
                         <button
-                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">
+                            class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
                             View
                         </button>
                     </td>
@@ -231,11 +184,24 @@
                 }
                 @empty {
                 <tr>
-                    <td colspan="10" class="px-4 py-6 text-center text-gray-500">No variants found.</td>
+                    <td colspan="9" class="px-4 py-8 text-center text-gray-400 text-sm">No variants found.</td>
                 </tr>
                 }
                 }
             </tbody>
         </table>
     </div>
+    <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100">
+        <button
+            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm">
+            Delete
+        </button>
+        @if (productModel()!.productApprovalStatus == "Vendor_Approved") {
+        <button
+            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">
+            Review
+        </button>
+        }
+    </div>
+
 </section>

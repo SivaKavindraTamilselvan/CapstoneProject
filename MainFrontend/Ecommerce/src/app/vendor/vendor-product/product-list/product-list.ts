@@ -50,8 +50,16 @@ export class ProductList {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
+  filtererrorMessage = signal<string | null>(null);
+  progress = signal(false);
+  filterapplied = signal(false);
+
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
@@ -113,17 +121,41 @@ export class ProductList {
       },
       error: (error) => {
         console.log(error);
+        if (error.status === 404) {
+          this.products.set({
+            items: [],
+            pageNumber: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0
+          });
+        }
+        else if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.errorMessage);
+        }
       },
     });
   }
 
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
   }
 
   resetFilters(): void {
+    this.filtererrorMessage.set("");
     this.productName.set('');
     this.searchTerm.set('');
     this.productCategoryId.set(null);
@@ -142,7 +174,6 @@ export class ProductList {
     this.mainProductSubCategoryAttributeId.set(null);
     this.pageNumber.set(1);
     this.loadProduct();
-    this.closeFilterPanel();
   }
 
   goToPage(page: number): void {
@@ -181,33 +212,80 @@ export class ProductList {
   }
 
   onMinAvailableInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minAvailableQuantity.set(v ? Number(v) : null);
-  }
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
+    this.minAvailableQuantity.set(input.value ? value : null);
 
+  }
   onMaxAvailableInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxAvailableQuantity.set(v ? Number(v) : null);
+    this.maxAvailableQuantity.set(input.value ? value : null);
   }
 
   onMinReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minReservedQuantity.set(v ? Number(v) : null);
+    this.minReservedQuantity.set(input.value ? value : null);
   }
 
   onMaxReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxReservedQuantity.set(v ? Number(v) : null);
+    this.maxReservedQuantity.set(input.value ? value : null);
   }
 
   onMinPriceInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(v ? Number(v) : null);
+    this.minPrice.set(input.value ? value : null);
   }
 
   onMaxPriceInput(event: Event): void {
+     const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(v ? Number(v) : null);
+    this.maxPrice.set(input.value ? value : null);
   }
 
   onHasIssuesChange(event: Event): void {
