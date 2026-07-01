@@ -70,6 +70,8 @@ export class RegisterAdmin {
   }
   resetFilter() {
     this.adminModel.set(new RegisterAdminModel());
+    this.registerForm().reset();
     this.errorMessage.set(null);
+    this.successMessage.set(null);
   }
 }

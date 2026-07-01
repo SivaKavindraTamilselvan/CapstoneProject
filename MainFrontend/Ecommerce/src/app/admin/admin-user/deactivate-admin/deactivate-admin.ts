@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
 import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.filter';
+import { email, form, pattern } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-deactivate-admin',
@@ -27,6 +28,13 @@ export class DeactivateAdmin {
 
   filtererrorMessage = signal<string | null>(null);
   filterapplied = signal(false);
+
+  adminUserFilter = signal(new AdminUserFilter());
+
+  filterForm = form(this.adminUserFilter, (path) => {
+    email(path.email, { message: 'Enter a valid email address.' });
+    pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
+  });
 
   constructor(private route: Router, private adimUserService: AdminUserService) {
 
@@ -128,31 +136,31 @@ export class DeactivateAdmin {
     const v = (event.target as HTMLSelectElement).value;
     this.adminRoleId.set(v ? Number(v) : null);
   }
-  toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
+ toggleFilterPanel(): void {
     this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilter();
-    }
   }
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-  applyFilter(): void {
-    if (this.filtererrorMessage()) {
+   closeFilterPanel(): void {
+     if (this.filtererrorMessage()) {
       return;
     }
     this.filterapplied.set(true);
-    this.pageNumber.set(1);
+    this.filterPanelOpen.set(false);
+
+  }
+
+  applyFilter(): void {
+    if (this.filterForm().invalid()) {
+      return;
+    }
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadDeactiveAdminUser();
     this.closeFilterPanel();
   }
-  resetFilter(): void {
-    this.filtererrorMessage.set("");
-    this.filterapplied.set(false);
-    this.adminRoleId.set(null);
-    this.pageNumber.set(1);
+ resetFilter(): void {
+    this.adminUserFilter.set(new AdminUserFilter());
+    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
     this.loadDeactiveAdminUser();
+    this.filterapplied.set(false);
   }
   private buildFilter(): AdminUserFilter {
     return {
@@ -163,5 +171,14 @@ export class DeactivateAdmin {
       email: '',
       phoneNumber: ''
     };
+  }
+  onPhoneNumberChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+    this.adminUserFilter.update(filter => ({ ...filter, phoneNumber: value }));
+  }
+
+  onEmailChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.adminUserFilter.update(filter => ({ ...filter, email: value }));
   }
 }

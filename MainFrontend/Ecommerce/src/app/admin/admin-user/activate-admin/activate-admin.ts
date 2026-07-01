@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
 import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.filter';
+import { email, form, pattern } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-activate-admin',
@@ -26,6 +27,13 @@ export class ActivateAdmin {
 
   filtererrorMessage = signal<string | null>(null);
   filterapplied = signal(false);
+
+  adminUserFilter = signal(new AdminUserFilter());
+
+  filterForm = form(this.adminUserFilter, (path) => {
+    email(path.email, { message: 'Enter a valid email address.' });
+    pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
+  });
   constructor(private route: Router, private adminUserService: AdminUserService) {
 
   }
@@ -162,5 +170,14 @@ export class ActivateAdmin {
       email: '',
       phoneNumber: ''
     };
+  }
+  onPhoneNumberChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim();
+    this.adminUserFilter.update(filter => ({ ...filter, phoneNumber: value }));
+  }
+
+  onEmailChange(event: Event): void {
+    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    this.adminUserFilter.update(filter => ({ ...filter, email: value }));
   }
 }

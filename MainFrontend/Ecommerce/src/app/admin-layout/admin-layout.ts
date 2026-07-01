@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal } from '@angular/core';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { SIDEBAR_MENU, SidebarItem } from '../constant/admin-sidebar.config';
 import { AuthStateService } from '../services/auth-State.Service';
 
@@ -14,7 +14,7 @@ export class AdminLayout {
   activeMenu = signal<string | null>(null);
   mobileMenuOpen = signal(false);
   menus: SidebarItem[] = [];
-  constructor(private authState: AuthStateService) {
+  constructor(public authState: AuthStateService,private router : Router) {
     const role = this.authState.getAdminRole();
     console.log(role);
     if (role) {
@@ -37,5 +37,8 @@ export class AdminLayout {
 
   closeMobileMenu() {
     this.mobileMenuOpen.set(false);
+  }
+  goToLogin() {
+    this.router.navigate(["/login"]);
   }
 }

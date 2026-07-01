@@ -1,6 +1,6 @@
-<section class="bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
-    <div class="pb-4 flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">
+<section class="flex flex-col min-h-screen bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
+    <div class="sm:pb-4 flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-lg sm:text-2xl">
             Register Admin
         </h1>
     </div>
@@ -16,7 +16,7 @@
             <form (ngSubmit)="handleRegisterClick()" class="flex flex-col gap-5">
                 <div class="flex gap-4 flex-col sm:flex-row">
                     <div class="flex-1">
-                        <label class="font-bold text-lg mb-2 block">Email</label>
+                        <label class="font-bold sm:text-lg mb-2 block">Email</label>
                         <input type="email" placeholder="Enter your Email"
                             [formField]="registerForm.requestRegisterUserDTO.email"
                             class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
@@ -28,10 +28,10 @@
                         }
                     </div>
                     <div class="flex-1">
-                        <label class="font-bold text-lg mb-2 block">Phone Number</label>
+                        <label class="font-bold sm:text-lg mb-2 block">Phone Number</label>
                         <input type="text" placeholder="Enter your Phone Number"
                             [formField]="registerForm.requestRegisterUserDTO.phoneNumber"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
                         @if (registerForm.requestRegisterUserDTO.phoneNumber().touched() &&
                         registerForm.requestRegisterUserDTO.phoneNumber().invalid())
                         {
@@ -42,10 +42,10 @@
                 </div>
                 <div class="flex gap-4 flex-col sm:flex-row">
                     <div class="flex-1">
-                        <label class="font-bold text-lg mb-2 block">First Name</label>
+                        <label class="font-bold sm:text-lg mb-2 block">First Name</label>
                         <input placeholder="Enter your First Name"
                             [formField]="registerForm.requestRegisterUserDTO.firstName"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
                         @if (registerForm.requestRegisterUserDTO.firstName().touched() &&
                         registerForm.requestRegisterUserDTO.firstName().invalid())
                         {
@@ -54,10 +54,10 @@
                         }
                     </div>
                     <div class="flex-1">
-                        <label class="font-bold text-lg mb-2 block">Last Name</label>
+                        <label class="font-bold sm:text-lg mb-2 block">Last Name</label>
                         <input placeholder="Enter your Last Name"
                             [formField]="registerForm.requestRegisterUserDTO.lastName"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
                         @if (registerForm.requestRegisterUserDTO.lastName().touched() &&
                         registerForm.requestRegisterUserDTO.lastName().invalid())
                         {
@@ -67,10 +67,10 @@
                     </div>
                 </div>
                 <div>
-                    <label class="font-bold text-lg mb-2 block">Password</label>
+                    <label class="font-bold sm:text-lg mb-2 block">Password</label>
                     <input type="password" placeholder="Enter your Password"
                         [formField]="registerForm.requestRegisterUserDTO.password"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
                     @if (registerForm.requestRegisterUserDTO.password().touched() &&
                     registerForm.requestRegisterUserDTO.password().invalid())
                     {
@@ -79,9 +79,9 @@
                     }
                 </div>
                 <div>
-                    <label class="font-bold text-lg mb-2 block">Admin Role</label>
+                    <label class="font-bold sm:text-lg mb-2 block">Admin Role</label>
                     <select [formField]="registerForm.adminRoleId"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700">
                         <option value="">Select Admin Role</option>
                         <option value="2">Vendor Admin</option>
                         <option value="3">Product Admin</option>
@@ -103,7 +103,6 @@
                         Reset
                     </button>
                 </div>
-
             </form>
         </div>
     </div>
