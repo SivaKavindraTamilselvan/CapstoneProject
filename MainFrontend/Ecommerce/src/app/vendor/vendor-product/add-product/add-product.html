@@ -12,7 +12,7 @@
             </div>
             }
             @if(successMessage()){
-            <p class="bg-green-100 px-4 py-3 rounded-md text-white text-center font-bold">
+            <p class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">
                 {{ successMessage() }}
             </p>
             }
@@ -23,26 +23,73 @@
                     <input type="text" [formField]="addForm.productName"
                         class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
                         placeholder="Enter product name">
+                    @if (addForm.productName().touched() && addForm.productName().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1">{{ addForm.productName().errors()[0].message }}</p>
+                    }
                 </div>
                 <div>
                     <label class="block font-semibold mb-1">Description</label>
                     <textarea [formField]="addForm.description"
                         class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
                         rows="4" placeholder="Enter product description"></textarea>
+                    @if (addForm.description().touched() && addForm.description().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
+                    }
                 </div>
 
                 <div>
-                    <label class="block font-semibold mb-1">Sub Category ID</label>
-                    <input type="number" [formField]="addForm.productSubCategoryId"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
-                        placeholder="Enter sub-category ID">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                    <select (change)="onCategoryChange($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                        <option value="">All</option>
+                        @for(cat of categories(); track cat.productCategoryId) {
+                        <option [value]="cat.productCategoryId"
+                            [selected]="productCategoryId() === cat.productCategoryId">
+                            {{cat.productCategoryName}}
+                        </option>
+                        }
+                    </select>
                 </div>
 
                 <div>
-                    <label class="block font-semibold mb-1">Main Attribute ID</label>
-                    <input type="number" [formField]="addForm.mainProductSubCategoryAttributeId"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
-                        placeholder="Enter main attribute ID">
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+                    <select (change)="onSubcategoryChange($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
+                        @if(!productCategoryId()) {
+                        <option value="">Select category first</option>
+                        }
+                        @else{
+                        <option value="">All</option>
+                        }
+                        @for(sub of subCategories(); track sub.productSubCategoryId) {
+                        <option [value]="sub.productSubCategoryId">
+                            {{sub.productSubCategoryName}}
+                        </option>
+                        }
+                    </select>
+                    @if (addForm.productSubCategoryId().touched() && addForm.productSubCategoryId().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-1">Main Attribute</label>
+                    <select (change)="onAttributeChange($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                        <option value="">All</option>
+                        @for(cat of attributes(); track cat.attributeMasterId) {
+                        <option [value]="cat.attributeMasterId">
+                            {{cat.attributeName}}
+                        </option>
+                        }
+                    </select>
+                    @if (addForm.mainProductSubCategoryAttributeId().touched() && addForm.mainProductSubCategoryAttributeId().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1">{{ addForm.mainProductSubCategoryAttributeId().errors()[0].message }}</p>
+                    }
                 </div>
 
                 <div>

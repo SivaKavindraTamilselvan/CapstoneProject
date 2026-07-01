@@ -4,10 +4,13 @@ import { AddProductModel } from '../../../models/vendor/vendor-product/add-model
 import { AddProductImageModel } from '../../../models/vendor/vendor-product/add-model/add-product-image';
 import { form, FormField, maxLength, min, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
+import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
 
 @Component({
   selector: 'app-add-product',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './add-product.html',
   styleUrl: './add-product.css',
 })
@@ -18,7 +21,18 @@ export class AddProduct {
   product = signal(new AddProductModel());
   productImages = signal<AddProductImageModel[]>([]);
 
+  productCategoryId = signal<number | null>(null);
+  productSubCategoryId = signal<number | null>(null);
+
+  categories = signal<AdminProductCategoryModel[]>([]);
+  attributes = signal<AdminAttributeModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
+
   constructor(private vendorProductService: VendorProductService) { }
+  ngOnInit(){
+    this.loadCategories();
+    this.loadAttributes();
+  }
 
   addForm = form(this.product, (path) => {
     required(path.productName, { message: 'Product name is required' });
@@ -93,6 +107,11 @@ export class AddProduct {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
+    if(this.addForm().invalid()){
+      this.errorMessage.set("Enter proper details");
+      return;
+    }
+
     this.vendorProductService.addProduct(this.product()).subscribe({
       next: (response: any) => {
         const productId =
@@ -149,5 +168,52 @@ export class AddProduct {
   resetForm(): void {
     this.product.set(new AddProductModel());
     this.productImages.set([]);
+  }
+
+  loadCategories(): void {
+    this.vendorProductService.getProductCategory().subscribe({
+      next: (res: any) => {
+        this.categories.set(res.items ?? res);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  loadAttributes(): void {
+    this.vendorProductService.getAttributes().subscribe({
+      next: (res: any) => {
+        this.attributes.set(res.items ?? res);
+      },
+      error: (err) => console.log(err)
+    });
+  }
+
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);
+    this.subCategories.set([]);
+    if (id) {
+      this.vendorProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (err) => console.log(err)
+      });
+    }
+  }
+  onSubcategoryChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.product.update(product => ({
+      ...product,
+      productSubCategoryId: value
+    }));
+    this.productSubCategoryId.set(value);
+  }
+  onAttributeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.product.update(product => ({
+      ...product,
+      mainProductSubCategoryAttributeId: value
+    }));
   }
 }

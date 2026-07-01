@@ -117,8 +117,11 @@ export class VendorProductService {
         return this.http.get<ProductModel>(url, {});
     }
     getmappedAttribute(id: number) {
-        console.log("skmxs" + id);
         const url = BaseURL + `/VendorProduct/subcategory-attributes?ProductSubCategoryId=${id}`;
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url);
+    }
+    getAttributes(){
+        const url = BaseURL + `/VendorProduct/attributes`;
+        return this.http.get(url);
     }
 }
