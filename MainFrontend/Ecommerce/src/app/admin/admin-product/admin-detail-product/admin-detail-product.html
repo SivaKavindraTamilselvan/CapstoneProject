@@ -1,5 +1,6 @@
 <section class="p-4 sm:p-12 mx-auto">
 
+    @if (productModel()) {
     <!-- Availability Badge -->
     <div class="flex flex-col items-center justify-center mb-6">
         <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm" [ngClass]="productModel()!.isAvailableForSale 
@@ -10,7 +11,7 @@
     </div>
 
 
-    @if (productModel()) {
+
     <div class="flex flex-col lg:flex-row gap-8 mb-10">
 
         <!-- Image Gallery -->
@@ -126,9 +127,8 @@
         </div>
 
     </div>
-    }
 
-   
+
     <!-- Product Variant Section -->
     <div class="mb-6">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product Variant</h1>
@@ -203,5 +203,6 @@
         </button>
         }
     </div>
+    }
 
 </section>
