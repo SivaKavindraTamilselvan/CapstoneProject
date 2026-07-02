@@ -32,6 +32,7 @@ import { UpdateShipment } from '../admin/admin-shipment/update-shipment/update-s
 import { ReviewVariant } from '../admin/admin-product/review-variant/review-variant';
 import { VariantList } from '../admin/admin-product/variant-list/variant-list';
 import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
+import { CouponDetail } from '../admin/admin-coupon/coupon-detail/coupon-detail';
 
 export const AdminRoutes: Routes = [
     {
@@ -149,6 +150,10 @@ export const AdminRoutes: Routes = [
     {
         path: 'coupon/list',
         component: CouponList
+    },
+    {
+        path: 'coupons/:id',
+        component: CouponDetail
     },
     {
         path: 'orders/list',

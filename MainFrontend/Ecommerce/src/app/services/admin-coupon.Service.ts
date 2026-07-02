@@ -31,7 +31,7 @@ export class AdminCouponService {
 
         return this.http.get<PagedResponse<CouponListModel>>(url, { params });
     }
-    getCouponByIs(couponId : number) {
+    getCouponById(couponId : number) {
         let url = BaseURL + `/Coupon/coupons/${couponId}`;
         return this.http.get<CouponDetailModel>(url, {});
     }

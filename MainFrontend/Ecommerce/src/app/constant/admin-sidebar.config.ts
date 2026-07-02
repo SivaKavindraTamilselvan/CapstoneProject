@@ -118,8 +118,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin', 'product-admin'],
     children: [
       { label: 'Add Coupon', route: '/admin/coupon/add' },
-      { label: 'Active Coupons', route: '/admin/coupon/list?status=active' },
-      { label: 'Inactive Coupons', route: '/admin/coupon/list?status=inactive' },
       { label: 'All Coupons', route: '/admin/coupon/list' }
     ]
   },
