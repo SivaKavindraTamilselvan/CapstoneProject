@@ -33,6 +33,8 @@ import { ReviewVariant } from '../admin/admin-product/review-variant/review-vari
 import { VariantList } from '../admin/admin-product/variant-list/variant-list';
 import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
 import { CouponDetail } from '../admin/admin-coupon/coupon-detail/coupon-detail';
+import { ActiveCoupon } from '../admin/admin-coupon/active-coupon/active-coupon';
+import { DeactiveCoupon } from '../admin/admin-coupon/deactive-coupon/deactive-coupon';
 
 export const AdminRoutes: Routes = [
     {
@@ -154,6 +156,14 @@ export const AdminRoutes: Routes = [
     {
         path: 'coupons/:id',
         component: CouponDetail
+    },
+    {
+        path: 'coupon/list?status=active',
+        component: ActiveCoupon
+    },
+     {
+        path: 'coupon/list?status=inactive',
+        component: DeactiveCoupon
     },
     {
         path: 'orders/list',

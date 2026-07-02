@@ -35,4 +35,14 @@ export class AdminCouponService {
         let url = BaseURL + `/Coupon/coupons/${couponId}`;
         return this.http.get<CouponDetailModel>(url, {});
     }
+    deactivateCoupon(couponId : number)
+    {
+        let url = BaseURL + `/Coupon/coupons/deactivate/${couponId}`;
+        return this.http.patch(url,{});
+    }
+    activateCoupon(couponId : number)
+    {
+        let url = BaseURL + `/Coupon/coupons/activate/${couponId}`;
+        return this.http.patch(url,{});
+    }
 }
