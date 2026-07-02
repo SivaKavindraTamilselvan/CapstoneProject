@@ -13,6 +13,7 @@ import { DatePipe } from '@angular/common';
 export class AdminUserDetail {
   adminUser = signal(new AdminUserModel());
   errorMessage = signal<string | null>(null);
+  showActivatePopup = signal(false);
   constructor(private adminUserService: AdminUserService, private route: ActivatedRoute) {
 
   }
@@ -35,5 +36,41 @@ export class AdminUserDetail {
     if (adminUserId) {
       this.loadAdminUser(adminUserId);
     }
+  }
+  activateAdmin() {
+    const id = this.adminUser().adminUserId;
+    if (id == null) {
+      return;
+    }
+    this.adminUserService.activateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.closePopup();
+        this.loadAdminUser(id);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+  openPopup() {
+    this.showActivatePopup.set(true);
+  }
+  closePopup() {
+    this.showActivatePopup.set(false);
+  }
+  deactivateAdmin() {
+    const id = this.adminUser().adminUserId;
+    if (id == null) {
+      return;
+    }
+    this.adminUserService.deactivateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.loadAdminUser(id);
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
