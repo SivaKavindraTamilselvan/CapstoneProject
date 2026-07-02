@@ -24,8 +24,36 @@ export class VendorUserService {
         });
         return this.http.get<PagedResponse<VendorUserModel>>(url, { params });
     }
-    getAdminUserDetail(id :number){
+    getAdminUserDetail(id: number) {
         let url = BaseURL + `/Vendor/vendor-user/${id}`;
         return this.http.get<VendorUserModel>(url, {});
+    }
+    activateAdminUser(adminId: number) {
+        let url = `${BaseURL}/Vendor/vendor-users/${adminId}/activate`;
+        return this.http.put(url, {});
+    }
+    deactivateAdminUser(adminId: number) {
+        let url = `${BaseURL}/Vendor/vendor-users/${adminId}/deactivate`;
+        return this.http.put(url, {});
+    }
+    getActiveAdminUser(filter: VendorUserFilter): Observable<PagedResponse<VendorUserModel>> {
+        let url = BaseURL + "/Vendor/vendor-user?status=true";
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<VendorUserModel>>(url, { params });
+    }
+    getDeactiveAdminUser(filter: VendorUserFilter): Observable<PagedResponse<VendorUserModel>> {
+        let url = BaseURL + "/Vendor/vendor-user?status=false";
+        let params = new HttpParams();
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<VendorUserModel>>(url, { params });
     }
 }

@@ -21,23 +21,26 @@ import { VendorUpdateOrder } from "../vendor/vendor-order/vendor-update-order/ve
 import { RegisterVendor } from "../vendor/vendor-user/register-vendor/register-vendor";
 import { VendorUserDetails } from "../vendor/vendor-user/vendor-user-details/vendor-user-details";
 import { VendorUserList } from "../vendor/vendor-user/vendor-user-list/vendor-user-list";
+import { ActivateVendorUser } from "../vendor/vendor-user/activate-vendor-user/activate-vendor-user";
+import { DeactiveVendorUser } from "../vendor/vendor-user/deactive-vendor-user/deactive-vendor-user";
 
 export const VendorRoute: Routes = [
     {
         path: 'users/register',
         component: RegisterVendor
     },
+
     {
         path: 'users/list',
         component: VendorUserList
     },
     {
-        path: 'users/activate',
-        component: VendorUserList
+        path: 'users/active',
+        component: ActivateVendorUser
     },
     {
-        path: 'users/deactivate',
-        component: VendorUserList
+        path: 'users/inactive',
+        component: DeactiveVendorUser
     },
     {
         path: 'users/:id',
@@ -121,4 +124,5 @@ export const VendorRoute: Routes = [
         path: 'orders/confirmed-orders',
         component: VendorUpdateOrder
     },
+
 ]
