@@ -157,6 +157,11 @@
                                 (click)="viewCoupon(coupon.couponId)">
                                 View
                             </button>
+                             <button
+                                class="bg-blue-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-blue-900"
+                                (click)="openUpdatePopup(coupon.couponId)">
+                                Update
+                            </button>
                         </div>
                     </td>
                 </tr>
@@ -294,6 +299,70 @@
                 class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
                 Next
             </button>
+        </div>
+    </div>
+    }
+
+    @if(showUpdateCouponPopup()){
+
+    <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl w-full max-w-2xl p-6">
+            <h2 class="text-xl font-bold mb-5">
+                Update Coupon
+            </h2>
+            <div class="space-y-4">
+                <div>
+                    <label class="font-semibold">
+                        Discount Value
+                    </label>
+                    <input type="number" [formField]="updateCouponForm.discountValue!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        Minimum Order Amount
+                    </label>
+                    <input type="number" [formField]="updateCouponForm.minimumOrderAmount!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        Start Date
+                    </label>
+                    <input type="date" [formField]="updateCouponForm.startDate!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        End Date
+                    </label>
+                    <input type="date" [formField]="updateCouponForm.endDate!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        Minimum Number of Usage
+                    </label>
+                    <input type="number" [formField]="updateCouponForm.minimumNumberOfUsage!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        Coupon Description
+                    </label>
+                    <textarea rows="4" [formField]="updateCouponForm.couponDescription!"
+                        class="w-full border rounded-lg px-3 py-2">
+                </textarea>
+                </div>
+            </div>
+            <div class="flex gap-3 mt-6 w-full">
+                <button (click)="closeUpdateCouponPopup()" class="flex-1 cursor-pointer px-5 py-2 bg-gray-300 rounded-lg">
+                    Cancel
+                </button>
+                <button (click)="updateCoupon()" class="flex-1 cursor-pointer px-5 py-2 bg-blue-900 text-white rounded-lg">
+                    Update
+                </button>
+            </div>
         </div>
     </div>
     }

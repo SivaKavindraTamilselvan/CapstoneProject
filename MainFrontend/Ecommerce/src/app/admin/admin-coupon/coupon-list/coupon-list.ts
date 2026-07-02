@@ -5,10 +5,13 @@ import { Router } from '@angular/router';
 import { AdminCouponService } from '../../../services/admin-coupon.Service';
 import { AdminCouponFilter } from '../../../models/admin/admin-coupon/coupon.filter';
 import { DatePipe } from '@angular/common';
+import { UpdateCouponModel } from '../../../models/admin/admin-coupon/update-coupon.model';
+import { form, FormField } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-coupon-list',
-  imports: [DatePipe],
+  imports: [DatePipe, FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './coupon-list.html',
   styleUrl: './coupon-list.css',
 })
@@ -39,7 +42,13 @@ export class CouponList {
   progress = signal(false);
   filterapplied = signal(false);
 
-  constructor(private route: Router, private adminCouponService: AdminCouponService) {}
+  showUpdateCouponPopup = signal(false);
+  updateCouponModel = signal(new UpdateCouponModel());
+  successMessage = signal<string | null>(null);
+  updateerrorMessage = signal<string | null>(null);
+  selectedCouponId = signal<number | null>(null);
+
+  constructor(private route: Router, private adminCouponService: AdminCouponService) { }
 
   ngOnInit(): void {
     this.loadCoupon();
@@ -48,8 +57,9 @@ export class CouponList {
   couponTypeOption = [
     { id: 1, label: 'Admin' },
     { id: 2, label: 'Vendor' },
-   
+
   ]
+
 
   loadCoupon() {
     this.progress.set(true);
@@ -224,5 +234,46 @@ export class CouponList {
 
   viewCoupon(couponId: number) {
     this.route.navigate(['/admin/coupons', couponId]);
+  }
+
+  updateCouponForm = form(this.updateCouponModel, (path) => {
+  });
+
+  openUpdatePopup(couponid: number) {
+
+    this.adminCouponService.getCouponById(couponid).subscribe({
+      next: (response: any) => {
+        this.updateCouponModel.set(
+          new UpdateCouponModel(
+            response.couponId,
+            response.discountValue,
+            response.minimumOrderAmount,
+            response.startDate?.split('T')[0],
+            response.endDate?.split('T')[0],
+            response.minimumNumberOfUsage,
+            response.couponDescription
+          )
+        );
+      }
+    });
+    this.showUpdateCouponPopup.set(true);
+  }
+
+  updateCoupon() {
+    this.adminCouponService
+      .updateCoupon(this.updateCouponModel())
+      .subscribe({
+        next: (response) => {
+          console.log('Coupon updated successfully', response);
+          this.closeUpdateCouponPopup();
+          this.loadCoupon();
+        },
+        error: (err) => {
+          console.error('Failed to update coupon', err);
+        }
+      });
+  }
+  closeUpdateCouponPopup() {
+    this.showUpdateCouponPopup.set(false);
   }
 }
