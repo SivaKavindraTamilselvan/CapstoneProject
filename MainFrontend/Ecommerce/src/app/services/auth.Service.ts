@@ -5,6 +5,7 @@ import { BaseURL } from "../environment";
 import { RegisterModel } from "../models/authentication/register-user.model";
 import { RegisterAdminModel } from "../models/authentication/register-admin.model"; 
 import { RegisterVendorModel } from "../models/authentication/regiser-vendor.model";
+import { RegisterVendorUserModel } from "../models/authentication/register-vendor-user.model";
 
 @Injectable({
     providedIn: 'root'
@@ -27,6 +28,10 @@ export class AuthService {
     }
     public registerVendorAPICall(registerModel : RegisterVendorModel){
         let url = BaseURL + "/Authentication/RegisterVendor";
+        return this.http.post(url,registerModel);
+    }
+    public registerVendorUserAPICall(registerModel : RegisterVendorUserModel){
+        let url = BaseURL + "/Vendor/RegisterVendorUser";
         return this.http.post(url,registerModel);
     }
 }

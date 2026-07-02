@@ -14,14 +14,35 @@ import { DeletedInventory } from "../vendor/inventory/deleted-inventory/deleted-
 import { VendorProductDetails } from "../vendor/vendor-product/vendor-product-details/vendor-product-details";
 import { UpdateRejectedProduct } from "../vendor/vendor-product/update-rejected-product/update-rejected-product";
 import { ReviewVariant } from "../vendor/vendor-variant/review-variant/review-variant";
-import { UpdateProductVariantStatus } from "../models/vendor/vendor-product/add-model/update-variant-status.model";
 import { UpdateVariant } from "../vendor/vendor-variant/update-variant/update-variant";
 import { UpdateRejectedVariant } from "../vendor/vendor-variant/update-rejected-variant/update-rejected-variant";
-import { AddCoupon } from "../admin/admin-coupon/add-coupon/add-coupon";
 import { VendorOrderList } from "../vendor/vendor-order/vendor-order-list/vendor-order-list";
 import { VendorUpdateOrder } from "../vendor/vendor-order/vendor-update-order/vendor-update-order";
+import { RegisterVendor } from "../vendor/vendor-user/register-vendor/register-vendor";
+import { VendorUserDetails } from "../vendor/vendor-user/vendor-user-details/vendor-user-details";
+import { VendorUserList } from "../vendor/vendor-user/vendor-user-list/vendor-user-list";
 
 export const VendorRoute: Routes = [
+    {
+        path: 'users/register',
+        component: RegisterVendor
+    },
+    {
+        path: 'users/list',
+        component: VendorUserList
+    },
+    {
+        path: 'users/activate',
+        component: VendorUserList
+    },
+    {
+        path: 'users/deactivate',
+        component: VendorUserList
+    },
+    {
+        path: 'users/:id',
+        component: VendorUserDetails
+    },
     {
         path: 'products/add',
         component: AddProduct
