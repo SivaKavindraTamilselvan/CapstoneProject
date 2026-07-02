@@ -1,0 +1,300 @@
+<section class="bg-white p-8">
+    <div class="pb-8 flex items-center justify-center relative">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Coupons</h1>
+        <div class="absolute right-0 flex items-center gap-2">
+            @if(filterapplied()){
+            <button type="button" class="p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilter()">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
+                </svg>
+            </button>
+            }
+            <button (click)="toggleFilterPanel()" class="p-2 hover:bg-gray-100 cursor-pointer rounded-md">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+            </button>
+        </div>
+    </div>
+    @if(filterPanelOpen()){
+    <div class="fixed inset-0 bg-black/40 z-40" (click)="toggleFilterPanel()"></div>
+    }
+    <aside
+        class="flex flex-col overflow-y-auto fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transform transition-transform duration-300"
+        [class.translate-x-0]="filterPanelOpen()" [class.translate-x-full]="!filterPanelOpen()">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+            <h1 class="text-lg font-bold text-blue-950">Filter</h1>
+            <button (click)="toggleFilterPanel()" class="p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        <div>
+            @if(filtererrorMessage())
+            {
+            <div class="px-4 text-red-700 text-center font-semibold mt-6"> {{filtererrorMessage()}}
+            </div>
+            }
+        </div>
+        <div class="flex flex-col gap-4 p-6">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Search (Code / Description)</label>
+                <input type="text" placeholder="Search coupons" [value]="search()" (input)="onSearchInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Coupon Type</label>
+                <select (change)="onCouponTypeChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(opt of couponTypeOption; track opt.id){
+                    <option [value]="opt.id" [selected]="couponTypeId() == opt.id">{{opt.label}}</option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Discount Value</label>
+                <div class="flex gap-4">
+                    <input type="number" placeholder="Min" [value]="minDiscountValue()"
+                        (input)="onMinDiscountValueInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxDiscountValue()"
+                        (input)="onMaxDiscountValueInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Min Order Amount</label>
+                <div class="flex gap-4">
+                    <input type="number" placeholder="Min" [value]="minOrderAmount()"
+                        (input)="onMinOrderAmountInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                    <input type="number" placeholder="Max" [value]="maxOrderAmount()"
+                        (input)="onMaxOrderAmountInput($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Valid From</label>
+                <input type="date" (change)="onValidFromChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Valid To</label>
+                <input type="date" (change)="onValidToChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div class="flex gap-4">
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1">Expired</label>
+                    <select (change)="onExpiredChange($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                        <option value="">All</option>
+                        <option value="true" [selected]="isExpired() === true">Expired</option>
+                        <option value="false" [selected]="isExpired() === false">Not Expired</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
+                    <select (change)="onStatusChange($event)"
+                        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                        <option value="">All</option>
+                        <option value="true" [selected]="isActive() === true">Active</option>
+                        <option value="false" [selected]="isActive() === false">Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex gap-2 pt-2">
+                <button (click)="applyFilter()"
+                    class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full">Apply
+                    Filter</button>
+                <button (click)="resetFilter()"
+                    class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 cursor-pointer w-full">Reset</button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="hidden md:block min-w-0 overflow-x-auto">
+        <table class="border border-collapse w-full">
+            <thead>
+                <tr class="bg-slate-800 text-white text-center">
+                    <th class="px-4 py-3">ID</th>
+                    <th class="px-4 py-3">Code</th>
+                    <th class="px-4 py-3">Type</th>
+                    <th class="px-4 py-3">Discount</th>
+                    <th class="px-4 py-3">Min Order Amt</th>
+                    <th class="px-4 py-3">Start Date</th>
+                    <th class="px-4 py-3">End Date</th>
+                    <th class="px-4 py-3">Usage Count</th>
+                    <th class="px-4 py-3">Status</th>
+                    <th class="px-4 py-3">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if(coupons()){
+                @for(coupon of coupons()!.items; track coupon.couponId){
+                <tr class="border-b text-center">
+                    <td class="px-4 py-3">{{coupon.couponId}}</td>
+                    <td class="px-4 py-3">{{coupon.couponCode}}</td>
+                    <td class="px-4 py-3">{{coupon.couponTypeName}}</td>
+                    <td class="px-4 py-3">{{coupon.discountValue}}</td>
+                    <td class="px-4 py-3">{{coupon.minimumOrderAmount}}</td>
+                    <td class="px-4 py-3">{{coupon.startDate | date:'mediumDate'}}</td>
+                    <td class="px-4 py-3">{{coupon.endDate | date:'mediumDate'}}</td>
+                    <td class="px-4 py-3">{{coupon.usageCount}}</td>
+                    <td class="px-4 py-3">{{coupon.isActive ? "Active" : "Inactive"}}</td>
+                    <td class="px-4 py-3">
+                        <div class="flex justify-center gap-2">
+                            <button
+                                class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900"
+                                (click)="viewCoupon(coupon.couponId)">
+                                View
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+                }
+                @empty
+                {
+                <tr>
+                    <td colspan="10" class="px-4 py-6 text-center text-gray-500">No coupons found.</td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <div class="md:hidden flex flex-col gap-4">
+        @if(coupons())
+        {
+        @for(coupon of coupons()!.items; track coupon.couponId)
+        {
+        <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                <span class="font-bold text-blue-950">#{{coupon.couponId}}</span>
+                <div class="flex gap-2">
+                    <button
+                        class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900"
+                        (click)="viewCoupon(coupon.couponId)">View</button>
+                </div>
+            </div>
+            <table class="w-full border border-gray-300 border-collapse table-fixed">
+                <colgroup>
+                    <col class="w-1/3">
+                    <col class="w-2/3">
+                </colgroup>
+                <tbody>
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Code
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.couponCode}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Type
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.couponTypeName}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Discount
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.discountValue}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Min Order Amt
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.minimumOrderAmount}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Start Date
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.startDate | date:'mediumDate'}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            End Date
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.endDate | date:'mediumDate'}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-gray-50">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Usage Count
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.usageCount}}
+                        </td>
+                    </tr>
+
+                    <tr class="bg-white">
+                        <td class="font-semibold py-3 px-2 border border-gray-300">
+                            Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words">
+                            {{coupon.isActive ? "Active" : "Inactive"}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        @empty
+        {
+        <div class="text-center text-gray-500 py-6">No coupons found.</div>
+        }
+        }
+    </div>
+
+    @if(coupons()){
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
+        <div class="text-sm text-gray-600">
+            Page {{pageNumber()}} of {{totalPages()}} . {{coupons()!.totalCount}} total coupons
+        </div>
+        <div class="flex items-center gap-2">
+            <select (change)="onPageSizeChange($event)" class="border border-gray-400 rounded-md px-2 py-1">
+                <option value="5" [selected]="pageSize() === 5">5 / page</option>
+                <option value="10" [selected]="pageSize() === 10">10 / page</option>
+                <option value="25" [selected]="pageSize() === 25">25 / page</option>
+                <option value="50" [selected]="pageSize() === 50">50 / page</option>
+            </select>
+            <button (click)="previousPage()" [disabled]="pageNumber() === 1"
+                class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                Previous
+            </button>
+            <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
+                class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
+                Next
+            </button>
+        </div>
+    </div>
+    }
+</section>
