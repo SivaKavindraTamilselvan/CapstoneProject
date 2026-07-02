@@ -189,6 +189,9 @@
                     <button
                         class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900"
                         (click)="viewCoupon(coupon.couponId)">View</button>
+                    <button
+                        class="bg-blue-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-blue-900"
+                        (click)="openUpdatePopup(coupon.couponId)">Update</button>
                 </div>
             </div>
             <table class="w-full border border-gray-300 border-collapse table-fixed">
@@ -305,8 +308,8 @@
 
     @if(showUpdateCouponPopup()){
 
-    <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl w-full max-w-2xl p-6">
+    <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-8">
+        <div class="bg-white rounded-xl w-full p-6">
             <h2 class="text-xl font-bold mb-5">
                 Update Coupon
             </h2>
