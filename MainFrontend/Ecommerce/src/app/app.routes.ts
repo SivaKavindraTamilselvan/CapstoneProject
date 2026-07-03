@@ -12,6 +12,7 @@ import { VendorLayout } from './vendor/vendor-layout/vendor-layout';
 import { VendorRoute } from './routes/vendor.route';
 import { AddProduct } from './vendor/vendor-product/add-product/add-product';
 import { UserRoutes } from './routes/user.route';
+import { AdminNotificationList } from './notification/admin/admin-notification-list/admin-notification-list';
 
 export const routes: Routes = [
     { path: 'login', component: Login },
@@ -21,5 +22,5 @@ export const routes: Routes = [
     { path: 'categories/:categoryId/subcategories', component: SubCategoryMobile },
     { path: 'admin', component: AdminLayout, children: AdminRoutes },
     { path: 'vendor', component: VendorLayout, children: VendorRoute },
-    { path: 'user', component: UserNavbar, children: UserRoutes }
+    { path: 'user', component: UserNavbar, children: UserRoutes },
 ];

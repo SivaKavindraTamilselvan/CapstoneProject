@@ -35,6 +35,7 @@ import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
 import { CouponDetail } from '../admin/admin-coupon/coupon-detail/coupon-detail';
 import { ActiveCoupon } from '../admin/admin-coupon/active-coupon/active-coupon';
 import { DeactiveCoupon } from '../admin/admin-coupon/deactive-coupon/deactive-coupon';
+import { AdminNotificationList } from '../notification/admin/admin-notification-list/admin-notification-list';
 
 export const AdminRoutes: Routes = [
     {
@@ -180,6 +181,10 @@ export const AdminRoutes: Routes = [
     {
         path: 'shipments/update',
         component: UpdateShipment
+    },
+    {
+        path: 'notifications',
+        component: AdminNotificationList
     },
 
 ];

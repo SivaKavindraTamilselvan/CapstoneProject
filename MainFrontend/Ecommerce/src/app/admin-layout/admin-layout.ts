@@ -41,6 +41,9 @@ export class AdminLayout {
   goToLogin() {
     this.router.navigate(["/login"]);
   }
+  goToNotifications() {
+    this.router.navigate(["/admin/notifications"]);
+  }
   logout(){
     this.authState.logout();
     this.router.navigate(["/login"]);
