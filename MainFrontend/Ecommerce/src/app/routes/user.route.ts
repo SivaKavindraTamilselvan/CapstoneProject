@@ -11,6 +11,8 @@ import { OrderSuccess } from '../users/user-order/order-success/order-success';
 import { OrderFailure } from '../users/user-order/order-failure/order-failure';
 import { UserGetOrder } from '../users/user-order/user-get-order/user-get-order';
 import { UserFavorite } from '../users/user-favorite/user-favorite';
+import { UserProfilePage } from '../users/user-profile-page/user-profile-page';
+import { SharedRoutes } from './shared-route';
 
 export const UserRoutes: Routes = [
     {
@@ -60,6 +62,11 @@ export const UserRoutes: Routes = [
     {
         path: 'orders',
         component: UserGetOrder
-    }
+    },
+    {
+        path: 'profile',
+        component: UserProfilePage
+    },
 
+    ...SharedRoutes
 ];

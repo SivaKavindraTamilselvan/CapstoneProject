@@ -19,7 +19,6 @@ export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     { path: 'register-vendor', component: RegisterVendor },
-    { path: 'profile', component: ProfilePage },
     { path: '', redirectTo: 'user/products', pathMatch: 'full' },
     { path: 'categories/:categoryId/subcategories', component: SubCategoryMobile },
     { path: 'admin', component: AdminLayout, children: AdminRoutes },

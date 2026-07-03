@@ -33,8 +33,16 @@ export class AddressService {
         let url = BaseURL + "/Address/actice-address";
         return this.http.get<AddressModel[]>(url, {});
     }
-    deleteAddress(addressId : number) {
+    deleteAddress(addressId: number) {
+        let url = BaseURL + `/Address/vendor/${addressId}/deactivate`;
+        return this.http.patch(url, {});
+    }
+    deleteUserAddress(addressId: number) {
         let url = BaseURL + `/Address/${addressId}/deactivate`;
+        return this.http.patch(url, {});
+    }
+    setDefaultAddress(addressid: number) {
+        let url = BaseURL + `/Address/${addressid}/default`;
         return this.http.patch(url, {});
     }
 }
