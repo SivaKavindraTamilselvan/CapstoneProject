@@ -8,7 +8,7 @@ import { DatePipe, NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-admin-notification-list',
-  imports: [NgClass, DatePipe],
+  imports: [NgClass],
   templateUrl: './admin-notification-list.html',
   styleUrl: './admin-notification-list.css',
 })

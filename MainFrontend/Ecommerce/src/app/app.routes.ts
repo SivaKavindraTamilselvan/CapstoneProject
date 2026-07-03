@@ -13,12 +13,14 @@ import { VendorRoute } from './routes/vendor.route';
 import { AddProduct } from './vendor/vendor-product/add-product/add-product';
 import { UserRoutes } from './routes/user.route';
 import { AdminNotificationList } from './notification/admin/admin-notification-list/admin-notification-list';
+import { ProfilePage } from './profile-page/profile-page';
 
 export const routes: Routes = [
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     { path: 'register-vendor', component: RegisterVendor },
-    { path: '', redirectTo: 'user/products',pathMatch: 'full' },
+    { path: 'profile', component: ProfilePage },
+    { path: '', redirectTo: 'user/products', pathMatch: 'full' },
     { path: 'categories/:categoryId/subcategories', component: SubCategoryMobile },
     { path: 'admin', component: AdminLayout, children: AdminRoutes },
     { path: 'vendor', component: VendorLayout, children: VendorRoute },
