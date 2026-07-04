@@ -1,0 +1,42 @@
+<div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
+
+    <div class="text-sm text-gray-600">
+        Page {{pageNumber}} of {{totalPages}}.
+        {{totalCount}} total records
+    </div>
+
+    <div class="flex items-center gap-2">
+
+        <select
+            [value]="pageSize"
+            (change)="onPageSizeChange($event)"
+            class="border border-gray-400 rounded-md px-2 py-1">
+
+            <option value="5">5 / page</option>
+            <option value="10">10 / page</option>
+            <option value="25">25 / page</option>
+            <option value="50">50 / page</option>
+
+        </select>
+
+        <button
+            (click)="previous.emit()"
+            [disabled]="pageNumber === 1"
+            class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40">
+
+            Previous
+
+        </button>
+
+        <button
+            (click)="next.emit()"
+            [disabled]="pageNumber === totalPages"
+            class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40">
+
+            Next
+
+        </button>
+
+    </div>
+
+</div>

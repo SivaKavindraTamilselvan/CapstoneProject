@@ -228,3 +228,11 @@
     </div>
     }
 </section>
+
+<app-data-table-component
+    [columns]="columns"
+    [rows]="attribute()?.items ?? []"
+    actionText="View"
+    actionColor="green"
+    >
+</app-data-table-component>

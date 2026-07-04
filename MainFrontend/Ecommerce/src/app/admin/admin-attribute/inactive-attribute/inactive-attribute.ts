@@ -26,19 +26,19 @@ export class InactiveAttribute {
   showDeactivatePopup = signal(false);
   selectedAttributeId = signal<number | null>(null);
 
-  constructor(private router:Router,private adminCategoryService : AdminProductCategoryService){
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService) {
 
   }
-  ngOnInit(){
+  ngOnInit() {
     this.loadAttribute();
   }
-  loadAttribute(){
+  loadAttribute() {
     this.adminCategoryService.getAttribute(this.buildFilter()).subscribe({
-      next : (response:any)=>{
+      next: (response: any) => {
         this.attribute.set(response);
         console.log(response);
       },
-      error : (error)=>{
+      error: (error) => {
         console.error(error);
         if (error.status == 404) {
           this.attribute.set({
@@ -52,12 +52,14 @@ export class InactiveAttribute {
       }
     })
   }
-  private buildFilter() : AttributeFilter{
+  private buildFilter(): AttributeFilter {
     this.status.set(false);
-    return{
-      attributeName : this.attributeName(),
-      status : this.status(),
-      addedByAdminId : this.addedByAdminId()
+    return {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      attributeName: this.attributeName(),
+      status: this.status(),
+      addedByAdminId: this.addedByAdminId()
     }
   }
   toggleFilterPanel(): void {

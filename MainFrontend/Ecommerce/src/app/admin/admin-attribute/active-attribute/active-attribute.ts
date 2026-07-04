@@ -5,14 +5,95 @@ import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AttributeFilter } from '../../../models/admin/admin-product-category/filter-models/attribute.filter';
 import { DatePipe } from '@angular/common';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 
 @Component({
   selector: 'app-active-attribute',
-  imports: [DatePipe],
+  imports: [DataTableComponent, MobileCardComponent, PaginationComponent,FilterComponent],
+  providers: [DatePipe],
   templateUrl: './active-attribute.html',
   styleUrl: './active-attribute.css',
 })
 export class ActiveAttribute {
+  actions: TableAction[] = [
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'attributeMasterId',
+      header: 'ID'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Date Created',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  handleAction(event: { type: string; row: AdminAttributeModel }) {
+
+    switch (event.type) {
+
+      case 'deactivate':
+        this.confirmDeactivate(event.row.attributeMasterId);
+        break;
+
+    }
+
+  }
   attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
   status = signal<boolean | null>(null);
@@ -25,19 +106,19 @@ export class ActiveAttribute {
   showDeactivatePopup = signal(false);
   selectedAttributeId = signal<number | null>(null);
 
-  constructor(private router:Router,private adminCategoryService : AdminProductCategoryService){
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
 
   }
-  ngOnInit(){
+  ngOnInit() {
     this.loadAttribute();
   }
-  loadAttribute(){
+  loadAttribute() {
     this.adminCategoryService.getAttribute(this.buildFilter()).subscribe({
-      next : (response:any)=>{
+      next: (response: any) => {
         this.attribute.set(response);
         console.log(response);
       },
-      error : (error)=>{
+      error: (error) => {
         console.error(error);
         if (error.status == 404) {
           this.attribute.set({
@@ -51,12 +132,14 @@ export class ActiveAttribute {
       }
     })
   }
-  private buildFilter() : AttributeFilter{
+  private buildFilter(): AttributeFilter {
     this.status.set(true);
-    return{
-      attributeName : this.attributeName(),
-      status : this.status(),
-      addedByAdminId : this.addedByAdminId()
+    return {
+      pageNumber:this.pageNumber(),
+      pageSize:this.pageSize(),
+      attributeName: this.attributeName(),
+      status: this.status(),
+      addedByAdminId: this.addedByAdminId()
     }
   }
   toggleFilterPanel(): void {
@@ -91,9 +174,8 @@ export class ActiveAttribute {
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
   }
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
     this.pageNumber.set(1);
     this.loadAttribute();
   }

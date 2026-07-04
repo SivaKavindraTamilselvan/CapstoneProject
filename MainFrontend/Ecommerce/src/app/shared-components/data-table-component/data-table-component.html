@@ -1,0 +1,49 @@
+<div class="hidden md:block min-w-0 overflow-x-auto">
+    <table class="border border-collapse border-gray-500 w-full">
+        <thead>
+            <tr class="bg-slate-800 text-white">
+                @for(column of columns;track column.key){
+                <th class="px-4 py-3 text-center">{{column.header}}</th>
+                }
+                @if(actions.length>0){
+                <th class="px-4 py-3 text-center">
+                    Actions
+                </th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            @if(rows.length){
+            @for(row of rows;track $index)
+            {
+            <tr class="border-b text-center">
+                @for(column of columns; track column.key){
+                <td class="px-4 py-3">
+                    {{ getCellValue(row,column) }}
+                </td>
+                }
+                <td class="px-4 py-3">
+                    <div class="flex justify-center gap-2">
+                        @for(item of actions; track item.action){
+                        <button class="py-2 px-4 rounded-md font-bold text-white cursor-pointer"
+                            [ngClass]="{'bg-green-700 hover:bg-green-900': item.color === 'green','bg-red-600 hover:bg-red-900': item.color === 'red','bg-blue-700 hover:bg-blue-900': item.color === 'blue','bg-yellow-500 hover:bg-yellow-600': item.color === 'yellow'}"
+                            (click)="onAction(item, row)">
+                            {{ item.label }}
+                        </button>
+                        }
+                    </div>
+                </td>
+
+            </tr>
+            }
+            }
+            @else{
+            <tr>
+                <td class="text-center py-6 text-gray-500" [attr.colspan]="columns.length+1">
+                    No data found.
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</div>

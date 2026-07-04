@@ -133,13 +133,33 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     ]
   },
   {
-  key: 'shipments',
-  label: 'Shipments',
-  roles: ['super-admin', 'order-admin', 'vendor-admin'],
-  children: [
-    { label: 'Shipment List', route: '/admin/shipments/list' },
-    { label: 'Update Shipment', route: '/admin/shipments/update' },
-    { label: 'Shipment Lost', route: '/admin/shipments/lost' }
-  ]
-}
+    key: 'shipments',
+    label: 'Shipments',
+    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    children: [
+      { label: 'Shipment List', route: '/admin/shipments/list' },
+      { label: 'Update Shipment', route: '/admin/shipments/update' },
+      { label: 'Shipment Lost', route: '/admin/shipments/lost' }
+    ]
+  },
+  {
+    key: 'reports',
+    label: 'Reports',
+    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    children: [
+      { label: 'Shipment List', route: '/admin/reports/order' },
+      { label: 'Update Shipment', route: '/admin/reports/product' },
+      { label: 'Shipment Lost', route: '/admin/shipments/lost' }
+    ]
+  },
+  {
+    key: 'returns',
+    label: 'Return',
+    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    children: [
+      { label: 'Shipment List', route: '/admin/reports/order' },
+      { label: 'Update Shipment', route: '/admin/reports/product' },
+      { label: 'Shipment Lost', route: '/admin/shipments/lost' }
+    ]
+  }
 ];

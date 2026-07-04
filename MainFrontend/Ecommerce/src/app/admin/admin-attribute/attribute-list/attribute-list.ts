@@ -6,16 +6,53 @@ import { AttributeFilter } from '../../../models/admin/admin-product-category/fi
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddAttributeModel } from '../../../models/admin/admin-product-category/add-models/add-attribute.model';
 import { DatePipe } from '@angular/common';
-import { FormField,form, required } from '@angular/forms/signals';
+import { FormField, form, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+
 
 @Component({
   selector: 'app-attribute-list',
-  imports: [DatePipe,FormField,ReactiveFormsModule,FormsModule],
+  imports: [DatePipe, FormField, ReactiveFormsModule, FormsModule,DataTableComponent],
   templateUrl: './attribute-list.html',
+  providers: [DatePipe],
   styleUrl: './attribute-list.css',
 })
-export class AttributeList { 
+export class AttributeList {
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
+
+  }
+  columns: Column[] = [
+    {
+      key: 'attributeMasterId',
+      header: 'ID'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ]
+
   attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
   status = signal<boolean | null>(null);
@@ -29,19 +66,17 @@ export class AttributeList {
   showActivatePopup = signal(false);
   addAttributeModel = signal(new AddAttributeModel());
 
-  constructor(private router:Router,private adminCategoryService : AdminProductCategoryService){
-
-  }
-  ngOnInit(){
+  
+  ngOnInit() {
     this.loadAttribute();
   }
-  loadAttribute(){
+  loadAttribute() {
     this.adminCategoryService.getAttribute(this.buildFilter()).subscribe({
-      next : (response:any)=>{
+      next: (response: any) => {
         this.attribute.set(response);
         console.log(response);
       },
-      error : (error)=>{
+      error: (error) => {
         console.error(error);
         if (error.status == 404) {
           this.attribute.set({
@@ -55,11 +90,13 @@ export class AttributeList {
       }
     })
   }
-  private buildFilter() : AttributeFilter{
-    return{
-      attributeName : this.attributeName(),
-      status : this.status(),
-      addedByAdminId : this.addedByAdminId()
+  private buildFilter(): AttributeFilter {
+    return {
+      pageNumber : this.pageNumber(),
+      pageSize : this.pageSize(),
+      attributeName: this.attributeName(),
+      status: this.status(),
+      addedByAdminId: this.addedByAdminId()
     }
   }
   toggleFilterPanel(): void {
@@ -117,28 +154,28 @@ export class AttributeList {
       this.status.set(value === 'true');
     }
   }
-  openPopup():void{
+  openPopup(): void {
     this.showActivatePopup.set(true);
   }
-  closePopup():void{
+  closePopup(): void {
     this.showActivatePopup.set(false);
   }
-  addForm = form(this.addAttributeModel,(path)=>{
-    required(path.attributeName, {message: "Enter The Attribute Name"});
+  addForm = form(this.addAttributeModel, (path) => {
+    required(path.attributeName, { message: "Enter The Attribute Name" });
   });
-  addAttribute(){
-    if(this.addForm().invalid()){
+  addAttribute() {
+    if (this.addForm().invalid()) {
       alert("Category Is Invalid");
       return;
     }
     this.adminCategoryService.addAttribute(this.addAttributeModel()).subscribe({
-      next :(response:any)=>{
+      next: (response: any) => {
         alert("Category added successfully");
         console.log(response);
         this.loadAttribute();
         this.closePopup();
       },
-      error : (error)=>{
+      error: (error) => {
         console.error(error);
       }
     })
