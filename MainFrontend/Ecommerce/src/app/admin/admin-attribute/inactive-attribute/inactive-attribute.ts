@@ -5,14 +5,93 @@ import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AttributeFilter } from '../../../models/admin/admin-product-category/filter-models/attribute.filter';
 import { DatePipe } from '@angular/common';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-inactive-attribute',
-  imports: [DatePipe],
+  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent],
+  providers: [DatePipe],
   templateUrl: './inactive-attribute.html',
   styleUrl: './inactive-attribute.css',
 })
 export class InactiveAttribute {
+
+  actions: TableAction[] = [
+    {
+      label: 'Activate',
+      color: 'green',
+      action: 'activate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'attributeMasterId',
+      header: 'ID'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Date Created',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  handleAction(event: { type: string; row: AdminAttributeModel }) {
+    switch (event.type) {
+      case 'activate':
+        this.confirmActivate(event.row.attributeMasterId);
+        break;
+    }
+  }
+
   attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
   status = signal<boolean | null>(null);
@@ -26,7 +105,7 @@ export class InactiveAttribute {
   showDeactivatePopup = signal(false);
   selectedAttributeId = signal<number | null>(null);
 
-  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService) {
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService,private datePipe : DatePipe) {
 
   }
   ngOnInit() {
@@ -93,6 +172,11 @@ export class InactiveAttribute {
   }
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadAttribute();
   }
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

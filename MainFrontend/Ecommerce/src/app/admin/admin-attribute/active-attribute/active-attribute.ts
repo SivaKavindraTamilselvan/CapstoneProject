@@ -14,7 +14,7 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
 
 @Component({
   selector: 'app-active-attribute',
-  imports: [DataTableComponent, MobileCardComponent, PaginationComponent,FilterComponent],
+  imports: [DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent],
   providers: [DatePipe],
   templateUrl: './active-attribute.html',
   styleUrl: './active-attribute.css',
@@ -135,8 +135,8 @@ export class ActiveAttribute {
   private buildFilter(): AttributeFilter {
     this.status.set(true);
     return {
-      pageNumber:this.pageNumber(),
-      pageSize:this.pageSize(),
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
       attributeName: this.attributeName(),
       status: this.status(),
       addedByAdminId: this.addedByAdminId()

@@ -10,11 +10,15 @@ import { FormField, form, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 
 
 @Component({
   selector: 'app-attribute-list',
-  imports: [DatePipe, FormField, ReactiveFormsModule, FormsModule,DataTableComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent],
   templateUrl: './attribute-list.html',
   providers: [DatePipe],
   styleUrl: './attribute-list.css',
@@ -23,6 +27,13 @@ export class AttributeList {
   constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
 
   }
+  actions: TableAction[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    }
+  ];
   columns: Column[] = [
     {
       key: 'attributeMasterId',
@@ -51,7 +62,33 @@ export class AttributeList {
       formatter: (value: string) =>
         this.datePipe.transform(value, 'dd/MM/yyyy')
     }
-  ]
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'attributeName',
+      header: 'Attribute'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Date Created',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
 
   attribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attributeName = signal<string>('');
@@ -66,7 +103,7 @@ export class AttributeList {
   showActivatePopup = signal(false);
   addAttributeModel = signal(new AddAttributeModel());
 
-  
+
   ngOnInit() {
     this.loadAttribute();
   }
@@ -92,8 +129,8 @@ export class AttributeList {
   }
   private buildFilter(): AttributeFilter {
     return {
-      pageNumber : this.pageNumber(),
-      pageSize : this.pageSize(),
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
       attributeName: this.attributeName(),
       status: this.status(),
       addedByAdminId: this.addedByAdminId()
@@ -130,6 +167,11 @@ export class AttributeList {
   }
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadAttribute();
   }
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
