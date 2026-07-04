@@ -34,6 +34,7 @@ export class AddressService {
         return this.http.get<AddressModel[]>(url, {});
     }
     deleteAddress(addressId: number) {
+        console.log(addressId);
         let url = BaseURL + `/Address/vendor/${addressId}/deactivate`;
         return this.http.patch(url, {});
     }

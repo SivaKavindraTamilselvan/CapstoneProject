@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { AuthStateService } from '../../services/auth-State.Service';
 import { VENDOR_SIDEBAR_MENU, VendorSidebarItem } from '../../constant/vendor-sidebar.config';
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,7 +14,7 @@ export class VendorLayout {
   activeMenu = signal<string | null>(null);
   mobileMenuOpen = signal(false);
   menus: VendorSidebarItem[] = [];
-  constructor(private authState: AuthStateService) {
+  constructor(private router : Router,public authState: AuthStateService) {
     const role = this.authState.getVendorRole();
     console.log(role);
     if (role) {
@@ -37,6 +37,19 @@ export class VendorLayout {
 
   closeMobileMenu() {
     this.mobileMenuOpen.set(false);
+  }
+   goToLogin() {
+    this.router.navigate(["/login"]);
+  }
+  goToNotifications() {
+    this.router.navigate(["/vendor/notifications"]);
+  }
+  goToProfile() {
+    this.router.navigate(["/admin/profile"]);
+  }
+  logout(){
+    this.authState.logout();
+    this.router.navigate(["/login"]);
   }
 }
 

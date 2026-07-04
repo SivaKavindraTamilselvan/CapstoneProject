@@ -108,32 +108,25 @@ export class AddAddress {
   fetchPinData(pin: string) {
     this.pinLookupLoading.set(true);
     this.pinLookupError.set(null);
-
     this.http.get<PinApiResponse[]>(`/pincode-api/pincode/${pin}`).subscribe({
       next: (response) => {
         this.pinLookupLoading.set(false);
-
         const result = response?.[0];
-
         if (result?.Status === 'Success' && result.PostOffice?.length) {
           const postOffices = result.PostOffice;
-
           const cities = [...new Set(postOffices.map((po) => po.Name))];
           const state = postOffices[0].State;
-
           this.cityOptions.set(cities);
-
           this.address.update((a) => ({
             ...a,
             state: state,
             city: '',
           }));
-
           this.addForm.state().markAsTouched();
-        } else {
+        } 
+        else {
           this.pinLookupError.set('No results found for this PIN code.');
           this.cityOptions.set([]);
-
           this.address.update((a) => ({
             ...a,
             city: '',
@@ -150,24 +143,19 @@ export class AddAddress {
 
   onCityChange(event: Event) {
     const select = event.target as HTMLSelectElement;
-
     this.addForm.city().markAsTouched();
-
     this.address.update((a) => ({
       ...a,
       city: select.value,
     }));
   }
-
   onIsDefaultChange(event: Event) {
     const checkbox = event.target as HTMLInputElement;
-
     this.address.update((a) => ({
       ...a,
       isDefault: checkbox.checked,
     }));
   }
-
   touchAllFields() {
     this.addForm.contactName().markAsTouched();
     this.addForm.contactPhoneNumber().markAsTouched();
@@ -177,21 +165,16 @@ export class AddAddress {
     this.addForm.state().markAsTouched();
     this.addForm.pinCode().markAsTouched();
   }
-
   addAddress() {
     this.submitted.set(true);
     this.errorMessage.set(null);
     this.successMessage.set(null);
-
     this.touchAllFields();
-
     if (this.addForm().invalid()) {
       this.errorMessage.set('Please fill in all required fields correctly.');
       return;
     }
-
     this.progress.set(true);
-
     this.addressService.addAddress(this.address()).subscribe({
       next: () => {
         this.progress.set(false);
@@ -201,18 +184,35 @@ export class AddAddress {
       },
       error: (error) => {
         this.progress.set(false);
-        // your error handling
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(', ');
+
+          this.errorMessage.set(messages);
+        }
+        else if (error.error?.message) {
+          this.errorMessage.set(error.error.message);
+        }
+        else if (error.status === 0) {
+          this.errorMessage.set('Unable to connect to the server. Please check your internet connection.');
+        }
+        else if (error.status >= 500) {
+          this.errorMessage.set('Something went wrong on the server. Please try again later.');
+        }
+        else {
+          this.errorMessage.set('Failed to add address.');
+        }
       },
     });
   }
-
   resetForm() {
     this.address.set(new AddAddressModel());
     this.cityOptions.set([]);
     this.pinLookupError.set(null);
     this.submitted.set(false);
+    this.pinLookupLoading.set(false);
   }
-
   resetFilter() {
     this.resetForm();
     this.errorMessage.set(null);

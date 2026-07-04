@@ -62,6 +62,16 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         ]
     },
     {
+        key: 'warehouse',
+        label: 'Warehouse',
+        roles: ['owner'],
+        children: [
+            { label: 'Warehouse List', route: '/vendor/warehouses', roles: ['owner'] },
+            { label: 'Deleted Warehouse List', route: '/vendor/deleted-warehouses/', roles: ['owner'] },
+            { label: 'Add Warehouse', route: '/vendor/warehouses/add', roles: ['owner'] },
+        ]
+    },
+    {
         key: 'inventory',
         label: 'Inventory',
         roles: ['owner'],
@@ -69,8 +79,6 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
             { label: 'Inventory List', route: '/vendor/inventory', roles: ['owner'] },
             { label: 'Deleted Inventory List', route: '/vendor/deleted-inventory/', roles: ['owner'] },
             { label: 'Add Inventory', route: '/vendor/inventory/add', roles: ['owner'] },
-            { label: 'Warehouse List', route: '/vendor/warehouses', roles: ['owner'] },
-            { label: 'Add Warehouse', route: '/vendor/warehouses/add', roles: ['owner'] }
         ]
     },
     {
@@ -78,8 +86,8 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         label: 'Orders',
         roles: ['owner', 'order-admin', 'vendor-admin'],
         children: [
-            { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders',roles:['owner'] },
-            { label: 'All Orders', route: '/vendor/orders/list' ,roles:['owner']}
+            { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders', roles: ['owner'] },
+            { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
         ]
     }
 ];

@@ -49,7 +49,8 @@
             </div>
             <div class="flex gap-4 sm:gap-6 lg:gap-8 justify-end items-center text-white">
                 @if (authState.isLoggedIn()) {
-                <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="goToNotifications()">
+                <button class="group relative cursor-pointer hover:text-gray-500 transition"
+                    (click)="goToNotifications()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
 
@@ -71,7 +72,8 @@
                 </button>
 
                 <button
-                    class="group relative flex items-center gap-2 cursor-pointer text-white hover:text-gray-500 transition" (click)="logout()">
+                    class="group relative flex items-center gap-2 cursor-pointer text-white hover:text-gray-500 transition"
+                    (click)="logout()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5">
 
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -80,8 +82,8 @@
                     <span
                         class="absolute top-8 right-0 hidden group-hover:block text-sm text-black bg-white py-1 px-3 rounded-sm whitespace-nowrap shadow-md">Logout</span>
                 </button>
-            }
-            @else {
+                }
+                @else {
                 <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="goToLogin()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
@@ -93,7 +95,7 @@
                         Login
                     </span>
                 </button>
-            }
+                }
             </div>
         </header>
         <main class="overflow-x-hidden">

@@ -46,7 +46,9 @@
                 <p class="text-white font-extrabold text-lg sm:text-xl">ShopperApp</p>
             </div>
             <div class="flex gap-4 sm:gap-6 lg:gap-8 justify-end items-center text-white">
-                <button class="group relative cursor-pointer hover:text-gray-500 transition">
+                @if (authState.isLoggedIn()) {
+                <button class="group relative cursor-pointer hover:text-gray-500 transition"
+                    (click)="goToNotifications()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="size-6">
 
@@ -57,7 +59,7 @@
                     <span
                         class="absolute hidden group-hover:block py-1 px-3 text-sm text-black bg-white rounded-sm shadow-md whitespace-nowrap top-8 right-0">Notification</span>
                 </button>
-                <button class="group relative cursor-pointer hover:text-gray-500 transition">
+                <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="goToProfile()">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5"
                         stroke="currentColor" class="size-7">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -68,7 +70,8 @@
                 </button>
 
                 <button
-                    class="group relative flex items-center gap-2 cursor-pointer text-white hover:text-gray-500 transition">
+                    class="group relative flex items-center gap-2 cursor-pointer text-white hover:text-gray-500 transition"
+                    (click)="logout()">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="size-5">
 
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -77,6 +80,20 @@
                     <span
                         class="absolute top-8 right-0 hidden group-hover:block text-sm text-black bg-white py-1 px-3 rounded-sm whitespace-nowrap shadow-md">Logout</span>
                 </button>
+                }
+                @else {
+                <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="goToLogin()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15M12 9l3 3m0 0-3 3m3-3H3" />
+                    </svg>
+                    <span
+                        class="absolute top-8 right-0 hidden group-hover:block text-sm text-black bg-white py-1 px-3 rounded-sm whitespace-nowrap shadow-md">
+                        Login
+                    </span>
+                </button>
+                }
             </div>
         </header>
        <main class="overflow-x-hidden">

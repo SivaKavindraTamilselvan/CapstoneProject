@@ -9,7 +9,7 @@ import { UserNavbar } from './users/user-navbar/user-navbar';
 import { CategoryMobile } from './users/category-mobile/category-mobile';
 import { SubCategoryMobile } from './users/sub-category-mobile/sub-category-mobile';
 import { VendorLayout } from './vendor/vendor-layout/vendor-layout';
-import { VendorRoute } from './routes/vendor.route';
+import { VendorRoute } from './routes/vendor/vendor.route';
 import { AddProduct } from './vendor/vendor-product/add-product/add-product';
 import { UserRoutes } from './routes/user.route';
 import { AdminNotificationList } from './notification/admin/admin-notification-list/admin-notification-list';

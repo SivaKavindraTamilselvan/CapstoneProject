@@ -9,14 +9,91 @@ import { form, FormField, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 
 @Component({
   selector: 'app-admin-product',
-  imports: [FormField, FormsModule, ReactiveFormsModule],
+  imports: [FormField, FormsModule, ReactiveFormsModule,PaginationComponent,FilterComponent,MobileCardComponent,DataTableComponent],
   templateUrl: './admin-product.html',
   styleUrl: './admin-product.css',
 })
 export class AdminProduct implements OnInit {
+   actions: TableAction[] = [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view'
+      },
+      {
+        label: 'Delete',
+        color: 'red',
+        action: 'delete'
+      }
+    ];
+    columns: Column[] = [
+      {
+        key: 'productId',
+        header: 'ID'
+      },
+      {
+        key: 'productName',
+        header: 'Name'
+      },
+      {
+        key: 'productCategoryName',
+        header: 'Category'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'SubCategory'
+      },
+      {
+        key: 'vendorName',
+        header: 'Vendor'
+      },
+      {
+        key: 'productApprovalStatus',
+        header: 'Approval'
+      },
+      {
+        key: 'productStatus',
+        header: 'Status'
+      },
+    ];
+  
+    mobileColumns: Column[] = [
+       {
+        key: 'productName',
+        header: 'Name'
+      },
+      {
+        key: 'productCategoryName',
+        header: 'Category'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'Sub Category'
+      },
+      {
+        key: 'vendorName',
+        header: 'Vendor'
+      },
+      {
+        key: 'productApprovalStatus',
+        header: 'Approval'
+      },
+      {
+        key: 'productStatus',
+        header: 'Status'
+      },
+      
+    ];
+
   products = signal<PagedResponse<ProductModel> | null>(null);
 
   searchTerm = signal<string>('');
@@ -158,6 +235,12 @@ export class AdminProduct implements OnInit {
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.pageSize.set(value);
+    this.pageNumber.set(1);
+    this.loadProduct();
+  }
+
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
     this.pageNumber.set(1);
     this.loadProduct();
   }
