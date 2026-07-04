@@ -9,14 +9,102 @@ import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { DatePipe } from '@angular/common';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-active-mapped-attribute',
-  imports: [],
+  imports: [FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
+  providers: [DatePipe],
   templateUrl: './active-mapped-attribute.html',
   styleUrl: './active-mapped-attribute.css',
 })
 export class ActiveMappedAttribute {
+  actions: TableAction[] = [
+    {
+      label: 'View',
+      color: 'blue',
+      action: 'view'
+    },
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productSubCategoryAttributeId',
+      header: 'ID'
+    },
+    {
+      key: 'productSubCategoryId',
+      header: 'Sub Category Id'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'attributeMasterId',
+      header: 'Attribute Id'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute Name'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productSubCategoryId',
+      header: 'Sub Category Id'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'attributeMasterId',
+      header: 'Attribute Id'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute Name'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+  ];
+  handleAction(event: { type: string; row: AdminMappedAttributeModel }) {
+
+    switch (event.type) {
+      case 'deactivate':
+        this.confirmActivate(event.row.productSubCategoryAttributeId);
+        break;
+    }
+  }
   masterattribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attribute = signal<PagedResponse<AdminMappedAttributeModel> | null>(null);
   status = signal<boolean | null>(null);
@@ -39,7 +127,7 @@ export class ActiveMappedAttribute {
   showDeactivatePopup = signal(false);
   selectedId = signal<number | null>(null);
 
-  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService, private datePipe: DatePipe) {
 
   }
 
@@ -118,12 +206,12 @@ export class ActiveMappedAttribute {
     this.goToPage(this.pageNumber() - 1);
   }
 
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
     this.pageNumber.set(1);
     this.loadAttribute();
   }
+
 
   onAdminIdInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
@@ -172,14 +260,14 @@ export class ActiveMappedAttribute {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
   }
-  loadAttributes(){
+  loadAttributes() {
     this.adminProductService.getAttribute().subscribe({
-     next:(response:any)=>{
-      this.masterattribute.set(response);
-     },
-     error : (error)=>{
-      console.error(error);
-     }
+      next: (response: any) => {
+        this.masterattribute.set(response);
+      },
+      error: (error) => {
+        console.error(error);
+      }
     })
   }
   confirmActivate(id: number) {

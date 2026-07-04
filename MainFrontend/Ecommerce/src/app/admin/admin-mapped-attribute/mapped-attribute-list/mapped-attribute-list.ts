@@ -11,6 +11,12 @@ import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
 
 export interface GroupedSubCategory {
   subCategoryId: number;
@@ -21,11 +27,89 @@ export interface GroupedSubCategory {
 
 @Component({
   selector: 'app-mapped-attribute-list',
-  imports: [CommonModule],
+  imports: [CommonModule,PaginationComponent,FilterComponent,DataTableComponent,MobileCardComponent],
   templateUrl: './mapped-attribute-list.html',
   styleUrl: './mapped-attribute-list.css',
 })
 export class MappedAttributeList {
+
+  actions: TableAction[] = [
+        {
+          label: 'View',
+          color: 'blue',
+          action: 'view'
+        },
+        {
+          label: 'Activate',
+          color: 'green',
+          action: 'activate'
+        }
+      ];
+      columns: Column[] = [
+        {
+          key: 'productSubCategoryAttributeId',
+          header: 'ID'
+        },
+        {
+          key: 'productSubCategoryId',
+          header: 'Sub Category Id'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'Sub Category'
+        },
+        {
+          key: 'attributeMasterId',
+          header: 'Attribute Id'
+        },
+        {
+          key: 'attributeName',
+          header: 'Attribute Name'
+        },
+        {
+          key: 'addedByAdminId',
+          header: 'Added Admin Id'
+        },
+        {
+          key: 'isActive',
+          header: 'Status',
+          formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+        },
+    
+      ];
+    
+      mobileColumns: Column[] = [
+        {
+          key: 'productSubCategoryId',
+          header: 'Sub Category Id'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'Sub Category'
+        },
+        {
+          key: 'attributeMasterId',
+          header: 'Attribute Id'
+        },
+        {
+          key: 'attributeName',
+          header: 'Attribute Name'
+        },
+        {
+          key: 'addedByAdminId',
+          header: 'Added Admin Id'
+        },
+        {
+          key: 'isActive',
+          header: 'Status',
+          formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+        },
+      ];
+      handleAction(event: { type: string; row: AdminMappedAttributeModel }) {
+    
+        
+      }
+
   masterattribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attribute = signal<PagedResponse<AdminMappedAttributeModel> | null>(null);
   status = signal<boolean | null>(null);
@@ -122,6 +206,12 @@ export class MappedAttributeList {
 
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadAttribute();
   }
 
   onPageSizeChange(event: Event): void {

@@ -9,14 +9,101 @@ import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 
 @Component({
   selector: 'app-inactive-mapped-attribute',
-  imports: [],
+  imports: [FilterComponent,PaginationComponent,MobileCardComponent,DataTableComponent],
   templateUrl: './inactive-mapped-attribute.html',
   styleUrl: './inactive-mapped-attribute.css',
 })
 export class InactiveMappedAttribute {
+  actions: TableAction[] = [
+      {
+        label: 'View',
+        color: 'blue',
+        action: 'view'
+      },
+      {
+        label: 'Activate',
+        color: 'green',
+        action: 'activate'
+      }
+    ];
+    columns: Column[] = [
+      {
+        key: 'productSubCategoryAttributeId',
+        header: 'ID'
+      },
+      {
+        key: 'productSubCategoryId',
+        header: 'Sub Category Id'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'Sub Category'
+      },
+      {
+        key: 'attributeMasterId',
+        header: 'Attribute Id'
+      },
+      {
+        key: 'attributeName',
+        header: 'Attribute Name'
+      },
+      {
+        key: 'addedByAdminId',
+        header: 'Added Admin Id'
+      },
+      {
+        key: 'isActive',
+        header: 'Status',
+        formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+      },
+  
+    ];
+  
+    mobileColumns: Column[] = [
+      {
+        key: 'productSubCategoryId',
+        header: 'Sub Category Id'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'Sub Category'
+      },
+      {
+        key: 'attributeMasterId',
+        header: 'Attribute Id'
+      },
+      {
+        key: 'attributeName',
+        header: 'Attribute Name'
+      },
+      {
+        key: 'addedByAdminId',
+        header: 'Added Admin Id'
+      },
+      {
+        key: 'isActive',
+        header: 'Status',
+        formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+      },
+    ];
+    handleAction(event: { type: string; row: AdminMappedAttributeModel }) {
+  
+      switch (event.type) {
+        case 'deactivate':
+          this.confirmActivate(event.row.productSubCategoryAttributeId);
+          break;
+      }
+    }
+
   masterattribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attribute = signal<PagedResponse<AdminMappedAttributeModel> | null>(null);
   status = signal<boolean | null>(null);
@@ -116,6 +203,12 @@ export class InactiveMappedAttribute {
 
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadAttribute();
   }
 
   onPageSizeChange(event: Event): void {
