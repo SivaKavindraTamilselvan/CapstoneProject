@@ -5,14 +5,94 @@ import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminProductCategoryFilter } from '../../../models/admin/admin-product-category/filter-models/admin-category.filter';
 import { DatePipe } from '@angular/common';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-active-category',
-  imports: [DatePipe],
+  imports: [FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
+  providers: [DatePipe],
   templateUrl: './active-category.html',
   styleUrl: './active-category.css',
 })
 export class ActiveCategory {
+  actions: TableAction[] = [
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productCategoryId',
+      header: 'ID'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Date Created',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+  handleAction(event: { type: string; row: AdminProductCategoryModel }) {
+
+    switch (event.type) {
+
+      case 'deactivate':
+        this.confirmDeactivate(event.row.productCategoryId);
+        break;
+
+    }
+
+  }
   category = signal<PagedResponse<AdminProductCategoryModel> | null>(null);
 
   ProductCategoryName = signal<string>('');
@@ -28,7 +108,7 @@ export class ActiveCategory {
   showDeactivatePopup = signal(false);
   selectedCategoryId = signal<number | null>(null);
 
-  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
+  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
 
   }
   ngOnInit() {
@@ -97,6 +177,11 @@ export class ActiveCategory {
   }
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadCategory();
   }
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

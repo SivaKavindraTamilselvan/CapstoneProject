@@ -1,18 +1,98 @@
-import { Component, signal,computed } from '@angular/core';
+import { Component, signal, computed } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category'; 
+import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { DatePipe } from '@angular/common';
 import { Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminProductCategoryFilter } from '../../../models/admin/admin-product-category/filter-models/admin-category.filter';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 
 @Component({
   selector: 'app-inactive-category',
-  imports: [DatePipe],
+  imports: [DatePipe, FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
+  providers: [DatePipe],
   templateUrl: './inactive-category.html',
   styleUrl: './inactive-category.css',
 })
 export class InactiveCategory {
+  actions: TableAction[] = [
+    {
+      label: 'Activate',
+      color: 'green',
+      action: 'activate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productCategoryId',
+      header: 'ID'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Date Created',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+  handleAction(event: { type: string; row: AdminProductCategoryModel }) {
+
+    switch (event.type) {
+
+      case 'deactivate':
+        this.confirmActivate(event.row.productCategoryId);
+        break;
+
+    }
+
+  }
   category = signal<PagedResponse<AdminProductCategoryModel> | null>(null);
 
   ProductCategoryName = signal<string>('');
@@ -28,7 +108,7 @@ export class InactiveCategory {
   showDeactivatePopup = signal(false);
   selectedCategoryId = signal<number | null>(null);
 
-  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService) {
+  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
 
   }
   ngOnInit() {
@@ -97,6 +177,11 @@ export class InactiveCategory {
   }
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
+  }
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadCategory();
   }
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

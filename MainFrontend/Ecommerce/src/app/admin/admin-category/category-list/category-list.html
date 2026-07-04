@@ -9,6 +9,8 @@
         </button>
     </div>
 
+
+
     @if(filterPanelOpen()) {
     <div class="fixed inset-0 bg-black/40 z-40" (click)="toggleFilterPanel()"></div>
     }
@@ -66,145 +68,55 @@
             </div>
         </div>
     </aside>
+    
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+        (apply)="applyFilters()" (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+            <input type="number" placeholder="Admin ID" [value]="AddedByAdminId()" (input)="onAdminIdInput($event)"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Category Id</label>
+            <input type="number" placeholder="Category ID" [value]="ProductCategoryId()"
+                (input)="onCategoryIdInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Category Name</label>
+            <input placeholder="Category Name" [value]="ProductCategoryName()" (input)="onCategoryNameInput($event)"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+        </div>
+
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
+            <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option>All</option>
+                <option value="true" [selected]="status() === true">Active</option>
+                <option value="false" [selected]="status() === false">Inactive</option>
+            </select>
+        </div>
+
+    </app-filter-component>
+
     <div class="flex justify-end pb-4">
         <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openPopup()">Add
             Category</h1>
     </div>
-    <div class="hidden md:block min-w-0 overflow-x-auto">
-        <table class="border border-collapse border-gray-500 w-full">
-            <thead>
-                <tr class="bg-slate-800 text-white">
-                    <th class="px-4 py-3 text-center">ID</th>
-                    <th class="px-4 py-3 text-center">Category</th>
-                    <th class="px-4 py-3 text-center">Added Admin Id</th>
-                    <th class="px-4 py-3 text-center">Added Admin Name</th>
-                    <th class="px-4 py-3 text-center">Status</th>
-                    <th class="px-4 py-3 text-center">Added Date</th>
-                    <th class="px-4 py-3 text-center">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
 
-                @if(category()){
-                @for(c of category()!.items;track c.productCategoryId)
-                {
-                <tr class="border-b text-center">
-                    <td class="px-4 py-3">{{c.productCategoryId}}</td>
-                    <td class="px-4 py-3">{{c.productCategoryName}}</td>
-                    <td class="px-4 py-3">{{c.addedByAdminId}}</td>
-                    <td class="px-4 py-3">{{c.addedUserName}}</td>
-                    <td class="px-4 py-3">{{c.isActive ? "Active" : "Inactive"}}</td>
-                    <td class="px-4 py-3">{{ c.createdAt | date:'dd/MM/yyyy' }}</td>
-                    <td class="px-4 py-3"><button
-                            class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button>
-                    </td>
-                </tr>
-                }
-                @empty
-                {
-                <tr>
-                    <td colspan="8" class="px-4 py-6 text-center text-gray-500">No product category found.</td>
-                </tr>
-                }
-                }
+    <app-data-table-component [columns]="columns" [rows]="category()?.items ?? []" [actions]="actions">
+    </app-data-table-component>
 
-            </tbody>
-        </table>
-    </div>
-    <div class="md:hidden flex flex-col gap-4">
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="category()?.items ?? []" [actions]="actions"
+        [titleKey]="'productCategoryId'">
+    </app-mobile-card-component>
 
-        @if(category()){
-        @for(c of category()!.items;track c.productCategoryId)
-        {
-        <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
-            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
-                <span class="font-bold text-blue-950">#{{c.productCategoryId}}</span>
-                <button
-                    class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
-            </div>
-            <table class="w-full border border-gray-300 border-collapse table-fixed">
-                <colgroup>
-                    <col class="w-1/3">
-                    <col class="w-2/3">
-                </colgroup>
-                <tbody>
-                    <tr class="bg-gray-50">
-                        <td class="font-semibold py-3 px-2 border border-gray-300">
-                            Category
-                        </td>
-                        <td class="py-3 px-2 border border-gray-300 break-words">
-                            {{c.productCategoryName}}
-                        </td>
-                    </tr>
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="category()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
 
-                    <tr class="bg-white">
-                        <td class="font-semibold py-3 px-2 border border-gray-300">
-                            Added Admin Id
-                        </td>
-                        <td class="py-3 px-2 border border-gray-300 break-words">
-                            {{c.addedByAdminId}}
-                        </td>
-                    </tr>
 
-                    <tr class="bg-gray-50">
-                        <td class="font-semibold py-3 px-2 border border-gray-300">
-                            Admin Name
-                        </td>
-                        <td class="py-3 px-2 border border-gray-300 break-words">
-                            {{c.addedUserName}}
-                        </td>
-                    </tr>
-
-                    <tr class="bg-white">
-                        <td class="font-semibold py-3 px-2 border border-gray-300">
-                            Status
-                        </td>
-                        <td class="py-3 px-2 border border-gray-300 break-words">
-                            {{c.isActive ? "Active" : "Inactive"}}
-                        </td>
-                    </tr>
-
-                    <tr class="bg-white">
-                        <td class="font-semibold py-3 px-2 border border-gray-300">
-                            Date Created
-                        </td>
-                        <td class="py-3 px-2 border border-gray-300 break-words">
-                            {{ c.createdAt | date:'dd/MM/yyyy' }}
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        }
-        @empty {
-        <div class="text-center text-gray-500 py-6">No product category found.</div>
-        }
-        }
-    </div>
-
-    @if(category()){
-    <div class="flex flex-col sm:flex-row items-center justify-between gap-3 mt-6">
-        <div class="text-sm text-gray-600">
-            Page {{pageNumber()}} of {{totalPages()}}. {{category()!.totalCount}} total category
-        </div>
-        <div class="flex items-center gap-2">
-            <select (change)="onPageSizeChange($event)" class="border border-gray-400 rounded-md px-2 py-1">
-                <option value="5" [selected]="pageSize() === 5">5 / page</option>
-                <option value="10" [selected]="pageSize() === 10">10 / page</option>
-                <option value="25" [selected]="pageSize() === 25">25 / page</option>
-                <option value="50" [selected]="pageSize() === 50">50 / page</option>
-            </select>
-            <button (click)="previousPage()" [disabled]="pageNumber() === 1"
-                class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
-                Previous
-            </button>
-            <button (click)="nextPage()" [disabled]="pageNumber() === totalPages()"
-                class="bg-slate-800 text-white py-2 px-4 rounded-md font-bold disabled:opacity-40 disabled:cursor-not-allowed hover:bg-slate-950 cursor-pointer">
-                Next
-            </button>
-        </div>
-    </div>
-    }
     @if (showActivatePopup()) {
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
         <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
