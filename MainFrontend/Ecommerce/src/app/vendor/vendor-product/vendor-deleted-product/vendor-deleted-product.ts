@@ -17,24 +17,20 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-model/update-product-status.model';
 
+
 @Component({
-  selector: 'app-product-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent],
-  templateUrl: './product-list.html',
-  styleUrl: './product-list.css',
+  selector: 'app-vendor-deleted-product',
+ imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent],
+  templateUrl: './vendor-deleted-product.html',
+  styleUrl: './vendor-deleted-product.css',
 })
-export class ProductList {
+export class VendorDeletedProduct {
   actions: TableAction[] = [
     {
       label: 'View',
       color: 'green',
       action: 'view'
     },
-    {
-        label: 'Delete',
-        color: 'red',
-        action: 'delete'
-      }
   ];
   columns: Column[] = [
     {
@@ -92,9 +88,6 @@ export class ProductList {
       case 'view':
         this.viewProduct(event.row.productId);
         break;
-      case 'delete':
-        this.openDeletePopup(event.row.productId);
-        break;
     }
   }
 
@@ -124,7 +117,6 @@ export class ProductList {
   showActivatePopup = signal(false);
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
-  deleteProductModel = signal(new AdminDeleteProductModel());
   selectedProductId = signal<number | null>(null);
 
   categories = signal<AdminProductCategoryModel[]>([]);
@@ -198,7 +190,7 @@ export class ProductList {
   }
 
   loadProduct(): void {
-    this.vendorProductService.getProduct(this.buildFilter()).subscribe({
+    this.vendorProductService.getDeletedProduct(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
       },
@@ -470,3 +462,4 @@ export class ProductList {
     this.route.navigate(['/vendor/products', productId]);
   }
 }
+

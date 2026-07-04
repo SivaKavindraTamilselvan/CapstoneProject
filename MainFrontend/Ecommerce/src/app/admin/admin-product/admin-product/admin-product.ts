@@ -93,6 +93,16 @@ export class AdminProduct implements OnInit {
       },
       
     ];
+    handleAction(event: { type: string; row:ProductModel }) {
+        switch (event.type) {
+          case 'view':
+            this.viewProduct(event.row.productId);
+            break;
+          case 'delete':
+            this.openDeletePopup(event.row.productId);
+            break;
+        }
+      }
 
   products = signal<PagedResponse<ProductModel> | null>(null);
 

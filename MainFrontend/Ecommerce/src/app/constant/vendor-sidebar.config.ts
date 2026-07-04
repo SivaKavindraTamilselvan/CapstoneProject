@@ -30,6 +30,7 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         children: [
             { label: 'Add Product', route: '/vendor/products/add', roles: ['owner', 'product-manager'] },
             { label: 'Product List', route: '/vendor/products/list', roles: ['owner', 'product-manager'] },
+            { label: 'Deleted Product List', route: '/vendor/deleted-products/list', roles: ['owner', 'product-manager'] },
         ]
     },
     {

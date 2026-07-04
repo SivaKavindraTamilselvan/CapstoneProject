@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'app-filter-component',
@@ -7,6 +7,9 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './filter-component.css',
 })
 export class FilterComponent {
+
+  errorMessage = input<string | null>(null);
+  
   @Input() open = false;
 
   @Input() title = 'Filters';

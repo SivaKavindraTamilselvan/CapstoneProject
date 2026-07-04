@@ -39,7 +39,18 @@ export class VendorProductService {
         return this.http.post(url, productImageModel);
     }
     getProduct(filter: VendorProductFilter) {
-        let url = BaseURL + "/VendorProduct"
+        let url = BaseURL + "/VendorProduct?includeIsDeleted=false"
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+        return this.http.get<PagedResponse<VendorProductModel>>(url, { params });
+    }
+    getDeletedProduct(filter: VendorProductFilter) {
+        let url = BaseURL + "/VendorProduct?includeIsDeleted=true"
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {
@@ -76,8 +87,8 @@ export class VendorProductService {
         let url = `${BaseURL}/UserProductCategory/vendor-categories/${category}/subcategories`;
         return this.http.get(url);
     }
-    getReviewProducts(filter: VendorProductFilter): Observable<PagedResponse<ProductModel>> {
-        let url = BaseURL + "/VendorProduct?ProductApprovalStatusId=1";
+    getReviewProducts(filter: VendorProductFilter) {
+        let url = BaseURL + "/VendorProduct?includeIsDeleted=false&ProductApprovalStatusId=1"
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {
@@ -85,8 +96,7 @@ export class VendorProductService {
                 params = params.set(key, value.toString());
             }
         });
-
-        return this.http.get<PagedResponse<ProductModel>>(url, { params });
+        return this.http.get<PagedResponse<VendorProductModel>>(url, { params });
     }
     reviewProduct(request: ReviewProductRequestModel) {
         let url = BaseURL + "/Vendor/ReviewProductByVendor";
@@ -97,6 +107,10 @@ export class VendorProductService {
         return this.http.put(url, request);
     }
     updateProduct(request: UpdateProductStatus) {
+        let url = BaseURL + "/VendorProduct/UpdateProduct";
+        return this.http.put(url, request);
+    }
+    deleteProduct(request: UpdateProductStatus) {
         let url = BaseURL + "/VendorProduct/UpdateProduct";
         return this.http.put(url, request);
     }
@@ -120,7 +134,7 @@ export class VendorProductService {
         const url = BaseURL + `/VendorProduct/subcategory-attributes?ProductSubCategoryId=${id}`;
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url);
     }
-    getAttributes(){
+    getAttributes() {
         const url = BaseURL + `/VendorProduct/attributes`;
         return this.http.get(url);
     }

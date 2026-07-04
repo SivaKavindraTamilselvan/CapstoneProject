@@ -110,7 +110,7 @@
                 <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
                     @for(img of productImages(); track $index){
                     <div class="border rounded-lg p-2 relative">
-                        <img [src]="img.imageUrl" class="w-full h-28 object-cover rounded">
+                        <img src="" alt="" class="w-full h-28 object-cover rounded">
 
                         <button type="button" (click)="setMainImage($index)"
                             class="mt-2 w-full text-sm py-1 rounded text-white" [class.bg-green-700]="img.isMainImage"
