@@ -122,7 +122,7 @@ export class VendorDeletedWarehouse {
             totalPages: 1
           });
         }
-        if (error.status === 0) {
+        else if (error.status === 0) {
           this.errorMessage.set(
             'Unable to connect to the server. Please check your internet connection.'
           );

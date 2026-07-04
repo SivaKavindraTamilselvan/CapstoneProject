@@ -22,11 +22,14 @@ export class AddProduct {
   productImages = signal<AddProductImageModel[]>([]);
 
   productCategoryId = signal<number | null>(null);
+  attributeId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
 
   categories = signal<AdminProductCategoryModel[]>([]);
   attributes = signal<AdminAttributeModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
+
+  loading = signal(false);
 
   constructor(private vendorProductService: VendorProductService) { }
   ngOnInit() {
@@ -111,6 +114,15 @@ export class AddProduct {
       return;
     }
 
+    if (this.productImages().length === 0) {
+      this.errorMessage.set(
+        'Please upload at least one product image.'
+      );
+      return;
+    }
+
+    this.loading.set(true);
+
     this.vendorProductService.addProduct(this.product()).subscribe({
       next: (response: any) => {
         const productId =
@@ -124,10 +136,35 @@ export class AddProduct {
         }
 
         this.addProductImages(productId);
+        this.loading.set(false);
+
       },
       error: (error) => {
-        this.errorMessage.set(error.error?.message ?? 'Failed to add product');
-      },
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(', ');
+
+          this.errorMessage.set(messages);
+        }
+        else if (error.error?.message) {
+          this.errorMessage.set(error.error.message);
+        }
+        else if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to connect to the server. Please check your internet connection.'
+          );
+        }
+        else if (error.status >= 500) {
+          this.errorMessage.set(
+            'Something went wrong on the server. Please try again later.'
+          );
+        }
+        else {
+          this.errorMessage.set('Failed to add product.');
+        }
+        this.loading.set(false);
+      }
     });
   }
 
@@ -156,35 +193,86 @@ export class AddProduct {
           }
         },
         error: (error) => {
-          this.errorMessage.set(
-            error.error?.message ?? 'Product added, but image upload failed'
-          );
-        },
+
+          if (error.error?.message) {
+            this.errorMessage.set(error.error.message);
+          }
+          else if (error.status === 0) {
+            this.errorMessage.set(
+              'Images could not be uploaded. Please check your connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Product was added, but one or more images failed to upload.'
+            );
+          }
+          this.loading.set(false);
+        }
       });
     });
   }
 
   resetForm(): void {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     this.product.set(new AddProductModel());
     this.productImages.set([]);
+    this.productCategoryId.set(null);
+    this.productSubCategoryId.set(null);
+    this.attributeId.set(null);
+    this.subCategories.set([]);
+
     this.addForm().reset();
   }
 
   loadCategories(): void {
+    this.errorMessage.set(null);
     this.vendorProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
   loadAttributes(): void {
-    this.vendorProductService.getAttributes().subscribe({
+    this.errorMessage.set(null);
+    const id = this.productSubCategoryId();
+    if(id==null){
+      return;
+    }
+    this.vendorProductService.getmappedAttribute(id).subscribe({
       next: (res: any) => {
         this.attributes.set(res.items ?? res);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+
+        console.error(error);
+
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load attributes. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load attributes.'
+          );
+        }
+      }
     });
   }
 
@@ -195,9 +283,21 @@ export class AddProduct {
     this.productSubCategoryId.set(null);
     this.subCategories.set([]);
     if (id) {
+      this.errorMessage.set(null);
       this.vendorProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-        error: (err) => console.log(err)
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }
@@ -208,6 +308,7 @@ export class AddProduct {
       productSubCategoryId: value
     }));
     this.productSubCategoryId.set(value);
+    this.loadAttributes();
   }
   onAttributeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
@@ -215,5 +316,6 @@ export class AddProduct {
       ...product,
       mainProductSubCategoryAttributeId: value
     }));
+    this.attributeId.set(value);
   }
 }
