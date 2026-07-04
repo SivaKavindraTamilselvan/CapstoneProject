@@ -14,7 +14,7 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
 
 @Component({
   selector: 'app-inactive-category',
-  imports: [DatePipe, FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
+  imports: [FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
   providers: [DatePipe],
   templateUrl: './inactive-category.html',
   styleUrl: './inactive-category.css',

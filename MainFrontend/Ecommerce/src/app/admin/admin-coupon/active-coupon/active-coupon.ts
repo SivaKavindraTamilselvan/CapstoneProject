@@ -5,14 +5,128 @@ import { Router } from '@angular/router';
 import { AdminCouponService } from '../../../services/admin-coupon.Service';
 import { AdminCouponFilter } from '../../../models/admin/admin-coupon/coupon.filter';
 import { DatePipe } from '@angular/common';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-active-coupon',
-  imports: [DatePipe],
+  imports: [FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent],
+  providers: [DatePipe],
   templateUrl: './active-coupon.html',
   styleUrl: './active-coupon.css',
 })
 export class ActiveCoupon {
+  actions: TableAction[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'couponId',
+      header: 'ID'
+    },
+    {
+      key: 'couponCode',
+      header: 'Code'
+    },
+    {
+      key: 'couponTypeName',
+      header: 'Type'
+    },
+    {
+      key: 'discountValue',
+      header: 'Discount'
+    },
+    {
+      key: 'minimumOrderAmount',
+      header: 'Min Order Amt'
+    },
+    {
+      key: 'startDate',
+      header: 'Start Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'endDate',
+      header: 'End Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'usageCount',
+      header: 'Usage Count'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'couponCode',
+      header: 'Code'
+    },
+    {
+      key: 'couponTypeName',
+      header: 'Type'
+    },
+    {
+      key: 'discountValue',
+      header: 'Discount'
+    },
+    {
+      key: 'minimumOrderAmount',
+      header: 'Min Order Amt'
+    },
+    {
+      key: 'startDate',
+      header: 'Start Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'endDate',
+      header: 'End Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'usageCount',
+      header: 'Usage Count'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+  ];
+  handleAction(event: { type: string; row: CouponListModel }) {
+
+    switch (event.type) {
+      case 'deactivate':
+        this.confirmdeactivate(event.row.couponId);
+        break;
+      case 'view':
+        this.viewCoupon(event.row.couponId);
+        break;
+    }
+  }
   coupons = signal<PagedResponse<CouponListModel> | null>(null);
 
   pageNumber = signal<number>(1);
@@ -40,7 +154,7 @@ export class ActiveCoupon {
   showactivatePopup = signal(false);
   selectedCouponId = signal<number | null>(null);
 
-  constructor(private route: Router, private adminCouponService: AdminCouponService) {}
+  constructor(private route: Router, private adminCouponService: AdminCouponService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.loadCoupon();
@@ -49,7 +163,7 @@ export class ActiveCoupon {
   couponTypeOption = [
     { id: 1, label: 'Admin' },
     { id: 2, label: 'Vendor' },
-   
+
   ]
 
   loadCoupon() {
@@ -107,11 +221,17 @@ export class ActiveCoupon {
     this.goToPage(this.pageNumber() - 1);
   }
 
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadCoupon();
+  }
+
   toggleFilterPanel(): void {
     const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
     if (wasOpen && !this.filterapplied()) {
-      this.resetFilter();
+      this.resetFilters();
     }
   }
 
@@ -119,7 +239,7 @@ export class ActiveCoupon {
     this.filterPanelOpen.set(false);
   }
 
-  applyFilter(): void {
+  applyFilters(): void {
     if (this.filtererrorMessage()) {
       return;
     }
@@ -129,7 +249,7 @@ export class ActiveCoupon {
     this.closeFilterPanel();
   }
 
-  resetFilter(): void {
+  resetFilters(): void {
     this.filtererrorMessage.set(null);
     this.filterapplied.set(false);
     this.search.set("");

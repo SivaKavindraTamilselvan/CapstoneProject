@@ -8,14 +8,129 @@ import { DatePipe } from '@angular/common';
 import { UpdateCouponModel } from '../../../models/admin/admin-coupon/update-coupon.model';
 import { form, FormField } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-coupon-list',
-  imports: [DatePipe, FormField, ReactiveFormsModule, FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, DataTableComponent, MobileCardComponent],
+  providers: [DatePipe],
   templateUrl: './coupon-list.html',
   styleUrl: './coupon-list.css',
 })
 export class CouponList {
+  actions: TableAction[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Update',
+      color: 'blue',
+      action: 'update'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'couponId',
+      header: 'ID'
+    },
+    {
+      key: 'couponCode',
+      header: 'Code'
+    },
+    {
+      key: 'couponTypeName',
+      header: 'Type'
+    },
+    {
+      key: 'discountValue',
+      header: 'Discount'
+    },
+    {
+      key: 'minimumOrderAmount',
+      header: 'Min Order Amt'
+    },
+    {
+      key: 'startDate',
+      header: 'Start Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'endDate',
+      header: 'End Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'usageCount',
+      header: 'Usage Count'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'couponCode',
+      header: 'Code'
+    },
+    {
+      key: 'couponTypeName',
+      header: 'Type'
+    },
+    {
+      key: 'discountValue',
+      header: 'Discount'
+    },
+    {
+      key: 'minimumOrderAmount',
+      header: 'Min Order Amt'
+    },
+    {
+      key: 'startDate',
+      header: 'Start Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'endDate',
+      header: 'End Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    },
+    {
+      key: 'usageCount',
+      header: 'Usage Count'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+  ];
+  handleAction(event: { type: string; row: CouponListModel }) {
+
+    switch (event.type) {
+      case 'update':
+        this.openUpdatePopup(event.row.couponId);
+        break;
+      case 'view':
+        this.viewCoupon(event.row.couponId);
+        break;
+    }
+  }
+
   coupons = signal<PagedResponse<CouponListModel> | null>(null);
 
   pageNumber = signal<number>(1);
@@ -48,7 +163,7 @@ export class CouponList {
   updateerrorMessage = signal<string | null>(null);
   selectedCouponId = signal<number | null>(null);
 
-  constructor(private route: Router, private adminCouponService: AdminCouponService) { }
+  constructor(private route: Router, private adminCouponService: AdminCouponService, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.loadCoupon();
@@ -116,11 +231,17 @@ export class CouponList {
     this.goToPage(this.pageNumber() - 1);
   }
 
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadCoupon();
+  }
+
   toggleFilterPanel(): void {
     const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
     if (wasOpen && !this.filterapplied()) {
-      this.resetFilter();
+      this.resetFilters();
     }
   }
 
@@ -128,7 +249,7 @@ export class CouponList {
     this.filterPanelOpen.set(false);
   }
 
-  applyFilter(): void {
+  applyFilters(): void {
     if (this.filtererrorMessage()) {
       return;
     }
@@ -138,7 +259,7 @@ export class CouponList {
     this.closeFilterPanel();
   }
 
-  resetFilter(): void {
+  resetFilters(): void {
     this.filtererrorMessage.set(null);
     this.filterapplied.set(false);
     this.search.set("");
