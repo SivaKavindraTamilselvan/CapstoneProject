@@ -15,11 +15,11 @@ export class VendorInventoryService {
 
     }
     addInventory(request: AddInventoryModel) {
-        let url = BaseURL + "/Inventory/AddInventory";
+        let url = BaseURL + "/VendorInventory/add-inventory";
         return this.http.post(url, request);
     }
     getInventory(filter :VendorInventoryFilterModel){
-        let url = BaseURL + "/Inventory/vendor-inventories";
+        let url = BaseURL + "/VendorInventory/vendor-inventories";
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {
@@ -30,16 +30,16 @@ export class VendorInventoryService {
         return this.http.get<PagedResponse<VendorInventoryModel>>(url,{params});
     }
     getInventoryDetails(inventoryId : number){
-        let url = BaseURL + `/Inventory/vendor-inventories/${inventoryId}`;
+        let url = BaseURL + `/VendorInventory/vendor-inventories/${inventoryId}`;
         return this.http.get<VendorInventoryModel>(url,{});
     }
     deleteInventory(inventoryId : number){
-        let url = BaseURL + `/Inventory/vendor-inventories/${inventoryId}`;
-        return this.http.put<VendorInventoryModel>(url,{});
+        let url = BaseURL + `/VendorInventory/vendor-inventories/${inventoryId}`;
+        return this.http.patch<VendorInventoryModel>(url,{});
     }
     updateInventory(request : UpdateInventoryModel){
         console.log(request);
-        let url = BaseURL + "/Inventory/UpdateInventory";
-        return this.http.post(url,request);
+        let url = BaseURL + "/VendorInventory/update-inventory";
+        return this.http.put(url,request);
     }
 }
