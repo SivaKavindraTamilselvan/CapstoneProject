@@ -10,14 +10,94 @@ import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-m
 import { form, required, min, max, FormField } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-product/add-model/update-rejected-product.model';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-update-product',
-  imports: [ReactiveFormsModule, FormsModule],
+  imports: [ReactiveFormsModule, FormsModule,MobileCardComponent,DataTableComponent,FilterComponent,PaginationComponent],
   templateUrl: './update-product.html',
   styleUrl: './update-product.css',
 })
 export class UpdateProduct {
+  actions: TableAction[] = [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view'
+      },
+      {
+          label: 'Update',
+          color: 'blue',
+          action: 'update'
+        }
+    ];
+    columns: Column[] = [
+      {
+        key: 'productId',
+        header: 'ID'
+      },
+      {
+        key: 'productName',
+        header: 'Name'
+      },
+      {
+        key: 'productCategoryName',
+        header: 'Category'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'SubCategory'
+      },
+      {
+        key: 'productApprovalStatus',
+        header: 'Approval',
+      },
+      {
+        key: 'productStatus',
+        header: 'Status'
+      },
+  
+    ];
+  
+    mobileColumns: Column[] = [
+      {
+        key: 'productName',
+        header: 'Name'
+      },
+      {
+        key: 'productCategoryName',
+        header: 'Category'
+      },
+      {
+        key: 'productSubCategoryName',
+        header: 'Sub Category'
+      },
+      {
+        key: 'productApprovalStatus',
+        header: 'Approval',
+      },
+      {
+        key: 'productStatus',
+        header: 'Status'
+      },
+    ];
+  
+    handleAction(event: { type: string; row: VendorProductModel }) {
+      switch (event.type) {
+        case 'view':
+          this.viewProduct(event.row.productId);
+          break;
+        case 'update':
+          this.openReviewPopup(event.row.productId);
+          break;
+      }
+    }
+  
   products = signal<PagedResponse<VendorProductModel> | null>(null);
 
   searchTerm = signal<string>('');
@@ -41,6 +121,12 @@ export class UpdateProduct {
   pageSize = signal<number>(10);
   filterPanelOpen = signal<boolean>(false);
 
+  filtererrorMessage = signal<string | null>(null);
+
+  updateerrorMessage = signal<string | null>(null);
+  progress = signal(false);
+  filterapplied = signal(false);
+
   showActivatePopup = signal(false);
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
@@ -60,7 +146,11 @@ export class UpdateProduct {
   });
 
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
@@ -89,6 +179,7 @@ export class UpdateProduct {
 
   ngOnInit(): void {
     this.loadProduct();
+    this.loadCategories();
   }
 
   private buildFilter(): VendorProductFilter {
@@ -128,13 +219,13 @@ export class UpdateProduct {
     this.showActivatePopup.set(false);
     this.selectedProductId.set(null);
     this.reviewProductModel.set(new UpdateProductStatus());
-    this.errorMessage.set(null);
+    this.updateerrorMessage.set(null);
   }
   handleReview() {
-    this.errorMessage.set(null);
+    this.updateerrorMessage.set(null);
     this.successMessage.set(null);
     if (this.updateForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
+      this.updateerrorMessage.set("Enter proper details");
       return;
     }
     const request = {
@@ -143,7 +234,7 @@ export class UpdateProduct {
     };
     this.vendorProductService.updateProduct(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
+        this.successMessage.set("Product updated successfully");
         setTimeout(() => {
           this.closePopup();
           this.successMessage.set(null);
@@ -158,10 +249,10 @@ export class UpdateProduct {
             .flat()
             .join(", ");
 
-          this.errorMessage.set(messages);
+          this.updateerrorMessage.set(messages);
         }
         else {
-          this.errorMessage.set(
+          this.updateerrorMessage.set(
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
@@ -181,12 +272,18 @@ export class UpdateProduct {
   }
 
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
   }
 
   resetFilters(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.productName.set('');
     this.searchTerm.set('');
     this.productCategoryId.set(null);
@@ -222,6 +319,12 @@ export class UpdateProduct {
     this.goToPage(this.pageNumber() - 1);
   }
 
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadProduct();
+  }
+
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.pageSize.set(value);
@@ -242,35 +345,80 @@ export class UpdateProduct {
     const v = (event.target as HTMLSelectElement).value;
     this.productStatusId.set(v ? Number(v) : null);
   }
-
   onMinAvailableInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minAvailableQuantity.set(v ? Number(v) : null);
-  }
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
+    this.minAvailableQuantity.set(input.value ? value : null);
 
+  }
   onMaxAvailableInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxAvailableQuantity.set(v ? Number(v) : null);
+    this.maxAvailableQuantity.set(input.value ? value : null);
   }
 
   onMinReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minReservedQuantity.set(v ? Number(v) : null);
+    this.minReservedQuantity.set(input.value ? value : null);
   }
 
   onMaxReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxReservedQuantity.set(v ? Number(v) : null);
+    this.maxReservedQuantity.set(input.value ? value : null);
   }
 
   onMinPriceInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(v ? Number(v) : null);
+    this.minPrice.set(input.value ? value : null);
   }
-
-  onMaxPriceInput(event: Event): void {
+   onMaxPriceInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(v ? Number(v) : null);
+    this.maxPrice.set(input.value ? value : null);
   }
 
   onHasIssuesChange(event: Event): void {
@@ -287,7 +435,18 @@ export class UpdateProduct {
         this.categories.set(res.items ?? res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -300,7 +459,18 @@ export class UpdateProduct {
     if (id) {
       this.vendorProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-        error: (err) => console.log(err)
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }
@@ -315,6 +485,9 @@ export class UpdateProduct {
       ...model,
       productStatusId: value
     }));
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/vendor/products', productId]);
   }
 }
 

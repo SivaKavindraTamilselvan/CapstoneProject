@@ -398,7 +398,18 @@ export class ProductList {
         this.categories.set(res.items ?? res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -411,7 +422,18 @@ export class ProductList {
     if (id) {
       this.vendorProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-        error: (err) => console.log(err)
+         error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }

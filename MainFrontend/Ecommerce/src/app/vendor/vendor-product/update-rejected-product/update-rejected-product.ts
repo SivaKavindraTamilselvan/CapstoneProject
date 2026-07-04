@@ -45,6 +45,9 @@ export class UpdateRejectedProduct {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
+
   updateProductModel = signal(new UpdateRejectedProductModel());
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
@@ -112,19 +115,31 @@ export class UpdateRejectedProduct {
     }
   }
   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
     this.filterPanelOpen.set(false);
   }
+
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadRejectedProduct();
     this.closeFilterPanel();
   }
 
+
   resetFilters(): void {
+     this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.productName.set('');
     this.searchTerm.set('');
     this.productCategoryId.set(null);

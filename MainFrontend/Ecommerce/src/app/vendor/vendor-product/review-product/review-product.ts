@@ -226,6 +226,8 @@ export class ReviewProduct {
   }
 
   resetFilters(): void {
+     this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.searchTerm.set('');
     this.vendorId.set(null);
     this.productCategoryId.set(null);
@@ -302,6 +304,7 @@ export class ReviewProduct {
     this.selectedProductId.set(null);
     this.reviewProductModel.set(new ReviewProductModel());
     this.reviewerrorMessage.set(null);
+    this.reviewForm().reset();
   }
   handleReview() {
     this.reviewerrorMessage.set(null);
@@ -317,7 +320,7 @@ export class ReviewProduct {
     };
     this.vendorProductService.reviewProduct(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
+        this.successMessage.set("Product reviewed successfully");
         setTimeout(() => {
           this.closePopup();
           this.successMessage.set(null);
@@ -343,12 +346,24 @@ export class ReviewProduct {
     });
   }
   loadCategories(): void {
+    this.errorMessage.set(null);
     this.vendorProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -356,12 +371,24 @@ export class ReviewProduct {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
     this.productCategoryId.set(id);
-    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.productSubCategoryId.set(null);
     this.subCategories.set([]);
     if (id) {
+      this.errorMessage.set(null);
       this.vendorProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-        error: (err) => console.log(err)
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }
