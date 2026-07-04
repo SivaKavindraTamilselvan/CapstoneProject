@@ -26,7 +26,7 @@
                     <div class="flex justify-center gap-2">
                         @for(item of actions; track item.action){
                         <button class="py-2 px-4 rounded-md font-bold text-white cursor-pointer"
-                            [ngClass]="{'bg-green-700 hover:bg-green-900': item.color === 'green','bg-red-600 hover:bg-red-900': item.color === 'red','bg-blue-700 hover:bg-blue-900': item.color === 'blue','bg-yellow-500 hover:bg-yellow-600': item.color === 'yellow'}"
+                            [ngClass]="{'bg-green-700 hover:bg-green-900': item.color === 'green','bg-red-600 hover:bg-red-900': item.color === 'red','bg-blue-700 hover:bg-blue-900': item.color === 'blue','bg-gray-500 hover:bg-gray-600': item.color === 'gray'}"
                             (click)="onAction(item, row)">
                             {{ item.label }}
                         </button>

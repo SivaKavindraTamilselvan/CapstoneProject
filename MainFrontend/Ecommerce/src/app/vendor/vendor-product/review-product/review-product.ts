@@ -9,14 +9,93 @@ import { ProductModel } from '../../../models/product/product.model';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { VendorProductModel } from '../../../models/vendor/vendor-product/response/vendor-product.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 
 @Component({
   selector: 'app-review-product',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule, MobileCardComponent, DataTableComponent, FilterComponent, PaginationComponent],
   templateUrl: './review-product.html',
   styleUrl: './review-product.css',
 })
 export class ReviewProduct {
+  actions: TableAction[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Review',
+      color: 'gray',
+      action: 'review'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productId',
+      header: 'ID'
+    },
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'SubCategory'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval',
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval',
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+  ];
+  handleAction(event: { type: string; row: VendorProductModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewProduct(event.row.productId);
+        break;
+      case 'review':
+        this.openReviewPopup(event.row.productId);
+        break;
+    }
+  }
   products = signal<PagedResponse<ProductModel> | null>(null);
   showActivatePopup = signal(false);
   selectedProductId = signal<number | null>(null);
@@ -39,6 +118,7 @@ export class ReviewProduct {
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   filtererrorMessage = signal<string | null>(null);
+  reviewerrorMessage = signal<string | null>(null);
   progress = signal(false);
   filterapplied = signal(false);
 
@@ -88,7 +168,7 @@ export class ReviewProduct {
       productSubCategoryId: this.productSubCategoryId(),
       productStatusId: this.productStatusId(),
       productApprovalStatusId: null,
-      addedByVendorUserId : null,
+      addedByVendorUserId: null,
       minPrice: null,
       maxPrice: null,
 
@@ -136,7 +216,7 @@ export class ReviewProduct {
   }
 
   applyFilters(): void {
-     if (this.filtererrorMessage()) {
+    if (this.filtererrorMessage()) {
       return;
     }
     this.filterapplied.set(true);
@@ -173,6 +253,12 @@ export class ReviewProduct {
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.pageSize.set(value);
+    this.pageNumber.set(1);
+    this.loadProduct();
+  }
+
+  onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
     this.pageNumber.set(1);
     this.loadProduct();
   }
@@ -215,13 +301,13 @@ export class ReviewProduct {
     this.showActivatePopup.set(false);
     this.selectedProductId.set(null);
     this.reviewProductModel.set(new ReviewProductModel());
-    this.errorMessage.set(null);
+    this.reviewerrorMessage.set(null);
   }
   handleReview() {
-    this.errorMessage.set(null);
+    this.reviewerrorMessage.set(null);
     this.successMessage.set(null);
     if (this.reviewForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
+      this.reviewerrorMessage.set("Enter proper details");
       return;
     }
     const request = {
@@ -246,10 +332,10 @@ export class ReviewProduct {
             .flat()
             .join(", ");
 
-          this.errorMessage.set(messages);
+          this.reviewerrorMessage.set(messages);
         }
         else {
-          this.errorMessage.set(
+          this.reviewerrorMessage.set(
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
@@ -282,6 +368,9 @@ export class ReviewProduct {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/vendor/products', productId]);
   }
 }
 
