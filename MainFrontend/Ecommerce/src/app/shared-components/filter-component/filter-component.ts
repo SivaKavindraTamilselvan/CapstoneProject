@@ -13,6 +13,8 @@ export class FilterComponent {
 
   @Output() close = new EventEmitter<void>();
 
+  @Output() toggle = new EventEmitter<void>();
+
   @Output() apply = new EventEmitter<void>();
 
   @Output() reset = new EventEmitter<void>();
