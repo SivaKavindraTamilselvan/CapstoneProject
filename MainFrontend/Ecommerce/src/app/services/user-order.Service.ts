@@ -4,6 +4,7 @@ import { AddUserOrderModel } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { UserOrderFilter } from "../models/user/order/order-fiter";
+import { CancelOrderModel } from "../models/user/order/cancel.order.model";
 export interface ShippingCheckResponse {
     totalShippingCharge: number;
     isShippingAvailable: boolean;
@@ -35,6 +36,11 @@ export class UserOrderService {
     checkShipment(model: AddUserOrderModel) {
         const url = `${BaseURL}/Order/CheckService`;
         return this.http.post<ShippingCheckResponse>(url, model);
+    }
+
+    cancelOrder(model : CancelOrderModel){
+        const url = `${BaseURL}/Cancel/request-cancels`;
+        return this.http.post(url, model);
     }
 
 }

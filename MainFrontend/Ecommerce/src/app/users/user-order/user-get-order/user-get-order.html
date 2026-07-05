@@ -174,7 +174,8 @@
 
                         @if(item.orderItemStatus === 'Pending'){
                         <button type="button"
-                            class="mt-1 px-3 py-1.5 text-xs font-medium text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors">
+                            class="mt-1 px-3 py-1.5 text-xs font-medium text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors"
+                            (click)="openCancelPopup(item.orderItemsId)">
                             Cancel
                         </button>
                         }
@@ -261,5 +262,61 @@
 
     </div>
     }
+    @if(showActivatePopup()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6 space-y-6">
+
+            <h1 class="text-2xl font-bold text-blue-950 text-center">
+                Review Product
+            </h1>
+
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-2">{{successMessage()}}
+            </div>
+            }
+            @if(errorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold my-2"> {{errorMessage()}}
+            </div>
+            }
+            <form (ngSubmit)="handleCancel()" class="space-y-4">
+
+                <select [value]="cancelForm.cancelReasonId().value().toString()" (change)="onReasonChange($event)"
+                    class="w-full border rounded-lg px-4 py-3">
+                    <option value="0">Select Cancel Reason</option>
+                    <option value="1">Ordered by mistake</option>
+                    <option value="2">Found a better price elsewhere</option>
+                    <option value="3">Delivery time is too long</option>
+                    <option value="4">Changed my mind</option>
+                    <option value="5">Incorrect shipping address</option>
+                    <option value="6">Duplicate order placed</option>
+                    <option value="7">Payment issue</option>
+                    <option value="8">Product no longer needed</option>
+                    <option value="9">Want to change product variant</option>
+                    <option value="10">Other</option>
+                </select>
+
+                <label>Cancel Quantity</label>
+                <input type="number" [formField]="cancelForm.cancelQuantity" class="w-full border rounded-lg px-4 py-3">
+
+                <label>Additional Reason</label>
+                <textarea rows="3" [formField]="cancelForm.additionalReason" class="w-full border rounded-lg px-4 py-3">
+    </textarea>
+
+                <div class="flex justify-end gap-3">
+                    <button type="button" (click)="closePopup()">
+                        Cancel
+                    </button>
+
+                    <button type="submit">
+                        Submit
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+    }
+
 
 </section>

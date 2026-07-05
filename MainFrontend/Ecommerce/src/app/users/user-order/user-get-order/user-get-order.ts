@@ -5,15 +5,24 @@ import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
 import { Router } from '@angular/router';
 import { UserOrderService } from '../../../services/user-order.Service';
 import { UserOrderFilter } from '../../../models/user/order/order-fiter';
+import { CancelOrderModel } from '../../../models/user/order/cancel.order.model';
+import { form, FormField, pattern, required } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-user-get-order',
-  imports: [CommonModule],
+  imports: [CommonModule, FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './user-get-order.html',
   styleUrl: './user-get-order.css',
 })
 export class UserGetOrder {
   orders = signal<PagedResponse<OrderModel> | null>(null);
+
+
+  showActivatePopup = signal(false);
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  selectedOrderId = signal<number | null>(null);
 
 
   orderNumber = signal<string>('');
@@ -34,51 +43,51 @@ export class UserGetOrder {
 
 
   filterPanelOpen = signal<boolean>(false);
-  constructor(private router: Router,private userOrderService : UserOrderService){
+  constructor(private router: Router, private userOrderService: UserOrderService) {
 
   }
-  ngOnInit(){
+  ngOnInit() {
     this.loadOrders();
   }
   loadOrders() {
-      this.userOrderService.getOrders(this.buildFilter()).subscribe({
-        next: (response: any) => {
-          this.orders.set(response);
-          console.log(response);
-        },
-        error: (error) => {
-          console.error(error);
-  
-          if (error.status === 404) {
-            this.orders.set({
-              items: [],
-              totalCount: 0,
-              pageNumber: this.pageNumber(),
-              pageSize: this.pageSize(),
-              totalPages: 1
-            });
-          }
+    this.userOrderService.getOrders(this.buildFilter()).subscribe({
+      next: (response: any) => {
+        this.orders.set(response);
+        console.log(response);
+      },
+      error: (error) => {
+        console.error(error);
+
+        if (error.status === 404) {
+          this.orders.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: this.pageNumber(),
+            pageSize: this.pageSize(),
+            totalPages: 1
+          });
         }
-      });
-    }
-  
-    
-    private buildFilter(): UserOrderFilter {
-      return {
-        pageNumber: this.pageNumber(),
-        pageSize: this.pageSize(),
-  
-        orderNumber: this.orderNumber() || undefined,
-        orderStatusId: this.orderStatusId() ?? undefined,
-  
-        fromDate: this.fromDate() || undefined,
-        toDate: this.toDate() || undefined,
-  
-        minAmount: this.minAmount() ?? undefined,
-        maxAmount: this.maxAmount() ?? undefined
-      };
-    }
-    toggleFilterPanel(): void {
+      }
+    });
+  }
+
+
+  private buildFilter(): UserOrderFilter {
+    return {
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+
+      orderNumber: this.orderNumber() || undefined,
+      orderStatusId: this.orderStatusId() ?? undefined,
+
+      fromDate: this.fromDate() || undefined,
+      toDate: this.toDate() || undefined,
+
+      minAmount: this.minAmount() ?? undefined,
+      maxAmount: this.maxAmount() ?? undefined
+    };
+  }
+  toggleFilterPanel(): void {
     this.filterPanelOpen.update(open => !open);
   }
 
@@ -108,7 +117,7 @@ export class UserGetOrder {
     this.closeFilterPanel();
   }
 
-  
+
   goToPage(page: number): void {
     if (page < 1 || page > this.totalPages()) return;
 
@@ -169,7 +178,7 @@ export class UserGetOrder {
     const value = (event.target as HTMLInputElement).value;
     this.toDate.set(value);
   }
-   expandedOrderId = signal<number | null>(null);
+  expandedOrderId = signal<number | null>(null);
 
   toggleExpand(orderId: number) {
     this.expandedOrderId.set(
@@ -190,5 +199,94 @@ export class UserGetOrder {
       case 'processing': return 'bg-yellow-100 text-yellow-700';
       default: return 'bg-gray-100 text-gray-700';
     }
+  }
+
+
+
+  openCancelPopup(orderItemId: number) {
+    this.cancelModel.set(
+      new CancelOrderModel(
+        0,              // cancelReasonId
+        orderItemId,    // orderItemId
+        0,              // cancelStatusId
+        '',             // additionalReason
+        1               // cancelQuantity
+      )
+    );
+
+    this.showActivatePopup.set(true);
+  }
+
+  closePopup() {
+    this.showActivatePopup.set(false);
+    this.selectedOrderId.set(null);
+    this.cancelModel.set(new CancelOrderModel());
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+  }
+
+  cancelModel = signal(new CancelOrderModel());
+
+  cancelForm = form(this.cancelModel, (path) => {
+    required(path.cancelReasonId, {
+      message: 'Select the cancel reason'
+    });
+
+    required(path.cancelStatusId, {
+      message: 'Select the cancel status'
+    });
+
+    required(path.cancelQuantity, {
+      message: 'Enter the cancel quantity'
+    });
+
+    required(path.additionalReason, {
+      message: 'Enter the additional reason'
+    });
+  });
+  handleCancel() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    if (this.cancelForm().invalid()) {
+      this.errorMessage.set('Enter proper details');
+      return;
+    }
+
+    const request = {
+      cancelReasonId: Number(this.cancelModel().cancelReasonId),
+      orderItemId: this.cancelModel().orderItemId,
+      cancelStatusId: Number(this.cancelModel().cancelStatusId),
+      additionalReason: this.cancelModel().additionalReason,
+      cancelQuantity: Number(this.cancelModel().cancelQuantity)
+    };
+
+    this.userOrderService.cancelOrder(request).subscribe({
+      next: () => {
+        this.successMessage.set('Order cancelled successfully');
+
+        setTimeout(() => {
+          this.closePopup();
+          this.loadOrders();
+        }, 2000);
+      },
+      error: (error) => {
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(', ');
+
+          this.errorMessage.set(messages);
+        } else {
+          this.errorMessage.set(
+            error.error?.message ?? 'Something went wrong. Please try again.'
+          );
+        }
+      }
+    });
+  }
+  onReasonChange(event: Event) {
+    const value = (event.target as HTMLSelectElement).value;
+    this.cancelForm.cancelReasonId().value.set(value ? Number(value) : 0);
   }
 }
