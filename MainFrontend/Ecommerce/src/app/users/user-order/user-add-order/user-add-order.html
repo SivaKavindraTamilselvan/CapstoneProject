@@ -270,14 +270,18 @@
             </div>
             <div class="flex justify-between">
               <span class="text-gray-600">Delivery</span>
-              <span class="text-green-600 font-medium">Free</span>
+              <span class="text-red-600 font-medium">{{deliveryCost()}}</span>
             </div>
             @if(selectedCoupon()) {
             <div class="flex justify-between text-green-600">
               <span>Coupon ({{ selectedCoupon()!.couponCode }})</span>
-              <span>– ₹{{ discount() | number }}</span>
+              <span>– ₹{{ selectedCoupon()!.discountValue }}</span>
             </div>
             }
+            <div class="flex justify-between">
+              <span class="text-gray-600">Tax</span>
+              <span class="text-red-600 font-medium">{{tax()}}</span>
+            </div>
             <div class="flex justify-between font-medium text-gray-900 pt-2 border-t border-gray-100">
               <span>Total</span>
               <span>₹{{ finalTotal() | number }}</span>

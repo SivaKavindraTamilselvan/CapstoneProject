@@ -9,8 +9,14 @@ import { AddressService } from '../../../services/address.Service';
 import { AddressModel } from '../../../models/address/address-response.model';
 import { CommonModule } from '@angular/common';
 import { UserPaymentService } from '../../../services/user-payment.Service';
+import { ShipmentServiceModel } from '../../../models/user/order/servicibility.model';
 
 export type CheckoutStep = 1 | 2 | 3;
+
+export interface ShippingCheckResponse {
+  totalShippingCharge: number;
+  isShippingAvailable: boolean;
+}
 
 const PAYMENT_METHODS = [
   { id: 1, label: 'Cash on Delivery', icon: 'cod' },
@@ -51,11 +57,16 @@ export class UserAddOrder {
   cartTotal = signal<number>(0);
   cartItemCount = signal<number>(0);
 
+  deliveryCost = signal<number>(0);
+
   selectedAddressId = signal<number | null>(null);
   selectedPaymentId = signal<number | null>(null);
   selectedCouponId = signal<number | null>(null);
   couponCode = signal<string>('');
   showAddAddress = signal(false);
+
+  shipmentAvailable = signal<boolean | null>(null);
+  shipmentMessage = signal<string | null>(null);
 
   paymentMethods = PAYMENT_METHODS;
 
@@ -70,12 +81,21 @@ export class UserAddOrder {
   discount = computed(() => {
     const coupon = this.selectedCoupon();
     if (!coupon) return 0;
-    return Math.min((this.cartTotal() * coupon.discountValue) / 100);
+    return coupon.discountValue;
 
   });
 
-  finalTotal = computed(() => Math.max(0, this.cartTotal() - this.discount()));
+  tax = computed(() => {
+    const taxableAmount = Math.max(0, this.cartTotal() - this.discount());
+    return taxableAmount * 0.18;
+  });
 
+  finalTotal = computed(() =>
+    Math.max(
+      0,
+      this.cartTotal() - this.discount() + this.tax() + this.deliveryCost()
+    )
+  );
   step1Valid = computed(() => this.selectedAddressId() !== null);
   step2Valid = computed(() => this.selectedPaymentId() !== null);
 
@@ -85,6 +105,33 @@ export class UserAddOrder {
     this.addressService.getUserAddress().subscribe({
       next: (data) => { this.addresses.set(data); this.isLoading.set(false); },
       error: () => { this.error.set('Failed to load addresses.'); this.isLoading.set(false); },
+    });
+  }
+
+  private checkShipment(): void {
+    this.shipmentAvailable.set(null);
+    this.shipmentMessage.set(null);
+    const id = this.selectedPaymentId();
+    if (id == null) {
+      return;
+    }
+    const address = this.selectedAddressId();
+    if (address == null) {
+      return;
+    }
+    var check = new AddUserOrderModel(address, null, id);
+    this.orderService.checkShipment(check).subscribe({
+      next: (res) => {
+        this.deliveryCost.set(res.totalShippingCharge);
+        this.shipmentAvailable.set(res.isShippingAvailable);
+        this.shipmentMessage.set('');
+      },
+      error: (err) => {
+        this.shipmentAvailable.set(false);
+        this.shipmentMessage.set(
+          err.error?.message ?? 'Unable to check delivery availability.'
+        );
+      }
     });
   }
 
@@ -122,8 +169,13 @@ export class UserAddOrder {
     else if (this.currentStep() === 3) this.currentStep.set(2);
   }
 
-  selectAddress(id: number): void { this.selectedAddressId.set(id); }
-  selectPayment(id: number): void { this.selectedPaymentId.set(id); }
+  selectAddress(id: number): void {
+    this.selectedAddressId.set(id);
+  }
+  selectPayment(id: number): void {
+    this.selectedPaymentId.set(id);
+    this.checkShipment();
+  }
 
   toggleCoupon(couponId: number): void {
     this.selectedCouponId.set(this.selectedCouponId() === couponId ? null : couponId);
