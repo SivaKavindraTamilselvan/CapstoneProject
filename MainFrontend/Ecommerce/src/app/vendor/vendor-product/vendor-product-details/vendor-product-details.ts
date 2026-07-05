@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ProductModel } from '../../../models/product/product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { CommonModule } from '@angular/common';
 import { VendorProductModel } from '../../../models/vendor/vendor-product/response/vendor-product.model';
@@ -16,7 +16,7 @@ export class VendorProductDetails {
   currentImageIndex = signal(0);
 
 
-  constructor(private vendorProductService: VendorProductService, private route: ActivatedRoute) {
+  constructor(private vendorProductService: VendorProductService, private route: ActivatedRoute,private router : Router) {
 
   }
   ngOnInit(): void {
@@ -46,6 +46,16 @@ export class VendorProductDetails {
     const total = this.productModel()?.productImages?.length ?? 0;
     this.currentImageIndex.update(i => (i + 1) % total);
   }
-  
+  addVariant() {
+    const product = this.productModel();
+    if (!product) return;
+
+    this.router.navigate(['/vendor/products', product.productId, 'variants','add'] , {
+      queryParams: {
+        subCategoryId: product.productSubCategoryId,
+        mainProductAttributeId: product.mainProductSubCategoryAttributeId,
+      },
+    });
+  }
 }
 

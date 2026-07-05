@@ -7,6 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 
 @Component({
   selector: 'app-add-product',
@@ -17,16 +18,13 @@ import { AdminAttributeModel } from '../../../models/admin/admin-product-categor
 export class AddProduct {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
-
   product = signal(new AddProductModel());
   productImages = signal<AddProductImageModel[]>([]);
-
   productCategoryId = signal<number | null>(null);
   attributeId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
-
   categories = signal<AdminProductCategoryModel[]>([]);
-  attributes = signal<AdminAttributeModel[]>([]);
+  attributes = signal<AdminMappedAttributeModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
   loading = signal(false);
@@ -257,6 +255,7 @@ export class AddProduct {
     this.vendorProductService.getmappedAttribute(id).subscribe({
       next: (res: any) => {
         this.attributes.set(res.items ?? res);
+        console.log(res);
       },
       error: (error) => {
 

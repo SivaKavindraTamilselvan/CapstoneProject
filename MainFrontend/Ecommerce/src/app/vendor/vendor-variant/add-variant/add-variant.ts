@@ -1,11 +1,13 @@
 import { Component, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { AddProductVariantModel } from '../../../models/vendor/vendor-product/add-model/add-product-variant.model';
 import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-model/add-variant-image.model';
 import { AddProductVariantAttributeModel } from '../../../models/vendor/vendor-product/add-model/add-variant-attribute.model';
 import { form, FormField, min, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 
 @Component({
   selector: 'app-add-variant',
@@ -17,17 +19,39 @@ export class AddVariant {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
 
+  subcategoryid = signal<number | null>(null);
+  productid = signal<number | null>(null);
+  attributes = signal<AdminMappedAttributeModel[]>([]);
+  mainAttributeId = signal<number | null>(null);
+
   productVariant = signal(new AddProductVariantModel());
   productVariantImages = signal<AddProductVariantImageModel[]>([]);
 
+
   constructor(
     private route: Router,
+    private router: ActivatedRoute,
     private vendorProductService: VendorProductService
-  ) {}
+  ) { }
+
+  ngOnInit(): void {
+    const productId = Number(this.router.snapshot.paramMap.get('id'));
+    const subCategoryId = Number(this.router.snapshot.queryParamMap.get('subCategoryId'));
+    const mainProductAttributeId = Number(this.router.snapshot.queryParamMap.get('mainProductAttributeId'));
+    this.subcategoryid.set(subCategoryId);
+    this.productid.set(productId);
+    this.loadAttributes();
+    this.mainAttributeId.set(mainProductAttributeId);
+
+    this.productVariant.update((v) => ({
+      ...v,
+      productId,
+      subCategoryId,
+      mainProductAttributeId,
+    }));
+  }
 
   addForm = form(this.productVariant, (path) => {
-    required(path.productId, { message: 'Product is required' });
-    min(path.productId, 1, { message: 'Product ID must be greater than 0' });
 
     required(path.price, { message: 'Price is required' });
     min(path.price, 1, { message: 'Price must be greater than 0' });
@@ -52,9 +76,36 @@ export class AddVariant {
     });
   });
 
-  // --- Attribute management ---
-  // FIX: was spreading into 'productVariantAttribute' but reading from 'v.attributes'
-  // Both the spread key and the read key must match the actual model property name.
+  loadAttributes(): void {
+    this.errorMessage.set(null);
+    const id = (this.subcategoryid());
+    if (id == null) {
+      return;
+    }
+    this.vendorProductService.getmappedAttribute(id).subscribe({
+      next: (res: any) => {
+        this.attributes.set(res.items ?? res);
+        console.log(this.attributes());
+      },
+      error: (error) => {
+
+        console.error(error);
+
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load attributes. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load attributes.'
+          );
+        }
+      }
+    });
+  }
+
+
   addAttribute(): void {
     this.productVariant.update((v) => ({
       ...v,
@@ -87,7 +138,6 @@ export class AddVariant {
     });
   }
 
-  // --- Image management ---
   onImageSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
@@ -116,10 +166,13 @@ export class AddVariant {
     );
   }
 
-  // --- Submit ---
   addVariant(): void {
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    this.productVariant.update(v => ({
+      ...v,
+      productId: this.productid() ?? 0
+    }));
 
     this.vendorProductService.addProductVariant(this.productVariant()).subscribe({
       next: (response: any) => {
@@ -136,8 +189,30 @@ export class AddVariant {
         this.addVariantImages(variantId);
       },
       error: (error) => {
-        this.errorMessage.set(error.error?.message ?? 'Failed to add variant');
-      },
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(', ');
+
+          this.errorMessage.set(messages);
+        }
+        else if (error.error?.message) {
+          this.errorMessage.set(error.error.message);
+        }
+        else if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to connect to the server. Please check your internet connection.'
+          );
+        }
+        else if (error.status >= 500) {
+          this.errorMessage.set(
+            'Something went wrong on the server. Please try again later.'
+          );
+        }
+        else {
+          this.errorMessage.set('Failed to add product.');
+        }
+      }
     });
   }
 

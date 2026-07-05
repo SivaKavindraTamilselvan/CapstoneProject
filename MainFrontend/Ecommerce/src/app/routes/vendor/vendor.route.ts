@@ -61,7 +61,7 @@ export const VendorRoute: Routes = [
         component: VendorDeletedProduct
     },
     {
-        path: 'products/variants/add',
+        path: 'products/:id/variants/add',
         component: AddVariant
     },
     {

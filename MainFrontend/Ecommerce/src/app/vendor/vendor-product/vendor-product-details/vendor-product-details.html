@@ -187,6 +187,10 @@
             class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm">
             Delete
         </button>
+        <button
+            class="bg-blue-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-blue-700 transition-colors shadow-sm" (click)="addVariant()">
+            Add Product Variant
+        </button>
         @if (productModel()!.productApprovalStatus == "Vendor_Approved") {
         <button
             class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">

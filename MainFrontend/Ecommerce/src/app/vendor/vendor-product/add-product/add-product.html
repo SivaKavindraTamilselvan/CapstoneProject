@@ -85,8 +85,8 @@
                         @else{
                         <option value="">All</option>
                         }
-                        @for(cat of attributes(); track cat.attributeMasterId) {
-                        <option [value]="cat.attributeMasterId" [selected]="attributeId() === cat.attributeMasterId">
+                        @for(cat of attributes(); track cat.productSubCategoryAttributeId) {
+                        <option [value]="cat.productSubCategoryAttributeId" [selected]="attributeId() === cat.productSubCategoryAttributeId">
                             {{cat.attributeName}}
                         </option>
                         }
