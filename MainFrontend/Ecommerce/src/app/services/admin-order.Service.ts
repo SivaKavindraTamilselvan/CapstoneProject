@@ -28,4 +28,8 @@ export class AdminOrderService {
 
         return this.http.get(url,{params});
     }
+    getOrdersDetails(id:number){
+        const url = BaseURL +  `/Order/GetAdminOrderById/${id}`;
+        return this.http.get(url,{});
+    }
 }

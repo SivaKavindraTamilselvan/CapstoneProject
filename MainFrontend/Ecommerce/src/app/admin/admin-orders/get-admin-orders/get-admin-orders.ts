@@ -179,4 +179,8 @@ export class GetAdminOrders {
     const value = (event.target as HTMLInputElement).value;
     this.toDate.set(value);
   }
+
+  viewOrder(id: number) {
+    this.router.navigate(['/admin/order', id]);
+  }
 }

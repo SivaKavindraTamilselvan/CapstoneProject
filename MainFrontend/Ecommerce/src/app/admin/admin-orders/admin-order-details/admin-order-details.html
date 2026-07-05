@@ -1,0 +1,220 @@
+<section class="p-4 sm:p-12 mx-auto">
+
+    @if (orderModel()) {
+    <!-- Order Status Badge -->
+    <div class="flex flex-col items-center justify-center mb-6">
+        <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm"
+            [ngClass]="{
+                'bg-yellow-100 text-yellow-700 border border-yellow-300': orderModel()!.orderStatus === 'Pending',
+                'bg-blue-100 text-blue-700 border border-blue-300': orderModel()!.orderStatus === 'Processing',
+                'bg-green-100 text-green-700 border border-green-300': orderModel()!.orderStatus === 'Delivered',
+                'bg-red-100 text-red-700 border border-red-300': orderModel()!.orderStatus === 'Cancelled'
+            }">
+            {{ orderModel()!.orderStatus }}
+        </span>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-8 mb-10">
+
+        <!-- Order Summary Card -->
+        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
+                <h2>Order Summary</h2>
+                <h1>#{{ orderModel()!.orderId }}</h1>
+            </div>
+
+            <div class="divide-y divide-gray-100">
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Order Number</span>
+                    <span class="text-gray-900 font-medium text-sm">{{ orderModel()!.orderNumber }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Customer</span>
+                    <span class="text-gray-900 text-sm">{{ orderModel()!.userName }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Order Date</span>
+                    <span class="text-gray-900 text-sm">{{ orderModel()!.orderDate | date:'dd/MM/yyyy, h:mm a' }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Total Items</span>
+                    <span class="text-gray-900 text-sm">{{ orderModel()!.totalItems }}</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Amount Breakdown Card -->
+        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
+                <h2>Amount Breakdown</h2>
+            </div>
+
+            <div class="divide-y divide-gray-100">
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Product Amount</span>
+                    <span class="text-gray-900 text-sm">₹{{ orderModel()!.totalProductAmount | number }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Shipping Amount</span>
+                    <span class="text-gray-900 text-sm">₹{{ orderModel()!.totalShippingAmount | number }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Coupon Discount</span>
+                    <span class="text-gray-900 text-sm">
+                        @if (orderModel()!.totalCouponAmount > 0) {
+                        <span class="text-green-700 font-medium">- ₹{{ orderModel()!.totalCouponAmount | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">No coupon applied</span>
+                        }
+                    </span>
+                </div>
+                <div class="flex px-5 py-4 bg-gray-50">
+                    <span class="w-44 font-bold text-gray-700 text-sm">Final Amount</span>
+                    <span class="text-gray-900 font-extrabold text-base">₹{{ orderModel()!.finalAmount | number }}</span>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Order Items Section -->
+    <div class="mb-6">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Order Items</h1>
+    </div>
+
+    <!-- Desktop Table -->
+    <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
+        <table class="w-full border-collapse bg-white">
+            <thead>
+                <tr class="bg-slate-800 text-white text-sm">
+                    <th class="px-4 py-3 text-center font-semibold">SKU</th>
+                    <th class="px-4 py-3 text-center font-semibold">Product</th>
+                    <th class="px-4 py-3 text-center font-semibold">Vendor</th>
+                    <th class="px-4 py-3 text-center font-semibold">Qty</th>
+                    <th class="px-4 py-3 text-center font-semibold">Unit Price</th>
+                    <th class="px-4 py-3 text-center font-semibold">Discount</th>
+                    <th class="px-4 py-3 text-center font-semibold">Item Total</th>
+                    <th class="px-4 py-3 text-center font-semibold">Ship From</th>
+                    <th class="px-4 py-3 text-center font-semibold">Status</th>
+                    <th class="px-4 py-3 text-center font-semibold">Actions</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @if (orderModel()?.orderItems) {
+                @for (item of orderModel()!.orderItems; track item.orderItemsId) {
+                <tr class="text-center text-sm hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ item.sku }}</td>
+                    <td class="px-4 py-3 text-gray-900 text-left">{{ item.productName }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ item.vendorName }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ item.quantity }}</td>
+                    <td class="px-4 py-3 text-gray-700">₹{{ item.unitPrice | number }}</td>
+                    <td class="px-4 py-3">
+                        @if (item.discount > 0) {
+                        <span class="text-green-700 font-medium">- ₹{{ item.discount | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">-</span>
+                        }
+                    </td>
+                    <td class="px-4 py-3 font-semibold text-gray-900">₹{{ item.itemTotal | number }}</td>
+                    <td class="px-4 py-3 text-gray-700 text-left">
+                        <span class="block text-xs">{{ item.inventoryAddress }}</span>
+                        <span class="block text-xs text-gray-400">{{ item.inventoryCity }}</span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <span class="py-1 px-3 rounded-full text-xs font-semibold"
+                            [ngClass]="{
+                                'bg-yellow-100 text-yellow-700': item.orderItemStatus === 'Pending',
+                                'bg-blue-100 text-blue-700': item.orderItemStatus === 'Shipped',
+                                'bg-green-100 text-green-700': item.orderItemStatus === 'Delivered',
+                                'bg-red-100 text-red-700': item.orderItemStatus === 'Cancelled'
+                            }">
+                            {{ item.orderItemStatus }}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <button
+                            class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
+                            View
+                        </button>
+                    </td>
+                </tr>
+                }
+                @empty {
+                <tr>
+                    <td colspan="10" class="px-4 py-8 text-center text-gray-400 text-sm">No order items found.</td>
+                </tr>
+                }
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile Cards -->
+    <div class="md:hidden flex flex-col gap-4">
+        @if (orderModel()?.orderItems) {
+        @for (item of orderModel()!.orderItems; track item.orderItemsId) {
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4">
+            <div class="flex justify-between items-start mb-2">
+                <span class="font-semibold text-gray-900 text-sm">{{ item.productName }}</span>
+                <span class="py-1 px-3 rounded-full text-xs font-semibold"
+                    [ngClass]="{
+                        'bg-yellow-100 text-yellow-700': item.orderItemStatus === 'Pending',
+                        'bg-blue-100 text-blue-700': item.orderItemStatus === 'Shipped',
+                        'bg-green-100 text-green-700': item.orderItemStatus === 'Delivered',
+                        'bg-red-100 text-red-700': item.orderItemStatus === 'Cancelled'
+                    }">
+                    {{ item.orderItemStatus }}
+                </span>
+            </div>
+            <div class="text-xs text-gray-500 mb-1">SKU: {{ item.sku }}</div>
+            <div class="text-xs text-gray-500 mb-3">Vendor: {{ item.vendorName }}</div>
+
+            <div class="grid grid-cols-2 gap-y-1 text-sm">
+                <span class="text-gray-500">Qty</span>
+                <span class="text-right text-gray-900">{{ item.quantity }}</span>
+
+                <span class="text-gray-500">Unit Price</span>
+                <span class="text-right text-gray-900">₹{{ item.unitPrice | number }}</span>
+
+                @if (item.discount > 0) {
+                <span class="text-gray-500">Discount</span>
+                <span class="text-right text-green-700">- ₹{{ item.discount | number }}</span>
+                }
+
+                <span class="text-gray-500 font-semibold">Item Total</span>
+                <span class="text-right text-gray-900 font-bold">₹{{ item.itemTotal | number }}</span>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-gray-100 text-xs text-gray-500">
+                Ship from: {{ item.inventoryAddress }}, {{ item.inventoryCity }}
+            </div>
+
+            <div class="mt-3 flex justify-end">
+                <button
+                    class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
+                    View
+                </button>
+            </div>
+        </div>
+        }
+        @empty {
+        <div class="text-center text-gray-400 text-sm py-8">No order items found.</div>
+        }
+        }
+    </div>
+
+    <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100">
+        @if (orderModel()!.orderStatus === 'Pending') {
+        <button
+            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm">
+            Cancel Order
+        </button>
+        <button
+            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">
+            Mark as Processing
+        </button>
+        }
+    </div>
+    }
+
+</section>

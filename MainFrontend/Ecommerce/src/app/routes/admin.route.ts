@@ -37,6 +37,7 @@ import { ActiveCoupon } from '../admin/admin-coupon/active-coupon/active-coupon'
 import { DeactiveCoupon } from '../admin/admin-coupon/deactive-coupon/deactive-coupon';
 import { AdminNotificationList } from '../notification/admin/admin-notification-list/admin-notification-list';
 import { AdminProfilePage } from '../admin/admin-profile-page/admin-profile-page';
+import { AdminOrderDetails } from '../admin/admin-orders/admin-order-details/admin-order-details';
 
 export const AdminRoutes: Routes = [
     {
@@ -191,5 +192,10 @@ export const AdminRoutes: Routes = [
         path: 'profile',
         component: AdminProfilePage
     },
+    {
+        path: 'order/:id',
+        component: AdminOrderDetails
+    },
+
 
 ];
