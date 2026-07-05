@@ -135,8 +135,16 @@ export class AdminProduct implements OnInit {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
-  toggleFilterPanel(): void {
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
+
+
+   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
@@ -202,12 +210,18 @@ export class AdminProduct implements OnInit {
   }
 
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
   }
 
   resetFilters(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.searchTerm.set('');
     this.vendorId.set(null);
     this.productCategoryId.set(null);
@@ -255,10 +269,6 @@ export class AdminProduct implements OnInit {
     this.loadProduct();
   }
 
-  onSearchTermInput(event: Event): void {
-    this.searchTerm.set((event.target as HTMLInputElement).value);
-  }
-
   onVendorIdInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.vendorId.set(v ? Number(v) : null);
@@ -266,6 +276,9 @@ export class AdminProduct implements OnInit {
   onAdminIdInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.addedId.set(v ? Number(v) : null);
+  }
+  onSearchTermInput(event: Event): void {
+    this.searchTerm.set((event.target as HTMLInputElement).value);
   }
 
   onApprovalStatusChange(event: Event): void {
@@ -277,35 +290,80 @@ export class AdminProduct implements OnInit {
     const v = (event.target as HTMLSelectElement).value;
     this.productStatusId.set(v ? Number(v) : null);
   }
-
   onMinAvailableInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minAvailableQuantity.set(v ? Number(v) : null);
-  }
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
+    this.minAvailableQuantity.set(input.value ? value : null);
 
+  }
   onMaxAvailableInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxAvailableQuantity.set(v ? Number(v) : null);
+    this.maxAvailableQuantity.set(input.value ? value : null);
   }
 
   onMinReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minReservedQuantity.set(v ? Number(v) : null);
+    this.minReservedQuantity.set(input.value ? value : null);
   }
 
   onMaxReservedInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Quantity cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxReservedQuantity.set(v ? Number(v) : null);
+    this.maxReservedQuantity.set(input.value ? value : null);
   }
 
   onMinPriceInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(v ? Number(v) : null);
+    this.minPrice.set(input.value ? value : null);
   }
-
   onMaxPriceInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const value = Number(input.value);
+    if (value < 0) {
+      this.filtererrorMessage.set("Price cannot be negative");
+    }
+    else {
+      this.filtererrorMessage.set(null);
+    }
     const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(v ? Number(v) : null);
+    this.maxPrice.set(input.value ? value : null);
   }
 
   onHasIssuesChange(event: Event): void {
@@ -315,6 +373,8 @@ export class AdminProduct implements OnInit {
   onAvailableForSaleChange(event: Event): void {
     this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
   }
+
+  
   deleteForm = form(this.deleteProductModel, (path) => {
     required(path.remark, { message: "Enter The Remarks" });
   })
@@ -385,7 +445,18 @@ export class AdminProduct implements OnInit {
         this.categories.set(res.items ?? res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -398,7 +469,18 @@ export class AdminProduct implements OnInit {
     if (id) {
       this.adminProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-        error: (err) => console.log(err)
+       error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }

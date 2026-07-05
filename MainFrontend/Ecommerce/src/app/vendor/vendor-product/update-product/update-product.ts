@@ -19,85 +19,85 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 
 @Component({
   selector: 'app-update-product',
-  imports: [ReactiveFormsModule, FormsModule,MobileCardComponent,DataTableComponent,FilterComponent,PaginationComponent],
+  imports: [ReactiveFormsModule, FormsModule, MobileCardComponent, DataTableComponent, FilterComponent, PaginationComponent],
   templateUrl: './update-product.html',
   styleUrl: './update-product.css',
 })
 export class UpdateProduct {
   actions: TableAction[] = [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-      {
-          label: 'Update',
-          color: 'blue',
-          action: 'update'
-        }
-    ];
-    columns: Column[] = [
-      {
-        key: 'productId',
-        header: 'ID'
-      },
-      {
-        key: 'productName',
-        header: 'Name'
-      },
-      {
-        key: 'productCategoryName',
-        header: 'Category'
-      },
-      {
-        key: 'productSubCategoryName',
-        header: 'SubCategory'
-      },
-      {
-        key: 'productApprovalStatus',
-        header: 'Approval',
-      },
-      {
-        key: 'productStatus',
-        header: 'Status'
-      },
-  
-    ];
-  
-    mobileColumns: Column[] = [
-      {
-        key: 'productName',
-        header: 'Name'
-      },
-      {
-        key: 'productCategoryName',
-        header: 'Category'
-      },
-      {
-        key: 'productSubCategoryName',
-        header: 'Sub Category'
-      },
-      {
-        key: 'productApprovalStatus',
-        header: 'Approval',
-      },
-      {
-        key: 'productStatus',
-        header: 'Status'
-      },
-    ];
-  
-    handleAction(event: { type: string; row: VendorProductModel }) {
-      switch (event.type) {
-        case 'view':
-          this.viewProduct(event.row.productId);
-          break;
-        case 'update':
-          this.openReviewPopup(event.row.productId);
-          break;
-      }
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Update',
+      color: 'blue',
+      action: 'update'
     }
-  
+  ];
+  columns: Column[] = [
+    {
+      key: 'productId',
+      header: 'ID'
+    },
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'SubCategory'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval',
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval',
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+  ];
+
+  handleAction(event: { type: string; row: VendorProductModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewProduct(event.row.productId);
+        break;
+      case 'update':
+        this.openReviewPopup(event.row.productId);
+        break;
+    }
+  }
+
   products = signal<PagedResponse<VendorProductModel> | null>(null);
 
   searchTerm = signal<string>('');
@@ -408,7 +408,7 @@ export class UpdateProduct {
     const v = (event.target as HTMLInputElement).value;
     this.minPrice.set(input.value ? value : null);
   }
-   onMaxPriceInput(event: Event): void {
+  onMaxPriceInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     const value = Number(input.value);
     if (value < 0) {

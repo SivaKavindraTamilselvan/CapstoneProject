@@ -11,14 +11,101 @@ import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { DecimalPipe } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { ProductVariantModel } from '../../../models/product/product-variant.model';
 
 @Component({
   selector: 'app-review-variant',
-  imports: [DecimalPipe,FormsModule,ReactiveFormsModule,FormField],
+  imports: [DecimalPipe,FormsModule,ReactiveFormsModule,FormField,FilterComponent,PaginationComponent,MobileCardComponent,DataTableComponent],
   templateUrl: './review-variant.html',
   styleUrl: './review-variant.css',
 })
 export class ReviewVariant {
+  actions: TableAction[] = [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+        {
+          label: 'Review',
+          color: 'blue',
+          action: 'review'
+        }
+      ];
+      columns: Column[] = [
+        {
+          key: 'productId',
+          header: 'ID'
+        },
+        {
+          key: 'productName',
+          header: 'Name'
+        },
+        {
+          key: 'productCategoryName',
+          header: 'Category'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'SubCategory'
+        },
+        {
+          key: 'vendorName',
+          header: 'Vendor'
+        },
+        {
+          key: 'productApprovalStatus',
+          header: 'Approval'
+        },
+        {
+          key: 'productStatus',
+          header: 'Status'
+        },
+      ];
+    
+      mobileColumns: Column[] = [
+         {
+          key: 'productName',
+          header: 'Name'
+        },
+        {
+          key: 'productCategoryName',
+          header: 'Category'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'Sub Category'
+        },
+        {
+          key: 'vendorName',
+          header: 'Vendor'
+        },
+        {
+          key: 'productApprovalStatus',
+          header: 'Approval'
+        },
+        {
+          key: 'productStatus',
+          header: 'Status'
+        },
+        
+      ];
+      handleAction(event: { type: string; row:ProductVariantModel }) {
+          switch (event.type) {
+            case 'view':
+              this.viewProduct(event.row.productVariantId);
+              break;
+            case 'delete':
+              this.openReviewPopup(event.row.productVariantId);
+              break;
+          }
+        }
   categories = signal<UserProductCategoryModel[]>([]);
   subCategories = signal<UserSubProductCategoryModel[]>([]);
   variant = signal<PagedResponse<VendorProductVariantModel> | null>(null);
@@ -48,6 +135,10 @@ export class ReviewVariant {
   totalPages = computed(() => this.variant()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
+
+
   reviewProductModel = signal(new ReviewProductVariantModel());
   showActivatePopup = signal(false);
 
@@ -66,8 +157,12 @@ export class ReviewVariant {
     this.loadProductVariant();
   }
 
-  toggleFilterPanel(): void {
+   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
@@ -129,11 +224,18 @@ export class ReviewVariant {
   ];
 
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProductVariant();
     this.closeFilterPanel();
   }
+
   resetFilters(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.sku.set('');
     this.productId.set(null);
     this.searchTearm.set('');
@@ -171,6 +273,12 @@ export class ReviewVariant {
   previousPage(): void {
     this.goToPage(this.pageNumber() - 1);
   }
+   onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadProductVariant();
+  }
+
 
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
@@ -281,7 +389,18 @@ export class ReviewVariant {
         this.categories.set(res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -294,7 +413,18 @@ export class ReviewVariant {
     if (id) {
       this.userProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res),
-        error: (err) => console.log(err)
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }
@@ -362,6 +492,9 @@ export class ReviewVariant {
         }
       }
     });
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/admin/product-details', productId]);
   }
 }
 

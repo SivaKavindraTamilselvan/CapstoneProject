@@ -8,14 +8,99 @@ import { UserProductService } from '../../../services/user-product.Service';
 import { AdminProductVariantFilter } from '../../../models/admin/admin-product/filter/admin-variant.filter';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { DecimalPipe } from '@angular/common';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { ProductVariantModel } from '../../../models/product/product-variant.model';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DecimalPipe],
+  imports: [DecimalPipe,DataTableComponent,FilterComponent,MobileCardComponent,PaginationComponent],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })
 export class VariantList {
+  actions: TableAction[] = [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+        {
+          label: 'Delete',
+          color: 'red',
+          action: 'delete'
+        }
+      ];
+      columns: Column[] = [
+        {
+          key: 'productId',
+          header: 'ID'
+        },
+        {
+          key: 'productName',
+          header: 'Name'
+        },
+        {
+          key: 'productCategoryName',
+          header: 'Category'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'SubCategory'
+        },
+        {
+          key: 'vendorName',
+          header: 'Vendor'
+        },
+        {
+          key: 'productApprovalStatus',
+          header: 'Approval'
+        },
+        {
+          key: 'productStatus',
+          header: 'Status'
+        },
+      ];
+    
+      mobileColumns: Column[] = [
+         {
+          key: 'productName',
+          header: 'Name'
+        },
+        {
+          key: 'productCategoryName',
+          header: 'Category'
+        },
+        {
+          key: 'productSubCategoryName',
+          header: 'Sub Category'
+        },
+        {
+          key: 'vendorName',
+          header: 'Vendor'
+        },
+        {
+          key: 'productApprovalStatus',
+          header: 'Approval'
+        },
+        {
+          key: 'productStatus',
+          header: 'Status'
+        },
+        
+      ];
+      handleAction(event: { type: string; row:ProductVariantModel }) {
+          switch (event.type) {
+            case 'view':
+              this.viewProduct(event.row.productVariantId);
+              break;
+            
+          }
+        }
   categories = signal<UserProductCategoryModel[]>([]);
   subCategories = signal<UserSubProductCategoryModel[]>([]);
   variant = signal<PagedResponse<VendorProductVariantModel> | null>(null);
@@ -45,6 +130,12 @@ export class VariantList {
   totalPages = computed(() => this.variant()?.totalPages ?? 1);
   filterPanelOpen = signal<boolean>(false);
 
+  filtererrorMessage = signal<string | null>(null);
+  filterapplied = signal(false);
+
+  errorMessage = signal<string | null>(null);
+
+
   constructor(private route: Router, private adminProductService: AdminProductService, private userProductService: UserProductService) {
 
   }
@@ -54,8 +145,12 @@ export class VariantList {
     this.loadProductVariant();
   }
 
-  toggleFilterPanel(): void {
+   toggleFilterPanel(): void {
+    const wasOpen = this.filterPanelOpen();
     this.filterPanelOpen.update((open) => !open);
+    if (wasOpen && !this.filterapplied()) {
+      this.resetFilters();
+    }
   }
 
   closeFilterPanel(): void {
@@ -117,11 +212,18 @@ export class VariantList {
   ];
 
   applyFilters(): void {
+    if (this.filtererrorMessage()) {
+      return;
+    }
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadProductVariant();
     this.closeFilterPanel();
   }
+
   resetFilters(): void {
+    this.filtererrorMessage.set("");
+    this.filterapplied.set(false);
     this.sku.set('');
     this.productId.set(null);
     this.searchTearm.set('');
@@ -166,6 +268,13 @@ export class VariantList {
     this.pageNumber.set(1);
     this.loadProductVariant();
   }
+
+   onPageSizeChanged(size: number): void {
+    this.pageSize.set(size);
+    this.pageNumber.set(1);
+    this.loadProductVariant();
+  }
+
 
   onSKUInput(event: Event): void {
     this.sku.set((event.target as HTMLInputElement).value);
@@ -269,7 +378,18 @@ export class VariantList {
         this.categories.set(res);
         console.log(this.categories);
       },
-      error: (err) => console.log(err)
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
+      }
     });
   }
 
@@ -282,13 +402,27 @@ export class VariantList {
     if (id) {
       this.userProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res),
-        error: (err) => console.log(err)
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
       });
     }
   }
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.subcategoryId.set(v ? Number(v) : null);
+  }
+  viewProduct(productId: number) {
+    this.route.navigate(['/admin/product-details', productId]);
   }
 }
 
