@@ -288,4 +288,7 @@ export class VariantList {
     const v = (event.target as HTMLSelectElement).value;
     this.subcategoryId.set(v ? Number(v) : null);
   }
+  viewProduct(productId: number) {
+    this.route.navigate(['/vendor/products/variant', productId]);
+  }
 }

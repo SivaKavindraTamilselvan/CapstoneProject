@@ -130,6 +130,10 @@ export class VendorProductService {
         let url = `${BaseURL}/VendorProduct/${productId}`;
         return this.http.get<ProductModel>(url, {});
     }
+    getProductVariantDetails(productId: number) {
+        let url = `${BaseURL}/VendorProduct/variant/${productId}`;
+        return this.http.get<ProductModel>(url, {});
+    }
     getmappedAttribute(id: number) {
         const url = BaseURL + `/VendorProduct/subcategory-attributes?ProductSubCategoryId=${id}`;
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url);

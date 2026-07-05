@@ -25,6 +25,7 @@ import { DeactiveVendorUser } from "../../vendor/vendor-user/deactive-vendor-use
 import { VendorInventoryRoute } from "./inventory.route";
 import { VendorNotificationList } from "../../notification/vendor-notification-list/vendor-notification-list";
 import { VendorDeletedProduct } from "../../vendor/vendor-product/vendor-deleted-product/vendor-deleted-product";
+import { VendorVariantDetails } from "../../vendor/vendor-variant/vendor-variant-details/vendor-variant-details";
 
 export const VendorRoute: Routes = [
     {
@@ -96,6 +97,10 @@ export const VendorRoute: Routes = [
     {
         path: 'products/:id',
         component: VendorProductDetails
+    },
+     {
+        path: 'products/variant/:id',
+        component: VendorVariantDetails
     },
 
     {
