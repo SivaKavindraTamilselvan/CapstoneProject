@@ -34,7 +34,7 @@ export class UserFavorite {
       },
       error: (err) => {
         console.error(err);
-        this.error.set('Failed to load cart items.');
+        this.favoriteItems.set([]);
         this.isLoading.set(false);
       }
     });

@@ -41,7 +41,7 @@
                         class="w-full sm:w-72 border border-gray-200 rounded-xl overflow-hidden bg-white flex flex-col hover:shadow-lg transition">
 
                         <div class="aspect-square bg-gray-100 overflow-hidden" (click)="goToProductDetails(item.productId)">
-                            <img [src]="item.mainImageUrl || 'assets/images/no-image.png'" [alt]="item.productName"
+                            <img [src]=" 'http://localhost:5173/images/' + item.mainImageUrl || 'assets/images/no-image.png'" [alt]="item.productName"
                                 class="w-full h-full object-cover">
                         </div>
                         <div class="p-4 flex flex-col flex-1">

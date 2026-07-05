@@ -185,6 +185,7 @@
         <table class="border border-collapse border-gray-500 w-full">
             <thead>
                 <tr class="bg-slate-800 text-white">
+                    <th class="px-4 py-3 text-center">Id</th>
                     <th class="px-4 py-3 text-center">SKU</th>
                     <th class="px-4 py-3 text-center">Name</th>
                     <th class="px-4 py-3 text-center">Category</th>
@@ -201,6 +202,7 @@
                 @if(variant()) {
                 @for(v of variant()!.items; track v.productVariantId) {
                 <tr class="border-b text-center hover:bg-gray-50">
+                     <td class="px-4 py-3 ">{{v.productVariantId}}</td>
                     <td class="px-4 py-3 ">{{v.sku}}</td>
                     <td class="px-4 py-3 ">{{v.productName}}</td>
                     <td class="px-4 py-3">{{v.productCategoryName}}</td>

@@ -90,7 +90,7 @@ export class UpdateRejectedVariant {
       categoryId: this.categoryId(),
       subCategoryId: this.subcategoryId(),
       statusId: this.statusId(),
-      approvalStatusId: this.approvalstatusId(),
+      approvalStatusId: 5,
       addedByVendorUserId: this.addedByVendorUserId(),
       minPrice: this.minPrice(),
       maxPrice: this.maxPrice(),

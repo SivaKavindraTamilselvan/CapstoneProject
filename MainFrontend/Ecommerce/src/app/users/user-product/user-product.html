@@ -104,7 +104,7 @@
                     class="border border-gray-200 rounded-xl overflow-hidden bg-white flex flex-col hover:shadow-lg hover:-translate-y-0.5 transition-all">
                     <div class="aspect-square bg-gray-100 overflow-hidden">
                         @if(getMainImage(product); as imageUrl) {
-                        <img [src]="imageUrl" [alt]="product.productName" class="w-full h-full object-cover" />
+                        <img [src]="'http://localhost:5173/images/' + imageUrl" [alt]="product.productName" class="w-full h-full object-cover" />
                         } @else {
                         <div class="w-full h-full flex items-center justify-center text-gray-300">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"

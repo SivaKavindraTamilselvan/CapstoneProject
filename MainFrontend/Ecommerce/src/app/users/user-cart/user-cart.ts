@@ -43,7 +43,7 @@ export class UserCart {
       },
       error: (err) => {
         console.error(err);
-        this.error.set('Failed to load cart items.');
+        this.cartItems.set([]);
         this.isLoading.set(false);
       }
     });
