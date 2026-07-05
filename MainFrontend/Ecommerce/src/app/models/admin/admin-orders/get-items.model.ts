@@ -9,6 +9,7 @@ export class OrderItemSummaryModel {
     public quantity: number = 0,
     public unitPrice: number = 0,
     public discount: number = 0,
+    public ProductImageUrl : string ='',
 
     public inventoryId: number = 0,
     public inventoryCity: string = '',

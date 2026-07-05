@@ -11,6 +11,7 @@ export class OrderItemModel {
     public inventoryId: number = 0,
     public inventoryCity: string = '',
     public inventoryAddress: string = '',
+    public productImageUrl : string ='',
     public itemTotal: number = 0,
     public orderItemStatus: string = ''
   ) { }

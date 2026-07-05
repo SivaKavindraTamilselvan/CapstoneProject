@@ -169,4 +169,26 @@ export class UserGetOrder {
     const value = (event.target as HTMLInputElement).value;
     this.toDate.set(value);
   }
+   expandedOrderId = signal<number | null>(null);
+
+  toggleExpand(orderId: number) {
+    this.expandedOrderId.set(
+      this.expandedOrderId() === orderId ? null : orderId
+    );
+  }
+
+  isExpanded(orderId: number) {
+    return this.expandedOrderId() === orderId;
+  }
+
+  statusColor(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'delivered': return 'bg-green-100 text-green-700';
+      case 'shipped': return 'bg-blue-100 text-blue-700';
+      case 'cancelled': return 'bg-red-100 text-red-700';
+      case 'pending':
+      case 'processing': return 'bg-yellow-100 text-yellow-700';
+      default: return 'bg-gray-100 text-gray-700';
+    }
+  }
 }
