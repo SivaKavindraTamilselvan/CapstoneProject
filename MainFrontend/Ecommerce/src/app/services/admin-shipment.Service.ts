@@ -27,8 +27,13 @@ export class AdminShipmentService {
 
         return this.http.get<PagedResponse<ShipmentModel>>(url, { params });
     }
+   
     updateShipment(request : ShipmentUpdateRequestModel){
         let url = BaseURL + "/Shiprocket/updateShipmentStatus";
          return this.http.put(url,request);
+    }
+    getShipmentDetails(id: number) {
+        let url = BaseURL + `/Shiprocket/${id}`;
+        return this.http.get(url, {});
     }
 }
