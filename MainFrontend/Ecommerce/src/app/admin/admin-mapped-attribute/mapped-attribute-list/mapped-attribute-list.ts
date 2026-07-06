@@ -1,12 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddMapedAttributeModel } from '../../../models/admin/admin-product-category/add-models/add-mapped.model';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
@@ -17,6 +17,9 @@ import { PaginationComponent } from '../../../shared-components/pagination-compo
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 export interface GroupedSubCategory {
   subCategoryId: number;
@@ -27,88 +30,92 @@ export interface GroupedSubCategory {
 
 @Component({
   selector: 'app-mapped-attribute-list',
-  imports: [CommonModule,PaginationComponent,FilterComponent,DataTableComponent,MobileCardComponent],
+  imports: [CommonModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './mapped-attribute-list.html',
   styleUrl: './mapped-attribute-list.css',
 })
-export class MappedAttributeList {
+export class MappedAttributeList extends BasePage {
 
-  actions: TableAction<AdminMappedAttributeModel>[] = [
-        {
-          label: 'View',
-          color: 'blue',
-          action: 'view'
-        },
-        {
-          label: 'Activate',
-          color: 'green',
-          action: 'activate'
-        }
-      ];
-      columns: Column[] = [
-        {
-          key: 'productSubCategoryAttributeId',
-          header: 'ID'
-        },
-        {
-          key: 'productSubCategoryId',
-          header: 'Sub Category Id'
-        },
-        {
-          key: 'productSubCategoryName',
-          header: 'Sub Category'
-        },
-        {
-          key: 'attributeMasterId',
-          header: 'Attribute Id'
-        },
-        {
-          key: 'attributeName',
-          header: 'Attribute Name'
-        },
-        {
-          key: 'addedByAdminId',
-          header: 'Added Admin Id'
-        },
-        {
-          key: 'isActive',
-          header: 'Status',
-          formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-        },
-    
-      ];
-    
-      mobileColumns: Column[] = [
-        {
-          key: 'productSubCategoryId',
-          header: 'Sub Category Id'
-        },
-        {
-          key: 'productSubCategoryName',
-          header: 'Sub Category'
-        },
-        {
-          key: 'attributeMasterId',
-          header: 'Attribute Id'
-        },
-        {
-          key: 'attributeName',
-          header: 'Attribute Name'
-        },
-        {
-          key: 'addedByAdminId',
-          header: 'Added Admin Id'
-        },
-        {
-          key: 'isActive',
-          header: 'Status',
-          formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-        },
-      ];
-      handleAction(event: { type: string; row: AdminMappedAttributeModel }) {
-    
-        
-      }
+  actions = computed<TableAction<AdminProductCategoryModel>[]>(() => {
+  if (this.categoryStatus() == null) {
+    return [];
+  }
+
+  return [
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate',
+      visible: category => category.isActive
+    },
+    {
+      label: 'Activate',
+      color: 'green',
+      action: 'activate',
+      visible: category => !category.isActive
+    }
+  ];
+});
+  columns: Column[] = [
+    {
+      key: 'productSubCategoryAttributeId',
+      header: 'ID'
+    },
+    {
+      key: 'productSubCategoryId',
+      header: 'Sub Category Id'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'attributeMasterId',
+      header: 'Attribute Id'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute Name'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productSubCategoryId',
+      header: 'Sub Category Id'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'attributeMasterId',
+      header: 'Attribute Id'
+    },
+    {
+      key: 'attributeName',
+      header: 'Attribute Name'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+  ];
 
   masterattribute = signal<PagedResponse<AdminAttributeModel> | null>(null);
   attribute = signal<PagedResponse<AdminMappedAttributeModel> | null>(null);
@@ -118,10 +125,8 @@ export class MappedAttributeList {
   productSubCategoryId = signal<number | null>(null);
   attributeMasterId = signal<number | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+
   totalPages = computed(() => this.attribute()?.totalPages ?? 1);
-  filterPanelOpen = signal<boolean>(false);
 
   showActivatePopup = signal(false);
   addAttributeModel = signal(new AddMapedAttributeModel());
@@ -129,18 +134,55 @@ export class MappedAttributeList {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
-  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+  attributeMappedFilter = signal(new MappedAttributeFilter());
 
+  clearFilterValues(): void {
+    this.attributeMappedFilter.set(new MappedAttributeFilter());
   }
 
-  ngOnInit() {
-    this.loadAttribute();
-    this.loadCategories();
-    this.loadAttributes();
+
+  constructor(private router: ActivatedRoute, private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
+  }
+
+  categoryStatus = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.categoryStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadCategories();
+      this.loadAttribute();
+      this.loadAttributes();
+    });
+  }
+
+  selectedAction = signal<'activate' | 'deactivate' | null>(null);
+
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+      case 'activate':
+        this.activateCategory();
+        break;
+
+      case 'deactivate':
+        this.deactivateCategory();
+        break;
+    }
   }
 
   loadAttribute() {
-    this.adminCategoryService.getmappedAttribute(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.adminCategoryService.getmappedAttribute(this.attributeMappedFilter()).subscribe({
       next: (response: any) => {
         this.attribute.set(response);
       },
@@ -159,67 +201,56 @@ export class MappedAttributeList {
     });
   }
 
-  private buildFilter(): MappedAttributeFilter {
-    return {
-      productSubCategoryId: this.productSubCategoryId(),
-      attributeMasterId: this.attributeMasterId(),
-      status: this.status(),
-      addedByAdminId: this.addedByAdminId(),
+  private buildFilter() {
+    this.attributeMappedFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-    };
+      status: this.categoryStatus(),
+    }));
   }
 
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
+  handleAction(event: { type: string; row: AdminMappedAttributeModel }) {
+    switch (event.type) {
+      case 'activate':
+        this.selectedAction.set('activate');
+        this.selectedId.set(event.row.productSubCategoryAttributeId);
+
+        this.popupTitle.set('Activate Mapped Attribute');
+        this.popupMessage.set('Are you sure you want to activate this mapped attribute?');
+        this.popupConfirmText.set('Activate');
+        this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
+        this.titleClass.set('text-green-700');
+
+        this.showPopup.set(true);
+        break;
+
+      case 'deactivate':
+        this.selectedAction.set('deactivate');
+        this.selectedId.set(event.row.productSubCategoryAttributeId);
+
+        this.popupTitle.set('Deactivate Mapped Attribute');
+        this.popupMessage.set('Are you sure you want to deactivate this mapped attribute?');
+        this.popupConfirmText.set('Deactivate');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
+        break;
+    }
   }
 
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadAttribute();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.pageNumber.set(1);
-    this.addedByAdminId.set(null);
-    this.status.set(null);
-    this.attributeMasterId.set(null);
-    this.productSubCategoryId.set(null);
-    this.loadAttribute();
-    this.closeFilterPanel();
-  }
-
-  goToPage(pageNumber: number): void {
-    if (pageNumber < 1 || pageNumber > this.totalPages()) return;
-    this.pageNumber.set(pageNumber);
-    this.loadAttribute();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
+  protected loadData(): void {
     this.loadAttribute();
   }
 
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadAttribute();
-  }
+  filterForm = form(this.attributeMappedFilter, (path) => {
+    min(path.attributeMasterId, 1, { message: 'ID must be greater than 0.' });
+    min(path.productSubCategoryId, 1, { message: 'ID must be greater than 0.' });
+
+    min(path.addedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
+  });
+
 
   onAdminIdInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
@@ -241,11 +272,11 @@ export class MappedAttributeList {
     this.status.set(value === '' ? null : value === 'true');
   }
 
-  openPopup(): void {
+  openAddPopup(): void {
     this.showActivatePopup.set(true);
   }
 
-  closePopup(): void {
+  closeAddPopup(): void {
     this.productCategoryId.set(null);
     this.showActivatePopup.set(false);
   }
@@ -285,8 +316,14 @@ export class MappedAttributeList {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
     this.productCategoryId.set(id);
-    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.productSubCategoryId.set(null);
     this.subCategories.set([]);
+    this.attributeMappedFilter.update(filter => ({
+      ...filter,
+      productCategoryId: id,
+      productSubCategoryId: null
+    }));
+    this.filterErrorMessage.set("Select the Sub category before submitting");
     if (id) {
       this.adminProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
@@ -296,30 +333,65 @@ export class MappedAttributeList {
   }
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
+    this.attributeMappedFilter.update(filter => ({
+      ...filter,
+      productSubCategoryId: v ? Number(v) : null
+    }));
     this.productSubCategoryId.set(v ? Number(v) : null);
   }
   onAddFormSubcategoryChange(event: Event): void {
-   const value = Number((event.target as HTMLSelectElement).value);
+    const value = Number((event.target as HTMLSelectElement).value);
     this.addAttributeModel.update(m => ({
       ...m,
-      productSubCategoryId:value
+      productSubCategoryId: value
     }));
   }
-   onAddFormAttributeChange(event: Event): void {
-   const value = Number((event.target as HTMLSelectElement).value);
+  onAddFormAttributeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
     this.addAttributeModel.update(m => ({
       ...m,
-      attributeMasterId:value
+      attributeMasterId: value
     }));
   }
-  loadAttributes(){
+  loadAttributes() {
     this.adminProductService.getAttribute().subscribe({
-     next:(response:any)=>{
-      this.masterattribute.set(response);
-     },
-     error : (error)=>{
-      console.error(error);
-     }
+      next: (response: any) => {
+        this.masterattribute.set(response);
+      },
+      error: (error) => {
+        console.error(error);
+      }
+    })
+  }
+
+  activateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateMappedAttribute(id).subscribe({
+      next: (response: any) => {
+        this.loadAttribute();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+  deactivateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.deactivateMappedAttribute(id).subscribe({
+      next: (response: any) => {
+        this.loadAttribute();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
     })
   }
 }
