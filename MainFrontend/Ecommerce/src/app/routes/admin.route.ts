@@ -39,6 +39,7 @@ import { AdminNotificationList } from '../notification/admin/admin-notification-
 import { AdminProfilePage } from '../admin/admin-profile-page/admin-profile-page';
 import { AdminOrderDetails } from '../admin/admin-orders/admin-order-details/admin-order-details';
 import { AdminShipmentDetails } from '../admin/admin-shipment/admin-shipment-details/admin-shipment-details';
+import { AdminUserRoutes } from './admin/admin-user.route';
 
 export const AdminRoutes: Routes = [
     {
@@ -204,5 +205,6 @@ export const AdminRoutes: Routes = [
         path: 'shipment-details/:id',
         component: AdminShipmentDetails
     },
+    ...AdminUserRoutes,
 
 ];
