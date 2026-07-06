@@ -1,22 +1,116 @@
-import { Component, computed, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, computed, effect, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminOrderService } from '../../../services/admin-order.Service';
 import { AdminOrderFilter } from '../../../models/admin/admin-orders/get-order.filter';
 import { DatePipe, DecimalPipe } from '@angular/common';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { form, FormField, maxLength, min, pattern } from '@angular/forms/signals';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-get-admin-orders',
-  imports: [DatePipe],
+  imports: [DatePipe, MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  providers: [DatePipe],
   templateUrl: './get-admin-orders.html',
   styleUrl: './get-admin-orders.css',
 })
-export class GetAdminOrders {
+export class GetAdminOrders extends BasePage {
+
+  actions: TableAction<OrderModel>[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    }
+  ];
+
+  columns: Column[] = [
+    {
+      key: 'orderId',
+      header: 'ID'
+    },
+    {
+      key: 'orderNumber',
+      header: 'Order Number'
+    },
+    {
+      key: 'userName',
+      header: 'User'
+    },
+    {
+      key: 'orderStatus',
+      header: 'Status'
+    },
+    {
+      key: 'totalProductAmount',
+      header: 'Product Amount'
+    },
+    {
+      key: 'totalShippingAmount',
+      header: 'Shipping'
+    },
+    {
+      key: 'finalAmount',
+      header: 'Final Amount'
+    },
+    {
+      key: 'orderDate',
+      header: 'Order Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'orderId',
+      header: 'ID'
+    },
+    {
+      key: 'orderNumber',
+      header: 'Order Number'
+    },
+    {
+      key: 'userName',
+      header: 'User'
+    },
+    {
+      key: 'orderStatus',
+      header: 'Status'
+    },
+    {
+      key: 'totalProductAmount',
+      header: 'Product Amount'
+    },
+    {
+      key: 'totalShippingAmount',
+      header: 'Shipping'
+    },
+    {
+      key: 'finalAmount',
+      header: 'Final Amount'
+    },
+    {
+      key: 'orderDate',
+      header: 'Order Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
 
   orders = signal<PagedResponse<OrderModel> | null>(null);
 
-  
+
   orderNumber = signal<string>('');
   orderStatusId = signal<number | null>(null);
   userId = signal<number | null>(null);
@@ -28,26 +122,45 @@ export class GetAdminOrders {
   minAmount = signal<number | null>(null);
   maxAmount = signal<number | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+  orderFilter = signal(new AdminOrderFilter());
+  clearFilterValues(): void {
+    this.orderFilter.set(new AdminOrderFilter());
+  }
+
 
   totalPages = computed(() => this.orders()?.totalPages ?? 1);
 
- 
-  filterPanelOpen = signal<boolean>(false);
 
   constructor(
-    private router: Router,
+    private datePipe: DatePipe,
+    private router: ActivatedRoute,
+    private route: Router,
     private adminOrderService: AdminOrderService
-  ) { }
-
-  ngOnInit() {
-    this.loadOrders();
+  ) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
 
- 
+  categoryStatus = signal<number | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.categoryStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadOrders();
+    });
+  }
+
   loadOrders() {
-    this.adminOrderService.getOrders(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.adminOrderService.getOrders(this.orderFilter()).subscribe({
       next: (response: any) => {
         this.orders.set(response);
         console.log(response);
@@ -68,78 +181,42 @@ export class GetAdminOrders {
     });
   }
 
-  
-  private buildFilter(): AdminOrderFilter {
-    return {
+  handleAction(event: { type: string; row: OrderModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewOrder(event.row.orderId);
+        break;
+    }
+  }
+
+
+  protected loadData(): void {
+    this.loadOrders();
+  }
+
+
+  filterForm = form(this.orderFilter, (path) => {
+    pattern(path.orderNumber, /^[A-Za-z0-9-]*$/, { message: 'Order number can contain only letters, numbers, and hyphens.' });
+    maxLength(path.orderNumber, 50, { message: 'Order number cannot exceed 50 characters.' });
+    min(path.orderStatusId, 1, { message: 'Order status ID must be greater than 0.' });
+    min(path.minAmount, 0, { message: 'Minimum amount cannot be negative.' });
+    min(path.maxAmount, 0, { message: 'Maximum amount cannot be negative.' });
+    min(path.userId, 1, { message: 'User ID must be greater than 0.' });
+    min(path.vendorId, 1, { message: 'Vendor ID must be greater than 0.' });
+  });
+
+
+  private buildFilter() {
+
+    this.orderFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-
-      orderNumber: this.orderNumber() || undefined,
-      orderStatusId: this.orderStatusId() ?? undefined,
-      userId: this.userId() ?? undefined,
-      vendorId: this.vendorId() ?? undefined,
-
-      fromDate: this.fromDate() || undefined,
-      toDate: this.toDate() || undefined,
-
-      minAmount: this.minAmount() ?? undefined,
-      maxAmount: this.maxAmount() ?? undefined
-    };
+      orderStatusId: this.categoryStatus(),
+      orderNumber: this.orderNumber().trim(),
+    }));
   }
 
-  
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update(open => !open);
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadOrders();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.pageNumber.set(1);
-
-    this.orderNumber.set('');
-    this.orderStatusId.set(null);
-    this.userId.set(null);
-    this.vendorId.set(null);
-    this.fromDate.set('');
-    this.toDate.set('');
-    this.minAmount.set(null);
-    this.maxAmount.set(null);
-
-    this.loadOrders();
-    this.closeFilterPanel();
-  }
-
-  
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-
-    this.pageNumber.set(page);
-    this.loadOrders();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadOrders();
-  }
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
 
@@ -148,6 +225,10 @@ export class GetAdminOrders {
     } else {
       this.orderStatusId.set(Number(value));
     }
+    this.orderFilter.update(filter => ({
+      ...filter,
+      orderStatusId: value === '' ? null : Number(value)
+    }));
   }
   onOrderNumberInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
@@ -171,16 +252,24 @@ export class GetAdminOrders {
     this.maxAmount.set(v ? Number(v) : null);
   }
   onFromDateInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.fromDate.set(value);
-  }
+  const value = (event.target as HTMLInputElement).value;
+  this.fromDate.set(value);
+  this.orderFilter.update(filter => ({
+    ...filter,
+    fromDate: value || null
+  }));
+}
 
-  onToDateInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.toDate.set(value);
-  }
+onToDateInput(event: Event): void {
+  const value = (event.target as HTMLInputElement).value;
+  this.toDate.set(value);
+  this.orderFilter.update(filter => ({
+    ...filter,
+    toDate: value || null
+  }));
+}
 
   viewOrder(id: number) {
-    this.router.navigate(['/admin/order', id]);
+    this.route.navigate(['/admin/order', id]);
   }
 }
