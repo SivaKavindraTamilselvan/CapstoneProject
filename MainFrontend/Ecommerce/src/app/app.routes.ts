@@ -14,14 +14,19 @@ import { AddProduct } from './vendor/vendor-product/add-product/add-product';
 import { UserRoutes } from './routes/user.route';
 import { AdminNotificationList } from './notification/admin/admin-notification-list/admin-notification-list';
 import { ProfilePage } from './profile-page/profile-page';
+import { roleGuard } from './guards/authGuards';
+import { Unauthorised } from './unauthorised/unauthorised';
+import { ROLES } from './constant/role.constant';
 
 export const routes: Routes = [
+    
     { path: 'login', component: Login },
     { path: 'register', component: Register },
     { path: 'register-vendor', component: RegisterVendor },
+    { path: 'unauthorized', component: Unauthorised },
     { path: '', redirectTo: 'user/products', pathMatch: 'full' },
     { path: 'categories/:categoryId/subcategories', component: SubCategoryMobile },
-    { path: 'admin', component: AdminLayout, children: AdminRoutes },
-    { path: 'vendor', component: VendorLayout, children: VendorRoute },
-    { path: 'user', component: UserNavbar, children: UserRoutes },
+    { path: 'admin', canActivate: [roleGuard], data: { roles: [ROLES.ADMIN] }, component: AdminLayout, children: AdminRoutes },
+    { path: 'vendor', canActivate: [roleGuard], data: { roles: [ROLES.VENDOR] }, component: VendorLayout, children: VendorRoute },
+    { path: 'user', canActivate: [roleGuard], data: { roles: [ROLES.USER,ROLES.VENDOR,ROLES.ADMIN] }, component: UserNavbar, children: UserRoutes },
 ];
