@@ -1,9 +1,9 @@
 <section class="bg-white p-8">
     <div class="pb-8 flex items-center justify-center relative">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Coupons</h1>
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">{{pageTitle()}}</h1>
         <div class="absolute right-0 flex items-center gap-2">
-            @if(filterapplied()){
-            <button type="button" class="p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilters()">
+            @if(filterApplied()){
+            <button type="button" class="sm:p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilters()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -20,12 +20,17 @@
         </div>
     </div>
     <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
-        (apply)="applyFilters()" (reset)="resetFilters()">
+        [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Search (Code / Description)</label>
-            <input type="text" placeholder="Search coupons" [value]="search()" (input)="onSearchInput($event)"
+            <input type="text" placeholder="Search coupons" [formField]="filterForm.search"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.search().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.search().errors()[0].message }}</p>
+            }
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Coupon Type</label>
@@ -39,23 +44,35 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Discount Value</label>
             <div class="flex gap-4">
-                <input type="number" placeholder="Min" [value]="minDiscountValue()"
-                    (input)="onMinDiscountValueInput($event)"
+                <input type="number" placeholder="Min" [formField]="filterForm.minDiscountValue"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                <input type="number" placeholder="Max" [value]="maxDiscountValue()"
-                    (input)="onMaxDiscountValueInput($event)"
+                @if (filterForm.minDiscountValue().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.minDiscountValue().errors()[0].message }}</p>
+                }
+                <input type="number" placeholder="Max" [formField]="filterForm.maxDiscountValue"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                @if (filterForm.maxDiscountValue().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxDiscountValue().errors()[0].message }}</p>
+                }
             </div>
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Min Order Amount</label>
             <div class="flex gap-4">
-                <input type="number" placeholder="Min" [value]="minOrderAmount()"
-                    (input)="onMinOrderAmountInput($event)"
+                <input type="number" placeholder="Min" [formField]="filterForm.minOrderAmount"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                <input type="number" placeholder="Max" [value]="maxOrderAmount()"
-                    (input)="onMaxOrderAmountInput($event)"
+                @if (filterForm.minOrderAmount().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.minOrderAmount().errors()[0].message }}</p>
+                }
+                <input type="number" placeholder="Max" [formField]="filterForm.maxOrderAmount"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                @if (filterForm.maxOrderAmount().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxOrderAmount().errors()[0].message }}</p>
+                }
             </div>
         </div>
 
@@ -63,6 +80,7 @@
             <label class="block text-sm font-semibold text-gray-700 mb-1">Valid From</label>
             <input type="date" (change)="onValidFromChange($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Valid To</label>
@@ -87,11 +105,11 @@
         </div>
     </app-filter-component>
 
-    <app-data-table-component [columns]="columns" [rows]="coupons()?.items ?? []" [actions]="actions"
+    <app-data-table-component [columns]="columns" [rows]="coupons()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
     </app-data-table-component>
 
-    <app-mobile-card-component [columns]="mobileColumns" [rows]="coupons()?.items ?? []" [actions]="actions"
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="coupons()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)" [titleKey]="'productCategoryId'">
     </app-mobile-card-component>
 
@@ -99,7 +117,13 @@
         [totalCount]="coupons()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
         (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
     </app-pagination-component>
-    
+
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"
+        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+    </app-popup-component>
+
+
     @if(showUpdateCouponPopup()){
     <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50 p-8">
         <div class="bg-white rounded-xl p-6">

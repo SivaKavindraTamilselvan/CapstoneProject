@@ -3,7 +3,7 @@ export class AdminCouponFilter {
     public pageNumber: number = 1,
     public pageSize: number = 10,
     public couponId: number | null = null,
-    public search: string | null = null,
+    public search: string ='',
     public couponTypeId: number | null = null,
     public isActive: boolean | null = null,
     public isExpired: boolean | null = null,
