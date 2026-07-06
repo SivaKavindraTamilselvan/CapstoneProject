@@ -20,11 +20,13 @@ export class Login {
   constructor(private authService: AuthService, private router: Router, private authStateService: AuthStateService) {
 
   }
+
   loginForm = form(this.loginModel, (path) => {
     required(path.password, { message: "Password Is Required" });
     required(path.email, { message: "Email Is Required" });
     email(path.email, { message: "Enter Valid Email Address" });
   })
+
   handleLoginClick() {
     this.errorMessage.set(null);
     if (this.loginForm().invalid()) {
@@ -52,7 +54,6 @@ export class Login {
         this.progress.set(false);
       },
       error: (error) => {
-        console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
 
