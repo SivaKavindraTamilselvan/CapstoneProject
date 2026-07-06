@@ -21,7 +21,7 @@ export class AdminProductService {
     }
 
     getProducts(filter: AdminProductFilter): Observable<PagedResponse<ProductModel>> {
-        let url = BaseURL + "/AdminProduct/all?includeIsDeleted=false";
+        let url = BaseURL + "/AdminProduct/all";
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {

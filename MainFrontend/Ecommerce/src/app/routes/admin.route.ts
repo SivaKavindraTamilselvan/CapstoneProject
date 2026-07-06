@@ -1,14 +1,4 @@
 import { Routes } from '@angular/router';
-import { RegisterAdmin } from '../admin/admin-user/register-admin/register-admin';
-import { AdminList } from '../admin/admin-user/admin-list/admin-list';
-import { AdminProduct } from '../admin/admin-product/admin-product/admin-product';
-import { ActivateAdmin } from '../admin/admin-user/activate-admin/activate-admin';
-import { DeactivateAdmin } from '../admin/admin-user/deactivate-admin/deactivate-admin';
-import { ReviewVendor } from '../admin/admin-vendor/review-vendor/review-vendor';
-import { VendorList } from '../admin/admin-vendor/vendor-list/vendor-list';
-import { DeleteVendor } from '../admin/admin-vendor/delete-vendor/delete-vendor';
-import { ReviewProduct } from '../admin/admin-product/review-product/review-product';
-import { DeleteProduct } from '../admin/admin-product/delete-product/delete-product';
 import { CategoryList } from '../admin/admin-category/category-list/category-list';
 import { ActiveCategory } from '../admin/admin-category/active-category/active-category';
 import { InactiveCategory } from '../admin/admin-category/inactive-category/inactive-category';
@@ -21,16 +11,11 @@ import { InactiveAttribute } from '../admin/admin-attribute/inactive-attribute/i
 import { MappedAttributeList } from '../admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list';
 import { ActiveMappedAttribute } from '../admin/admin-mapped-attribute/active-mapped-attribute/active-mapped-attribute';
 import { InactiveMappedAttribute } from '../admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
-import { AdminDetailProduct } from '../admin/admin-product/admin-detail-product/admin-detail-product';
-import { AdminUserDetail } from '../admin/admin-user/admin-user-detail/admin-user-detail';
-import { VendorDetails } from '../admin/admin-vendor/vendor-details/vendor-details';
 import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
 import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
 import { AdminConfirmedOrders } from '../admin/admin-orders/admin-confirmed-orders/admin-confirmed-orders';
 import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';
 import { UpdateShipment } from '../admin/admin-shipment/update-shipment/update-shipment';
-import { ReviewVariant } from '../admin/admin-product/review-variant/review-variant';
-import { VariantList } from '../admin/admin-product/variant-list/variant-list';
 import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
 import { CouponDetail } from '../admin/admin-coupon/coupon-detail/coupon-detail';
 import { ActiveCoupon } from '../admin/admin-coupon/active-coupon/active-coupon';
@@ -41,33 +26,9 @@ import { AdminOrderDetails } from '../admin/admin-orders/admin-order-details/adm
 import { AdminShipmentDetails } from '../admin/admin-shipment/admin-shipment-details/admin-shipment-details';
 import { AdminUserRoutes } from './admin/admin-user.route';
 import { AdminVendorRoutes } from './admin/admin-vendor.route';
+import { AdminProductRoutes } from './admin/admin-product.route';
 
 export const AdminRoutes: Routes = [
-   
-    {
-        path: 'products/list',
-        component: AdminProduct
-    },
-    {
-        path: 'product-details/:id',
-        component: AdminDetailProduct
-    },
-    {
-        path: 'products/review',
-        component: ReviewProduct
-    },
-     {
-        path: 'product-variant/review',
-        component: ReviewVariant
-    },
-    {
-        path: 'product-variant/list',
-        component: VariantList
-    },
-    {
-        path: 'products/delete',
-        component: DeleteProduct
-    },
     {
         path: 'product-category/list',
         component: CategoryList
@@ -169,6 +130,7 @@ export const AdminRoutes: Routes = [
         component: AdminShipmentDetails
     },
     ...AdminUserRoutes,
-    ...AdminVendorRoutes
+    ...AdminVendorRoutes,
+    ...AdminProductRoutes
 
 ];

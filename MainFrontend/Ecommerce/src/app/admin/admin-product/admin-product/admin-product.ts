@@ -1,11 +1,11 @@
-import { Component, OnInit, computed, signal } from '@angular/core';
+import { Component, OnInit, computed, effect, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductModel } from '../../../models/product/product.model';
-import { Router  } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, min, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
@@ -15,118 +15,119 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { ReviewProductModel } from '../../../models/product/review-product.model';
 
 @Component({
   selector: 'app-admin-product',
-  imports: [FormField, FormsModule, ReactiveFormsModule,PaginationComponent,FilterComponent,MobileCardComponent,DataTableComponent],
+  imports: [FormField, FormsModule, ReactiveFormsModule, PaginationComponent, FilterComponent, MobileCardComponent, DataTableComponent],
   templateUrl: './admin-product.html',
   styleUrl: './admin-product.css',
 })
-export class AdminProduct implements OnInit {
-   actions: TableAction<ProductModel>[] = [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-      {
-        label: 'Delete',
-        color: 'red',
-        action: 'delete'
-      }
-    ];
-    columns: Column[] = [
-      {
-        key: 'productId',
-        header: 'ID'
-      },
-      {
-        key: 'productName',
-        header: 'Name'
-      },
-      {
-        key: 'productCategoryName',
-        header: 'Category'
-      },
-      {
-        key: 'productSubCategoryName',
-        header: 'SubCategory'
-      },
-      {
-        key: 'vendorName',
-        header: 'Vendor'
-      },
-      {
-        key: 'productApprovalStatus',
-        header: 'Approval'
-      },
-      {
-        key: 'productStatus',
-        header: 'Status'
-      },
-    ];
-  
-    mobileColumns: Column[] = [
-       {
-        key: 'productName',
-        header: 'Name'
-      },
-      {
-        key: 'productCategoryName',
-        header: 'Category'
-      },
-      {
-        key: 'productSubCategoryName',
-        header: 'Sub Category'
-      },
-      {
-        key: 'vendorName',
-        header: 'Vendor'
-      },
-      {
-        key: 'productApprovalStatus',
-        header: 'Approval'
-      },
-      {
-        key: 'productStatus',
-        header: 'Status'
-      },
-      
-    ];
-    handleAction(event: { type: string; row:ProductModel }) {
-        switch (event.type) {
-          case 'view':
-            this.viewProduct(event.row.productId);
-            break;
-          case 'delete':
-            this.openDeletePopup(event.row.productId);
-            break;
-        }
-      }
+export class AdminProduct extends BasePage {
+  actions: TableAction<ProductModel>[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view',
+    },
+    {
+      label: 'Delete',
+      color: 'red',
+      action: 'delete',
+      visible: vendor => vendor.productApprovalStatus != "Deleted_By_Admin" && vendor.productApprovalStatus != "Pending" 
+
+    },
+    {
+      label: 'Review',
+      color: 'gray',
+      action: 'review',
+      visible: vendor => vendor.productApprovalStatus == "Pending" 
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productId',
+      header: 'ID'
+    },
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'SubCategory'
+    },
+    {
+      key: 'vendorName',
+      header: 'Vendor'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval'
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'vendorName',
+      header: 'Vendor'
+    },
+    {
+      key: 'productApprovalStatus',
+      header: 'Approval'
+    },
+    {
+      key: 'productStatus',
+      header: 'Status'
+    },
+
+  ];
+
+  handleAction(event: { type: string; row: ProductModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewProduct(event.row.productId);
+        break;
+      case 'delete':
+        this.openDeletePopup(event.row.productId);
+        break;
+      case 'review':
+        this.openReviewPopup(event.row.productId);
+        break;
+    }
+  }
 
   products = signal<PagedResponse<ProductModel> | null>(null);
 
-  searchTerm = signal<string>('');
-  vendorId = signal<number | null>(null);
-  addedId = signal<number | null>(null);
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
   productApprovalStatusId = signal<number | null>(null);
   productStatusId = signal<number | null>(null);
-  minPrice = signal<number | null>(null);
-  maxPrice = signal<number | null>(null);
-  minAvailableQuantity = signal<number | null>(null);
-  maxAvailableQuantity = signal<number | null>(null);
-  minReservedQuantity = signal<number | null>(null);
-  maxReservedQuantity = signal<number | null>(null);
   hasIssues = signal<boolean | null>(null);
   isAvailableForSale = signal<boolean | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-  filterPanelOpen = signal<boolean>(false);
-
-  showActivatePopup = signal(false);
+  showDeletePopup = signal(false);
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
   deleteProductModel = signal(new AdminDeleteProductModel());
@@ -134,22 +135,6 @@ export class AdminProduct implements OnInit {
 
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
-
-  filtererrorMessage = signal<string | null>(null);
-  filterapplied = signal(false);
-
-
-   toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilters();
-    }
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
 
   totalPages = computed(() => this.products()?.totalPages ?? 1);
 
@@ -168,117 +153,79 @@ export class AdminProduct implements OnInit {
     { id: 4, label: 'Archived' },
   ];
 
-  constructor(private route: Router, private adminProductService: AdminProductService) { }
+  adminProductFilter = signal(new AdminProductFilter());
+
+  constructor(private route: Router, private adminProductService: AdminProductService, private router: ActivatedRoute) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
+  }
+
+  protected loadData(): void {
+    this.loadProduct();
+  }
+
+  clearFilterValues(): void {
+    this.adminProductFilter.set(new AdminProductFilter());
+  }
+
+  status = signal<number | null>(null);
+  deleted = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.loadProduct();
-    this.loadCategories();
+    this.router.data.subscribe(data => {
+      this.status.set(data['status']);
+      this.deleted.set(data['deleted']);
+      this.pageTitle.set(data['title']);
+      this.loadProduct();
+      this.loadCategories();
+    });
   }
 
-  private buildFilter(): AdminProductFilter {
-    return {
-      addedId: this.addedId(),
+  private buildFilters() {
+    this.adminProductFilter.update(filter => ({
+      ...filter,
+      productApprovalStatusId: this.status(),
+      includeIsDeleted: this.deleted(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      searchTerm: this.searchTerm() || null,
-      vendorId: this.vendorId(),
-      productCategoryId: this.productCategoryId(),
-      productSubCategoryId: this.productSubCategoryId(),
-      productApprovalStatusId: this.productApprovalStatusId(),
-      productStatusId: this.productStatusId(),
-      minPrice: this.minPrice(),
-      maxPrice: this.maxPrice(),
-      hasIssues: this.hasIssues(),
-      isAvailableForSale: this.isAvailableForSale(),
-      minAvailableQuantity: this.minAvailableQuantity(),
-      maxAvailableQuantity: this.maxAvailableQuantity(),
-      minReservedQuantity: this.minReservedQuantity(),
-      maxReservedQuantity: this.maxReservedQuantity()
-    };
+      searchTerm: filter.searchTerm.trim().toLowerCase(),
+    }));
   }
 
+  filterForm = form(this.adminProductFilter, (path) => {
+    min(path.vendorId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.addedId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productSubCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productApprovalStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
+    min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
+    min(path.minAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.maxAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
+    min(path.minReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
+    min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
+  });
+
   loadProduct(): void {
-    this.adminProductService.getProducts(this.buildFilter()).subscribe({
+    this.buildFilters();
+    console.log(this.adminProductFilter().includeIsDeleted);
+    this.adminProductService.getProducts(this.adminProductFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
       },
       error: (error) => {
         console.log(error);
-        
+
       },
     });
-  }
-
-  applyFilters(): void {
-    if (this.filtererrorMessage()) {
-      return;
-    }
-    this.filterapplied.set(true);
-    this.pageNumber.set(1);
-    this.loadProduct();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.filtererrorMessage.set("");
-    this.filterapplied.set(false);
-    this.searchTerm.set('');
-    this.vendorId.set(null);
-    this.productCategoryId.set(null);
-    this.productSubCategoryId.set(null);
-    this.productApprovalStatusId.set(null);
-    this.productStatusId.set(null);
-    this.minPrice.set(null);
-    this.maxPrice.set(null);
-    this.hasIssues.set(null);
-    this.addedId.set(null);
-    this.isAvailableForSale.set(null);
-    this.minAvailableQuantity.set(null);
-    this.maxAvailableQuantity.set(null);
-    this.minReservedQuantity.set(null);
-    this.maxReservedQuantity.set(null);
-    this.pageNumber.set(1);
-    this.loadProduct();
-    this.closeFilterPanel();
-  }
-
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
-    this.loadProduct();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadProduct();
-  }
-
-  onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
-    this.loadProduct();
-  }
-
-  onVendorIdInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.vendorId.set(v ? Number(v) : null);
-  }
-  onAdminIdInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.addedId.set(v ? Number(v) : null);
-  }
-  onSearchTermInput(event: Event): void {
-    this.searchTerm.set((event.target as HTMLInputElement).value);
   }
 
   onApprovalStatusChange(event: Event): void {
@@ -290,81 +237,6 @@ export class AdminProduct implements OnInit {
     const v = (event.target as HTMLSelectElement).value;
     this.productStatusId.set(v ? Number(v) : null);
   }
-  onMinAvailableInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    this.minAvailableQuantity.set(input.value ? value : null);
-
-  }
-  onMaxAvailableInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxAvailableQuantity.set(input.value ? value : null);
-  }
-
-  onMinReservedInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.minReservedQuantity.set(input.value ? value : null);
-  }
-
-  onMaxReservedInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxReservedQuantity.set(input.value ? value : null);
-  }
-
-  onMinPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Price cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(input.value ? value : null);
-  }
-  onMaxPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Price cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(input.value ? value : null);
-  }
 
   onHasIssuesChange(event: Event): void {
     this.hasIssues.set((event.target as HTMLInputElement).checked || null);
@@ -374,7 +246,6 @@ export class AdminProduct implements OnInit {
     this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
   }
 
-  
   deleteForm = form(this.deleteProductModel, (path) => {
     required(path.remark, { message: "Enter The Remarks" });
   })
@@ -430,15 +301,74 @@ export class AdminProduct implements OnInit {
       remark: ''
     }));
 
-    this.showActivatePopup.set(true);
+    this.showDeletePopup.set(true);
+  }
+  reviewProductModel = signal(new ReviewProductModel());
+
+  reviewForm = form(this.reviewProductModel, (path) => {
+    required(path.approvalStatusId, { message: "Enter The Approval Status" });
+    required(path.remark, { message: "Enter The Remarks" });
+    pattern(path.approvalStatusId, /^[45]$/, { message: "Select valid approval status" })
+  });
+
+
+  openReviewPopup(productId: number) {
+    this.selectedProductId.set(productId);
+
+    this.reviewProductModel.set(
+      new ReviewProductModel(productId, "", "")
+    );
+
+    this.showPopup.set(true);
   }
 
-  closePopup() {
-    this.showActivatePopup.set(false);
+  closeDeletePopup() {
+    this.showDeletePopup.set(false);
     this.selectedProductId.set(null);
-    this.deleteProductModel.set(new AdminDeleteProductModel());
+    this.reviewProductModel.set(new ReviewProductModel());
     this.errorMessage.set(null);
   }
+  handleReview() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    if (this.reviewForm().invalid()) {
+      this.errorMessage.set("Enter proper details");
+      return;
+    }
+    const request = {
+      productId: this.reviewProductModel().productId,
+      approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
+      remark: this.reviewProductModel().remark
+    };
+    this.adminProductService.reviewProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Vendor reviewed successfully");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+      }
+    });
+  }
+
+
   loadCategories(): void {
     this.adminProductService.getProductCategory().subscribe({
       next: (res: any) => {
@@ -464,12 +394,12 @@ export class AdminProduct implements OnInit {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
     this.productCategoryId.set(id);
-    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.productSubCategoryId.set(null);
     this.subCategories.set([]);
     if (id) {
       this.adminProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-       error: (error) => {
+        error: (error) => {
           if (error.status === 0) {
             this.errorMessage.set(
               'Unable to load subcategories. Check your internet connection.'
