@@ -1,6 +1,6 @@
-import { Component, signal, computed } from '@angular/core';
-import { Router } from '@angular/router';
-import { FormField, form, required, min } from '@angular/forms/signals';
+import { Component, signal, computed, effect } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormField, form, required, min, pattern, maxLength } from '@angular/forms/signals';
 
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
@@ -11,14 +11,116 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { DatePipe } from '@angular/common';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductService } from '../../../services/admin-product.Service';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
 
 @Component({
   selector: 'app-subcategorylist',
-  imports: [FormField, ReactiveFormsModule, FormsModule, DatePipe],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DatePipe, PaginationComponent, MobileCardComponent, FilterComponent, DataTableComponent, PopupComponent],
+  providers: [DatePipe],
   templateUrl: './subcategorylist.html',
   styleUrl: './subcategorylist.css',
 })
-export class Subcategorylist {
+export class Subcategorylist extends BasePage {
+
+
+  actions = computed<TableAction<AdminProductCategoryModel>[]>(() => {
+    if (this.categoryStatus() == null) {
+      return [];
+    }
+
+    return [
+      {
+        label: 'Deactivate',
+        color: 'red',
+        action: 'deactivate',
+        visible: category => category.isActive
+      },
+      {
+        label: 'Activate',
+        color: 'green',
+        action: 'activate',
+        visible: category => !category.isActive
+      }
+    ];
+  });
+  columns: Column[] = [
+    {
+      key: 'productSubCategoryId',
+      header: 'ID'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productCategoryId',
+      header: 'Category ID'
+    },
+    {
+      key: 'commissionPercentage',
+      header: 'Commission'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'productSubCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productCategoryId',
+      header: 'Category ID'
+    },
+    {
+      key: 'commissionPercentage',
+      header: 'Commission'
+    },
+    {
+      key: 'addedByAdminId',
+      header: 'Added Admin Id'
+    },
+    {
+      key: 'addedUserName',
+      header: 'Added Admin Name'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+    {
+      key: 'createdAt',
+      header: 'Created Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
   subcategory = signal<PagedResponse<AdminProductSubCategoryModel> | null>(null);
 
   ProductCategoryId = signal<number | null>(null);
@@ -28,11 +130,9 @@ export class Subcategorylist {
   minimumCommissionPercentage = signal<number | null>(null);
   maximumCommissionPercentage = signal<number | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+
   totalPages = computed(() => this.subcategory()?.totalPages ?? 1);
 
-  filterPanelOpen = signal<boolean>(false);
   showActivatePopup = signal<boolean>(false);
 
   addSubCategoryModel = signal(new AddProductSubCategoryModel());
@@ -52,17 +152,50 @@ export class Subcategorylist {
     });
   });
 
-  constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
-
+  constructor(private datePipe: DatePipe, private router: ActivatedRoute, private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
+
+  categoryStatus = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
 
   ngOnInit(): void {
-    this.loadSubCategory();
-    this.loadCategories();
+    this.router.data.subscribe(data => {
+      this.categoryStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadCategories();
+      this.loadSubCategory();
+    });
+  }
+  clearFilterValues(): void {
+    this.subCategoryFilter.set(new AdminProductSubCategoryFilter());
   }
 
+  selectedAction = signal<'activate' | 'deactivate' | null>(null);
+
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+      case 'activate':
+        this.activateCategory();
+        break;
+
+      case 'deactivate':
+        this.deactivateCategory();
+        break;
+    }
+  }
   loadSubCategory(): void {
-    this.adminCategoryService.getProductSubCategory(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.adminCategoryService.getProductSubCategory(this.subCategoryFilter()).subscribe({
       next: (response: PagedResponse<AdminProductSubCategoryModel>) => {
         this.subcategory.set(response);
         console.log(this.subcategory());
@@ -83,94 +216,59 @@ export class Subcategorylist {
     });
   }
 
-  private buildFilter(): AdminProductSubCategoryFilter {
-    return {
+  handleAction(event: { type: string; row: AdminProductSubCategoryModel }) {
+    switch (event.type) {
+      case 'activate':
+        this.selectedAction.set('activate');
+        this.selectedId.set(event.row.productSubCategoryId);
+
+        this.popupTitle.set('Activate Product Sub Category');
+        this.popupMessage.set('Are you sure you want to activate this product sub category?');
+        this.popupConfirmText.set('Activate');
+        this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
+        this.titleClass.set('text-green-700');
+
+        this.showPopup.set(true);
+        break;
+
+      case 'deactivate':
+        this.selectedAction.set('deactivate');
+        this.selectedId.set(event.row.productSubCategoryId);
+
+        this.popupTitle.set('Deactivate Product Sub Category');
+        this.popupMessage.set('Are you sure you want to deactivate this product sub category?');
+        this.popupConfirmText.set('Deactivate');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
+        break;
+    }
+  }
+
+  protected loadData(): void {
+    this.loadSubCategory();
+  }
+
+  subCategoryFilter = signal(new AdminProductSubCategoryFilter())
+
+  filterForm = form(this.subCategoryFilter, (path) => {
+    min(path.productCategoryId, 1, { message: 'Category ID must be greater than 0.' });
+    min(path.addedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
+    min(path.productSubCategoryId, 1, { message: 'Sub Category ID must be greater than 0.' });
+    min(path.maximumCommissionPercentage, 0, { message: 'Percentage cannot be negative or 0.' });
+    min(path.minimumCommissionPercentage, 0, { message: 'Percentage price cannot be negative or 0.' });
+  });
+
+  private buildFilter() {
+    this.subCategoryFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      status: this.status(),
-      addedByAdminId: this.AddedByAdminId(),
-      productCategoryId: this.ProductCategoryId(),
-      productSubCategoryId: this.ProductSubCategoryId(),
-      minimumCommissionPercentage: this.minimumCommissionPercentage(),
-      maximumCommissionPercentage: this.maximumCommissionPercentage(),
-    };
+      status: this.categoryStatus(),
+    }));
   }
 
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadSubCategory();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.pageNumber.set(1);
-    this.AddedByAdminId.set(null);
-    this.ProductCategoryId.set(null);
-    this.ProductSubCategoryId.set(null);
-    this.status.set(null);
-    this.minimumCommissionPercentage.set(null);
-    this.maximumCommissionPercentage.set(null);
-
-    this.loadSubCategory();
-    this.closeFilterPanel();
-  }
-
-  goToPage(pageNumber: number): void {
-    if (pageNumber < 1 || pageNumber > this.totalPages()) {
-      return;
-    }
-
-    this.pageNumber.set(pageNumber);
-    this.loadSubCategory();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadSubCategory();
-  }
-
-  onAdminIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.AddedByAdminId.set(value ? Number(value) : null);
-  }
-
-  onCategoryIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.ProductCategoryId.set(value ? Number(value) : null);
-  }
-
-  onSubCategoryIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.ProductSubCategoryId.set(value ? Number(value) : null);
-  }
-
-  onMinimumCommissionInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.minimumCommissionPercentage.set(value ? Number(value) : null);
-  }
-
-  onMaximumCommissionInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.maximumCommissionPercentage.set(value ? Number(value) : null);
-  }
 
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -182,12 +280,12 @@ export class Subcategorylist {
     }
   }
 
-  openPopup(): void {
+  openAddPopup(): void {
     this.loadCategories();
     this.showActivatePopup.set(true);
   }
 
-  closePopup(): void {
+  closeAddPopup(): void {
     this.showActivatePopup.set(false);
   }
 
@@ -230,8 +328,39 @@ export class Subcategorylist {
   onCategoryFilterChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
 
+    this.subCategoryFilter.update(m=>({...m,productCategoryId: value ? Number(value):null}));
     this.ProductCategoryId.set(
       value ? Number(value) : null
     );
+  }
+  activateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateSubCategory(id).subscribe({
+      next: (response: any) => {
+        this.loadSubCategory();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+  deactivateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.deactivateSubCategory(id).subscribe({
+      next: (response: any) => {
+        this.loadSubCategory();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }

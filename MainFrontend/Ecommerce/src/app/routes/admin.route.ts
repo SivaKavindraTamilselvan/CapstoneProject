@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
 import { CategoryList } from '../admin/admin-category/category-list/category-list';
-import { ActiveCategory } from '../admin/admin-category/active-category/active-category';
-import { InactiveCategory } from '../admin/admin-category/inactive-category/inactive-category';
 import { Subcategorylist } from '../admin/admin-subcategory/subcategorylist/subcategorylist';
 import { InactiveSubCategory } from '../admin/admin-subcategory/inactive-sub-category/inactive-sub-category';
 import { ActiveSubCategory } from '../admin/admin-subcategory/active-sub-category/active-sub-category';
@@ -27,32 +25,11 @@ import { AdminShipmentDetails } from '../admin/admin-shipment/admin-shipment-det
 import { AdminUserRoutes } from './admin/admin-user.route';
 import { AdminVendorRoutes } from './admin/admin-vendor.route';
 import { AdminProductRoutes } from './admin/admin-product.route';
+import { AdminCategoryRoutes } from './admin/admin-category.route';
 
 export const AdminRoutes: Routes = [
-    {
-        path: 'product-category/list',
-        component: CategoryList
-    },
-    {
-        path: 'product-category/list?status=active',
-        component: ActiveCategory
-    },
-    {
-        path: 'product-category/list?status=inactive',
-        component: InactiveCategory
-    },
-    {
-        path: 'product-sub-category/list',
-        component: Subcategorylist
-    },
-    {
-        path: 'product-sub-category/list?status=active',
-        component: ActiveSubCategory
-    },
-    {
-        path: 'product-sub-category/list?status=inactive',
-        component: InactiveSubCategory
-    },
+    
+   
     {
         path: 'product-attribute/list',
         component: AttributeList
@@ -131,6 +108,6 @@ export const AdminRoutes: Routes = [
     },
     ...AdminUserRoutes,
     ...AdminVendorRoutes,
-    ...AdminProductRoutes
-
+    ...AdminProductRoutes,
+    ...AdminCategoryRoutes
 ];
