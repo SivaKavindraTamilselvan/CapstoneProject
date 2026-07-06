@@ -21,6 +21,7 @@ import { PopupComponent } from '../../../shared-components/popup-component/popup
   styleUrl: './admin-list.css',
 })
 export class AdminList extends BasePage {
+  
   constructor(private route: Router, private adminUserService: AdminUserService, private router: ActivatedRoute) {
     super();
     effect(() => {

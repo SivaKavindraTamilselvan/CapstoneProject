@@ -40,47 +40,10 @@ import { AdminProfilePage } from '../admin/admin-profile-page/admin-profile-page
 import { AdminOrderDetails } from '../admin/admin-orders/admin-order-details/admin-order-details';
 import { AdminShipmentDetails } from '../admin/admin-shipment/admin-shipment-details/admin-shipment-details';
 import { AdminUserRoutes } from './admin/admin-user.route';
+import { AdminVendorRoutes } from './admin/admin-vendor.route';
 
 export const AdminRoutes: Routes = [
-    {
-        path: 'users/register',
-        component: RegisterAdmin
-    },
-    {
-        path: 'users/list',
-        component: AdminList,
-        data: { status: null, title: 'Admin List' }
-    },
-    {
-        path: 'users/activate',
-        component: AdminList,
-        data: { status: true, title: 'Active Admins' }
-    },
-    {
-        path: 'users/deactivate',
-        component: AdminList,
-        data: { status: false, title: 'Inactive Admins' }
-    },
-    {
-        path: 'users/:id',
-        component: AdminUserDetail
-    },
-    {
-        path: 'vendors/review',
-        component: ReviewVendor
-    },
-    {
-        path: 'vendors/list',
-        component: VendorList
-    },
-    {
-        path: 'vendors/delete',
-        component: DeleteVendor
-    },
-    {
-        path: 'vendors/:id',
-        component: VendorDetails
-    },
+   
     {
         path: 'products/list',
         component: AdminProduct
@@ -206,5 +169,6 @@ export const AdminRoutes: Routes = [
         component: AdminShipmentDetails
     },
     ...AdminUserRoutes,
+    ...AdminVendorRoutes
 
 ];
