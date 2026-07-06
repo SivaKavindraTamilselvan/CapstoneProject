@@ -149,7 +149,7 @@
 
             <div class="flex w-full gap-4 pt-2">
                 <button type="submit" [disabled]="progress()"
-                    class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed transition-colors">
+                    class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:bg-green-800 transition-colors">
                     {{ progress() ? 'Registering...' : 'Submit' }}
                 </button>
                 <button type="button" (click)="resetFilter()" [disabled]="progress()"

@@ -19,8 +19,15 @@
 
             <div>
                 <label class="font-bold text-md mb-1.5 block">Password<span class="text-red-600">*</span> </label>
-                <input type="password" placeholder="Enter Your Password" [formField]="loginForm.password"
-                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                <div class="relative">
+                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Enter Your Password" [formField]="loginForm.password"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                    <button type="button" (click)="togglePasswordVisibility()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs font-semibold cursor-pointer">
+                        {{ showPassword() ? 'HIDE' : 'SHOW' }}
+                    </button>
+                </div>
+
                 @if (loginForm.password().touched() && loginForm.password().invalid())
                 {
                 <p class="text-red-600 text-xs mt-1">{{ loginForm.password().errors()[0].message }}</p>
@@ -28,7 +35,8 @@
             </div>
             <div>
                 <button type="submit" [disabled]="progress()"
-                    class="w-full bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800"> {{ progress() ? 'Progressing...' : 'Submit' }}</button>
+                    class="w-full bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">
+                    {{ progress() ? 'Progressing...' : 'Submit' }}</button>
             </div>
         </form>
         <div class="flex items-center justify-center gap-2">

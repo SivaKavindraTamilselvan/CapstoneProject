@@ -20,10 +20,7 @@ export class Register {
   constructor(private authService: AuthService) {
 
   }
-  togglePasswordVisibility() {
-    this.showPassword.update(v => !v);
-  }
-
+  
   registerForm = form(this.registerModel, (path) => {
     required(path.email, { message: "Enter The Email" })
     required(path.firstName, { message: "Enter The FirstName" })
@@ -75,4 +72,10 @@ export class Register {
     this.registerModel.set(new RegisterModel());
     this.errorMessage.set(null);
   }
+
+
+  togglePasswordVisibility() {
+    this.showPassword.update(v => !v);
+  }
+
 }

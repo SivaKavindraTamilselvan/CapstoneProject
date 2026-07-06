@@ -17,6 +17,7 @@ export class Login {
   errorMessage = signal<string | null>(null);
   loginModel = signal(new LoginModel());
   progress = signal(false);
+  showPassword = signal(false);
   constructor(private authService: AuthService, private router: Router, private authStateService: AuthStateService) {
 
   }
@@ -72,5 +73,9 @@ export class Login {
         }
       }
     })
+  }
+
+  togglePasswordVisibility() {
+    this.showPassword.update(v => !v);
   }
 }

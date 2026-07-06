@@ -37,6 +37,7 @@ export class RegisterVendor {
     email(path.companyEmail, { message: "Enter Valid Email Address" })
     pattern(path.companyPhoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: "Enter Valid Phone Number" })
   })
+
   handleRegisterClick() {
     this.errorMessage.set(null);
     this.successMessage.set(null);
@@ -74,6 +75,7 @@ export class RegisterVendor {
       }
     })
   }
+  
   togglePasswordVisibility() {
     this.showPassword.update(v => !v);
   }
