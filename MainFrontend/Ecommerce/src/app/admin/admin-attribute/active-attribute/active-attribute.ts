@@ -20,7 +20,7 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
   styleUrl: './active-attribute.css',
 })
 export class ActiveAttribute {
-  actions: TableAction[] = [
+  actions: TableAction<AdminAttributeModel>[] = [
     {
       label: 'Deactivate',
       color: 'red',

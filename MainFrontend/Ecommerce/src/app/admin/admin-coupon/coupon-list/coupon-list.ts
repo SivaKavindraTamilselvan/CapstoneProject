@@ -23,7 +23,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
   styleUrl: './coupon-list.css',
 })
 export class CouponList {
-  actions: TableAction[] = [
+  actions: TableAction<CouponListModel>[] = [
     {
       label: 'View',
       color: 'green',

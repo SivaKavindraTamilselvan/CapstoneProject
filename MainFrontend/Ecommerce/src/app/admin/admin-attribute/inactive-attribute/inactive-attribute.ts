@@ -21,7 +21,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 })
 export class InactiveAttribute {
 
-  actions: TableAction[] = [
+  actions: TableAction<AdminAttributeModel>[] = [
     {
       label: 'Activate',
       color: 'green',

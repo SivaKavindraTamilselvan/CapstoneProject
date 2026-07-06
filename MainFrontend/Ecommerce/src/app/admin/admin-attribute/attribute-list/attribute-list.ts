@@ -27,7 +27,7 @@ export class AttributeList {
   constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
 
   }
-  actions: TableAction[] = [
+  actions: TableAction<AdminAttributeModel>[] = [
     {
       label: 'View',
       color: 'green',

@@ -47,15 +47,18 @@ export const AdminRoutes: Routes = [
     },
     {
         path: 'users/list',
-        component: AdminList
+        component: AdminList,
+        data: { status: null, title: 'Admin List' }
     },
     {
         path: 'users/activate',
-        component: ActivateAdmin
+        component: AdminList,
+        data: { status: true, title: 'Active Admins' }
     },
     {
         path: 'users/deactivate',
-        component: DeactivateAdmin
+        component: AdminList,
+        data: { status: false, title: 'Inactive Admins' }
     },
     {
         path: 'users/:id',

@@ -26,7 +26,7 @@ import { ProductVariantModel } from '../../../models/product/product-variant.mod
   styleUrl: './review-variant.css',
 })
 export class ReviewVariant {
-  actions: TableAction[] = [
+  actions: TableAction<ProductVariantModel>[] = [
         {
           label: 'View',
           color: 'green',

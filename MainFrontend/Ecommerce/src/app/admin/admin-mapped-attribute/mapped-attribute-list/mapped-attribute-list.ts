@@ -33,7 +33,7 @@ export interface GroupedSubCategory {
 })
 export class MappedAttributeList {
 
-  actions: TableAction[] = [
+  actions: TableAction<AdminMappedAttributeModel>[] = [
         {
           label: 'View',
           color: 'blue',

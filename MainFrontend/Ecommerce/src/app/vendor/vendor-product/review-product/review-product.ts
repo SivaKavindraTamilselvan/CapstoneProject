@@ -24,7 +24,7 @@ import { TableAction } from '../../../shared-components/data-table-component/tab
   styleUrl: './review-product.css',
 })
 export class ReviewProduct {
-  actions: TableAction[] = [
+  actions: TableAction<VendorProductModel>[] = [
     {
       label: 'View',
       color: 'green',

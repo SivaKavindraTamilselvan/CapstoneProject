@@ -23,7 +23,7 @@ import { ProductVariantModel } from '../../../models/product/product-variant.mod
   styleUrl: './variant-list.css',
 })
 export class VariantList {
-  actions: TableAction[] = [
+  actions: TableAction<ProductVariantModel>[] = [
         {
           label: 'View',
           color: 'green',

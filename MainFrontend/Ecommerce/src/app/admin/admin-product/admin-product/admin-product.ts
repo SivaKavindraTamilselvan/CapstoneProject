@@ -23,7 +23,7 @@ import { TableAction } from '../../../shared-components/data-table-component/tab
   styleUrl: './admin-product.css',
 })
 export class AdminProduct implements OnInit {
-   actions: TableAction[] = [
+   actions: TableAction<ProductModel>[] = [
       {
         label: 'View',
         color: 'green',

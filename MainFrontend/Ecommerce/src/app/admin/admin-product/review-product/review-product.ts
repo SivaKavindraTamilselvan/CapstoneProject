@@ -23,7 +23,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
   styleUrl: './review-product.css',
 })
 export class ReviewProduct {
-  actions: TableAction[] = [
+  actions: TableAction<ProductModel>[] = [
     {
       label: 'View',
       color: 'green',

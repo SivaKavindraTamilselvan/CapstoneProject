@@ -24,7 +24,7 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
 })
 export class CategoryList {
 
-  actions: TableAction[] = [
+  actions: TableAction<AdminProductCategoryModel>[] = [
     {
       label: 'View',
       color: 'green',

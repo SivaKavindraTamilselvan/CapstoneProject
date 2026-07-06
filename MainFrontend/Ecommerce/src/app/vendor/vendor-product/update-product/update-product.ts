@@ -24,7 +24,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
   styleUrl: './update-product.css',
 })
 export class UpdateProduct {
-  actions: TableAction[] = [
+  actions: TableAction<VendorProductModel>[] = [
     {
       label: 'View',
       color: 'green',

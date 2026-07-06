@@ -20,7 +20,7 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
   styleUrl: './inactive-category.css',
 })
 export class InactiveCategory {
-  actions: TableAction[] = [
+  actions: TableAction<AdminProductCategoryModel>[] = [
     {
       label: 'Activate',
       color: 'green',

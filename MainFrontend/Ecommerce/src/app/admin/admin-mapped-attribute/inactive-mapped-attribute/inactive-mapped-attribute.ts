@@ -23,7 +23,7 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
   styleUrl: './inactive-mapped-attribute.css',
 })
 export class InactiveMappedAttribute {
-  actions: TableAction[] = [
+  actions: TableAction<AdminMappedAttributeModel>[] = [
       {
         label: 'View',
         color: 'blue',

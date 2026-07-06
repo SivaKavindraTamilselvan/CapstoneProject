@@ -19,7 +19,7 @@ import { VendorWarehouseService } from '../../../services/vendor-warehouse.Servi
   styleUrl: './vendor-warehouse-list.css',
 })
 export class VendorWarehouseList {
-  actions: TableAction[] = [
+  actions: TableAction<AddressModel>[] = [
     {
       label: 'View',
       color: 'green',

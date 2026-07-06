@@ -25,7 +25,7 @@ import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-m
   styleUrl: './vendor-deleted-product.css',
 })
 export class VendorDeletedProduct {
-  actions: TableAction[] = [
+  actions: TableAction<VendorProductModel>[] = [
     {
       label: 'View',
       color: 'green',

@@ -1,5 +1,6 @@
-export interface TableAction {
+export interface TableAction<T> {
     label: string;
-    color: 'green' | 'red' | 'blue' | 'gray';
+    color: string;
     action: string;
+    visible?: (row: T) => boolean;
 }

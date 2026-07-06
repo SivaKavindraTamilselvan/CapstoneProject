@@ -24,7 +24,7 @@ import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-m
   styleUrl: './product-list.css',
 })
 export class ProductList {
-  actions: TableAction[] = [
+  actions: TableAction<VendorProductModel>[] = [
     {
       label: 'View',
       color: 'green',

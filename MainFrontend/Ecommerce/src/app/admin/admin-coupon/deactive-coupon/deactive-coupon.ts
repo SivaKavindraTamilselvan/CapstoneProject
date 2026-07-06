@@ -20,7 +20,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
   styleUrl: './deactive-coupon.css',
 })
 export class DeactiveCoupon {
-  actions: TableAction[] = [
+  actions: TableAction<CouponListModel>[] = [
     {
       label: 'View',
       color: 'blue',

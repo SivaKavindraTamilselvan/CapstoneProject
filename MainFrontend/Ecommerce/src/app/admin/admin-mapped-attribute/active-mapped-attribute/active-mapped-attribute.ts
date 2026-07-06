@@ -25,7 +25,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
   styleUrl: './active-mapped-attribute.css',
 })
 export class ActiveMappedAttribute {
-  actions: TableAction[] = [
+  actions: TableAction<AdminMappedAttributeModel>[] = [
     {
       label: 'View',
       color: 'blue',

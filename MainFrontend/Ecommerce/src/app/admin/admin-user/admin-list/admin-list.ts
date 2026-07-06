@@ -1,38 +1,191 @@
-import { Component, signal, computed } from '@angular/core';
-import { Route, Router } from '@angular/router';
+import { Component, signal, computed, effect } from '@angular/core';
+import { ActivatedRoute, Route, Router } from '@angular/router';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminUserService } from '../../../services/admin-user.Service';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
 import { AdminUserFilter } from '../../../models/admin/admin-user/admin-user.filter';
-import { email, form, pattern } from '@angular/forms/signals';
+import { email, form, FormField, pattern } from '@angular/forms/signals';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
 
 @Component({
   selector: 'app-admin-list',
-  imports: [],
+  imports: [FormField, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent],
   templateUrl: './admin-list.html',
   styleUrl: './admin-list.css',
 })
-export class AdminList {
-  constructor(private route: Router, private adminUserService: AdminUserService) {
-
+export class AdminList extends BasePage {
+  constructor(private route: Router, private adminUserService: AdminUserService, private router: ActivatedRoute) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
 
-  ngOnInit(): void {
+  protected loadData(): void {
     this.loadAdminUser();
   }
 
-  adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
 
+  actions: TableAction<AdminUserModel>[] = [
+    {
+      label: 'View',
+      color: 'blue',
+      action: 'view'
+    },
+    {
+      label: 'Deactivate',
+      color: 'red',
+      action: 'deactivate',
+      visible: admin => admin.isActive
+    },
+    {
+      label: 'Activate',
+      color: 'green',
+      action: 'activate',
+      visible: admin => !admin.isActive
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'adminUserId',
+      header: 'ID'
+    },
+    {
+      key: 'firstName',
+      header: 'First Name'
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name'
+    },
+    {
+      key: 'adminRoleName',
+      header: 'Role'
+    },
+    {
+      key: 'email',
+      header: 'Email'
+    },
+    {
+      key: 'phoneNumber',
+      header: 'Phone Number'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'adminUserId',
+      header: 'ID'
+    },
+    {
+      key: 'firstName',
+      header: 'First Name'
+    },
+    {
+      key: 'lastName',
+      header: 'Last Name'
+    },
+    {
+      key: 'adminRoleName',
+      header: 'Role'
+    },
+    {
+      key: 'email',
+      header: 'Email'
+    },
+    {
+      key: 'phoneNumber',
+      header: 'Phone Number'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    }
+  ];
+
+  selectedAction = signal<'activate' | 'deactivate' | null>(null);
+
+  handleAction(event: { type: string; row: AdminUserModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewAdminUser(event.row.adminUserId);
+        break;
+      case 'activate':
+        this.selectedAction.set('activate');
+        this.selectedId.set(event.row.adminUserId);
+
+        this.popupTitle.set('Activate Admin User');
+        this.popupMessage.set('Are you sure you want to activate this admin user?');
+        this.popupConfirmText.set('Activate');
+        this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
+        this.titleClass.set('text-green-700');
+
+        this.showPopup.set(true);
+        break;
+
+      case 'deactivate':
+        this.selectedAction.set('deactivate');
+        this.selectedId.set(event.row.adminUserId);
+
+        this.popupTitle.set('Deactivate Admin User');
+        this.popupMessage.set('Are you sure you want to deactivate this admin user?');
+        this.popupConfirmText.set('Deactivate');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
+        break;
+    }
+  }
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.status.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadAdminUser();
+    });
+  }
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+      case 'activate':
+        this.activateAdmin();
+        break;
+
+      case 'deactivate':
+        this.deleteAdminUser();
+        break;
+    }
+  }
+
+
+
+  status = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+  adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
   totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
 
-  filterPanelOpen = signal<boolean>(false);
   adminUserFilter = signal(new AdminUserFilter());
 
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
-
-  filtererrorMessage = signal<string | null>(null);
-  filterapplied = signal(false);
 
   filterForm = form(this.adminUserFilter, (path) => {
     email(path.email, { message: 'Enter a valid email address.' });
@@ -51,8 +204,20 @@ export class AdminList {
     { id: 9, label: 'Payment Admin' }
   ]
 
+  private buildFilter() {
+    this.adminUserFilter.update(filter => ({
+      ...filter,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      status: this.status(),
+      email: filter.email.trim().toLowerCase(),
+      phoneNumber: filter.phoneNumber.trim().toLowerCase()
+    }));
+  }
+
 
   loadAdminUser() {
+    this.buildFilter();
     this.adminUserService.getAdminUser(this.adminUserFilter()).subscribe({
       next: (response: any) => {
         this.adminUsers.set(response);
@@ -71,39 +236,10 @@ export class AdminList {
     })
   }
 
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) {
-      return;
-    }
-    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: page }));
-    this.loadAdminUser();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.adminUserFilter().pageNumber + 1);
-  }
-  
-  previousPage(): void {
-    this.goToPage(this.adminUserFilter().pageNumber - 1);
-  }
-
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLInputElement).value);
     this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1, pageSize: value }));
     this.loadAdminUser();
-  }
-
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
-  }
-
-  closeFilterPanel(): void {
-     if (this.filtererrorMessage()) {
-      return;
-    }
-    this.filterapplied.set(true);
-    this.filterPanelOpen.set(false);
-
   }
 
   onAdminRoleChange(event: Event): void {
@@ -111,36 +247,43 @@ export class AdminList {
     this.adminUserFilter.update(filter => ({ ...filter, adminRoleId: v ? Number(v) : null }));
   }
 
-  onStatusChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.adminUserFilter.update(filter => ({ ...filter, status: value === '' ? null : value === 'true' }));
-  }
-
-  onPhoneNumberChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim();
-    this.adminUserFilter.update(filter => ({ ...filter, phoneNumber: value }));
-  }
-
-  onEmailChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.adminUserFilter.update(filter => ({ ...filter, email: value }));
-  }
-
-  applyFilter(): void {
-    if (this.filterForm().invalid()) {
-      return;
-    }
-    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
-    this.loadAdminUser();
-    this.closeFilterPanel();
-  }
-  resetFilter(): void {
+  clearFilterValues(): void {
     this.adminUserFilter.set(new AdminUserFilter());
-    this.adminUserFilter.update(filter => ({ ...filter, pageNumber: 1 }));
-    this.loadAdminUser();
-    this.filterapplied.set(false);
   }
+
   viewAdminUser(productId: number) {
     this.route.navigate(['/admin/users', productId]);
+  }
+
+  activateAdmin() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminUserService.activateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.closePopup();
+        this.loadAdminUser();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  deleteAdminUser() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminUserService.deactivateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.loadAdminUser();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
   }
 }
