@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common';
 export class MobileCardComponent {
   @Input() columns: Column[] = [];
   @Input() rows: any[] = [];
-  @Input() actions: TableAction[] = [];
+  @Input() actions: TableAction<any>[] = [];
   @Input() titleKey = '';
   @Output() action = new EventEmitter<{ type: string; row: any; }>();
 
@@ -20,10 +20,13 @@ export class MobileCardComponent {
     const value = row[column.key];
     return column.formatter ? column.formatter(value, row) : value;
   }
-  onAction(action: TableAction, row: any) {
+  onAction(action: TableAction<any>, row: any) {
     this.action.emit({
       type: action.action,
       row: row
     });
+  }
+  isActionVisible(action: TableAction<any>, row: any): boolean {
+    return action.visible ? action.visible(row) : true;
   }
 }

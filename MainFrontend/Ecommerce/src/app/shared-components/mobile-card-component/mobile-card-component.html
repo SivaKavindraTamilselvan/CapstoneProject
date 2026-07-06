@@ -15,6 +15,7 @@
                     <div class="flex gap-2">
 
                         @for(item of actions; track item.action){
+                             @if(isActionVisible(item, row)){
 
                             <button
                                 class="py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer"
@@ -31,6 +32,7 @@
                             </button>
 
                         }
+                    }
 
                     </div>
 
