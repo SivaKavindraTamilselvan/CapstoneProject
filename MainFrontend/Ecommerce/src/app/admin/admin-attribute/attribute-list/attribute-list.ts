@@ -1,12 +1,12 @@
-import { Component, computed, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, computed, effect, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminProductCategoryService } from '../../../services/admin-category.Service';
 import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
 import { AttributeFilter } from '../../../models/admin/admin-product-category/filter-models/attribute.filter';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddAttributeModel } from '../../../models/admin/admin-product-category/add-models/add-attribute.model';
 import { DatePipe } from '@angular/common';
-import { FormField, form, required } from '@angular/forms/signals';
+import { FormField, form, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
@@ -14,26 +14,48 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
 
 
 @Component({
   selector: 'app-attribute-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent,PopupComponent],
   templateUrl: './attribute-list.html',
   providers: [DatePipe],
   styleUrl: './attribute-list.css',
 })
-export class AttributeList {
-  constructor(private router: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
-
+export class AttributeList extends BasePage {
+  constructor(private router: ActivatedRoute, private route: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
-  actions: TableAction<AdminAttributeModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view'
+  actions = computed<TableAction<AdminAttributeModel>[]>(() => {
+    if (this.categoryStatus() == null) {
+      return [];
     }
-  ];
+
+    return [
+      {
+        label: 'Deactivate',
+        color: 'red',
+        action: 'deactivate',
+        visible: category => category.isActive 
+      },
+      {
+        label: 'Activate',
+        color: 'green',
+        action: 'activate',
+        visible: category => !category.isActive
+      }
+    ];
+  });
   columns: Column[] = [
     {
       key: 'attributeMasterId',
@@ -95,20 +117,95 @@ export class AttributeList {
   status = signal<boolean | null>(null);
   addedByAdminId = signal<number | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+
   totalPages = computed(() => this.attribute()?.totalPages ?? 1);
-  filterPanelOpen = signal<boolean>(false);
 
   showActivatePopup = signal(false);
   addAttributeModel = signal(new AddAttributeModel());
+  selectedAction = signal<'activate' | 'deactivate' | null>(null);
 
 
-  ngOnInit() {
+  confirmPopup() {
+    switch (this.selectedAction()) {
+      case 'activate':
+        this.activateCategory();
+        break;
+
+      case 'deactivate':
+        this.deactivateCategory();
+        break;
+    }
+  }
+  clearFilterValues(): void {
+    this.attributeFilter.set(new AttributeFilter());
+  }
+
+  handleAction(event: { type: string; row: AdminAttributeModel }) {
+    switch (event.type) {
+      case 'activate':
+        this.selectedAction.set('activate');
+        this.selectedId.set(event.row.attributeMasterId);
+
+        this.popupTitle.set('Activate Attribute');
+        this.popupMessage.set('Are you sure you want to activate this attribute?');
+        this.popupConfirmText.set('Activate');
+        this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
+        this.titleClass.set('text-green-700');
+
+        this.showPopup.set(true);
+        break;
+
+      case 'deactivate':
+        this.selectedAction.set('deactivate');
+        this.selectedId.set(event.row.attributeMasterId);
+
+        this.popupTitle.set('Deactivate Attribute');
+        this.popupMessage.set('Are you sure you want to deactivate this attribute?');
+        this.popupConfirmText.set('Deactivate');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
+        break;
+    }
+  }
+
+  protected loadData(): void {
     this.loadAttribute();
   }
+
+  attributeFilter = signal(new AttributeFilter());
+
+  filterForm = form(this.attributeFilter, (path) => {
+    pattern(path.attributeName, /^[A-Za-z][A-Za-z\s-]*$/, { message: 'Category name can contain only letters, spaces, and hyphens.' });
+    maxLength(path.attributeName, 100, { message: 'Category name cannot exceed 100 characters.' });
+    min(path.addedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
+  });
+
+  private buildFilter() {
+    this.attributeFilter.update(filter => ({
+      ...filter,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      status: this.categoryStatus(),
+      attributeName: filter.attributeName.trim().toLowerCase(),
+    }));
+  }
+
+  categoryStatus = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.categoryStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadAttribute();
+    });
+  }
+
   loadAttribute() {
-    this.adminCategoryService.getAttribute(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.adminCategoryService.getAttribute(this.attributeFilter()).subscribe({
       next: (response: any) => {
         this.attribute.set(response);
         console.log(response);
@@ -127,58 +224,6 @@ export class AttributeList {
       }
     })
   }
-  private buildFilter(): AttributeFilter {
-    return {
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      attributeName: this.attributeName(),
-      status: this.status(),
-      addedByAdminId: this.addedByAdminId()
-    }
-  }
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
-  }
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadAttribute();
-    this.closeFilterPanel();
-  }
-  resetFilters(): void {
-    this.pageNumber.set(1);
-    this.addedByAdminId.set(null);
-    this.status.set(null);
-    this.attributeName.set('');
-    this.loadAttribute();
-    this.closeFilterPanel();
-  }
-  goToPage(pageNumber: number): void {
-    if (pageNumber < 1 || pageNumber > this.totalPages()) {
-      return;
-    }
-    this.pageNumber.set(pageNumber);
-    this.loadAttribute();
-  }
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-  onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
-    this.loadAttribute();
-  }
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadAttribute();
-  }
   onAdminIdInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
     this.addedByAdminId.set(v ? Number(v) : null);
@@ -196,10 +241,10 @@ export class AttributeList {
       this.status.set(value === 'true');
     }
   }
-  openPopup(): void {
+  openAddPopup(): void {
     this.showActivatePopup.set(true);
   }
-  closePopup(): void {
+  closeAddPopup(): void {
     this.showActivatePopup.set(false);
   }
   addForm = form(this.addAttributeModel, (path) => {
@@ -219,6 +264,36 @@ export class AttributeList {
       },
       error: (error) => {
         console.error(error);
+      }
+    })
+  }
+  deactivateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.deactivateAttribute(id).subscribe({
+      next: (response: any) => {
+        this.loadAttribute();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+  activateCategory() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCategoryService.activateAttribute(id).subscribe({
+      next: (response: any) => {
+        this.loadAttribute();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
       }
     })
   }

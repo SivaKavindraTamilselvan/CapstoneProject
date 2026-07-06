@@ -26,34 +26,12 @@ import { AdminUserRoutes } from './admin/admin-user.route';
 import { AdminVendorRoutes } from './admin/admin-vendor.route';
 import { AdminProductRoutes } from './admin/admin-product.route';
 import { AdminCategoryRoutes } from './admin/admin-category.route';
+import { AdminAttributeRoutes } from './admin/admin-attribute.route';
 
 export const AdminRoutes: Routes = [
     
    
-    {
-        path: 'product-attribute/list',
-        component: AttributeList
-    },
-    {
-        path: 'product-attribute/list?status=active',
-        component: ActiveAttribute
-    },
-    {
-        path: 'product-attribute/list?status=inactive',
-        component: InactiveAttribute
-    },
-    {
-        path: 'attribute-mapping/list',
-        component: MappedAttributeList
-    },
-    {
-        path: 'attribute-mapping/list?status=active',
-        component: ActiveMappedAttribute
-    },
-    {
-        path: 'attribute-mapping/list?status=inactive',
-        component: InactiveMappedAttribute
-    },
+    
     {
         path: 'coupon/add',
         component: AddCoupon
@@ -109,5 +87,6 @@ export const AdminRoutes: Routes = [
     ...AdminUserRoutes,
     ...AdminVendorRoutes,
     ...AdminProductRoutes,
-    ...AdminCategoryRoutes
+    ...AdminCategoryRoutes,
+    ...AdminAttributeRoutes
 ];
