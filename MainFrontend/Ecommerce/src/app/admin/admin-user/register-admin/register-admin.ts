@@ -32,7 +32,8 @@ export class RegisterAdmin {
     required(path.adminRoleId, { message: "Admin Role Id Is Required" })
     pattern(path.adminRoleId, /^[2-9]{1}$/, { message: "Select a valid admin role" })
   })
-  handleRegisterClick() {
+  handleRegisterClick(event : Event) {
+    event.preventDefault();
     this.errorMessage.set(null);
     this.successMessage.set(null);
     if (this.registerForm().invalid()) {

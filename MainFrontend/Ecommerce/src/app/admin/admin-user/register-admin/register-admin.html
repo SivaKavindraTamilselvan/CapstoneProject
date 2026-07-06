@@ -13,10 +13,10 @@
             {
             <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
             }
-            <form (ngSubmit)="handleRegisterClick()" class="flex flex-col gap-5">
+            <form (ngSubmit)="handleRegisterClick($event)" class="flex flex-col gap-5">
                 <div class="flex gap-4 flex-col sm:flex-row">
                     <div class="flex-1">
-                        <label class="font-bold sm:text-lg mb-2 block">Email</label>
+                        <label class="font-bold sm:text-md mb-2 block">Email</label>
                         <input type="email" placeholder="Enter your Email"
                             [formField]="registerForm.requestRegisterUserDTO.email"
                             class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
@@ -94,12 +94,12 @@
                     </select>
                 </div>
                 <div class="flex w-full gap-4">
-                    <button type="submit"
-                        class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer">
-                        Submit
+                    <button type="submit" [disabled]="progress()"
+                        class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">
+                        {{ progress() ? 'Registering...' : 'Submit' }}
                     </button>
-                    <button type="button" (click)="resetFilter()"
-                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer">
+                    <button type="button" (click)="resetFilter()" [disabled]="progress()"
+                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60">
                         Reset
                     </button>
                 </div>
