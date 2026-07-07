@@ -11,7 +11,6 @@ import { ActiveMappedAttribute } from '../admin/admin-mapped-attribute/active-ma
 import { InactiveMappedAttribute } from '../admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
 import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
 import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
-import { AdminConfirmedOrders } from '../admin/admin-orders/admin-confirmed-orders/admin-confirmed-orders';
 import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';
 import { UpdateShipment } from '../admin/admin-shipment/update-shipment/update-shipment';
 import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
@@ -27,39 +26,15 @@ import { AdminVendorRoutes } from './admin/admin-vendor.route';
 import { AdminProductRoutes } from './admin/admin-product.route';
 import { AdminCategoryRoutes } from './admin/admin-category.route';
 import { AdminAttributeRoutes } from './admin/admin-attribute.route';
+import { AdminCouponRoutes } from './admin/admin-coupon.route';
+import { AdminOrderRoutes } from './admin/admin-order.router';
 
 export const AdminRoutes: Routes = [
     
    
     
-    {
-        path: 'coupon/add',
-        component: AddCoupon
-    },
-    {
-        path: 'coupon/list',
-        component: CouponList
-    },
-    {
-        path: 'coupons/:id',
-        component: CouponDetail
-    },
-    {
-        path: 'coupon/list?status=active',
-        component: ActiveCoupon
-    },
-     {
-        path: 'coupon/list?status=inactive',
-        component: DeactiveCoupon
-    },
-    {
-        path: 'orders/list',
-        component: GetAdminOrders
-    },
-    {
-        path: 'orders/confirmed-orders',
-        component: AdminConfirmedOrders
-    },
+   
+   
     {
         path: 'shipments/list',
         component: ShipmentList
@@ -88,5 +63,7 @@ export const AdminRoutes: Routes = [
     ...AdminVendorRoutes,
     ...AdminProductRoutes,
     ...AdminCategoryRoutes,
-    ...AdminAttributeRoutes
+    ...AdminAttributeRoutes,
+    ...AdminCouponRoutes,
+    ...AdminOrderRoutes,
 ];
