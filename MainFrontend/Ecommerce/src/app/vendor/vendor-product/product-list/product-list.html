@@ -2,7 +2,7 @@
     <div class="pb-8 relative flex items-center justify-center">
         <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product List</h1>
         <div class="absolute right-0 flex items-center gap-0 sm:gap-2">
-            @if(filterapplied()){
+            @if(filterApplied()){
             <button type="button" class="p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilters()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="w-6 h-6">
@@ -131,11 +131,11 @@
     <div class="text-red-700 text-center font-bold py-4">{{errorMessage()}}</div>
     }
 
-    <app-data-table-component [columns]="columns" [rows]="products()?.items ?? []" [actions]="actions"
+    <app-data-table-component [columns]="columns" [rows]="products()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
     </app-data-table-component>
 
-    <app-mobile-card-component [columns]="mobileColumns" [rows]="products()?.items ?? []" [actions]="actions"
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="products()?.items ?? []" [actions]="actions()"
         [titleKey]="'productId'" (action)="handleAction($event)">
     </app-mobile-card-component>
 
@@ -163,7 +163,7 @@
                 Are you sure you want to delete this product?
             </p>
             <div class="flex justify-center gap-4 mt-8">
-                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400" (click)="closePopup()">
+                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400" (click)="closeDeletePopup()">
                     Cancel
                 </button>
 
@@ -174,5 +174,199 @@
             </div>
         </div>
     </div>
+    }
+
+     @if(showReviewPopup()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6 space-y-6">
+
+            <h1 class="text-2xl font-bold text-blue-950 text-center">
+                Review Product
+            </h1>
+
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-2">{{successMessage()}}
+            </div>
+            }
+            @if(reviewerrorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold my-2"> {{reviewerrorMessage()}}
+            </div>
+            }
+            <form class="space-y-4" (ngSubmit)="handleReview()">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
+                <select [formField]="reviewForm.approvalStatusId"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700">
+                    <option value="">Select The Status</option>
+                    <option value="2">Approve</option>
+                    <option value="3">Reject</option>
+                </select>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Remarks</label>
+                <div>
+                    <textarea [formField]="reviewForm.remark" rows="4" type="text" placeholder="Enter The Remarks"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700"></textarea>
+                    @if (reviewForm.remark().touched() && reviewForm.remark().invalid())
+                    {
+                    <p class="text-red-600 text-xs mt-1 px-2">{{ reviewForm.remark().errors()[0].message }}</p>
+                    }
+                </div>
+
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                        (click)="closeReviewPopup()">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+    @if(showUpdatePopup()) {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6 space-y-6">
+
+            <h1 class="text-xl font-bold text-blue-950 text-center">
+                Update Product Status
+            </h1>
+
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-2">{{successMessage()}}
+            </div>
+            }
+            @if(updateerrorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold my-2"> {{updateerrorMessage()}}
+            </div>
+            }
+            <form class="space-y-4" (ngSubmit)="handleUpdate()">
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Status</label>
+                <select [value]="updateProductModel().productStatusId" (change)="onUpdateStatusChange($event)"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700">
+                    <option value="0">Select The Status</option>
+                    <option value="1">Draft</option>
+                    <option value="2">Active</option>
+                    <option value="3">Temporarily Not Available</option>
+                    <option value="4">Archived</option>
+                </select>
+                <div class="flex justify-end gap-3 pt-4">
+                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                        (click)="closeUpdatePopup()">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
+                        Submit
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+    @if(showUpdateRejectedPopup()){
+
+    <div class="fixed inset-0 bg-black/40 flex items-center justify-center z-50">
+
+        <div class="bg-white rounded-xl w-full max-w-2xl p-6">
+
+            <h2 class="text-xl font-bold mb-5">
+                Update Product
+            </h2>
+
+            <div class="space-y-4">
+
+                <div>
+
+                    <label class="font-semibold">
+                        Product Name
+                    </label>
+
+                    <input type="text" [formField]="updateRejectedForm.productName"
+                        class="w-full border rounded-lg px-3 py-2">
+
+                </div>
+
+                <div>
+
+                    <label class="font-semibold">
+                        Description
+                    </label>
+
+                    <textarea rows="4" [formField]="updateRejectedForm.description"
+                        class="w-full border rounded-lg px-3 py-2">
+                </textarea>
+
+                </div>
+
+                <div>
+                    <label class="font-semibold">
+                        Category
+                    </label>
+
+                    <select [value]="updateCategoryId()" (change)="onUpdateCategoryChange($event)"
+                        class="w-full border rounded-lg px-3 py-2">
+                        @for(category of categories(); track category.productCategoryId){
+                        <option [value]="category.productCategoryId">
+                            {{ category.productCategoryName }}
+                        </option>
+                        }
+                    </select>
+                </div>
+
+
+                <div>
+                    <label class="font-semibold">
+                        Sub Category
+                    </label>
+
+                    <select [value]="updateRejectedProductModel().productSubCategoryId"
+                        (change)="onUpdateSubCategoryChange($event)" class="w-full border rounded-lg px-3 py-2">
+                        @for(sub of updateSubCategories(); track sub.productSubCategoryId){
+                        <option [value]="sub.productSubCategoryId">
+                            {{sub.productSubCategoryName}}
+                        </option>
+                        }
+                    </select>
+
+                </div>
+                <div>
+                    <label class="font-semibold">
+                        Main Attribute
+                    </label>
+
+                    <select [value]="updateRejectedProductModel().mainProductSubCategoryAttributeId"
+                    (change)="onUpdateAttributeChange($event)" class="w-full border rounded-lg px-3 py-2">
+                    @for(attribute of allAttributes(); track attribute.productSubCategoryAttributeId){
+                    <option [value]="attribute.productSubCategoryAttributeId">
+                        {{ attribute.attributeName }}
+                    </option>
+                    }
+                </select>
+
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 mt-6">
+
+                <button (click)="closeUpdatePopup()" class="px-5 py-2 bg-gray-300 rounded-lg">
+
+                    Cancel
+
+                </button>
+
+                <button (click)="updateRejectedProduct()" class="px-5 py-2 bg-blue-900 text-white rounded-lg">
+
+                    Update
+
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
     }
 </section>

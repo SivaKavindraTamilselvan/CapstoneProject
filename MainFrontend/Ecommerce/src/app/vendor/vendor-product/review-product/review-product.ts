@@ -162,7 +162,7 @@ export class ReviewProduct {
     return {
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      searchTerm: this.searchTerm() || null,
+      searchTerm: this.searchTerm(),
       productName: null,
       productCategoryId: this.productCategoryId(),
       productSubCategoryId: this.productSubCategoryId(),

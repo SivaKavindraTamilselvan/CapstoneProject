@@ -11,6 +11,7 @@ export class VendorProductModel {
         public productCategoryName: string = "",
         public productApprovalStatus: string = "",
         public productStatus: string = "",
+        public includeIsDeleted : boolean | null = null,
         public mainProductSubCategoryAttributeId: number = 0,        
         public mainProductSubCategoryAttributeName: string = "",
         public addedByVendorUserId: number = 0,

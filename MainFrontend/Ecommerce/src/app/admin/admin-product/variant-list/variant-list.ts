@@ -15,92 +15,112 @@ import { PaginationComponent } from '../../../shared-components/pagination-compo
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { ProductVariantModel } from '../../../models/product/product-variant.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { form, FormField, min } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DecimalPipe,DataTableComponent,FilterComponent,MobileCardComponent,PaginationComponent],
+  imports: [DecimalPipe, DataTableComponent, FilterComponent, MobileCardComponent, PaginationComponent, FormField],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })
-export class VariantList {
+export class VariantList extends BasePage {
   actions: TableAction<ProductVariantModel>[] = [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-        {
-          label: 'Delete',
-          color: 'red',
-          action: 'delete'
-        }
-      ];
-      columns: Column[] = [
-        {
-          key: 'productId',
-          header: 'ID'
-        },
-        {
-          key: 'productName',
-          header: 'Name'
-        },
-        {
-          key: 'productCategoryName',
-          header: 'Category'
-        },
-        {
-          key: 'productSubCategoryName',
-          header: 'SubCategory'
-        },
-        {
-          key: 'vendorName',
-          header: 'Vendor'
-        },
-        {
-          key: 'productApprovalStatus',
-          header: 'Approval'
-        },
-        {
-          key: 'productStatus',
-          header: 'Status'
-        },
-      ];
-    
-      mobileColumns: Column[] = [
-         {
-          key: 'productName',
-          header: 'Name'
-        },
-        {
-          key: 'productCategoryName',
-          header: 'Category'
-        },
-        {
-          key: 'productSubCategoryName',
-          header: 'Sub Category'
-        },
-        {
-          key: 'vendorName',
-          header: 'Vendor'
-        },
-        {
-          key: 'productApprovalStatus',
-          header: 'Approval'
-        },
-        {
-          key: 'productStatus',
-          header: 'Status'
-        },
-        
-      ];
-      handleAction(event: { type: string; row:ProductVariantModel }) {
-          switch (event.type) {
-            case 'view':
-              this.viewProduct(event.row.productVariantId);
-              break;
-            
-          }
-        }
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Delete',
+      color: 'red',
+      action: 'delete'
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'productVariantId',
+      header: 'ID'
+    },
+    {
+      key: 'sku',
+      header: 'SKU'
+    },
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'price',
+      header: 'Price'
+    },
+    {
+      key: 'availableQuantity',
+      header: 'Stock'
+    },
+    {
+      key: 'productVariantApprovalStatus',
+      header: 'Approval'
+    },
+    {
+      key: 'productVariantStatus',
+      header: 'Status'
+    },
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'sku',
+      header: 'SKU'
+    },
+    {
+      key: 'productName',
+      header: 'Name'
+    },
+    {
+      key: 'productCategoryName',
+      header: 'Category'
+    },
+    {
+      key: 'productSubCategoryName',
+      header: 'Sub Category'
+    },
+    {
+      key: 'price',
+      header: 'Price'
+    },
+    {
+      key: 'availableQuantity',
+      header: 'Stock'
+    },
+    {
+      key: 'productVariantApprovalStatus',
+      header: 'Approval'
+    },
+    {
+      key: 'productVariantStatus',
+      header: 'Status'
+    },
+  ];
+  handleAction(event: { type: string; row: ProductVariantModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewProduct(event.row.productVariantId);
+        break;
+
+    }
+  }
+  productCategoryId = signal<number | null>(null);
+  productStatusId = signal<number | null>(null);
+  productSubCategoryId = signal<number | null>(null);
   categories = signal<UserProductCategoryModel[]>([]);
   subCategories = signal<UserSubProductCategoryModel[]>([]);
   variant = signal<PagedResponse<VendorProductVariantModel> | null>(null);
@@ -112,6 +132,8 @@ export class VariantList {
   subcategoryId = signal<number | null>(null);
   statusId = signal<number | null>(null);
   approvalstatusId = signal<number | null>(null);
+
+  productApprovalStatusId = signal<number | null>(null);
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
   minimuQuantityPerUser = signal<number | null>(null);
@@ -125,19 +147,15 @@ export class VariantList {
   hasIssues = signal<boolean | null>(null);
   isReturn = signal<boolean | null>(null);
   isExchange = signal<boolean | null>(null);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-  totalPages = computed(() => this.variant()?.totalPages ?? 1);
-  filterPanelOpen = signal<boolean>(false);
 
-  filtererrorMessage = signal<string | null>(null);
-  filterapplied = signal(false);
+  totalPages = computed(() => this.variant()?.totalPages ?? 1);
+
 
   errorMessage = signal<string | null>(null);
 
 
   constructor(private route: Router, private adminProductService: AdminProductService, private userProductService: UserProductService) {
-
+    super();
   }
 
   ngOnInit(): void {
@@ -145,17 +163,15 @@ export class VariantList {
     this.loadProductVariant();
   }
 
-   toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilters();
-    }
+  protected loadData(): void {
+    this.loadProductVariant();
   }
 
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
+  adminVariantFilter = signal(new AdminProductVariantFilter());
+  clearFilterValues(): void {
+    this.adminVariantFilter.set(new AdminProductVariantFilter());
   }
+
 
   loadProductVariant(): void {
     this.adminProductService.getProductVariant(this.buildFilter()).subscribe({
@@ -172,7 +188,7 @@ export class VariantList {
       VendorId: this.vendorId(),
       sku: this.sku(),
       productId: this.productId(),
-      searchTerm: this.searchTearm() || null,
+      searchTerm: this.searchTearm(),
       categoryId: this.categoryId(),
       subCategoryId: this.subcategoryId(),
       statusId: this.statusId(),
@@ -204,76 +220,28 @@ export class VariantList {
     { id: 6, label: 'Deleted By Admin' },
   ];
 
-  statusOptions = [
+  productStatusOptions = [
     { id: 1, label: 'Draft' },
     { id: 2, label: 'Active' },
     { id: 3, label: 'Temporarily_Not_Available' },
     { id: 4, label: 'Archived' },
   ];
 
-  applyFilters(): void {
-    if (this.filtererrorMessage()) {
-      return;
-    }
-    this.filterapplied.set(true);
-    this.pageNumber.set(1);
-    this.loadProductVariant();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.filtererrorMessage.set("");
-    this.filterapplied.set(false);
-    this.sku.set('');
-    this.productId.set(null);
-    this.searchTearm.set('');
-    this.categoryId.set(null);
-    this.subcategoryId.set(null);
-    this.statusId.set(null);
-    this.approvalstatusId.set(null);
-    this.addedByVendorUserId.set(null);
-    this.minPrice.set(null);
-    this.maxPrice.set(null);
-    this.hasIssues.set(null);
-    this.minimuQuantityPerUser.set(null);
-    this.isAvailableForSale.set(null);
-    this.minAvailableQuantity.set(null);
-    this.maxAvailableQuantity.set(null);
-    this.minReservedQuantity.set(null);
-    this.maxReservedQuantity.set(null);
-    this.mainProductSubCategoryAttributeId.set(null);
-    this.isExchange.set(true);
-    this.isReturn.set(true);
-    this.pageNumber.set(1);
-    this.loadProductVariant();
-    this.closeFilterPanel();
-  }
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
-    this.loadProductVariant();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadProductVariant();
-  }
-
-   onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
-    this.loadProductVariant();
-  }
+  filterForm = form(this.adminVariantFilter, (path) => {
+    min(path.VendorId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.categoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.subCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.statusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.approvalStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
+    min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
+    min(path.minimuQuantityPerUser, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.minAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.maxAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
+    min(path.minReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
+    min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
+  });
 
 
   onSKUInput(event: Event): void {
@@ -397,7 +365,7 @@ export class VariantList {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
     this.categoryId.set(id);
-    this.subcategoryId.set(null);         
+    this.subcategoryId.set(null);
     this.subCategories.set([]);
     if (id) {
       this.userProductService.getSubCategory(id).subscribe({

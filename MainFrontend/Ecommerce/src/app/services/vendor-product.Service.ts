@@ -39,7 +39,7 @@ export class VendorProductService {
         return this.http.post(url, productImageModel);
     }
     getProduct(filter: VendorProductFilter) {
-        let url = BaseURL + "/VendorProduct?includeIsDeleted=false"
+        let url = BaseURL + "/VendorProduct"
         let params = new HttpParams();
 
         Object.entries(filter).forEach(([key, value]) => {

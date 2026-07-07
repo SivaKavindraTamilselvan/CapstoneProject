@@ -192,7 +192,7 @@ export class UpdateProduct {
       addedByVendorUserId: this.addedByVendorUserId(),
       minPrice: this.minPrice(),
       maxPrice: this.maxPrice(),
-      searchTerm: this.searchTerm() || null,
+      searchTerm: this.searchTerm(),
       hasIssues: this.hasIssues(),
       isAvailableForSale: this.isAvailableForSale(),
       minAvailableQuantity: this.minAvailableQuantity(),

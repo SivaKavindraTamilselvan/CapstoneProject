@@ -176,8 +176,6 @@ export class AdminList extends BasePage {
     }
   }
 
-
-
   status = signal<boolean | null>(null);
   pageTitle = signal<string | null>(null);
   adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);

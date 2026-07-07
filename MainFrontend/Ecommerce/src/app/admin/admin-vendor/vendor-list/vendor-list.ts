@@ -134,7 +134,7 @@ export class VendorList extends BasePage {
     email(path.companyEmail, { message: 'Enter a valid email address.' });
     pattern(path.companyPhoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
     pattern(path.gstNumber, /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/, { message: 'GST Number for India is not valid.' });
-    min(path.reviewedByAdminId, 1);
+    min(path.reviewedByAdminId, 1,{ message: 'ID cannot be negative or 0.' });
     pattern(path.contactPersonName, /^[A-Za-z][A-Za-z\s'.-]{1,49}$/, { message: 'Enter a valid contact person name.' });
     pattern(path.vendorCompanyName, /^[A-Za-z][A-Za-z\s'.-]{1,50}$/, { message: 'Enter a valid contact person name.' });
   });

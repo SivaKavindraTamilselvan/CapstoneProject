@@ -1,14 +1,14 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { VendorProductModel } from '../../../models/vendor/vendor-product/response/vendor-product.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { VendorProductFilter } from '../../../models/vendor/vendor-product/filter/vendor-product.filter';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
-import { form, required } from '@angular/forms/signals';
+import { form, FormField, max, min, pattern, required } from '@angular/forms/signals';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
@@ -16,26 +16,88 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { UpdateProductStatus } from '../../../models/vendor/vendor-product/add-model/update-product-status.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { ReviewProductModel } from '../../../models/product/review-product.model';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-product/add-model/update-rejected-product.model';
+import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 
 @Component({
   selector: 'app-product-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
-export class ProductList {
-  actions: TableAction<VendorProductModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view'
-    },
-    {
+export class ProductList extends BasePage {
+  actions = computed<TableAction<VendorProductModel>[]>(() => {
+    if (this.pageTitle() == 'Update Product') {
+      return [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+        {
+          label: 'Update',
+          color: 'blue',
+          action: 'update'
+        },
+      ];
+    }
+    if (this.status() === 1) {
+      return [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+        {
+          label: 'Review',
+          color: 'gray',
+          action: 'review'
+        },
+      ];
+    }
+    if (this.status() === 6) {
+      return [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+        {
+          label: 'Update',
+          color: 'blue',
+          action: 'update-rejected'
+        },
+      ];
+    }
+    if (this.deleted() == true) {
+      return [
+        {
+          label: 'View',
+          color: 'green',
+          action: 'view'
+        },
+
+      ];
+    }
+
+    return [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view'
+      },
+      {
         label: 'Delete',
         color: 'red',
-        action: 'delete'
-      }
-  ];
+        action: 'delete',
+      },
+    ];
+  });
+
   columns: Column[] = [
     {
       key: 'productId',
@@ -95,8 +157,18 @@ export class ProductList {
       case 'delete':
         this.openDeletePopup(event.row.productId);
         break;
+      case 'review':
+        this.openReviewPopup(event.row.productId);
+        break;
+      case 'update':
+        this.openUpdatePopup(event.row.productId);
+        break;
+       case 'update':
+        this.openUpdateRejectedPopup(event.row);
+        break;
     }
   }
+
 
   products = signal<PagedResponse<VendorProductModel> | null>(null);
 
@@ -117,9 +189,7 @@ export class ProductList {
   maxReservedQuantity = signal<number | null>(null);
   mainProductSubCategoryAttributeId = signal<number | null>(null);
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-  filterPanelOpen = signal<boolean>(false);
+
 
   showActivatePopup = signal(false);
   successMessage = signal<string | null>(null);
@@ -137,17 +207,6 @@ export class ProductList {
   deleteerrorMessage = signal<string | null>(null);
   deletesuccessMessage = signal<string | null>(null);
 
-  toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilters();
-    }
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
 
   totalPages = computed(() => this.products()?.totalPages ?? 1);
 
@@ -167,38 +226,69 @@ export class ProductList {
     { id: 4, label: 'Archived' },
   ];
 
-  constructor(private route: Router, private vendorProductService: VendorProductService) { }
+  adminProductFilter = signal(new VendorProductFilter());
+
+  constructor(private router: ActivatedRoute, private route: Router, private vendorProductService: VendorProductService) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
+  }
+
+  protected loadData(): void {
+    this.loadProduct();
+  }
+
+  clearFilterValues(): void {
+    this.adminProductFilter.set(new VendorProductFilter());
+  }
+
+  status = signal<number | null>(null);
+  deleted = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
 
   ngOnInit(): void {
-    this.loadProduct();
-    this.loadCategories();
+    this.router.data.subscribe(data => {
+      this.status.set(data['status']);
+      this.deleted.set(data['deleted']);
+      this.pageTitle.set(data['title']);
+      this.loadProduct();
+      this.loadCategories();
+    });
   }
 
-  private buildFilter(): VendorProductFilter {
-    return {
-      productName: this.productName() || null,
-      productCategoryId: this.productCategoryId(),
-      productSubCategoryId: this.productSubCategoryId(),
-      productApprovalStatusId: this.productApprovalStatusId(),
-      productStatusId: this.productStatusId(),
-      addedByVendorUserId: this.addedByVendorUserId(),
-      minPrice: this.minPrice(),
-      maxPrice: this.maxPrice(),
-      searchTerm: this.searchTerm() || null,
-      hasIssues: this.hasIssues(),
-      isAvailableForSale: this.isAvailableForSale(),
-      minAvailableQuantity: this.minAvailableQuantity(),
-      maxAvailableQuantity: this.maxAvailableQuantity(),
-      minReservedQuantity: this.minReservedQuantity(),
-      maxReservedQuantity: this.maxReservedQuantity(),
-      mainProductSubCategoryAttributeId: this.mainProductSubCategoryAttributeId(),
+  private buildFilters() {
+    this.adminProductFilter.update(filter => ({
+      ...filter,
+      productApprovalStatusId: this.status(),
+      includeIsDeleted: this.deleted(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-    };
+      searchTerm: filter.searchTerm.trim().toLowerCase(),
+    }));
   }
 
+  filterForm = form(this.adminProductFilter, (path) => {
+    min(path.addedByVendorUserId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productSubCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productApprovalStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
+    min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
+    min(path.minAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.maxAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
+    min(path.minReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
+    min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
+  });
+
   loadProduct(): void {
-    this.vendorProductService.getProduct(this.buildFilter()).subscribe({
+    this.buildFilters();
+    this.vendorProductService.getProduct(this.adminProductFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
       },
@@ -233,65 +323,6 @@ export class ProductList {
     });
   }
 
-  applyFilters(): void {
-    if (this.filtererrorMessage()) {
-      return;
-    }
-    this.filterapplied.set(true);
-    this.pageNumber.set(1);
-    this.loadProduct();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.filtererrorMessage.set("");
-    this.filterapplied.set(false);
-    this.productName.set('');
-    this.searchTerm.set('');
-    this.productCategoryId.set(null);
-    this.productSubCategoryId.set(null);
-    this.productApprovalStatusId.set(null);
-    this.productStatusId.set(null);
-    this.addedByVendorUserId.set(null);
-    this.minPrice.set(null);
-    this.maxPrice.set(null);
-    this.hasIssues.set(null);
-    this.isAvailableForSale.set(null);
-    this.minAvailableQuantity.set(null);
-    this.maxAvailableQuantity.set(null);
-    this.minReservedQuantity.set(null);
-    this.maxReservedQuantity.set(null);
-    this.mainProductSubCategoryAttributeId.set(null);
-    this.pageNumber.set(1);
-    this.loadProduct();
-  }
-
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
-    this.loadProduct();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadProduct();
-  }
-
-  onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
-    this.loadProduct();
-  }
 
   onSearchTermInput(event: Event): void {
     this.searchTerm.set((event.target as HTMLInputElement).value);
@@ -417,12 +448,12 @@ export class ProductList {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
     this.productCategoryId.set(id);
-    this.productSubCategoryId.set(null);      
+    this.productSubCategoryId.set(null);
     this.subCategories.set([]);
     if (id) {
       this.vendorProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
-         error: (error) => {
+        error: (error) => {
           if (error.status === 0) {
             this.errorMessage.set(
               'Unable to load subcategories. Check your internet connection.'
@@ -447,7 +478,7 @@ export class ProductList {
     this.showActivatePopup.set(true);
   }
 
-  closePopup() {
+  closeDeletePopup() {
     this.showActivatePopup.set(false);
     this.selectedProductId.set(null);
     this.errorMessage.set(null);
@@ -488,7 +519,348 @@ export class ProductList {
       }
     })
   }
+
+  reviewProductModel = signal(new ReviewProductModel());
   viewProduct(productId: number) {
     this.route.navigate(['/vendor/products', productId]);
+  }
+
+  reviewerrorMessage = signal<string | null>(null);
+
+  reviewForm = form(this.reviewProductModel, (path) => {
+    required(path.approvalStatusId, { message: "Enter The Approval Status" });
+    required(path.remark, { message: "Enter The Remarks" });
+    pattern(path.approvalStatusId, /^[23]$/, { message: "Select valid approval status" })
+  });
+
+  openReviewPopup(productId: number) {
+    this.selectedProductId.set(productId);
+
+    this.reviewProductModel.set(
+      new ReviewProductModel(productId, "", "")
+    );
+
+    this.showReviewPopup.set(true);
+  }
+
+  showReviewPopup = signal(false);
+  showUpdatePopup = signal(false);
+  showUpdateRejectedPopup = signal(false);
+
+
+
+  closeReviewPopup() {
+    this.showReviewPopup.set(false);
+    this.selectedProductId.set(null);
+    this.reviewProductModel.set(new ReviewProductModel());
+    this.reviewerrorMessage.set(null);
+    this.reviewForm().reset();
+  }
+  handleReview() {
+    this.reviewerrorMessage.set(null);
+    this.successMessage.set(null);
+    if (this.reviewForm().invalid()) {
+      this.reviewerrorMessage.set("Enter proper details");
+      return;
+    }
+    const request = {
+      productId: this.reviewProductModel().productId,
+      approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
+      remark: this.reviewProductModel().remark
+    };
+    this.vendorProductService.reviewProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Product reviewed successfully");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.reviewerrorMessage.set(messages);
+        }
+        else {
+          this.reviewerrorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+      }
+    });
+  }
+
+  openUpdatePopup(productId: number) {
+    this.selectedProductId.set(productId);
+
+    this.updateProductModel.set(
+      new UpdateProductStatus(productId, 0)
+    );
+
+    this.showUpdatePopup.set(true);
+  }
+
+  closeUpdatePopup() {
+    this.showUpdatePopup.set(false);
+    this.selectedProductId.set(null);
+    this.updateProductModel.set(new UpdateProductStatus());
+    this.updateerrorMessage.set(null);
+  }
+  updateProductModel = signal(new UpdateProductStatus());
+
+
+  updateForm = form(this.updateProductModel, (path) => {
+    required(path.productId, { message: "Enter The Approval Status" });
+    required(path.productStatusId, { message: 'Enter The Approval Status' });
+    min(path.productStatusId, 1, { message: 'Select valid approval status' });
+    max(path.productStatusId, 4, { message: 'Select valid approval status' });
+  });
+
+
+
+  updateerrorMessage = signal<string | null>(null);
+
+  handleUpdate() {
+    this.updateerrorMessage.set(null);
+    this.successMessage.set(null);
+    if (this.updateForm().invalid()) {
+      this.updateerrorMessage.set("Enter proper details");
+      return;
+    }
+    const request = {
+      productId: this.updateProductModel().productId,
+      productStatusId: Number(this.updateProductModel().productStatusId),
+    };
+    this.vendorProductService.updateProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Product updated successfully");
+        setTimeout(() => {
+          this.closeUpdatePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.updateerrorMessage.set(messages);
+        }
+        else {
+          this.updateerrorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+      }
+    });
+  }
+  onUpdateStatusChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+
+    this.updateProductModel.update((model) => ({
+      ...model,
+      productStatusId: value
+    }));
+  }
+  updateRejectedProductModel = signal(new UpdateRejectedProductModel());
+
+  updateCategoryId = signal<number | null>(null);
+  updateSubCategoryId = signal<number | null>(null);
+  updateSubCategories = signal<AdminProductSubCategoryModel[]>([]);
+  updateRejectedForm = form(this.updateRejectedProductModel, (path) => {
+    required(path.productName, {
+      message: 'Product name is required'
+    });
+
+    required(path.description, {
+      message: 'Description is required'
+    });
+
+    required(path.productSubCategoryId, {
+      message: 'Sub category is required'
+    });
+
+    min(path.productSubCategoryId, 1, {
+      message: 'Invalid sub category'
+    });
+
+    required(path.mainProductSubCategoryAttributeId, {
+      message: 'Main attribute is required'
+    });
+
+    min(path.mainProductSubCategoryAttributeId, 1, {
+      message: 'Invalid attribute'
+    });
+  });
+
+  openUpdateRejectedPopup(product: VendorProductModel) {
+    this.showUpdateRejectedPopup.set(true);
+
+
+    const category = this.categories().find(
+      c => c.productCategoryName === product.productCategoryName
+    );
+
+
+    if (!category) {
+      return;
+    }
+
+    this.updateCategoryId.set(Number(category.productCategoryId));
+    this.vendorProductService.getSubCategory(category.productCategoryId).subscribe({
+      next: (res: any) => {
+
+        this.updateSubCategories.set(res.items ?? res);
+
+        const subCategory = this.updateSubCategories().find(
+          s => s.productSubCategoryName === product.productSubCategoryName
+        );
+
+        if (!subCategory) {
+          return;
+        }
+        this.loadAttributes(subCategory.productSubCategoryId, product);
+
+      }
+    });
+  }
+  closeUpdateRejectedPopup() {
+
+    this.showUpdateRejectedPopup.set(false);
+
+    this.updateRejectedProductModel.set(
+      new UpdateRejectedProductModel()
+    );
+
+    this.errorMessage.set(null);
+  }
+  updateRejectedProduct() {
+
+    if (this.updateRejectedForm().invalid()) {
+      this.errorMessage.set("Enter valid details");
+      return;
+    }
+
+    this.vendorProductService
+      .updateRejectedProduct(this.updateRejectedProductModel())
+      .subscribe({
+
+        next: () => {
+
+          this.successMessage.set("Product updated successfully");
+
+          this.closeUpdateRejectedPopup();
+
+          this.loadProduct();
+        },
+
+        error: err => {
+
+          this.errorMessage.set(
+            err.error?.message ?? "Failed to update product"
+          );
+
+        }
+
+      });
+
+  }
+  onUpdateCategoryChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateCategoryId.set(id);
+
+    this.vendorProductService.getSubCategory(id).subscribe({
+      next: (res: any) => {
+
+        this.updateSubCategories.set(res.items ?? res);
+
+        this.updateProductModel.update(model => ({
+          ...model,
+          productSubCategoryId: 0,
+          mainProductSubCategoryAttributeId: 0
+        }));
+
+        this.filteredAttributes.set([]);
+      }
+    });
+  }
+  onUpdateSubCategoryChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateProductModel.update(model => ({
+      ...model,
+      productSubCategoryId: id,
+      mainProductSubCategoryAttributeId: 0
+    }));
+
+    this.filteredAttributes.set(
+      this.allAttributes().filter(
+        x => x.productSubCategoryId === id
+      )
+    );
+  }
+  onUpdateAttributeChange(event: Event) {
+
+    const id = Number((event.target as HTMLSelectElement).value);
+
+    this.updateProductModel.update(model => ({
+      ...model,
+      mainProductSubCategoryAttributeId: id
+    }));
+  }
+
+  allAttributes = signal<AdminMappedAttributeModel[]>([]);
+  filteredAttributes = signal<AdminMappedAttributeModel[]>([]);
+
+  loadAttributes(subCategoryId: number, product?: VendorProductModel): void {
+
+    const request = new MappedAttributeFilter();
+    request.productSubCategoryId = subCategoryId;
+    request.status = true;
+
+    this.vendorProductService.getmappedAttribute(subCategoryId).subscribe({
+      next: (res: any) => {
+
+        const data = res.items ?? res;
+
+        this.allAttributes.set(data);
+
+        console.log("ALL ATTRIBUTES:", data);
+        const attribute = data.find(
+          (x: AdminMappedAttributeModel) =>
+            x.attributeName.trim().toLowerCase() ===
+            product?.mainProductSubCategoryAttributeName?.trim().toLowerCase()
+        );
+
+        console.log("MATCHED:", attribute);
+
+        this.updateRejectedProductModel.set(
+          new UpdateRejectedProductModel(
+            product!.productId,
+            product!.productName,
+            product!.description,
+            subCategoryId,
+            attribute?.productSubCategoryAttributeId ?? 0
+          )
+        );
+
+        this.showUpdatePopup.set(true);
+
+      },
+      error: err => console.log(err)
+    });
   }
 }

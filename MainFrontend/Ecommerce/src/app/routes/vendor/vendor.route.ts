@@ -27,21 +27,10 @@ import { VendorNotificationList } from "../../notification/vendor-notification-l
 import { VendorDeletedProduct } from "../../vendor/vendor-product/vendor-deleted-product/vendor-deleted-product";
 import { VendorVariantDetails } from "../../vendor/vendor-variant/vendor-variant-details/vendor-variant-details";
 import { VendorUserRoute } from "./vendor-user.route";
+import { VendorProductRoute } from "./vendor-product,route";
 
 export const VendorRoute: Routes = [
-    
-    {
-        path: 'products/add',
-        component: AddProduct
-    },
-    {
-        path: 'products/list',
-        component: ProductList
-    },
-    {
-        path: 'deleted-products/list',
-        component: VendorDeletedProduct
-    },
+   
     {
         path: 'products/:id/variants/add',
         component: AddVariant
@@ -54,31 +43,17 @@ export const VendorRoute: Routes = [
         path: 'products/variants/review',
         component: ReviewVariant
     },
-    {
-        path: 'products/review',
-        component: ReviewProduct
-    },
-    {
-        path: 'products/update-status',
-        component: UpdateProduct
-    },
-
+   
     {
         path: 'products/variants/update',
         component: UpdateVariant
     },
-    {
-        path: 'products/update-rejected',
-        component: UpdateRejectedProduct
-    },
+   
     {
         path: 'products/variants/update-rejected',
         component: UpdateRejectedVariant
     },
-    {
-        path: 'products/:id',
-        component: VendorProductDetails
-    },
+   
      {
         path: 'products/variant/:id',
         component: VendorVariantDetails
@@ -97,5 +72,6 @@ export const VendorRoute: Routes = [
         component: VendorNotificationList
     },
     ...VendorInventoryRoute,
-    ...VendorUserRoute
+    ...VendorUserRoute,
+    ...VendorProductRoute
 ]

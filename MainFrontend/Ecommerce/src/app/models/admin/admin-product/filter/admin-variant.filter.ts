@@ -7,7 +7,7 @@ export class AdminProductVariantFilter {
         public VendorId: number | null = null,
 
         public productId: number | null = null,
-        public searchTerm: string | null = null,
+        public searchTerm: string ='',
         public categoryId: number | null = null,
         public subCategoryId: number | null = null,
         public statusId: number | null = null,

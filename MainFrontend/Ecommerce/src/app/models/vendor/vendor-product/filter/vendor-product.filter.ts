@@ -8,7 +8,7 @@ export class VendorProductFilter {
         public addedByVendorUserId: number | null = null,
         public minPrice: number | null = null,
         public maxPrice: number | null = null,
-        public searchTerm: string | null = null,
+        public searchTerm: string ='',
         public hasIssues: boolean | null = null,
         public isAvailableForSale: boolean | null = null,
         public minAvailableQuantity: number | null = null,
