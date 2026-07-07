@@ -2,12 +2,13 @@ import { Component, signal } from '@angular/core';
 import { UserProductService } from '../../services/user-product.Service';
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
-import { Router, RouterOutlet } from '@angular/router';
+import { Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthStateService } from '../../services/auth-State.Service';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-user-navbar',
-  imports: [RouterOutlet],
+  imports: [RouterOutlet, NgClass, RouterLink],
   templateUrl: './user-navbar.html',
   styleUrl: './user-navbar.css',
 })
@@ -35,7 +36,7 @@ export class UserNavbar {
     });
   }
 
-  logout(){
+  logout() {
     this.authState.logout();
     this.router.navigate(["/login"]);
   }
@@ -54,6 +55,12 @@ export class UserNavbar {
       }
     })
   }
+
+  onSearch(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.userProductService.navbarSearchTerm.set(value);
+  }
+
   selectCategory(categoryId: number) {
     this.selectedProductCategory.set(categoryId);
     this.loadSubCategory();
@@ -89,5 +96,9 @@ export class UserNavbar {
 
   goToNotifications(): void {
     this.router.navigate(['/user/notifications']);
+  }
+
+  goToProducts(subCategoryId: number): void {
+    this.router.navigate(['/user/subcategory', subCategoryId, 'products']);
   }
 }

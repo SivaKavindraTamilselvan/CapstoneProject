@@ -22,7 +22,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 
 @Component({
   selector: 'app-subcategorylist',
-  imports: [FormField, ReactiveFormsModule, FormsModule, DatePipe, PaginationComponent, MobileCardComponent, FilterComponent, DataTableComponent, PopupComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, PaginationComponent, MobileCardComponent, FilterComponent, DataTableComponent, PopupComponent],
   providers: [DatePipe],
   templateUrl: './subcategorylist.html',
   styleUrl: './subcategorylist.css',

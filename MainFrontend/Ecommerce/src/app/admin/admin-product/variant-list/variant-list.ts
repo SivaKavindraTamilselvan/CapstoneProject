@@ -20,7 +20,7 @@ import { form, FormField, min } from '@angular/forms/signals';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DecimalPipe, DataTableComponent, FilterComponent, MobileCardComponent, PaginationComponent, FormField],
+  imports: [ DataTableComponent, FilterComponent, MobileCardComponent, PaginationComponent, FormField],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })

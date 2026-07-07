@@ -1,12 +1,11 @@
 <div class="flex-1 flex flex-col">
-
     <header
         class="flex justify-between items-center w-full bg-gradient-to-br from-slate-800 via-blue-950 to-indigo-900 h-16 sm:h-16 md:h-20 lg:h-24 px-4 sm:px-6 lg:px-10">
-
         <div class="shrink-0">
-            <p class="text-white font-extrabold sm:text-lg lg:text-xl">ShopperApp</p>
+            <button routerLink="/">
+                <p class="text-white font-extrabold sm:text-lg lg:text-xl hover:text-gray-400">ShopperApp</p>
+            </button>
         </div>
-
         <div
             class="hidden md:flex items-center bg-white rounded-full px-4 py-2 flex-1 max-w-2xl min-w-0 mx-8 shadow-sm">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -15,7 +14,7 @@
                     d="m21 21-4.35-4.35m0 0A7.5 7.5 0 1 0 6.15 6.15a7.5 7.5 0 0 0 10.5 10.5Z" />
             </svg>
 
-            <input type="text" placeholder="Search for products..."
+            <input type="text" placeholder="Search for products..." (input)="onSearch($event)"
                 class="flex-1 min-w-0 bg-transparent outline-none text-gray-700 text-sm placeholder-gray-400 px-3" />
         </div>
         <nav class="flex gap-3 sm:gap-5 lg:gap-8 items-center text-white shrink-0">
@@ -122,16 +121,20 @@
     <div class="hidden md:flex justify-around bg-white border-b border-black py-2 gap-4 md:text-sm lg:text-base">
         @for(category of productCategoryModel(); track category.productCategoryId){
         <p class="cursor-pointer text-md font-bold hover:text-blue-700 transition"
-            (click)="selectCategory(category.productCategoryId)">
+            (click)="selectCategory(category.productCategoryId)" [ngClass]="{
+          'text-blue-700 border-b-2 border-blue-700 pb-2': selectedProductCategory() === category.productCategoryId,
+          'text-gray-700 hover:text-blue-700': selectedProductCategory() !== category.productCategoryId
+        }">
             {{category.productCategoryName}}
         </p>
         }
     </div>
     }
     @if(selectedProductCategory() !== null && subProductCategoryModel().length > 0) {
-    <div class="hidden md:flex justify-around bg-black text-white py-2 gap-4 md:text-sm lg:text-base">
+    <div class="hidden md:flex justify-around bg-gray-700 text-white py-2 gap-4 md:text-sm lg:text-base">
         @for(category of subProductCategoryModel(); track category.productSubCategoryId){
-        <p class="cursor-pointer text-md font-bold hover:text-blue-400 transition">
+        <p class="cursor-pointer text-md font-bold hover:text-blue-400 transition"
+            (click)="goToProducts(category.productSubCategoryId)">
             {{category.productSubCategoryName}}
         </p>
         }

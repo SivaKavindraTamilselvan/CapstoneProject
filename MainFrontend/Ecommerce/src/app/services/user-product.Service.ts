@@ -1,5 +1,5 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
-import { Injectable } from "@angular/core";
+import { Injectable, signal } from "@angular/core";
 import { BaseURL } from "../environment";
 import { UserProductModel } from "../models/user/product/user-product.model";
 import { PagedResponse } from "../models/paged-response.model";
@@ -10,6 +10,7 @@ import { Observable } from "rxjs";
     providedIn: "root"
 })
 export class UserProductService {
+    navbarSearchTerm = signal('');
     constructor(private http: HttpClient) {
 
     }
@@ -23,6 +24,7 @@ export class UserProductService {
         });
         return this.http.get<PagedResponse<UserProductModel>>(url, { params });
     }
+    
     getProductCategory() {
         let url = BaseURL + "/UserProductCategory/categories";
         return this.http.get(url);

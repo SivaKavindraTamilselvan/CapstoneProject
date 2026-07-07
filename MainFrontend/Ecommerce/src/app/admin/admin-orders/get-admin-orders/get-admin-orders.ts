@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-get-admin-orders',
-  imports: [DatePipe, MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [ MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './get-admin-orders.html',
   styleUrl: './get-admin-orders.css',

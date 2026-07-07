@@ -163,7 +163,7 @@ export class ProductList extends BasePage {
       case 'update':
         this.openUpdatePopup(event.row.productId);
         break;
-       case 'update':
+       case 'update-rejected':
         this.openUpdateRejectedPopup(event.row);
         break;
     }

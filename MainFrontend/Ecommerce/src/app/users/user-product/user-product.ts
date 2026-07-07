@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, effect } from '@angular/core';
 import { UserProductService } from '../../services/user-product.Service';
 import { UserProductModel } from '../../models/user/product/user-product.model';
 import { PagedResponse } from '../../models/paged-response.model';
@@ -14,8 +14,14 @@ import { UserSubProductCategoryModel } from '../../models/user/product-category/
   styleUrl: './user-product.css',
 })
 export class UserProduct {
-  constructor(private userProductService: UserProductService, private router: ActivatedRoute,private route : Router) {
+  constructor(private userProductService: UserProductService, private router: ActivatedRoute, private route: Router) {
+    effect(() => {
+      const search = this.userProductService.navbarSearchTerm();
 
+      this.searchTerm.set(search);
+      this.pageNumber.set(1);
+      this.loadProduct();
+    });
   }
   products = signal<PagedResponse<UserProductModel> | null>(null);
   searchTerm = signal<string>('');
@@ -33,11 +39,17 @@ export class UserProduct {
 
   ngOnInit(): void {
 
-    const subCategoryId = this.router.snapshot.paramMap.get('subCategoryId');
-    if (subCategoryId) {
-      this.productSubCategoryId.set(Number(subCategoryId));
-    }
-    this.loadProduct();
+    this.router.paramMap.subscribe(params => {
+      const subCategoryId = params.get('subCategoryId');
+
+      this.productSubCategoryId.set(
+        subCategoryId ? Number(subCategoryId) : null
+      );
+
+      this.pageNumber.set(1);
+      this.loadProduct();
+    });
+
     this.loadCategories();
   }
 
@@ -64,6 +76,7 @@ export class UserProduct {
     this.userProductService.getProduct(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
+        console.log(this.products());
       },
       error: (error) => {
         console.log(error);
@@ -141,8 +154,8 @@ export class UserProduct {
     return min === max ? format(min) : `${format(min)} - ${format(max)}`;
   }
 
-  goToProductDetails(productId : any){
-    this.route.navigate(['/user/product-details',productId]);
+  goToProductDetails(productId: any) {
+    this.route.navigate(['/user/product-details', productId]);
   }
 
   loadCategories(): void {

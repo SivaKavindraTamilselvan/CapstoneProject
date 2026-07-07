@@ -21,7 +21,7 @@ import { ProductVariantModel } from '../../../models/product/product-variant.mod
 
 @Component({
   selector: 'app-review-variant',
-  imports: [DecimalPipe,FormsModule,ReactiveFormsModule,FormField,FilterComponent,PaginationComponent,MobileCardComponent,DataTableComponent],
+  imports: [DecimalPipe,FormsModule,ReactiveFormsModule,FormField],
   templateUrl: './review-variant.html',
   styleUrl: './review-variant.css',
 })
