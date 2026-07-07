@@ -45,7 +45,10 @@
                             d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5" />
                     </svg>
                 </button>
-                <p class="text-white font-extrabold text-lg sm:text-xl">ShopperApp</p>
+                <button routerLink="/admin">
+                    <p class="text-white font-extrabold text-lg sm:text-xl cursor-pointer hover:text-gray-400">ShopperApp</p>
+
+                </button>
             </div>
             <div class="flex gap-4 sm:gap-6 lg:gap-8 justify-end items-center text-white">
                 @if (authState.isLoggedIn()) {
