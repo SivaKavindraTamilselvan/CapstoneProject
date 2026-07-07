@@ -28,12 +28,17 @@ import { AdminCategoryRoutes } from './admin/admin-category.route';
 import { AdminAttributeRoutes } from './admin/admin-attribute.route';
 import { AdminCouponRoutes } from './admin/admin-coupon.route';
 import { AdminOrderRoutes } from './admin/admin-order.router';
+import { AdminKpiCard } from '../admin/admin-dashboard/admin-kpi-card/admin-kpi-card';
+import { AdminHomeDashboard } from '../admin/admin-dashboard/admin-home-dashboard/admin-home-dashboard';
 
 export const AdminRoutes: Routes = [
     
    
     
-   
+   {
+        path: '',
+        component: AdminHomeDashboard
+    },
    
     {
         path: 'shipments/list',

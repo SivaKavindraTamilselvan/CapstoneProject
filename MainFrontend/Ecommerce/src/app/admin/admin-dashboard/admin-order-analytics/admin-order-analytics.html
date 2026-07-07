@@ -1,0 +1,118 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <!-- Orders By Status -->
+    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-6">
+
+        <div class="mb-5">
+            <h2 class="text-lg font-bold text-slate-800">
+                Orders by Status
+            </h2>
+            <p class="text-sm text-slate-500">
+                Distribution of orders across different statuses.
+            </p>
+        </div>
+
+        @if (orderStatus().length > 0) {
+
+        <div class="overflow-hidden rounded-xl ring-1 ring-slate-100">
+            <table class="w-full text-sm">
+                <thead class="bg-slate-50">
+                    <tr>
+                        <th class="px-4 py-3 text-left font-medium text-slate-500 uppercase text-xs tracking-wide">
+                            Status
+                        </th>
+                        <th class="px-4 py-3 text-right font-medium text-slate-500 uppercase text-xs tracking-wide">
+                            Orders
+                        </th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-slate-100">
+                    @for (item of orderStatus(); track item.status) {
+                    <tr class="hover:bg-slate-50/60 transition-colors">
+                        <td class="px-4 py-3">
+                            <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                                [ngClass]="statusClasses(item.status)">
+                                {{ item.status }}
+                            </span>
+                        </td>
+                        <td class="px-4 py-3 text-right font-semibold text-slate-800">
+                            {{ item.count }}
+                        </td>
+                    </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        } @else {
+
+        <div class="flex flex-col items-center justify-center py-16 text-center">
+            <div class="text-5xl mb-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-slate-400 mb-3">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M16.5 6V4.875a4.5 4.5 0 1 0-9 0V6m-3 0h15l-1.125 12.375A2.25 2.25 0 0 1 16.133 20.5H7.867a2.25 2.25 0 0 1-2.242-2.125L4.5 6Z" />
+                </svg></div>
+            <h3 class="text-base font-semibold text-slate-700">
+                No order data found
+            </h3>
+            <p class="text-sm text-slate-400 mt-1">
+                Order statistics will appear here.
+            </p>
+        </div>
+
+        }
+
+    </div>
+
+    <!-- Orders By Month -->
+    <div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-6">
+
+        <div class="mb-5">
+            <h2 class="text-lg font-bold text-slate-800">
+                Orders by Month
+            </h2>
+            <p class="text-sm text-slate-500">
+                Monthly order growth.
+            </p>
+        </div>
+
+        @if (ordersByMonth().length > 0) {
+
+        <div class="space-y-4">
+            @for (item of ordersByMonth(); track item.month) {
+            <div>
+                <div class="flex justify-between items-baseline mb-1.5">
+                    <span class="text-sm text-slate-600">{{ item.month }}</span>
+                    <span class="text-sm font-semibold text-slate-800">{{ item.count }}</span>
+                </div>
+
+                <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+                    <div class="h-full rounded-full bg-gradient-to-r from-blue-600 to-blue-500 transition-all duration-500"
+                        [style.width.%]="monthBarWidth(item.count)">
+                    </div>
+                </div>
+            </div>
+            }
+        </div>
+
+        } @else {
+
+        <div class="flex flex-col items-center justify-center py-16 text-center">
+            <div class="text-5xl mb-3"><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                    stroke-width="1.5" stroke="currentColor" class="w-16 h-16 text-slate-400 mb-3 mx-auto">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 14l4-4 3 3 5-6" />
+                </svg></div>
+            <h3 class="text-base font-semibold text-slate-700">
+                No monthly data found
+            </h3>
+            <p class="text-sm text-slate-400 mt-1">
+                Monthly order growth will appear here.
+            </p>
+        </div>
+
+        }
+
+    </div>
+
+</div>
