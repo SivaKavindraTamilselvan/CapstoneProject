@@ -2,13 +2,13 @@ export class VendorOrderFilter {
     constructor(
         public pageNumber: number = 1,
         public pageSize: number = 10,
-        public orderNumber?: string,
-        public fromDate?: string, // ISO string (date-time)
-        public toDate?: string,   // ISO string (date-time)
-        public orderStatusId?: number,
-        public orderItemStatusId?: number,
-        public minAmount?: number,
-        public maxAmount?: number,
-        public userId?: number,
+        public orderNumber: string ='',
+        public fromDate: string = '',
+        public toDate: string = '',
+        public orderStatusId: number | null = null,
+        public orderItemStatusId: number | null = null,
+        public minAmount: number | null = null,
+        public maxAmount: number | null = null,
+        public userId: number | null = null,
     ) { }
 }

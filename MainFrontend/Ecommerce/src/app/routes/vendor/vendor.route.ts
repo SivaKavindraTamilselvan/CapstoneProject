@@ -16,7 +16,6 @@ import { ReviewVariant } from "../../vendor/vendor-variant/review-variant/review
 import { UpdateVariant } from "../../vendor/vendor-variant/update-variant/update-variant";
 import { UpdateRejectedVariant } from "../../vendor/vendor-variant/update-rejected-variant/update-rejected-variant";
 import { VendorOrderList } from "../../vendor/vendor-order/vendor-order-list/vendor-order-list";
-import { VendorUpdateOrder } from "../../vendor/vendor-order/vendor-update-order/vendor-update-order";
 import { RegisterVendor } from "../../vendor/vendor-user/register-vendor/register-vendor";
 import { VendorUserDetails } from "../../vendor/vendor-user/vendor-user-details/vendor-user-details";
 import { VendorUserList } from "../../vendor/vendor-user/vendor-user-list/vendor-user-list";
@@ -28,6 +27,7 @@ import { VendorDeletedProduct } from "../../vendor/vendor-product/vendor-deleted
 import { VendorVariantDetails } from "../../vendor/vendor-variant/vendor-variant-details/vendor-variant-details";
 import { VendorUserRoute } from "./vendor-user.route";
 import { VendorProductRoute } from "./vendor-product,route";
+import { VendorOrderRoute } from "./vendor-order.route";
 
 export const VendorRoute: Routes = [
    
@@ -59,19 +59,13 @@ export const VendorRoute: Routes = [
         component: VendorVariantDetails
     },
 
-    {
-        path: 'orders/list',
-        component: VendorOrderList
-    },
-    {
-        path: 'orders/confirmed-orders',
-        component: VendorUpdateOrder
-    },
+    
     {
         path: 'notifications',
         component: VendorNotificationList
     },
     ...VendorInventoryRoute,
     ...VendorUserRoute,
-    ...VendorProductRoute
+    ...VendorProductRoute,
+    ...VendorOrderRoute
 ]

@@ -1,19 +1,146 @@
-import { Component, computed, signal } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, computed, effect, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { VendorOrderService } from '../../../services/vendor-order.Service';
 import { VendorOrderFilter } from '../../../models/vendor/vendor-order/vendor-order.filter';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { OrderItemSummaryModel } from '../../../models/admin/admin-orders/get-items.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { DatePipe } from '@angular/common';
+import { form, FormField, maxLength, min, pattern } from '@angular/forms/signals';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 
 @Component({
   selector: 'app-vendor-order-list',
+  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule],
+  providers: [DatePipe],
   templateUrl: './vendor-order-list.html',
   styleUrl: './vendor-order-list.css',
 })
-export class VendorOrderList {
+export class VendorOrderList extends BasePage {
 
- 
+  actions = computed<TableAction<OrderItemSummaryModel>[]>(() => {
+    if (this.pageTitle() === 'Product Category List') {
+      return [
+        {
+          label: 'view',
+          color: 'green',
+          action: 'view',
+        },
+      ];
+    }
+
+    return [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view',
+      },
+      {
+        label: 'Mark as Packed',
+        color: 'blue',
+        action: 'update',
+      }
+    ];
+  });
+
+  columns: Column[] = [
+    {
+      key: 'orderItemsId',
+      header: 'ID'
+    },
+    {
+      key: 'sku',
+      header: 'SKU'
+    },
+    {
+      key: 'productName',
+      header: 'Product'
+    },
+    {
+      key: 'quantity',
+      header: 'Qty'
+    },
+    {
+      key: 'unitPrice',
+      header: 'Unit Price'
+    },
+    {
+      key: 'discount',
+      header: 'Discount'
+    },
+    {
+      key: 'itemTotal',
+      header: 'Total'
+    },
+    {
+      key: 'orderItemStatus',
+      header: 'Status'
+    },
+    {
+      key: 'inventoryCity',
+      header: 'City'
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'orderItemsId',
+      header: 'ID'
+    },
+    {
+      key: 'sku',
+      header: 'SKU'
+    },
+    {
+      key: 'productName',
+      header: 'Product'
+    },
+    {
+      key: 'quantity',
+      header: 'Qty'
+    },
+    {
+      key: 'unitPrice',
+      header: 'Unit Price'
+    },
+    {
+      key: 'discount',
+      header: 'Discount'
+    },
+    {
+      key: 'itemTotal',
+      header: 'Total'
+    },
+    {
+      key: 'orderItemStatus',
+      header: 'Status'
+    },
+    {
+      key: 'inventoryCity',
+      header: 'City'
+    }
+  ];
+  handleAction(event: { type: string; row: OrderItemSummaryModel }) {
+    switch (event.type) {
+      case 'view':
+
+        break;
+      case 'update':
+        this.confirmActivate(event.row.orderItemsId);
+        break;
+    }
+  }
+
+
+
+
   orders = signal<PagedResponse<OrderItemSummaryModel> | null>(null);
 
 
@@ -28,29 +155,54 @@ export class VendorOrderList {
   minAmount = signal<number | null>(null);
   maxAmount = signal<number | null>(null);
 
-  
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+  orderFilter = signal(new VendorOrderFilter());
+
+  clearFilterValues(): void {
+    this.orderFilter.set(new VendorOrderFilter());
+  }
+
+
 
   totalPages = computed(() => this.orders()?.totalPages ?? 1);
 
 
-  filterPanelOpen = signal<boolean>(false);
 
   constructor(
-    private router: Router,
+    private datePipe: DatePipe,
+    private router: ActivatedRoute,
+    private route: Router,
     private vendorOrderService: VendorOrderService
-  ) {}
-
-  ngOnInit(): void {
-    this.loadOrders();
+  ) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
 
- 
-  loadOrders(): void {
-    const filter = this.buildFilter();
 
-    this.vendorOrderService.getOrders(filter).subscribe({
+  orderStatus = signal<number | null>(null);
+  orderItemStatus = signal<number | null>(null);
+
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.orderStatus.set(data['order']);
+      this.orderItemStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadOrders();
+    });
+  }
+
+
+  loadOrders(): void {
+    this.buildFilter();
+
+    this.vendorOrderService.getOrders(this.orderFilter()).subscribe({
       next: (response: PagedResponse<OrderItemSummaryModel>) => {
         this.orders.set(response);
         console.log(response);
@@ -69,78 +221,35 @@ export class VendorOrderList {
     });
   }
 
-  private buildFilter(): VendorOrderFilter {
-    return {
+  protected loadData(): void {
+    this.loadOrders();
+  }
+
+
+  filterForm = form(this.orderFilter, (path) => {
+    pattern(path.orderNumber, /^[A-Za-z0-9-]*$/, { message: 'Order number can contain only letters, numbers, and hyphens.' });
+    maxLength(path.orderNumber, 50, { message: 'Order number cannot exceed 50 characters.' });
+    min(path.orderStatusId, 1, { message: 'Order status ID must be greater than 0.' });
+    min(path.minAmount, 0, { message: 'Minimum amount cannot be negative.' });
+    min(path.maxAmount, 0, { message: 'Maximum amount cannot be negative.' });
+    min(path.userId, 1, { message: 'User ID must be greater than 0.' });
+    min(path.orderItemStatusId, 1, { message: 'Vendor ID must be greater than 0.' });
+  });
+
+
+  private buildFilter() {
+
+    this.orderFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-
-      orderNumber: this.orderNumber() || undefined,
-      orderStatusId: this.orderStatusId() ?? undefined,
-      orderItemStatusId : this.orderItemStatusId() ?? undefined,
-
-      userId: this.userId() ?? undefined,
-
-      fromDate: this.fromDate() || undefined,
-      toDate: this.toDate() || undefined,
-
-      minAmount: this.minAmount() ?? undefined,
-      maxAmount: this.maxAmount() ?? undefined
-    };
+      orderStatusId: this.orderStatus(),
+      orderItemStatusId: this.orderItemStatus(),
+      orderNumber: this.orderNumber().trim(),
+    }));
   }
 
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update(v => !v);
-  }
 
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadOrders();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.pageNumber.set(1);
-
-    this.orderNumber.set('');
-    this.orderStatusId.set(null);
-    this.orderItemStatusId.set(null);
-    this.userId.set(null);
-
-    this.fromDate.set('');
-    this.toDate.set('');
-
-    this.minAmount.set(null);
-    this.maxAmount.set(null);
-
-    this.loadOrders();
-    this.closeFilterPanel();
-  }
-
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-
-    this.pageNumber.set(page);
-    this.loadOrders();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadOrders();
-  }
 
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -177,5 +286,27 @@ export class VendorOrderList {
 
   onToDateInput(event: Event): void {
     this.toDate.set((event.target as HTMLInputElement).value);
+  }
+
+  updateOrder() {
+    const orderId = this.selectedOrderId();
+    if (orderId === null) return;
+    this.vendorOrderService.updateOrder(orderId).subscribe({
+      next: (response: any) => {
+        this.loadOrders();
+        this.closePopup();
+      }
+    })
+  }
+
+  selectedOrderId = signal<number | null>(null);
+  showDeactivatePopup = signal(false);
+  confirmActivate(id: number) {
+    this.selectedOrderId.set(id);
+    this.showDeactivatePopup.set(true);
+  }
+  closeUpdatePopup() {
+    this.showDeactivatePopup.set(false);
+    this.selectedOrderId.set(null);
   }
 }
