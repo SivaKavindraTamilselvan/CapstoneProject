@@ -13,6 +13,7 @@ import { UserGetOrder } from '../users/user-order/user-get-order/user-get-order'
 import { UserFavorite } from '../users/user-favorite/user-favorite';
 import { UserProfilePage } from '../users/user-profile-page/user-profile-page';
 import { SharedRoutes } from './shared-route';
+import { UserOrderDetails } from '../users/user-order/user-order-details/user-order-details';
 
 export const UserRoutes: Routes = [
     {
@@ -62,6 +63,10 @@ export const UserRoutes: Routes = [
     {
         path: 'orders',
         component: UserGetOrder
+    },
+    {
+        path: 'orders/:id',
+        component: UserOrderDetails
     },
     {
         path: 'profile',

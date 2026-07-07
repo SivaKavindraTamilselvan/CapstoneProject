@@ -290,4 +290,8 @@ export class UserGetOrder {
     const value = (event.target as HTMLSelectElement).value;
     this.cancelForm.cancelReasonId().value.set(value ? Number(value) : 0);
   }
+
+  goToOrderDetails(orderId: number): void {
+    this.router.navigate(['/user/orders', orderId]);
+  }
 }
