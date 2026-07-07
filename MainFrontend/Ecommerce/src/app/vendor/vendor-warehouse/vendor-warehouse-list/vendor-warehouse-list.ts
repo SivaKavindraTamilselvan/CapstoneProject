@@ -13,32 +13,46 @@ import { TableAction } from '../../../shared-components/data-table-component/tab
 import { VendorWarehouseService } from '../../../services/vendor-warehouse.Service';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { ActivatedRoute } from '@angular/router';
-import { form, FormField, maxLength, min, pattern } from '@angular/forms/signals';
+import { form, FormField, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddInventoryModel } from '../../../models/inventory/add-inventory.model';
+import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
 
 @Component({
   selector: 'app-vendor-warehouse-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent,PopupComponent,FormsModule,FormField,ReactiveFormsModule],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule],
   templateUrl: './vendor-warehouse-list.html',
   styleUrl: './vendor-warehouse-list.css',
 })
 export class VendorWarehouseList extends BasePage {
 
-
-  actions: TableAction<AddressModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view',
-    },
-    {
-      label: 'Delete',
-      color: 'red',
-      action: 'delete',
-      visible: address => address.isActive
+  actions = computed<TableAction<AddressModel>[]>(() => {
+    if (this.pageTitle() === 'Add Inventory') {
+      return [
+        {
+          label: 'Add Inventory',
+          color: 'green',
+          action: 'add',
+        }
+      ];
     }
-  ];
+
+    return [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view',
+      },
+      {
+        label: 'Delete',
+        color: 'red',
+        action: 'delete',
+        visible: address => address.isActive
+      }
+    ];
+  });
+
   columns: Column[] = [
     {
       key: 'addressId',
@@ -105,6 +119,9 @@ export class VendorWarehouseList extends BasePage {
 
         this.showPopup.set(true);
         break;
+      case 'add':
+        this.openInventoryPopup(event.row.addressId);
+        break;
     }
   }
   address = signal<PagedResponse<AddressModel> | null>(null);
@@ -132,7 +149,7 @@ export class VendorWarehouseList extends BasePage {
   }
 
 
-  constructor(private router: ActivatedRoute, private addressService: VendorWarehouseService) {
+  constructor(private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -159,7 +176,7 @@ export class VendorWarehouseList extends BasePage {
 
   confirmPopup() {
     switch (this.selectedAction()) {
-    
+
       case 'delete':
         this.deleteAddress();
         break;
@@ -278,7 +295,7 @@ export class VendorWarehouseList extends BasePage {
     this.contactPhoneNumber.set((event.target as HTMLInputElement).value);
   }
 
-  
+
 
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
@@ -291,7 +308,7 @@ export class VendorWarehouseList extends BasePage {
     this.selectedAddressId.set(id);
     this.showDeactivatePopup.set(true);
   }
-  
+
   deleteAddress() {
     const id = this.selectedId();
     if (id == null) {
@@ -301,6 +318,65 @@ export class VendorWarehouseList extends BasePage {
       next: (response: any) => {
         alert("Warehouse deleted");
         this.loadAddress();
+      }
+    })
+  }
+
+  showAddInventoryPopup = signal(false);
+  inventorySuccess = signal<string | null>(null);
+  inventoryError = signal<string | null>(null);
+
+
+  inventoryModel = signal(new AddInventoryModel());
+
+  addForm = form(this.inventoryModel, (path) => {
+    required(path.addressId, { message: 'Choose The Address' });
+    required(path.availableQuantity, { message: 'Enter the available quantity' });
+    required(path.reservedQuantity, { message: 'Enter the reserved quantity' });
+    required(path.productVariantId, { message: 'Choode the productVariant' });
+
+  })
+  openInventoryPopup(addressId: number) {
+    this.selectedAddressId.set(addressId);
+    this.inventoryModel.update((i) => ({ ...i, addressId: addressId }));
+    this.showAddInventoryPopup.set(true);
+  }
+  closeInventoryPopup() {
+    this.showAddInventoryPopup.set(false);
+    this.inventoryModel.set(new AddInventoryModel());
+    this.selectedAddressId.set(null);
+    this.inventoryError.set(null);
+  }
+  handleAddInventory() {
+    this.inventoryError.set(null);
+    this.inventorySuccess.set(null);
+    if (this.addForm().invalid()) {
+      this.inventoryError.set("Enter proper details");
+    }
+    this.vendorInventoryService.addInventory(this.inventoryModel()).subscribe({
+      next: (response: any) => {
+        this.inventorySuccess.set("Inventory added successfully");
+        setTimeout(() => {
+          this.closePopup();
+          this.inventorySuccess.set(null);
+          this.loadAddress();
+        }, 3000);
+      },
+      error: (error) => {
+        this.inventorySuccess.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.inventoryError.set(messages);
+        }
+        else {
+          this.inventoryError.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
       }
     })
   }

@@ -1,20 +1,141 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { VendorInventoryModel } from '../../../models/inventory/inventory.model';
 import { VendorInventoryFilterModel } from '../../../models/inventory/inventory.filter';
 import { ActivatedRoute, Router } from '@angular/router';
 import { UpdateInventoryModel } from '../../../models/inventory/update-inventory.model';
-import { form, FormField, required } from '@angular/forms/signals';
+import { form, FormField, min, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-inventory-list',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule, PopupComponent, MobileCardComponent, DataTableComponent, FilterComponent, PaginationComponent],
   templateUrl: './inventory-list.html',
   styleUrl: './inventory-list.css',
 })
-export class InventoryList {
+export class InventoryList extends BasePage {
+
+  actions: TableAction<VendorInventoryModel>[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view',
+    },
+    {
+      label: 'Update',
+      color: 'blue',
+      action: 'update',
+      visible: address => address.isActive
+    },
+
+
+    {
+      label: 'Delete',
+      color: 'red',
+      action: 'delete',
+      visible: address => address.isActive
+    }
+  ];
+  columns: Column[] = [
+    {
+      key: 'inventoryId',
+      header: 'ID'
+    },
+    {
+      key: 'addressId',
+      header: 'Contact Name'
+    },
+    {
+      key: 'sku',
+      header: 'Contact Phone'
+    },
+    {
+      key: 'availableQuantity',
+      header: 'City'
+    },
+    {
+      key: 'reservedQuantity',
+      header: 'State',
+    },
+    {
+      key: 'pinCode',
+      header: 'PinCode'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'addressId',
+      header: 'Contact Name'
+    },
+    {
+      key: 'sku',
+      header: 'Contact Phone'
+    },
+    {
+      key: 'availableQuantity',
+      header: 'City'
+    },
+    {
+      key: 'reservedQuantity',
+      header: 'State',
+    },
+    {
+      key: 'pinCode',
+      header: 'PinCode'
+    },
+    {
+      key: 'isActive',
+      header: 'Status',
+      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+    },
+  ];
+
+  handleAction(event: { type: string; row: VendorInventoryModel }) {
+    switch (event.type) {
+
+      case 'delete':
+        this.selectedAction.set('delete');
+        this.selectedId.set(event.row.inventoryId);
+
+        this.popupTitle.set('Delete Inventory');
+        this.popupMessage.set('Are you sure you want to delete the inventory? If once deleted cannot be recovered.');
+        this.popupConfirmText.set('Delete');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
+        break;
+      case 'view':
+        this.viewInventory(event.row.inventoryId);
+        break;
+      case 'update':
+        this.confirmUpdate(event.row.inventoryId);
+        break;
+    }
+  }
+
+  inventoryFilter = signal(new VendorInventoryFilterModel());
+
+
+  clearFilterValues(): void {
+    this.inventoryFilter.set(new VendorInventoryFilterModel());
+  }
   inventoryList = signal<PagedResponse<VendorInventoryModel> | null>(null);
 
   addressId = signal<number | null>(null);
@@ -24,10 +145,8 @@ export class InventoryList {
   maximumAvailableQuantity = signal<number | null>(null);
   maximumReservedQuantity = signal<number | null>(null);
   status = signal(true);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+
   totalPages = computed(() => this.inventoryList()?.totalPages ?? 1);
-  filterPanelOpen = signal<boolean>(false);
 
   selectedInvetoryId = signal<number | null>(null);
   showDeactivatePopup = signal(false);
@@ -36,14 +155,56 @@ export class InventoryList {
   updateModel = signal(new UpdateInventoryModel());
 
 
-  constructor(private inventoryService: VendorInventoryService, private route: Router) {
-
+  constructor(private inventoryService: VendorInventoryService, private route: Router, private router: ActivatedRoute) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
-  ngOnInit() {
+  inevntoryStatus = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.inevntoryStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadInventory();
+    });
+  }
+
+  selectedAction = signal<'activate' | 'delete' | null>(null);
+
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+
+      case 'delete':
+        this.deleteInventory();
+        break;
+    }
+  }
+
+  protected loadData(): void {
     this.loadInventory();
   }
+  filterForm = form(this.inventoryFilter, (path) => {
+    min(path.productVariantId, 1, { message: 'Product Variant ID must be greater than 0.' });
+    min(path.addressId, 1, { message: 'Address ID must be greater than 0.' });
+    min(path.minimumAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.maximumAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
+    min(path.minimumReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
+    min(path.maximumReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
+    min(path.pageNumber, 1, { message: 'Page number must be at least 1.' });
+    min(path.pageSize, 1, { message: 'Page size must be at least 1.' });
+  });
+
   loadInventory() {
-    this.inventoryService.getInventory(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.inventoryService.getInventory(this.inventoryFilter()).subscribe({
       next: (response: any) => {
         this.inventoryList.set(response);
         console.log(this.inventoryList());
@@ -62,61 +223,18 @@ export class InventoryList {
       }
     })
   }
-  private buildFilter(): VendorInventoryFilterModel {
-    return {
-      addressId: this.addressId(),
+
+  private buildFilter() {
+    this.inventoryFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      productVariantId: this.productVariantId() || null,
-      minimumAvailableQuantity: this.minimumAvailableQuantity(),
-      minimumReservedQuantity: this.minimumReservedQuantity(),
-      maximumAvailableQuantity: this.maximumAvailableQuantity(),
-      maximumReservedQuantity: this.maximumReservedQuantity(),
-      status: this.status(),
-    };
-  }
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update((open) => !open);
-  }
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadInventory();
-    this.closeFilterPanel();
-  }
-  resetFilters(): void {
-    this.pageNumber.set(1);
-    this.addressId.set(null);
-    this.productVariantId.set(null);
-    this.maximumAvailableQuantity.set(null);
-    this.minimumAvailableQuantity.set(null);
-    this.maximumReservedQuantity.set(null);
-    this.minimumReservedQuantity.set(null);
-    this.loadInventory();
-    this.closeFilterPanel();
-  }
-  goToPage(pageNumber: number): void {
-    if (pageNumber < 1 || pageNumber > this.totalPages()) {
-      return;
-    }
-    this.pageNumber.set(pageNumber);
-    this.loadInventory();
-  }
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
+      isActive: this.inevntoryStatus(),
+
+    }));
   }
 
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadInventory();
-  }
+
 
   onAddressInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
@@ -163,15 +281,15 @@ export class InventoryList {
     if (inventoryId == null) {
       return;
     }
-    this.updateModel.update((i)=>({...i,inventoryId:inventoryId}));
+    this.updateModel.update((i) => ({ ...i, inventoryId: inventoryId }));
     this.inventoryService.updateInventory(this.updateModel()).subscribe({
-      next : (response:any)=>{
+      next: (response: any) => {
         alert("Updated Successfully");
         this.loadInventory();
         this.selectedInvetoryId.set(null);
         this.closePopup();
       },
-      error : (error)=>{
+      error: (error) => {
         console.error(error);
       }
     })
@@ -193,7 +311,7 @@ export class InventoryList {
       }
     })
   }
-  confirmUpdate(id :number){
+  confirmUpdate(id: number) {
     this.selectedInvetoryId.set(id);
     this.showUpdatePopup.set(true);
   }
@@ -201,7 +319,7 @@ export class InventoryList {
     this.selectedInvetoryId.set(id);
     this.showDeactivatePopup.set(true);
   }
-  closePopup() {
+  closeUpdatePopup() {
     this.showUpdatePopup.set(false);
     this.showDeactivatePopup.set(false);
     this.selectedInvetoryId.set(null);

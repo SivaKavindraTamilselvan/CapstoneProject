@@ -24,15 +24,18 @@ export const VendorInventoryRoute: Routes = [
     },
     {
         path: 'inventory/add',
-        component: AddInventory
+        component: VendorWarehouseList,
+          data: { status: true, title: 'Add Inventory' }
     },
     {
         path: 'inventory',
-        component: InventoryList
+        component: InventoryList,
+        data: { status: true, title: 'Inventory List' }
     },
     {
         path: 'deleted-inventory',
-        component: DeletedInventory
+        component: DeletedInventory,
+        data: { status: false, title: 'Deleted Inventory List' }
     },
     {
         path: 'inventory-details/:id',
