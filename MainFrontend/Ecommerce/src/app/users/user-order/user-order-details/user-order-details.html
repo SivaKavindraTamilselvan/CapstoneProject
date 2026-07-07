@@ -76,11 +76,14 @@
                             Cancel Item
                         </button>
                     </div>
-
-                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg"
-                        (click)="openReviewPopup(orderItem()!.orderItemsId)">
-                        Write Review
-                    </button>
+                    }
+                    @if(orderItem()!.orderItemStatus === 'Delivered'){
+                    <div class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex justify-end">
+                        <button class="bg-blue-600 text-white font-semibold w-full sm:w-auto text-sm cursor-pointer hover:bg-blue-800 px-4 py-2 rounded-md"
+                            (click)="openReviewPopup(orderItem()!.orderItemsId)">
+                            Write Review
+                        </button>
+                    </div>
                     }
                 </div>
             </div>
