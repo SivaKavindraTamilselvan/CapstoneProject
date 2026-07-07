@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddUserOrderModel } from "../models/user/order/place-order.model";
+import { AddUserOrderModel, CreateReview } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { UserOrderFilter } from "../models/user/order/order-fiter";
@@ -52,6 +52,11 @@ export class UserOrderService {
     getShipmentDetails(id: number) {
         const url = BaseURL + `/Shiprocket/user/${id}`;
         return this.http.get(url, {});
+    }
+
+    createReview(model : CreateReview){
+        const url = `${BaseURL}/User/AddReview`;
+        return this.http.post(url, model);
     }
 
 }

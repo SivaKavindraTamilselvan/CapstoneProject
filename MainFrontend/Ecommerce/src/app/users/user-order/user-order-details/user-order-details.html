@@ -4,7 +4,8 @@
 
         <button (click)="goBack()"
             class="flex items-center gap-1.5 text-sm font-semibold text-slate-600 hover:text-slate-900 mb-4 sm:mb-6 cursor-pointer transition">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2.5">
                 <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
             </svg>
             Back to Orders
@@ -15,12 +16,14 @@
 
             <div class="w-full lg:w-1/3 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
 
-                <div class="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-4 sm:px-6 py-4 sm:py-5 flex flex-wrap items-center justify-between gap-3">
+                <div
+                    class="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-4 sm:px-6 py-4 sm:py-5 flex flex-wrap items-center justify-between gap-3">
                     <div>
                         <p class="text-[11px] uppercase tracking-wide text-slate-300 font-semibold">SKU</p>
                         <p class="text-base sm:text-lg font-bold break-all">{{ orderItem()!.sku }}</p>
                     </div>
-                    <span class="px-3 sm:px-4 py-1.5 rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur-sm text-xs sm:text-sm font-semibold whitespace-nowrap">
+                    <span
+                        class="px-3 sm:px-4 py-1.5 rounded-full bg-white/15 ring-1 ring-white/25 backdrop-blur-sm text-xs sm:text-sm font-semibold whitespace-nowrap">
                         {{ orderItem()!.orderItemStatus }}
                     </span>
                 </div>
@@ -28,35 +31,43 @@
                 <div class="p-4 sm:p-6">
                     <div class="flex flex-col sm:flex-row lg:flex-col gap-4 sm:gap-5 lg:gap-4">
                         <div class="flex items-center justify-center gap-4 sm:gap-5 lg:gap-0">
-                            <div class="w-20 h-20 sm:w-24 sm:h-24 lg:w-50 lg:h-50 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
+                            <div
+                                class="w-20 h-20 sm:w-24 sm:h-24 lg:w-50 lg:h-50 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
                                 <img [src]="'http://localhost:5173/images/' + orderItem()!.productImageUrl"
-                                    [alt]="orderItem()!.productName"
-                                    class="w-full h-full object-cover">
+                                    [alt]="orderItem()!.productName" class="w-full h-full object-cover">
                             </div>
 
                             <div class="flex-1 min-w-0 sm:hidden lg:hidden">
                                 <h3 class="text-base font-semibold text-slate-900">{{ orderItem()!.productName }}</h3>
-                                <p class="text-xs text-slate-500 mt-1">Sold by <span class="font-medium text-slate-600">{{ orderItem()!.vendorName }}</span></p>
+                                <p class="text-xs text-slate-500 mt-1">Sold by <span
+                                        class="font-medium text-slate-600">{{ orderItem()!.vendorName }}</span></p>
                                 <p class="text-sm text-slate-500 mt-2">Qty: {{ orderItem()!.quantity }}</p>
                             </div>
                         </div>
 
                         <div class="flex-1 min-w-0 hidden sm:block lg:mt-1">
-                            <h3 class="text-base sm:text-lg font-semibold text-slate-900">{{ orderItem()!.productName }}</h3>
-                            <p class="text-xs text-slate-500 mt-1">Sold by <span class="font-medium text-slate-600">{{ orderItem()!.vendorName }}</span></p>
+                            <h3 class="text-base sm:text-lg font-semibold text-slate-900">{{ orderItem()!.productName }}
+                            </h3>
+                            <p class="text-xs text-slate-500 mt-1">Sold by <span class="font-medium text-slate-600">{{
+                                    orderItem()!.vendorName }}</span></p>
                             <p class="text-sm text-slate-500 mt-2">Qty: {{ orderItem()!.quantity }}</p>
-                            <p class="text-xs text-slate-400 mt-1">Shipping from {{ orderItem()!.inventoryCity }} · {{ orderItem()!.inventoryAddress }}</p>
+                            <p class="text-xs text-slate-400 mt-1">Shipping from {{ orderItem()!.inventoryCity }} · {{
+                                orderItem()!.inventoryAddress }}</p>
                         </div>
 
-                        <div class="flex flex-row sm:flex-col lg:flex-row items-center sm:items-end lg:items-center justify-between sm:justify-start lg:justify-between gap-1.5 pt-3 sm:pt-0 lg:pt-3 border-t sm:border-t-0 lg:border-t border-slate-100 sm:ml-auto lg:ml-0">
+                        <div
+                            class="flex flex-row sm:flex-col lg:flex-row items-center sm:items-end lg:items-center justify-between sm:justify-start lg:justify-between gap-1.5 pt-3 sm:pt-0 lg:pt-3 border-t sm:border-t-0 lg:border-t border-slate-100 sm:ml-auto lg:ml-0">
                             @if(orderItem()!.discount > 0){
-                            <span class="text-sm text-slate-400 line-through">₹{{ orderItem()!.unitPrice | number:'1.2-2' }}</span>
+                            <span class="text-sm text-slate-400 line-through">₹{{ orderItem()!.unitPrice |
+                                number:'1.2-2' }}</span>
                             }
-                            <span class="text-xl sm:text-2xl font-bold text-blue-800">₹{{ orderItem()!.itemTotal | number:'1.2-2' }}</span>
+                            <span class="text-xl sm:text-2xl font-bold text-blue-800">₹{{ orderItem()!.itemTotal |
+                                number:'1.2-2' }}</span>
                         </div>
                     </div>
 
-                    <p class="text-xs text-slate-400 mt-3 sm:hidden">Shipping from {{ orderItem()!.inventoryCity }} · {{ orderItem()!.inventoryAddress }}</p>
+                    <p class="text-xs text-slate-400 mt-3 sm:hidden">Shipping from {{ orderItem()!.inventoryCity }} · {{
+                        orderItem()!.inventoryAddress }}</p>
 
                     @if(orderItem()!.orderItemStatus === 'Pending'){
                     <div class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex justify-end">
@@ -65,35 +76,53 @@
                             Cancel Item
                         </button>
                     </div>
+
+                    <button class="bg-blue-600 text-white px-4 py-2 rounded-lg"
+                        (click)="openReviewPopup(orderItem()!.orderItemsId)">
+                        Write Review
+                    </button>
                     }
                 </div>
             </div>
 
+
+
+            @if (showReviewPopup()) {
+            <app-create-review-component [orderDetailsId]="selectedOrderDetailsId()" (close)="closePopup()">
+            </app-create-review-component>
+            }
+
             @if(shipment()) {
             <div class="w-full lg:w-2/3 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
-                <div class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                <div
+                    class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
                     <div>
                         <h2 class="text-base sm:text-lg font-bold text-slate-800">Shipment Details</h2>
                         <p class="text-xs sm:text-sm text-slate-500 mt-0.5">via {{ shipment()!.shipperName }}</p>
                     </div>
-                    <span class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap" [ngClass]="statusColor(shipment()!.currentStatus)">
+                    <span class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap"
+                        [ngClass]="statusColor(shipment()!.currentStatus)">
                         {{ shipment()!.currentStatus }}
                     </span>
                 </div>
 
-                <div class="px-4 sm:px-6 py-4 sm:py-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 border-b border-slate-100">
+                <div
+                    class="px-4 sm:px-6 py-4 sm:py-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 border-b border-slate-100">
                     <div>
                         <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Tracking Number</p>
-                        <p class="text-sm text-slate-700 mt-1 break-all">{{ shipment()!.trackingNumber || 'Not assigned yet' }}</p>
+                        <p class="text-sm text-slate-700 mt-1 break-all">{{ shipment()!.trackingNumber || 'Not assigned
+                            yet' }}</p>
                     </div>
                     <div>
                         <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Expected Delivery</p>
-                        <p class="text-sm text-slate-700 mt-1">{{ shipment()!.expectedDeliveryDate | date:'mediumDate' }}</p>
+                        <p class="text-sm text-slate-700 mt-1">{{ shipment()!.expectedDeliveryDate | date:'mediumDate'
+                            }}</p>
                     </div>
                     <div>
                         <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Shipping Charge</p>
                         <p class="text-sm text-slate-700 mt-1">
-                            {{ shipment()!.shippingCharge > 0 ? '₹' + (shipment()!.shippingCharge | number:'1.2-2') : 'Free' }}
+                            {{ shipment()!.shippingCharge > 0 ? '₹' + (shipment()!.shippingCharge | number:'1.2-2') :
+                            'Free' }}
                         </p>
                     </div>
                     @if(shipment()!.pickupAddress){
@@ -105,7 +134,8 @@
                 </div>
 
                 <div class="px-4 sm:px-6 py-5 sm:py-6">
-                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4 sm:mb-5">Tracking History</h3>
+                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4 sm:mb-5">Tracking History
+                    </h3>
 
                     @if(shipment()!.tracking.length > 0) {
                     <div class="space-y-0">
@@ -137,7 +167,8 @@
                 </div>
             </div>
             } @else {
-            <div class="w-full lg:w-2/3 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
+            <div
+                class="w-full lg:w-2/3 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
                 <p class="text-slate-500 font-medium">No shipment created yet for this item.</p>
             </div>
             }
@@ -146,8 +177,10 @@
         } @else if (errorMessage()) {
         <div class="bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-16 sm:py-24">
             <div class="flex flex-col items-center px-4 text-center">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 sm:w-16 sm:h-16 text-slate-300 mb-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.75 9.75l-1.5 1.5m0 0l1.5 1.5m-1.5-1.5h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-14 h-14 sm:w-16 sm:h-16 text-slate-300 mb-3"
+                    fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9.75 9.75l-1.5 1.5m0 0l1.5 1.5m-1.5-1.5h7.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
                 <p class="text-slate-500 font-medium">{{ errorMessage() }}</p>
             </div>

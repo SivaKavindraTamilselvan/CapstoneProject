@@ -4,10 +4,11 @@ import { UserOrderService } from '../../../services/user-order.Service';
 import { ShipmentModel } from '../../../models/admin/admin-shipment/admin-shipment.model';
 import { OrderItemModel } from '../../../models/admin/admin-orders/get-orderitem.model';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { CreateReviewComponent } from '../create-review-component/create-review-component';
 
 @Component({
   selector: 'app-user-order-details',
-  imports: [DatePipe, NgClass, DecimalPipe],
+  imports: [DatePipe, NgClass, DecimalPipe,CreateReviewComponent],
   templateUrl: './user-order-details.html',
   styleUrl: './user-order-details.css',
 })
@@ -59,6 +60,18 @@ export class UserOrderDetails implements OnInit {
 
   goBack(): void {
     this.router.navigate(['/user/orders']);
+  }
+
+  showReviewPopup = signal(false);
+  selectedOrderDetailsId = signal(0);
+
+  openReviewPopup(orderDetailsId: number) {
+    this.selectedOrderDetailsId.set(orderDetailsId);
+    this.showReviewPopup.set(true);
+  }
+
+  closePopup() {
+    this.showReviewPopup.set(false);
   }
 
   openCancelPopup(orderItemsId: number): void {
