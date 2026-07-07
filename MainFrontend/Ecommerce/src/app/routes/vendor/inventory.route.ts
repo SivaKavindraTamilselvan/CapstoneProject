@@ -14,11 +14,13 @@ export const VendorInventoryRoute: Routes = [
     },
     {
         path: 'warehouses',
-        component: VendorWarehouseList
+        component: VendorWarehouseList,
+        data: { status: true, title: 'Warehouse List' }
     },
     {
         path: 'deleted-warehouses',
-        component: VendorDeletedWarehouse
+        component: VendorWarehouseList,
+        data: { status: false, title: 'Deleted Warehouse List' }
     },
     {
         path: 'inventory/add',

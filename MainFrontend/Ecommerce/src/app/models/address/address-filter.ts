@@ -5,7 +5,7 @@ export class AddressFilter{
         public state: string = '',
         public pinCode: string = '',
         public isActive: boolean | null = null,
-        public pageNumber: number,
-        public pageSize: number,
+        public pageNumber: number = 1,
+        public pageSize: number = 10,
     ){}
 }

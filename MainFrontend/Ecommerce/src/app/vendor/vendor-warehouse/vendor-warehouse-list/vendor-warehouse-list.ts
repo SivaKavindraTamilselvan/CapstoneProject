@@ -1,4 +1,4 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AddressModel } from '../../../models/address/address-response.model';
 import { INDIA_STATES } from '../../../constant/indian-state.constant';
@@ -11,24 +11,32 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { VendorWarehouseService } from '../../../services/vendor-warehouse.Service';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { ActivatedRoute } from '@angular/router';
+import { form, FormField, maxLength, min, pattern } from '@angular/forms/signals';
+import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vendor-warehouse-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent,PopupComponent,FormsModule,FormField,ReactiveFormsModule],
   templateUrl: './vendor-warehouse-list.html',
   styleUrl: './vendor-warehouse-list.css',
 })
-export class VendorWarehouseList {
+export class VendorWarehouseList extends BasePage {
+
+
   actions: TableAction<AddressModel>[] = [
     {
       label: 'View',
       color: 'green',
-      action: 'view'
+      action: 'view',
     },
     {
       label: 'Delete',
       color: 'red',
-      action: 'delete'
+      action: 'delete',
+      visible: address => address.isActive
     }
   ];
   columns: Column[] = [
@@ -86,7 +94,16 @@ export class VendorWarehouseList {
     switch (event.type) {
 
       case 'delete':
-        this.confirmDeactivate(event.row.addressId);
+        this.selectedAction.set('delete');
+        this.selectedId.set(event.row.addressId);
+
+        this.popupTitle.set('Delete Warehouse');
+        this.popupMessage.set('Are you sure you want to delete the warehouse? If once deleted cannot be recovered.');
+        this.popupConfirmText.set('Deactivate');
+        this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
+        this.titleClass.set('text-red-700');
+
+        this.showPopup.set(true);
         break;
     }
   }
@@ -98,26 +115,98 @@ export class VendorWarehouseList {
   selectedState = signal<string>('');
   pincode = signal<string>('');
   status = signal<boolean | null>(null);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+
   totalPages = computed(() => this.address()?.totalPages ?? 1);
   selectedAddressId = signal<number | null>(null);
   showDeactivatePopup = signal(false);
 
   errorMessage = signal<string | null>(null);
 
-  filterPanelOpen = signal<boolean>(false);
   filterapplied = signal(false);
   filtererrorMessage = signal<string | null>(null);
 
-  constructor(private addressService: VendorWarehouseService) {
+  addressFilter = signal(new AddressFilter());
+
+  clearFilterValues(): void {
+    this.addressFilter.set(new AddressFilter());
+  }
+
+
+  constructor(private router: ActivatedRoute, private addressService: VendorWarehouseService) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
 
   }
-  ngOnInit() {
+  addressStatus = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.addressStatus.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadAddress();
+    });
+  }
+
+  selectedAction = signal<'activate' | 'delete' | null>(null);
+
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+    
+      case 'delete':
+        this.deleteAddress();
+        break;
+    }
+  }
+
+  protected loadData(): void {
     this.loadAddress();
   }
+
+  filterForm = form(this.addressFilter, (path) => {
+    pattern(path.contactPhoneNumber, /^[6-9]\d{9}$/, {
+      message: 'Enter a valid 10-digit Indian phone number',
+    });
+
+    pattern(path.city, /^[A-Za-z][A-Za-z\s-]*$/, {
+      message: 'City can contain only letters, spaces, and hyphens.',
+    });
+
+    maxLength(path.city, 100, {
+      message: 'City cannot exceed 100 characters.',
+    });
+
+    pattern(path.state, /^[A-Za-z][A-Za-z\s-]*$/, {
+      message: 'State can contain only letters, spaces, and hyphens.',
+    });
+
+    maxLength(path.state, 100, {
+      message: 'State cannot exceed 100 characters.',
+    });
+
+    pattern(path.pinCode, /^[1-9][0-9]{5}$/, {
+      message: 'Enter a valid 6-digit pin code.',
+    });
+
+    min(path.pageNumber, 1, {
+      message: 'Page number must be at least 1.',
+    });
+
+    min(path.pageSize, 1, {
+      message: 'Page size must be at least 1.',
+    });
+  });
+
   loadAddress() {
-    this.addressService.getWarehouseAddress(this.buildFilter()).subscribe({
+    this.buildFilter();
+    this.addressService.getWarehouseAddress(this.addressFilter()).subscribe({
       next: (response: any) => {
         this.address.set(response);
         console.log(response);
@@ -152,54 +241,27 @@ export class VendorWarehouseList {
       }
     })
   }
-  private buildFilter(): AddressFilter {
-    this.status.set(true);
-    return {
-      contactPhoneNumber: this.contactPhoneNumber(),
-      city: this.city(),
-      state: this.selectedState(),
-      pinCode: this.pincode(),
-      isActive: this.status(),
+
+  private buildFilter() {
+    this.addressFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-    };
-  }
-
-  toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilters();
-    }
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    if (this.filtererrorMessage()) {
-      return;
-    }
-    this.filterapplied.set(true);
-    this.pageNumber.set(1);
-    this.loadAddress();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.filtererrorMessage.set("");
-    this.filterapplied.set(false);
-    this.city.set('');
-    this.selectedState.set('');
-    this.pincode.set('');
-    this.contactPhoneNumber.set('');
-    this.pageNumber.set(1);
-    this.loadAddress();
+      isActive: this.addressStatus(),
+      city: this.addressFilter().city.trim().toLocaleLowerCase(),
+      state: this.addressFilter().state.trim().toLocaleLowerCase(),
+      pinCode: this.addressFilter().pinCode.trim().toLocaleLowerCase(),
+      contactPhoneNumber: this.addressFilter().contactPhoneNumber.trim().toLocaleLowerCase(),
+    }));
   }
 
   onStateChange(event: Event) {
-    this.selectedState.set((event.target as HTMLSelectElement).value);
+    const state = ((event.target as HTMLSelectElement).value);
+    this.addressFilter.update(model => ({
+      ...model,
+      state: state,
+      remark: ''
+    }));
   }
 
   onPinCodeChange(event: Event) {
@@ -216,24 +278,7 @@ export class VendorWarehouseList {
     this.contactPhoneNumber.set((event.target as HTMLInputElement).value);
   }
 
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
-    this.loadAddress();
-  }
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChanged(size: number): void {
-    this.pageSize.set(size);
-    this.pageNumber.set(1);
-    this.loadAddress();
-  }
+  
 
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
@@ -246,13 +291,9 @@ export class VendorWarehouseList {
     this.selectedAddressId.set(id);
     this.showDeactivatePopup.set(true);
   }
-  closePopup() {
-    this.showDeactivatePopup.set(false);
-    this.selectedAddressId.set(null);
-  }
-
+  
   deleteAddress() {
-    const id = this.selectedAddressId();
+    const id = this.selectedId();
     if (id == null) {
       return;
     }
