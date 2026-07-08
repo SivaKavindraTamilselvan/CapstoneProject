@@ -37,25 +37,25 @@ export interface GroupedSubCategory {
 export class MappedAttributeList extends BasePage {
 
   actions = computed<TableAction<AdminProductCategoryModel>[]>(() => {
-  if (this.categoryStatus() == null) {
-    return [];
-  }
-
-  return [
-    {
-      label: 'Deactivate',
-      color: 'red',
-      action: 'deactivate',
-      visible: category => category.isActive
-    },
-    {
-      label: 'Activate',
-      color: 'green',
-      action: 'activate',
-      visible: category => !category.isActive
+    if (this.categoryStatus() == null) {
+      return [];
     }
-  ];
-});
+
+    return [
+      {
+        label: 'Deactivate',
+        color: 'red',
+        action: 'deactivate',
+        visible: category => category.isActive
+      },
+      {
+        label: 'Activate',
+        color: 'green',
+        action: 'activate',
+        visible: category => !category.isActive
+      }
+    ];
+  });
   columns: Column[] = [
     {
       key: 'productSubCategoryAttributeId',
@@ -137,8 +137,20 @@ export class MappedAttributeList extends BasePage {
   attributeMappedFilter = signal(new MappedAttributeFilter());
 
   clearFilterValues(): void {
+    this.attributeMasterId.set(null);
     this.attributeMappedFilter.set(new MappedAttributeFilter());
+    this.productCategoryId.set(null);
+    this.productSubCategoryId.set(null);
+    this.attributeMappedFilter.update(filter => ({
+      ...filter,
+      productSubCategoryId: null,
+      attributeMasterId:null,
+    }));
   }
+
+  categorySelectionRequired = computed(() => {
+  return this.productCategoryId() !== null && this.productSubCategoryId() === null;
+});
 
 
   constructor(private router: ActivatedRoute, private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
@@ -150,6 +162,15 @@ export class MappedAttributeList extends BasePage {
         this.filterErrorMessage.set(null);
       }
     });
+    effect(() => {
+    if (this.categorySelectionRequired()) {
+      this.filterErrorMessage.set('Select the Sub category before submitting');
+    } else if (this.filterForm().invalid()) {
+      this.filterErrorMessage.set('Please fix the validation errors.');
+    } else {
+      this.filterErrorMessage.set(null);
+    }
+  });
   }
 
   categoryStatus = signal<boolean | null>(null);
@@ -247,7 +268,6 @@ export class MappedAttributeList extends BasePage {
   filterForm = form(this.attributeMappedFilter, (path) => {
     min(path.attributeMasterId, 1, { message: 'ID must be greater than 0.' });
     min(path.productSubCategoryId, 1, { message: 'ID must be greater than 0.' });
-
     min(path.addedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
   });
 
@@ -303,6 +323,7 @@ export class MappedAttributeList extends BasePage {
     });
   }
   loadCategories(): void {
+
     this.adminProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
@@ -311,6 +332,9 @@ export class MappedAttributeList extends BasePage {
       error: (err) => console.log(err)
     });
   }
+
+  otherErrorMessage = signal<string | null>(null);
+  categoryErrorMessage = signal<string | null>(null);
 
   onCategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
@@ -323,7 +347,7 @@ export class MappedAttributeList extends BasePage {
       productCategoryId: id,
       productSubCategoryId: null
     }));
-    this.filterErrorMessage.set("Select the Sub category before submitting");
+
     if (id) {
       this.adminProductService.getSubCategory(id).subscribe({
         next: (res: any) => this.subCategories.set(res.items ?? res),
@@ -332,12 +356,18 @@ export class MappedAttributeList extends BasePage {
     }
   }
   onSubcategoryChange(event: Event): void {
+    if (this.otherErrorMessage() == null) {
+      this.filterErrorMessage.set(null);
+    }
+    else {
+      this.filterErrorMessage.set(this.otherErrorMessage());
+    }
     const v = (event.target as HTMLSelectElement).value;
+    this.productSubCategoryId.set(v ? Number(v) : null);
     this.attributeMappedFilter.update(filter => ({
       ...filter,
       productSubCategoryId: v ? Number(v) : null
     }));
-    this.productSubCategoryId.set(v ? Number(v) : null);
   }
   onAddFormSubcategoryChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
@@ -345,6 +375,14 @@ export class MappedAttributeList extends BasePage {
       ...m,
       productSubCategoryId: value
     }));
+  }
+  onFilterFormAttributeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.attributeMappedFilter.update(m => ({
+      ...m,
+      attributeMasterId: value
+    }));
+    this.attributeMasterId.set(value);
   }
   onAddFormAttributeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

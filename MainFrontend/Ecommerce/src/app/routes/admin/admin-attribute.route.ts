@@ -36,11 +36,11 @@ export const AdminAttributeRoutes: Routes = [
     {
         path: 'attribute-mapping/list?status=active',
         component: MappedAttributeList,
-        data: { status: true, title: 'Active Mapped Attribute List' }
+        data: { status: true, title: 'Active Mapped Attribute' }
     },
     {
         path: 'attribute-mapping/list?status=inactive',
         component: MappedAttributeList,
-        data: { status: false, title: 'Inactive Mapped Attribute List' }
+        data: { status: false, title: 'Inactive Mapped Attribute' }
     },
 ];

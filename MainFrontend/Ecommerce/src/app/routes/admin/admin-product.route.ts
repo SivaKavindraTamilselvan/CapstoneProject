@@ -6,6 +6,7 @@ import { AdminProduct } from "../../admin/admin-product/admin-product/admin-prod
 import { AdminDetailProduct } from "../../admin/admin-product/admin-detail-product/admin-detail-product";
 import { ReviewVariant } from "../../admin/admin-product/review-variant/review-variant";
 import { VariantList } from "../../admin/admin-product/variant-list/variant-list";
+import { VendorVariantDetails } from "../../vendor/vendor-variant/vendor-variant-details/vendor-variant-details";
 
 
 export const AdminProductRoutes: Routes = [
@@ -28,7 +29,6 @@ export const AdminProductRoutes: Routes = [
         path: 'product-details/:id',
         component: AdminDetailProduct,
     },
-
     {
         path: 'product-variant/review',
         component: ReviewVariant
@@ -37,6 +37,8 @@ export const AdminProductRoutes: Routes = [
         path: 'product-variant/list',
         component: VariantList
     },
-
-
+    {
+        path: 'product-variant-details/:id',
+        component: VendorVariantDetails
+    },
 ];

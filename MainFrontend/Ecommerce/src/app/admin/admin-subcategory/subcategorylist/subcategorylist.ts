@@ -57,7 +57,7 @@ export class Subcategorylist extends BasePage {
     },
     {
       key: 'productSubCategoryName',
-      header: 'Category'
+      header: 'Sub Category'
     },
     {
       key: 'productCategoryId',
@@ -91,7 +91,7 @@ export class Subcategorylist extends BasePage {
   mobileColumns: Column[] = [
     {
       key: 'productSubCategoryName',
-      header: 'Category'
+      header: 'Sub Category'
     },
     {
       key: 'productCategoryId',
@@ -107,7 +107,7 @@ export class Subcategorylist extends BasePage {
     },
     {
       key: 'addedUserName',
-      header: 'Added Admin Name'
+      header: 'Admin Name'
     },
     {
       key: 'isActive',
@@ -176,7 +176,9 @@ export class Subcategorylist extends BasePage {
     });
   }
   clearFilterValues(): void {
+    this.ProductCategoryId.set(null);
     this.subCategoryFilter.set(new AdminProductSubCategoryFilter());
+    this.subCategoryFilter.update(m=>({...m,productCategoryId: null}));
   }
 
   selectedAction = signal<'activate' | 'deactivate' | null>(null);
@@ -313,7 +315,6 @@ export class Subcategorylist extends BasePage {
     this.adminProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
-        console.log(this.categories);
       },
       error: (err) => console.log(err)
     });

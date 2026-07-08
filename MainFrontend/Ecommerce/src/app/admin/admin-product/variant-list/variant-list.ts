@@ -115,7 +115,6 @@ export class VariantList extends BasePage {
       case 'view':
         this.viewProduct(event.row.productVariantId);
         break;
-
     }
   }
   productCategoryId = signal<number | null>(null);
@@ -389,8 +388,9 @@ export class VariantList extends BasePage {
     const v = (event.target as HTMLSelectElement).value;
     this.subcategoryId.set(v ? Number(v) : null);
   }
+  
   viewProduct(productId: number) {
-    this.route.navigate(['/admin/product-details', productId]);
+    this.route.navigate(['/admin/product-variant-details', productId]);
   }
 }
 

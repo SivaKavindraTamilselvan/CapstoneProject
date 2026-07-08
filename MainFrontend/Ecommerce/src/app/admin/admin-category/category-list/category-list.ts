@@ -231,7 +231,7 @@ export class CategoryList extends BasePage {
     this.adminCategoryService.getProductCategory(this.categoryFilter()).subscribe({
       next: (response: any) => {
         this.category.set(response);
-        console.log(this.category());
+        this.scrollToTop();
       },
       error: (error) => {
         console.error(error);
