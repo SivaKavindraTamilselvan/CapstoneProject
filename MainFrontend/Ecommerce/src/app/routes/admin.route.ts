@@ -1,8 +1,6 @@
 import { Routes } from '@angular/router';
 import { CategoryList } from '../admin/admin-category/category-list/category-list';
 import { Subcategorylist } from '../admin/admin-subcategory/subcategorylist/subcategorylist';
-import { InactiveSubCategory } from '../admin/admin-subcategory/inactive-sub-category/inactive-sub-category';
-import { ActiveSubCategory } from '../admin/admin-subcategory/active-sub-category/active-sub-category';
 import { AttributeList } from '../admin/admin-attribute/attribute-list/attribute-list';
 import { ActiveAttribute } from '../admin/admin-attribute/active-attribute/active-attribute';
 import { InactiveAttribute } from '../admin/admin-attribute/inactive-attribute/inactive-attribute';

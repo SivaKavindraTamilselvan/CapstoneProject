@@ -1,87 +1,69 @@
 <section class="bg-white px-8 py-8">
-    <div class="pb-8 relative flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product SubCategory</h1>
-        <div class="absolute right-0 flex items-center gap-2">
-            @if(filterApplied()){
-            <button type="button" class="sm:p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilters()">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="w-6 h-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                </svg>
-            </button>
-            }
-            <button (click)="toggleFilterPanel()" class="hover:bg-gray-100 cursor-pointer rounded-md">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-                </svg>
-            </button>
-        </div>
-    </div>
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
     <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
         [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
         (reset)="resetFilters()">
 
         <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
-                <input type="number" placeholder="Admin ID" [formField]="filterForm.addedByAdminId"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.addedByAdminId().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.addedByAdminId().errors()[0].message }}</p>
-                }
-            </div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+            <input type="number" placeholder="Admin ID" [formField]="filterForm.addedByAdminId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.addedByAdminId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.addedByAdminId().errors()[0].message }}</p>
+            }
+        </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Category</label>
-                <select (change)="onCategoryFilterChange($event)"   [value]="ProductCategoryId() ?? ''"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full">
-                    <option value="">All</option>
-                    @for(cat of categories(); track cat.productCategoryId) {
-                    <option [value]="cat.productCategoryId" >
-                        {{cat.productCategoryName}}
-                    </option>
-                    }
-                </select>
-            </div>
-
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Product Sub Category Id</label>
-                <input type="number" placeholder="Sub Category ID" [formField]="filterForm.productSubCategoryId"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.productSubCategoryId().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.productSubCategoryId().errors()[0].message }}</p>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Category</label>
+            <select (change)="onCategoryFilterChange($event)" [value]="ProductCategoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option value="">All</option>
+                @for(cat of categories(); track cat.productCategoryId) {
+                <option [value]="cat.productCategoryId">
+                    {{cat.productCategoryName}}
+                </option>
                 }
-            </div>
+            </select>
+        </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Minumum Commission Percentage</label>
-                <input type="number" placeholder="Min Commission" [formField]="filterForm.minimumCommissionPercentage"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minimumCommissionPercentage().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumCommissionPercentage().errors()[0].message }}
-                </p>
-                }
-            </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Sub Category Id</label>
+            <input type="number" placeholder="Sub Category ID" [formField]="filterForm.productSubCategoryId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.productSubCategoryId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.productSubCategoryId().errors()[0].message }}</p>
+            }
+        </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Commission Percentage</label>
-                <input type="number" placeholder="Max Commission" [formField]="filterForm.maximumCommissionPercentage"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maximumCommissionPercentage().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumCommissionPercentage().errors()[0].message }}
-                </p>
-                }
-            </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Minumum Commission Percentage</label>
+            <input type="number" placeholder="Min Commission" [formField]="filterForm.minimumCommissionPercentage"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.minimumCommissionPercentage().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumCommissionPercentage().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Commission Percentage</label>
+            <input type="number" placeholder="Max Commission" [formField]="filterForm.maximumCommissionPercentage"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.maximumCommissionPercentage().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumCommissionPercentage().errors()[0].message }}
+            </p>
+            }
+        </div>
 
     </app-filter-component>
 
     @if(pageTitle()=='Product Sub Category List'){
-
     <div class="flex justify-end pb-4">
         <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openAddPopup()">
             Add Sub Category
@@ -107,44 +89,76 @@
         [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
     </app-popup-component>
 
-    @if(showActivatePopup()) {
-    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-        <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
-            <h1 class="text-2xl font-bold text-blue-950 text-center mb-4">
+    @if (showAddPopup()) {
+
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+        <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+            <h2 class="text-center text-xl font-bold text-blue-950">
                 Add Sub Category
-            </h1>
-
-            <form (ngSubmit)="addSubCategory()">
-
+            </h2>
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+                {{ successMessage() }}
+            </div>
+            }
+            @if(errorMessage()) {
+            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+                {{ errorMessage() }}
+            </div>
+            }
+            <form class="mt-6 space-y-4" (ngSubmit)="addSubCategory()">
                 <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select (change)="onCategoryChange($event)"
-                        class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3">
-                        <option value="">All</option>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Category
+                    </label>
+                    <select (change)="onCategoryChange($event)" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        <option value="">
+                            Select Category
+                        </option>
                         @for(cat of categories(); track cat.productCategoryId) {
+
                         <option [value]="cat.productCategoryId">
                             {{cat.productCategoryName}}
                         </option>
                         }
                     </select>
                 </div>
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category Name</label>
-                <input type="text" [formField]="addForm.productSubCategoryName"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3"
-                    placeholder="Enter sub category name">
-
-                <label class="block text-sm font-semibold text-gray-700 mb-1">Commission Percentage</label>
-                <input type="number" [formField]="addForm.commissionPercentage"
-                    class="w-full border border-gray-300 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 mb-3"
-                    placeholder="Enter commission percentage">
-
-                <div class="flex justify-end gap-3 mt-5">
-                    <button type="button" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400"
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Sub Category Name
+                    </label>
+                    <input type="text" [formField]="addForm.productSubCategoryName"
+                        placeholder="Enter sub category name" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    @if(addForm.productSubCategoryName().invalid() &&
+                    addForm.productSubCategoryName().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ addForm.productSubCategoryName().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Commission Percentage
+                    </label>
+                    <input type="number" [formField]="addForm.commissionPercentage"
+                        placeholder="Enter commission percentage" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    @if(addForm.commissionPercentage().invalid() &&
+                    addForm.commissionPercentage().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ addForm.commissionPercentage().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+                <div class="flex justify-center gap-4 pt-2">
+                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
                         (click)="closeAddPopup()">
                         Cancel
                     </button>
-
-                    <button type="submit" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-900">
+                    <button type="submit"
+                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
                         Add
                     </button>
                 </div>
