@@ -2,9 +2,8 @@
     @if(productCategoryModel()){
     <div class="md:hidden min-h-screen">
         @for(category of productCategoryModel(); track category.productCategoryId){
-        <div class="flex justify-between items-center border-b border-black">
-            <p class="text-md font-bold py-4"
-                (click)="selectCategory(category.productCategoryId)">
+        <div class="flex justify-between items-center border-b border-black" (click)="selectCategory(category.productCategoryId)">
+            <p class="text-md font-bold py-4">
                 {{category.productCategoryName}}
             </p>
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

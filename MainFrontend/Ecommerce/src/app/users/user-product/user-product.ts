@@ -29,6 +29,10 @@ export class UserProduct {
   productSubCategoryId = signal<number | null>(null);
   minPrice = signal<number | null>(null);
   maxPrice = signal<number | null>(null);
+  draftMinPrice = signal<number | null>(null);
+  draftMaxPrice = signal<number | null>(null);
+  draftproductCategoryId = signal<number | null>(null);
+  draftproductSubCategoryId = signal<number | null>(null);
   pageNumber = signal<number>(1);
   pageSize = signal<number>(10);
   filterPanelOpen = signal<boolean>(false);
@@ -84,6 +88,10 @@ export class UserProduct {
     });
   }
   applyFilters(): void {
+    this.productCategoryId.set(this.draftproductCategoryId());
+    this.productSubCategoryId.set(this.draftproductSubCategoryId());
+    this.minPrice.set(this.draftMinPrice());
+    this.maxPrice.set(this.draftMaxPrice());
     this.pageNumber.set(1);
     this.loadProduct();
     this.closeFilterPanel();
@@ -129,12 +137,12 @@ export class UserProduct {
 
   onMinPriceInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(v ? Number(v) : null);
+    this.draftMinPrice.set(v ? Number(v) : null);
   }
 
   onMaxPriceInput(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(v ? Number(v) : null);
+    this.draftMaxPrice.set(v ? Number(v) : null);
   }
   getMainImage(product: any): string | null {
     if (product.productImages?.length) {
@@ -170,8 +178,8 @@ export class UserProduct {
   onCategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
-    this.productCategoryId.set(id);
-    this.productSubCategoryId.set(null);         // reset subcategory when category changes
+    this.draftproductCategoryId.set(id);
+    this.draftproductSubCategoryId.set(null);         // reset subcategory when category changes
     this.subCategories.set([]);
     if (id) {
       this.userProductService.getSubCategory(id).subscribe({
@@ -182,6 +190,6 @@ export class UserProduct {
   }
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
-    this.productSubCategoryId.set(v ? Number(v) : null);
+    this.draftproductSubCategoryId.set(v ? Number(v) : null);
   }
 }
