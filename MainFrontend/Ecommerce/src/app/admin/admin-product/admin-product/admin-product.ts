@@ -1,11 +1,11 @@
-import { Component, OnInit, computed, effect, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { ProductModel } from '../../../models/product/product.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AdminProductService } from '../../../services/admin-product.Service';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
-import { form, FormField, min, pattern, required } from '@angular/forms/signals';
+import { form, FormField, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
@@ -17,120 +17,20 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { ReviewProductModel } from '../../../models/product/review-product.model';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
+import { DeletePopupComponents } from '../../../shared-components/delete-popup-components/delete-popup-components';
+import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
 
 @Component({
   selector: 'app-admin-product',
-  imports: [FormField, FormsModule, ReactiveFormsModule, PaginationComponent, FilterComponent, MobileCardComponent, DataTableComponent],
+  imports: [FormField, FormsModule, ReactiveFormsModule, PaginationComponent, FilterComponent, MobileCardComponent, DataTableComponent, HeaderComponent, DeletePopupComponents,ReviewPopupComponent],
   templateUrl: './admin-product.html',
   styleUrl: './admin-product.css',
 })
 export class AdminProduct extends BasePage {
-  actions: TableAction<ProductModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view',
-    },
-    {
-      label: 'Delete',
-      color: 'red',
-      action: 'delete',
-      visible: vendor => vendor.productApprovalStatus != "Deleted_By_Admin" && vendor.productApprovalStatus != "Pending"
-
-    },
-    {
-      label: 'Review',
-      color: 'gray',
-      action: 'review',
-      visible: vendor => vendor.productApprovalStatus == "Pending"
-    }
-  ];
-  columns: Column[] = [
-    {
-      key: 'productId',
-      header: 'ID'
-    },
-    {
-      key: 'productName',
-      header: 'Name'
-    },
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'productSubCategoryName',
-      header: 'SubCategory'
-    },
-    {
-      key: 'vendorName',
-      header: 'Vendor'
-    },
-    {
-      key: 'productApprovalStatus',
-      header: 'Approval'
-    },
-    {
-      key: 'productStatus',
-      header: 'Status'
-    },
-  ];
-
-  mobileColumns: Column[] = [
-    {
-      key: 'productName',
-      header: 'Name'
-    },
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'productSubCategoryName',
-      header: 'Sub Category'
-    },
-    {
-      key: 'vendorName',
-      header: 'Vendor'
-    },
-    {
-      key: 'productApprovalStatus',
-      header: 'Approval'
-    },
-    {
-      key: 'productStatus',
-      header: 'Status'
-    },
-
-  ];
-
-  handleAction(event: { type: string; row: ProductModel }) {
-    switch (event.type) {
-      case 'view':
-        this.viewProduct(event.row.productId);
-        break;
-      case 'delete':
-        this.openDeletePopup(event.row.productId);
-        break;
-      case 'review':
-        this.openReviewPopup(event.row.productId);
-        break;
-    }
-  }
 
   products = signal<PagedResponse<ProductModel> | null>(null);
 
-  productCategoryId = signal<number | null>(null);
-  productSubCategoryId = signal<number | null>(null);
-  productApprovalStatusId = signal<number | null>(null);
-  productStatusId = signal<number | null>(null);
-  hasIssues = signal<boolean | null>(null);
-  isAvailableForSale = signal<boolean | null>(null);
-
-  showDeletePopup = signal(false);
-  successMessage = signal<string | null>(null);
-  errorMessage = signal<string | null>(null);
-  deleteProductModel = signal(new AdminDeleteProductModel());
   selectedProductId = signal<number | null>(null);
 
   categories = signal<AdminProductCategoryModel[]>([]);
@@ -166,8 +66,70 @@ export class AdminProduct extends BasePage {
     });
   }
 
+  draftstatus = signal<number | null>(null);
+  status = signal<number | null>(null);
+  deleted = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.status.set(data['status']);
+      this.deleted.set(data['deleted']);
+      this.pageTitle.set(data['title']);
+      this.loadProduct();
+      this.loadCategories();
+    });
+  }
+
   protected loadData(): void {
     this.loadProduct();
+  }
+
+  loadProduct(): void {
+    this.buildFilters();
+    console.log(this.adminProductFilter().includeIsDeleted);
+    this.adminProductService.getProducts(this.adminProductFilter()).subscribe({
+      next: (response: any) => {
+        this.products.set(response);
+      },
+      error: (error) => {
+        console.log(error);
+
+      },
+    });
+  }
+
+  productCategoryId = signal<number | null>(null);
+  productSubCategoryId = signal<number | null>(null);
+  productApprovalStatusId = signal<number | null>(null);
+  productStatusId = signal<number | null>(null);
+  hasIssues = signal<boolean | null>(null);
+  isAvailableForSale = signal<boolean | null>(null);
+
+  filterForm = form(this.adminProductFilter, (path) => {
+    min(path.vendorId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.addedId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productSubCategoryId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productApprovalStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.productStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
+    min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
+    min(path.minAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
+    min(path.maxAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
+    min(path.minReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
+    min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
+  });
+
+  private buildFilters() {
+    this.adminProductFilter.update(filter => ({
+      ...filter,
+      productApprovalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
+      includeIsDeleted: this.deleted(),
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      searchTerm: filter.searchTerm.trim().toLowerCase(),
+    }));
   }
 
   clearFilterValues(): void {
@@ -187,218 +149,6 @@ export class AdminProduct extends BasePage {
       productCategoryId: null,
       productSubCategoryId: null
     }));
-  }
-
-  draftstatus = signal<number | null>(null);
-  status = signal<number | null>(null);
-  deleted = signal<boolean | null>(null);
-  pageTitle = signal<string | null>(null);
-
-  ngOnInit(): void {
-    this.router.data.subscribe(data => {
-      this.status.set(data['status']);
-      this.deleted.set(data['deleted']);
-      this.pageTitle.set(data['title']);
-      this.loadProduct();
-      this.loadCategories();
-    });
-  }
-
-  private buildFilters() {
-    this.adminProductFilter.update(filter => ({
-      ...filter,
-      productApprovalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
-      includeIsDeleted: this.deleted(),
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      searchTerm: filter.searchTerm.trim().toLowerCase(),
-    }));
-  }
-
-  filterForm = form(this.adminProductFilter, (path) => {
-    min(path.vendorId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.addedId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.productCategoryId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.productSubCategoryId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.productApprovalStatusId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.productStatusId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
-    min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
-    min(path.minAvailableQuantity, 0, { message: 'Minimum available quantity cannot be negative.' });
-    min(path.maxAvailableQuantity, 0, { message: 'Maximum available quantity cannot be negative.' });
-    min(path.minReservedQuantity, 0, { message: 'Minimum reserved quantity cannot be negative.' });
-    min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
-  });
-
-  loadProduct(): void {
-    this.buildFilters();
-    console.log(this.adminProductFilter().includeIsDeleted);
-    this.adminProductService.getProducts(this.adminProductFilter()).subscribe({
-      next: (response: any) => {
-        this.products.set(response);
-      },
-      error: (error) => {
-        console.log(error);
-
-      },
-    });
-  }
-
-  onApprovalStatusChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.productApprovalStatusId.set(v ? Number(v) : null);
-    this.draftstatus.set(v ? Number(v) : null);
-  }
-
-  onProductStatusChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.productStatusId.set(v ? Number(v) : null);
-    this.adminProductFilter.update(model => ({
-      ...model,
-      productStatusId: v ? Number(v) : null
-    }));
-  }
-
-  onHasIssuesChange(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.hasIssues.set(checked);
-    this.adminProductFilter.update(model => ({
-      ...model,
-      hasIssues: checked
-    }));
-  }
-
-  onAvailableForSaleChange(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-
-    this.isAvailableForSale.set(checked ? true : null);
-
-    this.adminProductFilter.update(model => ({
-      ...model,
-      isAvailableForSale: checked
-    }));
-  }
-
-  deleteForm = form(this.deleteProductModel, (path) => {
-    required(path.remark, { message: "Enter The Remarks" });
-  })
-
-  handleDelete() {
-    this.errorMessage.set(null);
-    this.successMessage.set(null);
-
-    if (this.deleteForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
-      return;
-    }
-
-    const request = {
-      productId: this.deleteProductModel().productId,
-      remark: this.deleteProductModel().remark
-    };
-
-    this.adminProductService.deleteProduct(request).subscribe({
-      next: () => {
-        this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
-        setTimeout(() => {
-          this.closePopup();
-          this.successMessage.set(null);
-          this.loadProduct();
-        }, 3000);
-      },
-      error: (error) => {
-        this.successMessage.set(null);
-
-        if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-
-          this.errorMessage.set(messages);
-        }
-        else {
-          this.errorMessage.set(
-            error.error?.message ?? "Something went wrong. Please try again."
-          );
-        }
-      }
-    });
-  }
-
-  openDeletePopup(productId: number) {
-    this.selectedProductId.set(productId);
-
-    this.deleteProductModel.update(model => ({
-      ...model,
-      productId: productId,
-      remark: ''
-    }));
-
-    this.showDeletePopup.set(true);
-  }
-  reviewProductModel = signal(new ReviewProductModel());
-
-  reviewForm = form(this.reviewProductModel, (path) => {
-    required(path.approvalStatusId, { message: "Enter The Approval Status" });
-    required(path.remark, { message: "Enter The Remarks" });
-    pattern(path.approvalStatusId, /^[45]$/, { message: "Select valid approval status" })
-  });
-
-
-  openReviewPopup(productId: number) {
-    this.selectedProductId.set(productId);
-
-    this.reviewProductModel.set(
-      new ReviewProductModel(productId, "", "")
-    );
-
-    this.showPopup.set(true);
-  }
-
-  closeDeletePopup() {
-    this.showDeletePopup.set(false);
-    this.selectedProductId.set(null);
-    this.reviewProductModel.set(new ReviewProductModel());
-    this.errorMessage.set(null);
-  }
-  handleReview() {
-    this.errorMessage.set(null);
-    this.successMessage.set(null);
-    if (this.reviewForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
-      return;
-    }
-    const request = {
-      productId: this.reviewProductModel().productId,
-      approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
-    };
-    this.adminProductService.reviewProduct(request).subscribe({
-      next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
-        setTimeout(() => {
-          this.closePopup();
-          this.successMessage.set(null);
-          this.loadProduct();
-        }, 3000);
-      },
-      error: (error) => {
-        this.successMessage.set(null);
-
-        if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-
-          this.errorMessage.set(messages);
-        }
-        else {
-          this.errorMessage.set(
-            error.error?.message ?? "Something went wrong. Please try again."
-          );
-        }
-      }
-    });
   }
 
 
@@ -453,6 +203,7 @@ export class AdminProduct extends BasePage {
       });
     }
   }
+
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
@@ -461,6 +212,218 @@ export class AdminProduct extends BasePage {
       productSubCategoryId: v ? Number(v) : null
     }));
   }
+
+
+
+  onApprovalStatusChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productApprovalStatusId.set(v ? Number(v) : null);
+    this.draftstatus.set(v ? Number(v) : null);
+  }
+
+  onProductStatusChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.productStatusId.set(v ? Number(v) : null);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: v ? Number(v) : null
+    }));
+  }
+
+  onHasIssuesChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.hasIssues.set(checked);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      hasIssues: checked
+    }));
+  }
+
+  onAvailableForSaleChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    this.isAvailableForSale.set(checked ? true : null);
+
+    this.adminProductFilter.update(model => ({
+      ...model,
+      isAvailableForSale: checked
+    }));
+  }
+
+  showDeletePopup = signal(false);
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  deleteProductModel = signal(new AdminDeleteProductModel());
+  progress = signal(false);
+
+  deleteForm = form(this.deleteProductModel, (path) => {
+    required(path.remark, { message: "Enter The Remarks" });
+  })
+
+  openDeletePopup(productId: number) {
+    this.deleteProductModel.update(model => ({
+      ...model,
+      productId: productId,
+      remark: ''
+    }));
+    this.showDeletePopup.set(true);
+  }
+
+  onConfirmDelete() {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    const errors = [];
+    if (this.deleteForm.remark().invalid()) {
+      errors.push(this.deleteForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(', '));
+
+    if (this.deleteForm().invalid()) {
+      return;
+    }
+    this.progress.set(true);
+
+    const request = {
+      productId: this.deleteProductModel().productId,
+      remark: this.deleteProductModel().remark
+    };
+
+    this.adminProductService.deleteProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors).flat().join(", ");
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.error?.message ?? "Something went wrong. Please try again.");
+        }
+        this.progress.set(false);
+      }
+    });
+  }
+
+  onCancelDelete() {
+    this.showDeletePopup.set(false);
+    this.deleteForm().reset();
+    this.deleteProductModel.set(new AdminDeleteProductModel());
+    this.errorMessage.set('');
+    this.successMessage.set('');
+  }
+
+  showReviewPopup = signal(false);
+  reviewProductModel = signal(new ReviewProductModel());
+  approvalStatusOption = [
+    { id: 2, label: 'Accepted' },
+    { id: 3, label: 'Rejected' },
+  ];
+
+  reviewForm = form(this.reviewProductModel, (path) => {
+    required(path.approvalStatusId, { message: "Enter The Approval Status" });
+    required(path.remark, { message: "Enter The Remarks" });
+    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
+  });
+
+  openReviewPopup(productId: number) {
+    this.reviewProductModel.update(model => ({
+      ...model,
+      productId: productId,
+      approvalStatusId: null,
+      remark: ''
+    }));
+    this.showReviewPopup.set(true);
+  }
+  onConfirmReview() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    const errors = [];
+    if (this.reviewForm.approvalStatusId().invalid()) {
+      errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
+    }
+    if (this.reviewForm.remark().invalid()) {
+      errors.push(this.reviewForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(", "));
+    if (this.reviewForm().invalid()) {
+      return;
+    }
+    this.progress.set(true);
+
+    const request = {
+      productId: this.reviewProductModel().productId,
+      approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
+      remark: this.reviewProductModel().remark
+    };
+    this.adminProductService.reviewProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Vendor reviewed successfully");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadProduct();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors).flat().join(", ");
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.error?.message ?? "Something went wrong. Please try again.");
+        }
+        this.progress.set(false);
+      }
+    });
+  }
+  onCancelReview() {
+    this.showReviewPopup.set(false);
+    this.reviewForm().reset();
+    this.reviewProductModel.set(new ReviewProductModel());
+    this.errorMessage.set('');
+    this.successMessage.set('');
+  }
+
+  actions: TableAction<ProductModel>[] = [
+    { label: 'View', color: 'green', action: 'view' },
+    { label: 'Delete', color: 'red', action: 'delete', visible: product => product.productApprovalStatus !== 'Deleted_By_Admin' && product.productApprovalStatus !== 'Pending' },
+    { label: 'Review', color: 'gray', action: 'review', visible: product => product.productApprovalStatus === 'Pending' }];
+
+  columns: Column[] = [
+    { key: 'productId', header: 'ID' },
+    { key: 'productName', header: 'Name' },
+    { key: 'productCategoryName', header: 'Category' },
+    { key: 'productSubCategoryName', header: 'SubCategory' },
+    { key: 'vendorName', header: 'Vendor' },
+    { key: 'productApprovalStatus', header: 'Approval' },
+    { key: 'productStatus', header: 'Status' }
+  ];
+
+  mobileColumns = [...this.columns];
+
+  handleAction(event: { type: string; row: ProductModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewProduct(event.row.productId);
+        break;
+      case 'delete':
+        this.openDeletePopup(event.row.productId);
+        break;
+      case 'review':
+        this.openReviewPopup(event.row.productId);
+        break;
+    }
+  }
+
   viewProduct(productId: number) {
     this.route.navigate(['/admin/product-details', productId]);
   }

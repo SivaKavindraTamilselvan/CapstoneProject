@@ -8,7 +8,7 @@ import { VendorProductService } from '../../../services/vendor-product.Service';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
 import { AdminProductSubCategoryModel } from '../../../models/admin/admin-product-category/response/admin-subcategory.model';
 import { AdminDeleteProductModel } from '../../../models/admin/admin-product/models/delete-product.model';
-import { form, FormField, max, min, pattern, required } from '@angular/forms/signals';
+import { form, FormField, max, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
@@ -492,14 +492,14 @@ export class ProductList extends BasePage {
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
     required(path.remark, { message: "Enter The Remarks" });
-    pattern(path.approvalStatusId, /^[23]$/, { message: "Select valid approval status" })
+    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
   });
 
   openReviewPopup(productId: number) {
     this.selectedProductId.set(productId);
 
     this.reviewProductModel.set(
-      new ReviewProductModel(productId, "", "")
+      new ReviewProductModel(productId, null, "")
     );
 
     this.showReviewPopup.set(true);

@@ -1,6 +1,5 @@
 import { Routes } from "@angular/router";
 import { VendorList } from "../../admin/admin-vendor/vendor-list/vendor-list";
-import { DeleteVendor } from "../../admin/admin-vendor/delete-vendor/delete-vendor";
 import { VendorDetails } from "../../admin/admin-vendor/vendor-details/vendor-details";
 
 export const AdminVendorRoutes: Routes = [

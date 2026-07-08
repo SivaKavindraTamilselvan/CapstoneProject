@@ -14,7 +14,7 @@ export class ProductModel {
         public mainProductSubCategoryAttributeName: string = "",
         public createdAt: string = "",
         public updatedAt: string | null,
-        public isAvailableForSale: boolean,
+        public isAvailableForSale: boolean | null = null,
         public validationIssues: string[],
         public productVariants: ProductVariantModel[],
         public productImages: ProductImageModel[]
