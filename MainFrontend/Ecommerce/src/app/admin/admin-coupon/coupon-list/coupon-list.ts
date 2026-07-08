@@ -180,6 +180,9 @@ export class CouponList extends BasePage {
 
   couponFilter = signal(new AdminCouponFilter());
   clearFilterValues(): void {
+    this.isExpired.set(null);
+    this.isActive.set(null);
+    this.couponTypeId.set(null);
     this.couponFilter.set(new AdminCouponFilter());
   }
 

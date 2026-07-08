@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormField, form, required, minLength } from '@angular/forms/signals';
+import { FormField, form, required, minLength, min } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
 import { AddCouponModel } from '../../../models/admin/admin-coupon/add-coupon.model';
@@ -14,6 +14,8 @@ import { AdminCouponService } from '../../../services/admin-coupon.Service';
 })
 export class AddCoupon {
 
+  successMessage = signal<string | null>(null);
+
   errorMessage = signal<string | null>(null);
   progress = signal(false);
 
@@ -24,46 +26,35 @@ export class AddCoupon {
     private couponService: AdminCouponService
   ) { }
 
-  couponForm = form(this.couponModel, (path) => {
+  addForm = form(this.couponModel, (path) => {
+    required(path.couponCode, { message: 'Coupon Code is required' });
+    minLength(path.couponCode, 3, { message: 'Coupon Code must contain at least 3 characters' });
 
-    required(path.couponCode, {
-      message: 'Coupon Code is required'
-    });
+    required(path.discountValue, { message: 'Discount Value is required' });
+    min(path.discountValue, 1, { message: 'Discount Value must be greater than 0' });
 
-    minLength(path.couponCode, 3, {
-      message: 'Coupon Code must contain at least 3 characters'
-    });
+    required(path.minimumOrderAmount, { message: 'Minimum Order Amount is required' });
+    min(path.minimumOrderAmount, 1, { message: 'Minimum Order Amount must be greater than 0' });
 
-    required(path.discountValue, {
-      message: 'Discount Value is required'
-    });
+    required(path.startDate, { message: 'Start Date is required' });
+    required(path.endDate, { message: 'End Date is required' });
 
-    required(path.minimumOrderAmount, {
-      message: 'Minimum Order Amount is required'
-    });
+    required(path.minimumNumberOfUsage, { message: 'Minimum Usage is required' });
+    min(path.minimumNumberOfUsage, 1, { message: 'Minimum Usage must be greater than 0' });
 
-    required(path.startDate, {
-      message: 'Start Date is required'
-    });
-
-    required(path.endDate, {
-      message: 'End Date is required'
-    });
-
-    required(path.minimumNumberOfUsage, {
-      message: 'Minimum Usage is required'
-    });
-
-    required(path.couponDescription, {
-      message: 'Coupon Description is required'
-    });
-
+    required(path.couponDescription, { message: 'Coupon Description is required' });
+    
   });
 
   handleAddCouponClick() {
 
-    if (this.couponForm().invalid()) {
-      alert("Enter Proper Details");
+    if (this.addForm().invalid()) {
+      this.errorMessage.set("Enter Proper Details");
+      window.scrollTo({
+        top: 0,
+        left: 0,
+        behavior: 'smooth'
+      });
       return;
     }
 
@@ -73,9 +64,10 @@ export class AddCoupon {
 
       next: () => {
 
-        alert("Coupon Added Successfully");
+        this.successMessage.set("Coupon Added Successfully");
 
         this.progress.set(false);
+        this.resetForm();
 
         this.couponModel.set(new AddCouponModel());
 
@@ -122,5 +114,11 @@ export class AddCoupon {
     this.errorMessage.set(null);
 
   }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+  if (['e', 'E', '+', '-', '.'].includes(event.key)) {
+    event.preventDefault();
+  }
+}
 
 }
