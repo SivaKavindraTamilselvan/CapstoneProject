@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeactivateAdmin } from './deactivate-admin';
+import { DetailedCardComponenet } from './detailed-card-componenet';
 
-describe('DeactivateAdmin', () => {
-  let component: DeactivateAdmin;
-  let fixture: ComponentFixture<DeactivateAdmin>;
+describe('DetailedCardComponenet', () => {
+  let component: DetailedCardComponenet;
+  let fixture: ComponentFixture<DetailedCardComponenet>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DeactivateAdmin],
+      imports: [DetailedCardComponenet],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(DeactivateAdmin);
+    fixture = TestBed.createComponent(DetailedCardComponenet);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

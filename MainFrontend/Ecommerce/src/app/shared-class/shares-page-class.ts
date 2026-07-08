@@ -1,6 +1,7 @@
 import { Signal, signal } from '@angular/core';
+import { PopupBase } from './popup-base-class';
 
-export abstract class BasePage {
+export abstract class BasePage extends PopupBase {
 
     protected abstract loadData(): void;
 
@@ -14,15 +15,6 @@ export abstract class BasePage {
     filterApplied = signal(false);
 
     protected abstract clearFilterValues(): void;
-
-    showPopup = signal(false);
-    selectedId = signal<number | null>(null);
-    popupTitle = signal('');
-    popupMessage = signal('');
-    popupConfirmText = signal('');
-    popupButtonClass = signal('');
-    titleClass = signal('');
-
 
     protected scrollToTop(): void {
         window.scrollTo({
@@ -84,16 +76,5 @@ export abstract class BasePage {
         this.pageNumber.set(1);
         this.clearFilterValues();
         this.loadData();
-    }
-
-    openPopup(id: number) {
-        this.selectedId.set(id);
-        this.showPopup.set(true);
-    }
-
-    closePopup() {
-        this.showPopup.set(false);
-        this.selectedId.set(null);
-
     }
 }
