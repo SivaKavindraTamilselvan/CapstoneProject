@@ -1,5 +1,4 @@
 import { Routes } from "@angular/router";
-import { ReviewVendor } from "../../admin/admin-vendor/review-vendor/review-vendor";
 import { VendorList } from "../../admin/admin-vendor/vendor-list/vendor-list";
 import { DeleteVendor } from "../../admin/admin-vendor/delete-vendor/delete-vendor";
 import { VendorDetails } from "../../admin/admin-vendor/vendor-details/vendor-details";
@@ -7,7 +6,8 @@ import { VendorDetails } from "../../admin/admin-vendor/vendor-details/vendor-de
 export const AdminVendorRoutes: Routes = [
     {
         path: 'vendors/review',
-        component: ReviewVendor
+        component: VendorList,
+        data: { status: 1, title: 'Pending Review Vendor' }
     },
     {
         path: 'vendors/list',
