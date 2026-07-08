@@ -1,182 +1,309 @@
-import { Component, computed, signal } from '@angular/core';
-import { ShipmentModel } from '../../../models/admin/admin-shipment/admin-shipment.model';
-import { PagedResponse } from '../../../models/paged-response.model';
-import { AdminShipmentService } from '../../../services/admin-shipment.Service';
+import { Component, computed, effect, signal } from '@angular/core';
 import { Router } from '@angular/router';
+import { AdminShipmentService } from '../../../services/admin-shipment.Service';
 import { ShipmentFilter } from '../../../models/admin/admin-shipment/shipment.filter';
+import { ShipmentModel } from '../../../models/admin/admin-shipment/admin-shipment.model';
 import { DatePipe } from '@angular/common';
+import { PagedResponse } from '../../../models/paged-response.model';
+import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { form, FormField, maxLength, min, pattern, required } from '@angular/forms/signals';
+import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ShipmentUpdateModel } from '../../../models/admin/admin-shipment/update-shipment.model';
 
 @Component({
   selector: 'app-shipment-list',
-  imports: [DatePipe],
+  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  providers: [DatePipe],
   templateUrl: './shipment-list.html',
   styleUrl: './shipment-list.css',
 })
-export class ShipmentList {
+export class ShipmentList extends BasePage {
+
+  actions: TableAction<ShipmentModel>[] = [
+    {
+      label: 'View',
+      color: 'green',
+      action: 'view'
+    },
+    {
+      label: 'Update',
+      color: 'blue',
+      action: 'update'
+    }
+  ];
+
+  columns: Column[] = [
+    {
+      key: 'shipmentId',
+      header: 'Shipment ID'
+    },
+    {
+      key: 'orderId',
+      header: 'Order ID'
+    },
+    {
+      key: 'shipperName',
+      header: 'Courier'
+    },
+    {
+      key: 'trackingNumber',
+      header: 'Tracking'
+    },
+    {
+      key: 'currentStatus',
+      header: 'Status'
+    },
+    {
+      key: 'expectedDeliveryDate',
+      header: 'Expected Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
+  mobileColumns: Column[] = [
+    {
+      key: 'shipmentId',
+      header: 'Shipment ID'
+    },
+    {
+      key: 'orderId',
+      header: 'Order ID'
+    },
+    {
+      key: 'shipperName',
+      header: 'Courier'
+    },
+    {
+      key: 'trackingNumber',
+      header: 'Tracking'
+    },
+    {
+      key: 'currentStatus',
+      header: 'Status'
+    },
+    {
+      key: 'expectedDeliveryDate',
+      header: 'Expected Date',
+      formatter: (value: string) =>
+        this.datePipe.transform(value, 'dd/MM/yyyy')
+    }
+  ];
+
   shipments = signal<PagedResponse<ShipmentModel> | null>(null);
 
-
-  shipmentTypeId = signal<number | null>(null);
   shipmentStatusId = signal<number | null>(null);
-  orderId = signal<number | null>(null);
-
-  courierName = signal<string>('');
-  pickUpAddressId = signal<number | null>(null);
-
-  trackingNumber = signal<string>('');
 
   fromDate = signal<string>('');
   toDate = signal<string>('');
 
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+  shipmentFilter = signal(new ShipmentFilter());
+  clearFilterValues(): void {
+    this.shipmentStatusId.set(null);
+    this.shipmentFilter.set(new ShipmentFilter());
+    this.shipmentFilter.update(filter => ({
+      ...filter,
+      shipmentStatusId: null
+    }));
+  }
 
   totalPages = computed(() => this.shipments()?.totalPages ?? 1);
 
-  filterPanelOpen = signal<boolean>(false);
-
   constructor(
+    private datePipe: DatePipe,
     private router: Router,
     private shipmentService: AdminShipmentService
-  ) {}
+  ) {
+    super();
+    effect(() => {
+      if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.loadShipments();
   }
 
-
-  loadShipments(): void {
-    this.shipmentService.getShipment(this.buildFilter()).subscribe({
-      next: (res: PagedResponse<ShipmentModel>) => {
-        this.shipments.set(res);
-        console.log(res);
+  loadShipments() {
+    this.buildFilter();
+    this.shipmentService.getShipment(this.shipmentFilter()).subscribe({
+      next: (response: PagedResponse<ShipmentModel>) => {
+        this.shipments.set(response);
+        console.log(response);
       },
-      error: (err) => {
-        console.error(err);
+      error: (error) => {
+        console.error(error);
 
-        this.shipments.set({
-          items: [],
-          totalCount: 0,
-          pageNumber: this.pageNumber(),
-          pageSize: this.pageSize(),
-          totalPages: 1
-        });
+        if (error.status === 404) {
+          this.shipments.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: this.pageNumber(),
+            pageSize: this.pageSize(),
+            totalPages: 1
+          });
+        }
       }
     });
   }
 
-  private buildFilter(): ShipmentFilter {
-    return {
-      shipmentTypeId: this.shipmentTypeId() ?? undefined,
-      shipmentStatusId: this.shipmentStatusId() ?? undefined,
-      orderId: this.orderId() ?? undefined,
+  handleAction(event: { type: string; row: ShipmentModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewShipment(event.row.shipmentId);
+        break;
+      case 'update':
+        this.openDeletePopup(event.row.shipmentId);
+        break;
+    }
+  }
 
-      courierName: this.courierName() || undefined,
-      pickUpAddressId: this.pickUpAddressId() ?? undefined,
+  protected loadData(): void {
+    this.loadShipments();
+  }
 
-      trackingNumber: this.trackingNumber() || undefined,
+  filterForm = form(this.shipmentFilter, (path) => {
+    pattern(path.trackingNumber, /^[A-Za-z0-9-]*$/, { message: 'Tracking number can contain only letters, numbers, and hyphens.' });
+    maxLength(path.trackingNumber, 50, { message: 'Tracking number cannot exceed 50 characters.' });
+    maxLength(path.courierName, 50, { message: 'Courier name cannot exceed 50 characters.' });
+    min(path.orderId, 1, { message: 'Order ID must be greater than 0.' });
+    min(path.shipmentStatusId, 1, { message: 'Shipment status ID must be greater than 0.' });
+  });
 
-      fromDate: this.fromDate() || undefined,
-      toDate: this.toDate() || undefined,
-
+  private buildFilter() {
+    this.shipmentFilter.update(filter => ({
+      ...filter,
       pageNumber: this.pageNumber(),
-      pageSize: this.pageSize()
-    };
+      pageSize: this.pageSize(),
+      shipmentStatusId: this.shipmentStatusId(),
+    }));
   }
 
-  toggleFilterPanel(): void {
-    this.filterPanelOpen.update(v => !v);
-  }
 
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
-
-  applyFilters(): void {
-    this.pageNumber.set(1);
-    this.loadShipments();
-    this.closeFilterPanel();
-  }
-
-  resetFilters(): void {
-    this.shipmentTypeId.set(null);
-    this.shipmentStatusId.set(null);
-    this.orderId.set(null);
-
-    this.courierName.set('');
-    this.pickUpAddressId.set(null);
-
-    this.trackingNumber.set('');
-
-    this.fromDate.set('');
-    this.toDate.set('');
-
-    this.pageNumber.set(1);
-    this.pageSize.set(10);
-
-    this.loadShipments();
-    this.closeFilterPanel();
-  }
-
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-
-    this.pageNumber.set(page);
-    this.loadShipments();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
-
-  onPageSizeChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-    this.pageSize.set(value);
-    this.pageNumber.set(1);
-    this.loadShipments();
-  }
-
-  onShipmentTypeChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.shipmentTypeId.set(v ? Number(v) : null);
-  }
 
   onStatusChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.shipmentStatusId.set(v ? Number(v) : null);
-  }
+    const value = (event.target as HTMLSelectElement).value;
 
-  onOrderIdInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.orderId.set(v ? Number(v) : null);
-  }
-
-  onCourierNameInput(event: Event): void {
-    this.courierName.set((event.target as HTMLInputElement).value);
-  }
-
-  onTrackingInput(event: Event): void {
-    this.trackingNumber.set((event.target as HTMLInputElement).value);
+    if (value === '') {
+      this.shipmentStatusId.set(null);
+    } else {
+      this.shipmentStatusId.set(Number(value));
+    }
+    this.shipmentFilter.update(filter => ({
+      ...filter,
+      shipmentStatusId: value === '' ? null : Number(value)
+    }));
   }
 
   onFromDateInput(event: Event): void {
-    this.fromDate.set((event.target as HTMLInputElement).value);
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+    this.shipmentFilter.update(filter => ({
+      ...filter,
+      fromDate: value
+    }));
   }
 
   onToDateInput(event: Event): void {
-    this.toDate.set((event.target as HTMLInputElement).value);
-  }
-
-  onPickUpAddressChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.pickUpAddressId.set(v ? Number(v) : null);
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+    this.shipmentFilter.update(filter => ({
+      ...filter,
+      toDate: value
+    }));
   }
 
   viewShipment(id: number): void {
     this.router.navigate(['/admin/shipment-details', id]);
+  }
+
+
+    showActivatePopup = signal(false);
+    successMessage = signal<string | null>(null);
+    errorMessage = signal<string | null>(null);
+    updateShipmentModel = signal(new ShipmentUpdateModel());
+    selectedShipmentId = signal<number | null>(null);
+
+  updateForm = form(this.updateShipmentModel, (path) => {
+    required(path.remarks, { message: "Enter The Remarks" });
+    required(path.location, { message: "Enter The Location" });
+    required(path.shipmentStatusId, { message: "Enter The Shipment Status" });
+  })
+
+  updateShipment() {
+    if (this.updateForm().invalid()) return;
+
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    if (this.updateForm().invalid()) {
+      this.errorMessage.set("Enter proper details");
+      return;
+    }
+
+    const request = {
+      shipmentStatusId:  Number(this.updateShipmentModel().shipmentStatusId),
+      remarks: this.updateShipmentModel().remarks,
+      shipmentId: this.updateShipmentModel().shipmentId,
+      location: this.updateShipmentModel().location,
+    };
+
+    this.shipmentService.updateShipment(request).subscribe({
+      next: () => {
+        this.successMessage.set("Shipment updated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.closePopup();
+          this.successMessage.set(null);
+          this.loadShipments();
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+      }
+    });
+  }
+
+  openDeletePopup(shipmentId: number) {
+    this.selectedShipmentId.set(shipmentId);
+
+    this.updateShipmentModel.update(model => ({
+      ...model,
+      shipmentId: shipmentId,
+      remark: '',
+      location: '',
+      shipmentStatusId : ''
+    }));
+
+    this.showActivatePopup.set(true);
+  }
+
+  closeUpdatePopup() {
+    this.showActivatePopup.set(false);
+    this.selectedShipmentId.set(null);
+    this.updateShipmentModel.set(new ShipmentUpdateModel());
+    this.errorMessage.set(null);
   }
 }

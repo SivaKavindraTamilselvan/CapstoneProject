@@ -55,7 +55,7 @@ export class UpdateShipment {
 
 
   loadShipments(): void {
-    this.shipmentService.getShipment(this.buildFilter()).subscribe({
+    this.shipmentService.getShipment(new ShipmentFilter()).subscribe({
       next: (res: PagedResponse<ShipmentModel>) => {
         this.shipments.set(res);
         console.log(res);
@@ -74,24 +74,7 @@ export class UpdateShipment {
     });
   }
 
-  private buildFilter(): ShipmentFilter {
-    return {
-      shipmentTypeId: this.shipmentTypeId() ?? undefined,
-      shipmentStatusId: this.shipmentStatusId() ?? undefined,
-      orderId: this.orderId() ?? undefined,
-
-      courierName: this.courierName() || undefined,
-      pickUpAddressId: this.pickUpAddressId() ?? undefined,
-
-      trackingNumber: this.trackingNumber() || undefined,
-
-      fromDate: this.fromDate() || undefined,
-      toDate: this.toDate() || undefined,
-
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize()
-    };
-  }
+  
 
   toggleFilterPanel(): void {
     this.filterPanelOpen.update(v => !v);

@@ -30,6 +30,7 @@ import { AdminCouponRoutes } from './admin/admin-coupon.route';
 import { AdminOrderRoutes } from './admin/admin-order.router';
 import { AdminKpiCard } from '../admin/admin-dashboard/admin-kpi-card/admin-kpi-card';
 import { AdminHomeDashboard } from '../admin/admin-dashboard/admin-home-dashboard/admin-home-dashboard';
+import { AdminShipmentRoutes } from './admin/admin-shipment.route';
 
 export const AdminRoutes: Routes = [
     
@@ -40,14 +41,6 @@ export const AdminRoutes: Routes = [
         component: AdminHomeDashboard
     },
    
-    {
-        path: 'shipments/list',
-        component: ShipmentList
-    },
-    {
-        path: 'shipments/update',
-        component: UpdateShipment
-    },
     {
         path: 'notifications',
         component: AdminNotificationList
@@ -60,10 +53,7 @@ export const AdminRoutes: Routes = [
         path: 'order/:id',
         component: AdminOrderDetails
     },
-     {
-        path: 'shipment-details/:id',
-        component: AdminShipmentDetails
-    },
+     
     ...AdminUserRoutes,
     ...AdminVendorRoutes,
     ...AdminProductRoutes,
@@ -71,4 +61,5 @@ export const AdminRoutes: Routes = [
     ...AdminAttributeRoutes,
     ...AdminCouponRoutes,
     ...AdminOrderRoutes,
+    ...AdminShipmentRoutes
 ];
