@@ -124,6 +124,7 @@ export class GetAdminOrders extends BasePage {
 
   orderFilter = signal(new AdminOrderFilter());
   clearFilterValues(): void {
+    this.orderStatusId.set(null);
     this.orderFilter.set(new AdminOrderFilter());
   }
 
@@ -212,7 +213,7 @@ export class GetAdminOrders extends BasePage {
       ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      orderStatusId: this.categoryStatus(),
+      orderStatusId: this.categoryStatus() == null ? this.orderStatusId() : this.categoryStatus(),
       orderNumber: this.orderNumber().trim(),
     }));
   }
