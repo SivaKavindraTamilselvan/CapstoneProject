@@ -94,5 +94,6 @@ export abstract class BasePage {
     closePopup() {
         this.showPopup.set(false);
         this.selectedId.set(null);
+
     }
 }

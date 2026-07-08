@@ -116,7 +116,7 @@ export class VendorList extends BasePage {
   vendors = signal<PagedResponse<AdminVendorModel> | null>(null);
 
   totalPages = computed(() => this.vendors()?.totalPages ?? 1);
-  
+
   approvalStatusId = signal<number | null>(null);
   isActive = signal<boolean | null>(null);
   reviewedByAdminId = signal<number | null>(null);
@@ -125,7 +125,7 @@ export class VendorList extends BasePage {
   errorMessage = signal<string | null>(null);
   deleteVendorModel = signal(new AdminDeleteVendorModel());
   selectedVendorId = signal<number | null>(null);
-  
+
   progress = signal(false);
 
   adminVendorFilter = signal(new AdminVendorFilter());
@@ -134,7 +134,7 @@ export class VendorList extends BasePage {
     email(path.companyEmail, { message: 'Enter a valid email address.' });
     pattern(path.companyPhoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
     pattern(path.gstNumber, /^[0-9]{2}[A-Z]{5}[0-9]{4}[A-Z]{1}[A-Z0-9]{1}Z[A-Z0-9]{1}$/, { message: 'GST Number for India is not valid.' });
-    min(path.reviewedByAdminId, 1,{ message: 'ID cannot be negative or 0.' });
+    min(path.reviewedByAdminId, 1, { message: 'ID cannot be negative or 0.' });
     pattern(path.contactPersonName, /^[A-Za-z][A-Za-z\s'.-]{1,49}$/, { message: 'Enter a valid contact person name.' });
     pattern(path.vendorCompanyName, /^[A-Za-z][A-Za-z\s'.-]{1,50}$/, { message: 'Enter a valid contact person name.' });
   });
@@ -142,7 +142,7 @@ export class VendorList extends BasePage {
   private buildFilters() {
     this.adminVendorFilter.update(filter => ({
       ...filter,
-      approvalStatusId: this.draftstatus == null ? this.status() : this.draftstatus(),
+      approvalStatusId: this.draftstatus != null && this.status()!=4 ? this.draftstatus() : this.status(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       email: filter.companyEmail.trim().toLowerCase(),
@@ -153,7 +153,7 @@ export class VendorList extends BasePage {
     }));
   }
 
-  constructor(private route: Router,private router:ActivatedRoute ,private adminVendorService: AdminVendorService) {
+  constructor(private route: Router, private router: ActivatedRoute, private adminVendorService: AdminVendorService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -289,6 +289,11 @@ export class VendorList extends BasePage {
   clearFilterValues(): void {
     this.draftstatus.set(null);
     this.adminVendorFilter.set(new AdminVendorFilter());
+    this.adminVendorFilter.update(filter => ({
+      ...filter,
+      approvalStatusId: null,
+      isActive: null
+    }));
   }
 
   onStatusChange(event: Event): void {
@@ -299,7 +304,7 @@ export class VendorList extends BasePage {
   onApprovalChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.draftstatus.set(v ? Number(v) : null);
-    this.adminVendorFilter.update(filter => ({ ...filter, approvalStatusId: v ? Number(v) : null }));
+    //this.adminVendorFilter.update(filter => ({ ...filter, approvalStatusId: v ? Number(v) : null }));
   }
 
   viewVendor(vendorId: number) {

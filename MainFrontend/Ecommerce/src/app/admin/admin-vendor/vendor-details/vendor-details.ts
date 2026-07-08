@@ -28,15 +28,14 @@ export class VendorDetails {
   errorMessage = signal<string | null>(null);
 
   vendorRoleOption = [
-    { id: 1, label: 'Overall Admin' },
-    { id: 2, label: 'Vendor Admin' },
-    { id: 3, label: 'Product Admin' },
-    { id: 4, label: 'Order Admin' },
-    { id: 5, label: 'Coupons Logistic Admin' },
-    { id: 6, label: 'Return Admin' },
-    { id: 7, label: 'Refund Admin' },
-    { id: 8, label: 'Exchange Admin' },
-    { id: 9, label: 'Payment Admin' }
+    { id: 1, label: 'Owner' },
+    { id: 2, label: 'Manager' },
+    { id: 3, label: 'Product Manager' },
+    { id: 4, label: 'Order Manager' },
+    { id: 5, label: 'Return  Manager' },
+    { id: 6, label: 'Refund Manager' },
+    { id: 7, label: 'Inventory Manager' },
+    { id: 8, label: 'Coupon Manager' },
   ]
   constructor(private adminVendorService: AdminVendorService, private route: ActivatedRoute) {
 
@@ -95,7 +94,7 @@ export class VendorDetails {
       return;
     }
     this.adminVendorService.getVendorUser(this.buildFilter()).subscribe({
-      next : (response:any)=>{
+      next: (response: any) => {
         console.log(response);
         this.vendorUsers.set(response);
       }
@@ -103,7 +102,7 @@ export class VendorDetails {
   }
   private buildFilter(): AdminVendorUserFilter {
     return {
-      vendorId : this.vendorId(),
+      vendorId: this.vendorId(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       isActive: this.isActive(),
@@ -119,12 +118,14 @@ export class VendorDetails {
   }
 
   applyFilter(): void {
+    this.filterapplied.set(true);
     this.pageNumber.set(1);
     this.loadVendorUser();
     this.closeFilterPanel();
   }
 
   resetFilter(): void {
+    this.filterapplied.set(false);
     this.pageNumber.set(1);
     this.isActive.set(null);
     this.vendorRoleId.set(null);
