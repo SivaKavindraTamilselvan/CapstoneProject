@@ -275,7 +275,7 @@ export class AdminProduct extends BasePage {
 
     this.adminProductFilter.update(model => ({
       ...model,
-      productStatusId: checked ? 1 : null
+      isAvailableForSale: checked
     }));
   }
 
@@ -406,7 +406,6 @@ export class AdminProduct extends BasePage {
     this.adminProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
-        console.log(this.categories);
       },
       error: (error) => {
         if (error.status === 0) {

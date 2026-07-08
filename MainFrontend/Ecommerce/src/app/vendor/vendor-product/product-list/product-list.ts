@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-product/add-model/update-rejected-product.model';
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
 import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
+import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
 
 @Component({
   selector: 'app-product-list',
@@ -163,7 +164,7 @@ export class ProductList extends BasePage {
       case 'update':
         this.openUpdatePopup(event.row.productId);
         break;
-       case 'update-rejected':
+      case 'update-rejected':
         this.openUpdateRejectedPopup(event.row);
         break;
     }
@@ -244,8 +245,24 @@ export class ProductList extends BasePage {
   }
 
   clearFilterValues(): void {
+    this.productStatusId.set(null);
+    this.productCategoryId.set(null);
+    this.productSubCategoryId.set(null);;
+    this.hasIssues.set(null);
+    this.draftstatus.set(null);
+    this.isAvailableForSale.set(null);
+    this.subCategories.set([]);
     this.adminProductFilter.set(new VendorProductFilter());
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: null,
+      hasIssues: null,
+      isAvailableForSale: null,
+      productCategoryId: null,
+      productSubCategoryId: null
+    }));
   }
+  draftstatus = signal<number | null>(null);
 
   status = signal<number | null>(null);
   deleted = signal<boolean | null>(null);
@@ -264,7 +281,7 @@ export class ProductList extends BasePage {
   private buildFilters() {
     this.adminProductFilter.update(filter => ({
       ...filter,
-      productApprovalStatusId: this.status(),
+      productApprovalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
       includeIsDeleted: this.deleted(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
@@ -324,110 +341,45 @@ export class ProductList extends BasePage {
   }
 
 
-  onSearchTermInput(event: Event): void {
-    this.searchTerm.set((event.target as HTMLInputElement).value);
-  }
-
   onApprovalStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productApprovalStatusId.set(v ? Number(v) : null);
+    this.draftstatus.set(v ? Number(v) : null);
   }
 
   onProductStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productStatusId.set(v ? Number(v) : null);
-  }
-
-  onMinAvailableInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    this.minAvailableQuantity.set(input.value ? value : null);
-
-  }
-  onMaxAvailableInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxAvailableQuantity.set(input.value ? value : null);
-  }
-
-  onMinReservedInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.minReservedQuantity.set(input.value ? value : null);
-  }
-
-  onMaxReservedInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Quantity cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxReservedQuantity.set(input.value ? value : null);
-  }
-
-  onMinPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Price cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.minPrice.set(input.value ? value : null);
-  }
-
-  onMaxPriceInput(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    const value = Number(input.value);
-    if (value < 0) {
-      this.filtererrorMessage.set("Price cannot be negative");
-    }
-    else {
-      this.filtererrorMessage.set(null);
-    }
-    const v = (event.target as HTMLInputElement).value;
-    this.maxPrice.set(input.value ? value : null);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: v ? Number(v) : null
+    }));
   }
 
   onHasIssuesChange(event: Event): void {
-    this.hasIssues.set((event.target as HTMLInputElement).checked || null);
+    const checked = (event.target as HTMLInputElement).checked;
+    this.hasIssues.set(checked);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      hasIssues: checked
+    }));
   }
 
   onAvailableForSaleChange(event: Event): void {
-    this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
+    const checked = (event.target as HTMLInputElement).checked;
+
+    this.isAvailableForSale.set(checked ? true : null);
+
+    this.adminProductFilter.update(model => ({
+      ...model,
+      isAvailableForSale: checked
+    }));
   }
 
   loadCategories(): void {
     this.vendorProductService.getProductCategory().subscribe({
       next: (res: any) => {
         this.categories.set(res.items ?? res);
-        console.log(this.categories);
       },
       error: (error) => {
         if (error.status === 0) {
@@ -447,6 +399,12 @@ export class ProductList extends BasePage {
   onCategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     const id = v ? Number(v) : null;
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productCategoryId: id,
+      productSubCategoryId: null
+    }));
+
     this.productCategoryId.set(id);
     this.productSubCategoryId.set(null);
     this.subCategories.set([]);
@@ -471,6 +429,10 @@ export class ProductList extends BasePage {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+     this.adminProductFilter.update(model => ({
+      ...model,
+      productSubCategoryId: v ? Number(v) : null
+    }));
   }
 
   openDeletePopup(productId: number) {

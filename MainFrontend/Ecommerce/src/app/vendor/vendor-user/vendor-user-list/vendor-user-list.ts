@@ -16,7 +16,7 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
 
 @Component({
   selector: 'app-vendor-user-list',
-  imports: [ PopupComponent,DataTableComponent,MobileCardComponent,PaginationComponent,FilterComponent,FormField],
+  imports: [PopupComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent, FormField],
   templateUrl: './vendor-user-list.html',
   styleUrl: './vendor-user-list.css',
 })
@@ -40,40 +40,40 @@ export class VendorUserList extends BasePage {
     this.adminUserFilter.set(new VendorUserFilter());
   }
 
-    actions = computed<TableAction<VendorUserModel>[]>(() => {
-      if (this.status() == null) {
-        return [
-          {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-        ];
-      }
-  
+  actions = computed<TableAction<VendorUserModel>[]>(() => {
+    if (this.status() == null) {
       return [
         {
           label: 'View',
           color: 'green',
           action: 'view'
         },
-        {
-          label: 'Deactivate',
-          color: 'red',
-          action: 'deactivate',
-          visible: category => category.isActive
-        },
-        {
-          label: 'Activate',
-          color: 'green',
-          action: 'activate',
-          visible: category => !category.isActive
-        }
       ];
-    });
+    }
+
+    return [
+      {
+        label: 'View',
+        color: 'green',
+        action: 'view'
+      },
+      {
+        label: 'Deactivate',
+        color: 'red',
+        action: 'deactivate',
+        visible: category => category.isActive
+      },
+      {
+        label: 'Activate',
+        color: 'green',
+        action: 'activate',
+        visible: category => !category.isActive
+      }
+    ];
+  });
 
 
-  
+
   columns: Column[] = [
     {
       key: 'vendorUserId',
@@ -214,15 +214,15 @@ export class VendorUserList extends BasePage {
   });
 
   adminRoleOption = [
-  { id: 1, label: 'Owner' },
-  { id: 2, label: 'Manager' },
-  { id: 3, label: 'Product Manager' },
-  { id: 4, label: 'Order Manager' },
-  { id: 5, label: 'Return Manager' },
-  { id: 6, label: 'Refund Manager' },
-  { id: 7, label: 'Inventory Manager' },
-  { id: 8, label: 'Coupon Manager' }
-];
+    { id: 1, label: 'Owner' },
+    { id: 2, label: 'Manager' },
+    { id: 3, label: 'Product Manager' },
+    { id: 4, label: 'Order Manager' },
+    { id: 5, label: 'Return Manager' },
+    { id: 6, label: 'Refund Manager' },
+    { id: 7, label: 'Inventory Manager' },
+    { id: 8, label: 'Coupon Manager' }
+  ];
 
   private buildFilter() {
     this.adminUserFilter.update(filter => ({
@@ -260,7 +260,7 @@ export class VendorUserList extends BasePage {
 
   onAdminRoleChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
-    this.adminUserFilter.update(filter => ({ ...filter, adminRoleId: v ? Number(v) : null }));
+    this.adminUserFilter.update(filter => ({ ...filter, vendorRoleId: v ? Number(v) : null }));
   }
 
   onStatusChange(event: Event): void {
