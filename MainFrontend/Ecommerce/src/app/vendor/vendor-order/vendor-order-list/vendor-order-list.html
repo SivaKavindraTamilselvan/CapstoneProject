@@ -27,8 +27,8 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Order Number</label>
-            <input type="text" placeholder="Order Number" 
-                [formField]="filterForm.orderNumber" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            <input type="text" placeholder="Order Number" [formField]="filterForm.orderNumber"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.orderNumber().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.orderNumber().errors()[0].message }}</p>
@@ -37,16 +37,16 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">User ID</label>
-            <input type="number" placeholder="User ID"  [formField]="filterForm.userId"
+            <input type="number" placeholder="User ID" [formField]="filterForm.userId"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.userId().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.userId().errors()[0].message }}</p>
             }
         </div>
-         <div>
+        <div>
             <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
-            <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <select (change)="onStatusChange($event)" [value]="orderStatusId() ?? ''" class="border border-gray-400 rounded-md px-3 py-2 w-full">
 
                 <option value="">All</option>
                 <option value="1">Pending</option>
@@ -58,39 +58,39 @@
             </select>
         </div>
         <div>
-                <label class="text-sm font-semibold text-gray-700 mb-1">Order Item Status</label>
-                <select (change)="onOrderStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <label class="text-sm font-semibold text-gray-700 mb-1">Order Item Status</label>
+            <select (change)="onOrderStatusChange($event)" [value]="orderItemStatusId() ?? ''" class="border border-gray-400 rounded-md px-3 py-2 w-full">
 
-                    <option value="">All</option>
+                <option value="">All</option>
 
-                    <option value="1">Pending</option>
-                    <option value="2">Packed</option>
-                    <option value="3">Processed</option>
-                    <option value="4">Delivered</option>
-                    <option value="5">Delayed</option>
-                    <option value="6">Returned</option>
-                    <option value="7">Cancelled</option>
-                    <option value="8">Refunded</option>
+                <option value="1">Pending</option>
+                <option value="2">Packed</option>
+                <option value="3">Processed</option>
+                <option value="4">Delivered</option>
+                <option value="5">Delayed</option>
+                <option value="6">Returned</option>
+                <option value="7">Cancelled</option>
+                <option value="8">Refunded</option>
 
-                </select>
-            </div>
+            </select>
+        </div>
 
-         <div>
+        <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
             <div class="flex gap-2">
                 <input type="number" placeholder="Min" [formField]="filterForm.minAmount"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minAmount().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minAmount().errors()[0].message }}</p>
-                }
                 <input type="number" placeholder="Max" [formField]="filterForm.maxAmount"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maxAmount().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxAmount().errors()[0].message }}</p>
-                }
             </div>
+            @if (filterForm.minAmount().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minAmount().errors()[0].message }}</p>
+            }
+            @if (filterForm.maxAmount().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maxAmount().errors()[0].message }}</p>
+            }
         </div>
 
         <div>
@@ -134,7 +134,8 @@
                 Are you sure you want to mark as packed?
             </p>
             <div class="flex justify-center gap-4 mt-8">
-                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400" (click)="closeUpdatePopup()">
+                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                    (click)="closeUpdatePopup()">
                     Cancel
                 </button>
 

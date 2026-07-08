@@ -145,6 +145,7 @@ export class VendorWarehouseList extends BasePage {
   addressFilter = signal(new AddressFilter());
 
   clearFilterValues(): void {
+    this.selectedState.set('');
     this.addressFilter.set(new AddressFilter());
   }
 
@@ -274,6 +275,7 @@ export class VendorWarehouseList extends BasePage {
 
   onStateChange(event: Event) {
     const state = ((event.target as HTMLSelectElement).value);
+    this.selectedState.set(state);
     this.addressFilter.update(model => ({
       ...model,
       state: state,

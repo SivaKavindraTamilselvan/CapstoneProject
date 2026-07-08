@@ -158,6 +158,8 @@ export class VendorOrderList extends BasePage {
   orderFilter = signal(new VendorOrderFilter());
 
   clearFilterValues(): void {
+    this.orderItemStatusId.set(null);
+    this.orderStatusId.set(null);
     this.orderFilter.set(new VendorOrderFilter());
   }
 
@@ -243,50 +245,52 @@ export class VendorOrderList extends BasePage {
       ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      orderStatusId: this.orderStatus(),
-      orderItemStatusId: this.orderItemStatus(),
+      orderStatusId: this.orderStatus() ==  null ? this.orderStatusId() : this.orderStatus(),
+      orderItemStatusId: this.orderItemStatus() == null ? this.orderItemStatusId() : this.orderItemStatus(),
       orderNumber: this.orderNumber().trim(),
     }));
   }
 
-
-
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     this.orderStatusId.set(value ? Number(value) : null);
+    this.orderFilter.update(filter => ({
+      ...filter,
+      orderStatusId: value === '' ? null : Number(value)
+    }));
   }
 
   onOrderStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    this.orderItemStatusId.set(value ? Number(value) : null);
-  }
 
-  onOrderNumberInput(event: Event): void {
-    this.orderNumber.set((event.target as HTMLInputElement).value);
-  }
-
-  onUserIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.userId.set(value ? Number(value) : null);
-  }
-
-  onMinPriceInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.minAmount.set(value ? Number(value) : null);
-  }
-
-  onMaxPriceInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.maxAmount.set(value ? Number(value) : null);
+    if (value === '') {
+      this.orderStatusId.set(null);
+    } else {
+      this.orderStatusId.set(Number(value));
+    }
+    this.orderFilter.update(filter => ({
+      ...filter,
+      orderItemStatusId: value === '' ? null : Number(value)
+    }));
   }
 
   onFromDateInput(event: Event): void {
-    this.fromDate.set((event.target as HTMLInputElement).value);
-  }
+  const value = (event.target as HTMLInputElement).value;
+  this.fromDate.set(value);
+  this.orderFilter.update(filter => ({
+    ...filter,
+    fromDate: value || ''
+  }));
+}
 
-  onToDateInput(event: Event): void {
-    this.toDate.set((event.target as HTMLInputElement).value);
-  }
+onToDateInput(event: Event): void {
+  const value = (event.target as HTMLInputElement).value;
+  this.toDate.set(value);
+  this.orderFilter.update(filter => ({
+    ...filter,
+    toDate: value || ''
+  }));
+}
 
   updateOrder() {
     const orderId = this.selectedOrderId();

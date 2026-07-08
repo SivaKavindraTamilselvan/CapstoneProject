@@ -16,7 +16,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Address Id</label>
-            <input type="number" placeholder="Category ID" [formField]="filterForm.addressId"
+            <input type="number" placeholder="Address ID" [formField]="filterForm.addressId"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.addressId().invalid())
             {
@@ -25,7 +25,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Variant Id</label>
-            <input type="number" placeholder="Category ID" [formField]="filterForm.productVariantId"
+            <input type="number" placeholder="Variant ID" [formField]="filterForm.productVariantId"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.productVariantId().invalid())
             {
@@ -35,36 +35,40 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Category ID" [formField]="filterForm.minimumAvailableQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minimumAvailableQuantity"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minimumAvailableQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumAvailableQuantity().errors()[0].message }}</p>
-                }
-                <input type="number" placeholder="Category ID" [formField]="filterForm.maximumAvailableQuantity"
+
+                <input type="number" placeholder="Max" [formField]="filterForm.maximumAvailableQuantity"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maximumAvailableQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumAvailableQuantity().errors()[0].message }}</p>
-                }
+
             </div>
+            @if (filterForm.minimumAvailableQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumAvailableQuantity().errors()[0].message }}</p>
+            }
+            @if (filterForm.maximumAvailableQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumAvailableQuantity().errors()[0].message }}</p>
+            }
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Category ID" [formField]="filterForm.minimumReservedQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minimumReservedQuantity"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minimumReservedQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumReservedQuantity().errors()[0].message }}</p>
-                }
-                <input type="number" placeholder="Category ID" [formField]="filterForm.maximumReservedQuantity"
+
+                <input type="number" placeholder="Max" [formField]="filterForm.maximumReservedQuantity"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maximumReservedQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumReservedQuantity().errors()[0].message }}</p>
-                }
+
             </div>
+            @if (filterForm.minimumReservedQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumReservedQuantity().errors()[0].message }}</p>
+            }
+            @if (filterForm.maximumReservedQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumReservedQuantity().errors()[0].message }}</p>
+            }
         </div>
 
     </app-filter-component>
