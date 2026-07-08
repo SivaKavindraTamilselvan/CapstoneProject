@@ -16,107 +16,17 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
+import { CreateCategoryComponent } from '../create-category-component/create-category-component';
 
 @Component({
   selector: 'app-category-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent,PopupComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, MobileCardComponent, DataTableComponent, PopupComponent, HeaderComponent, CreateCategoryComponent],
   providers: [DatePipe],
   templateUrl: './category-list.html',
   styleUrl: './category-list.css',
 })
 export class CategoryList extends BasePage {
-  
-
-  actions = computed<TableAction<AdminProductCategoryModel>[]>(() => {
-  if (this.pageTitle() === 'Product Category List') {
-    return [];
-  }
-
-  return [
-    {
-      label: 'Deactivate',
-      color: 'red',
-      action: 'deactivate',
-      visible: category => category.isActive
-    },
-    {
-      label: 'Activate',
-      color: 'green',
-      action: 'activate',
-      visible: category => !category.isActive
-    }
-  ];
-});
-  columns: Column[] = [
-    {
-      key: 'productCategoryId',
-      header: 'ID'
-    },
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'addedByAdminId',
-      header: 'Added Admin Id'
-    },
-    {
-      key: 'addedUserName',
-      header: 'Added Admin Name'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-    {
-      key: 'createdAt',
-      header: 'Created Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    }
-  ];
-
-  mobileColumns: Column[] = [
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'addedByAdminId',
-      header: 'Added Admin Id'
-    },
-    {
-      key: 'addedUserName',
-      header: 'Admin Name'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-    {
-      key: 'createdAt',
-      header: 'Date Created',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    }
-  ];
-
-  category = signal<PagedResponse<AdminProductCategoryModel> | null>(null);
-
-  categoryFilter = signal(new AdminProductCategoryFilter());
-
-  totalPages = computed(() => this.category()?.totalPages ?? 1);
-
-  showActivatePopup = signal(false);
-  addCategoryModel = signal(new AddProductCategoryModel());
-
-  clearFilterValues(): void {
-    this.categoryFilter.set(new AdminProductCategoryFilter());
-  }
-
-  
 
   constructor(private route: Router, private adminCategoryService: AdminProductCategoryService, private datePipe: DatePipe, private router: ActivatedRoute) {
     super();
@@ -128,6 +38,18 @@ export class CategoryList extends BasePage {
       }
     });
   }
+  protected loadData(): void {
+    this.loadCategory();
+  }
+
+  category = signal<PagedResponse<AdminProductCategoryModel> | null>(null);
+
+  totalPages = computed(() => this.category()?.totalPages ?? 1);
+
+  clearFilterValues(): void {
+    this.categoryFilter.set(new AdminProductCategoryFilter());
+  }
+
   categoryStatus = signal<boolean | null>(null);
   pageTitle = signal<string | null>(null);
 
@@ -138,9 +60,61 @@ export class CategoryList extends BasePage {
       this.loadCategory();
     });
   }
+  loadCategory() {
+    this.buildFilter();
+    this.adminCategoryService.getProductCategory(this.categoryFilter()).subscribe({
+      next: (response: any) => {
+        this.category.set(response);
+        this.scrollToTop();
+      },
+      error: (error) => {
+        console.error(error);
+        if (error.status == 404) {
+          this.category.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: this.pageNumber(),
+            pageSize: this.pageSize(),
+            totalPages: 1
+          });
+        }
+      }
+    })
+  }
+
+  categoryFilter = signal(new AdminProductCategoryFilter());
+
+  filterForm = form(this.categoryFilter, (path) => {
+    min(path.ProductCategoryId, 1, { message: 'Category ID must be greater than 0.' });
+    pattern(path.ProductCategoryName, /^[A-Za-z][A-Za-z\s-]*$/, { message: 'Category name can contain only letters, spaces, and hyphens.' });
+    maxLength(path.ProductCategoryName, 100, { message: 'Category name cannot exceed 100 characters.' });
+    min(path.AddedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
+  });
+
+  private buildFilter() {
+    this.categoryFilter.update(filter => ({
+      ...filter,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      status: this.categoryStatus(),
+      ProductCategoryName: filter.ProductCategoryName.trim().toLowerCase(),
+    }));
+  }
+
+  showAddPopup = signal<boolean>(false);
+  openAddPopup() {
+    this.showAddPopup.set(true);
+  }
+  closeAddPopup() {
+    this.showAddPopup.set(false);
+  }
+
+  categoryAdded() {
+    this.showAddPopup.set(false);
+    this.loadCategory();
+  }
 
   selectedAction = signal<'activate' | 'deactivate' | null>(null);
-
 
   confirmPopup() {
     switch (this.selectedAction()) {
@@ -153,6 +127,7 @@ export class CategoryList extends BasePage {
         break;
     }
   }
+
   activateCategory() {
     const id = this.selectedId();
     if (id == null) {
@@ -185,6 +160,23 @@ export class CategoryList extends BasePage {
     })
   }
 
+  actions = computed<TableAction<AdminProductCategoryModel>[]>(
+    () => this.pageTitle() === 'Product Category List' ? [] : [
+      { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive },
+      { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
+    ]);
+
+  columns: Column[] = [
+    { key: 'productCategoryId', header: 'ID' },
+    { key: 'productCategoryName', header: 'Category' },
+    { key: 'addedByAdminId', header: 'Added Admin Id' },
+    { key: 'addedUserName', header: 'Added Admin Name' },
+    { key: 'isActive', header: 'Status', formatter: (value: boolean) => value ? 'Active' : 'Inactive' },
+    { key: 'createdAt', header: 'Created Date', formatter: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') }
+  ];
+
+  mobileColumns = [...this.columns];
+
   handleAction(event: { type: string; row: AdminProductCategoryModel }) {
     switch (event.type) {
       case 'activate':
@@ -213,77 +205,5 @@ export class CategoryList extends BasePage {
         this.showPopup.set(true);
         break;
     }
-  }
-
-  protected loadData(): void {
-    this.loadCategory();
-  }
-
-  filterForm = form(this.categoryFilter, (path) => {
-    min(path.ProductCategoryId, 1, { message: 'Category ID must be greater than 0.' });
-    pattern(path.ProductCategoryName, /^[A-Za-z][A-Za-z\s-]*$/, { message: 'Category name can contain only letters, spaces, and hyphens.' });
-    maxLength(path.ProductCategoryName, 100, { message: 'Category name cannot exceed 100 characters.' });
-    min(path.AddedByAdminId, 1, { message: 'Admin ID must be greater than 0.' });
-  });
-
-  loadCategory() {
-    this.buildFilter();
-    this.adminCategoryService.getProductCategory(this.categoryFilter()).subscribe({
-      next: (response: any) => {
-        this.category.set(response);
-        this.scrollToTop();
-      },
-      error: (error) => {
-        console.error(error);
-        if (error.status == 404) {
-          this.category.set({
-            items: [],
-            totalCount: 0,
-            pageNumber: this.pageNumber(),
-            pageSize: this.pageSize(),
-            totalPages: 1
-          });
-        }
-      }
-    })
-  }
-
-  private buildFilter() {
-    this.categoryFilter.update(filter => ({
-      ...filter,
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      status: this.categoryStatus(),
-      ProductCategoryName: filter.ProductCategoryName.trim().toLowerCase(),
-    }));
-  }
-
-
-  openAddPopup(): void {
-    this.showActivatePopup.set(true);
-  }
-  closeAddPopup(): void {
-    this.showActivatePopup.set(false);
-  }
-
-  addForm = form(this.addCategoryModel, (path) => {
-    required(path.productCategoryName, { message: "Enter The Product Category Name" });
-  });
-  addCategory() {
-    if (this.addForm().invalid()) {
-      alert("Category Is Invalid");
-      return;
-    }
-    this.adminCategoryService.addCategory(this.addCategoryModel()).subscribe({
-      next: (response: any) => {
-        alert("Category added successfully");
-        console.log(response);
-        this.loadCategory();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
   }
 }
