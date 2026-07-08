@@ -21,8 +21,8 @@
     </div>
 
     <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
-        (toggle)="toggleFilterPanel()" [errorMessage]="filterErrorMessage()"
-        (apply)="applyFilters()" (reset)="resetFilters()">
+        (toggle)="toggleFilterPanel()" [errorMessage]="filterErrorMessage()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
@@ -44,33 +44,36 @@
             }
         </div>
 
+        @if(this.status() == null && this.deleted() == false){
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
-            <select (change)="onApprovalStatusChange($event)"
+            <select (change)="onApprovalStatusChange($event)" [value]="draftstatus() ?? ''"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full">
                 <option value="">All</option>
                 @for(opt of approvalStatusOptions; track opt.id) {
-                <option [value]="opt.id" [selected]="productApprovalStatusId() === opt.id">{{opt.label}}</option>
+                <option [value]="opt.id">{{opt.label}}</option>
                 }
             </select>
         </div>
-
+        }
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Product Status</label>
-            <select (change)="onProductStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <select (change)="onProductStatusChange($event)" [value]="productStatusId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
                 <option value="">All</option>
                 @for(opt of productStatusOptions; track opt.id) {
-                <option [value]="opt.id" [selected]="productStatusId() === opt.id">{{opt.label}}</option>
+                <option [value]="opt.id">{{opt.label}}</option>
                 }
             </select>
         </div>
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-            <select (change)="onCategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <select (change)="onCategoryChange($event)" [value]="productCategoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
                 <option value="">All</option>
                 @for(cat of categories(); track cat.productCategoryId) {
-                <option [value]="cat.productCategoryId" [selected]="productCategoryId() === cat.productCategoryId">
+                <option [value]="cat.productCategoryId">
                     {{cat.productCategoryName}}
                 </option>
                 }
@@ -79,8 +82,8 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
-            <select (change)="onSubcategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full"
-                [disabled]="!productCategoryId()">
+            <select (change)="onSubcategoryChange($event)" [value]="productSubCategoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
                 @if(!productCategoryId()) {
                 <option value="">Select category first</option>
                 }
@@ -88,8 +91,7 @@
                 <option value="">All</option>
                 }
                 @for(sub of subCategories(); track sub.productSubCategoryId) {
-                <option [value]="sub.productSubCategoryId"
-                    [selected]="productSubCategoryId() === sub.productSubCategoryId">
+                <option [value]="sub.productSubCategoryId">
                     {{sub.productSubCategoryName}}
                 </option>
                 }
@@ -111,17 +113,19 @@
             <div class="flex gap-2">
                 <input type="number" placeholder="Min" [formField]="filterForm.minPrice"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minPrice().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minPrice().errors()[0].message }}</p>
-                }
+
                 <input type="number" placeholder="Max" [formField]="filterForm.maxPrice"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maxPrice().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxPrice().errors()[0].message }}</p>
-                }
+
             </div>
+            @if (filterForm.minPrice().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minPrice().errors()[0].message }}</p>
+            }
+            @if (filterForm.maxPrice().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maxPrice().errors()[0].message }}</p>
+            }
 
         </div>
 
@@ -130,17 +134,19 @@
             <div class="flex gap-2">
                 <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minAvailableQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minAvailableQuantity().errors()[0].message }}</p>
-                }
+
                 <input type="number" placeholder="Max" [formField]="filterForm.searchTerm"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maxAvailableQuantity().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxAvailableQuantity().errors()[0].message }}</p>
-                }
+
             </div>
+            @if (filterForm.minAvailableQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minAvailableQuantity().errors()[0].message }}</p>
+            }
+            @if (filterForm.maxAvailableQuantity().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maxAvailableQuantity().errors()[0].message }}</p>
+            }
 
         </div>
 

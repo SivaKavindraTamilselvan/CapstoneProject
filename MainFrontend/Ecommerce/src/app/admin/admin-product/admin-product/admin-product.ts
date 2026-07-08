@@ -35,14 +35,14 @@ export class AdminProduct extends BasePage {
       label: 'Delete',
       color: 'red',
       action: 'delete',
-      visible: vendor => vendor.productApprovalStatus != "Deleted_By_Admin" && vendor.productApprovalStatus != "Pending" 
+      visible: vendor => vendor.productApprovalStatus != "Deleted_By_Admin" && vendor.productApprovalStatus != "Pending"
 
     },
     {
       label: 'Review',
       color: 'gray',
       action: 'review',
-      visible: vendor => vendor.productApprovalStatus == "Pending" 
+      visible: vendor => vendor.productApprovalStatus == "Pending"
     }
   ];
   columns: Column[] = [
@@ -171,9 +171,25 @@ export class AdminProduct extends BasePage {
   }
 
   clearFilterValues(): void {
+    this.productStatusId.set(null);
+    this.productCategoryId.set(null);
+    this.productSubCategoryId.set(null);;
+    this.hasIssues.set(null);
+    this.draftstatus.set(null);
+    this.isAvailableForSale.set(null);
+    this.subCategories.set([]);
     this.adminProductFilter.set(new AdminProductFilter());
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: null,
+      hasIssues: null,
+      isAvailableForSale: null,
+      productCategoryId: null,
+      productSubCategoryId: null
+    }));
   }
 
+  draftstatus = signal<number | null>(null);
   status = signal<number | null>(null);
   deleted = signal<boolean | null>(null);
   pageTitle = signal<string | null>(null);
@@ -191,7 +207,7 @@ export class AdminProduct extends BasePage {
   private buildFilters() {
     this.adminProductFilter.update(filter => ({
       ...filter,
-      productApprovalStatusId: this.status(),
+      productApprovalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
       includeIsDeleted: this.deleted(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
@@ -231,19 +247,36 @@ export class AdminProduct extends BasePage {
   onApprovalStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productApprovalStatusId.set(v ? Number(v) : null);
+    this.draftstatus.set(v ? Number(v) : null);
   }
 
   onProductStatusChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productStatusId.set(v ? Number(v) : null);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: v ? Number(v) : null
+    }));
   }
 
   onHasIssuesChange(event: Event): void {
-    this.hasIssues.set((event.target as HTMLInputElement).checked || null);
+    const checked = (event.target as HTMLInputElement).checked;
+    this.hasIssues.set(checked);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      hasIssues: checked
+    }));
   }
 
   onAvailableForSaleChange(event: Event): void {
-    this.isAvailableForSale.set((event.target as HTMLInputElement).checked || null);
+    const checked = (event.target as HTMLInputElement).checked;
+
+    this.isAvailableForSale.set(checked ? true : null);
+
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productStatusId: checked ? 1 : null
+    }));
   }
 
   deleteForm = form(this.deleteProductModel, (path) => {
@@ -395,6 +428,13 @@ export class AdminProduct extends BasePage {
     const id = v ? Number(v) : null;
     this.productCategoryId.set(id);
     this.productSubCategoryId.set(null);
+
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productCategoryId: id,
+      productSubCategoryId: null
+    }));
+
     this.subCategories.set([]);
     if (id) {
       this.adminProductService.getSubCategory(id).subscribe({
@@ -417,6 +457,10 @@ export class AdminProduct extends BasePage {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
+    this.adminProductFilter.update(model => ({
+      ...model,
+      productSubCategoryId: v ? Number(v) : null
+    }));
   }
   viewProduct(productId: number) {
     this.route.navigate(['/admin/product-details', productId]);
