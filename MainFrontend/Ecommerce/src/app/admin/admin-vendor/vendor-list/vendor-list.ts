@@ -142,7 +142,7 @@ export class VendorList extends BasePage {
   private buildFilters() {
     this.adminVendorFilter.update(filter => ({
       ...filter,
-      approvalStatusId:this.status(),
+      approvalStatusId: this.draftstatus == null ? this.status() : this.draftstatus(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       email: filter.companyEmail.trim().toLowerCase(),
@@ -167,6 +167,8 @@ export class VendorList extends BasePage {
   protected loadData(): void {
     this.loadVendor();
   }
+
+  draftstatus = signal<number | null>(null);
 
   status = signal<number | null>(null);
   pageTitle = signal<string | null>(null);
@@ -285,6 +287,7 @@ export class VendorList extends BasePage {
   ]
 
   clearFilterValues(): void {
+    this.draftstatus.set(null);
     this.adminVendorFilter.set(new AdminVendorFilter());
   }
 
@@ -295,6 +298,7 @@ export class VendorList extends BasePage {
 
   onApprovalChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
+    this.draftstatus.set(v ? Number(v) : null);
     this.adminVendorFilter.update(filter => ({ ...filter, approvalStatusId: v ? Number(v) : null }));
   }
 

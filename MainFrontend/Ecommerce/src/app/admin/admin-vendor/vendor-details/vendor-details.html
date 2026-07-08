@@ -239,7 +239,6 @@
                         <th class="px-4 py-3">Email</th>
                         <th class="px-4 py-3">Phone Number</th>
                         <th class="px-4 py-3">Status</th>
-                        <th class="px-4 py-3">Actions</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -253,9 +252,7 @@
                         <td class="px-4 py-3">{{vendor.email}}</td>
                         <td class="px-4 py-3">{{vendor.phoneNumber}}</td>
                         <td class="px-4 py-3">{{vendor.isActive ? "Active" : "Inactive"}}</td>
-                        <td class="px-4 py-3"><button
-                                class="bg-green-700 py-2 px-4 rounded-md font-bold text-white cursor-pointer hover:bg-green-900">View</button>
-                        </td>
+                        
                     </tr>
                     }
                     @empty
@@ -278,8 +275,6 @@
             <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
                 <div class="flex items-center justify-between mb-3 py-2 border-b border-gray-200">
                     <span class="font-bold text-blue-950">#{{vendor.vendorUserId}}</span>
-                    <button
-                        class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
                 </div>
                 <table class="w-full border border-gray-300 border-collapse table-fixed">
                     <colgroup>
