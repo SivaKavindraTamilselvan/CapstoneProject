@@ -6,6 +6,7 @@ import { BaseURL } from "../environment";
 import { UserOrderFilter } from "../models/user/order/order-fiter";
 import { CancelOrderModel } from "../models/user/order/cancel.order.model";
 import { OrderItemModel } from "../models/admin/admin-orders/get-orderitem.model";
+import { AddReturnModel } from "../models/user/order/return.order.model";
 export interface ShippingCheckResponse {
     totalShippingCharge: number;
     isShippingAvailable: boolean;
@@ -58,5 +59,13 @@ export class UserOrderService {
         const url = `${BaseURL}/User/AddReview`;
         return this.http.post(url, model);
     }
+
+
+    createReturn(model : AddReturnModel){
+        const url = `${BaseURL}/Order/RequestReturnOrder`;
+        return this.http.post(url, model);
+    }
+
+
 
 }

@@ -90,5 +90,14 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
             { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders', roles: ['owner'] },
             { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
         ]
+    },
+    {
+        key: 'retruns',
+        label: 'Returns',
+        roles: ['owner', 'order-admin', 'vendor-admin'],
+        children: [
+            { label: 'Return', route: '/vendor/orders/return-orders', roles: ['owner'] },
+            { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
+        ]
     }
 ];

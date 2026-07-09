@@ -14,7 +14,7 @@
         @if(orderItem()) {
         <div class="flex flex-col lg:flex-row gap-4 sm:gap-6">
 
-            <div class="w-full lg:w-1/3 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+            <div class="w-full lg:w-1/3 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm h-full">
 
                 <div
                     class="bg-gradient-to-r from-slate-800 to-slate-700 text-white px-4 sm:px-6 py-4 sm:py-5 flex flex-wrap items-center justify-between gap-3">
@@ -79,7 +79,8 @@
                     }
                     @if(orderItem()!.orderItemStatus === 'Delivered'){
                     <div class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex justify-end">
-                        <button class="bg-blue-600 text-white font-semibold w-full sm:w-auto text-sm cursor-pointer hover:bg-blue-800 px-4 py-2 rounded-md"
+                        <button
+                            class="bg-blue-600 text-white font-semibold w-full sm:w-auto text-sm cursor-pointer hover:bg-blue-800 px-4 py-2 rounded-md"
                             (click)="openReviewPopup(orderItem()!.orderItemsId)">
                             Write Review
                         </button>
@@ -95,86 +96,153 @@
             </app-create-review-component>
             }
 
-            @if(shipment()) {
-            <div class="w-full lg:w-2/3 bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+            <div class="flex-1 flex flex-col gap-6 w-full">
+                @if(orderItem() && orderItem()!.returns && orderItem()!.returns.length > 0) {
                 <div
-                    class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
-                    <div>
-                        <h2 class="text-base sm:text-lg font-bold text-slate-800">Shipment Details</h2>
-                        <p class="text-xs sm:text-sm text-slate-500 mt-0.5">via {{ shipment()!.shipperName }}</p>
+                    class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+                    <div
+                        class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-800">Return Details</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">{{ orderItem()!.returns.length }} return
+                                request(s)
+                            </p>
+                        </div>
                     </div>
-                    <span class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap"
-                        [ngClass]="statusColor(shipment()!.currentStatus)">
-                        {{ shipment()!.currentStatus }}
-                    </span>
-                </div>
 
-                <div
-                    class="px-4 sm:px-6 py-4 sm:py-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 border-b border-slate-100">
-                    <div>
-                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Tracking Number</p>
-                        <p class="text-sm text-slate-700 mt-1 break-all">{{ shipment()!.trackingNumber || 'Not assigned
-                            yet' }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Expected Delivery</p>
-                        <p class="text-sm text-slate-700 mt-1">{{ shipment()!.expectedDeliveryDate | date:'mediumDate'
-                            }}</p>
-                    </div>
-                    <div>
-                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Shipping Charge</p>
-                        <p class="text-sm text-slate-700 mt-1">
-                            {{ shipment()!.shippingCharge > 0 ? '₹' + (shipment()!.shippingCharge | number:'1.2-2') :
-                            'Free' }}
-                        </p>
-                    </div>
-                    @if(shipment()!.pickupAddress){
-                    <div>
-                        <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Pickup Address</p>
-                        <p class="text-sm text-slate-700 mt-1">{{ shipment()!.pickupAddress }}</p>
-                    </div>
-                    }
-                </div>
+                    <div class="divide-y divide-slate-100">
+                        @for(ret of orderItem()!.returns; track ret.returnId) {
+                        <div class="px-4 sm:px-6 py-4 sm:py-5">
 
-                <div class="px-4 sm:px-6 py-5 sm:py-6">
-                    <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4 sm:mb-5">Tracking History
-                    </h3>
+                            <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                                <span class="text-sm font-bold text-slate-800">Return #{{ ret.returnId }}</span>
+                                <span
+                                    class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap"
+                                    [ngClass]="returnStatusColor(ret.returnStatus)">
+                                    {{ ret.returnStatus }}
+                                </span>
+                            </div>
 
-                    @if(shipment()!.tracking.length > 0) {
-                    <div class="space-y-0">
-                        @for (track of shipment()!.tracking; track track.shipmentTrackingId; let last = $last) {
-                        <div class="flex gap-3 sm:gap-4">
-                            <div class="flex flex-col items-center">
-                                <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full shrink-0"
-                                    [ngClass]="last ? 'bg-blue-800 ring-4 ring-blue-100' : 'bg-slate-300'"></div>
-                                @if(!last) {
-                                <div class="w-0.5 flex-1 bg-slate-200 my-1"></div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Reason</p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.returnReason }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Quantity</p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.returnQuantity }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Refund
+                                        Amount</p>
+                                    <p class="text-sm text-slate-700 mt-1">₹{{ ret.returnAmount | number:'1.2-2' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Requested On
+                                    </p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.requestedDate | date:'medium' }}</p>
+                                </div>
+                                @if(ret.reviewedDate){
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Reviewed On
+                                    </p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.reviewedDate | date:'medium' }}</p>
+                                </div>
                                 }
                             </div>
 
-                            <div class="pb-5 sm:pb-6 min-w-0" [class.pb-0]="last">
-                                <div class="flex items-center gap-2 flex-wrap">
-                                    <span class="text-sm font-bold text-slate-800">{{ track.status }}</span>
-                                    <span class="text-xs text-slate-400">·</span>
-                                    <span class="text-xs text-slate-500">{{ track.location }}</span>
-                                </div>
-                                <p class="text-sm text-slate-500 mt-0.5">{{ track.remarks }}</p>
-                                <p class="text-xs text-slate-400 mt-1">{{ track.updatedAt | date:'medium' }}</p>
-                            </div>
                         </div>
                         }
                     </div>
-                    } @else {
-                    <p class="text-sm text-slate-400">No tracking updates yet.</p>
-                    }
                 </div>
+                }
+                @if(shipment()) {
+                <div class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+                    <div
+                        class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-800">Shipment Details</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">via {{ shipment()!.shipperName }}</p>
+                        </div>
+                        <span
+                            class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap"
+                            [ngClass]="statusColor(shipment()!.currentStatus)">
+                            {{ shipment()!.currentStatus }}
+                        </span>
+                    </div>
+
+                    <div
+                        class="px-4 sm:px-6 py-4 sm:py-5 grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5 border-b border-slate-100">
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Tracking Number</p>
+                            <p class="text-sm text-slate-700 mt-1 break-all">{{ shipment()!.trackingNumber || 'Not
+                                assigned
+                                yet' }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Expected Delivery
+                            </p>
+                            <p class="text-sm text-slate-700 mt-1">{{ shipment()!.expectedDeliveryDate |
+                                date:'mediumDate'
+                                }}</p>
+                        </div>
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Shipping Charge</p>
+                            <p class="text-sm text-slate-700 mt-1">
+                                {{ shipment()!.shippingCharge > 0 ? '₹' + (shipment()!.shippingCharge | number:'1.2-2')
+                                :
+                                'Free' }}
+                            </p>
+                        </div>
+                        @if(shipment()!.pickupAddress){
+                        <div>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Pickup Address</p>
+                            <p class="text-sm text-slate-700 mt-1">{{ shipment()!.pickupAddress }}</p>
+                        </div>
+                        }
+                    </div>
+
+                    <div class="px-4 sm:px-6 py-5 sm:py-6">
+                        <h3 class="text-sm font-bold text-slate-700 uppercase tracking-wide mb-4 sm:mb-5">Tracking
+                            History
+                        </h3>
+
+                        @if(shipment()!.tracking.length > 0) {
+                        <div class="space-y-0">
+                            @for (track of shipment()!.tracking; track track.shipmentTrackingId; let last = $last) {
+                            <div class="flex gap-3 sm:gap-4">
+                                <div class="flex flex-col items-center">
+                                    <div class="w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full shrink-0"
+                                        [ngClass]="last ? 'bg-blue-800 ring-4 ring-blue-100' : 'bg-slate-300'"></div>
+                                    @if(!last) {
+                                    <div class="w-0.5 flex-1 bg-slate-200 my-1"></div>
+                                    }
+                                </div>
+
+                                <div class="pb-5 sm:pb-6 min-w-0" [class.pb-0]="last">
+                                    <div class="flex items-center gap-2 flex-wrap">
+                                        <span class="text-sm font-bold text-slate-800">{{ track.status }}</span>
+                                        <span class="text-xs text-slate-400">·</span>
+                                        <span class="text-xs text-slate-500">{{ track.location }}</span>
+                                    </div>
+                                    <p class="text-sm text-slate-500 mt-0.5">{{ track.remarks }}</p>
+                                    <p class="text-xs text-slate-400 mt-1">{{ track.updatedAt | date:'medium' }}</p>
+                                </div>
+                            </div>
+                            }
+                        </div>
+                        } @else {
+                        <p class="text-sm text-slate-400">No tracking updates yet.</p>
+                        }
+                    </div>
+                </div>
+                } @else {
+                <div
+                    class="w-full lg:w-2/3 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
+                    <p class="text-slate-500 font-medium">No shipment created yet for this item.</p>
+                </div>
+                }
             </div>
-            } @else {
-            <div
-                class="w-full lg:w-2/3 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
-                <p class="text-slate-500 font-medium">No shipment created yet for this item.</p>
-            </div>
-            }
 
         </div>
         } @else if (errorMessage()) {
@@ -189,6 +257,8 @@
             </div>
         </div>
         }
+
+
 
     </div>
 

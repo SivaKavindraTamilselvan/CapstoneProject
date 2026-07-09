@@ -7,7 +7,7 @@ import { UserCouponModel } from "../models/user/coupon/user-coupon.model";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
-import { VendorOrderFilter } from "../models/vendor/vendor-order/vendor-order.filter";
+import { RequestVendorReturnFilter, VendorOrderFilter } from "../models/vendor/vendor-order/vendor-order.filter";
 import { OrderItemSummaryModel } from "../models/admin/admin-orders/get-items.model";
 
 @Injectable({
@@ -34,5 +34,18 @@ export class VendorOrderService {
     updateOrder(orderId: number) {
         const url = BaseURL + `/Order/UpdateOrderStatus?orderitemid=${orderId}`;
         return this.http.put(url, {});
+    }
+
+    getReturnOrder(filter : RequestVendorReturnFilter){
+        const url = BaseURL + "/Vendor/returns";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+
+        return this.http.get<PagedResponse<OrderItemSummaryModel>>(url, { params });
     }
 }

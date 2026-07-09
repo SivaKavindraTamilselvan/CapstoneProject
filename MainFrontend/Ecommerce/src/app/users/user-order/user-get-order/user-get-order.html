@@ -128,9 +128,9 @@
                     <div class="divide-y divide-slate-100">
 
                         @for (item of order.orderItems; track item.orderItemsId) {
-                        <div class="group p-4 sm:p-6" (click)="goToOrderDetails(item.orderItemsId)">
+                        <div class="group p-4 sm:p-6" >
 
-                            <div class="flex gap-4">
+                            <div class="flex gap-4" (click)="goToOrderDetails(item.orderItemsId)">
 
                                 <div
                                     class="w-20 h-20 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
@@ -192,6 +192,12 @@
                                 <button type="button" (click)="openCancelPopup(item.orderItemsId)"
                                     class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors">
                                     Cancel Order
+                                </button>
+                                }
+                                @if(item.canReturn){
+                                <button type="button" (click)="openReturnPopup(item.orderItemsId)"
+                                    class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors">
+                                    Return
                                 </button>
                                 }
 
@@ -328,5 +334,12 @@
         </div>
     </div>
     }
+    @if (showReturnPopup() && selectedReturnOrderItemId()) {
+  <app-add-return-component
+    [orderItemId]="selectedReturnOrderItemId()!"
+    (closed)="closeReturnPopup()"
+    (returned)="onReturnSubmitted()">
+  </app-add-return-component>
+}
 
 </section>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, signal } from '@angular/core';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
 import { Router } from '@angular/router';
@@ -8,10 +8,12 @@ import { UserOrderFilter } from '../../../models/user/order/order-fiter';
 import { CancelOrderModel } from '../../../models/user/order/cancel.order.model';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AddReturnModel } from '../../../models/user/order/return.order.model';
+import { AddReturnComponent } from '../add-return-component/add-return-component';
 
 @Component({
   selector: 'app-user-get-order',
-  imports: [CommonModule, FormField, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, FormField, ReactiveFormsModule, FormsModule,AddReturnComponent],
   templateUrl: './user-get-order.html',
   styleUrl: './user-get-order.css',
 })
@@ -209,7 +211,7 @@ export class UserGetOrder {
       new CancelOrderModel(
         0,              // cancelReasonId
         orderItemId,    // orderItemId
-        0,              // cancelStatusId
+        1,              // cancelStatusId
         '',             // additionalReason
         1               // cancelQuantity
       )
@@ -217,6 +219,7 @@ export class UserGetOrder {
 
     this.showActivatePopup.set(true);
   }
+
 
   closePopup() {
     this.showActivatePopup.set(false);
@@ -290,6 +293,24 @@ export class UserGetOrder {
     const value = (event.target as HTMLSelectElement).value;
     this.cancelForm.cancelReasonId().value.set(value ? Number(value) : 0);
   }
+
+  showReturnPopup = signal(false);
+  selectedReturnOrderItemId = signal<number | null>(null);
+
+  openReturnPopup(orderItemId: number) {
+    this.selectedReturnOrderItemId.set(orderItemId);
+    this.showReturnPopup.set(true);
+  }
+
+  closeReturnPopup() {
+    this.showReturnPopup.set(false);
+    this.selectedReturnOrderItemId.set(null);
+  }
+
+  onReturnSubmitted() {
+    this.loadOrders();
+  }
+
 
   goToOrderDetails(orderId: number): void {
     this.router.navigate(['/user/orders', orderId]);

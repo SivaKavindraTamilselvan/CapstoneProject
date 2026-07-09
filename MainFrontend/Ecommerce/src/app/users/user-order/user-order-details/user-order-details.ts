@@ -8,7 +8,7 @@ import { CreateReviewComponent } from '../create-review-component/create-review-
 
 @Component({
   selector: 'app-user-order-details',
-  imports: [DatePipe, NgClass, DecimalPipe,CreateReviewComponent],
+  imports: [DatePipe, NgClass, DecimalPipe, CreateReviewComponent],
   templateUrl: './user-order-details.html',
   styleUrl: './user-order-details.css',
 })
@@ -40,6 +40,7 @@ export class UserOrderDetails implements OnInit {
     this.orderService.getOrdersDetails(orderItemsId).subscribe({
       next: (response: OrderItemModel) => {
         this.orderItem.set(response);
+        console.log(this.orderItem());
       },
       error: () => {
         this.errorMessage.set('Unable to load order item details.');
@@ -89,6 +90,16 @@ export class UserOrderDetails implements OnInit {
       case 'Cancelled':
       case 'Failed': return 'bg-red-100 text-red-700';
       default: return 'bg-slate-100 text-slate-700';
+    }
+  }
+  returnStatusColor(status: string): string {
+    switch (status?.toLowerCase()) {
+      case 'approved':
+      case 'refunded': return 'bg-green-100 text-green-700';
+      case 'requested':
+      case 'pending': return 'bg-yellow-100 text-yellow-700';
+      case 'rejected': return 'bg-red-100 text-red-700';
+      default: return 'bg-gray-100 text-gray-700';
     }
   }
 }
