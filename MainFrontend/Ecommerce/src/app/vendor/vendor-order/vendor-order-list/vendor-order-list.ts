@@ -15,10 +15,11 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 @Component({
   selector: 'app-vendor-order-list',
-  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule,HeaderComponent],
   providers: [DatePipe],
   templateUrl: './vendor-order-list.html',
   styleUrl: './vendor-order-list.css',

@@ -19,10 +19,11 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddInventoryModel } from '../../../models/inventory/add-inventory.model';
 import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
 import { AddInventoryComponent } from '../add-inventory-component/add-inventory-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 @Component({
   selector: 'app-vendor-warehouse-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule, AddInventoryComponent],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule, AddInventoryComponent,HeaderComponent],
   templateUrl: './vendor-warehouse-list.html',
   styleUrl: './vendor-warehouse-list.css',
 })

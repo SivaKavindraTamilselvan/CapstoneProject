@@ -15,96 +15,33 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { UpdateIneventoryComponent } from '../update-ineventory-component/update-ineventory-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 @Component({
   selector: 'app-inventory-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, PopupComponent, MobileCardComponent, DataTableComponent, FilterComponent, PaginationComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, PopupComponent, MobileCardComponent, DataTableComponent, FilterComponent, PaginationComponent,UpdateIneventoryComponent,HeaderComponent],
   templateUrl: './inventory-list.html',
   styleUrl: './inventory-list.css',
 })
 export class InventoryList extends BasePage {
 
   actions: TableAction<VendorInventoryModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view',
-    },
-    {
-      label: 'Update',
-      color: 'blue',
-      action: 'update',
-      visible: address => address.isActive
-    },
+  { label: 'View', color: 'green', action: 'view' },
+  { label: 'Update', color: 'blue', action: 'update', visible: inventory => inventory.isActive },
+  { label: 'Delete', color: 'red', action: 'delete', visible: inventory => inventory.isActive }
+];
 
-
-    {
-      label: 'Delete',
-      color: 'red',
-      action: 'delete',
-      visible: address => address.isActive
-    }
-  ];
-  columns: Column[] = [
-    {
-      key: 'inventoryId',
-      header: 'ID'
-    },
-    {
-      key: 'addressId',
-      header: 'Contact Name'
-    },
-    {
-      key: 'sku',
-      header: 'Contact Phone'
-    },
-    {
-      key: 'availableQuantity',
-      header: 'City'
-    },
-    {
-      key: 'reservedQuantity',
-      header: 'State',
-    },
-    {
-      key: 'pinCode',
-      header: 'PinCode'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-
-  ];
-
-  mobileColumns: Column[] = [
-    {
-      key: 'addressId',
-      header: 'Contact Name'
-    },
-    {
-      key: 'sku',
-      header: 'Contact Phone'
-    },
-    {
-      key: 'availableQuantity',
-      header: 'City'
-    },
-    {
-      key: 'reservedQuantity',
-      header: 'State',
-    },
-    {
-      key: 'pinCode',
-      header: 'PinCode'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-  ];
+columns: Column[] = [
+  { key: 'inventoryId', header: 'ID' },
+  { key: 'addressId', header: 'Address ID' },
+  { key: 'sku', header: 'SKU' },
+  { key: 'availableQuantity', header: 'Available Quantity' },
+  { key: 'reservedQuantity', header: 'Reserved Quantity' },
+  { key: 'pinCode', header: 'PinCode' },
+  { key: 'isActive', header: 'Status', formatter: (value: boolean) => (value ? 'Active' : 'Inactive') }
+];
+  mobileColumns = [...this.columns];
 
   handleAction(event: { type: string; row: VendorInventoryModel }) {
     switch (event.type) {
@@ -151,7 +88,6 @@ export class InventoryList extends BasePage {
   selectedInvetoryId = signal<number | null>(null);
   showDeactivatePopup = signal(false);
 
-  showUpdatePopup = signal(false);
   updateModel = signal(new UpdateInventoryModel());
 
 
@@ -236,65 +172,13 @@ export class InventoryList extends BasePage {
 
 
 
-  onAddressInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.addressId.set(v ? Number(v) : null);
-  }
-
-  onProductVariantInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.productVariantId.set(v ? Number(v) : null);
-  }
-
-  onMinAvailableInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minimumAvailableQuantity.set(v ? Number(v) : null);
-  }
-
-  onMaxAvailableInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maximumAvailableQuantity.set(v ? Number(v) : null);
-  }
-
-  onMinReservedInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minimumReservedQuantity.set(v ? Number(v) : null);
-  }
-
-  onMaxReservedInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maximumReservedQuantity.set(v ? Number(v) : null);
-  }
 
   viewInventory(inventoryId: number) {
     this.route.navigate(['/vendor/inventory-details', inventoryId]);
   }
 
 
-  updateForm = form(this.updateModel, (path) => {
-    required(path.availableQuantity, { message: 'Enter The currently available Quantity' });
-    required(path.inventoryId, { message: 'Choose The Inventory Id' });
-  });
-
-  updateInventory() {
-    const inventoryId = this.selectedInvetoryId();
-    if (inventoryId == null) {
-      return;
-    }
-    this.updateModel.update((i) => ({ ...i, inventoryId: inventoryId }));
-    this.inventoryService.updateInventory(this.updateModel()).subscribe({
-      next: (response: any) => {
-        alert("Updated Successfully");
-        this.loadInventory();
-        this.selectedInvetoryId.set(null);
-        this.closePopup();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
-  }
-
+ 
   deleteInventory() {
     const inventoryId = this.selectedInvetoryId();
     if (inventoryId == null) {
@@ -311,17 +195,22 @@ export class InventoryList extends BasePage {
       }
     })
   }
-  confirmUpdate(id: number) {
-    this.selectedInvetoryId.set(id);
-    this.showUpdatePopup.set(true);
-  }
+
   confirmDeactivate(id: number) {
     this.selectedInvetoryId.set(id);
     this.showDeactivatePopup.set(true);
   }
+
+  showUpdatePopup = signal(false);
+  selectedInventoryIdForUpdate = signal<number | null>(null);
+
+  confirmUpdate(id: number) {
+    this.selectedInventoryIdForUpdate.set(id);
+    this.showUpdatePopup.set(true);
+  }
+
   closeUpdatePopup() {
     this.showUpdatePopup.set(false);
-    this.showDeactivatePopup.set(false);
-    this.selectedInvetoryId.set(null);
+    this.selectedInventoryIdForUpdate.set(null);
   }
 }

@@ -4,10 +4,8 @@ import { ProductList } from "../../vendor/vendor-product/product-list/product-li
 import { AddVariant } from "../../vendor/vendor-variant/add-variant/add-variant";
 import { VariantList } from "../../vendor/vendor-variant/variant-list/variant-list";
 import { AddAddress } from "../../address/add-address/add-address";
-import { AddInventory } from "../../vendor/inventory/add-inventory/add-inventory";
 import { InventoryList } from "../../vendor/inventory/inventory-list/inventory-list";
 import { VendorInventoryDetails } from "../../vendor/inventory/vendor-inventory-details/vendor-inventory-details";
-import { DeletedInventory } from "../../vendor/inventory/deleted-inventory/deleted-inventory";
 import { VendorProductDetails } from "../../vendor/vendor-product/vendor-product-details/vendor-product-details";
 import { ReviewVariant } from "../../vendor/vendor-variant/review-variant/review-variant";
 import { UpdateVariant } from "../../vendor/vendor-variant/update-variant/update-variant";
