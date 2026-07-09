@@ -3,9 +3,9 @@ export class VendorProductVariantFilter {
     public pageNumber: number = 1,
     public pageSize: number = 10,
 
-    public sku: string | null = null,
+    public sku: string = '',
     public productId: number | null = null,
-    public searchTerm: string | null = null,
+    public searchTerm: string = '',
     public categoryId: number | null = null,
     public subCategoryId: number | null = null,
     public statusId: number | null = null,
@@ -29,5 +29,5 @@ export class VendorProductVariantFilter {
 
     public hasIssues: boolean | null = null,
     public isAvailableForSale: boolean | null = null
-  ) {}
+  ) { }
 }

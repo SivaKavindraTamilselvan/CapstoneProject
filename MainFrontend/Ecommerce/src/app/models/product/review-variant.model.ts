@@ -1,7 +1,7 @@
 export class ReviewProductVariantModel{
     constructor(
         public productVariantId : number = 0,
-        public approvalStatusId : string = "",
+        public approvalStatusId : number | null = null,
         public remark : string = ""
     ){}
 }

@@ -84,7 +84,7 @@ export class UpdateVariant {
     return {
       sku: this.sku(),
       productId: this.productId(),
-      searchTerm: this.searchTearm() || null,
+      searchTerm: this.searchTearm(),
       categoryId: this.categoryId(),
       subCategoryId: this.subcategoryId(),
       statusId: this.statusId(),

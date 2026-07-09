@@ -177,21 +177,6 @@ export class AdminList extends BasePage {
     });
   }
 
-
-  onPageSizeChange(event: Event): void {
-    const pageSize = Number((event.target as HTMLInputElement).value);
-
-    this.adminUserFilter.update(filter => ({
-      ...filter,
-      pageNumber: 1,
-      pageSize
-    }));
-
-    this.loadAdminUser();
-  }
-
-
-
   handleAction(event: { type: string; row: AdminUserModel }): void {
 
     switch (event.type) {

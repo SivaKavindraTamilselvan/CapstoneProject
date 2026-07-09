@@ -435,14 +435,13 @@ export class ReviewVariant {
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
     required(path.remark, { message: "Enter The Remarks" });
-    pattern(path.approvalStatusId, /^[45]$/, { message: "Select valid approval status" })
   });
 
   openReviewPopup(productId: number) {
     this.selectedProductId.set(productId);
 
     this.reviewProductModel.set(
-      new ReviewProductVariantModel(productId, "", "")
+      new ReviewProductVariantModel(productId, null, "")
     );
 
     this.showActivatePopup.set(true);

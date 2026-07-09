@@ -1,6 +1,6 @@
-export class UpdateProductVariantStatus{
+export class UpdateProductVariantStatus {
     constructor(
-        public productVariantId : number = 0,
-        public productStatusId : number = 0
-    ){}
+        public productVariantId: number | null = null,
+        public productStatusId: number |null = null
+    ) { }
 }

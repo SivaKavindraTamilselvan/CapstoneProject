@@ -153,13 +153,13 @@
 
     @if (showActivatePopup()) {
     <app-delete-product-component [productId]="selectedProductIdForDelete()" (closed)="closeDeletePopup()"
-        (deleted)="loadProduct()">
+        (deleted)="loadProduct()" mode="product">
     </app-delete-product-component>
     }
 
     @if (showUpdatePopup()) {
     <app-update-product-component [productId]="selectedProductIdForUpdate()" (closed)="closeUpdatePopup()"
-        (updated)="loadProduct()">
+        (updated)="loadProduct()" mode="product">
     </app-update-product-component>
     }
 

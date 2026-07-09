@@ -7,9 +7,7 @@ import { AddAddress } from "../../address/add-address/add-address";
 import { InventoryList } from "../../vendor/inventory/inventory-list/inventory-list";
 import { VendorInventoryDetails } from "../../vendor/inventory/vendor-inventory-details/vendor-inventory-details";
 import { VendorProductDetails } from "../../vendor/vendor-product/vendor-product-details/vendor-product-details";
-import { ReviewVariant } from "../../vendor/vendor-variant/review-variant/review-variant";
 import { UpdateVariant } from "../../vendor/vendor-variant/update-variant/update-variant";
-import { UpdateRejectedVariant } from "../../vendor/vendor-variant/update-rejected-variant/update-rejected-variant";
 import { VendorOrderList } from "../../vendor/vendor-order/vendor-order-list/vendor-order-list";
 import { RegisterVendor } from "../../vendor/vendor-user/register-vendor/register-vendor";
 import { VendorUserDetails } from "../../vendor/vendor-user/vendor-user-details/vendor-user-details";
@@ -21,6 +19,7 @@ import { VendorUserRoute } from "./vendor-user.route";
 import { VendorProductRoute } from "./vendor-product,route";
 import { VendorOrderRoute } from "./vendor-order.route";
 import { VendorHomeDashboard } from "../../vendor/vendor-dashboard/vendor-home-dashboard/vendor-home-dashboard";
+import { VendorProductVariantRoute } from "./vendor-variant.route";
 
 export const VendorRoute: Routes = [
     {
@@ -28,33 +27,7 @@ export const VendorRoute: Routes = [
         component: VendorHomeDashboard
     },
 
-    {
-        path: 'products/:id/variants/add',
-        component: AddVariant
-    },
-    {
-        path: 'products/variants/list',
-        component: VariantList
-    },
-    {
-        path: 'products/variants/review',
-        component: ReviewVariant
-    },
-
-    {
-        path: 'products/variants/update',
-        component: UpdateVariant
-    },
-
-    {
-        path: 'products/variants/update-rejected',
-        component: UpdateRejectedVariant
-    },
-
-    {
-        path: 'products/variant/:id',
-        component: VendorVariantDetails
-    },
+  
 
 
     {
@@ -64,5 +37,6 @@ export const VendorRoute: Routes = [
     ...VendorInventoryRoute,
     ...VendorUserRoute,
     ...VendorProductRoute,
-    ...VendorOrderRoute
+    ...VendorOrderRoute,
+    ...VendorProductVariantRoute
 ]

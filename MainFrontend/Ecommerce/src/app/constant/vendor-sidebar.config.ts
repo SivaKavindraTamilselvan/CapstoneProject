@@ -39,6 +39,7 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         roles: ['owner', 'product-manager'],
         children: [
             { label: 'Product Variant List', route: '/vendor/products/variants/list', roles: ['owner', 'product-manager'] },
+            { label: 'Deleted Variant List', route: '/vendor/products/deleted-variants/list', roles: ['owner', 'product-manager'] },
         ]
     },
     {
