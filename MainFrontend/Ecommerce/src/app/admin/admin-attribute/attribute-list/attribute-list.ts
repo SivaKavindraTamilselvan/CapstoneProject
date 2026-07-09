@@ -16,11 +16,12 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 
 @Component({
   selector: 'app-attribute-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent,PopupComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent, PopupComponent,HeaderComponent],
   templateUrl: './attribute-list.html',
   providers: [DatePipe],
   styleUrl: './attribute-list.css',
@@ -46,7 +47,7 @@ export class AttributeList extends BasePage {
         label: 'Deactivate',
         color: 'red',
         action: 'deactivate',
-        visible: category => category.isActive 
+        visible: category => category.isActive
       },
       {
         label: 'Activate',
@@ -224,14 +225,6 @@ export class AttributeList extends BasePage {
       }
     })
   }
-  onAdminIdInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.addedByAdminId.set(v ? Number(v) : null);
-  }
-  onAttributeNameInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.attributeName.set(v);
-  }
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
     if (value === '') {
@@ -246,24 +239,42 @@ export class AttributeList extends BasePage {
   }
   closeAddPopup(): void {
     this.showActivatePopup.set(false);
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    this.addForm().reset();
+    this.addAttributeModel.set(new AdminAttributeModel());
   }
+
+  loading = signal(false);
+  successMessage = signal('');
+  errorMessage = signal('');
+
   addForm = form(this.addAttributeModel, (path) => {
     required(path.attributeName, { message: "Enter The Attribute Name" });
   });
+
+  showAddPopup = signal(false);
+  
   addAttribute() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     if (this.addForm().invalid()) {
-      alert("Category Is Invalid");
+      this.errorMessage.set("Enter Attribute Name");
       return;
     }
+    this.loading.set(true);
     this.adminCategoryService.addAttribute(this.addAttributeModel()).subscribe({
       next: (response: any) => {
-        alert("Category added successfully");
-        console.log(response);
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Category added successfully");
+        setTimeout(() => {
+          this.closeAddPopup();
+          this.loadAttribute();
+          this.loading.set(false);
+        }, 3000);
       },
       error: (error) => {
-        console.error(error);
+        this.errorMessage.set(error?.error?.message ?? "Failed to add category");
+        this.loading.set(false);
       }
     })
   }

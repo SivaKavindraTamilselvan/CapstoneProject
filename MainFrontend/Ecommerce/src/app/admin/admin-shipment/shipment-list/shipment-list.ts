@@ -14,95 +14,21 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ShipmentUpdateModel } from '../../../models/admin/admin-shipment/update-shipment.model';
+import { UpdateAdminShipment } from '../update-admin-shipment/update-admin-shipment';
 
 @Component({
   selector: 'app-shipment-list',
-  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule,UpdateAdminShipment],
   providers: [DatePipe],
   templateUrl: './shipment-list.html',
   styleUrl: './shipment-list.css',
 })
 export class ShipmentList extends BasePage {
 
-  actions: TableAction<ShipmentModel>[] = [
-    {
-      label: 'View',
-      color: 'green',
-      action: 'view'
-    },
-    {
-      label: 'Update',
-      color: 'blue',
-      action: 'update'
-    }
-  ];
-
-  columns: Column[] = [
-    {
-      key: 'shipmentId',
-      header: 'Shipment ID'
-    },
-    {
-      key: 'orderId',
-      header: 'Order ID'
-    },
-    {
-      key: 'shipperName',
-      header: 'Courier'
-    },
-    {
-      key: 'trackingNumber',
-      header: 'Tracking'
-    },
-    {
-      key: 'currentStatus',
-      header: 'Status'
-    },
-    {
-      key: 'expectedDeliveryDate',
-      header: 'Expected Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    }
-  ];
-
-  mobileColumns: Column[] = [
-    {
-      key: 'shipmentId',
-      header: 'Shipment ID'
-    },
-    {
-      key: 'orderId',
-      header: 'Order ID'
-    },
-    {
-      key: 'shipperName',
-      header: 'Courier'
-    },
-    {
-      key: 'trackingNumber',
-      header: 'Tracking'
-    },
-    {
-      key: 'currentStatus',
-      header: 'Status'
-    },
-    {
-      key: 'expectedDeliveryDate',
-      header: 'Expected Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    }
-  ];
-
   shipments = signal<PagedResponse<ShipmentModel> | null>(null);
-
   shipmentStatusId = signal<number | null>(null);
-
   fromDate = signal<string>('');
   toDate = signal<string>('');
-
   shipmentFilter = signal(new ShipmentFilter());
   clearFilterValues(): void {
     this.shipmentStatusId.set(null);
@@ -114,12 +40,7 @@ export class ShipmentList extends BasePage {
   }
 
   totalPages = computed(() => this.shipments()?.totalPages ?? 1);
-
-  constructor(
-    private datePipe: DatePipe,
-    private router: Router,
-    private shipmentService: AdminShipmentService
-  ) {
+  constructor(private datePipe: DatePipe,private router: Router,private shipmentService: AdminShipmentService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -157,17 +78,6 @@ export class ShipmentList extends BasePage {
     });
   }
 
-  handleAction(event: { type: string; row: ShipmentModel }) {
-    switch (event.type) {
-      case 'view':
-        this.viewShipment(event.row.shipmentId);
-        break;
-      case 'update':
-        this.openDeletePopup(event.row.shipmentId);
-        break;
-    }
-  }
-
   protected loadData(): void {
     this.loadShipments();
   }
@@ -188,8 +98,6 @@ export class ShipmentList extends BasePage {
       shipmentStatusId: this.shipmentStatusId(),
     }));
   }
-
-
 
   onStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
@@ -223,87 +131,51 @@ export class ShipmentList extends BasePage {
     }));
   }
 
+  showUpdateShipmentPopup = signal(false);
+  selectedShipmentIdForUpdate = signal<number | null>(null);
+
+  openUpdatePopup(shipmentId: number) {
+    this.selectedShipmentIdForUpdate.set(shipmentId);
+    this.showUpdateShipmentPopup.set(true);
+  }
+
+  closeUpdateShipmentPopup() {
+    this.showUpdateShipmentPopup.set(false);
+    this.selectedShipmentIdForUpdate.set(null);
+  }
+
+  onShipmentUpdated() {
+    this.loadShipments();
+  }
+
+  actions: TableAction<ShipmentModel>[] = [
+    { label: 'View', color: 'green', action: 'view' },
+    { label: 'Update', color: 'blue', action: 'update' }
+  ];
+
+  columns: Column[] = [
+    { key: 'shipmentId', header: 'Shipment ID' },
+    { key: 'orderId', header: 'Order ID' },
+    { key: 'shipperName', header: 'Courier' },
+    { key: 'trackingNumber', header: 'Tracking' },
+    { key: 'currentStatus', header: 'Status' },
+    { key: 'expectedDeliveryDate', header: 'Expected Date', formatter: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') }
+  ];
+  mobileColumns = [...this.columns];
+
+
+  handleAction(event: { type: string; row: ShipmentModel }) {
+    switch (event.type) {
+      case 'view':
+        this.viewShipment(event.row.shipmentId);
+        break;
+      case 'update':
+        this.openUpdatePopup(event.row.shipmentId);
+        break;
+    }
+  }
+
   viewShipment(id: number): void {
     this.router.navigate(['/admin/shipment-details', id]);
-  }
-
-
-    showActivatePopup = signal(false);
-    successMessage = signal<string | null>(null);
-    errorMessage = signal<string | null>(null);
-    updateShipmentModel = signal(new ShipmentUpdateModel());
-    selectedShipmentId = signal<number | null>(null);
-
-  updateForm = form(this.updateShipmentModel, (path) => {
-    required(path.remarks, { message: "Enter The Remarks" });
-    required(path.location, { message: "Enter The Location" });
-    required(path.shipmentStatusId, { message: "Enter The Shipment Status" });
-  })
-
-  updateShipment() {
-    if (this.updateForm().invalid()) return;
-
-    this.errorMessage.set(null);
-    this.successMessage.set(null);
-
-    if (this.updateForm().invalid()) {
-      this.errorMessage.set("Enter proper details");
-      return;
-    }
-
-    const request = {
-      shipmentStatusId:  Number(this.updateShipmentModel().shipmentStatusId),
-      remarks: this.updateShipmentModel().remarks,
-      shipmentId: this.updateShipmentModel().shipmentId,
-      location: this.updateShipmentModel().location,
-    };
-
-    this.shipmentService.updateShipment(request).subscribe({
-      next: () => {
-        this.successMessage.set("Shipment updated successfully. Closing in 3 seconds...");
-        setTimeout(() => {
-          this.closePopup();
-          this.successMessage.set(null);
-          this.loadShipments();
-        }, 3000);
-      },
-      error: (error) => {
-        this.successMessage.set(null);
-
-        if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-
-          this.errorMessage.set(messages);
-        }
-        else {
-          this.errorMessage.set(
-            error.error?.message ?? "Something went wrong. Please try again."
-          );
-        }
-      }
-    });
-  }
-
-  openDeletePopup(shipmentId: number) {
-    this.selectedShipmentId.set(shipmentId);
-
-    this.updateShipmentModel.update(model => ({
-      ...model,
-      shipmentId: shipmentId,
-      remark: '',
-      location: '',
-      shipmentStatusId : ''
-    }));
-
-    this.showActivatePopup.set(true);
-  }
-
-  closeUpdatePopup() {
-    this.showActivatePopup.set(false);
-    this.selectedShipmentId.set(null);
-    this.updateShipmentModel.set(new ShipmentUpdateModel());
-    this.errorMessage.set(null);
   }
 }

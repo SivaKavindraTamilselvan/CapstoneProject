@@ -4,8 +4,6 @@ import { ShipmentFilter } from "../models/admin/admin-shipment/shipment.filter";
 import { BaseURL } from "../environment";
 import { ShipmentModel } from "../models/admin/admin-shipment/admin-shipment.model";
 import { PagedResponse } from "../models/paged-response.model";
-import { UpdateShipment } from "../admin/admin-shipment/update-shipment/update-shipment";
-import { ShipmentUpdateModel } from "../models/admin/admin-shipment/update-shipment.model";
 import { ShipmentUpdateRequestModel } from "../models/admin/admin-shipment/update-shipment.dto";
 
 @Injectable({

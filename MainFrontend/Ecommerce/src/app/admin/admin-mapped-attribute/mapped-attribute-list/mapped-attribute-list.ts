@@ -20,6 +20,7 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 export interface GroupedSubCategory {
   subCategoryId: number;
@@ -30,7 +31,7 @@ export interface GroupedSubCategory {
 
 @Component({
   selector: 'app-mapped-attribute-list',
-  imports: [CommonModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [CommonModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormField, ReactiveFormsModule, FormsModule,HeaderComponent],
   templateUrl: './mapped-attribute-list.html',
   styleUrl: './mapped-attribute-list.css',
 })

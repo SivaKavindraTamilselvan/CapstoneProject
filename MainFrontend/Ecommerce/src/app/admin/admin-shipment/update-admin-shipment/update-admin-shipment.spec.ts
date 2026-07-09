@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InactiveAttribute } from './inactive-attribute';
+import { UpdateAdminShipment } from './update-admin-shipment';
 
-describe('InactiveAttribute', () => {
-  let component: InactiveAttribute;
-  let fixture: ComponentFixture<InactiveAttribute>;
+describe('UpdateAdminShipment', () => {
+  let component: UpdateAdminShipment;
+  let fixture: ComponentFixture<UpdateAdminShipment>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InactiveAttribute],
+      imports: [UpdateAdminShipment],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InactiveAttribute);
+    fixture = TestBed.createComponent(UpdateAdminShipment);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

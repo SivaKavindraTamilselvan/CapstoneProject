@@ -16,176 +16,18 @@ import { TableAction } from '../../../shared-components/data-table-component/tab
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
+import { UpdateCouponComponent } from '../update-coupon-component/update-coupon-component';
 
 @Component({
   selector: 'app-coupon-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, DataTableComponent, MobileCardComponent, PopupComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, DataTableComponent, MobileCardComponent, PopupComponent, HeaderComponent,UpdateCouponComponent],
   providers: [DatePipe],
   templateUrl: './coupon-list.html',
   styleUrl: './coupon-list.css',
 })
 export class CouponList extends BasePage {
-  actions = computed<TableAction<CouponListModel>[]>(() => {
-    if (this.categoryStatus() == null) {
-      return [
-        {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-
-        {
-          label: 'Update',
-          color: 'blue',
-          action: 'update'
-        }
-      ];
-    }
-
-    return [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-      {
-        label: 'Deactivate',
-        color: 'red',
-        action: 'deactivate',
-        visible: category => category.isActive
-      },
-      {
-        label: 'Activate',
-        color: 'green',
-        action: 'activate',
-        visible: category => !category.isActive
-      }
-    ];
-  });
-
-  columns: Column[] = [
-    {
-      key: 'couponId',
-      header: 'ID'
-    },
-    {
-      key: 'couponCode',
-      header: 'Code'
-    },
-    {
-      key: 'couponTypeName',
-      header: 'Type'
-    },
-    {
-      key: 'discountValue',
-      header: 'Discount'
-    },
-    {
-      key: 'minimumOrderAmount',
-      header: 'Min Order Amt'
-    },
-    {
-      key: 'startDate',
-      header: 'Start Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    },
-    {
-      key: 'endDate',
-      header: 'End Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    },
-    {
-      key: 'usageCount',
-      header: 'Usage Count'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-
-  ];
-
-  mobileColumns: Column[] = [
-    {
-      key: 'couponCode',
-      header: 'Code'
-    },
-    {
-      key: 'couponTypeName',
-      header: 'Type'
-    },
-    {
-      key: 'discountValue',
-      header: 'Discount'
-    },
-    {
-      key: 'minimumOrderAmount',
-      header: 'Min Order Amt'
-    },
-    {
-      key: 'startDate',
-      header: 'Start Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    },
-    {
-      key: 'endDate',
-      header: 'End Date',
-      formatter: (value: string) =>
-        this.datePipe.transform(value, 'dd/MM/yyyy')
-    },
-    {
-      key: 'usageCount',
-      header: 'Usage Count'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    },
-  ];
-
-  coupons = signal<PagedResponse<CouponListModel> | null>(null);
-
-
-  totalPages = computed(() => this.coupons()?.totalPages ?? 1);
-
-
-  search = signal<string>("");
-  couponTypeId = signal<number | null>(null);
-  isExpired = signal<boolean | null>(null);
-  isActive = signal<boolean | null>(null);
-  couponId = signal<number | null>(null);
-  validFrom = signal<Date | null>(null);
-  validTo = signal<Date | null>(null);
-  minDiscountValue = signal<number | null>(null);
-  maxDiscountValue = signal<number | null>(null);
-  minOrderAmount = signal<number | null>(null);
-  maxOrderAmount = signal<number | null>(null);
-
-  showActivatePopup = signal(false);
-  filtererrorMessage = signal<string | null>(null);
-  errorMessage = signal<string | null>(null);
-  progress = signal(false);
-  filterapplied = signal(false);
-
-  showUpdateCouponPopup = signal(false);
-  updateCouponModel = signal(new UpdateCouponModel());
-  successMessage = signal<string | null>(null);
-  updateerrorMessage = signal<string | null>(null);
-  selectedCouponId = signal<number | null>(null);
-
-  couponFilter = signal(new AdminCouponFilter());
-  clearFilterValues(): void {
-    this.isExpired.set(null);
-    this.isActive.set(null);
-    this.couponTypeId.set(null);
-    this.couponFilter.set(new AdminCouponFilter());
-  }
-
+  
   constructor(private router: ActivatedRoute, private route: Router, private adminCouponService: AdminCouponService, private datePipe: DatePipe) {
     super();
     effect(() => {
@@ -208,12 +50,190 @@ export class CouponList extends BasePage {
     });
   }
 
+  coupons = signal<PagedResponse<CouponListModel> | null>(null);
+  totalPages = computed(() => this.coupons()?.totalPages ?? 1);
+  couponTypeId = signal<number | null>(null);
+  isExpired = signal<boolean | null>(null);
+  isActive = signal<boolean | null>(null);
+  validFrom = signal<Date | null>(null);
+  validTo = signal<Date | null>(null);
+
+  showActivatePopup = signal(false);
+  errorMessage = signal<string | null>(null);
+  progress = signal(false);
+
+  protected loadData(): void {
+    this.loadCoupon();
+  }
+
+  loadCoupon() {
+    this.buildFilter();
+
+    this.progress.set(true);
+    this.adminCouponService.getCoupon(this.couponFilter()).subscribe({
+      next: (response: PagedResponse<CouponListModel>) => {
+        this.coupons.set(response);
+        this.progress.set(false);
+      },
+      error: (error) => {
+        console.log(error);
+        this.progress.set(false);
+        if (error.status === 404) {
+          this.coupons.set({
+            items: [],
+            pageNumber: 1,
+            pageSize: 10,
+            totalCount: 0,
+            totalPages: 0
+          });
+        }
+        else if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.error?.message ?? 'Something went wrong.');
+        }
+      }
+    });
+  }
+  couponFilter = signal(new AdminCouponFilter());
+  clearFilterValues(): void {
+    this.isExpired.set(null);
+    this.isActive.set(null);
+    this.couponTypeId.set(null);
+    this.couponFilter.set(new AdminCouponFilter());
+  }
   couponTypeOption = [
     { id: 1, label: 'Admin' },
     { id: 2, label: 'Vendor' },
 
   ]
 
+  filterForm = form(this.couponFilter, (path) => {
+    min(path.couponId, 1, { message: 'Coupon ID must be greater than 0.' });
+    pattern(path.search, /^[A-Za-z0-9\s-]*$/, { message: 'Search can contain only letters, numbers, spaces, and hyphens.' });
+    maxLength(path.search, 100, { message: 'Search cannot exceed 100 characters.' });
+    min(path.couponTypeId, 1, { message: 'Coupon type ID must be greater than 0.' });
+    min(path.minDiscountValue, 0, { message: 'Minimum discount value cannot be negative.' });
+    min(path.maxDiscountValue, 0, { message: 'Maximum discount value cannot be negative.' });
+    min(path.minOrderAmount, 0, { message: 'Minimum order amount cannot be negative.' });
+    min(path.maxOrderAmount, 0, { message: 'Maximum order amount cannot be negative.' });
+  });
+
+  private buildFilter() {
+
+    this.couponFilter.update(filter => ({
+      ...filter,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      isActive: this.categoryStatus(),
+    }));
+  }
+
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    if (value === '') {
+      this.isActive.set(null);
+    } else {
+      this.isActive.set(value === 'true');
+    }
+    this.couponFilter.update(filter => ({
+      ...filter,
+      isActive: value === '' ? null : value === 'true'
+    }));
+  }
+
+  onExpiredChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    if (value === '') {
+      this.isExpired.set(null);
+    } else {
+      this.isExpired.set(value === 'true');
+    }
+    this.couponFilter.update(filter => ({
+      ...filter,
+      isExpired: value === '' ? null : value === 'true'
+    }));
+  }
+
+  onCouponTypeChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.couponTypeId.set(v ? Number(v) : null);
+    this.couponFilter.update(filter => ({
+      ...filter,
+      couponTypeId: v ? Number(v) : null
+    }));
+  }
+
+  onValidFromChange(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.validFrom.set(v ? new Date(v) : null);
+    this.couponFilter.update(filter => ({
+      ...filter,
+      validFrom: v ? new Date(v) : null
+    }));
+  }
+
+  onValidToChange(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.validTo.set(v ? new Date(v) : null);
+    this.couponFilter.update(filter => ({
+      ...filter,
+      validTo: v ? new Date(v) : null
+    }));
+  }
+
+  showUpdateCouponPopup = signal(false);
+  selectedCouponIdForUpdate = signal<number | null>(null);
+
+  openUpdatePopup(couponId: number) {
+    this.selectedCouponIdForUpdate.set(couponId);
+    this.showUpdateCouponPopup.set(true);
+  }
+
+  closeUpdateCouponPopup() {
+    this.showUpdateCouponPopup.set(false);
+    this.selectedCouponIdForUpdate.set(null);
+  }
+
+  onCouponUpdated() {
+    this.loadCoupon();
+  }
+
+  deactivateCoupon() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCouponService.deactivateCoupon(id).subscribe({
+      next: (response: any) => {
+        this.loadCoupon();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  activateCoupon() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.adminCouponService.activateCoupon(id).subscribe({
+      next: (response: any) => {
+        this.loadCoupon();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
   selectedAction = signal<'activate' | 'deactivate' | null>(null);
 
 
@@ -265,219 +285,34 @@ export class CouponList extends BasePage {
     }
   }
 
-  protected loadData(): void {
-    this.loadCoupon();
-  }
+  actions = computed<TableAction<CouponListModel>[]>(() =>
+    this.categoryStatus() == null
+      ? [
+        { label: 'View', color: 'green', action: 'view' },
+        { label: 'Update', color: 'blue', action: 'update' }
+      ]
+      : [
+        { label: 'View', color: 'green', action: 'view' },
+        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive },
+        { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
+      ]
+  );
 
-  filterForm = form(this.couponFilter, (path) => {
-    min(path.couponId, 1, { message: 'Coupon ID must be greater than 0.' });
-    pattern(path.search, /^[A-Za-z0-9\s-]*$/, { message: 'Search can contain only letters, numbers, spaces, and hyphens.' });
-    maxLength(path.search, 100, { message: 'Search cannot exceed 100 characters.' });
-    min(path.couponTypeId, 1, { message: 'Coupon type ID must be greater than 0.' });
-    min(path.minDiscountValue, 0, { message: 'Minimum discount value cannot be negative.' });
-    min(path.maxDiscountValue, 0, { message: 'Maximum discount value cannot be negative.' });
-    min(path.minOrderAmount, 0, { message: 'Minimum order amount cannot be negative.' });
-    min(path.maxOrderAmount, 0, { message: 'Maximum order amount cannot be negative.' });
-  });
-
-  private buildFilter() {
-
-    this.couponFilter.update(filter => ({
-      ...filter,
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      isActive: this.categoryStatus(),
-    }));
-  }
-
-  loadCoupon() {
-    this.buildFilter();
-
-    this.progress.set(true);
-    this.adminCouponService.getCoupon(this.couponFilter()).subscribe({
-      next: (response: PagedResponse<CouponListModel>) => {
-        this.coupons.set(response);
-        this.progress.set(false);
-      },
-      error: (error) => {
-        console.log(error);
-        this.progress.set(false);
-        if (error.status === 404) {
-          this.coupons.set({
-            items: [],
-            pageNumber: 1,
-            pageSize: 10,
-            totalCount: 0,
-            totalPages: 0
-          });
-        }
-        else if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-          this.errorMessage.set(messages);
-        }
-        else {
-          this.errorMessage.set(error.error?.message ?? 'Something went wrong.');
-        }
-      }
-    });
-  }
-
-
-
-
-  onStatusChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    if (value === '') {
-      this.isActive.set(null);
-    } else {
-      this.isActive.set(value === 'true');
-    }
-    this.couponFilter.update(filter => ({
-      ...filter,
-      isActive: value === '' ? null : value === 'true'
-    }));
-  }
-
-  onExpiredChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    if (value === '') {
-      this.isExpired.set(null);
-    } else {
-      this.isExpired.set(value === 'true');
-    }
-    this.couponFilter.update(filter => ({
-      ...filter,
-      isExpired: value === '' ? null : value === 'true'
-    }));
-  }
-
-  onSearchInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.search.set(value);
-  }
-
-  onCouponTypeChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.couponTypeId.set(v ? Number(v) : null);
-    this.couponFilter.update(filter => ({
-      ...filter,
-      couponTypeId: v ? Number(v) : null
-    }));
-  }
-
-  onMinDiscountValueInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minDiscountValue.set(v ? Number(v) : null);
-  }
-
-  onMaxDiscountValueInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maxDiscountValue.set(v ? Number(v) : null);
-  }
-
-  onMinOrderAmountInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minOrderAmount.set(v ? Number(v) : null);
-  }
-
-  onMaxOrderAmountInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maxOrderAmount.set(v ? Number(v) : null);
-  }
-
-  onValidFromChange(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.validFrom.set(v ? new Date(v) : null);
-    this.couponFilter.update(filter => ({
-      ...filter,
-      validFrom: v ? new Date(v) : null
-    }));
-  }
-
-  onValidToChange(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.validTo.set(v ? new Date(v) : null);
-    this.couponFilter.update(filter => ({
-      ...filter,
-      validTo: v ? new Date(v) : null
-    }));
-  }
+  columns: Column[] = [
+    { key: 'couponId', header: 'ID' },
+    { key: 'couponCode', header: 'Code' },
+    { key: 'couponTypeName', header: 'Type' },
+    { key: 'discountValue', header: 'Discount' },
+    { key: 'minimumOrderAmount', header: 'Min Order Amt' },
+    { key: 'startDate', header: 'Start Date', formatter: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') },
+    { key: 'endDate', header: 'End Date', formatter: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') },
+    { key: 'usageCount', header: 'Usage Count' },
+    { key: 'isActive', header: 'Status', formatter: (value: boolean) => (value ? 'Active' : 'Inactive') }
+  ];
+  mobileColumns = [...this.columns];
 
   viewCoupon(couponId: number) {
     this.route.navigate(['/admin/coupons', couponId]);
   }
 
-  updateCouponForm = form(this.updateCouponModel, (path) => {
-  });
-
-  openUpdatePopup(couponid: number) {
-
-    this.adminCouponService.getCouponById(couponid).subscribe({
-      next: (response: any) => {
-        this.updateCouponModel.set(
-          new UpdateCouponModel(
-            response.couponId,
-            response.discountValue,
-            response.minimumOrderAmount,
-            response.startDate?.split('T')[0],
-            response.endDate?.split('T')[0],
-            response.minimumNumberOfUsage,
-            response.couponDescription
-          )
-        );
-      }
-    });
-    this.showUpdateCouponPopup.set(true);
-  }
-
-  updateCoupon() {
-    this.adminCouponService
-      .updateCoupon(this.updateCouponModel())
-      .subscribe({
-        next: (response) => {
-          console.log('Coupon updated successfully', response);
-          this.closeUpdateCouponPopup();
-          this.loadCoupon();
-        },
-        error: (err) => {
-          console.error('Failed to update coupon', err);
-        }
-      });
-  }
-  closeUpdateCouponPopup() {
-    this.showUpdateCouponPopup.set(false);
-  }
-
-  deactivateCoupon() {
-    const id = this.selectedId();
-    if (id == null) {
-      return;
-    }
-    this.adminCouponService.deactivateCoupon(id).subscribe({
-      next: (response: any) => {
-        this.loadCoupon();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
-  activateCoupon() {
-    const id = this.selectedId();
-    if (id == null) {
-      return;
-    }
-    this.adminCouponService.activateCoupon(id).subscribe({
-      next: (response: any) => {
-        this.loadCoupon();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
 }
