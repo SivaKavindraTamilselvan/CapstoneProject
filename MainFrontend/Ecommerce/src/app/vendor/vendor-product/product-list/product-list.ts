@@ -373,8 +373,6 @@ export class ProductList extends BasePage {
   showUpdatePopup = signal(false);
   showUpdateRejectedPopup = signal(false);
 
-
-
   closeReviewPopup() {
     this.showReviewPopup.set(false);
     this.selectedProductId.set(null);
