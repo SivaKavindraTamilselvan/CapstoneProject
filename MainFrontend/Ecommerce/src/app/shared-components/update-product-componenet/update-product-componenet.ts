@@ -8,7 +8,7 @@ export interface UpdatePopupOption {
 
 @Component({
   selector: 'app-update-product-componenet',
-  imports: [FormField],
+  imports: [],
   templateUrl: './update-product-componenet.html',
   styleUrl: './update-product-componenet.css',
 })

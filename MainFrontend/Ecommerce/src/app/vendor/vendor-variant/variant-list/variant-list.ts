@@ -29,7 +29,7 @@ import { UpdateProductComponent } from '../../vendor-product/update-product-comp
 
 @Component({
   selector: 'app-variant-list',
-  imports: [DecimalPipe, FormField, ReactiveFormsModule, FormsModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, UpdateRejectVairantComponent,DeleteProductComponent, ReviewPopupComponent, HeaderComponent,UpdateProductComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, UpdateRejectVairantComponent,DeleteProductComponent, ReviewPopupComponent, HeaderComponent,UpdateProductComponent],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })

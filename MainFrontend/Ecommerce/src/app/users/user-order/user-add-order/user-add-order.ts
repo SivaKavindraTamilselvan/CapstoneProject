@@ -10,6 +10,7 @@ import { AddressModel } from '../../../models/address/address-response.model';
 import { CommonModule } from '@angular/common';
 import { UserPaymentService } from '../../../services/user-payment.Service';
 import { ShipmentServiceModel } from '../../../models/user/order/servicibility.model';
+import { environment } from '../../../environment.secure';
 
 export type CheckoutStep = 1 | 2 | 3;
 
@@ -216,7 +217,7 @@ export class UserAddOrder {
         }
 
         const options = {
-          key: payment.razorpayKeyId ?? 'rzp_test_Sxgi6JUqWE2euU',
+          key: payment.razorpayKeyId ?? environment.razorpayKeyId,
           amount: payment.amount,
           currency: payment.currency,
           name: 'Ecommerce App',
