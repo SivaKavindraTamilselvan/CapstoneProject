@@ -5,7 +5,6 @@ import { VendorInventoryDetails } from "../../vendor/inventory/vendor-inventory-
 import { DeletedInventory } from "../../vendor/inventory/deleted-inventory/deleted-inventory";
 import { AddWarehouse } from "../../vendor/vendor-warehouse/add-warehouse/add-warehouse";
 import { VendorWarehouseList } from "../../vendor/vendor-warehouse/vendor-warehouse-list/vendor-warehouse-list";
-import { VendorDeletedWarehouse } from "../../vendor/vendor-warehouse/vendor-deleted-warehouse/vendor-deleted-warehouse";
 import { VendorUserList } from "../../vendor/vendor-user/vendor-user-list/vendor-user-list";
 import { VendorUserDetails } from "../../vendor/vendor-user/vendor-user-details/vendor-user-details";
 import { RegisterVendor } from "../../vendor/vendor-user/register-vendor/register-vendor";

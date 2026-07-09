@@ -18,102 +18,46 @@ import { PopupComponent } from '../../../shared-components/popup-component/popup
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddInventoryModel } from '../../../models/inventory/add-inventory.model';
 import { VendorInventoryService } from '../../../services/vendor-inventory.Service';
+import { AddInventoryComponent } from '../add-inventory-component/add-inventory-component';
 
 @Component({
   selector: 'app-vendor-warehouse-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule, AddInventoryComponent],
   templateUrl: './vendor-warehouse-list.html',
   styleUrl: './vendor-warehouse-list.css',
 })
 export class VendorWarehouseList extends BasePage {
 
-  actions = computed<TableAction<AddressModel>[]>(() => {
-    if (this.pageTitle() === 'Add Inventory') {
-      return [
-        {
-          label: 'Add Inventory',
-          color: 'green',
-          action: 'add',
-        }
-      ];
-    }
-
-    return [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view',
-      },
-      {
-        label: 'Delete',
-        color: 'red',
-        action: 'delete',
-        visible: address => address.isActive
-      }
-    ];
-  });
+  actions = computed<TableAction<AddressModel>[]>(() =>
+    this.pageTitle() === 'Add Inventory'
+      ? [
+        { label: 'Add Inventory', color: 'green', action: 'add' }
+      ]
+      : [
+        { label: 'View', color: 'green', action: 'view' },
+        { label: 'Delete', color: 'red', action: 'delete', visible: address => address.isActive }
+      ]
+  );
 
   columns: Column[] = [
-    {
-      key: 'addressId',
-      header: 'ID'
-    },
-    {
-      key: 'contactName',
-      header: 'Contact Name'
-    },
-    {
-      key: 'contactPhoneNumber',
-      header: 'Contact Phone'
-    },
-    {
-      key: 'city',
-      header: 'City'
-    },
-    {
-      key: 'state',
-      header: 'State',
-    },
-    {
-      key: 'pinCode',
-      header: 'PinCode'
-    },
-
+    { key: 'addressId', header: 'ID' },
+    { key: 'contactName', header: 'Contact Name' },
+    { key: 'contactPhoneNumber', header: 'Contact Phone' },
+    { key: 'city', header: 'City' },
+    { key: 'state', header: 'State' },
+    { key: 'pinCode', header: 'PinCode' }
   ];
 
-  mobileColumns: Column[] = [
-    {
-      key: 'contactName',
-      header: 'Contact Name'
-    },
-    {
-      key: 'contactPhoneNumber',
-      header: 'Contact Phone'
-    },
-    {
-      key: 'city',
-      header: 'City'
-    },
-    {
-      key: 'state',
-      header: 'State',
-    },
-    {
-      key: 'pinCode',
-      header: 'PinCode'
-    },
-  ];
+  mobileColumns = [...this.columns];
 
   handleAction(event: { type: string; row: AddressModel }) {
     switch (event.type) {
 
       case 'delete':
-        this.selectedAction.set('delete');
         this.selectedId.set(event.row.addressId);
-
         this.popupTitle.set('Delete Warehouse');
         this.popupMessage.set('Are you sure you want to delete the warehouse? If once deleted cannot be recovered.');
-        this.popupConfirmText.set('Deactivate');
+        this.popupConfirmText.set('Delete Warehouse');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
 
@@ -126,21 +70,15 @@ export class VendorWarehouseList extends BasePage {
   }
   address = signal<PagedResponse<AddressModel> | null>(null);
 
-  contactPhoneNumber = signal<string>('');
-  city = signal<string>('');
+
   state = signal<string[]>(INDIA_STATES);
   selectedState = signal<string>('');
-  pincode = signal<string>('');
   status = signal<boolean | null>(null);
 
   totalPages = computed(() => this.address()?.totalPages ?? 1);
   selectedAddressId = signal<number | null>(null);
-  showDeactivatePopup = signal(false);
 
   errorMessage = signal<string | null>(null);
-
-  filterapplied = signal(false);
-  filtererrorMessage = signal<string | null>(null);
 
   addressFilter = signal(new AddressFilter());
 
@@ -148,7 +86,6 @@ export class VendorWarehouseList extends BasePage {
     this.selectedState.set('');
     this.addressFilter.set(new AddressFilter());
   }
-
 
   constructor(private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
     super();
@@ -172,16 +109,8 @@ export class VendorWarehouseList extends BasePage {
     });
   }
 
-  selectedAction = signal<'activate' | 'delete' | null>(null);
-
-
   confirmPopup() {
-    switch (this.selectedAction()) {
-
-      case 'delete':
-        this.deleteAddress();
-        break;
-    }
+    this.deleteAddress();
   }
 
   protected loadData(): void {
@@ -189,37 +118,14 @@ export class VendorWarehouseList extends BasePage {
   }
 
   filterForm = form(this.addressFilter, (path) => {
-    pattern(path.contactPhoneNumber, /^[6-9]\d{9}$/, {
-      message: 'Enter a valid 10-digit Indian phone number',
-    });
-
-    pattern(path.city, /^[A-Za-z][A-Za-z\s-]*$/, {
-      message: 'City can contain only letters, spaces, and hyphens.',
-    });
-
-    maxLength(path.city, 100, {
-      message: 'City cannot exceed 100 characters.',
-    });
-
-    pattern(path.state, /^[A-Za-z][A-Za-z\s-]*$/, {
-      message: 'State can contain only letters, spaces, and hyphens.',
-    });
-
-    maxLength(path.state, 100, {
-      message: 'State cannot exceed 100 characters.',
-    });
-
-    pattern(path.pinCode, /^[1-9][0-9]{5}$/, {
-      message: 'Enter a valid 6-digit pin code.',
-    });
-
-    min(path.pageNumber, 1, {
-      message: 'Page number must be at least 1.',
-    });
-
-    min(path.pageSize, 1, {
-      message: 'Page size must be at least 1.',
-    });
+    pattern(path.contactPhoneNumber, /^[6-9]\d{9}$/, { message: 'Enter a valid 10-digit Indian phone number', });
+    pattern(path.city, /^[A-Za-z][A-Za-z\s-]*$/, { message: 'City can contain only letters, spaces, and hyphens.', });
+    maxLength(path.city, 100, { message: 'City cannot exceed 100 characters.', });
+    pattern(path.state, /^[A-Za-z][A-Za-z\s-]*$/, { message: 'State can contain only letters, spaces, and hyphens.', });
+    maxLength(path.state, 100, { message: 'State cannot exceed 100 characters.', });
+    pattern(path.pinCode, /^[1-9][0-9]{5}$/, { message: 'Enter a valid 6-digit pin code.', });
+    min(path.pageNumber, 1, { message: 'Page number must be at least 1.', });
+    min(path.pageSize, 1, { message: 'Page size must be at least 1.', });
   });
 
   loadAddress() {
@@ -283,22 +189,6 @@ export class VendorWarehouseList extends BasePage {
     }));
   }
 
-  onPinCodeChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.pincode.set(value);
-  }
-
-  onCityChange(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    this.city.set(value);
-  }
-
-  onPhoneNumberChange(event: Event) {
-    this.contactPhoneNumber.set((event.target as HTMLInputElement).value);
-  }
-
-
-
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.pageSize.set(value);
@@ -308,78 +198,60 @@ export class VendorWarehouseList extends BasePage {
 
   confirmDeactivate(id: number) {
     this.selectedAddressId.set(id);
-    this.showDeactivatePopup.set(true);
+    this.showPopup.set(true);
   }
+
+  successMessage = signal<string | null>(null);
+  progress = signal(false);
 
   deleteAddress() {
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+
+    this.progress.set(true);
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
     this.addressService.deleteWarehouseAddress(id).subscribe({
-      next: (response: any) => {
-        alert("Warehouse deleted");
-        this.loadAddress();
-      }
-    })
-  }
-
-  showAddInventoryPopup = signal(false);
-  inventorySuccess = signal<string | null>(null);
-  inventoryError = signal<string | null>(null);
-
-
-  inventoryModel = signal(new AddInventoryModel());
-
-  addForm = form(this.inventoryModel, (path) => {
-    required(path.addressId, { message: 'Choose The Address' });
-    required(path.availableQuantity, { message: 'Enter the available quantity' });
-    required(path.reservedQuantity, { message: 'Enter the reserved quantity' });
-    required(path.productVariantId, { message: 'Choode the productVariant' });
-
-  })
-  openInventoryPopup(addressId: number) {
-    this.selectedAddressId.set(addressId);
-    this.inventoryModel.update((i) => ({ ...i, addressId: addressId }));
-    this.showAddInventoryPopup.set(true);
-  }
-  closeInventoryPopup() {
-    this.showAddInventoryPopup.set(false);
-    this.inventoryModel.set(new AddInventoryModel());
-    this.selectedAddressId.set(null);
-    this.inventoryError.set(null);
-  }
-  handleAddInventory() {
-    this.inventoryError.set(null);
-    this.inventorySuccess.set(null);
-    if (this.addForm().invalid()) {
-      this.inventoryError.set("Enter proper details");
-    }
-    this.vendorInventoryService.addInventory(this.inventoryModel()).subscribe({
-      next: (response: any) => {
-        this.inventorySuccess.set("Inventory added successfully");
+      next: () => {
+        this.progress.set(false);
+        this.successMessage.set("Warehouse deleted successfully. Closing in 3 seconds...");
         setTimeout(() => {
+          this.successMessage.set(null);
           this.closePopup();
-          this.inventorySuccess.set(null);
           this.loadAddress();
         }, 3000);
       },
       error: (error) => {
-        this.inventorySuccess.set(null);
+        this.progress.set(false);
+        this.successMessage.set(null);
 
         if (error.status === 400 && error.error?.errors) {
           const messages = Object.values(error.error.errors)
             .flat()
             .join(", ");
-
-          this.inventoryError.set(messages);
-        }
-        else {
-          this.inventoryError.set(
+          this.errorMessage.set(messages);
+        } else {
+          this.errorMessage.set(
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
       }
-    })
+    });
+  }
+
+  showAddInventoryPopup = signal(false);
+  selectedAddressIdForInventory = signal<number | null>(null);
+
+  openInventoryPopup(addressId: number) {
+    this.selectedAddressIdForInventory.set(addressId);
+    this.showAddInventoryPopup.set(true);
+  }
+
+  closeInventoryPopup() {
+    this.showAddInventoryPopup.set(false);
+    this.selectedAddressIdForInventory.set(null);
   }
 }
