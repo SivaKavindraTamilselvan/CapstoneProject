@@ -57,4 +57,4 @@ __screenshots__/
 # System files
 .DS_Store
 Thumbs.db
-src/environment.secure.ts
+src/app/environment.secure.ts
