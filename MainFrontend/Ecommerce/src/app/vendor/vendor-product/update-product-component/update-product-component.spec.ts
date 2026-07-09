@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActivateVendorUser } from './activate-vendor-user';
+import { UpdateProductComponent } from './update-product-component';
 
-describe('ActivateVendorUser', () => {
-  let component: ActivateVendorUser;
-  let fixture: ComponentFixture<ActivateVendorUser>;
+describe('UpdateProductComponent', () => {
+  let component: UpdateProductComponent;
+  let fixture: ComponentFixture<UpdateProductComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActivateVendorUser],
+      imports: [UpdateProductComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ActivateVendorUser);
+    fixture = TestBed.createComponent(UpdateProductComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -13,10 +13,11 @@ import { DataTableComponent } from '../../../shared-components/data-table-compon
 import { MobileCardComponent } from '../../../shared-components/mobile-card-component/mobile-card-component';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 @Component({
   selector: 'app-vendor-user-list',
-  imports: [PopupComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent, FormField],
+  imports: [PopupComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent, FormField,HeaderComponent],
   templateUrl: './vendor-user-list.html',
   styleUrl: './vendor-user-list.css',
 })
@@ -32,6 +33,17 @@ export class VendorUserList extends BasePage {
     });
   }
 
+  status = signal<boolean | null>(null);
+  pageTitle = signal<string | null>(null);
+
+  ngOnInit(): void {
+    this.router.data.subscribe(data => {
+      this.status.set(data['status']);
+      this.pageTitle.set(data['title']);
+      this.loadAdminUser();
+    });
+  }
+
   protected loadData(): void {
     this.loadAdminUser();
   }
@@ -40,105 +52,143 @@ export class VendorUserList extends BasePage {
     this.adminUserFilter.set(new VendorUserFilter());
   }
 
-  actions = computed<TableAction<VendorUserModel>[]>(() => {
-    if (this.status() == null) {
-      return [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-      ];
-    }
+  adminUsers = signal<PagedResponse<VendorUserModel> | null>(null);
 
-    return [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-      {
-        label: 'Deactivate',
-        color: 'red',
-        action: 'deactivate',
-        visible: category => category.isActive
-      },
-      {
-        label: 'Activate',
-        color: 'green',
-        action: 'activate',
-        visible: category => !category.isActive
-      }
-    ];
+  totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
+
+  adminUserFilter = signal(new VendorUserFilter());
+
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  
+  filterForm = form(this.adminUserFilter, (path) => {
+    email(path.email, { message: 'Enter a valid email address.' });
+    pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
   });
 
-
-
-  columns: Column[] = [
-    {
-      key: 'vendorUserId',
-      header: 'ID'
-    },
-    {
-      key: 'firstName',
-      header: 'First Name'
-    },
-    {
-      key: 'lastName',
-      header: 'Last Name'
-    },
-    {
-      key: 'vendorRoleName',
-      header: 'Role'
-    },
-    {
-      key: 'email',
-      header: 'Email'
-    },
-    {
-      key: 'phoneNumber',
-      header: 'Phone Number'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
-    }
+  adminRoleOption = [
+    { id: 1, label: 'Owner' },
+    { id: 2, label: 'Manager' },
+    { id: 3, label: 'Product Manager' },
+    { id: 4, label: 'Order Manager' },
+    { id: 5, label: 'Return Manager' },
+    { id: 6, label: 'Refund Manager' },
+    { id: 7, label: 'Inventory Manager' },
+    { id: 8, label: 'Coupon Manager' }
   ];
 
-  mobileColumns: Column[] = [
-    {
-      key: 'vendorUserId',
-      header: 'ID'
-    },
-    {
-      key: 'firstName',
-      header: 'First Name'
-    },
-    {
-      key: 'lastName',
-      header: 'Last Name'
-    },
-    {
-      key: 'vendorRoleName',
-      header: 'Role'
-    },
-    {
-      key: 'email',
-      header: 'Email'
-    },
-    {
-      key: 'phoneNumber',
-      header: 'Phone Number'
-    },
-    {
-      key: 'isActive',
-      header: 'Status',
-      formatter: (value: boolean) => value ? 'Active' : 'Inactive'
+  private buildFilter() {
+    this.adminUserFilter.update(filter => ({
+      ...filter,
+      pageNumber: this.pageNumber(),
+      pageSize: this.pageSize(),
+      status: this.status(),
+      email: filter.email.trim().toLowerCase(),
+      phoneNumber: filter.phoneNumber.trim().toLowerCase()
+    }));
+  }
+
+  loadAdminUser() {
+    this.buildFilter();
+    this.vendorUserService.getAdminUser(this.adminUserFilter()).subscribe({
+      next: (response: any) => {
+        this.adminUsers.set(response);
+      },
+      error: (error) => {
+        if (error.status == 404) {
+          this.adminUsers.set({
+            items: [],
+            totalCount: 0,
+            pageNumber: 1,
+            pageSize: 10,
+            totalPages: 1
+          });
+        }
+      }
+    })
+  }
+
+  onAdminRoleChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    this.adminUserFilter.update(filter => ({ ...filter, vendorRoleId: v ? Number(v) : null }));
+  }
+
+  onStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.adminUserFilter.update(filter => ({ ...filter, status: value === '' ? null : value === 'true' }));
+  }
+
+
+  deactivateAdmin() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
     }
-  ];
+    this.vendorUserService.deactivateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.loadAdminUser();
+        this.closePopup();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
+
+  activateAdmin() {
+    const id = this.selectedId();
+    if (id == null) {
+      return;
+    }
+    this.vendorUserService.activateAdminUser(id).subscribe({
+      next: (response: any) => {
+        this.closePopup();
+        this.loadAdminUser();
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    })
+  }
 
   selectedAction = signal<'activate' | 'deactivate' | null>(null);
+
+  confirmPopup() {
+    switch (this.selectedAction()) {
+      case 'activate':
+        this.activateAdmin();
+        break;
+
+      case 'deactivate':
+        this.deactivateAdmin();
+        break;
+    }
+  }
+
+
+  actions = computed<TableAction<VendorUserModel>[]>(() =>
+    this.status() == null
+      ? [
+        { label: 'View', color: 'green', action: 'view' }
+      ]
+      : [
+        { label: 'View', color: 'green', action: 'view' },
+        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive },
+        { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
+      ]
+  );
+
+  columns: Column[] = [
+    { key: 'vendorUserId', header: 'ID' },
+    { key: 'firstName', header: 'First Name' },
+    { key: 'lastName', header: 'Last Name' },
+    { key: 'vendorRoleName', header: 'Role' },
+    { key: 'email', header: 'Email' },
+    { key: 'phoneNumber', header: 'Phone Number' },
+    { key: 'isActive', header: 'Status', formatter: (value: boolean) => (value ? 'Active' : 'Inactive') }
+  ];
+  mobileColumns = [...this.columns];
 
   handleAction(event: { type: string; row: VendorUserModel }) {
     switch (event.type) {
@@ -173,141 +223,6 @@ export class VendorUserList extends BasePage {
     }
   }
 
-  status = signal<boolean | null>(null);
-  pageTitle = signal<string | null>(null);
-
-  ngOnInit(): void {
-    this.router.data.subscribe(data => {
-      this.status.set(data['status']);
-      this.pageTitle.set(data['title']);
-      this.loadAdminUser();
-    });
-  }
-
-  confirmPopup() {
-    switch (this.selectedAction()) {
-      case 'activate':
-        this.activateAdmin();
-        break;
-
-      case 'deactivate':
-        this.deactivateAdmin();
-        break;
-    }
-  }
-
-  adminUsers = signal<PagedResponse<VendorUserModel> | null>(null);
-
-  totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
-
-  adminUserFilter = signal(new VendorUserFilter());
-
-  errorMessage = signal<string | null>(null);
-  successMessage = signal<string | null>(null);
-
-  filtererrorMessage = signal<string | null>(null);
-  filterapplied = signal(false);
-
-  filterForm = form(this.adminUserFilter, (path) => {
-    email(path.email, { message: 'Enter a valid email address.' });
-    pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
-  });
-
-  adminRoleOption = [
-    { id: 1, label: 'Owner' },
-    { id: 2, label: 'Manager' },
-    { id: 3, label: 'Product Manager' },
-    { id: 4, label: 'Order Manager' },
-    { id: 5, label: 'Return Manager' },
-    { id: 6, label: 'Refund Manager' },
-    { id: 7, label: 'Inventory Manager' },
-    { id: 8, label: 'Coupon Manager' }
-  ];
-
-  private buildFilter() {
-    this.adminUserFilter.update(filter => ({
-      ...filter,
-      pageNumber: this.pageNumber(),
-      pageSize: this.pageSize(),
-      status: this.status(),
-      email: filter.email.trim().toLowerCase(),
-      phoneNumber: filter.phoneNumber.trim().toLowerCase()
-    }));
-  }
-
-
-  loadAdminUser() {
-    this.buildFilter();
-    this.vendorUserService.getAdminUser(this.adminUserFilter()).subscribe({
-      next: (response: any) => {
-        this.adminUsers.set(response);
-      },
-      error: (error) => {
-        if (error.status == 404) {
-          this.adminUsers.set({
-            items: [],
-            totalCount: 0,
-            pageNumber: 1,
-            pageSize: 10,
-            totalPages: 1
-          });
-        }
-      }
-    })
-  }
-
-
-
-  onAdminRoleChange(event: Event): void {
-    const v = (event.target as HTMLSelectElement).value;
-    this.adminUserFilter.update(filter => ({ ...filter, vendorRoleId: v ? Number(v) : null }));
-  }
-
-  onStatusChange(event: Event): void {
-    const value = (event.target as HTMLSelectElement).value;
-    this.adminUserFilter.update(filter => ({ ...filter, status: value === '' ? null : value === 'true' }));
-  }
-
-  onPhoneNumberChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim();
-    this.adminUserFilter.update(filter => ({ ...filter, phoneNumber: value }));
-  }
-
-  onEmailChange(event: Event): void {
-    const value = (event.target as HTMLInputElement).value.trim().toLowerCase();
-    this.adminUserFilter.update(filter => ({ ...filter, email: value }));
-  }
-
-  deactivateAdmin() {
-    const id = this.selectedId();
-    if (id == null) {
-      return;
-    }
-    this.vendorUserService.deactivateAdminUser(id).subscribe({
-      next: (response: any) => {
-        this.loadAdminUser();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
-  activateAdmin() {
-    const id = this.selectedId();
-    if (id == null) {
-      return;
-    }
-    this.vendorUserService.activateAdminUser(id).subscribe({
-      next: (response: any) => {
-        this.closePopup();
-        this.loadAdminUser();
-      },
-      error: (error) => {
-        console.log(error);
-      }
-    })
-  }
   viewAdminUser(productId: number) {
     this.route.navigate(['/vendor/users', productId]);
   }

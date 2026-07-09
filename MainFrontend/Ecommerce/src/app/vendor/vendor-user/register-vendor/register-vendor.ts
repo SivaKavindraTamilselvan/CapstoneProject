@@ -46,7 +46,6 @@ export class RegisterVendor {
         this.progress.set(false);
       },
       error: (error) => {
-        console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
         if (error.status == 409) {

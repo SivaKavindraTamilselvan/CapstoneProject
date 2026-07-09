@@ -1,7 +1,17 @@
 <section class="bg-white py-12 px-4 sm:px-6 lg:px-12 flex flex-col items-center justify-center">
-    <app-detailed-card-componenet [title]="adminUser().adminRoleName" [row]="adminUser()" [columns]="columns"
-        [actions]="actions" (actionClick)="handleAction($event)">
+    @if (loading()) {
+    <div class="flex justify-center items-center py-20">
+        <p class="text-gray-500 font-semibold">Loading admin user details...</p>
+    </div>
+    } @else if (errorMessage()) {
+    <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4 w-full max-w-md">
+        {{ errorMessage() }}
+    </div>
+    } @else if (adminUser(); as user) {
+    <app-detailed-card-componenet [title]="user.adminRoleName" [row]="user" [columns]="columns" [actions]="actions"
+        (actionClick)="handleAction($event)">
     </app-detailed-card-componenet>
+    }
 
     <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
         [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"

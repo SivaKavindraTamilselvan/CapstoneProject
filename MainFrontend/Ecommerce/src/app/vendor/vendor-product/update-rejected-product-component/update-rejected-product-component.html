@@ -1,0 +1,124 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-xl rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold text-blue-950">
+            Update Rejected Product
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Correct the details below and resubmit for approval.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <form class="mt-6 space-y-4" (ngSubmit)="updateRejectedProduct()">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Product Name
+                </label>
+                <input type="text" [formField]="updateRejectedForm.productName" placeholder="Enter product name"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(updateRejectedForm.productName().invalid() && updateRejectedForm.productName().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateRejectedForm.productName().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Description
+                </label>
+                <textarea rows="3" [formField]="updateRejectedForm.description" placeholder="Enter description"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600"></textarea>
+                @if(updateRejectedForm.description().invalid() && updateRejectedForm.description().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateRejectedForm.description().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Category
+                    </label>
+                    <select (change)="onUpdateCategoryChange($event)" [value]="updateCategoryId()"
+                        class="w-full border rounded-lg px-4 py-3 outline-none 
+                        focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        <option value="">Select Category</option>
+                        @for (cat of categories(); track cat.productCategoryId) {
+                        <option [value]="cat.productCategoryId">{{ cat.productCategoryName }}</option>
+                        }
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Sub Category
+                    </label>
+                    <select (change)="onUpdateSubCategoryChange($event)"
+                        class="w-full border rounded-lg px-4 py-3 outline-none 
+                        focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        <option value="">Select Sub Category</option>
+                        @for (sub of updateSubCategories(); track sub.productSubCategoryId) {
+                        <option [value]="sub.productSubCategoryId"
+                            [selected]="sub.productSubCategoryId === updateRejectedProductModel().productSubCategoryId">
+                            {{ sub.productSubCategoryName }}
+                        </option>
+                        }
+                    </select>
+                    @if(updateRejectedForm.productSubCategoryId().invalid() &&
+                    updateRejectedForm.productSubCategoryId().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ updateRejectedForm.productSubCategoryId().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Main Attribute
+                </label>
+                <select (change)="onUpdateAttributeChange($event)"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    <option value="">Select Attribute</option>
+                    @for (attr of filteredAttributes(); track attr.productSubCategoryAttributeId) {
+                    <option [value]="attr.productSubCategoryAttributeId"
+                        [selected]="attr.productSubCategoryAttributeId === updateRejectedProductModel().mainProductSubCategoryAttributeId">
+                        {{ attr.attributeName }}
+                    </option>
+                    }
+                </select>
+                @if(updateRejectedForm.mainProductSubCategoryAttributeId().invalid() &&
+                updateRejectedForm.mainProductSubCategoryAttributeId().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateRejectedForm.mainProductSubCategoryAttributeId().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div class="flex justify-center gap-4 pt-2">
+                <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                    hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()" class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold 
+                    hover:bg-blue-900 disabled:opacity-60">
+                    {{ progress() ? 'Updating...' : 'Update Product' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

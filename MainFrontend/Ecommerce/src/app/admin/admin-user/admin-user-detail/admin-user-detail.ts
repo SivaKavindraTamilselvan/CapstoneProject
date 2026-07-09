@@ -12,25 +12,29 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 @Component({
   selector: 'app-admin-user-detail',
   imports: [PopupComponent, DetailedCardComponenet],
-  providers : [DatePipe],
+  providers: [DatePipe],
   templateUrl: './admin-user-detail.html',
   styleUrl: './admin-user-detail.css',
 })
 export class AdminUserDetail extends PopupBase {
-  adminUser = signal(new AdminUserModel());
+  adminUser = signal<AdminUserModel | null>(null);
   errorMessage = signal<string | null>(null);
   showActivatePopup = signal(false);
-  constructor(private datePipe : DatePipe,private adminUserService: AdminUserService, private route: ActivatedRoute) {
+  loading = signal(true);
+  constructor(private datePipe: DatePipe, private adminUserService: AdminUserService, private route: ActivatedRoute) {
     super();
   }
   loadAdminUser(id: number) {
+    this.loading.set(true);
     this.adminUserService.getAdminUserDetail(id).subscribe({
       next: (response: any) => {
         this.adminUser.set(response);
         console.log(response);
+        this.loading.set(false);
       },
       error: (error) => {
         if (error.status == 404) {
+          this.loading.set(false);
           this.errorMessage.set("Admin User Is Not Found");
         }
       }
@@ -69,7 +73,7 @@ export class AdminUserDetail extends PopupBase {
       label: 'Deactivate',
       color: 'red',
       action: 'deactivate',
-      visible: admin => admin.isActive
+      visible: admin => admin.isActive && admin.adminRoleId != 1
     },
     {
       label: 'Activate',
@@ -102,11 +106,15 @@ export class AdminUserDetail extends PopupBase {
   }
 
   confirmPopup(): void {
-    this.updateAdminStatus(!this.adminUser().isActive);
+    const current = this.adminUser();
+    if (current == null) {
+      return;
+    }
+    this.updateAdminStatus(!current.isActive);
   }
 
   updateAdminStatus(isActivate: boolean): void {
-    const id = this.adminUser().adminUserId;
+    const id = this.adminUser()?.adminUserId;
     if (id == null) {
       return;
     }

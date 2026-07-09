@@ -14,7 +14,6 @@ import { ReviewProductRequestModel } from "../models/product/review-product.dto"
 import { Observable } from "rxjs";
 import { ProductModel } from "../models/product/product.model";
 import { UpdateProductStatus } from "../models/vendor/vendor-product/add-model/update-product-status.model";
-import { UpdateRejectedProduct } from "../vendor/vendor-product/update-rejected-product/update-rejected-product";
 import { UpdateRejectedProductModel } from "../models/vendor/vendor-product/add-model/update-rejected-product.model";
 import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
 import { MappedAttributeFilter } from "../models/admin/admin-product-category/filter-models/mapped-attribute.filter";

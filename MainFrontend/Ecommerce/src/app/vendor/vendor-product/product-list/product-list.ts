@@ -23,133 +23,54 @@ import { UpdateRejectedProductModel } from '../../../models/vendor/vendor-produc
 import { MappedAttributeFilter } from '../../../models/admin/admin-product-category/filter-models/mapped-attribute.filter';
 import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
 import { AdminProductFilter } from '../../../models/admin/admin-product/filter/admin-product.filter';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
+import { UpdateRejectedProductComponent } from '../update-rejected-product-component/update-rejected-product-component';
+import { UpdateProductComponent } from '../update-product-component/update-product-component';
+import { DeleteProductComponent } from '../delete-product-componentd/delete-product-componentd';
 
 @Component({
   selector: 'app-product-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent,UpdateRejectedProductComponent,UpdateProductComponent,DeleteProductComponent],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
 export class ProductList extends BasePage {
   actions = computed<TableAction<VendorProductModel>[]>(() => {
-    if (this.pageTitle() == 'Update Product') {
-      return [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-        {
-          label: 'Update',
-          color: 'blue',
-          action: 'update'
-        },
-      ];
-    }
-    if (this.status() === 1) {
-      return [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-        {
-          label: 'Review',
-          color: 'gray',
-          action: 'review'
-        },
-      ];
-    }
-    if (this.status() === 6) {
-      return [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
-        {
-          label: 'Update',
-          color: 'blue',
-          action: 'update-rejected'
-        },
-      ];
-    }
-    if (this.deleted() == true) {
-      return [
-        {
-          label: 'View',
-          color: 'green',
-          action: 'view'
-        },
+    if (this.pageTitle() == 'Update Product') return [
+      { label: 'View', color: 'green', action: 'view' },
+      { label: 'Update', color: 'blue', action: 'update' }
+    ];
 
-      ];
-    }
+    if (this.status() === 1) return [
+      { label: 'View', color: 'green', action: 'view' },
+      { label: 'Review', color: 'gray', action: 'review' }
+    ];
+
+    if (this.status() === 6) return [
+      { label: 'View', color: 'green', action: 'view' },
+      { label: 'Update', color: 'blue', action: 'update-rejected' }
+    ];
+
+    if (this.deleted()) return [
+      { label: 'View', color: 'green', action: 'view' }
+    ];
 
     return [
-      {
-        label: 'View',
-        color: 'green',
-        action: 'view'
-      },
-      {
-        label: 'Delete',
-        color: 'red',
-        action: 'delete',
-      },
+      { label: 'View', color: 'green', action: 'view' },
+      { label: 'Delete', color: 'red', action: 'delete' }
     ];
   });
 
   columns: Column[] = [
-    {
-      key: 'productId',
-      header: 'ID'
-    },
-    {
-      key: 'productName',
-      header: 'Name'
-    },
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'productSubCategoryName',
-      header: 'SubCategory'
-    },
-    {
-      key: 'productApprovalStatus',
-      header: 'Approval',
-    },
-    {
-      key: 'productStatus',
-      header: 'Status'
-    },
-
+    { key: 'productId', header: 'ID' },
+    { key: 'productName', header: 'Name' },
+    { key: 'productCategoryName', header: 'Category' },
+    { key: 'productSubCategoryName', header: 'SubCategory' },
+    { key: 'productApprovalStatus', header: 'Approval' },
+    { key: 'productStatus', header: 'Status' }
   ];
 
-  mobileColumns: Column[] = [
-    {
-      key: 'productName',
-      header: 'Name'
-    },
-    {
-      key: 'productCategoryName',
-      header: 'Category'
-    },
-    {
-      key: 'productSubCategoryName',
-      header: 'Sub Category'
-    },
-    {
-      key: 'productApprovalStatus',
-      header: 'Approval',
-    },
-    {
-      key: 'productStatus',
-      header: 'Status'
-    },
-  ];
-
+  mobileColumns = [...this.columns];
   handleAction(event: { type: string; row: VendorProductModel }) {
     switch (event.type) {
       case 'view':
@@ -173,23 +94,13 @@ export class ProductList extends BasePage {
 
   products = signal<PagedResponse<VendorProductModel> | null>(null);
 
-  searchTerm = signal<string>('');
   productCategoryId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
   productApprovalStatusId = signal<number | null>(null);
   productStatusId = signal<number | null>(null);
-  minPrice = signal<number | null>(null);
-  maxPrice = signal<number | null>(null);
+
   hasIssues = signal<boolean | null>(null);
   isAvailableForSale = signal<boolean | null>(null);
-  productName = signal<string>('');
-  addedByVendorUserId = signal<number | null>(null);
-  minAvailableQuantity = signal<number | null>(null);
-  maxAvailableQuantity = signal<number | null>(null);
-  minReservedQuantity = signal<number | null>(null);
-  maxReservedQuantity = signal<number | null>(null);
-  mainProductSubCategoryAttributeId = signal<number | null>(null);
-
 
 
   showActivatePopup = signal(false);
@@ -201,9 +112,7 @@ export class ProductList extends BasePage {
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
 
-  filtererrorMessage = signal<string | null>(null);
   progress = signal(false);
-  filterapplied = signal(false);
 
   deleteerrorMessage = signal<string | null>(null);
   deletesuccessMessage = signal<string | null>(null);
@@ -429,58 +338,13 @@ export class ProductList extends BasePage {
   onSubcategoryChange(event: Event): void {
     const v = (event.target as HTMLSelectElement).value;
     this.productSubCategoryId.set(v ? Number(v) : null);
-     this.adminProductFilter.update(model => ({
+    this.adminProductFilter.update(model => ({
       ...model,
       productSubCategoryId: v ? Number(v) : null
     }));
   }
 
-  openDeletePopup(productId: number) {
-    this.selectedProductId.set(productId);
-    this.showActivatePopup.set(true);
-  }
 
-  closeDeletePopup() {
-    this.showActivatePopup.set(false);
-    this.selectedProductId.set(null);
-    this.errorMessage.set(null);
-  }
-
-  deleteProduct() {
-    const id = this.selectedProductId();
-    if (id == null) {
-      return;
-    }
-    var request = new UpdateProductStatus();
-    request.productId = id;
-    request.productStatusId = 4;
-    this.vendorProductService.deleteProduct(request).subscribe({
-      next: (response: any) => {
-        this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
-        setTimeout(() => {
-          this.closePopup();
-          this.successMessage.set(null);
-          this.loadProduct();
-        }, 3000);
-      },
-      error: (error) => {
-        this.successMessage.set(null);
-
-        if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-
-          this.errorMessage.set(messages);
-        }
-        else {
-          this.errorMessage.set(
-            error.error?.message ?? "Something went wrong. Please try again."
-          );
-        }
-      }
-    })
-  }
 
   reviewProductModel = signal(new ReviewProductModel());
   viewProduct(productId: number) {
@@ -558,271 +422,34 @@ export class ProductList extends BasePage {
     });
   }
 
+  selectedProductIdForDelete = signal<number | null>(null);
+  selectedProductIdForUpdate = signal<number | null>(null);
+  selectedProductForUpdateRejected = signal<VendorProductModel | null>(null);
+
+  openDeletePopup(productId: number) {
+    this.selectedProductIdForDelete.set(productId);
+    this.showActivatePopup.set(true);
+  }
+  closeDeletePopup() {
+    this.showActivatePopup.set(false);
+    this.selectedProductIdForDelete.set(null);
+  }
+
   openUpdatePopup(productId: number) {
-    this.selectedProductId.set(productId);
-
-    this.updateProductModel.set(
-      new UpdateProductStatus(productId, 0)
-    );
-
+    this.selectedProductIdForUpdate.set(productId);
     this.showUpdatePopup.set(true);
   }
-
   closeUpdatePopup() {
     this.showUpdatePopup.set(false);
-    this.selectedProductId.set(null);
-    this.updateProductModel.set(new UpdateProductStatus());
-    this.updateerrorMessage.set(null);
+    this.selectedProductIdForUpdate.set(null);
   }
-  updateProductModel = signal(new UpdateProductStatus());
-
-
-  updateForm = form(this.updateProductModel, (path) => {
-    required(path.productId, { message: "Enter The Approval Status" });
-    required(path.productStatusId, { message: 'Enter The Approval Status' });
-    min(path.productStatusId, 1, { message: 'Select valid approval status' });
-    max(path.productStatusId, 4, { message: 'Select valid approval status' });
-  });
-
-
-
-  updateerrorMessage = signal<string | null>(null);
-
-  handleUpdate() {
-    this.updateerrorMessage.set(null);
-    this.successMessage.set(null);
-    if (this.updateForm().invalid()) {
-      this.updateerrorMessage.set("Enter proper details");
-      return;
-    }
-    const request = {
-      productId: this.updateProductModel().productId,
-      productStatusId: Number(this.updateProductModel().productStatusId),
-    };
-    this.vendorProductService.updateProduct(request).subscribe({
-      next: () => {
-        this.successMessage.set("Product updated successfully");
-        setTimeout(() => {
-          this.closeUpdatePopup();
-          this.successMessage.set(null);
-          this.loadProduct();
-        }, 3000);
-      },
-      error: (error) => {
-        this.successMessage.set(null);
-
-        if (error.status === 400 && error.error?.errors) {
-          const messages = Object.values(error.error.errors)
-            .flat()
-            .join(", ");
-
-          this.updateerrorMessage.set(messages);
-        }
-        else {
-          this.updateerrorMessage.set(
-            error.error?.message ?? "Something went wrong. Please try again."
-          );
-        }
-      }
-    });
-  }
-  onUpdateStatusChange(event: Event): void {
-    const value = Number((event.target as HTMLSelectElement).value);
-
-    this.updateProductModel.update((model) => ({
-      ...model,
-      productStatusId: value
-    }));
-  }
-  updateRejectedProductModel = signal(new UpdateRejectedProductModel());
-
-  updateCategoryId = signal<number | null>(null);
-  updateSubCategoryId = signal<number | null>(null);
-  updateSubCategories = signal<AdminProductSubCategoryModel[]>([]);
-  updateRejectedForm = form(this.updateRejectedProductModel, (path) => {
-    required(path.productName, {
-      message: 'Product name is required'
-    });
-
-    required(path.description, {
-      message: 'Description is required'
-    });
-
-    required(path.productSubCategoryId, {
-      message: 'Sub category is required'
-    });
-
-    min(path.productSubCategoryId, 1, {
-      message: 'Invalid sub category'
-    });
-
-    required(path.mainProductSubCategoryAttributeId, {
-      message: 'Main attribute is required'
-    });
-
-    min(path.mainProductSubCategoryAttributeId, 1, {
-      message: 'Invalid attribute'
-    });
-  });
 
   openUpdateRejectedPopup(product: VendorProductModel) {
+    this.selectedProductForUpdateRejected.set(product);
     this.showUpdateRejectedPopup.set(true);
-
-
-    const category = this.categories().find(
-      c => c.productCategoryName === product.productCategoryName
-    );
-
-
-    if (!category) {
-      return;
-    }
-
-    this.updateCategoryId.set(Number(category.productCategoryId));
-    this.vendorProductService.getSubCategory(category.productCategoryId).subscribe({
-      next: (res: any) => {
-
-        this.updateSubCategories.set(res.items ?? res);
-
-        const subCategory = this.updateSubCategories().find(
-          s => s.productSubCategoryName === product.productSubCategoryName
-        );
-
-        if (!subCategory) {
-          return;
-        }
-        this.loadAttributes(subCategory.productSubCategoryId, product);
-
-      }
-    });
   }
   closeUpdateRejectedPopup() {
-
     this.showUpdateRejectedPopup.set(false);
-
-    this.updateRejectedProductModel.set(
-      new UpdateRejectedProductModel()
-    );
-
-    this.errorMessage.set(null);
-  }
-  updateRejectedProduct() {
-
-    if (this.updateRejectedForm().invalid()) {
-      this.errorMessage.set("Enter valid details");
-      return;
-    }
-
-    this.vendorProductService
-      .updateRejectedProduct(this.updateRejectedProductModel())
-      .subscribe({
-
-        next: () => {
-
-          this.successMessage.set("Product updated successfully");
-
-          this.closeUpdateRejectedPopup();
-
-          this.loadProduct();
-        },
-
-        error: err => {
-
-          this.errorMessage.set(
-            err.error?.message ?? "Failed to update product"
-          );
-
-        }
-
-      });
-
-  }
-  onUpdateCategoryChange(event: Event) {
-
-    const id = Number((event.target as HTMLSelectElement).value);
-
-    this.updateCategoryId.set(id);
-
-    this.vendorProductService.getSubCategory(id).subscribe({
-      next: (res: any) => {
-
-        this.updateSubCategories.set(res.items ?? res);
-
-        this.updateProductModel.update(model => ({
-          ...model,
-          productSubCategoryId: 0,
-          mainProductSubCategoryAttributeId: 0
-        }));
-
-        this.filteredAttributes.set([]);
-      }
-    });
-  }
-  onUpdateSubCategoryChange(event: Event) {
-
-    const id = Number((event.target as HTMLSelectElement).value);
-
-    this.updateProductModel.update(model => ({
-      ...model,
-      productSubCategoryId: id,
-      mainProductSubCategoryAttributeId: 0
-    }));
-
-    this.filteredAttributes.set(
-      this.allAttributes().filter(
-        x => x.productSubCategoryId === id
-      )
-    );
-  }
-  onUpdateAttributeChange(event: Event) {
-
-    const id = Number((event.target as HTMLSelectElement).value);
-
-    this.updateProductModel.update(model => ({
-      ...model,
-      mainProductSubCategoryAttributeId: id
-    }));
-  }
-
-  allAttributes = signal<AdminMappedAttributeModel[]>([]);
-  filteredAttributes = signal<AdminMappedAttributeModel[]>([]);
-
-  loadAttributes(subCategoryId: number, product?: VendorProductModel): void {
-
-    const request = new MappedAttributeFilter();
-    request.productSubCategoryId = subCategoryId;
-    request.status = true;
-
-    this.vendorProductService.getmappedAttribute(subCategoryId).subscribe({
-      next: (res: any) => {
-
-        const data = res.items ?? res;
-
-        this.allAttributes.set(data);
-
-        console.log("ALL ATTRIBUTES:", data);
-        const attribute = data.find(
-          (x: AdminMappedAttributeModel) =>
-            x.attributeName.trim().toLowerCase() ===
-            product?.mainProductSubCategoryAttributeName?.trim().toLowerCase()
-        );
-
-        console.log("MATCHED:", attribute);
-
-        this.updateRejectedProductModel.set(
-          new UpdateRejectedProductModel(
-            product!.productId,
-            product!.productName,
-            product!.description,
-            subCategoryId,
-            attribute?.productSubCategoryAttributeId ?? 0
-          )
-        );
-
-        this.showUpdatePopup.set(true);
-
-      },
-      error: err => console.log(err)
-    });
+    this.selectedProductForUpdateRejected.set(null);
   }
 }
