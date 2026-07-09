@@ -1,18 +1,18 @@
-import { Component, computed, inject, signal } from '@angular/core';
-import { AdminDashboardService } from '../../../services/dashboardService';
+import { Component, inject, signal } from '@angular/core';
+import { VendorDashboardService } from '../../../services/vendor-dashBoard.Service';
 import { OrdersByMonth, OrderStatusChart } from '../../../models/admin/admin-dashboard/kpi.model';
-import { NgClass } from '@angular/common';
-import { OrdersByMonthChartComponent } from '../../../shared-components/orders-by-month-chart-component/orders-by-month-chart-component';
 import { OrderStatusTableComponent } from '../../../shared-components/order-status-table-component/order-status-table-component';
+import { OrdersByMonthChartComponent } from '../../../shared-components/orders-by-month-chart-component/orders-by-month-chart-component';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
-  selector: 'app-admin-order-analytics',
-  imports: [OrderStatusTableComponent,OrdersByMonthChartComponent],
-  templateUrl: './admin-order-analytics.html',
-  styleUrl: './admin-order-analytics.css',
+  selector: 'app-vendor-order-analysis',
+  imports: [OrderStatusTableComponent, OrdersByMonthChartComponent],
+  templateUrl: './vendor-order-analysis.html',
+  styleUrl: './vendor-order-analysis.css',
 })
-export class AdminOrderAnalytics {
-  private dashboardService = inject(AdminDashboardService);
+export class VendorOrderAnalysis {
+  private dashboardService = inject(VendorDashboardService);
 
   orderStatus = signal<OrderStatusChart[]>([]);
   ordersByMonth = signal<OrdersByMonth[]>([]);
@@ -37,6 +37,7 @@ export class AdminOrderAnalytics {
       }
     });
   }
+
   private loadOrdersByMonth(): void {
     this.loadingOrdersByMonth.set(true);
     this.dashboardService.getOrdersByMonth().subscribe({

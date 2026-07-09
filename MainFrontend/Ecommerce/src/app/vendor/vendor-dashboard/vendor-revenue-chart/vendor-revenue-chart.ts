@@ -1,17 +1,17 @@
 import { Component, inject, signal } from '@angular/core';
 import { RevenueTrend } from '../../../models/admin/admin-dashboard/kpi.model';
-import { AdminDashboardService } from '../../../services/dashboardService';
+import { VendorDashboardService } from '../../../services/vendor-dashBoard.Service';
 import { CurrencyPipe } from '@angular/common';
 import { RevenueChartComponent } from '../../../shared-components/revenue-chart-component/revenue-chart-component';
 
 @Component({
-  selector: 'app-admin-revenue-chart',
+  selector: 'app-vendor-revenue-chart',
   imports: [RevenueChartComponent],
-  templateUrl: './admin-revenue-chart.html',
-  styleUrl: './admin-revenue-chart.css',
+  templateUrl: './vendor-revenue-chart.html',
+  styleUrl: './vendor-revenue-chart.css',
 })
-export class AdminRevenueChart {
-  private dashboardService = inject(AdminDashboardService);
+export class VendorRevenueChart {
+  private dashboardService = inject(VendorDashboardService);
 
   period = '7days';
   revenueTrend = signal<RevenueTrend[]>([]);

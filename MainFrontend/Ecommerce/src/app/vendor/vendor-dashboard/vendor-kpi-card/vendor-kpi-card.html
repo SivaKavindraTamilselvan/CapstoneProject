@@ -1,7 +1,6 @@
 @if (dashboard(); as d) {
 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
-    <!-- Gross Sales -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
@@ -21,34 +20,13 @@
         </div>
     </div>
 
-    <!-- Platform Revenue -->
-    <div
-        class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
-        <div class="flex items-start justify-between">
-            <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Platform Revenue</p>
-                <h2 class="mt-2 text-2xl font-bold text-slate-800">
-                    {{ d.commission | currency:'INR':'symbol':'1.0-0' }}
-                </h2>
-            </div>
-            <div class="p-2.5 rounded-xl bg-indigo-50 text-indigo-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
-                    stroke="currentColor" stroke-width="2">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M9 7h6m0 10v-3m-3 3v-6m-3 6v-3m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-            </div>
-        </div>
-    </div>
-
-    <!-- Yesterday Commission -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
             <div>
                 <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Yesterday Commission</p>
                 <h2 class="mt-2 text-2xl font-bold text-slate-800">
-                    {{ d.yesterdayCommission | currency:'INR':'symbol':'1.0-0' }}
+                    {{ d.yesterdaySales | currency:'INR':'symbol':'1.0-0' }}
                 </h2>
             </div>
             <div class="p-2.5 rounded-xl bg-amber-50 text-amber-600">
@@ -61,14 +39,13 @@
         </div>
     </div>
 
-    <!-- Last 30 Days Commission -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
             <div>
                 <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Last 30 Days Commission</p>
                 <h2 class="mt-2 text-2xl font-bold text-slate-800">
-                    {{ d.last30DaysCommission | currency:'INR':'symbol':'1.0-0' }}
+                    {{ d.last30DaysSales | currency:'INR':'symbol':'1.0-0' }}
                 </h2>
             </div>
             <div class="p-2.5 rounded-xl bg-sky-50 text-sky-600">
@@ -80,7 +57,6 @@
         </div>
     </div>
 
-    <!-- Total Orders -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
@@ -98,7 +74,6 @@
         </div>
     </div>
 
-    <!-- Pending Orders -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
@@ -121,40 +96,60 @@
         }
     </div>
 
-    <!-- Total Customers -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Total Customers</p>
-                <h2 class="mt-2 text-2xl font-bold text-slate-800">{{ d.totalCustomers }}</h2>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Total Products</p>
+                <h2 class="mt-2 text-2xl font-bold text-slate-800">{{ d.totalProducts }}</h2>
             </div>
-            <div class="p-2.5 rounded-xl bg-cyan-50 text-cyan-600">
+            <div class="p-2.5 rounded-xl bg-indigo-50 text-indigo-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m6-6a4 4 0 11-8 0 4 4 0 018 0zm6 0a4 4 0 11-8 0 4 4 0 018 0z" />
+                        d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" />
                 </svg>
             </div>
         </div>
     </div>
 
-    <!-- Active Vendors -->
     <div
         class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
         <div class="flex items-start justify-between">
             <div>
-                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Active Vendors</p>
-                <h2 class="mt-2 text-2xl font-bold text-slate-800">{{ d.activeVendors }}</h2>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Active Products</p>
+                <h2 class="mt-2 text-2xl font-bold text-slate-800">{{ d.activeProducts }}</h2>
+            </div>
+            <div class="p-2.5 rounded-xl bg-teal-50 text-teal-600">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div
+        class="group relative bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-5 overflow-hidden hover:shadow-md transition-shadow">
+        <div class="flex items-start justify-between">
+            <div>
+                <p class="text-xs font-medium text-slate-500 uppercase tracking-wide">Low Stock Products</p>
+                <h2 class="mt-2 text-2xl font-bold text-slate-800">{{ d.lowStockProducts }}</h2>
             </div>
             <div class="p-2.5 rounded-xl bg-orange-50 text-orange-600">
                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
                     stroke="currentColor" stroke-width="2">
                     <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M3 21h18M5 21V7l8-4v18M13 21V11l6 4v6M9 9v.01M9 12v.01M9 15v.01" />
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
             </div>
         </div>
+        @if ((d.lowStockProducts ?? 0) > 0) {
+        <span class="mt-3 inline-block text-xs font-medium text-orange-600 bg-orange-50 px-2 py-0.5 rounded-full">
+            Restock needed
+        </span>
+        }
     </div>
 
 </div>

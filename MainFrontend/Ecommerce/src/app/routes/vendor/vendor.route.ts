@@ -20,9 +20,14 @@ import { VendorVariantDetails } from "../../vendor/vendor-variant/vendor-variant
 import { VendorUserRoute } from "./vendor-user.route";
 import { VendorProductRoute } from "./vendor-product,route";
 import { VendorOrderRoute } from "./vendor-order.route";
+import { VendorHomeDashboard } from "../../vendor/vendor-dashboard/vendor-home-dashboard/vendor-home-dashboard";
 
 export const VendorRoute: Routes = [
-   
+    {
+        path: '',
+        component: VendorHomeDashboard
+    },
+
     {
         path: 'products/:id/variants/add',
         component: AddVariant
@@ -35,23 +40,23 @@ export const VendorRoute: Routes = [
         path: 'products/variants/review',
         component: ReviewVariant
     },
-   
+
     {
         path: 'products/variants/update',
         component: UpdateVariant
     },
-   
+
     {
         path: 'products/variants/update-rejected',
         component: UpdateRejectedVariant
     },
-   
-     {
+
+    {
         path: 'products/variant/:id',
         component: VendorVariantDetails
     },
 
-    
+
     {
         path: 'notifications',
         component: VendorNotificationList

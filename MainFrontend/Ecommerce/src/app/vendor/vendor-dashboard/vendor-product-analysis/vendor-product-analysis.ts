@@ -1,28 +1,25 @@
-import { Component, inject, signal, computed } from '@angular/core';
-import { AdminDashboardService } from '../../../services/dashboardService';
-import { ProductApprovalStatus, ProductSubCategory } from '../../../models/admin/admin-dashboard/kpi.model';
-import { NgClass } from '@angular/common';
-import { ApprovalStatusComponenet } from '../../../shared-components/approval-status-componenet/approval-status-componenet';
+import { Component, signal } from '@angular/core';
 import { SubcategoryBarChartComponent } from '../../../shared-components/subcategory-bar-chart-component/subcategory-bar-chart-component';
+import { ApprovalStatusComponenet } from '../../../shared-components/approval-status-componenet/approval-status-componenet';
+import { VendorDashboardService } from '../../../services/vendor-dashBoard.Service';
+import { ProductApprovalStatus, ProductSubCategory } from '../../../models/admin/admin-dashboard/kpi.model';
 
 @Component({
-  selector: 'app-admin-product-analytics',
-  imports: [ApprovalStatusComponenet,SubcategoryBarChartComponent],
-  templateUrl: './admin-product-analytics.html',
-  styleUrl: './admin-product-analytics.css',
+  selector: 'app-vendor-product-analysis',
+  imports: [SubcategoryBarChartComponent, ApprovalStatusComponenet],
+  templateUrl: './vendor-product-analysis.html',
+  styleUrl: './vendor-product-analysis.css',
 })
-export class AdminProductAnalytics {
-  private dashboardService = inject(AdminDashboardService);
-
+export class VendorProductAnalysis {
+  constructor(private dashboardService: VendorDashboardService) { }
+  ngOnInit() {
+    this.loadApprovalStatus();
+    this.loadSubCategories();
+  }
   approvalStatus = signal<ProductApprovalStatus[]>([]);
   subCategories = signal<ProductSubCategory[]>([]);
   loadingApproval = signal(true);
   loadingSubCategories = signal(true);
-
-  ngOnInit(): void {
-    this.loadApprovalStatus();
-    this.loadSubCategories();
-  }
 
   loadApprovalStatus() {
     this.dashboardService.getProductApprovalStatus().subscribe({
