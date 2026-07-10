@@ -1,0 +1,51 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold text-amber-700">
+            Request Additional Refund
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Enter the damage cost and remarks to request an additional refund for this return.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <div class="mt-5 space-y-4">
+
+            <div>
+                <label class="block mb-2 text-sm font-bold text-gray-700">Damage Cost (₹)</label>
+                <input type="number" min="0" [value]="refundModel().damageCost" (input)="onDamageCostInput($event)"
+                    class="w-full border rounded-lg px-3 py-2" />
+            </div>
+
+            <div>
+                <label class="block mb-2 text-sm font-bold text-gray-700">Remarks</label>
+                <textarea rows="3" [formField]="refundForm.remarks"
+                    class="w-full border rounded-lg px-3 py-2 resize-none"></textarea>
+                @if(refundForm.remarks().touched() && refundForm.remarks().invalid()) {
+                <p class="text-red-500 text-xs mt-1">Enter remarks for this refund request</p>
+                }
+            </div>
+
+        </div>
+
+        <div class="flex justify-center gap-4 pt-6">
+            <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                Cancel
+            </button>
+            <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-amber-700 text-white font-semibold 
+                hover:bg-amber-900 disabled:opacity-60" (click)="submit()">
+                {{ progress() ? 'Submitting...' : 'Submit Refund Request' }}
+            </button>
+        </div>
+    </div>
+</div>

@@ -9,6 +9,8 @@ import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
 import { RequestVendorReturnFilter, VendorOrderFilter } from "../models/vendor/vendor-order/vendor-order.filter";
 import { OrderItemSummaryModel } from "../models/admin/admin-orders/get-items.model";
+import { ReviewReturnModel, ReviewReturnProductModel } from "../models/vendor/vendor-return/return.model";
+import { ReviewProductModel } from "../models/product/review-product.model";
 
 @Injectable({
     providedIn: "root"
@@ -47,5 +49,22 @@ export class VendorOrderService {
         });
 
         return this.http.get<PagedResponse<OrderItemSummaryModel>>(url, { params });
+    }
+
+    reviewReturn(model :ReviewReturnModel){
+        const url = BaseURL + "/Vendor/ReviewReturnProductByVendor";
+        return this.http.put(url, model);
+    }
+  
+
+    reviewReturnProduct(model :ReviewReturnProductModel){
+        const url = BaseURL + "/Vendor/ReviewReturnProductByVendor";
+        return this.http.put(url, model);
+    }
+
+    acceptReturnProduct(returnId:number){
+        alert(returnId);
+        const url = BaseURL + `/Vendor/CreateReturnRefund/${returnId}`;
+        return this.http.post(url,{});
     }
 }

@@ -92,12 +92,14 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         ]
     },
     {
-        key: 'retruns',
+        key: 'returns',
         label: 'Returns',
         roles: ['owner', 'order-admin', 'vendor-admin'],
         children: [
-            { label: 'Return', route: '/vendor/orders/return-orders', roles: ['owner'] },
-            { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
+            { label: 'Pending Return Requests', route: '/vendor/returns/pending', roles: ['owner'] },
+            { label: 'Product Inspection', route: '/vendor/returns/inspection', roles: ['owner'] },
+            { label: 'Disputed Returns', route: '/vendor/returns/disputes', roles: ['owner'] },
+            { label: 'All Returns', route: '/vendor/returns', roles: ['owner'] }
         ]
     }
 ];

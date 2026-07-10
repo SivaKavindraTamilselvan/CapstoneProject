@@ -15,3 +15,19 @@ export class ReturnListModel {
         public reviewedDate: string = ''
     ) { }
 }
+
+export class ReviewReturnModel {
+    constructor(
+        public returnId: number = 0,
+        public review: boolean | null = null,
+    ) { }
+}
+
+
+export class ReviewReturnProductModel {
+    constructor(
+        public returnId: number = 0,
+        public damageCost: number | null = null,
+        public remarks: string = ''
+    ) { }
+}

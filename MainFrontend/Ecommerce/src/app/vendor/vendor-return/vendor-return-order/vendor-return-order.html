@@ -1,1 +1,35 @@
-<p>vendor-return-order works!</p>
+<section class="bg-white px-8 py-8">
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+
+    <app-data-table-component [columns]="columns" [rows]="returns()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="returns()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)" [titleKey]="'returnId'">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="returns()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    @if (showReviewPopup() && selectedReviewReturnId()) {
+    <app-review-return-component [returnId]="selectedReviewReturnId()!" [decision]="reviewDecision()"
+        (closed)="closeReviewPopup()" (reviewed)="onReviewed()">
+    </app-review-return-component>
+    }
+    @if (showReviewProductPopup() && selectedProductReturnId()) {
+    <app-review-return-product [returnId]="selectedProductReturnId()!" (closed)="closeReviewProductPopup()"
+        (accepted)="onAccepted()" (requestAdditional)="onRequestAdditionalRefund($event)">
+    </app-review-return-product>
+    }
+
+    @if (showAdditionalRefundPopup() && selectedAdditionalRefundReturnId()) {
+    <app-additional-refund-popup [returnId]="selectedAdditionalRefundReturnId()!"
+        (closed)="closeAdditionalRefundPopup()" (submitted)="onAdditionalRefundSubmitted()">
+    </app-additional-refund-popup>
+    }
+</section>
