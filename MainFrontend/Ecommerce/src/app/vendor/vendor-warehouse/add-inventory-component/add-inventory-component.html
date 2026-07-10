@@ -1,0 +1,76 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold text-blue-950">
+            Add Inventory
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Add stock for a product variant to this warehouse address.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <form class="mt-6 space-y-4" (ngSubmit)="handleAddInventory()">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Product Variant ID
+                </label>
+                <input type="number" [formField]="addForm.productVariantId" placeholder="Enter product variant ID"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(addForm.productVariantId().invalid() && addForm.productVariantId().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ addForm.productVariantId().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Available Quantity
+                </label>
+                <input type="number" [formField]="addForm.availableQuantity" placeholder="Enter available quantity"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(addForm.availableQuantity().invalid() && addForm.availableQuantity().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ addForm.availableQuantity().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Reserved Quantity
+                </label>
+                <input type="number" [formField]="addForm.reservedQuantity" placeholder="Enter reserved quantity"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(addForm.reservedQuantity().invalid() && addForm.reservedQuantity().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ addForm.reservedQuantity().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div class="flex justify-center gap-4 pt-2">
+                <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                    hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()" class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold 
+                    hover:bg-blue-900 disabled:opacity-60">
+                    {{ progress() ? 'Adding...' : 'Add Inventory' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,245 @@
+<section class="bg-white px-8 py-8">
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+
+    <app-filter-component [open]="filterPanelOpen()" [errorMessage]="filterErrorMessage()" title="Variant Filters"
+        (close)="closeFilterPanel()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()" (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Search</label>
+            <input type="text" placeholder="Product name..." [formField]="filterForm.searchTerm"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">SKU</label>
+            <input type="text" placeholder="SKU..." [formField]="filterForm.sku"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.sku().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.sku().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Variant Status</label>
+            <select (change)="onApprovalStatusChange($event)" [value]="statusId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option value="">All</option>
+                @for(opt of statusOptions; track opt.id) {
+                <option [value]="opt.id">{{opt.label}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
+            <select (change)="onApprovalStatusChange($event)" [value]="approvalstatusId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option value="">All</option>
+                @for(opt of approvalStatusOptions; track opt.id) {
+                <option [value]="opt.id">{{opt.label}}</option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Product ID</label>
+            <input type="number" placeholder="Product ID..." [formField]="filterForm.productId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.productId().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.productId().errors()[0].message }}
+            </p>
+            }
+
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+            <select (change)="onCategoryChange($event)" [value]="categoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option value="">All</option>
+                @for(cat of categories(); track cat.productCategoryId) {
+                <option [value]="cat.productCategoryId">
+                    {{cat.productCategoryName}}
+                </option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+            <select (change)="onSubcategoryChange($event)" [value]="subcategoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!categoryId()">
+                @if(!categoryId()) {
+                <option value="">Select category first</option>
+                } @else {
+                <option value="">All</option>
+                }
+
+                @for(sub of subCategories(); track sub.productSubCategoryId) {
+                <option [value]="sub.productSubCategoryId">
+                    {{sub.productSubCategoryName}}
+                </option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Minimum Quantity Per User</label>
+            <input type="number" placeholder="Quantity" [formField]="filterForm.minimuQuantityPerUser"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.minimuQuantityPerUser().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.minimuQuantityPerUser().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor User ID</label>
+            <input type="number" placeholder="Added Vendor User Id" [formField]="filterForm.addedByVendorUserId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.addedByVendorUserId().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.addedByVendorUserId().errors()[0].message }}
+            </p>
+            }
+
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
+            <div class="flex gap-2">
+                <input type="number" placeholder="Min" [formField]="filterForm.minPrice"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+                <input type="number" placeholder="Max" [formField]="filterForm.maxPrice"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            @if (filterForm.minPrice().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.minPrice().errors()[0].message }}
+            </p>
+            }
+            @if (filterForm.maxPrice().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.maxPrice().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
+            <div class="flex gap-2">
+                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+                <input type="number" placeholder="Max" [formField]="filterForm.maxAvailableQuantity"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            @if (filterForm.minAvailableQuantity().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.minAvailableQuantity().errors()[0].message }}
+            </p>
+            }
+            @if (filterForm.maxAvailableQuantity().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.maxAvailableQuantity().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
+            <div class="flex gap-2">
+                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            @if (filterForm.minReservedQuantity().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.minReservedQuantity().errors()[0].message }}
+            </p>
+            }@if (filterForm.maxReservedQuantity().invalid()) {
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.maxReservedQuantity().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div class="flex items-center gap-2">
+            <input type="checkbox" id="hasIssues" [checked]="hasIssues()" (change)="onHasIssuesChange($event)" />
+            <label for="hasIssues" class="text-sm font-semibold text-gray-700">
+                Has Issues
+            </label>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <input type="checkbox" id="availableForSale" [checked]="isAvailableForSale()"
+                (change)="onAvailableForSaleChange($event)" />
+            <label for="availableForSale" class="text-sm font-semibold text-gray-700">
+                Available For Sale
+            </label>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <input type="checkbox" id="isReturn" [checked]="isReturn()" (change)="onIsReturnChange($event)" />
+            <label for="isReturn" class="text-sm font-semibold text-gray-700">
+                Is Return
+            </label>
+        </div>
+
+        <div class="flex items-center gap-2">
+            <input type="checkbox" id="isExchange" [checked]="isExchange()" (change)="onIsExchangeChange($event)" />
+            <label for="isExchange" class="text-sm font-semibold text-gray-700">
+                Is Exchange
+            </label>
+        </div>
+
+    </app-filter-component>
+
+    <app-data-table-component [columns]="columns" [rows]="variant()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="variant()?.items ?? []" [actions]="actions()"
+        [titleKey]="'productVariantId'" (action)="handleAction($event)">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="variant()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    <app-review-popup-component [show]="showReviewPopup()" title="Review Product"
+        message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
+        confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
+        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
+        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+    </app-review-popup-component>
+
+    @if (showActivatePopup()) {
+    <app-delete-product-component [productId]="selectedProductIdForDelete()" (closed)="closeDeletePopup()"
+        (deleted)="loadProductVariant()" mode="variant">
+    </app-delete-product-component>
+    }
+
+     @if (showUpdatePopup()) {
+    <app-update-product-component [productId]="selectedProductIdForUpdate()" (closed)="closeUpdatePopup()"
+        (updated)="loadProductVariant()" mode="variant">
+    </app-update-product-component>
+    }
+
+    
+    @if (showUpdateRejectedPopup()) {
+    <app-update-reject-vairant-component [variant]="selectedVariantForUpdateRejected()"
+        (closed)="closeUpdateRejectedPopup()" (updated)="loadProductVariant()">
+    </app-update-reject-vairant-component>
+    }
+</section>

@@ -1,0 +1,83 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-xl rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold text-blue-950">
+            Update Shipment
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Update the shipment details below. Changes will be applied once you confirm.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <form class="mt-6 space-y-4" (ngSubmit)="updateShipment()">
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Location
+                </label>
+                <input type="text" [formField]="updateForm.location" placeholder="Enter Location"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(updateForm.location().invalid() && updateForm.location().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.location().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Shipment Status
+                </label>
+                <select [formField]="updateForm.shipmentStatusId" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    <option value="">Select Status</option>
+                    <option value="5">Picked Up</option>
+                    <option value="6">In Transit</option>
+                    <option value="7">Out Of Delivery</option>
+                    <option value="8">Delivered</option>
+                    <option value="9">Failed</option>
+                    <option value="10">Returned</option>
+                </select>
+                @if(updateForm.shipmentStatusId().invalid() && updateForm.shipmentStatusId().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.shipmentStatusId().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Remarks
+                </label>
+                <textarea rows="4" [formField]="updateForm.remarks" placeholder="Enter Remarks"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600"></textarea>
+                @if(updateForm.remarks().invalid() && updateForm.remarks().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.remarks().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div class="flex justify-center gap-4 pt-2">
+                <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                    hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()" class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold 
+                    hover:bg-blue-900 disabled:opacity-60">
+                    {{ progress() ? 'Updating...' : 'Update Shipment' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

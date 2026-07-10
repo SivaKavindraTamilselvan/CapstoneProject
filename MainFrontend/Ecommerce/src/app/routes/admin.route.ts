@@ -1,0 +1,58 @@
+import { Routes } from '@angular/router';
+import { CategoryList } from '../admin/admin-category/category-list/category-list';
+import { Subcategorylist } from '../admin/admin-subcategory/subcategorylist/subcategorylist';
+import { AttributeList } from '../admin/admin-attribute/attribute-list/attribute-list';
+import { MappedAttributeList } from '../admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list';
+import { ActiveMappedAttribute } from '../admin/admin-mapped-attribute/active-mapped-attribute/active-mapped-attribute';
+import { InactiveMappedAttribute } from '../admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
+import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
+import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
+import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';
+import { CouponList } from '../admin/admin-coupon/coupon-list/coupon-list';
+import { CouponDetail } from '../admin/admin-coupon/coupon-detail/coupon-detail';
+import { AdminNotificationList } from '../notification/admin/admin-notification-list/admin-notification-list';
+import { AdminProfilePage } from '../admin/admin-profile-page/admin-profile-page';
+import { AdminOrderDetails } from '../admin/admin-orders/admin-order-details/admin-order-details';
+import { AdminShipmentDetails } from '../admin/admin-shipment/admin-shipment-details/admin-shipment-details';
+import { AdminUserRoutes } from './admin/admin-user.route';
+import { AdminVendorRoutes } from './admin/admin-vendor.route';
+import { AdminProductRoutes } from './admin/admin-product.route';
+import { AdminCategoryRoutes } from './admin/admin-category.route';
+import { AdminAttributeRoutes } from './admin/admin-attribute.route';
+import { AdminCouponRoutes } from './admin/admin-coupon.route';
+import { AdminOrderRoutes } from './admin/admin-order.router';
+import { AdminKpiCard } from '../admin/admin-dashboard/admin-kpi-card/admin-kpi-card';
+import { AdminHomeDashboard } from '../admin/admin-dashboard/admin-home-dashboard/admin-home-dashboard';
+import { AdminShipmentRoutes } from './admin/admin-shipment.route';
+
+export const AdminRoutes: Routes = [
+    
+   
+    
+   {
+        path: '',
+        component: AdminHomeDashboard
+    },
+   
+    {
+        path: 'notifications',
+        component: AdminNotificationList
+    },
+    {
+        path: 'profile',
+        component: AdminProfilePage
+    },
+    {
+        path: 'order/:id',
+        component: AdminOrderDetails
+    },
+     
+    ...AdminUserRoutes,
+    ...AdminVendorRoutes,
+    ...AdminProductRoutes,
+    ...AdminCategoryRoutes,
+    ...AdminAttributeRoutes,
+    ...AdminCouponRoutes,
+    ...AdminOrderRoutes,
+    ...AdminShipmentRoutes
+];

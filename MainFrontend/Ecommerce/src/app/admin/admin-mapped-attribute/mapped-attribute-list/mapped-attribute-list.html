@@ -1,0 +1,178 @@
+<section class="bg-white px-8 py-8">
+  <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+    (reset)="resetFilters()">
+  </app-header-component>
+
+
+  <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+    [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
+    (reset)="resetFilters()">
+
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+      <input type="number" placeholder="Admin ID" [formField]="filterForm.addedByAdminId"
+        class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+      @if (filterForm.addedByAdminId().invalid())
+      {
+      <p class="text-red-600 text-xs mt-1">{{ filterForm.addedByAdminId().errors()[0].message }}</p>
+      }
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+      <select (change)="onCategoryChange($event)" [value]="productCategoryId() ?? ''"
+        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+        <option value="">All</option>
+        @for(cat of categories(); track cat.productCategoryId) {
+        <option [value]="cat.productCategoryId">
+          {{cat.productCategoryName}}
+        </option>
+        }
+      </select>
+    </div>
+
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+      <select (change)="onSubcategoryChange($event)" [value]="productSubCategoryId() ?? ''"
+        class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
+        @if(!productCategoryId()) {
+        <option value="">Select category first</option>
+        }
+        @else{
+        <option value="">All</option>
+        }
+        @for(sub of subCategories(); track sub.productSubCategoryId) {
+        <option [value]="sub.productSubCategoryId">
+          {{sub.productSubCategoryName}}
+        </option>
+        }
+      </select>
+    </div>
+    <div>
+      <label class="block text-sm font-semibold text-gray-700 mb-1">Attribute Id</label>
+      <select (change)="onFilterFormAttributeChange($event)" [value]="attributeMasterId() ?? ''"
+        class="border border-gray-400 rounded-md px-3 py-2 w-full">
+        <option value="">All</option>
+        @for(sub of masterattribute()?.items ?? []; track sub.attributeMasterId) {
+        <option [value]="sub.attributeMasterId">
+          {{sub.attributeName}}
+        </option>
+        }
+      </select>
+    </div>
+
+
+  </app-filter-component>
+  @if(categoryStatus()==null){
+
+  <div class="flex justify-end pb-4">
+    <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openAddPopup()"> Add
+      Mapped Attribute</h1>
+  </div>
+  }
+
+
+
+  <app-data-table-component [columns]="columns" [rows]="attribute()?.items ?? []" [actions]="actions()"
+    (action)="handleAction($event)">
+  </app-data-table-component>
+
+  <app-mobile-card-component [columns]="mobileColumns" [rows]="attribute()?.items ?? []" [actions]="actions()"
+    (action)="handleAction($event)" [titleKey]="'productSubCategoryAttributeId'">
+  </app-mobile-card-component>
+
+  <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+    [totalCount]="attribute()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()" (next)="nextPage()"
+    (pageSizeChange)="onPageSizeChanged($event)">
+  </app-pagination-component>
+  <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? ''"
+        [errorMessage]="errorMessage()" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
+    </app-popup-component>
+
+  @if (showActivatePopup()) {
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+      <h2 class="text-center text-lg sm:text-xl font-bold text-blue-950">
+        Add Mapped Attribute
+      </h2>
+      <p class="text-gray-600 text-sm sm:text-base text-center mt-4">
+        Select a category, sub category, and attribute to create a new mapping.
+      </p>
+
+      @if (successMessage()) {
+      <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        {{ successMessage() }}
+      </div>
+      }
+      @if (errorMessage()) {
+      <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        {{ errorMessage() }}
+      </div>
+      }
+
+      <form (ngSubmit)="addAttribute()">
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 p-2">Category</label>
+          <select (change)="onCategoryChange($event)" [disabled]="loading()"
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60">
+            <option value="">All</option>
+            @for(cat of categories(); track cat.productCategoryId) {
+            <option [value]="cat.productCategoryId" [selected]="productCategoryId() === cat.productCategoryId">
+              {{cat.productCategoryName}}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 p-2">Sub Category</label>
+          <select (change)="onAddFormSubcategoryChange($event)"
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60"
+            [disabled]="!productCategoryId() || loading()">
+            @if(!productCategoryId()) {
+            <option value="">Select category first</option>
+            }
+            @else{
+            <option value="">All</option>
+            }
+            @for(sub of subCategories(); track sub.productSubCategoryId) {
+            <option [value]="sub.productSubCategoryId">
+              {{sub.productSubCategoryName}}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div>
+          <label class="block text-sm font-semibold text-gray-700 p-2">Attribute</label>
+          <select (change)="onAddFormAttributeChange($event)" [disabled]="loading()"
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60">
+            <option value="">All</option>
+            @for(sub of masterattribute()?.items ?? []; track sub.attributeMasterId) {
+            <option [value]="sub.attributeMasterId">
+              {{sub.attributeName}}
+            </option>
+            }
+          </select>
+        </div>
+
+        <div class="flex justify-center gap-4 mt-8">
+          <button type="button" [disabled]="loading()"
+            class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400 disabled:opacity-60"
+            (click)="closeAddPopup()">
+            Cancel
+          </button>
+
+          <button type="submit" [disabled]="loading()"
+            class="rounded-md px-5 py-2 font-semibold text-white bg-blue-700 hover:bg-blue-900 disabled:opacity-60">
+            {{ loading() ? 'Adding...' : 'Add' }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  }
+</section>

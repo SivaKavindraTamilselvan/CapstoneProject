@@ -1,0 +1,38 @@
+@if(open){
+<div class="fixed inset-0 bg-black/40 z-40" (click)="toggle.emit()"></div>
+}
+
+<aside
+    class="flex flex-col overflow-y-auto fixed top-0 right-0 h-full w-full sm:w-96 bg-white z-50 shadow-2xl transition-transform duration-300"
+    [class.translate-x-0]="open" [class.translate-x-full]="!open">
+
+    <div class="flex items-center justify-between px-6 py-4 border-b border-gray-200">
+        <h2 class="text-lg font-bold text-blue-950">Filters</h2>
+        <button (click)="toggle.emit()" class="p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-600" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+        </button>
+    </div>
+    <div>
+        @if(errorMessage())
+        {
+        <div class="px-4 text-red-700 text-center font-semibold mt-6"> {{errorMessage()}}
+        </div>
+        }
+    </div>
+    <div class="flex flex-col gap-4 p-6">
+        <ng-content></ng-content>
+        <div class="flex gap-2 pt-2"> 
+            <button (click)="apply.emit()" [disabled]="!!errorMessage()"
+                class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full disabled:cursor-not-allowed disabled:bg-black">
+                Apply Filters
+            </button>
+            <button (click)="reset.emit()"  
+                class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 cursor-pointer w-full">
+                Reset
+            </button>
+        </div>
+    </div>
+</aside>

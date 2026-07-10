@@ -1,0 +1,42 @@
+<div class="max-w-4xl flex flex-col gap-4">
+    <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
+        <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+            <span class="font-bold text-blue-950">
+                #{{ title() }}
+            </span>
+            <div class="flex gap-2">
+                @for(action of actions(); track action.action){
+                @if(isActionVisible(action)){
+                <button class="py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer" [ngClass]="{
+                                'bg-green-700 hover:bg-green-900': action.color === 'green',
+                                'bg-red-700 hover:bg-red-900': action.color === 'red',
+                                'bg-blue-700 hover:bg-blue-900': action.color === 'blue',
+                                'bg-gray-500 hover:bg-gray-600': action.color === 'gray'
+                            }" (click)="onAction(action)">
+
+                    {{ action.label }}
+                </button>
+                }
+                }
+            </div>
+        </div>
+        <table class="w-full border border-gray-300 border-collapse table-fixed">
+            <colgroup>
+                <col class="w-1/3">
+                <col class="w-2/3">
+            </colgroup>
+            <tbody>
+                @for(column of columns(); track column.key){
+                <tr>
+                    <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50">
+                        {{ column.header }}
+                    </td>
+                    <td class="py-3 px-2 border border-gray-300 break-words">
+                        {{ getCellValue(column) }}
+                    </td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
