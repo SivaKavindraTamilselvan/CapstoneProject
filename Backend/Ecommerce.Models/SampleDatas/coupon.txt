@@ -1,0 +1,92 @@
+[
+  {
+    "couponCode": "WELCOME100",
+    "discountValue": 100,
+    "minimumOrderAmount": 999,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-07-15T23:59:59",
+    "minimumNumberOfUsage": 1000,
+    "couponDescription": "Flat ₹100 off on first purchase above ₹999"
+  },
+  {
+    "couponCode": "SUMMER250",
+    "discountValue": 250,
+    "minimumOrderAmount": 2499,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-08-31T23:59:59",
+    "minimumNumberOfUsage": 500,
+    "couponDescription": "Flat ₹250 off on summer sale orders"
+  },
+  {
+    "couponCode": "FASHION150",
+    "discountValue": 150,
+    "minimumOrderAmount": 1499,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-09-15T23:59:59",
+    "minimumNumberOfUsage": 300,
+    "couponDescription": "Fashion category special discount"
+  },
+  {
+    "couponCode": "ELECTRO500",
+    "discountValue": 500,
+    "minimumOrderAmount": 9999,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-12-31T23:59:59",
+    "minimumNumberOfUsage": 200,
+    "couponDescription": "Save ₹500 on electronics purchases"
+  },
+  {
+    "couponCode": "BOOKLOVER50",
+    "discountValue": 50,
+    "minimumOrderAmount": 499,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-10-31T23:59:59",
+    "minimumNumberOfUsage": 1000,
+    "couponDescription": "Discount for book lovers"
+  },
+  {
+    "couponCode": "HOME200",
+    "discountValue": 200,
+    "minimumOrderAmount": 1999,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-11-30T23:59:59",
+    "minimumNumberOfUsage": 400,
+    "couponDescription": "Home and kitchen products offer"
+  },
+  {
+    "couponCode": "SPORTS300",
+    "discountValue": 300,
+    "minimumOrderAmount": 2999,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-09-30T23:59:59",
+    "minimumNumberOfUsage": 250,
+    "couponDescription": "Flat ₹300 off on sports equipment"
+  },
+  {
+    "couponCode": "BEAUTY75",
+    "discountValue": 75,
+    "minimumOrderAmount": 799,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-08-15T23:59:59",
+    "minimumNumberOfUsage": 800,
+    "couponDescription": "Beauty and personal care savings"
+  },
+  {
+    "couponCode": "BIGSAVE1000",
+    "discountValue": 1000,
+    "minimumOrderAmount": 15000,
+    "startDate": "2026-06-15T00:00:00",
+    "endDate": "2026-12-31T23:59:59",
+    "minimumNumberOfUsage": 100,
+    "couponDescription": "Mega savings on high-value orders"
+  },
+  {
+    "couponCode": "FESTIVE350",
+    "discountValue": 350,
+    "minimumOrderAmount": 3499,
+    "startDate": "2026-09-01T00:00:00",
+    "endDate": "2026-11-15T23:59:59",
+    "minimumNumberOfUsage": 600,
+    "couponDescription": "Festive season special discount"
+  }
+]

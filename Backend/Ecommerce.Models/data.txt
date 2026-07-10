@@ -1,0 +1,344 @@
+{
+    "productName": "Apple iPhone 15",
+    "description": "Latest Apple iPhone with A16 Bionic chip, 48MP camera, and Dynamic Island",
+    "productSubCategoryId": 1,
+    "mainProductSubCategoryAttributeId": 2
+}
+
+{
+  "productId": 1,
+  "price": 79999,
+  "weightInKgs": 0.171,
+  "lengthInCm": 14.76,
+  "widthInCm": 7.12,
+  "heightInCm": 0.78,
+  "minimuQuantityPerUser": 1,
+  "isReturn": true,
+  "isExchange": true,
+  "mainProductSubCategoryAttributeId": 2,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 1, "attributeValue": "Apple" },
+    { "productSubCategoryAttributeId": 2, "attributeValue": "Black" },
+    { "productSubCategoryAttributeId": 3, "attributeValue": "128GB" },
+    { "productSubCategoryAttributeId": 4, "attributeValue": "6GB" },
+    { "productSubCategoryAttributeId": 5, "attributeValue": "6.1 inch" },
+    { "productSubCategoryAttributeId": 6, "attributeValue": "3877 mAh" }
+  ]
+}
+
+{
+  "productName": "Samsung Galaxy S24",
+  "description": "Samsung flagship with Snapdragon 8 Gen 3, 50MP camera, and AI features",
+  "productSubCategoryId": 1,
+  "mainProductSubCategoryAttributeId": 2
+}
+{
+  "productId": 2,
+  "price": 74999,
+  "weightInKgs": 0.167,
+  "lengthInCm": 14.70,
+  "widthInCm": 7.06,
+  "heightInCm": 0.76,
+  "minimuQuantityPerUser": 1,
+  "isReturn": true,
+  "isExchange": true,
+   "mainProductSubCategoryAttributeId": 2,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 1, "attributeValue": "Samsung" },
+    { "productSubCategoryAttributeId": 2, "attributeValue": "Violet" },
+    { "productSubCategoryAttributeId": 3, "attributeValue": "256GB" },
+    { "productSubCategoryAttributeId": 4, "attributeValue": "8GB" },
+    { "productSubCategoryAttributeId": 5, "attributeValue": "6.2 inch" },
+    { "productSubCategoryAttributeId": 6, "attributeValue": "4000 mAh" }
+  ]
+}
+{
+  "productName": "Dell XPS 15",
+  "description": "Premium laptop with Intel Core i7, OLED display, and long battery life",
+  "productSubCategoryId": 2,
+  "mainProductSubCategoryAttributeId": 8
+}
+{
+  "productId": 3,
+  "price": 149999,
+  "weightInKgs": 1.86,
+  "lengthInCm": 34.40,
+  "widthInCm": 23.00,
+  "heightInCm": 1.80,
+  "minimuQuantityPerUser": 2,
+  "isReturn": true,
+  "isExchange": true,
+   "mainProductSubCategoryAttributeId": 7,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 7, "attributeValue": "Dell" },
+    { "productSubCategoryAttributeId": 8, "attributeValue": "512GB SSD" },
+    { "productSubCategoryAttributeId": 9, "attributeValue": "16GB" },
+    { "productSubCategoryAttributeId": 10, "attributeValue": "Intel Core i7-13700H" },
+    { "productSubCategoryAttributeId": 11, "attributeValue": "Windows 11" }
+  ]
+}
+{
+  "productName": "Apple MacBook Air M2",
+  "description": "Ultra-thin laptop with Apple M2 chip, 18-hour battery, and Liquid Retina display",
+  "productSubCategoryId": 2
+}
+{
+  "productId": 4,
+  "availableQuantity": 15,
+  "price": 114999,
+  "weightInKgs": 1.24,
+  "lengthInCm": 30.41,
+  "widthInCm": 21.50,
+  "heightInCm": 1.13,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 7, "attributeValue": "Apple" },
+    { "productSubCategoryAttributeId": 8, "attributeValue": "256GB SSD" },
+    { "productSubCategoryAttributeId": 9, "attributeValue": "8GB" },
+    { "productSubCategoryAttributeId": 10, "attributeValue": "Apple M2" },
+    { "productSubCategoryAttributeId": 11, "attributeValue": "macOS Ventura" }
+  ]
+}
+{
+  "productName": "Apple iPad Pro 12.9",
+  "description": "Professional tablet with M2 chip, Liquid Retina XDR display, and Apple Pencil support",
+  "productSubCategoryId": 3
+}
+{
+  "productId": 5,
+  "availableQuantity": 25,
+  "price": 109999,
+  "weightInKgs": 0.682,
+  "lengthInCm": 28.06,
+  "widthInCm": 21.49,
+  "heightInCm": 0.64,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 12, "attributeValue": "Apple" },
+    { "productSubCategoryAttributeId": 13, "attributeValue": "Silver" },
+    { "productSubCategoryAttributeId": 14, "attributeValue": "128GB" },
+    { "productSubCategoryAttributeId": 15, "attributeValue": "8GB" },
+    { "productSubCategoryAttributeId": 16, "attributeValue": "12.9 inch" },
+    { "productSubCategoryAttributeId": 17, "attributeValue": "iPadOS 16" },
+    { "productSubCategoryAttributeId": 18, "attributeValue": "10758 mAh" }
+  ]
+}
+{
+  "productName": "Apple Watch Series 9",
+  "description": "Advanced smartwatch with S9 chip, double tap gesture, and health monitoring",
+  "productSubCategoryId": 4
+}
+{
+  "productId": 6,
+  "availableQuantity": 30,
+  "price": 41999,
+  "weightInKgs": 0.051,
+  "lengthInCm": 4.50,
+  "widthInCm": 3.80,
+  "heightInCm": 1.20,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 19, "attributeValue": "Apple" },
+    { "productSubCategoryAttributeId": 20, "attributeValue": "Midnight" },
+    { "productSubCategoryAttributeId": 21, "attributeValue": "308 mAh" }
+  ]
+}
+{
+  "productName": "Sony WH-1000XM5",
+  "description": "Industry-leading noise cancelling headphones with 30-hour battery and multipoint connection",
+  "productSubCategoryId": 5
+}
+{
+  "productId": 7,
+  "availableQuantity": 35,
+  "price": 29999,
+  "weightInKgs": 0.250,
+  "lengthInCm": 19.00,
+  "widthInCm": 17.00,
+  "heightInCm": 8.00,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 22, "attributeValue": "Sony" },
+    { "productSubCategoryAttributeId": 23, "attributeValue": "Black" },
+    { "productSubCategoryAttributeId": 24, "attributeValue": "0.250 kg" },
+    { "productSubCategoryAttributeId": 25, "attributeValue": "3600 mAh" }
+  ]
+}
+
+{
+  "productName": "Nike Dri-FIT T-Shirt",
+  "description": "Lightweight moisture-wicking t-shirt for sports and everyday wear",
+  "productSubCategoryId": 7
+}
+{
+  "productId": 9,
+  "availableQuantity": 100,
+  "price": 1499,
+  "weightInKgs": 0.200,
+  "lengthInCm": 70.00,
+  "widthInCm": 50.00,
+  "heightInCm": 1.00,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 30, "attributeValue": "Nike" },
+    { "productSubCategoryAttributeId": 31, "attributeValue": "Black" },
+    { "productSubCategoryAttributeId": 32, "attributeValue": "L" },
+    { "productSubCategoryAttributeId": 33, "attributeValue": "Polyester" },
+    { "productSubCategoryAttributeId": 34, "attributeValue": "Unisex" }
+  ]
+}
+{
+  "productName": "Levi's 511 Slim Fit Jeans",
+  "description": "Classic slim fit jeans with stretch fabric for comfort and style",
+  "productSubCategoryId": 9
+}
+{
+  "productId": 10,
+  "availableQuantity": 60,
+  "price": 3999,
+  "weightInKgs": 0.600,
+  "lengthInCm": 100.00,
+  "widthInCm": 40.00,
+  "heightInCm": 2.00,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 40, "attributeValue": "Levi's" },
+    { "productSubCategoryAttributeId": 41, "attributeValue": "Dark Blue" },
+    { "productSubCategoryAttributeId": 42, "attributeValue": "32x30" },
+    { "productSubCategoryAttributeId": 43, "attributeValue": "Denim" },
+    { "productSubCategoryAttributeId": 44, "attributeValue": "Male" }
+  ]
+}
+{
+  "productName": "Nike Air Max 270",
+  "description": "Lifestyle shoes with Max Air unit for all-day comfort and bold style",
+  "productSubCategoryId": 11
+}
+{
+  "productId": 11,
+  "availableQuantity": 40,
+  "price": 12999,
+  "weightInKgs": 0.800,
+  "lengthInCm": 30.00,
+  "widthInCm": 12.00,
+  "heightInCm": 12.00,
+  "minimuQuantityPerUser": 1,
+  "requestAddProductVariantAttributeDTOs": [
+    { "productSubCategoryAttributeId": 50, "attributeValue": "Nike" },
+    { "productSubCategoryAttributeId": 51, "attributeValue": "White/Black" },
+    { "productSubCategoryAttributeId": 52, "attributeValue": "UK 9" },
+    { "productSubCategoryAttributeId": 53, "attributeValue": "Mesh/Rubber" },
+    { "productSubCategoryAttributeId": 54, "attributeValue": "Unisex" }
+  ]
+}
+
+
+[
+  {
+    "contactName": "Rahul Sharma",
+    "contactPhoneNumber": "9876543210",
+    "addressLine": "12 MG Road",
+    "landMark": "Near Metro Station",
+    "city": "Bengaluru",
+    "state": "Karnataka",
+    "pinCode": "560001",
+    "isDefault": false
+  },
+  {
+    "contactName": "Ananya Verma",
+    "contactPhoneNumber": "9876543211",
+    "addressLine": "45 Park Street",
+    "landMark": "Opposite City Mall",
+    "city": "Kolkata",
+    "state": "West Bengal",
+    "pinCode": "700016",
+    "isDefault": false
+  },
+  {
+    "contactName": "Arjun Singh",
+    "contactPhoneNumber": "9876543212",
+    "addressLine": "78 Civil Lines",
+    "landMark": "Near Bus Stand",
+    "city": "Jaipur",
+    "state": "Rajasthan",
+    "pinCode": "302006",
+    "isDefault": false
+  },
+  {
+    "contactName": "Sneha Reddy",
+    "contactPhoneNumber": "9876543213",
+    "addressLine": "22 Banjara Hills Road No. 3",
+    "landMark": "Near Apollo Hospital",
+    "city": "Hyderabad",
+    "state": "Telangana",
+    "pinCode": "500034",
+    "isDefault": false
+  },
+  {
+    "contactName": "Vikram Patel",
+    "contactPhoneNumber": "9876543214",
+    "addressLine": "15 Ashram Road",
+    "landMark": "Near Riverfront",
+    "city": "Ahmedabad",
+    "state": "Gujarat",
+    "pinCode": "380009",
+    "isDefault": false
+  },
+  {
+    "contactName": "Meera Nair",
+    "contactPhoneNumber": "9876543215",
+    "addressLine": "8 Marine Drive",
+    "landMark": "Near Beach Road",
+    "city": "Kochi",
+    "state": "Kerala",
+    "pinCode": "682031",
+    "isDefault": false
+  },
+  {
+    "contactName": "Karan Malhotra",
+    "contactPhoneNumber": "9876543216",
+    "addressLine": "101 Connaught Place",
+    "landMark": "Near Rajiv Chowk Metro",
+    "city": "New Delhi",
+    "state": "Delhi",
+    "pinCode": "110001",
+    "isDefault": false
+  },
+  {
+    "contactName": "Pooja Mishra",
+    "contactPhoneNumber": "9876543217",
+    "addressLine": "34 Hazratganj",
+    "landMark": "Near SBI Bank",
+    "city": "Lucknow",
+    "state": "Uttar Pradesh",
+    "pinCode": "226001",
+    "isDefault": false
+  },
+  {
+    "contactName": "Rohit Deshmukh",
+    "contactPhoneNumber": "9876543218",
+    "addressLine": "56 FC Road",
+    "landMark": "Near Fergusson College",
+    "city": "Pune",
+    "state": "Maharashtra",
+    "pinCode": "411004",
+    "isDefault": false
+  },
+  {
+    "contactName": "Divya Iyer",
+    "contactPhoneNumber": "9876543219",
+    "addressLine": "90 Anna Salai",
+    "landMark": "Near LIC Building",
+    "city": "Chennai",
+    "state": "Tamil Nadu",
+    "pinCode": "600002",
+    "isDefault": false
+  }
+]
+
+{
+  "productId": 1,
+  "imageUrl": "imageUrl4",
+  "displayOrderId": 1,
+  "isMainImage": false
+}

@@ -1,0 +1,57 @@
+## Installation
+
+- dotnet new sln -n Ecommerce (create solution file) (for single build)
+- dotnet new webapi -n Ecommerce.API --use-controllers (create the App)
+- dotnet new classlib -n Ecommerce.Models
+- dotnet new classlib -n Ecommerce.Repositories
+- dotnet new classlib -n Ecommerce.Services
+- dotnet new classlib -n Ecommerce.Data
+
+- dotnet sln add Ecommerce.API/Ecommerce.API.csproj
+- dotnet sln add Ecommerce.Models/Ecommerce.Models.csproj
+- dotnet sln add Ecommerce.Repositories/Ecommerce.Repositories.csproj
+- dotnet sln add Ecommerce.Services/Ecommerce.Services.csproj
+- dotnet sln add Ecommerce.Data/Ecommerce.Data.csproj
+
+- dotnet add Ecommerce.Data reference Ecommerce.Models
+- dotnet add Ecommerce.Repositories reference Ecommerce.Data
+- dotnet add Ecommerce.Services reference Ecommerce.Repositories
+- dotnet add Ecommerce.API reference Ecommerce.Services 
+
+- dotnet add package Swashbuckle.AspNetCore --version 6.6.2
+
+## Models Added
+
+- The Model Design is Made
+- Code First Approach
+- Created the DBContext the main class which communicates with the EF Core
+- Model Builder For each of the model table is added
+- in Program.cs mention the context region that is configure the DBContext
+
+- dotnet ef migrations add ChangesInTheProductMainAttribute --project Ecommerce.Data --startup-project Ecommerce.API
+- dotnet ef database update --project Ecommerce.Data --startup-project Ecommerce.API
+- dotnet ef migrations remove --project Ecommerce.Data --startup-project Ecommerce.API
+
+## Installation
+
+- dotnet add package Microsoft.EntityFrameworkCore
+- dotnet add package Npgsql.EntityFrameworkCore.PostgreSQL
+- dotnet add package Microsoft.EntityFrameworkCore.Tools
+- dotnet add package Microsoft.EntityFrameworkCore.Design
+
+- dotnet add package Serilog.AspNetCore
+- dotnet add package Serilog.Settings.Configuration
+- dotnet add package Serilog.Sinks.Console
+- dotnet add package Serilog.Sinks.File
+- dotnet add package Serilog.Enrichers.Environment
+- dotnet add package Serilog.Enrichers.Thread
+
+- dotnet add package AutoMapper (added the mapper)
+- dotnet add Ecommerce.Services package Microsoft.EntityFrameworkCore.Relational --version 10.0.8
+
+- rm -rf Ecommerce.API/bin Ecommerce.API/obj
+- rm -rf Ecommerce.Data/bin Ecommerce.Data/obj
+- rm -rf Ecommerce.Repositories/bin Ecommerce.Repositories/obj
+- rm -rf Ecommerce.Services/bin Ecommerce.Services/obj
+- dotnet restore
+- dotnet build

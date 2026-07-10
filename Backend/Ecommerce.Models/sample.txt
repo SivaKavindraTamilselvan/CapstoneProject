@@ -1,0 +1,166 @@
+-- user 
+
+{
+  "firstName": "Sowmiya",
+  "lastName": "R",
+  "email": "sowmiya@gmail.com",
+  "phoneNumber": "9489624188",
+  "password": "Sowmiya@123"
+}
+{
+  "firstName": "AjayKumar",
+  "lastName": "N",
+  "email": "ajaykumar@gmail.com",
+  "phoneNumber": "7845904789",
+  "password": "Ajay@123"
+}
+{
+  "firstName": "AnbuSelvan",
+  "lastName": "N",
+  "email": "anbuselvan@gmail.com",
+  "phoneNumber": "7845904459",
+  "password": "Anbu@123"
+}
+{
+  "firstName": "Pranesh",
+  "lastName": "T",
+  "email": "pranesh@gmail.com",
+  "phoneNumber": "7235904459",
+  "password": "Pranesh@123"
+}
+
+-- vendor
+
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Sameena",
+    "lastName": "DU",
+    "email": "sameena@gmail.com",
+    "phoneNumber": "7892036721",
+    "password": "Sameena@123"
+  },
+  "contactPersonName": "Sameena",
+  "companyEmail": "sameenatextiles@gmail.com",
+  "companyPhoneNumber": "8903748910",
+  "vendorCompanyName": "SameenaTextiles",
+  "gstNumber": "32SHCVY3653IRZN"
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "PriyaDharshini",
+    "lastName": "DU",
+    "email": "priyadharshini@gmail.com",
+    "phoneNumber": "7829003721",
+    "password": "Priya@123"
+  },
+  "contactPersonName": "PriyaDharshini",
+  "companyEmail": "priyaelectronics@gmail.com",
+  "companyPhoneNumber": "8903748913",
+  "vendorCompanyName": "PriyaDharshiniElectronics",
+  "gstNumber": "32SHCVY3653IRZQ"
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "DevaDhayalan",
+    "lastName": "G",
+    "email": "devadhayalan@gmail.com",
+    "phoneNumber": "8870967576",
+    "password": "Deva@123"
+  },
+  "contactPersonName": "DevaDhayalan",
+  "companyEmail": "devabooks@gmail.com",
+  "companyPhoneNumber": "8870967576",
+  "vendorCompanyName": "DevaDhayalanBooks",
+  "gstNumber": "32SHCVY3653IRZA"
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Kishore",
+    "lastName": "G",
+    "email": "kishore@gmail.com",
+    "phoneNumber": "8870367576",
+    "password": "Kishore@123"
+  },
+  "contactPersonName": "Kishore",
+  "companyEmail": "kishorebeauty@gmail.com",
+  "companyPhoneNumber": "8270967576",
+  "vendorCompanyName": "KishoreBeautyAndCare",
+  "gstNumber": "32SHCVY3652IRZA"
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Priya",
+    "lastName": "Sharma",
+    "email": "priyasharma@gmail.com",
+    "phoneNumber": "9876543210",
+    "password": "Priya@123"
+  },
+  "contactPersonName": "Priya Sharma",
+  "companyEmail": "contact@sports.com",
+  "companyPhoneNumber": "9123456689",
+  "vendorCompanyName": "Priya Sharma Sports Pvt Ltd",
+  "gstNumber": "29ABCDE1234F1Z5"
+}
+
+-- admin user
+
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Vendor",
+    "lastName": "VendorOne",
+    "email": "vendoradmin1@gmail.com",
+    "phoneNumber": "9000000003",
+    "password": "Vendor@123"
+  },
+  "adminRoleId": 2
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Vendor",
+    "lastName": "VendorTwo",
+    "email": "vendoradmin2@gmail.com",
+    "phoneNumber": "9000010003",
+    "password": "Vendor@123"
+  },
+  "adminRoleId": 2
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Product",
+    "lastName": "AdminOne",
+    "email": "productadmin3@gmail.com",
+    "phoneNumber": "9000000403",
+    "password": "Product@123"
+  },
+  "adminRoleId": 3
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Product",
+    "lastName": "AdminTwo",
+    "email": "productadmin4@gmail.com",
+    "phoneNumber": "9000020403",
+    "password": "Product@123"
+  },
+  "adminRoleId": 3
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Order",
+    "lastName": "AdminOne",
+    "email": "orderadmin1@gmail.com",
+    "phoneNumber": "8000000003",
+    "password": "Order@123"
+  },
+  "adminRoleId": 4
+}
+{
+  "requestRegisterUserDTO": {
+    "firstName": "Order",
+    "lastName": "AdminTwo",
+    "email": "orderadmin2@gmail.com",
+    "phoneNumber": "8100000003",
+    "password": "Order@123"
+  },
+  "adminRoleId": 4
+}
