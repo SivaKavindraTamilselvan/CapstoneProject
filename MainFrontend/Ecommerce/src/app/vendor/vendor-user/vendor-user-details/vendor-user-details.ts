@@ -20,7 +20,7 @@ export class VendorUserDetails extends PopupBase {
   adminUser = signal<VendorUserModel | null>(null);
   errorMessage = signal<string | null>(null);
   showActivatePopup = signal(false);
-    loading = signal(true);
+  loading = signal(true);
   constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute) {
     super();
   }
@@ -72,13 +72,13 @@ export class VendorUserDetails extends PopupBase {
       label: 'Deactivate',
       color: 'red',
       action: 'deactivate',
-      visible: admin => admin.isActive && admin.vendorRoleId!=1
+      visible: admin => admin.isActive && admin.vendorRoleId != 1
     },
     {
       label: 'Activate',
       color: 'green',
       action: 'activate',
-      visible: admin => !admin.isActive 
+      visible: admin => !admin.isActive
     }
   ];
 
@@ -93,12 +93,14 @@ export class VendorUserDetails extends PopupBase {
       this.popupConfirmText.set('Deactivate');
       this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
       this.titleClass.set('text-red-700');
+      this.loadingText.set('Deactivating...');
     } else {
       this.popupTitle.set('Activate Vendor User');
       this.popupMessage.set('Are you sure you want to activate this vendor user?');
       this.popupConfirmText.set('Activate');
       this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
       this.titleClass.set('text-green-700');
+      this.loadingText.set('Activating...');
     }
 
     this.showPopup.set(true);
@@ -112,18 +114,35 @@ export class VendorUserDetails extends PopupBase {
     this.updateAdminStatus(!current.isActive);
   }
 
+  progress = signal(false);
+  successMessage = signal('');
+
   updateAdminStatus(isActivate: boolean): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.adminUser()?.vendorUserId;
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     const request = isActivate ? this.vendorUserService.activateAdminUser(id) : this.vendorUserService.deactivateAdminUser(id);
     request.subscribe({
       next: () => {
-        this.closePopup();
+        isActivate ? this.successMessage.set('Vendor user activated successfully.') : this.successMessage.set('Vendor user deactivated successfully.');
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
         this.loadAdminUser(id);
       },
-      error: error => console.log(error)
+      error: (error) => {
+        console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
+      }
     });
   }
 

@@ -29,7 +29,7 @@ import { UpdateProductComponent } from '../../vendor-product/update-product-comp
 
 @Component({
   selector: 'app-variant-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, UpdateRejectVairantComponent,DeleteProductComponent, ReviewPopupComponent, HeaderComponent,UpdateProductComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, UpdateRejectVairantComponent, DeleteProductComponent, ReviewPopupComponent, HeaderComponent, UpdateProductComponent],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })
@@ -323,7 +323,7 @@ export class VariantList extends BasePage {
   }
 
   actions = computed<TableAction<VendorProductVariantModel>[]>(() => {
-    if (this.status() == null && this.update()==true) return [
+    if (this.status() == null && this.update() == true) return [
       { label: 'View', color: 'green', action: 'view' },
       { label: 'Update', color: 'blue', action: 'update' }
     ];
@@ -428,11 +428,12 @@ export class VariantList extends BasePage {
     };
     this.vendorProductService.reviewProductVariant(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
+        this.successMessage.set("Product Variant reviewed successfully");
         setTimeout(() => {
           this.onCancelReview();
           this.successMessage.set(null);
           this.loadProductVariant();
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {

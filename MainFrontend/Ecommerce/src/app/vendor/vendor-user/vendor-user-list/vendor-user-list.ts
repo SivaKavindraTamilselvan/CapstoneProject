@@ -17,7 +17,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 
 @Component({
   selector: 'app-vendor-user-list',
-  imports: [PopupComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent, FormField,HeaderComponent],
+  imports: [PopupComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FilterComponent, FormField, HeaderComponent],
   templateUrl: './vendor-user-list.html',
   styleUrl: './vendor-user-list.css',
 })
@@ -61,7 +61,7 @@ export class VendorUserList extends BasePage {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
 
-  
+
   filterForm = form(this.adminUserFilter, (path) => {
     email(path.email, { message: 'Enter a valid email address.' });
     pattern(path.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: 'Enter a valid phone number.' });
@@ -120,34 +120,60 @@ export class VendorUserList extends BasePage {
   }
 
 
+  progress = signal(false);
+
   deactivateAdmin() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.vendorUserService.deactivateAdminUser(id).subscribe({
       next: (response: any) => {
+        this.successMessage.set('Vendor user deactivated successfully.');
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
         this.loadAdminUser();
-        this.closePopup();
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
       }
     })
   }
 
   activateAdmin() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.vendorUserService.activateAdminUser(id).subscribe({
       next: (response: any) => {
-        this.closePopup();
+        this.successMessage.set('Vendor user activated successfully.');
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
         this.loadAdminUser();
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
       }
     })
   }
@@ -174,7 +200,7 @@ export class VendorUserList extends BasePage {
       ]
       : [
         { label: 'View', color: 'green', action: 'view' },
-        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive },
+        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive && category.vendorRoleId!=1 },
         { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
       ]
   );
@@ -204,6 +230,7 @@ export class VendorUserList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -217,6 +244,7 @@ export class VendorUserList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Deactivating...');
 
         this.showPopup.set(true);
         break;
