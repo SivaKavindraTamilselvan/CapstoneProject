@@ -1,0 +1,9 @@
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+    <app-order-status-table-component [orderStatus]="orderStatus()" [loading]="loadingOrderStatus()">
+    </app-order-status-table-component>
+
+    <app-orders-by-month-chart-component [ordersByMonth]="ordersByMonth()" [loading]="loadingOrdersByMonth()">
+    </app-orders-by-month-chart-component>
+
+</div>

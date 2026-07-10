@@ -1,0 +1,37 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold" [ngClass]="decision() ? 'text-green-700' : 'text-red-700'">
+            {{ decision() ? 'Approve Return' : 'Reject Return' }}
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Are you sure you want to
+            {{ decision() ? 'approve' : 'reject' }}
+            this return request?
+            {{ decision() ? 'The customer will be refunded once processed.' : 'The customer will be notified of the rejection.' }}
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <div class="flex justify-center gap-4 pt-6">
+            <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                Cancel
+            </button>
+            <button type="button" [disabled]="progress()"
+                class="px-5 py-2 rounded-md text-white font-semibold disabled:opacity-60"
+                [ngClass]="decision() ? 'bg-green-700 hover:bg-green-900' : 'bg-red-700 hover:bg-red-900'"
+                (click)="submit()">
+                {{ progress() ? 'Submitting...' : (decision() ? 'Approve' : 'Reject') }}
+            </button>
+        </div>
+    </div>
+</div>

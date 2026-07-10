@@ -1,0 +1,47 @@
+<div class="bg-white rounded-2xl shadow-sm ring-1 ring-slate-100 p-6">
+
+  <h2 class="text-lg font-bold text-slate-800 mb-4">
+    {{ title() }}
+  </h2>
+
+  @if (loading()) {
+    <div class="space-y-3 animate-pulse">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="h-10 bg-slate-100 rounded-lg"></div>
+      }
+    </div>
+  } @else if (approvalStatus().length > 0) {
+
+    <div class="overflow-hidden rounded-xl ring-1 ring-slate-100">
+      <table class="w-full text-sm">
+        <thead class="bg-slate-50">
+          <tr>
+            <th class="text-left px-4 py-3 font-medium text-slate-500 uppercase text-xs tracking-wide">Status</th>
+            <th class="text-right px-4 py-3 font-medium text-slate-500 uppercase text-xs tracking-wide">Products</th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-slate-100">
+          @for (item of approvalStatus(); track item.status) {
+            <tr class="hover:bg-slate-50/60 transition-colors">
+              <td class="px-4 py-3">
+                <span class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium" [ngClass]="statusClasses(item.status)">
+                  {{ item.status }}
+                </span>
+              </td>
+              <td class="text-right px-4 py-3 font-semibold text-slate-800">
+                {{ item.count }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+  } @else {
+    <div class="py-16 text-center text-slate-400">
+      No products found.
+    </div>
+  }
+
+</div>

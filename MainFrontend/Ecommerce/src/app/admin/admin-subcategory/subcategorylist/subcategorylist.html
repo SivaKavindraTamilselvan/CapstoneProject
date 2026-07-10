@@ -1,0 +1,171 @@
+<section class="bg-white px-8 py-8">
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+        [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+            <input type="number" placeholder="Admin ID" [formField]="filterForm.addedByAdminId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.addedByAdminId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.addedByAdminId().errors()[0].message }}</p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Category</label>
+            <select (change)="onCategoryFilterChange($event)" [value]="ProductCategoryId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option value="">All</option>
+                @for(cat of categories(); track cat.productCategoryId) {
+                <option [value]="cat.productCategoryId">
+                    {{cat.productCategoryName}}
+                </option>
+                }
+            </select>
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Sub Category Id</label>
+            <input type="number" placeholder="Sub Category ID" [formField]="filterForm.productSubCategoryId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.productSubCategoryId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.productSubCategoryId().errors()[0].message }}</p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Minumum Commission Percentage</label>
+            <input type="number" placeholder="Min Commission" [formField]="filterForm.minimumCommissionPercentage"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.minimumCommissionPercentage().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumCommissionPercentage().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Commission Percentage</label>
+            <input type="number" placeholder="Max Commission" [formField]="filterForm.maximumCommissionPercentage"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.maximumCommissionPercentage().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumCommissionPercentage().errors()[0].message }}
+            </p>
+            }
+        </div>
+
+    </app-filter-component>
+
+    @if(pageTitle()=='Product Sub Category List'){
+    <div class="flex justify-end pb-4">
+        <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openAddPopup()">
+            Add Sub Category
+        </h1>
+    </div>
+    }
+
+    <app-data-table-component [columns]="columns" [rows]="subcategory()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="subcategory()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)" [titleKey]="'productSubCategoryId'">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="subcategory()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage()"
+        [errorMessage]="errorMessage()" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
+    </app-popup-component>
+
+    @if (showAddPopup()) {
+
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+        <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+            <h2 class="text-center text-xl font-bold text-blue-950">
+                Add Sub Category
+            </h2>
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+                {{ successMessage() }}
+            </div>
+            }
+            @if(errorMessage()) {
+            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+                {{ errorMessage() }}
+            </div>
+            }
+            <form class="mt-6 space-y-4" (ngSubmit)="addSubCategory()">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Category
+                    </label>
+                    <select (change)="onCategoryChange($event)" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        <option value="">
+                            Select Category
+                        </option>
+                        @for(cat of categories(); track cat.productCategoryId) {
+
+                        <option [value]="cat.productCategoryId">
+                            {{cat.productCategoryName}}
+                        </option>
+                        }
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Sub Category Name
+                    </label>
+                    <input type="text" [formField]="addForm.productSubCategoryName"
+                        placeholder="Enter sub category name" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    @if(addForm.productSubCategoryName().invalid() &&
+                    addForm.productSubCategoryName().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ addForm.productSubCategoryName().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+                <div>
+                    <label class="block text-sm font-semibold text-gray-700 mb-2">
+                        Commission Percentage
+                    </label>
+                    <input type="number" [formField]="addForm.commissionPercentage"
+                        placeholder="Enter commission percentage" class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                    @if(addForm.commissionPercentage().invalid() &&
+                    addForm.commissionPercentage().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ addForm.commissionPercentage().errors()[0].message }}
+                    </p>
+                    }
+                </div>
+                <div class="flex justify-center gap-4 pt-2">
+                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                        (click)="closeAddPopup()">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
+                        Add
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    }
+</section>

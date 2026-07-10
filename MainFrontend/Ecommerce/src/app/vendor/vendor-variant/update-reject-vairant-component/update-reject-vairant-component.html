@@ -1,0 +1,131 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-xl rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+        <h2 class="text-center text-xl font-bold text-blue-950">
+            Update Rejected Variant
+        </h2>
+        <p class="text-gray-600 font-semibold text-sm sm:text-base text-justify mt-4">
+            Correct the variant details below and resubmit for approval.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ successMessage() }}
+        </div>
+        }
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <form class="mt-6 space-y-4" (ngSubmit)="updateRejectedVariant()">
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Price
+                </label>
+                <input type="number"  [formField]="updateForm.price" placeholder="Enter price"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(updateForm.price().invalid() && updateForm.price().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.price().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Weight (kg)
+                </label>
+                <input type="number"  [formField]="updateForm.weightInKgs" placeholder="Enter weight"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(updateForm.weightInKgs().invalid() && updateForm.weightInKgs().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.weightInKgs().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Dimensions (cm)
+                </label>
+                <div class="grid grid-cols-3 gap-4">
+                    <div>
+                        <input type="number"  [formField]="updateForm.lengthInCm" placeholder="Length"
+                            class="w-full border rounded-lg px-4 py-3 outline-none 
+                            focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        @if(updateForm.lengthInCm().invalid() && updateForm.lengthInCm().touched()) {
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ updateForm.lengthInCm().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+                    <div>
+                        <input type="number"  [formField]="updateForm.widthInCm" placeholder="Width"
+                            class="w-full border rounded-lg px-4 py-3 outline-none 
+                            focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        @if(updateForm.widthInCm().invalid() && updateForm.widthInCm().touched()) {
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ updateForm.widthInCm().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+                    <div>
+                        <input type="number" [formField]="updateForm.heightInCm" placeholder="Height"
+                            class="w-full border rounded-lg px-4 py-3 outline-none 
+                            focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                        @if(updateForm.heightInCm().invalid() && updateForm.heightInCm().touched()) {
+                        <p class="text-red-600 text-sm mt-1">
+                            {{ updateForm.heightInCm().errors()[0].message }}
+                        </p>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Minimum Quantity Per User
+                </label>
+                <input type="number" [formField]="updateForm.minimuQuantityPerUser" placeholder="Enter minimum quantity"
+                    class="w-full border rounded-lg px-4 py-3 outline-none 
+                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
+                @if(updateForm.minimuQuantityPerUser().invalid() && updateForm.minimuQuantityPerUser().touched()) {
+                <p class="text-red-600 text-sm mt-1">
+                    {{ updateForm.minimuQuantityPerUser().errors()[0].message }}
+                </p>
+                }
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 pt-1">
+                <label class="flex items-center gap-3 cursor-pointer select-none">
+                    <input type="checkbox" [checked]="updateModel().isReturn"
+                        (change)="onToggleChange('isReturn', $event)"
+                        class="w-4 h-4 rounded border-gray-300 focus:ring-1 focus:ring-blue-600">
+                    <span class="text-sm font-semibold text-gray-700">Returnable</span>
+                </label>
+
+                <label class="flex items-center gap-3 cursor-pointer select-none">
+                    <input type="checkbox" [checked]="updateModel().isExchange"
+                        (change)="onToggleChange('isExchange', $event)"
+                        class="w-4 h-4 rounded border-gray-300 focus:ring-1 focus:ring-blue-600">
+                    <span class="text-sm font-semibold text-gray-700">Exchangeable</span>
+                </label>
+            </div>
+
+            <div class="flex justify-center gap-4 pt-2">
+                <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                    hover:bg-gray-400 disabled:opacity-60" (click)="close()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()" class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold 
+                    hover:bg-blue-900 disabled:opacity-60">
+                    {{ progress() ? 'Updating...' : 'Update Variant' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

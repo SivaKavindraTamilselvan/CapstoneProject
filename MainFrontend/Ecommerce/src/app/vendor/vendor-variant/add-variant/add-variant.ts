@@ -1,0 +1,265 @@
+import { Component, signal } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { VendorProductService } from '../../../services/vendor-product.Service';
+import { AddProductVariantModel } from '../../../models/vendor/vendor-product/add-model/add-product-variant.model';
+import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-model/add-variant-image.model';
+import { AddProductVariantAttributeModel } from '../../../models/vendor/vendor-product/add-model/add-variant-attribute.model';
+import { form, FormField, min, required } from '@angular/forms/signals';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { AdminAttributeModel } from '../../../models/admin/admin-product-category/response/admin-attribute.model';
+import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-category/response/admin-mapped.model';
+
+@Component({
+  selector: 'app-add-variant',
+  imports: [FormField, ReactiveFormsModule, FormsModule],
+  templateUrl: './add-variant.html',
+  styleUrl: './add-variant.css',
+})
+export class AddVariant {
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  subcategoryid = signal<number | null>(null);
+  productid = signal<number | null>(null);
+  attributes = signal<AdminMappedAttributeModel[]>([]);
+  mainAttributeId = signal<number | null>(null);
+
+  productVariant = signal(new AddProductVariantModel());
+  productVariantImages = signal<AddProductVariantImageModel[]>([]);
+
+
+  constructor(
+    private route: Router,
+    private router: ActivatedRoute,
+    private vendorProductService: VendorProductService
+  ) { }
+
+  ngOnInit(): void {
+    const productId = Number(this.router.snapshot.paramMap.get('id'));
+    const subCategoryId = Number(this.router.snapshot.queryParamMap.get('subCategoryId'));
+    const mainProductAttributeId = Number(this.router.snapshot.queryParamMap.get('mainProductAttributeId'));
+    this.subcategoryid.set(subCategoryId);
+    this.productid.set(productId);
+    this.loadAttributes();
+    this.mainAttributeId.set(mainProductAttributeId);
+
+    this.productVariant.update((v) => ({
+      ...v,
+      productId,
+      subCategoryId,
+      mainProductAttributeId,
+    }));
+  }
+
+  addForm = form(this.productVariant, (path) => {
+
+    required(path.price, { message: 'Price is required' });
+    min(path.price, 1, { message: 'Price must be greater than 0' });
+
+    required(path.weightInKgs, { message: 'Weight is required' });
+    min(path.weightInKgs, 0.001, { message: 'Weight must be greater than 0' });
+
+    required(path.lengthInCm, { message: 'Length is required' });
+    min(path.lengthInCm, 0.1, { message: 'Length must be greater than 0' });
+
+    required(path.widthInCm, { message: 'Width is required' });
+    min(path.widthInCm, 0.1, { message: 'Width must be greater than 0' });
+
+    required(path.heightInCm, { message: 'Height is required' });
+    min(path.heightInCm, 0.1, { message: 'Height must be greater than 0' });
+
+    required(path.minimuQuantityPerUser, {
+      message: 'Minimum quantity is required',
+    });
+    min(path.minimuQuantityPerUser, 1, {
+      message: 'Minimum quantity must be at least 1',
+    });
+  });
+
+  loadAttributes(): void {
+    this.errorMessage.set(null);
+    const id = (this.subcategoryid());
+    if (id == null) {
+      return;
+    }
+    this.vendorProductService.getmappedAttribute(id).subscribe({
+      next: (res: any) => {
+        this.attributes.set(res.items ?? res);
+        console.log(this.attributes());
+      },
+      error: (error) => {
+
+        console.error(error);
+
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load attributes. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load attributes.'
+          );
+        }
+      }
+    });
+  }
+
+
+  addAttribute(): void {
+    this.productVariant.update((v) => ({
+      ...v,
+      productVariantAttribute: [...v.productVariantAttribute, new AddProductVariantAttributeModel()],
+    }));
+  }
+
+  removeAttribute(index: number): void {
+    this.productVariant.update((v) => ({
+      ...v,
+      productVariantAttribute: v.productVariantAttribute.filter((_, i) => i !== index),
+    }));
+  }
+
+  updateAttributeId(index: number, event: Event): void {
+    const value = Number((event.target as HTMLInputElement).value);
+    this.productVariant.update((v) => {
+      const updated = [...v.productVariantAttribute];
+      updated[index] = { ...updated[index], productSubCategoryAttributeId: value };
+      return { ...v, productVariantAttribute: updated };
+    });
+  }
+
+  updateAttributeValue(index: number, event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.productVariant.update((v) => {
+      const updated = [...v.productVariantAttribute];
+      updated[index] = { ...updated[index], attributeValue: value };
+      return { ...v, productVariantAttribute: updated };
+    });
+  }
+
+  onImageSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    const startOrder = this.productVariantImages().length + 1;
+
+    Array.from(input.files).forEach((file, index) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new AddProductVariantImageModel();
+        image.imageUrl = file.name;
+        image.displayOrderId = startOrder + index;
+        this.productVariantImages.update((imgs) => [...imgs, image]);
+      };
+      reader.readAsDataURL(file); // FIX: was missing — onload never fired without this
+    });
+
+    input.value = '';
+  }
+
+  removeImage(index: number): void {
+    this.productVariantImages.update((imgs) =>
+      imgs
+        .filter((_, i) => i !== index)
+        .map((img, i) => ({ ...img, displayOrderId: i + 1 }))
+    );
+  }
+
+  addVariant(): void {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+    this.productVariant.update(v => ({
+      ...v,
+      productId: this.productid() ?? 0
+    }));
+
+    this.vendorProductService.addProductVariant(this.productVariant()).subscribe({
+      next: (response: any) => {
+        const variantId =
+          response.productVariantId ??
+          response.data?.productVariantId ??
+          response.id;
+
+        if (!variantId) {
+          this.errorMessage.set('Variant added, but variant ID was not returned.');
+          return;
+        }
+
+        this.addVariantImages(variantId);
+      },
+      error: (error) => {
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(', ');
+
+          this.errorMessage.set(messages);
+        }
+        else if (error.error?.message) {
+          this.errorMessage.set(error.error.message);
+        }
+        else if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to connect to the server. Please check your internet connection.'
+          );
+        }
+        else if (error.status >= 500) {
+          this.errorMessage.set(
+            'Something went wrong on the server. Please try again later.'
+          );
+        }
+        else {
+          this.errorMessage.set('Failed to add product.');
+        }
+      }
+    });
+  }
+
+  private addVariantImages(variantId: number): void {
+    const images = this.productVariantImages().map((img) => ({
+      ...img,
+      productVariantId: variantId,
+    }));
+
+    if (images.length === 0) {
+      this.successMessage.set('Variant added successfully');
+      this.resetForm();
+      return;
+    }
+
+    let uploadedCount = 0;
+
+    images.forEach((image) => {
+      this.vendorProductService.addProductVariantImage(image).subscribe({
+        next: () => {
+          uploadedCount++;
+          if (uploadedCount === images.length) {
+            this.successMessage.set('Variant and images added successfully');
+            this.resetForm();
+          }
+        },
+        error: (error) => {
+          this.errorMessage.set(
+            error.error?.message ?? 'Variant added, but image upload failed'
+          );
+        },
+      });
+    });
+  }
+
+  resetForm(): void {
+    this.productVariant.set(new AddProductVariantModel());
+    this.productVariantImages.set([]);
+  }
+
+  onIsReturnChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.productVariant.update((v) => ({ ...v, isReturn: checked }));
+  }
+
+  onIsExchangeChange(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.productVariant.update((v) => ({ ...v, isExchange: checked }));
+  }
+}

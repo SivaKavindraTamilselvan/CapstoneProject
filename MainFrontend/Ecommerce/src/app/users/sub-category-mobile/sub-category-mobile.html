@@ -1,0 +1,17 @@
+<section class="bg-white p-4 pb-20">
+    @if(subProductCategoryModel()){
+    <div class="md:hidden min-h-screen">
+        @for(category of subProductCategoryModel(); track category.productSubCategoryId){
+        <div class="flex justify-between items-center border-b border-black" (click)="goToProducts(category.productSubCategoryId)">
+            <p class="text-md font-bold py-4">
+                {{category.productSubCategoryName}}
+            </p>
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                stroke="currentColor" class="size-6">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+            </svg>
+        </div>
+        }
+    </div>
+    }
+</section>

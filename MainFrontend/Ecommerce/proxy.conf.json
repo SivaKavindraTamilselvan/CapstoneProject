@@ -1,0 +1,10 @@
+{
+  "/pincode-api": {
+    "target": "https://api.postalpincode.in",
+    "changeOrigin": true,
+    "secure": false,
+    "pathRewrite": {
+      "^/pincode-api": ""
+    }
+  }
+}

@@ -1,0 +1,48 @@
+<section
+    class="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-indigo-900 flex justify-center items-center px-4 py-10">
+    <div class="bg-white p-10 sm:p-16 rounded-2xl shadow-2xl shadow-white/30 max-w-lg w-full space-y-5">
+        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Login</h1>
+        @if(errorMessage())
+        {
+        <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
+        }
+        <form (ngSubmit)="handleLoginClick()" class="flex flex-col gap-5">
+            <div>
+                <label class="font-bold text-md mb-1.5 block">Email<span class="text-red-600">*</span> </label>
+                <input type="email" placeholder="Enter Your Email" [formField]="loginForm.email"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                @if (loginForm.email().touched() && loginForm.email().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ loginForm.email().errors()[0].message }}</p>
+                }
+            </div>
+
+            <div>
+                <label class="font-bold text-md mb-1.5 block">Password<span class="text-red-600">*</span> </label>
+                <div class="relative">
+                    <input [type]="showPassword() ? 'text' : 'password'" placeholder="Enter Your Password" [formField]="loginForm.password"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700 focus:border-transparent transition" />
+                    <button type="button" (click)="togglePasswordVisibility()"
+                        class="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-700 text-xs font-semibold cursor-pointer">
+                        {{ showPassword() ? 'HIDE' : 'SHOW' }}
+                    </button>
+                </div>
+
+                @if (loginForm.password().touched() && loginForm.password().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ loginForm.password().errors()[0].message }}</p>
+                }
+            </div>
+            <div>
+                <button type="submit" [disabled]="progress()"
+                    class="w-full bg-green-800 text-white font-bold px-4 py-3 rounded-lg cursor-pointer hover:bg-green-900 disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">
+                    {{ progress() ? 'Progressing...' : 'Submit' }}</button>
+            </div>
+        </form>
+        <div class="flex items-center justify-center gap-2">
+            <p>Don't have account?</p>
+            <button routerLink="/register"
+                class="text-blue-600 hover:text-blue-800 cursor-pointer font-bold">Register</button>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,157 @@
+<section class="p-6">
+
+    @if (profile(); as p) {
+    <div class="max-w-3xl mx-auto">
+
+        <h1 class="text-2xl font-extrabold text-blue-950 mb-6 text-center">My Profile</h1>
+        <div class="flex justify-end mb-4">
+            <button type="button" (click)="togglePasswordPanel()"
+                class="flex items-center gap-2 bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer transition-colors duration-150">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                </svg>
+                Change Password
+            </button>
+        </div>
+
+        @if (errorMessage()) {
+        <div class="bg-red-50 border border-red-300 text-red-700 rounded-lg px-4 py-3 mb-4">
+            {{ errorMessage() }}
+        </div>
+        }
+
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden mb-6">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-8 flex items-center gap-4">
+                <div
+                    class="w-16 h-16 rounded-full bg-white/10 flex items-center justify-center text-white text-2xl font-bold border border-white/20">
+                    {{ p.firstName.charAt(0) }}{{ p.lastName.charAt(0) }}
+                </div>
+                <div>
+                    <h2 class="text-white text-xl font-bold">
+                        {{ p.firstName }} {{ p.lastName }}
+                    </h2>
+                    <p class="text-slate-300 text-sm">{{ p.email }}</p>
+                </div>
+                <span class="ml-auto text-xs font-medium px-3 py-1 rounded-full h-fit"
+                    [ngClass]="p.isActive ? 'bg-green-500/20 text-green-300 border border-green-400/30' : 'bg-red-500/20 text-red-300 border border-red-400/30'">
+                    {{ p.isActive ? 'Active' : 'Inactive' }}
+                </span>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 px-6 py-6">
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">First
+                        Name</label>
+                    <p class="text-gray-800 font-medium">{{ p.firstName }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Last
+                        Name</label>
+                    <p class="text-gray-800 font-medium">{{ p.lastName }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Email</label>
+                    <p class="text-gray-800 font-medium">{{ p.email }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Phone
+                        Number</label>
+                    <p class="text-gray-800 font-medium">{{ p.phoneNumber }}</p>
+                </div>
+                <div>
+                    <label class="block text-xs font-medium text-gray-400 uppercase tracking-wide mb-1">Member
+                        Since</label>
+                    <p class="text-gray-800 font-medium">{{ p.createdAt | date:'dd/MM/yyyy' }}</p>
+                </div>
+            </div>
+        </div>
+
+
+        @if (passwordPanelOpen()) {
+        <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+            <div class="bg-white rounded-xl shadow-2xl w-full max-w-md max-h-[90vh] overflow-y-auto p-8">
+
+                <h1 class="text-2xl font-bold text-blue-950 text-center mb-6">
+                    Change Password
+                </h1>
+
+                <div class="flex flex-col gap-4">
+
+                    @if (passwordErrorMessage()) {
+                    <div class="bg-red-50 border border-red-300 text-red-700 rounded-lg px-4 py-2 text-sm">
+                        {{ passwordErrorMessage() }}
+                    </div>
+                    }
+
+                    @if (successMessage()) {
+                    <div class="bg-green-50 border border-green-300 text-green-700 rounded-lg px-4 py-3 mb-4">
+                        {{ successMessage() }}
+                    </div>
+                    }
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Current Password</label>
+                        <div class="relative">
+                            <input [type]="showCurrentPassword() ? 'text' : 'password'" [(ngModel)]="currentPassword"
+                                class="border border-gray-400 rounded-md px-3 py-2 w-full pr-10"
+                                placeholder="Enter current password" />
+                            <button type="button" (click)="showCurrentPassword.set(!showCurrentPassword())"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                                <i class="fa-regular" [class.fa-eye]="!showCurrentPassword()"
+                                    [class.fa-eye-slash]="showCurrentPassword()"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">New Password</label>
+                        <div class="relative">
+                            <input [type]="showNewPassword() ? 'text' : 'password'" [(ngModel)]="newPassword"
+                                class="border border-gray-400 rounded-md px-3 py-2 w-full pr-10"
+                                placeholder="Enter new password" />
+                            <button type="button" (click)="showNewPassword.set(!showNewPassword())"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                                <i class="fa-regular" [class.fa-eye]="!showNewPassword()"
+                                    [class.fa-eye-slash]="showNewPassword()"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Confirm New Password</label>
+                        <div class="relative">
+                            <input [type]="showConfirmPassword() ? 'text' : 'password'" [(ngModel)]="confirmPassword"
+                                class="border border-gray-400 rounded-md px-3 py-2 w-full pr-10"
+                                placeholder="Re-enter new password" />
+                            <button type="button" (click)="showConfirmPassword.set(!showConfirmPassword())"
+                                class="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 cursor-pointer">
+                                <i class="fa-regular" [class.fa-eye]="!showConfirmPassword()"
+                                    [class.fa-eye-slash]="showConfirmPassword()"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="flex gap-2 pt-2">
+                        <button type="button" (click)="changePassword()"
+                            class="bg-blue-800 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-950 cursor-pointer w-full">
+                            Update Password
+                        </button>
+                        <button type="button" (click)="cancelPasswordChange()"
+                            class="bg-gray-300 text-gray-800 font-bold py-2 px-4 rounded-md hover:bg-gray-400 cursor-pointer w-full">
+                            Cancel
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        }
+    </div>
+    } @else {
+    <div class="text-center py-16 text-gray-400">
+        <p class="text-sm">Loading profile...</p>
+    </div>
+    }
+
+</section>

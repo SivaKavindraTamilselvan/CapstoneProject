@@ -1,0 +1,85 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+
+        <h2 class="text-center text-lg sm:text-xl font-bold text-slate-800">
+            Return Item
+        </h2>
+
+        @if (successMessage()) {
+            <p class="text-green-600 text-sm sm:text-base text-center mt-4 font-medium">
+                {{ successMessage() }}
+            </p>
+        } @else {
+
+            <div class="mt-6 space-y-4">
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Return Reason
+                    </label>
+                    <select
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
+                        (change)="onReasonChange($event)">
+                        <option value="">Select a reason</option>
+                        @for (reason of returnReasons; track reason.id) {
+                            <option [value]="reason.id">{{ reason.name }}</option>
+                        }
+                    </select>
+                    @if (returnForm.returnReasonId().touched() && returnForm.returnReasonId().invalid()) {
+                        <p class="text-red-500 text-xs mt-1">Select the return reason</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Quantity
+                    </label>
+                    <input
+                        type="number"
+                        min="1"
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
+                        [value]="returnModel().returnQuantity"
+                        (input)="onQuantityInput($event)" />
+                    @if (returnForm.returnQuantity().touched() && returnForm.returnQuantity().invalid()) {
+                        <p class="text-red-500 text-xs mt-1">Enter the return quantity</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">
+                        Additional Reason
+                    </label>
+                    <textarea
+                        rows="3"
+                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
+                        [formField]="returnForm.additionalReason"></textarea>
+                    @if (returnForm.additionalReason().touched() && returnForm.additionalReason().invalid()) {
+                        <p class="text-red-500 text-xs mt-1">Enter the additional reason</p>
+                    }
+                </div>
+
+                @if (errorMessage()) {
+                    <p class="text-red-500 text-sm text-center">
+                        {{ errorMessage() }}
+                    </p>
+                }
+
+            </div>
+
+            <div class="flex justify-center gap-4 mt-8">
+                <button
+                    class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                    (click)="onCancel()">
+                    Cancel
+                </button>
+                <button
+                    class="rounded-md px-5 py-2 font-semibold text-white bg-gradient-to-r from-slate-800 to-slate-700 hover:opacity-90"
+                    (click)="onConfirm()">
+                    Submit Return
+                </button>
+            </div>
+
+        }
+
+    </div>
+</div>

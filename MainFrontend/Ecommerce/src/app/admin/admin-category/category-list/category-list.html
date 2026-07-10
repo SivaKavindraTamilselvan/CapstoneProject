@@ -1,0 +1,72 @@
+<section class="bg-white px-8 py-8">
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+        [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+            <input type="number" placeholder="Admin ID" [formField]="filterForm.AddedByAdminId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.AddedByAdminId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.AddedByAdminId().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Category Id</label>
+            <input type="number" placeholder="Category ID" [formField]="filterForm.ProductCategoryId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.ProductCategoryId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.ProductCategoryId().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Category Name</label>
+            <input placeholder="Category Name" [formField]="filterForm.ProductCategoryName"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.ProductCategoryName().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.ProductCategoryName().errors()[0].message }}</p>
+            }
+        </div>
+
+
+    </app-filter-component>
+
+    @if(pageTitle()=='Product Category List'){
+
+    <div class="flex justify-end pb-4">
+        <h1 class="px-4 bg-blue-700 text-white font-semibold py-2 rounded-md cursor-pointer" (click)="openAddPopup()">
+            Add
+            Category</h1>
+    </div>
+    }
+
+    <app-data-table-component [columns]="columns" [rows]="category()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="category()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)" [titleKey]="'productCategoryId'">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="category()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? ''"
+        [errorMessage]="errorMessage() ?? ''" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
+    </app-popup-component>
+    <app-create-category-component [show]="showAddPopup()" (close)="closeAddPopup()" (added)="categoryAdded()">
+    </app-create-category-component>
+
+</section>

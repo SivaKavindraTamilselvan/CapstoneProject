@@ -1,0 +1,60 @@
+<section class="bg-white p-8">
+
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" [errorMessage]="filterErrorMessage()"
+        (toggle)="toggleFilterPanel()" (close)="closeFilterPanel()" (apply)="applyFilters()" (reset)="resetFilters()">
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+            <input [formField]="filterForm.phoneNumber" class="border border-gray-400 rounded-md px-3 py-2 w-full"
+                placeholder="Enter the phone number" />
+            @if (filterForm.phoneNumber().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.phoneNumber().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Email</label>
+            <input [formField]="filterForm.email" class="border border-gray-400 rounded-md px-3 py-2 w-full"
+                placeholder="Enter the email" />
+            @if (filterForm.email().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.email().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Admin Role</label>
+            <div>
+                <select (change)="onAdminRoleChange($event)"
+                    class="block border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option>All</option>
+                    @for(opt of adminRoleOption; track opt.id){
+                    <option [value]="opt.id" [selected]="adminUserFilter().adminRoleId == opt.id">{{opt.label}}
+                    </option>
+                    }
+                </select>
+            </div>
+        </div>
+    </app-filter-component>
+
+    <app-data-table-component [columns]="columns" [rows]="adminUsers()?.items ?? []" [actions]="actions"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="adminUsers()?.items ?? []" [actions]="actions"
+        (action)="handleAction($event)" [titleKey]="'adminUserId'">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="adminUsers()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? ''" [errorMessage]="errorMessage() ?? ''"
+        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+    </app-popup-component>
+</section>

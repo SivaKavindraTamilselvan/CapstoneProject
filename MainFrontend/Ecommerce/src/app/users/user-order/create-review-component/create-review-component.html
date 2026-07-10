@@ -1,0 +1,85 @@
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl space-y-4">
+
+        <h2 class="text-center text-lg sm:text-xl font-bold">
+            Write Review
+        </h2>
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
+        }
+        @if(errorMessage())
+        {
+        <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
+        }
+        <form (ngSubmit)="submitReview()" class="flex flex-col gap-5">
+            <div class="space-y-4">
+                <div>
+                    <label class="font-bold sm:text-lg mb-2 block">Rating for Product</label>
+                    <div class="flex items-center justify-center gap-1">
+                        @for(star of [1,2,3,4,5]; track star) {
+                        <button type="button" (click)="setStar(star)"
+                            class="text-3xl leading-none cursor-pointer transition hover:scale-110"
+                            [class.text-amber-400]="star <= selectedStars()"
+                            [class.text-slate-200]="star > selectedStars()">
+                            ★
+                        </button>
+                        }
+                    </div>
+                    @if (reviewForm.starId().touched() && reviewForm.starId().invalid()) {
+                    <p class="text-red-600 text-xs mt-1">{{ reviewForm.starId().errors()[0].message }}</p>
+                    }
+                </div>
+
+                <div>
+                    <label class="font-bold sm:text-lg mb-2 block">Review Description</label>
+                    <select (change)="onDescriptionChange($event)"
+                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700">
+
+                        <option value="">Select Review Description</option>
+                        <option value="1">Excellent Quality</option>
+                        <option value="2">Good Product</option>
+                        <option value="3">Value For Money</option>
+                        <option value="4">Fast Delivery</option>
+                        <option value="5">Packaging Was Good</option>
+                        <option value="6">Looks Same As Image</option>
+                        <option value="7">Product Size Issue</option>
+                        <option value="8">Poor Quality</option>
+                        <option value="9">Damaged Product</option>
+                        <option value="10">Late Delivery</option>
+                        <option value="11">Color Mismatch</option>
+                        <option value="12">Not Worth The Price</option>
+                        <option value="13">Easy To Use</option>
+                        <option value="14">Highly Recommended</option>
+                        <option value="15">Will Buy Again</option>
+
+                    </select>
+                </div>
+                @if (reviewForm.reviewDescriptionId().touched() && reviewForm.reviewDescriptionId().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{ reviewForm.reviewDescriptionId().errors()[0].message }}</p>
+                }
+            </div>
+            <div class="flex-1">
+                <label class="font-bold sm:text-lg mb-2 block">Additional Comments</label>
+                <textarea rows="4" placeholder="Enter Additional Comments"
+                    [formField]="reviewForm.additionalReviewDescription"
+                    class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700"></textarea>
+                @if (reviewForm.additionalReviewDescription().touched() &&
+                reviewForm.additionalReviewDescription().invalid())
+                {
+                <p class="text-red-600 text-xs mt-1">{{
+                    reviewForm.additionalReviewDescription().errors()[0].message }}</p>
+                }
+            </div>
+            <div class="flex w-full gap-4">
+                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400" (click)="closePopup()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()"
+                    class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">
+                    {{ progress() ? 'Registering...' : 'Submit' }}
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

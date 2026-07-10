@@ -1,0 +1,77 @@
+<section class="bg-white p-8">
+    <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+        (toggle)="toggleFilterPanel()" [errorMessage]="filterErrorMessage()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm text-gray-700 font-semibold mb-1">Contact Phone Number</label>
+            <input type="text" placeholder="Enter Phone Number" [formField]="filterForm.contactPhoneNumber"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.contactPhoneNumber().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.contactPhoneNumber().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm text-gray-700 font-semibold mb-1">PinCode</label>
+            <input type="text" placeholder="Enter PinCode" [formField]="filterForm.pinCode"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.pinCode().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.pinCode().errors()[0].message }}</p>
+            }
+
+        </div>
+        <div>
+            <label class="block text-sm text-gray-700 font-semibold mb-1">City</label>
+            <input type="text" placeholder="Enter City" [formField]="filterForm.city"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.city().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.city().errors()[0].message }}</p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm text-gray-700 font-semibold mb-1">State</label>
+            <select class="border border-gray-400 rounded-md px-3 py-2 w-full" (click)="onStateChange($event)"
+                [value]="selectedState()">
+                <option value="">All State</option>
+                @for(state of state();track state){
+                <option [value]="state">{{state}}</option>
+                }
+            </select>
+        </div>
+
+    </app-filter-component>
+
+    @if(errorMessage()){
+    <div class="text-red-700 text-center font-bold py-4">{{errorMessage()}}</div>
+    }
+
+    <app-data-table-component [columns]="columns" [rows]="address()?.items ?? []" [actions]="actions()"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="address()?.items ?? []" [actions]="actions()"
+        [titleKey]="'addressId'" (action)="handleAction($event)">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="address()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"
+        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+    </app-popup-component>
+
+    @if (showAddInventoryPopup()) {
+    <app-add-inventory-component [addressId]="selectedAddressIdForInventory()" (closed)="closeInventoryPopup()"
+        (added)="loadAddress()">
+    </app-add-inventory-component>
+    }
+</section>

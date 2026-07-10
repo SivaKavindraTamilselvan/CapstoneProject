@@ -1,0 +1,69 @@
+<div class="mx-auto flex flex-col sm:flex-row w-full gap-6">
+    <div class="flex-1">
+        <app-profile-page></app-profile-page>
+    </div>
+    <div class="flex-1 p-6">
+        <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-700 px-6 py-4 flex items-center justify-between">
+                <h3 class="text-white font-bold text-base">My Addresses</h3>
+                <button type="button" (click)="goToAddAddress()"
+                    class="flex items-center gap-2 bg-white text-slate-800 font-bold py-2 px-4 rounded-md hover:bg-gray-100 cursor-pointer transition-colors duration-150">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                    </svg>
+                    Add Address
+                </button>
+            </div>
+
+            <div class="flex flex-col divide-y divide-gray-100">
+                @for (item of address(); track item.addressId) {
+                <div class="flex items-start justify-between gap-4 px-6 py-4">
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-center gap-2 flex-wrap mb-1">
+                            @if (item.isDefault) {
+                            <span
+                                class="text-xs font-medium px-2 py-0.5 rounded-full bg-green-100 text-green-700 whitespace-nowrap">
+                                Default
+                            </span>
+                            }
+                        </div>
+                        <p class="text-gray-800 font-medium">
+                            {{ item.addressLine }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            {{ item.city }}, {{ item.state }} - {{ item.pinCode }}
+                        </p>
+                        <p class="text-sm text-gray-500">Phone: {{ item.contactPhoneNumber }}</p>
+                    </div>
+
+                    <div class="flex flex-col items-end gap-2 shrink-0">
+                        @if (!item.isDefault) {
+                        <button type="button" (click)="makeDefaultAddress(item.addressId)"
+                            class="text-xs font-semibold text-blue-800 hover:text-blue-950 cursor-pointer whitespace-nowrap">
+                            Make Default
+                        </button>
+                        }
+                        <button type="button" (click)="deleteAddress(item.addressId)"
+                            class="text-xs font-semibold text-red-600 hover:text-red-800 cursor-pointer whitespace-nowrap">
+                            Delete
+                        </button>
+                    </div>
+                </div>
+                }
+                @empty {
+                <div class="text-center py-12 text-gray-400">
+                    <svg class="w-10 h-10 mx-auto mb-3 text-gray-300" fill="none" stroke="currentColor"
+                        viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                            d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+                    </svg>
+                    <p class="text-sm">No addresses added yet.</p>
+                </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

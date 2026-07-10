@@ -1,0 +1,109 @@
+<section class="bg-white px-8 py-8">
+    <div class="pb-8 relative flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product Category</h1>
+        <button (click)="toggleFilterPanel()" class="absolute right-0 p-2 rounded-md hover:bg-gray-100 cursor-pointer">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7 text-blue-950" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+            </svg>
+        </button>
+    </div>
+
+    <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
+        (apply)="applyFilters()" (reset)="resetFilters()">
+
+        <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
+                <input type="number" placeholder="Admin ID" [value]="addedByAdminId()" (input)="onAdminIdInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category Id</label>
+                <input type="number" placeholder="Category ID" [value]="productSubCategoryId()"
+                    (input)="onSubCategoryIdInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                <select (change)="onCategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option value="">All</option>
+                    @for(cat of categories(); track cat.productCategoryId) {
+                    <option [value]="cat.productCategoryId" [selected]="productCategoryId() === cat.productCategoryId">
+                        {{cat.productCategoryName}}
+                    </option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+                <select (change)="onSubcategoryChange($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
+                    @if(!productCategoryId()) {
+                    <option value="">Select category first</option>
+                    }
+                    @else{
+                    <option value="">All</option>
+                    }
+                    @for(sub of subCategories(); track sub.productSubCategoryId) {
+                    <option [value]="sub.productSubCategoryId"
+                        [selected]="productSubCategoryId() === sub.productSubCategoryId">
+                        {{sub.productSubCategoryName}}
+                    </option>
+                    }
+                </select>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-1">Attribute Id</label>
+                <input type="number" placeholder="Category ID" [value]="attributeMasterId()"
+                    (input)="onAttributeMasterIdInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+
+            <div>
+                <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
+                <select (change)="onStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                    <option>All</option>
+                    <option value="true" [selected]="status() === true">Active</option>
+                    <option value="false" [selected]="status() === false">Inactive</option>
+                </select>
+            </div>
+
+    </app-filter-component>
+
+    <app-data-table-component [columns]="columns" [rows]="attribute()?.items ?? []" [actions]="actions"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="attribute()?.items ?? []" [actions]="actions"
+        (action)="handleAction($event)" [titleKey]="'productSubCategoryAttributeId'">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
+        [totalCount]="attribute()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
+        (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+    @if(showDeactivatePopup())
+    {
+    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
+            <h2 class="text-xl font-bold text-green-700 text-center">
+                Confirm Activation
+            </h2>
+            <p class="text-gray-600 text-center mt-4">
+                Are you sure you want to activate this category?
+            </p>
+            <div class="flex justify-center gap-4 mt-8">
+                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400" (click)="closePopup()">
+                    Cancel
+                </button>
+
+                <button class="px-5 py-2 rounded-md bg-green-700 text-white font-semibold hover:bg-green-900"
+                    (click)="activateCategory()">
+                    Activate
+                </button>
+            </div>
+        </div>
+    </div>
+    }
+</section>
