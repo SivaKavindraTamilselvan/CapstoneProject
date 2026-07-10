@@ -7,6 +7,7 @@ import { UserCouponModel } from "../models/user/coupon/user-coupon.model";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
+import { RequestAdminCancelFilter } from "../models/user/order/cancel.order.model";
 
 @Injectable({
     providedIn: "root"
@@ -31,5 +32,18 @@ export class AdminOrderService {
     getOrdersDetails(id:number){
         const url = BaseURL +  `/Order/GetAdminOrderById/${id}`;
         return this.http.get(url,{});
+    }
+
+    getCancelledOrder(filter : RequestAdminCancelFilter){
+        const url = BaseURL + "/Cancel/admin-cancels";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+
+        return this.http.get(url,{params});
     }
 }

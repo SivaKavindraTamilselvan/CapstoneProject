@@ -7,13 +7,17 @@ export const VendorOrderRoute: Routes = [
     {
         path: 'orders/list',
         component: VendorOrderList,
-        data: { status: null, order: null, title: 'Update Product' }
+        data: { status: null, order: null, title: 'Update Orders' }
     },
-
     {
         path: 'orders/confirmed-orders',
         component: VendorOrderList,
-        data: { status: 1, order: 2, title: 'Update Product' }
+        data: { status: 1, order: 2, title: 'Update Orders' }
+    },
+    {
+        path: 'orders/cancelled-orders',
+        component: VendorOrderList,
+        data: { status: 7, title: 'Cancelled Orders' }
     },
     {
         path: 'returns/pending',
@@ -33,6 +37,6 @@ export const VendorOrderRoute: Routes = [
     {
         path: 'returns',
         component: VendorReturnOrder,
-        data: { status: null,  title: 'Return List' }
+        data: { status: null, title: 'Return List' }
     },
 ]

@@ -11,6 +11,7 @@ import { Subcategorylist } from "../../admin/admin-subcategory/subcategorylist/s
 import { AttributeList } from "../../admin/admin-attribute/attribute-list/attribute-list";
 import { MappedAttributeList } from "../../admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list";
 import { GetAdminOrders } from "../../admin/admin-orders/get-admin-orders/get-admin-orders";
+import { AdminCancelledOrder } from "../../admin/admin-orders/admin-cancelled-order/admin-cancelled-order";
 
 
 export const AdminOrderRoutes: Routes = [
@@ -23,6 +24,10 @@ export const AdminOrderRoutes: Routes = [
         path: 'orders/confirmed-orders',
         component: GetAdminOrders,
         data: { status: 2, title: 'Inactive Mapped Attribute List' }
+    },
+    {
+        path: 'orders/cancelled-orders',
+        component: AdminCancelledOrder,
     },
 
 ];

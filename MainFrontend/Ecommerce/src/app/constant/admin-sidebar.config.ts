@@ -129,7 +129,8 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin', 'order-admin', 'vendor-admin'],
     children: [
       { label: 'OnGoing Orders', route: '/admin/orders/confirmed-orders' },
-      { label: 'All Orders', route: '/admin/orders/list' }
+      { label: 'All Orders', route: '/admin/orders/list' },
+      { label: 'Cancelled Orders', route: '/admin/orders/cancelled-orders' },
     ]
   },
   {

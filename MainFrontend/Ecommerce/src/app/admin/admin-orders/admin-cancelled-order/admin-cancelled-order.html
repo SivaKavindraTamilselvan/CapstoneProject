@@ -1,0 +1,99 @@
+<section class="bg-white px-8 py-8">
+    <app-header-component title="Canelled Orders" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+        (reset)="resetFilters()">
+    </app-header-component>
+    <app-filter-component [open]="filterPanelOpen()" title="Cancel Order Filters" [errorMessage]="filterErrorMessage()"
+        (close)="closeFilterPanel()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()" (reset)="resetFilters()">
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Order ID
+            </label>
+            <input type="number" placeholder="Order ID" [formField]="filterForm.orderId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+            @if(filterForm.orderId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{filterForm.orderId().errors()[0].message}}
+            </p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Order Item ID
+            </label>
+            <input type="number" placeholder="Order Item ID" [formField]="filterForm.orderItemId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if(filterForm.orderItemId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{filterForm.orderItemId().errors()[0].message}}
+            </p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Vendor ID
+            </label>
+
+            <input type="number" placeholder="Vendor ID" [formField]="filterForm.vendorId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+            @if(filterForm.vendorId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{filterForm.vendorId().errors()[0].message}}
+            </p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Product Variant ID
+            </label>
+
+            <input type="number" placeholder="Product Variant ID" [formField]="filterForm.productVariantId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+            @if(filterForm.productVariantId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{filterForm.productVariantId().errors()[0].message}}
+            </p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Cancel Reason
+            </label>
+            <input type="number" placeholder="Cancel Reason ID" [formField]="filterForm.cancelReasonId"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if(filterForm.cancelReasonId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{filterForm.cancelReasonId().errors()[0].message}}
+            </p>
+            }
+        </div>
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Date Range
+            </label>
+            <div class="flex gap-2">
+                <input type="date" [value]="fromDate()" (input)="onFromDateInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="date" [value]="toDate()" (input)="onToDateInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            </div>
+        </div>
+    </app-filter-component>
+
+    <app-data-table-component [columns]="columns" [rows]="cancelOrders()?.items ?? []" [actions]="actions"
+        (action)="handleAction($event)">
+    </app-data-table-component>
+
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="cancelOrders()?.items ?? []" [actions]="actions"
+        [titleKey]="'cancelId'" (action)="handleAction($event)">
+    </app-mobile-card-component>
+
+    <app-pagination-component [pageNumber]="pageNumber()" [pageSize]="pageSize()" [totalPages]="totalPages()"
+        [totalCount]="cancelOrders()?.totalCount ?? 0" (previous)="previousPage()" (next)="nextPage()"
+        (pageSizeChange)="onPageSizeChanged($event)">
+    </app-pagination-component>
+
+</section>

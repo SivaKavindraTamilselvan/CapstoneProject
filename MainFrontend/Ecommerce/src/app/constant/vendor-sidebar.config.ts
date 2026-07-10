@@ -88,6 +88,7 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         roles: ['owner', 'order-admin', 'vendor-admin'],
         children: [
             { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders', roles: ['owner'] },
+            { label: 'Cancelled Orders', route: '/vendor/orders/cancelled-orders', roles: ['owner'] },
             { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
         ]
     },
