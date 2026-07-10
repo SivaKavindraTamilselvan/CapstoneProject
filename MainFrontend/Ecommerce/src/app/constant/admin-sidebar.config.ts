@@ -139,7 +139,6 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin', 'order-admin', 'vendor-admin'],
     children: [
       { label: 'Shipment List', route: '/admin/shipments/list' },
-      { label: 'Shipment Lost', route: '/admin/shipments/lost' }
     ]
   },
   {

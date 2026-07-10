@@ -21,7 +21,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 
 @Component({
   selector: 'app-attribute-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent, PopupComponent,HeaderComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, DataTableComponent, FilterComponent, PaginationComponent, MobileCardComponent, PopupComponent, HeaderComponent],
   templateUrl: './attribute-list.html',
   providers: [DatePipe],
   styleUrl: './attribute-list.css',
@@ -152,6 +152,7 @@ export class AttributeList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -165,6 +166,7 @@ export class AttributeList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Dectivating...');
 
         this.showPopup.set(true);
         break;
@@ -254,8 +256,10 @@ export class AttributeList extends BasePage {
   });
 
   showAddPopup = signal(false);
-  
+
   addAttribute() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     this.errorMessage.set('');
     this.successMessage.set('');
     if (this.addForm().invalid()) {
@@ -265,7 +269,7 @@ export class AttributeList extends BasePage {
     this.loading.set(true);
     this.adminCategoryService.addAttribute(this.addAttributeModel()).subscribe({
       next: (response: any) => {
-        this.successMessage.set("Category added successfully");
+        this.successMessage.set("Attribute added successfully. Closing in 3 seconds...");
         setTimeout(() => {
           this.closeAddPopup();
           this.loadAttribute();
@@ -278,33 +282,52 @@ export class AttributeList extends BasePage {
       }
     })
   }
+  progress = signal(false);
   deactivateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.deactivateAttribute(id).subscribe({
       next: (response: any) => {
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Product Attribute deactivated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadAttribute();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
   activateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.activateAttribute(id).subscribe({
       next: (response: any) => {
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Product Attribute activated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadAttribute();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }

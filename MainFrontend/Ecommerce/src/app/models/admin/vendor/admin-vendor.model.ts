@@ -9,6 +9,7 @@ export class AdminVendorModel{
         public approvalStatusId : number = 0,
         public approvalStatusName :string = "",
         public isActive : boolean =true,
+        public includeIsDeleted : boolean =true,
         public reviewedByAdminId : number =0 ,
         public reviewAdminName : string = "",
         public createdAt : string = ""

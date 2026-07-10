@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-admin-cancelled-order',
-  imports: [DataTableComponent,MobileCardComponent,PaginationComponent,HeaderComponent,FilterComponent,FormField,ReactiveFormsModule,FormsModule],
+  imports: [DataTableComponent, MobileCardComponent, PaginationComponent, HeaderComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './admin-cancelled-order.html',
   styleUrl: './admin-cancelled-order.css',
@@ -120,24 +120,24 @@ export class AdminCancelledOrder extends BasePage {
   }
 
   onFromDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.fromDate.set(value);
-  this.cancelFilter.update(filter => ({
-    ...filter,
-    fromDate: value || null
-  }));
-}
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+    this.cancelFilter.update(filter => ({
+      ...filter,
+      fromDate: value || null
+    }));
+  }
 
-onToDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.toDate.set(value);
-  this.cancelFilter.update(filter => ({
-    ...filter,
-    toDate: value || null
-  }));
-}
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+    this.cancelFilter.update(filter => ({
+      ...filter,
+      toDate: value || null
+    }));
+  }
   viewCancel(id: number) {
-    this.route.navigate(['/admin/cancel-order', id]);
+    this.route.navigate(['admin/orders/cancelled-order', id]);
   }
   handleAction(event: { type: string; row: CancelSummaryModel }) {
     switch (event.type) {

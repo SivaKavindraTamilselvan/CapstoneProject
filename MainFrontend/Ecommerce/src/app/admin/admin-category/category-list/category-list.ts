@@ -128,34 +128,57 @@ export class CategoryList extends BasePage {
     }
   }
 
+  successMessage = signal<string | null>(null);
+  errorMessage = signal<string | null>(null);
+  progress = signal(false);
+
   activateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.activateCategory(id).subscribe({
       next: (response: any) => {
-        this.loadCategory();
-        this.closePopup();
+        this.successMessage.set("Product Category activated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadCategory();
+          this.closePopup();
+          this.successMessage.set(null);
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
 
   deactivateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.deactivateCategory(id).subscribe({
       next: (response: any) => {
-        this.loadCategory();
-        this.closePopup();
+        this.successMessage.set("Product Category deactivated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadCategory();
+          this.closePopup();
+          this.successMessage.set(null);
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
@@ -188,6 +211,7 @@ export class CategoryList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -201,6 +225,7 @@ export class CategoryList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Dectivating...');
 
         this.showPopup.set(true);
         break;

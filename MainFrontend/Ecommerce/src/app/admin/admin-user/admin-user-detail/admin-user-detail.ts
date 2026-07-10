@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { AdminUserService } from '../../../services/admin-user.Service';
 import { AdminUserModel } from '../../../models/admin/admin-user/admin-user.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { PopupBase } from '../../../shared-class/popup-base-class';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
@@ -21,7 +21,7 @@ export class AdminUserDetail extends PopupBase {
   errorMessage = signal<string | null>(null);
   showActivatePopup = signal(false);
   loading = signal(true);
-  constructor(private datePipe: DatePipe, private adminUserService: AdminUserService, private route: ActivatedRoute) {
+  constructor(private datePipe: DatePipe, private adminUserService: AdminUserService, private route: ActivatedRoute, private router: Router) {
     super();
   }
   loadAdminUser(id: number) {
@@ -94,12 +94,15 @@ export class AdminUserDetail extends PopupBase {
       this.popupConfirmText.set('Deactivate');
       this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
       this.titleClass.set('text-red-700');
-    } else {
+      this.loadingText.set('Deactivating...');
+    }
+    else {
       this.popupTitle.set('Activate Admin User');
       this.popupMessage.set('Are you sure you want to activate this admin user?');
       this.popupConfirmText.set('Activate');
       this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
       this.titleClass.set('text-green-700');
+      this.loadingText.set('Activating...');
     }
 
     this.showPopup.set(true);
@@ -113,18 +116,43 @@ export class AdminUserDetail extends PopupBase {
     this.updateAdminStatus(!current.isActive);
   }
 
+  successMessage = signal('');
+  progress = signal(false);
   updateAdminStatus(isActivate: boolean): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.adminUser()?.adminUserId;
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     const request = isActivate ? this.adminUserService.activateAdminUser(id) : this.adminUserService.deactivateAdminUser(id);
     request.subscribe({
+
       next: () => {
-        this.closePopup();
+        this.successMessage.set(
+          isActivate
+            ? 'Admin user activated successfully.'
+            : 'Admin user deactivated successfully.'
+        );
         this.loadAdminUser(id);
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
       },
-      error: error => console.log(error)
+      error: error => {
+        console.log(error);
+        this.progress.set(false);
+         this.errorMessage.set(
+        error.error?.message ?? 'Something went wrong.'
+      );
+
+      }
     });
+  }
+  goBack(): void {
+    this.router.navigate(['/admin/users/list']);
   }
 }

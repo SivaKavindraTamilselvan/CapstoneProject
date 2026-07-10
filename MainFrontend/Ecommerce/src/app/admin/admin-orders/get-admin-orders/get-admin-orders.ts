@@ -17,7 +17,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-get-admin-orders',
-  imports: [ MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
   providers: [DatePipe],
   templateUrl: './get-admin-orders.html',
   styleUrl: './get-admin-orders.css',
@@ -150,13 +150,22 @@ export class GetAdminOrders extends BasePage {
 
   categoryStatus = signal<number | null>(null);
   pageTitle = signal<string | null>(null);
+  queryVendor = signal<number | null>(null);
 
   ngOnInit(): void {
+
     this.router.data.subscribe(data => {
       this.categoryStatus.set(data['status']);
       this.pageTitle.set(data['title']);
+    });
+
+    this.router.queryParams.subscribe(params => {
+      this.queryVendor.set(
+        params['vendorId'] ? Number(params['vendorId']) : null
+      );
       this.loadOrders();
     });
+
   }
 
   loadOrders() {
@@ -208,7 +217,12 @@ export class GetAdminOrders extends BasePage {
 
 
   private buildFilter() {
-
+    if (this.queryVendor() != null) {
+      this.orderFilter.update(filter => ({
+        ...filter,
+        vendorId: this.queryVendor()
+      }));
+    }
     this.orderFilter.update(filter => ({
       ...filter,
       pageNumber: this.pageNumber(),
@@ -253,22 +267,22 @@ export class GetAdminOrders extends BasePage {
     this.maxAmount.set(v ? Number(v) : null);
   }
   onFromDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.fromDate.set(value);
-  this.orderFilter.update(filter => ({
-    ...filter,
-    fromDate: value || null
-  }));
-}
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+    this.orderFilter.update(filter => ({
+      ...filter,
+      fromDate: value || null
+    }));
+  }
 
-onToDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.toDate.set(value);
-  this.orderFilter.update(filter => ({
-    ...filter,
-    toDate: value || null
-  }));
-}
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+    this.orderFilter.update(filter => ({
+      ...filter,
+      toDate: value || null
+    }));
+  }
 
   viewOrder(id: number) {
     this.route.navigate(['/admin/order', id]);

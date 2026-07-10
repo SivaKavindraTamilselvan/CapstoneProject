@@ -2,6 +2,7 @@ export class ShipmentItemModel {
   constructor(
     public shipmentItemsId: number = 0,
     public orderItemsId: number = 0,
+    public productVariantId: number = 0,
 
     public productName: string = '',
     public sku: string = '',

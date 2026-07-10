@@ -15,6 +15,10 @@ export class PopupComponent {
   confirmText = input('Confirm');
   cancelText = input('Cancel');
   confirmButtonClass = input('bg-red-700 hover:bg-red-900');
+  loadingText = input('Deleting...');
+  loading = input(false);
+  successMessage = input('');
+  errorMessage = input('');
   confirm = output<void>();
   cancel = output<void>();
   onConfirm() {

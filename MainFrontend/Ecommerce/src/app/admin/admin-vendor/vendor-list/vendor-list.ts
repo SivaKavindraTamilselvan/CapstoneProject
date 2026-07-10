@@ -42,9 +42,11 @@ export class VendorList extends BasePage {
   status = signal<number | null>(null);
   draftstatus = signal<number | null>(null);
   pageTitle = signal<string | null>(null);
+  includeIsDeleted = signal<boolean | null>(null);
   ngOnInit(): void {
     this.router.data.subscribe(data => {
       this.status.set(data['status']);
+      this.includeIsDeleted.set(data['includeIsDeleted']);
       this.pageTitle.set(data['title']);
       this.loadVendor();
     });
@@ -102,6 +104,7 @@ export class VendorList extends BasePage {
       approvalStatusId: this.draftstatus != null && this.status() != 4 && this.status() != 1 ? this.draftstatus() : this.status(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
+      includeIsDeleted : this.includeIsDeleted(),
       email: filter.companyEmail.trim().toLowerCase(),
       phoneNumber: filter.companyPhoneNumber.trim().toLowerCase(),
       contactPersonName: filter.contactPersonName.trim().toLowerCase(),
@@ -280,8 +283,8 @@ export class VendorList extends BasePage {
   }
   actions: TableAction<AdminVendorModel>[] = [
     { label: 'View', color: 'green', action: 'view' },
-    { label: 'Delete', color: 'red', action: 'delete', visible: vendor => vendor.approvalStatusId != 4 },
-    { label: 'Review', color: 'blue', action: 'review', visible: vendor => vendor.approvalStatusId == 1 },
+    { label: 'Delete', color: 'red', action: 'delete', visible: vendor => vendor.approvalStatusId != 4 && this.status() == null },
+    { label: 'Review', color: 'blue', action: 'review', visible: vendor => vendor.approvalStatusId == 1 && this.status() == 1 },
   ];
   columns: Column[] = [
     { key: 'vendorId', header: 'ID' },

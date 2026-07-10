@@ -187,7 +187,7 @@ export class Subcategorylist extends BasePage {
     this.progress.set(true);
     this.adminCategoryService.addSubCategory(this.addSubCategoryModel()).subscribe({
       next: (response: any) => {
-        this.successMessage.set('Sub Category added successfully');
+        this.successMessage.set('Sub Category added successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.loadSubCategory();
           this.closeAddPopup();
@@ -224,33 +224,51 @@ export class Subcategorylist extends BasePage {
   }
 
   activateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.activateSubCategory(id).subscribe({
       next: (response: any) => {
-        this.loadSubCategory();
-        this.closePopup();
+        this.successMessage.set("Product Sub Category activated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadSubCategory();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
 
   deactivateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.deactivateSubCategory(id).subscribe({
       next: (response: any) => {
-        this.loadSubCategory();
-        this.closePopup();
+        this.successMessage.set("Product Sub Category deactivated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadSubCategory();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
@@ -282,6 +300,7 @@ export class Subcategorylist extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -295,6 +314,7 @@ export class Subcategorylist extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Dectivating...');
 
         this.showPopup.set(true);
         break;

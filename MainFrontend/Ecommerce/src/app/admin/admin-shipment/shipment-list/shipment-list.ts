@@ -18,7 +18,7 @@ import { UpdateAdminShipment } from '../update-admin-shipment/update-admin-shipm
 
 @Component({
   selector: 'app-shipment-list',
-  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule,UpdateAdminShipment],
+  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule, UpdateAdminShipment],
   providers: [DatePipe],
   templateUrl: './shipment-list.html',
   styleUrl: './shipment-list.css',
@@ -40,7 +40,7 @@ export class ShipmentList extends BasePage {
   }
 
   totalPages = computed(() => this.shipments()?.totalPages ?? 1);
-  constructor(private datePipe: DatePipe,private router: Router,private shipmentService: AdminShipmentService) {
+  constructor(private datePipe: DatePipe, private router: Router, private shipmentService: AdminShipmentService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -157,7 +157,7 @@ export class ShipmentList extends BasePage {
     { key: 'shipmentId', header: 'Shipment ID' },
     { key: 'orderId', header: 'Order ID' },
     { key: 'shipperName', header: 'Courier' },
-    { key: 'trackingNumber', header: 'Tracking' },
+    { key: 'trackingNumber', header: 'Tracking', formatter: (value: string | null) => value ?? 'Tracking Number Not Created' },
     { key: 'currentStatus', header: 'Status' },
     { key: 'expectedDeliveryDate', header: 'Expected Date', formatter: (value: string) => this.datePipe.transform(value, 'dd/MM/yyyy') }
   ];

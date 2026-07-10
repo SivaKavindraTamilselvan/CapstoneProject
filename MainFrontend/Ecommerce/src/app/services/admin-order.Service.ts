@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { AddUserOrderModel } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
-import { UserCouponModel } from "../models/user/coupon/user-coupon.model"; 
+import { UserCouponModel } from "../models/user/coupon/user-coupon.model";
 import { PagedResponse } from "../models/paged-response.model";
 import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
@@ -17,7 +17,7 @@ export class AdminOrderService {
 
     }
 
-    getOrders(filter:AdminOrderFilter){
+    getOrders(filter: AdminOrderFilter) {
         const url = BaseURL + "/Order/admin";
         let params = new HttpParams();
 
@@ -27,14 +27,14 @@ export class AdminOrderService {
             }
         });
 
-        return this.http.get(url,{params});
+        return this.http.get(url, { params });
     }
-    getOrdersDetails(id:number){
-        const url = BaseURL +  `/Order/GetAdminOrderById/${id}`;
-        return this.http.get(url,{});
+    getOrdersDetails(id: number) {
+        const url = BaseURL + `/Order/GetAdminOrderById/${id}`;
+        return this.http.get(url, {});
     }
 
-    getCancelledOrder(filter : RequestAdminCancelFilter){
+    getCancelledOrder(filter: RequestAdminCancelFilter) {
         const url = BaseURL + "/Cancel/admin-cancels";
         let params = new HttpParams();
 
@@ -44,6 +44,11 @@ export class AdminOrderService {
             }
         });
 
-        return this.http.get(url,{params});
+        return this.http.get(url, { params });
     }
+    getCancelOrdersDetails(id: number) {
+        const url = BaseURL + `/Cancel/admin-cancel/${id}`;
+        return this.http.get(url, {});
+    }
+
 }

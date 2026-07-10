@@ -1,15 +1,19 @@
 import { Component, computed, signal } from '@angular/core';
 import { AdminVendorService } from '../../../services/admin-vendor.Service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminVendorModel } from '../../../models/admin/vendor/admin-vendor.model';
 import { DatePipe } from '@angular/common';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { AdminVendorUserModel } from '../../../models/admin/vendor/vendor-user.model';
 import { AdminVendorUserFilter } from '../../../models/admin/vendor/vendor-user.filter';
+import { Column } from '../../../shared-components/data-table-component/column.model';
+import { DetailedCardComponenet } from '../../../shared-components/detailed-card-componenet/detailed-card-componenet';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-vendor-details',
-  imports: [DatePipe],
+  imports: [DetailedCardComponenet],
+  providers: [DatePipe],
   templateUrl: './vendor-details.html',
   styleUrl: './vendor-details.css',
 })
@@ -37,7 +41,7 @@ export class VendorDetails {
     { id: 7, label: 'Inventory Manager' },
     { id: 8, label: 'Coupon Manager' },
   ]
-  constructor(private adminVendorService: AdminVendorService, private route: ActivatedRoute) {
+  constructor(private datePipe: DatePipe, private adminVendorService: AdminVendorService, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit() {
@@ -146,5 +150,52 @@ export class VendorDetails {
   onvendorRoleChange(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.vendorRoleId.set(value ? Number(value) : null);
+  }
+
+  columns: Column[] = [
+    { key: 'vendorId', header: 'ID' },
+    { key: 'vendorCompanyName', header: 'Company Name' },
+    { key: 'contactPersonName', header: 'Contact Person' },
+    { key: 'companyEmail', header: 'Email' },
+    { key: 'companyPhoneNumber', header: 'Phone Number' },
+    { key: 'approvalStatusName', header: 'Approval' },
+    { key: 'isActive', header: 'Status', formatter: value => value ? 'Active' : 'Inactive' },
+    { key: 'createdAt', header: 'Created Date', formatter: value => this.datePipe.transform(value, 'dd MMM yyyy, hh:mm a') ?? '' },
+    { key: 'reviewedByAdminId', header: 'Reviewed Admin Id', },
+    { key: 'reviewAdminName', header: 'Reviewed Admin Name', },
+  ];
+
+  viewProducts(vendorId: number) {
+    this.router.navigate(['/admin/products/list'],
+      {
+        queryParams: 
+        {
+          vendorId: vendorId
+        }
+      }
+    );
+  }
+  viewProductVariant(vendorId: number) {
+    this.router.navigate(['/admin/product-variant/list'],
+      {
+        queryParams: 
+        {
+          vendorId: vendorId
+        }
+      }
+    );
+  }
+  viewOrder(vendorId: number) {
+    this.router.navigate(['/admin/orders/list'],
+      {
+        queryParams: 
+        {
+          vendorId: vendorId
+        }
+      }
+    );
+  }
+  goBack(): void {
+    this.router.navigate(['/admin/vendors/list']);
   }
 }

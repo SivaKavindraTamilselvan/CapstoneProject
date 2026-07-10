@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ProductModel } from '../../../models/product/product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AdminOrderService } from '../../../services/admin-order.Service';
 import { OrderModel } from '../../../models/admin/admin-orders/get-order.model';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
@@ -16,7 +16,7 @@ export class AdminOrderDetails {
   orderModel = signal<OrderModel| null>(null);
 
 
-  constructor(private orderService: AdminOrderService, private route: ActivatedRoute) {
+  constructor(private orderService: AdminOrderService, private route: ActivatedRoute,private router : Router) {
 
   }
   ngOnInit(): void {
@@ -35,5 +35,11 @@ export class AdminOrderDetails {
         console.error(error);
       }
     })
+  }
+  goBack(){
+    this.router.navigate(['/admin/orders/list']);
+  }
+  viewVariant(id : number){
+    this.router.navigate(['/admin/product-variant-details', id]);
   }
 }

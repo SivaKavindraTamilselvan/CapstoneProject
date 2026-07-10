@@ -10,6 +10,7 @@ export abstract class PopupBase {
     popupConfirmText = signal('');
     popupButtonClass = signal('');
     titleClass = signal('');
+    loadingText = signal('');
 
     openPopup(id: number): void {
         this.selectedId.set(id);

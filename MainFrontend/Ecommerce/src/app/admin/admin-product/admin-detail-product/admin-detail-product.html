@@ -1,7 +1,14 @@
-<section class="p-4 sm:p-12 mx-auto">
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Product List
+</button>
+<section class="p-4 sm:px-12 mx-auto">
 
     @if (productModel()) {
-    <!-- Availability Badge -->
     <div class="flex flex-col items-center justify-center mb-6">
         <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm" [ngClass]="productModel()!.isAvailableForSale 
         ? 'bg-green-100 text-green-700 border border-green-300' 
@@ -10,11 +17,8 @@
         </span>
     </div>
 
-
-
     <div class="flex flex-col lg:flex-row gap-8 mb-10">
 
-        <!-- Image Gallery -->
         <div class="lg:w-1/3 flex-shrink-0">
             @if (productModel()?.productImages?.length) {
             <div class="relative group">
@@ -68,7 +72,6 @@
             }
         </div>
 
-        <!-- Basic Information Card -->
         <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
                 <h2 class="">
@@ -128,10 +131,8 @@
 
     </div>
 
-
-    <!-- Product Variant Section -->
     <div class="mb-6">
-        <h1 class="text-blue-950 font-extrabold text-center text-2xl">Product Variant</h1>
+        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product Variant</h1>
     </div>
 
     <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
@@ -176,7 +177,7 @@
                     </td>
                     <td class="px-4 py-3">
                         <button
-                            class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
+                            class="bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm" (click)="viewProduct(productModel()!.productId)">
                             View
                         </button>
                     </td>
@@ -191,18 +192,126 @@
             </tbody>
         </table>
     </div>
+
+    <div class="md:hidden flex flex-col gap-4">
+        @if (productModel()?.productVariants?.length) {
+        @for (v of productModel()!.productVariants; track v.productVariantId) {
+        <div class="border border-gray-200 rounded-xl p-4 shadow-sm bg-white overflow-x-hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                <span class="font-bold text-blue-950">
+                    SKU: {{ v.sku }}
+                </span>
+                <button
+                    class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm" (click)="viewProduct(productModel()!.productId)">
+                    View
+                </button>
+            </div>
+
+            <table class="w-full border border-gray-300 border-collapse table-fixed">
+                <colgroup>
+                    <col class="w-2/5">
+                    <col class="w-3/5">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Price
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-900">
+                            ₹{{ v.price | number }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Variant Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.productVariantStatus }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Approval
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.productApprovalStatus }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Max Qty
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.minimumQuantityPerUser }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Return
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span [class]="v.isReturn ? 'text-green-700 font-medium' : 'text-gray-400'">
+                                {{ v.isReturn ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Exchange
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span [class]="v.isExchange ? 'text-green-700 font-medium' : 'text-gray-400'">
+                                {{ v.isExchange ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Available
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span
+                                [class]="v.isAvailableForSale ? 'text-green-700 font-medium' : 'text-red-600 font-medium'">
+                                {{ v.isAvailableForSale ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        }
+        @else {
+        <div class="text-center text-gray-400 py-6 text-sm">
+            No variants found.
+        </div>
+        }
+    </div>
     <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100">
         <button
-            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm">
+            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm" (click)="openDeletePopup(productModel()!.productId)">
             Delete
         </button>
         @if (productModel()!.productApprovalStatus == "Vendor_Approved") {
         <button
-            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">
+            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm" (click)="openReviewPopup(productModel()!.productId)">
             Review
         </button>
         }
     </div>
     }
 
+     <app-delete-popup-components [show]="showDeletePopup()" title="Delete Product"
+        message="Are you sure you want to delete this product? This action is permanent and cannot be undone."
+        confirmText="Delete Product" [remarkField]="deleteForm.remark" [loading]="progress()"
+        [errorMessage]="errorMessage() ?? ''" [successMessage]="successMessage() ?? ''" (confirm)="onConfirmDelete()"
+        (cancel)="onCancelDelete()">
+    </app-delete-popup-components>
+
+    <app-review-popup-component [show]="showReviewPopup()" title="Review Product"
+        message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
+        confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
+        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
+        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+    </app-review-popup-component>
 </section>

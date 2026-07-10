@@ -52,10 +52,11 @@
     </app-pagination-component>
 
     <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
-        [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"
-        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? ''"
+        [errorMessage]="errorMessage() ?? ''" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
     </app-popup-component>
-
 
     @if (showActivatePopup()) {
     <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">

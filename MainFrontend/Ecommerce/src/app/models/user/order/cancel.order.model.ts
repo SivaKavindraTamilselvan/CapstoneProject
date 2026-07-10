@@ -1,11 +1,11 @@
 export class CancelOrderModel {
-    constructor(
-        public cancelReasonId: number = 0,
-        public orderItemId: number = 0,
-        public cancelStatusId: number = 1,
-        public additionalReason: string = '',
-        public cancelQuantity: number = 0,
-    ) { }
+  constructor(
+    public cancelReasonId: number = 0,
+    public orderItemId: number = 0,
+    public cancelStatusId: number = 1,
+    public additionalReason: string = '',
+    public cancelQuantity: number = 0,
+  ) { }
 }
 
 export class CancelSummaryModel {
@@ -29,8 +29,11 @@ export class CancelSummaryModel {
     public cancelledDate: string = '',
     public deliveryCity: string = '',
     public deliveryAddress: string = '',
-    public deliveryPincode: string = ''
-  ) {}
+    public deliveryPincode: string = '',
+    public contactPersonName: string = '',
+    public contactPhoneNumber: string = '',
+    public userId: number = 0,
+  ) { }
 }
 
 export class RequestAdminCancelFilter {
@@ -45,7 +48,7 @@ export class RequestAdminCancelFilter {
     public toDate: string | null = null,
     public pageNumber: number = 1,
     public pageSize: number = 10
-  ) {}
+  ) { }
 }
 
 export class RequestVendorCancelFilter {
@@ -59,5 +62,5 @@ export class RequestVendorCancelFilter {
     public toDate: string | null = null,
     public pageNumber: number = 1,
     public pageSize: number = 10
-  ) {}
+  ) { }
 }

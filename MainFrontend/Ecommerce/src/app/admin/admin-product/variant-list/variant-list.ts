@@ -3,7 +3,7 @@ import { UserProductCategoryModel } from '../../../models/user/product-category/
 import { UserSubProductCategoryModel } from '../../../models/user/product-category/user-sub-category.model';
 import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/response/vendor-variant.model';
 import { PagedResponse } from '../../../models/paged-response.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserProductService } from '../../../services/user-product.Service';
 import { AdminProductVariantFilter } from '../../../models/admin/admin-product/filter/admin-variant.filter';
 import { AdminProductService } from '../../../services/admin-product.Service';
@@ -17,10 +17,11 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 import { ProductVariantModel } from '../../../models/product/product-variant.model';
 import { BasePage } from '../../../shared-class/shares-page-class';
 import { form, FormField, min } from '@angular/forms/signals';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-variant-list',
-  imports: [ DataTableComponent, FilterComponent, MobileCardComponent, PaginationComponent, FormField],
+  imports: [DataTableComponent, FilterComponent, MobileCardComponent, PaginationComponent, FormField],
   templateUrl: './variant-list.html',
   styleUrl: './variant-list.css',
 })
@@ -153,13 +154,27 @@ export class VariantList extends BasePage {
   errorMessage = signal<string | null>(null);
 
 
-  constructor(private route: Router, private adminProductService: AdminProductService, private userProductService: UserProductService) {
+  constructor(private route: Router, private adminProductService: AdminProductService, private userProductService: UserProductService, private router: ActivatedRoute) {
     super();
   }
 
+  queryVendor = signal<number | null>(null);
   ngOnInit(): void {
     this.loadCategories();
-    this.loadProductVariant();
+    //this.loadProductVariant();
+
+    combineLatest([
+      this.router.data,
+      this.router.queryParams
+    ]).subscribe(([data, params]) => {
+
+      this.queryVendor.set(
+        params['vendorId'] ? Number(params['vendorId']) : null
+      );
+      this.loadProductVariant();
+
+    });
+
   }
 
   protected loadData(): void {
@@ -184,7 +199,7 @@ export class VariantList extends BasePage {
   }
   private buildFilter(): AdminProductVariantFilter {
     return {
-      VendorId: this.vendorId(),
+      VendorId: this.queryVendor()!=null ? this.queryVendor(): this.vendorId(),
       sku: this.sku(),
       productId: this.productId(),
       searchTerm: this.searchTearm(),
@@ -388,7 +403,7 @@ export class VariantList extends BasePage {
     const v = (event.target as HTMLSelectElement).value;
     this.subcategoryId.set(v ? Number(v) : null);
   }
-  
+
   viewProduct(productId: number) {
     this.route.navigate(['/admin/product-variant-details', productId]);
   }

@@ -20,10 +20,11 @@ import { ReviewProductModel } from '../../../models/product/review-product.model
 import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 import { DeletePopupComponents } from '../../../shared-components/delete-popup-components/delete-popup-components';
 import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
+import { combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-admin-product',
-  imports: [FormField, FormsModule, ReactiveFormsModule, PaginationComponent, FilterComponent, MobileCardComponent, DataTableComponent, HeaderComponent, DeletePopupComponents,ReviewPopupComponent],
+  imports: [FormField, FormsModule, ReactiveFormsModule, PaginationComponent, FilterComponent, MobileCardComponent, DataTableComponent, HeaderComponent, DeletePopupComponents, ReviewPopupComponent],
   templateUrl: './admin-product.html',
   styleUrl: './admin-product.css',
 })
@@ -70,15 +71,24 @@ export class AdminProduct extends BasePage {
   status = signal<number | null>(null);
   deleted = signal<boolean | null>(null);
   pageTitle = signal<string | null>(null);
+  queryVendor = signal<number | null>(null);
 
   ngOnInit(): void {
-    this.router.data.subscribe(data => {
+    combineLatest([
+      this.router.data,
+      this.router.queryParams
+    ]).subscribe(([data, params]) => {
       this.status.set(data['status']);
       this.deleted.set(data['deleted']);
       this.pageTitle.set(data['title']);
+      this.queryVendor.set(
+        params['vendorId'] ? Number(params['vendorId']) : null
+      );
       this.loadProduct();
-      this.loadCategories();
+
     });
+
+    this.loadCategories();
   }
 
   protected loadData(): void {
@@ -122,6 +132,12 @@ export class AdminProduct extends BasePage {
   });
 
   private buildFilters() {
+    if (this.queryVendor() != null) {
+      this.adminProductFilter.update(filter => ({
+        ...filter,
+        vendorId: this.queryVendor()
+      }));
+    }
     this.adminProductFilter.update(filter => ({
       ...filter,
       productApprovalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
@@ -293,10 +309,12 @@ export class AdminProduct extends BasePage {
       next: () => {
         this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
         setTimeout(() => {
-          this.closePopup();
+          this.onCancelDelete();
           this.successMessage.set(null);
           this.loadProduct();
+           this.progress.set(false);
         }, 3000);
+       
       },
       error: (error) => {
         this.successMessage.set(null);
@@ -323,8 +341,8 @@ export class AdminProduct extends BasePage {
   showReviewPopup = signal(false);
   reviewProductModel = signal(new ReviewProductModel());
   approvalStatusOption = [
-    { id: 2, label: 'Accepted' },
-    { id: 3, label: 'Rejected' },
+    { id: 4, label: 'Accepted' },
+    { id: 5, label: 'Rejected' },
   ];
 
   reviewForm = form(this.reviewProductModel, (path) => {
@@ -365,11 +383,12 @@ export class AdminProduct extends BasePage {
     };
     this.adminProductService.reviewProduct(request).subscribe({
       next: () => {
-        this.successMessage.set("Vendor reviewed successfully");
+        this.successMessage.set("Product reviewed successfully");
         setTimeout(() => {
-          this.closePopup();
+          this.onCancelReview();
           this.successMessage.set(null);
           this.loadProduct();
+           this.progress.set(false);
         }, 3000);
       },
       error: (error) => {
@@ -395,8 +414,8 @@ export class AdminProduct extends BasePage {
 
   actions: TableAction<ProductModel>[] = [
     { label: 'View', color: 'green', action: 'view' },
-    { label: 'Delete', color: 'red', action: 'delete', visible: product => product.productApprovalStatus !== 'Deleted_By_Admin' && product.productApprovalStatus !== 'Pending' },
-    { label: 'Review', color: 'gray', action: 'review', visible: product => product.productApprovalStatus === 'Pending' }];
+    { label: 'Delete', color: 'red', action: 'delete', visible: product => product.productApprovalStatus !== 'Deleted_By_Admin' && this.status()==null },
+    { label: 'Review', color: 'gray', action: 'review', visible: product => product.productApprovalStatus === 'Vendor_Approved' && this.status() == 2 }];
 
   columns: Column[] = [
     { key: 'productId', header: 'ID' },

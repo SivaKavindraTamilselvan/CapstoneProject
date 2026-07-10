@@ -21,13 +21,13 @@ import { UpdateCouponComponent } from '../update-coupon-component/update-coupon-
 
 @Component({
   selector: 'app-coupon-list',
-  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, DataTableComponent, MobileCardComponent, PopupComponent, HeaderComponent,UpdateCouponComponent],
+  imports: [FormField, ReactiveFormsModule, FormsModule, FilterComponent, PaginationComponent, DataTableComponent, MobileCardComponent, PopupComponent, HeaderComponent, UpdateCouponComponent],
   providers: [DatePipe],
   templateUrl: './coupon-list.html',
   styleUrl: './coupon-list.css',
 })
 export class CouponList extends BasePage {
-  
+
   constructor(private router: ActivatedRoute, private route: Router, private adminCouponService: AdminCouponService, private datePipe: DatePipe) {
     super();
     effect(() => {
@@ -203,34 +203,57 @@ export class CouponList extends BasePage {
     this.loadCoupon();
   }
 
+
+  successMessage = signal('');
+
   deactivateCoupon() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCouponService.deactivateCoupon(id).subscribe({
       next: (response: any) => {
-        this.loadCoupon();
-        this.closePopup();
+        this.successMessage.set("Coupon deactivated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadCoupon();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.errorMessage.set(error?.error?.message ?? "Failed to deactivate coupon");
+        this.progress.set(false);
       }
     })
   }
 
   activateCoupon() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCouponService.activateCoupon(id).subscribe({
       next: (response: any) => {
-        this.loadCoupon();
-        this.closePopup();
+        this.successMessage.set("Coupon activated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadCoupon();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.errorMessage.set(error?.error?.message ?? "Failed to activate coupon");
+        this.progress.set(false);
       }
     })
   }
@@ -260,6 +283,7 @@ export class CouponList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -273,6 +297,7 @@ export class CouponList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Deativating...');
 
         this.showPopup.set(true);
         break;
@@ -288,11 +313,11 @@ export class CouponList extends BasePage {
   actions = computed<TableAction<CouponListModel>[]>(() =>
     this.categoryStatus() == null
       ? [
-        { label: 'View', color: 'green', action: 'view' },
+        { label: 'View', color: 'gray', action: 'view' },
         { label: 'Update', color: 'blue', action: 'update' }
       ]
       : [
-        { label: 'View', color: 'green', action: 'view' },
+        { label: 'View', color: 'gray', action: 'view' },
         { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive },
         { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
       ]

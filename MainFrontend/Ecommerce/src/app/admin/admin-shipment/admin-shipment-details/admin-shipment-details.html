@@ -1,10 +1,16 @@
-<section class="p-4 sm:p-12 mx-auto">
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Shipment List
+</button>
+<section class="p-4 sm:px-12 mx-auto">
 
     @if (shipmentModel()) {
-    <!-- Shipment Status Badge -->
     <div class="flex flex-col items-center justify-center mb-6">
-        <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm"
-            [ngClass]="{
+        <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm" [ngClass]="{
                 'bg-yellow-100 text-yellow-700 border border-yellow-300': shipmentModel()!.currentStatus === 'Pending',
                 'bg-blue-100 text-blue-700 border border-blue-300': shipmentModel()!.currentStatus === 'Shipped',
                 'bg-indigo-100 text-indigo-700 border border-indigo-300': shipmentModel()!.currentStatus === 'InTransit',
@@ -17,8 +23,7 @@
 
     <div class="flex flex-col lg:flex-row gap-8 mb-10">
 
-        <!-- Shipment Summary Card -->
-        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+        <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden h-full">
             <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
                 <h2>Shipment Summary</h2>
                 <h1>#{{ shipmentModel()!.shipmentId }}</h1>
@@ -43,15 +48,19 @@
                 </div>
                 <div class="flex px-5 py-3">
                     <span class="w-44 font-medium text-gray-500 text-sm">Created At</span>
-                    <span class="text-gray-900 text-sm">{{ shipmentModel()!.createdAt | date:'dd/MM/yyyy, h:mm a' }}</span>
+                    <span class="text-gray-900 text-sm">{{ shipmentModel()!.createdAt | date:'dd/MM/yyyy, h:mm a'
+                        }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">View Order</span>
+                    <button class="text-blue-900 text-sm font-semibold underline cursor-pointer" (click)="viewOrder(shipmentModel()!.orderId)">Click Here</button>
                 </div>
             </div>
         </div>
 
-        <!-- Shipper & Delivery Card -->
         <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-            <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
-                <h2>Shipper &amp; Delivery</h2>
+            <div class="flex justify-between items-center text-lg font-bold border-b px-5 py-3.5">
+                <h2>Shipper & Delivery</h2>
             </div>
 
             <div class="divide-y divide-gray-100">
@@ -67,7 +76,7 @@
                 </div>
                 <div class="flex px-5 py-3">
                     <span class="w-44 font-medium text-gray-500 text-sm">Pickup Address</span>
-                    <span class="text-gray-900 text-sm">{{ shipmentModel()!.pickupAddress }}</span>
+                    <span class="flex-1 text-gray-900 text-sm break-words">{{ shipmentModel()!.pickupAddress }}</span>
                 </div>
                 <div class="flex px-5 py-3">
                     <span class="w-44 font-medium text-gray-500 text-sm">Shipping Charge</span>
@@ -108,12 +117,10 @@
 
     </div>
 
-    <!-- Shipment Items Section -->
     <div class="mb-6">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Shipment Items</h1>
     </div>
 
-    <!-- Desktop Table -->
     <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm">
         <table class="w-full border-collapse bg-white">
             <thead>
@@ -123,6 +130,7 @@
                     <th class="px-4 py-3 text-center font-semibold">Qty</th>
                     <th class="px-4 py-3 text-center font-semibold">Unit Price</th>
                     <th class="px-4 py-3 text-center font-semibold">Item Total</th>
+                    <th class="px-4 py-3 text-center font-semibold">Actions</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-gray-100">
@@ -133,7 +141,12 @@
                     <td class="px-4 py-3 text-gray-900 text-left">{{ item.productName }}</td>
                     <td class="px-4 py-3 text-gray-700">{{ item.quantity }}</td>
                     <td class="px-4 py-3 text-gray-700">₹{{ item.unitPrice | number }}</td>
-                    <td class="px-4 py-3 font-semibold text-gray-900">₹{{ item.quantity * item.unitPrice | number }}</td>
+                    <td class="px-4 py-3 font-semibold text-gray-900">₹{{ item.quantity * item.unitPrice | number }}
+                    </td>
+                    <td class="px-4 py-3 font-semibold text-gray-900"><button
+                            class="bg-green-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm" (click)="viewVariant(item.productVariantId)">
+                            View
+                        </button></td>
                 </tr>
                 }
                 @empty {
@@ -146,7 +159,6 @@
         </table>
     </div>
 
-    <!-- Mobile Cards -->
     <div class="md:hidden flex flex-col gap-4">
         @if (shipmentModel()?.items) {
         @for (item of shipmentModel()!.items; track item.shipmentItemsId) {
@@ -174,7 +186,6 @@
         }
     </div>
 
-    <!-- Tracking Timeline Section -->
     <div class="mt-12 mb-6">
         <h1 class="text-blue-950 font-extrabold text-center text-2xl">Tracking History</h1>
     </div>
@@ -184,7 +195,8 @@
         <ol class="relative border-s-2 border-gray-200 ms-3">
             @for (track of shipmentModel()!.tracking; track track.shipmentTrackingId) {
             <li class="mb-8 ms-6 last:mb-0">
-                <span class="absolute -start-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-slate-800 ring-4 ring-white"></span>
+                <span
+                    class="absolute -start-[9px] flex items-center justify-center w-4 h-4 rounded-full bg-slate-800 ring-4 ring-white"></span>
                 <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-1">
                     <span class="font-semibold text-gray-900 text-sm">{{ track.status }}</span>
                     <span class="text-xs text-gray-400">{{ track.updatedAt | date:'dd/MM/yyyy, h:mm a' }}</span>
@@ -204,16 +216,10 @@
     </div>
 
     <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100 mt-6">
-        @if (shipmentModel()!.currentStatus === 'Pending') {
-        <button
-            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">
-            Mark as Shipped
-        </button>
-        }
-        @if (shipmentModel()!.currentStatus === 'Shipped' || shipmentModel()!.currentStatus === 'InTransit') {
+        @if (shipmentModel()!.currentStatus === 'Ready_For_Pick_Up') {
         <button
             class="bg-green-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
-            Mark as Delivered
+            Update Shipment
         </button>
         }
     </div>

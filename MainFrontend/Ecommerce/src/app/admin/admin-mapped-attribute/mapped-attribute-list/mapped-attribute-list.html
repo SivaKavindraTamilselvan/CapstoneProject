@@ -1,7 +1,7 @@
 <section class="bg-white px-8 py-8">
   <app-header-component [title]="pageTitle()" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
-        (reset)="resetFilters()">
-    </app-header-component>
+    (reset)="resetFilters()">
+  </app-header-component>
 
 
   <app-filter-component [open]="filterPanelOpen()" title="Attribute Filters" (close)="closeFilterPanel()"
@@ -85,23 +85,39 @@
     (pageSizeChange)="onPageSizeChanged($event)">
   </app-pagination-component>
   <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
-    [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"
-    [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
-  </app-popup-component>
-
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? ''"
+        [errorMessage]="errorMessage()" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
+    </app-popup-component>
 
   @if (showActivatePopup()) {
-  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-    <div class="bg-white rounded-xl shadow-2xl w-96 p-6">
-      <h1 class="text-base sm:text-2xl font-bold text-blue-950 text-center mb-4">
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
+    <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
+      <h2 class="text-center text-lg sm:text-xl font-bold text-blue-950">
         Add Mapped Attribute
-      </h1>
+      </h2>
+      <p class="text-gray-600 text-sm sm:text-base text-center mt-4">
+        Select a category, sub category, and attribute to create a new mapping.
+      </p>
+
+      @if (successMessage()) {
+      <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        {{ successMessage() }}
+      </div>
+      }
+      @if (errorMessage()) {
+      <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        {{ errorMessage() }}
+      </div>
+      }
 
       <form (ngSubmit)="addAttribute()">
 
         <div>
           <label class="block text-sm font-semibold text-gray-700 p-2">Category</label>
-          <select (change)="onCategoryChange($event)" class="border border-gray-400 rounded-md px-3 py-3 w-full">
+          <select (change)="onCategoryChange($event)" [disabled]="loading()"
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60">
             <option value="">All</option>
             @for(cat of categories(); track cat.productCategoryId) {
             <option [value]="cat.productCategoryId" [selected]="productCategoryId() === cat.productCategoryId">
@@ -114,7 +130,8 @@
         <div>
           <label class="block text-sm font-semibold text-gray-700 p-2">Sub Category</label>
           <select (change)="onAddFormSubcategoryChange($event)"
-            class="border border-gray-400 rounded-md px-3 py-3 w-full" [disabled]="!productCategoryId()">
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60"
+            [disabled]="!productCategoryId() || loading()">
             @if(!productCategoryId()) {
             <option value="">Select category first</option>
             }
@@ -131,8 +148,8 @@
 
         <div>
           <label class="block text-sm font-semibold text-gray-700 p-2">Attribute</label>
-          <select (change)="onAddFormAttributeChange($event)"
-            class="border border-gray-400 rounded-md px-3 py-3 w-full">
+          <select (change)="onAddFormAttributeChange($event)" [disabled]="loading()"
+            class="border border-gray-400 rounded-md px-3 py-3 w-full disabled:opacity-60">
             <option value="">All</option>
             @for(sub of masterattribute()?.items ?? []; track sub.attributeMasterId) {
             <option [value]="sub.attributeMasterId">
@@ -142,13 +159,16 @@
           </select>
         </div>
 
-        <div class="flex justify-end gap-3 mt-5">
-          <button type="button" class="px-4 py-2 rounded-lg bg-gray-300 hover:bg-gray-400" (click)="closeAddPopup()">
+        <div class="flex justify-center gap-4 mt-8">
+          <button type="button" [disabled]="loading()"
+            class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400 disabled:opacity-60"
+            (click)="closeAddPopup()">
             Cancel
           </button>
 
-          <button type="submit" class="px-4 py-2 rounded-lg bg-blue-700 text-white hover:bg-blue-900">
-            Add
+          <button type="submit" [disabled]="loading()"
+            class="rounded-md px-5 py-2 font-semibold text-white bg-blue-700 hover:bg-blue-900 disabled:opacity-60">
+            {{ loading() ? 'Adding...' : 'Add' }}
           </button>
         </div>
       </form>

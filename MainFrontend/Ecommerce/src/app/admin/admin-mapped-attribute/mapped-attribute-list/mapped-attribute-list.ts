@@ -31,7 +31,7 @@ export interface GroupedSubCategory {
 
 @Component({
   selector: 'app-mapped-attribute-list',
-  imports: [CommonModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormField, ReactiveFormsModule, FormsModule,HeaderComponent],
+  imports: [CommonModule, PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent],
   templateUrl: './mapped-attribute-list.html',
   styleUrl: './mapped-attribute-list.css',
 })
@@ -145,13 +145,13 @@ export class MappedAttributeList extends BasePage {
     this.attributeMappedFilter.update(filter => ({
       ...filter,
       productSubCategoryId: null,
-      attributeMasterId:null,
+      attributeMasterId: null,
     }));
   }
 
   categorySelectionRequired = computed(() => {
-  return this.productCategoryId() !== null && this.productSubCategoryId() === null;
-});
+    return this.productCategoryId() !== null && this.productSubCategoryId() === null;
+  });
 
 
   constructor(private router: ActivatedRoute, private route: Router, private adminCategoryService: AdminProductCategoryService, private adminProductService: AdminProductService) {
@@ -164,14 +164,14 @@ export class MappedAttributeList extends BasePage {
       }
     });
     effect(() => {
-    if (this.categorySelectionRequired()) {
-      this.filterErrorMessage.set('Select the Sub category before submitting');
-    } else if (this.filterForm().invalid()) {
-      this.filterErrorMessage.set('Please fix the validation errors.');
-    } else {
-      this.filterErrorMessage.set(null);
-    }
-  });
+      if (this.categorySelectionRequired()) {
+        this.filterErrorMessage.set('Select the Sub category before submitting');
+      } else if (this.filterForm().invalid()) {
+        this.filterErrorMessage.set('Please fix the validation errors.');
+      } else {
+        this.filterErrorMessage.set(null);
+      }
+    });
   }
 
   categoryStatus = signal<boolean | null>(null);
@@ -243,6 +243,7 @@ export class MappedAttributeList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -256,6 +257,7 @@ export class MappedAttributeList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set('Dectivating...');
 
         this.showPopup.set(true);
         break;
@@ -302,24 +304,38 @@ export class MappedAttributeList extends BasePage {
     this.showActivatePopup.set(false);
   }
 
+  loading = signal(false);
+  successMessage = signal('');
+  errorMessage = signal('');
+
   addForm = form(this.addAttributeModel, (path) => {
     required(path.attributeMasterId, { message: 'Enter The Attribute Master Id' });
     required(path.productSubCategoryId, { message: 'Enter The Product Sub Category Id' });
   });
 
   addAttribute() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     if (this.addForm().invalid()) {
-      alert('Form is invalid');
+      this.errorMessage.set("Enter proper details");
       return;
     }
+    this.loading.set(true);
     this.adminCategoryService.addMappedAttribute(this.addAttributeModel()).subscribe({
       next: (response: any) => {
-        alert('Mapped attribute added successfully');
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Attribute added successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.closeAddPopup();
+          this.loadAttribute();
+          this.loading.set(false);
+          this.successMessage.set('');
+        }, 3000);
+
       },
       error: (error) => {
-        console.error(error);
+        console.log(error);
+        this.loading.set(false);
+        this.errorMessage.set(error.error.message);
       },
     });
   }
@@ -402,34 +418,52 @@ export class MappedAttributeList extends BasePage {
       }
     })
   }
-
+  progress = signal(false);
   activateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.activateMappedAttribute(id).subscribe({
       next: (response: any) => {
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Product Mapped Attribute activated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadAttribute();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }
   deactivateCategory() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
     if (id == null) {
       return;
     }
+    this.progress.set(true);
     this.adminCategoryService.deactivateMappedAttribute(id).subscribe({
       next: (response: any) => {
-        this.loadAttribute();
-        this.closePopup();
+        this.successMessage.set("Product Mapped Attribute deactivated successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.loadAttribute();
+          this.closePopup();
+          this.successMessage.set('');
+          this.progress.set(false);
+        }, 3000);
       },
       error: (error) => {
         console.log(error);
+        this.progress.set(false);
       }
     })
   }

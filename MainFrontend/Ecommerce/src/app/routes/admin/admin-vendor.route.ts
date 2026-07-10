@@ -6,12 +6,12 @@ export const AdminVendorRoutes: Routes = [
     {
         path: 'vendors/review',
         component: VendorList,
-        data: { status: 1, title: 'Pending Review Vendor' }
+        data: { status: 1, title: 'Pending Review Vendor',includeIsDeleted:false }
     },
     {
         path: 'vendors/list',
         component: VendorList,
-        data: { status: null, title: 'Vendor List' }
+        data: { status: null, title: 'Vendor List', includeIsDeleted: false }
     },
     {
         path: 'vendors/delete',

@@ -85,8 +85,10 @@
     </app-pagination-component>
 
     <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
-        [message]="popupMessage()" [confirmText]="popupConfirmText()" cancelText="Cancel"
-        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage()"
+        [errorMessage]="errorMessage()" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
+        (cancel)="closePopup()">
     </app-popup-component>
 
     @if (showAddPopup()) {

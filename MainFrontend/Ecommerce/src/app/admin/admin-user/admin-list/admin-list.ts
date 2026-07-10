@@ -36,12 +36,12 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 })
 export class AdminList extends BasePage {
 
-  constructor(private route: Router,private activatedRoute: ActivatedRoute,private adminUserService: AdminUserService) {
+  constructor(private route: Router, private activatedRoute: ActivatedRoute, private adminUserService: AdminUserService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
         this.filterErrorMessage.set('Please fix the validation errors.');
-      } 
+      }
       else {
         this.filterErrorMessage.set(null);
       }
@@ -49,7 +49,7 @@ export class AdminList extends BasePage {
   }
 
   status = signal<boolean | null>(null);
-  pageTitle = signal<string |null>(null);
+  pageTitle = signal<string | null>(null);
 
   adminUsers = signal<PagedResponse<AdminUserModel> | null>(null);
   totalPages = computed(() => this.adminUsers()?.totalPages ?? 1);
@@ -68,7 +68,7 @@ export class AdminList extends BasePage {
     });
   });
 
-  
+
   adminRoleOption = [
     { id: 1, label: 'Overall Admin' },
     { id: 2, label: 'Vendor Admin' },
@@ -108,17 +108,17 @@ export class AdminList extends BasePage {
       label: 'Deactivate',
       color: 'red',
       action: 'deactivate',
-      visible: admin => admin.isActive
+      visible: admin => admin.isActive && this.status() != null && admin.adminRoleId!=1
     },
     {
       label: 'Activate',
       color: 'green',
       action: 'activate',
-      visible: admin => !admin.isActive
+      visible: admin => !admin.isActive && this.status() != null
     }
   ];
 
- 
+
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(data => {
       this.status.set(data['status']);
@@ -131,7 +131,6 @@ export class AdminList extends BasePage {
     this.loadAdminUser();
   }
 
-  
   private buildFilter(): void {
     this.adminUserFilter.update(filter => ({
       ...filter,
@@ -192,6 +191,7 @@ export class AdminList extends BasePage {
         this.popupConfirmText.set('Activate');
         this.popupButtonClass.set('bg-green-700 hover:bg-green-900');
         this.titleClass.set('text-green-700');
+        this.loadingText.set('Activating...');
 
         this.showPopup.set(true);
         break;
@@ -205,7 +205,7 @@ export class AdminList extends BasePage {
         this.popupConfirmText.set('Deactivate');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
-
+        this.loadingText.set('Deactivating...');
         this.showPopup.set(true);
         break;
     }
@@ -226,32 +226,63 @@ export class AdminList extends BasePage {
   viewAdminUser(id: number): void {
     this.route.navigate(['/admin/users', id]);
   }
-  
-  activateAdmin(): void {
-    const id = this.selectedId();
 
+  successMessage = signal('');
+  errorMessage = signal('');
+  progress = signal(false);
+
+  activateAdmin(): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    const id = this.selectedId();
     if (id == null) return;
 
+    this.progress.set(true);
     this.adminUserService.activateAdminUser(id).subscribe({
       next: () => {
-        this.closePopup();
+        this.successMessage.set('Admin user activated successfully.');
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
         this.loadAdminUser();
       },
-      error: error => console.log(error)
+      error: error => {
+        console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
+
+      }
     });
   }
 
   deleteAdminUser(): void {
+    this.errorMessage.set('');
+    this.successMessage.set('');
     const id = this.selectedId();
 
     if (id == null) return;
-
+    this.progress.set(true);
     this.adminUserService.deactivateAdminUser(id).subscribe({
       next: () => {
-        this.closePopup();
+        this.successMessage.set('Admin user deactivated successfully.');
+        setTimeout(() => {
+          this.successMessage.set('');
+          this.closePopup();
+          this.progress.set(false);
+        }, 3000);
         this.loadAdminUser();
       },
-      error: error => console.log(error)
+      error: error => {
+        console.log(error);
+        this.progress.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
+      }
     });
   }
 }

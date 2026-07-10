@@ -12,6 +12,7 @@ import { AttributeList } from "../../admin/admin-attribute/attribute-list/attrib
 import { MappedAttributeList } from "../../admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list";
 import { GetAdminOrders } from "../../admin/admin-orders/get-admin-orders/get-admin-orders";
 import { AdminCancelledOrder } from "../../admin/admin-orders/admin-cancelled-order/admin-cancelled-order";
+import { AdminCancelDetailOrder } from "../../admin/admin-orders/admin-cancel-detail-order/admin-cancel-detail-order";
 
 
 export const AdminOrderRoutes: Routes = [
@@ -28,6 +29,10 @@ export const AdminOrderRoutes: Routes = [
     {
         path: 'orders/cancelled-orders',
         component: AdminCancelledOrder,
+    },
+    {
+        path: 'orders/cancelled-order/:id',
+        component: AdminCancelDetailOrder,
     },
 
 ];

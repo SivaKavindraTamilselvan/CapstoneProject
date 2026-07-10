@@ -23,7 +23,7 @@ export const AdminProductRoutes: Routes = [
     {
         path: 'products/review',
         component: AdminProduct,
-        data: { status: 1, deleted: false, title: 'Pending Review Product' }
+        data: { status: 2, deleted: false, title: 'Pending Review Product' }
     },
     {
         path: 'product-details/:id',

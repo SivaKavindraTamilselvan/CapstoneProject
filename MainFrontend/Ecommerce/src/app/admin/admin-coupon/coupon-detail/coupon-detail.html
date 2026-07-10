@@ -1,11 +1,15 @@
-<section class="bg-white p-8">
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Coupon List
+</button>
+<section class="bg-white p-8 sm:px-16">
     <div class="border border-gray-300 rounded-lg p-4 shadow-sm overflow-x-hidden">
         <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
             <span class="font-bold text-blue-950">#{{coupon().couponId}}</span>
-            <div class="flex gap-2">
-                <button
-                    class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
-            </div>
         </div>
         <table class="w-full border border-gray-300 border-collapse table-fixed">
             <colgroup>
@@ -146,9 +150,9 @@
             </tbody>
         </table>
     </div>
-    <div class="w-full py-8 relative overflow-x-hidden min-h-[50vh]">
+    <div class="w-full py-8 relative overflow-x-hidden ">
         <div class="pb-8 relative flex items-center justify-center">
-            <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Coupon Usage Details</h1>
+            <h1 class="text-blue-950 font-extrabold text-center text-lg sm:text-xl">Coupon Usage Details</h1>
         </div>
         <div class="hidden md:block min-w-0 overflow-x-auto">
             <table class="border border-collapse border-gray-500 w-full">
@@ -161,6 +165,7 @@
                         <th class="px-4 py-3 text-center font-semibold">User Name</th>
                         <th class="px-4 py-3 text-center font-semibold">Final Amount</th>
                         <th class="px-4 py-3 text-center font-semibold">Used At</th>
+                        <th class="px-4 py-3 text-center font-semibold">Actions</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-gray-100">
@@ -177,6 +182,12 @@
                         <td class="px-4 py-3">
                             {{usage.usedAt | date:'medium'}}
                         </td>
+                        <td class="px-4 py-3">
+                        <button
+                            class="bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm" (click)="viewOrder(usage.orderId)">
+                            View
+                        </button>
+                    </td>
                     </tr>
                     }
                     @empty {
@@ -258,9 +269,42 @@
             }
             @empty
             {
-            <div class="text-center text-gray-500 py-6">No admin users found.</div>
+            <div class="text-center text-gray-500 py-6">No coupon usage found.</div>
             }
             }
         </div>
     </div>
+    <div class="flex items-center justify-center sm:justify-end gap-4">
+        @if (coupon()!.isActive) {
+        <button
+            class="bg-red-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-900 transition-colors shadow-sm"
+            (click)="openStatusPopup(coupon().couponId, 'deactivate')">
+            Deactivate
+        </button>
+        <button
+            class="bg-blue-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-blue-700 transition-colors shadow-sm"
+            (click)="openUpdatePopup(coupon().couponId)">
+            Update
+        </button>
+        }
+        @if (!coupon()!.isActive) {
+        <button
+            class="bg-green-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-900 transition-colors shadow-sm"
+            (click)="openStatusPopup(coupon().couponId, 'activate')">
+            Activate
+        </button>
+        }
+    </div>
+    <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
+        [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
+        [loadingText]="loadingText()" [successMessage]="successMessage() ?? '' " [errorMessage]="errorMessage() ?? '' "
+        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
+    </app-popup-component>
+
+
+    @if (showUpdateCouponPopup()) {
+    <app-update-coupon-component [couponId]="selectedCouponIdForUpdate()" (closed)="closeUpdateCouponPopup()"
+        (updated)="onCouponUpdated()">
+    </app-update-coupon-component>
+    }
 </section>

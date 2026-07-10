@@ -7,6 +7,7 @@ export class OrderItemModel {
     public sku: string = '',
     public canReturn: boolean | null = null,
     public productName: string = '',
+    public productVariantId: number = 0,
     public vendorName: string = '',
     public quantity: number = 0,
     public unitPrice: number = 0,
