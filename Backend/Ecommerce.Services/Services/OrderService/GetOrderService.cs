@@ -51,7 +51,6 @@ public partial class OrderService : IOrderService
         var order = await _orderRepsository.GetOrdersForUser(userid, orderFilterParams);
         var result = _mapper.Map<List<OrderSummaryDto>>(order.items);
 
-        // Per-orderItemId eligibility map, instead of one shared flag
         var canReturnMap = new Dictionary<int, bool>();
 
         foreach (var item in order.items)
@@ -60,7 +59,7 @@ public partial class OrderService : IOrderService
             {
                 var canReturn = false;
 
-                if (orderItems.ProductVariant.IsReturn && orderItems.OrderItemStatusId == 4)
+                if (orderItems.ProductVariant!.IsReturn && orderItems.OrderItemStatusId == 4)
                 {
                     var shipment = await _shipmentRepsository.GetShipmentByOrderItemId(orderItems.OrderItemsId);
 
@@ -69,7 +68,6 @@ public partial class OrderService : IOrderService
                     {
                         var returnItem = await _returnRepsository.GetTheReturnProductByOrderItemId(orderItems.OrderItemsId);
 
-                        // No existing return request, or an existing one that isn't already pending/approved
                         if (returnItem == null || returnItem.ReturnStatusId != 1)
                         {
                             canReturn = true;

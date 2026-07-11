@@ -43,7 +43,7 @@ public partial class VendorProductService : IVendorProductService
         product.UpdatedAt = DateTime.Now;
         _logger.LogInformation("Updating ProductId {ProductId}. Product will be resubmitted for admin review", product.ProductId);
         product = await _productRepsository.Update(product.ProductId, product);
-        _logger.LogInformation("ProductId {ProductId} updated successfully by Vendor UserId {VendorUserId}", product.ProductId, vendorUserId);
+        _logger.LogInformation("ProductId {ProductId} updated successfully by Vendor UserId {VendorUserId}", product!.ProductId, vendorUserId);
        
         var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();
         _logger.LogInformation("Sending product update notification to {AdminCount} product admins for ProductId {ProductId}", productAdminUserIds.Count, product.ProductId);
