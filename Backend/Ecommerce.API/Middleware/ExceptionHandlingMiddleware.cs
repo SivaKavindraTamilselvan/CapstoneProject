@@ -3,7 +3,7 @@ using System.Security.Authentication;
 using System.Text.Json;
 using Ecommerce.Models.Exceptions;
 
-namespace BankingAPI.Middlewares
+namespace Ecommerce.Middlewares
 {
     public class ExceptionHandlingMiddleware
     {

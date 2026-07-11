@@ -32,7 +32,7 @@ public class FavoriteController : ControllerBase
 
     [Authorize]
     [HttpGet("GetFavoriteByUserId")]
-    public async Task<ActionResult<List<ResponseCartItemsDTO>>> GetCartByUserId()
+    public async Task<ActionResult<List<ResponseGetFavoriteDTO>>> GetCartByUserId()
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userFavoriteService.GetFavoriteByUserId(UserId);

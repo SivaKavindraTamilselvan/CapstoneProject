@@ -1,5 +1,7 @@
+using System.Security.Claims;
 using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Ecommerce.API.Controllers;
@@ -8,9 +10,11 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class AuthenticationController : ControllerBase
 {
+    private readonly IProfileService _profileService;
     private readonly IAuthentication _authentication;
-    public AuthenticationController(IAuthentication authentication)
+    public AuthenticationController(IProfileService profileService, IAuthentication authentication)
     {
+        _profileService = profileService;
         _authentication = authentication;
     }
     [HttpPost("Register")]
@@ -29,6 +33,24 @@ public class AuthenticationController : ControllerBase
     public async Task<ActionResult<ResponseLoginUserDTO>> CustomerLogin(RequestLoginUserDTO requestLoginUserDTO)
     {
         var result = await _authentication.Login(requestLoginUserDTO);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("Profile")]
+    public async Task<ActionResult<ResponseGetProfileDTO>> GetProfile()
+    {
+        int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _profileService.GetProfile(userId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPut("change-password")]
+    public async Task<IActionResult> ChangePassword([FromBody] RequestChangePasswordDTO request)
+    {
+        int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _authentication.ChangePassword(request,userId);
         return Ok(result);
     }
 }

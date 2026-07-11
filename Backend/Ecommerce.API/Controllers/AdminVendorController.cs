@@ -35,14 +35,22 @@ public class AdminVendorController : ControllerBase
     public async Task<ActionResult<PagedResponse<ResponseGetVendor>>> GetVendor([FromQuery] RequestAdminVendorFilter request)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.GetVendorsForAdmin(request,adminUserId);
+        var result = await _adminVendorService.GetVendorsForAdmin(request, adminUserId);
         return Ok(result);
     }
     [HttpGet("GetVendor/{vendorId}")]
     public async Task<ActionResult<List<ResponseGetVendor>>> GetVendorByVendorId([FromRoute] int vendorId)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminVendorService.GetVendorsByVendorIdForAdmin(vendorId,adminUserId);
+        var result = await _adminVendorService.GetVendorsByVendorIdForAdmin(vendorId, adminUserId);
+        return Ok(result);
+    }
+
+    [HttpGet("GetVendorUser")]
+    public async Task<ActionResult<List<ResponseGetVendor>>> GetVendorUserByVendorId([FromQuery] RequestAdminVendorUserFilter request)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminVendorService.GetVendorUserByVendorIdForAdmin(request, adminUserId);
         return Ok(result);
     }
 }

@@ -10,11 +10,12 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Serilog;
 using System.Security.Claims;
-using BankingAPI.Middlewares;
 using Ecommerce.API.Hubs;
 using Ecommerce.API.Services;
 using Ecommerce.Models;
 using Ecommerce.DTOs;
+using Ecommerce.Middlewares;
+using Microsoft.Extensions.FileProviders;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -369,7 +370,7 @@ builder.Services.AddScoped<IAdminVendorService,AdminVendorService>();
 builder.Services.AddScoped<IAddressService,AddressService>();
 builder.Services.AddScoped<IVendorProductService,VendorProductService>();
 builder.Services.AddScoped<IInventoryService,InventoryService>();
-builder.Services.AddScoped<IVendorCouponService,VendorCouponService>();
+builder.Services.AddScoped<ICouponService,CouponService>();
 builder.Services.AddScoped<IUserCouponService,UserCouponService>();
 builder.Services.AddScoped<IUserOrderService,UserOrderService>();
 builder.Services.AddHttpClient<IShipRocketService, ShiprocketService>();
@@ -397,6 +398,10 @@ builder.Services.AddScoped<ICancelRefundRepsository,CancelRefundRepsository>();
 builder.Services.AddScoped<ICancelRepsository,CancelRepsository>();
 builder.Services.AddScoped<ICancelService,CancelService>();
 builder.Services.AddScoped<IAdminInventoryService,AdminInventoryService>();
+builder.Services.AddScoped<IProfileService,ProfileService>();
+builder.Services.AddScoped<IDashBoardService,AdminDashboardService>();
+builder.Services.AddScoped<IVendorDashboardService, VendorDashboardService>();
+
 #endregion
 
 
@@ -407,6 +412,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+app.UseMiddleware<ExceptionHandlingMiddleware>();
+
 app.UseRouting();
 app.UseCors();
 
@@ -416,9 +423,14 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
-app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseStaticFiles(); // ← add this
+app.UseStaticFiles(new StaticFileOptions
+{
+    FileProvider = new PhysicalFileProvider(
+        Path.Combine(builder.Environment.ContentRootPath, "images")),
+    RequestPath = "/images"
+});
 app.MapControllers();
 
 app.MapHub<NotificationHub>("/notificationhub");

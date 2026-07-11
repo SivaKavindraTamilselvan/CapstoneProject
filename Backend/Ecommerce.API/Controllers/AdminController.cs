@@ -10,20 +10,12 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class AdminController : ControllerBase
 {
-    private readonly IAdminProductAttributeService _adminProductAttributeService;
-    private readonly IAdminProductCategoryService _adminProductCategoryService;
     private readonly IAdminService _adminService;
-    private readonly IAdminProductService _adminProductService;
-    private readonly IAdminVendorService _adminVendorService;
     private readonly IAdminReturnService _adminReturnService;
     private readonly IAdminRefundService _adminRefundService;
-    public AdminController(IAdminRefundService adminRefundService, IAdminReturnService adminReturnService, IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService, IAdminService adminService, IAdminProductService adminProductService, IAdminVendorService adminVendorService)
+    public AdminController(IAdminRefundService adminRefundService, IAdminReturnService adminReturnService, IAdminService adminService)
     {
         _adminService = adminService;
-        _adminProductService = adminProductService;
-        _adminVendorService = adminVendorService;
-        _adminProductAttributeService = adminProductAttributeService;
-        _adminProductCategoryService = adminProductCategoryService;
         _adminReturnService = adminReturnService;
         _adminRefundService = adminRefundService;
     }

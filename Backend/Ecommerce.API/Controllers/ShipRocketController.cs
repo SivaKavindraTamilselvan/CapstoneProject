@@ -43,9 +43,16 @@ public class ShiprocketController : ControllerBase
     }
 
     [HttpGet("{shipmentId}")]
-    public async Task<IActionResult> GetShipmentDetailForAdmin(int shipmentId)
+    public async Task<IActionResult> GetShipmentDetailForAdmin([FromRoute] int shipmentId)
     {
         var result = await _shipmentService.GetShipmentDetailForAdmin(shipmentId);
+        return Ok(result);
+    }
+
+    [HttpGet("user/{orderItemId}")]
+    public async Task<IActionResult> GetShipmentDetailForUser([FromRoute] int orderItemId)
+    {
+        var result = await _shipmentService.GetShipmentDetailForOrderItemId(orderItemId);
         return Ok(result);
     }
 }

@@ -58,7 +58,7 @@ public class AddressController : ControllerBase
     }
     [Authorize(Policy = "VendorOwnerAndInventoryVendorOnly")]
     [HttpPatch("vendor/{addressId}/deactivate")]
-    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteVendorAddress([FromQuery] int addressId)
+    public async Task<ActionResult<ResponseGetAddressDTO>> DeleteVendorAddress([FromRoute] int addressId)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _addressService.DeleteInventoryAddress(addressId, UserId);

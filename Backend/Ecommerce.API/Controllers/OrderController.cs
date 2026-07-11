@@ -5,6 +5,7 @@ using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore.Storage;
+using Org.BouncyCastle.Ocsp;
 
 namespace Ecommerce.API.Controllers;
 
@@ -69,18 +70,36 @@ public class OrderController : ControllerBase
     }
     [Authorize]
     [HttpGet("GetAdminOrderById/{orderId}")]
-    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetAdminOrderByOrderId(int orderId)
+    public async Task<ActionResult> GetAdminOrderByOrderId([FromRoute] int orderId)
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _orderService.GetOrderForAdminByOrderId(orderId);
+        Console.WriteLine(result);
         return Ok(result);
     }
     [Authorize]
     [HttpGet("GetUserOrderById/{orderId}")]
-    public async Task<ActionResult<List<ResponseGetOrderItems>>> GetUserOrderByOrderId(int orderId)
+    public async Task<ActionResult> GetUserOrderByOrderId(int orderId)
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _orderService.GetOrderForUserByOrderId(orderId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("GetUserOrderItemsById/{orderItemsId}")]
+    public async Task<ActionResult> GetUserOrderByOrderItemsId(int orderItemsId)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderByOrderId(orderItemsId);
+        return Ok(result);
+    }
+    [Authorize]
+    [HttpPost("CheckService")]
+    public async Task<ActionResult<ShippingCheckResponseDTO>> CheckService(RequestAddOrderDTO request)
+    {
+        int userid = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userOrderService.CheckService(request,userid);
         return Ok(result);
     }
 }
