@@ -73,7 +73,7 @@ public partial class AdminShipmentService : IAdminShipmentService
             order.OrderItemStatusId = orderItemStatus;
             await _orderItemRepsository.Update(order.OrderItemsId, order);
             var returns  = await _returnRepsository.GetTheReturnProductByOrderItemId(order.OrderItemsId);
-            returns.ReturnStatusId = 6;
+            returns!.ReturnStatusId = 6;
             await _returnRepsository.Update(returns.ReturnId,returns);
             orderList.Add(order);
         }

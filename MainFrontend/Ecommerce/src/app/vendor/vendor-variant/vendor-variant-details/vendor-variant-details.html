@@ -257,8 +257,8 @@
      <app-review-popup-component [show]="showReviewPopup()" title="Review Product"
         message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
         confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
-        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
-        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage()"
+        [successMessage]="successMessage() " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
     </app-review-popup-component>
 
     @if (showActivatePopup()) {

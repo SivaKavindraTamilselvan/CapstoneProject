@@ -79,7 +79,7 @@ public class AdminRefundService : IAdminRefundService
 
         var returnRefund = new ReturnRefund
         {
-            RefundId = createdRefund.RefundId,
+            RefundId = createdRefund!.RefundId,
             DamageCost = returnItem.DamageCost ?? 0,
             DeductionReason = requestAddReturnRefundDTO.Remarks,
             ReturnId = returnItem.ReturnId
