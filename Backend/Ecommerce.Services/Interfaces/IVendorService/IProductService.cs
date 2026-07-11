@@ -4,6 +4,9 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IVendorProductService
 {
+      public  Task<ResponseVendorGetProductVariantOnly> GetProductVariantWithFullDetails(int productVariantId, int vendorUserId);
+      public  Task<List<ResponseAdminGetAttribute>> GetAllAttribute();
+  public Task<PagedResponse<ResponseAdminGetCategoryAttribute>> GetCategoryAttribute(RequestSubCategoryAttributeFilter request);
   public Task<PagedResponse<ResponseVendorGetProductVariantOnly>> GetAllProductVariant(RequestVendorProductVariantFilter request, int vendorUserId);
   public Task<ResponseVendorGetAllProductDTO> GetProductWithFullDetails(int productId, int userId);
   public Task<PagedResponse<ResponseVendorGetAllProductDTO>> GetAllProductsByVendorId(RequestVendorProductFilter request, int vendorId);

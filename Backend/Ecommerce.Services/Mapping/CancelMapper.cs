@@ -6,8 +6,10 @@ namespace Ecommerce.Mappers
 {
     public class CancelMappingProfile : Profile
     {
+
         public CancelMappingProfile()
         {
+            CreateMap<CancelReason, CancelReasonResponse>();
             CreateMap<Cancel, CancelSummaryDto>()
            .ForMember(dest => dest.OrderItemId, opt => opt.MapFrom(src => src.OrderItemId))
            .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.OrderItems!.OrderId))
@@ -23,7 +25,10 @@ namespace Ecommerce.Mappers
            .ForMember(dest => dest.CancelStatus, opt => opt.MapFrom(src => src.CancelStatus!.CancelStatusName))
            .ForMember(dest => dest.DeliveryCity, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.City))
            .ForMember(dest => dest.DeliveryAddress, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.AddressLine))
-           .ForMember(dest => dest.DeliveryPincode, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.PinCode));
+           .ForMember(dest => dest.DeliveryPincode, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.PinCode))
+           .ForMember(dest => dest.ContactPersonName, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.ContactName))
+           .ForMember(dest => dest.UserId, opt => opt.MapFrom(src => src.OrderItems!.Order!.UserId))
+           .ForMember(dest => dest.ContactPhoneNumber, opt => opt.MapFrom(src => src.OrderItems!.Order!.Address!.ContactPhoneNumber));
         }
     }
 }

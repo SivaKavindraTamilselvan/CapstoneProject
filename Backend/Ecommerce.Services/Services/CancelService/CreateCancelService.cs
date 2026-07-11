@@ -39,17 +39,35 @@ public partial class CancelService : ICancelService
         inventory.ReservedQuantity = inventory.ReservedQuantity - Quantity;
         inventory.UpdatedAt = DateTime.Now;
     }
-    private async Task UpdateOrderItemStatus(int orderitemId, int Quantity)
+    private async Task<int> UpdateOrderItemStatus(int orderItemId, int cancelQuantity)
     {
-        var order = await _orderValidation.ValidateOrderItem(orderitemId);
-        if (order.Quantity == Quantity)
+        var orderItem = await _orderValidation.ValidateOrderItem(orderItemId);
+
+        if (orderItem.Quantity == cancelQuantity)
         {
-            order.OrderItemStatusId = 7;
+            orderItem.OrderItemStatusId = 7;
+            await _orderItemRepsository.Update(orderItem.OrderItemsId, orderItem);
+
+            return orderItem.OrderItemsId;
         }
-        else
+        orderItem.Quantity -= cancelQuantity;
+        await _orderItemRepsository.Update(orderItem.OrderItemsId, orderItem);
+
+        var cancelledItem = new OrderItems
         {
-            order.Quantity = order.Quantity - Quantity;
-        }
+            OrderId = orderItem.OrderId,
+            ProductVariantId = orderItem.ProductVariantId,
+            InventoryId = orderItem.InventoryId,
+            Quantity = cancelQuantity,
+            UnitPrice = orderItem.UnitPrice,
+            Discount = (orderItem.Discount / (orderItem.Quantity + cancelQuantity)) * cancelQuantity,
+            OrderItemStatusId = 7,
+           
+        };
+
+        await _orderItemRepsository.Create(cancelledItem);
+
+        return cancelledItem.OrderItemsId;
     }
     private async Task UpdateOrder(int orderId)
     {

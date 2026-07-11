@@ -16,7 +16,7 @@ public partial class CancelService : ICancelService
         }
         return new PagedResponse<CancelSummaryDto>
         {
-            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            Items = _mapper.Map<List<CancelSummaryDto>>(result.data),
             TotalCount = result.totalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
@@ -32,7 +32,7 @@ public partial class CancelService : ICancelService
         }
         return new PagedResponse<CancelSummaryDto>
         {
-            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            Items = _mapper.Map<List<CancelSummaryDto>>(result.data),
             TotalCount = result.totalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
@@ -48,10 +48,17 @@ public partial class CancelService : ICancelService
         }
         return new PagedResponse<CancelSummaryDto>
         {
-            Items =  _mapper.Map<List<CancelSummaryDto>>(result.data),
+            Items = _mapper.Map<List<CancelSummaryDto>>(result.data),
             TotalCount = result.totalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
     }
+    public async Task<CancelSummaryDto> GetAllCancel(int cancelId, int user)
+    {
+        var cancel = await _cancelRepsository.GetCancelById(cancelId);
+        return _mapper.Map<CancelSummaryDto>(cancel);
+    }
+
+
 }

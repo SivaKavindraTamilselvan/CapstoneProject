@@ -21,9 +21,9 @@ namespace Ecommerce.Mappers
             // vendor registration
             CreateMap<RequestRegisterVendorDTO, Vendor>()
             .ForMember(dest => dest.ContactPersonName, opt => opt.MapFrom(src => src.ContactPersonName.Trim()))
-            .ForMember(dest => dest.CompanyEmail, opt => opt.MapFrom(src => src.ContactPersonName.Trim()))
-            .ForMember(dest => dest.GSTNumber, opt => opt.MapFrom(src => src.ContactPersonName.Trim()))
-            .ForMember(dest => dest.VendorCompanyName, opt => opt.MapFrom(src => src.ContactPersonName.Trim()));
+            .ForMember(dest => dest.CompanyEmail, opt => opt.MapFrom(src => src.CompanyEmail.Trim()))
+            .ForMember(dest => dest.GSTNumber, opt => opt.MapFrom(src => src.GSTNumber.Trim()))
+            .ForMember(dest => dest.VendorCompanyName, opt => opt.MapFrom(src => src.VendorCompanyName.Trim()));
             CreateMap<Vendor, ResponseRegisterVendorDTO>();
             // vendor user registration (done by the vendor owner)
             CreateMap<VendorUser, ResponseRegisterVendorUserDTO>();

@@ -78,7 +78,7 @@ public partial class AdminProductService : IAdminProductService
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
-        var updated = await _productVariantRepsository.Update(product.ProductId, product);
+        var updated = await _productVariantRepsository.Update(product.ProductVariantId, product);
         await _approvalHistoryRepsository.Create(approvalHistory);
 
         var ownerVendor = await _vendorUserRepsository.GetOwnerVendorUserByVendorId(product.Product!.VendorId);

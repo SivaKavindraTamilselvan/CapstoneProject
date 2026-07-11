@@ -1,6 +1,7 @@
 using System.Security.Authentication;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
@@ -10,6 +11,10 @@ public partial class VendorProductService : IVendorProductService
     {
         _logger.LogInformation("Vendor UserId {VendorUserId} initiated product status update for ProductId {ProductId}", vendorUserId, requestUpdateProduct.ProductId);
         var product = await _productValidation.ValidateProduct(requestUpdateProduct.ProductId);
+        if(product.ProductStatusId == 4)
+        {
+            throw new  DataApprovalStatusException("Deleted Product Cannot be updated");
+        }
         var vendorUser = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         _logger.LogInformation("Product {ProductId} validated successfully for status update", product.ProductId);
         await _productValidation.VendorValidateProduct(requestUpdateProduct.ProductId, vendorUser.VendorId);

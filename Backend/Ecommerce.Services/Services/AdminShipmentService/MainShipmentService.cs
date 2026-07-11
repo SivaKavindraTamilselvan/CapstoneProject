@@ -7,14 +7,16 @@ using Ecommerce.Services.Interfaces;
 
 public partial class AdminShipmentService : IAdminShipmentService
 {
+    private readonly IReturnRepsository _returnRepsository;
     private readonly IShipmentService _shipmentService;
     private readonly IShipmentRepsository _shipmentRepsository;
     private readonly IShipmentItemsRepsository _shipmentItemsRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IOrderRepsository _orderRepsository;
     private readonly IMapper _mapper;
-    public AdminShipmentService(IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IMapper mapper, IShipmentItemsRepsository shipmentItemsRepsository, IOrderItemRepsository orderItemRepsository, IOrderRepsository orderRepsository)
+    public AdminShipmentService(IReturnRepsository returnRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IMapper mapper, IShipmentItemsRepsository shipmentItemsRepsository, IOrderItemRepsository orderItemRepsository, IOrderRepsository orderRepsository)
     {
+        _returnRepsository = returnRepsository;
         _shipmentService = shipmentService;
         _shipmentRepsository = shipmentRepsository;
         _shipmentItemsRepsository = shipmentItemsRepsository;

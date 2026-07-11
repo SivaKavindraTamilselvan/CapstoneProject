@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
@@ -9,7 +10,15 @@ public partial class AddressService : IAddressService
     public async Task<ResponseAddAddressDTO> AddAddress(RequestAddAddressDTO requestAddAddressDTO, int UserId)
     {
         _logger.LogInformation("Adding address for UserId {UserId}", UserId);
-        await _userValidation.ValidateUser(UserId);
+        var user = await _userValidation.ValidateUser(UserId);
+        if (user.RoleId == 3)
+        {
+            var vendorUser = await _vendorUserRepsository.CheckUserIsVendorOwner(user.UserId);
+            if (vendorUser == null)
+            {
+                throw new InvalidCredentialException("Only Vendor Owner can add address");
+            }
+        }
         var address = _mapper.Map<Address>(requestAddAddressDTO);
         address.UserId = UserId;
         var createdAddress = await _addressRepsository.Create(address);
@@ -25,6 +34,17 @@ public partial class AddressService : IAddressService
             await MakeAddressDefault(createdAddress.AddressId, UserId);
         }
         _logger.LogInformation("Address created successfully with AddressId {AddressId} for UserId {UserId}", createdAddress.AddressId, UserId);
+
+        if (user.RoleId == 3)
+        {
+            await _notificationService.SendToUser(
+                UserId,
+                "Inventory Address Added",
+                $"Your inventory address in {createdAddress.City}, {createdAddress.State} has been created.",
+                notificationTypeId: 24,
+                referenceType: "Address",
+                referenceId: createdAddress.AddressId);
+        }
         return _mapper.Map<ResponseAddAddressDTO>(createdAddress);
     }
     public async Task<ResponseMakeDefaultAddressDTO> MakeAddressDefault(int addressId, int userId)

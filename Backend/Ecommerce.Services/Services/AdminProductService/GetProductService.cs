@@ -3,128 +3,296 @@ using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
-using Npgsql.Internal;
-using Org.BouncyCastle.Ocsp;
 
 public partial class AdminProductService : IAdminProductService
 {
-
-    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request, int adminUserId)
+    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(
+        RequestAdminProductFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
-        _logger.LogInformation("Admin requested product list with filters {@Request}", request);
-        var result = await _productRepsository.GetAdminProduct(request);
-        _logger.LogInformation("Retrieved {ProductCount} products from repository. TotalCount: {TotalCount}", result.items.Count, result.totalCount);
+        _logger.LogInformation("Admin requested product list {@Request}", request);
+
+        bool needsInMemoryPaging = request.hasIssues.HasValue;
+        RequestAdminProductFilter repoRequest = request;
+
+        if (needsInMemoryPaging)
+        {
+            repoRequest = new RequestAdminProductFilter
+            {
+                PageNumber = 1,
+                PageSize = int.MaxValue,
+                ProductApprovalStatusId = request.ProductApprovalStatusId,
+                ProductCategoryId = request.ProductCategoryId,
+                ProductSubCategoryId = request.ProductSubCategoryId,
+                ProductStatusId = request.ProductStatusId,
+                VendorId = request.VendorId,
+                MinPrice = request.MinPrice,
+                MaxPrice = request.MaxPrice,
+                SearchTerm = request.SearchTerm,
+                ProductName = request.ProductName,
+                MinAvailableQuantity = request.MinAvailableQuantity,
+                MaxAvailableQuantity = request.MaxAvailableQuantity,
+                MinReservedQuantity = request.MinReservedQuantity,
+                MaxReservedQuantity = request.MaxReservedQuantity,
+                includeIsDeleted = request.includeIsDeleted,
+                isAvailableForSale = request.isAvailableForSale,
+                hasIssues = request.hasIssues
+            };
+        }
+
+        var result = await _productRepsository.GetAdminProduct(repoRequest);
         var products = result.items;
+
+        _logger.LogInformation("Repo returned {Count} products (TotalCount: {Total})",
+            products.Count, result.totalCount);
+
         var response = _mapper.Map<List<ResponseAdminGetAllProductDTO>>(products);
+
         for (int i = 0; i < products.Count; i++)
         {
             _logger.LogDebug("Validating ProductId {ProductId}", products[i].ProductId);
+
             var validation = await _productValidation.ValidateProductChain(products[i]);
 
-            response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductStatusId == (int)ProductStatusEnum.Active
-            && validation.IsValid && products[i].ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active
-            && pv.Inventories.Any(inv=> inv!= null && inv.IsActive && inv.AvailableQuantity > 0 && inv.Address != null && inv.Address!.IsActive));
+            response[i].IsAvailableForSale =
+                products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                products[i].ProductStatusId == (int)ProductStatusEnum.Active &&
+                validation.IsValid &&
+                products[i].ProductVariants.Any(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                    pv.Inventories.Any(inv =>
+                        inv != null && inv.IsActive &&
+                        inv.AvailableQuantity > 0 &&
+                        inv.Address != null && inv.Address.IsActive));
 
             response[i].ValidationIssues = validation.Issues;
 
-            _logger.LogDebug("Validation completed for ProductId {ProductId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductId, validation.IsValid, validation.Issues.Count);
+            _logger.LogDebug("ProductId {Id} — IsValid: {Valid}, Issues: {Count}",
+                products[i].ProductId, validation.IsValid, validation.Issues.Count);
+
             foreach (var variantResponse in response[i].ProductVariants)
             {
-                var variant = products[i].ProductVariants.FirstOrDefault(pv => pv.ProductVariantId == variantResponse.ProductVariantId);
-                if (variant == null)
-                {
-                    continue;
-                }
-                variantResponse.IsAvailableForSale = variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
-                validation.IsValid && variant.Inventories.Any(inv => inv.AvailableQuantity > 0);
-                variantResponse.ValidationIssues = new List<string> {"Same For All Product Variant. Present In The Main Product"};
+                var variant = products[i].ProductVariants
+                    .FirstOrDefault(pv => pv.ProductVariantId == variantResponse.ProductVariantId);
+
+                if (variant == null) continue;
+
+                variantResponse.IsAvailableForSale =
+                    variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                    validation.IsValid &&
+                    variant.Inventories.Any(inv => inv.AvailableQuantity > 0);
+
+                variantResponse.ValidationIssues = new List<string>
+                    { "Same for all product variants. Present in the main product." };
             }
         }
-        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
+
         if (request.hasIssues.HasValue)
         {
-            if (request.hasIssues.Value)
-            {
-                response = response.Where(p => p.ValidationIssues.Any()).ToList();
-            }
-            else
-            {
-                response = response.Where(p => !p.ValidationIssues.Any()).ToList();
-            }
+            _logger.LogInformation("Applying hasIssues={Value} filter in memory", request.hasIssues.Value);
+            response = request.hasIssues.Value
+                ? response.Where(p => p.ValidationIssues.Any()).ToList()
+                : response.Where(p => !p.ValidationIssues.Any()).ToList();
         }
-        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.isAvailableForSale);
-        if (request.isAvailableForSale.HasValue)
+
+        int totalCount;
+        List<ResponseAdminGetAllProductDTO> pagedItems;
+
+        if (needsInMemoryPaging)
         {
-            response = response.Where(p => p.IsAvailableForSale == request.isAvailableForSale.Value).ToList();
+            totalCount = response.Count;
+            pagedItems = response
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            _logger.LogInformation(
+                "In-memory paging applied. TotalAfterFilter: {Total}, Page: {Page}, Returning: {Count}",
+                totalCount, request.PageNumber, pagedItems.Count);
         }
-        _logger.LogInformation("Returning {Count} products after filtering", response.Count);
+        else
+        {
+            totalCount = result.totalCount;
+            pagedItems = response;
+        }
+
         return new PagedResponse<ResponseAdminGetAllProductDTO>
         {
-            Items = response,
-            TotalCount = result.totalCount,
+            Items = pagedItems,
+            TotalCount = totalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
     }
-    public async Task<PagedResponse<ResponseAdminProductVariantOnlyDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request, int adminUserId)
+
+    public async Task<PagedResponse<ResponseAdminProductVariantOnlyDTO>> GetAllProductVariant(
+        RequestAdminProductVariantFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
+
+        bool needsInMemoryPaging = request.hasIssues.HasValue;
+        RequestAdminProductVariantFilter repoRequest = request;
+
+        if (needsInMemoryPaging)
+        {
+            repoRequest = new RequestAdminProductVariantFilter
+            {
+                PageNumber = 1,
+                PageSize = int.MaxValue,
+                VendorId = request.VendorId,
+                SKU = request.SKU,
+                ProductId = request.ProductId,
+                SearchTerm = request.SearchTerm,
+                CategoryId = request.CategoryId,
+                SubCategoryId = request.SubCategoryId,
+                StatusId = request.StatusId,
+                ApprovalStatusId = request.ApprovalStatusId,
+                MinPrice = request.MinPrice,
+                MaxPrice = request.MaxPrice,
+                MinimuQuantityPerUser = request.MinimuQuantityPerUser,
+                AddedByVendorUserId = request.AddedByVendorUserId,
+                IsReturn = request.IsReturn,
+                IsExchange = request.IsExchange,
+                MainProductSubCategoryAttributeId = request.MainProductSubCategoryAttributeId,
+                MinAvailableQuantity = request.MinAvailableQuantity,
+                MaxAvailableQuantity = request.MaxAvailableQuantity,
+                MinReservedQuantity = request.MinReservedQuantity,
+                MaxReservedQuantity = request.MaxReservedQuantity,
+                IsAvailableForSale = request.IsAvailableForSale,
+                hasIssues = request.hasIssues
+            };
+        }
+
         _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
-        var result = await _productVariantRepsository.GetAllVariantsForAdmin(request);
-        _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}", result.Items.Count, result.TotalCount);
+
+        // ── Fix: pass repoRequest, not request ───────────────────────────────────
+        var result = await _productVariantRepsository.GetAllVariantsForAdmin(repoRequest);
+
+        _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}",
+            result.Items.Count, result.TotalCount);
+
         var products = result.Items;
         var response = _mapper.Map<List<ResponseAdminProductVariantOnlyDTO>>(products);
+
         for (int i = 0; i < products.Count; i++)
         {
             _logger.LogDebug("Validating ProductVariantId {ProductVariantId}", products[i].ProductVariantId);
 
             var validation = await _productValidation.ValidateProductChain(products[i].Product!);
 
-            response[i].IsAvailableForSale = products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active
-            && validation.IsValid && products[i].Inventories.Any(inv=> inv!= null && inv.IsActive && inv.AvailableQuantity > 0 && inv.Address != null && inv.Address!.IsActive);
+            response[i].IsAvailableForSale =
+                products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                products[i].ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                validation.IsValid &&
+                products[i].Inventories.Any(inv =>
+                    inv != null && inv.IsActive &&
+                    inv.AvailableQuantity > 0 &&
+                    inv.Address != null && inv.Address.IsActive);
 
             response[i].ValidationIssues = validation.Issues;
-            _logger.LogDebug("Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}", products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);
+
+            _logger.LogDebug(
+                "Validation completed for ProductVariantId {ProductVariantId}. IsValid: {IsValid}, IssuesCount: {IssuesCount}",
+                products[i].ProductVariantId, validation.IsValid, validation.Issues.Count);
         }
-        _logger.LogInformation("Applying HasIssues filter: {HasIssues}", request.hasIssues);
+
         if (request.hasIssues.HasValue)
         {
-            if (request.hasIssues.Value)
-            {
-                response = response.Where(p => p.ValidationIssues.Any()).ToList();
-            }
-            else
-            {
-                response = response.Where(p => !p.ValidationIssues.Any()).ToList();
-            }
+            _logger.LogInformation("Applying hasIssues={Value} filter in memory", request.hasIssues.Value);
+            response = request.hasIssues.Value
+                ? response.Where(p => p.ValidationIssues.Any()).ToList()
+                : response.Where(p => !p.ValidationIssues.Any()).ToList();
         }
-        _logger.LogInformation("Applying IsAvailableForSale filter: {IsAvailableForSale}", request.IsAvailableForSale);
+
         if (request.IsAvailableForSale.HasValue)
         {
+            _logger.LogInformation("Applying IsAvailableForSale={Value} filter in memory", request.IsAvailableForSale.Value);
             response = response.Where(p => p.IsAvailableForSale == request.IsAvailableForSale.Value).ToList();
         }
-        _logger.LogInformation("Returning {Count} product variants after filtering", response.Count);
+
+        int totalCount;
+        List<ResponseAdminProductVariantOnlyDTO> pagedItems;
+
+        if (needsInMemoryPaging)
+        {
+            totalCount = response.Count;
+            pagedItems = response
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            _logger.LogInformation(
+                "In-memory paging applied. TotalAfterFilter: {Total}, Page: {Page}, Returning: {Count}",
+                totalCount, request.PageNumber, pagedItems.Count);
+        }
+        else
+        {
+            totalCount = result.TotalCount;
+            pagedItems = response;
+        }
+
+        _logger.LogInformation("Returning {Count} product variants after filtering", pagedItems.Count);
+
         return new PagedResponse<ResponseAdminProductVariantOnlyDTO>
         {
-            Items = response,
-            TotalCount = result.TotalCount,
+            Items = pagedItems,
+            TotalCount = totalCount,
             PageNumber = request.PageNumber,
             PageSize = request.PageSize
         };
     }
+
     public async Task<ResponseAdminGetAllProductDTO> GetProductWithFullDetails(int productId, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested full details for ProductId {ProductId}", productId);
+
         var product = await _productRepsository.GetProductWithFullDetails(productId);
         if (product == null)
         {
             _logger.LogWarning("Product not found for ProductId {ProductId}", productId);
             throw new DataNotFoundException("Product not found");
         }
-        _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
-        return _mapper.Map<ResponseAdminGetAllProductDTO>(product);
-    }
 
+        var response = _mapper.Map<ResponseAdminGetAllProductDTO>(product);
+
+        var validation = await _productValidation.ValidateProductChain(product);
+
+        response.IsAvailableForSale =
+            product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+            product.ProductStatusId == (int)ProductStatusEnum.Active &&
+            validation.IsValid &&
+            product.ProductVariants.Any(pv =>
+                pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                pv.Inventories.Any(inv =>
+                    inv != null && inv.IsActive &&
+                    inv.AvailableQuantity > 0 &&
+                    inv.Address != null && inv.Address.IsActive));
+
+        response.ValidationIssues = validation.Issues;
+
+        foreach (var variantResponse in response.ProductVariants)
+        {
+            var variant = product.ProductVariants
+                .FirstOrDefault(pv => pv.ProductVariantId == variantResponse.ProductVariantId);
+
+            if (variant == null) continue;
+
+            variantResponse.IsAvailableForSale =
+                variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                validation.IsValid &&
+                variant.Inventories.Any(inv => inv.AvailableQuantity > 0);
+
+            variantResponse.ValidationIssues = new List<string>
+                { "Same for all product variants. Present in the main product." };
+        }
+
+        _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);
+
+        return response;
+    }
 }

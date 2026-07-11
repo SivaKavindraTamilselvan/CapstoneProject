@@ -12,7 +12,8 @@ public partial class OrderService : IOrderService
     {
         var order = _mapper.Map<Order>(requestCreateOrderDTO);
         order.OrderNumber = $"ORD-{DateTime.UtcNow:yyyyMMdd}-{Random.Shared.Next(100000, 999999)}";
-        order.FinalAmount = order.TotalProductAmount - order.TotalCouponAmount + order.TotalShippingAmount;
+        order.FinalAmount = order.TotalProductAmount - order.TotalCouponAmount;
+        order.FinalAmount = order.FinalAmount * 1.18m  + order.TotalShippingAmount;
         order.OrderStatusId = 1;
         order.OrderDate = DateTime.Now;
         await _orderRepsository.Create(order);

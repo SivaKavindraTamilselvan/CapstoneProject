@@ -6,6 +6,8 @@ using Ecommerce.Services.Interfaces;
 
 public partial class OrderService : IOrderService
 {
+    private readonly IReturnRepsository _returnRepsository;
+    private readonly IProductImageRepsository _productImageRepsository;
     private readonly IUserRepsository _userRepsository;
     private readonly IVendorUserValidation _vendorUserValidation;
     private readonly ICouponUsageRepsository _couponUsageRepsository;
@@ -17,8 +19,10 @@ public partial class OrderService : IOrderService
     private readonly IShipmentService _shipmentService;
 
     private readonly IMapper _mapper;
-    public OrderService(ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(IReturnRepsository returnRepsository,IProductImageRepsository productImageRepsository,ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
+        _returnRepsository = returnRepsository;
+        _productImageRepsository = productImageRepsository;
         _couponUsageRepsository = couponUsageRepsository;
         _userRepsository = userRepsository;
         _vendorUserValidation = vendorUserValidation;

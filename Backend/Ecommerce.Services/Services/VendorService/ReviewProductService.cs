@@ -67,7 +67,7 @@ public partial class VendorService : IVendorService
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
-        var updated = await _productVariantRepsository.Update(product.ProductId, product);
+        var updated = await _productVariantRepsository.Update(product.ProductVariantId, product);
         await _approvalHistoryRepsository.Create(approvalHistory);
         _logger.LogInformation("ProductVariantId {ProductVariantId} reviewed successfully by Vendor UserId {VendorUserId}. Status changed from {OldStatus} to {NewStatus}", product.ProductVariantId, vendorUserId, approvalHistory.PreviousStatusId, approvalHistory.NewStatusId);
         return _mapper.Map<ResponseReviewOfProductVariantDTO>(product);

@@ -30,7 +30,8 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.ProductName, opt => opt.MapFrom(src => src.OrderItems!.ProductVariant!.Product!.ProductName))
             .ForMember(dest => dest.SKU, opt => opt.MapFrom(src => src.OrderItems!.ProductVariant!.SKU))
             .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.OrderItems!.Quantity))
-            .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OrderItems!.UnitPrice));
+            .ForMember(dest => dest.UnitPrice, opt => opt.MapFrom(src => src.OrderItems!.UnitPrice))
+            .ForMember(dest => dest.ProductVariantId, opt => opt.MapFrom(src => src.OrderItems!.ProductVariantId));
 
             CreateMap<ShipmentTracking, ShipmentTrackingResponseDto>()
             .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.ShipmentStatus!.ShipmentStatusName));

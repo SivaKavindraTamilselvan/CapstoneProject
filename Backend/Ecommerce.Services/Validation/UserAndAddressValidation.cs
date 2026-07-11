@@ -32,6 +32,7 @@ public class UserValidation : IUserValidation
     public async Task<Address> ValidateAddress(int addressId,int userId)
     {
         var address = await _addressRepsository.Get(addressId);
+        Console.WriteLine(addressId);
         if(address == null)
         {
             throw new DataNotFoundException("Address Not Found");

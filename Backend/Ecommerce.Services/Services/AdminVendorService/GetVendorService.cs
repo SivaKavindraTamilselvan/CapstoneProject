@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminVendorService : IAdminVendorService
 {
-    public async Task<PagedResponse<ResponseAdminGetVendorDTO>> GetVendorsForAdmin(RequestAdminVendorFilter request,int adminUserId)
+    public async Task<PagedResponse<ResponseAdminGetVendorDTO>> GetVendorsForAdmin(RequestAdminVendorFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching all vendors");
@@ -24,7 +24,7 @@ public partial class AdminVendorService : IAdminVendorService
             TotalCount = vendor.totalCount
         };
     }
-    public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId,int adminUserId)
+    public async Task<ResponseAdminGetVendorDTO> GetVendorsByVendorIdForAdmin(int vendorId, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Fetching all vendors");
@@ -35,5 +35,19 @@ public partial class AdminVendorService : IAdminVendorService
             throw new DataNotFoundException("No Vendors Found");
         }
         return _mapper.Map<ResponseAdminGetVendorDTO>(vendor);
+    }
+
+    public async Task<PagedResponse<ResponseGetVendorUserDTO>> GetVendorUserByVendorIdForAdmin(RequestAdminVendorUserFilter request, int adminUserId)
+    {
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
+        _logger.LogInformation("Fetching all vendors");
+        var vendor = await _vendorUserRepsository.GetVendorsForAdmin(request);
+        return new PagedResponse<ResponseGetVendorUserDTO>
+        {
+            Items = _mapper.Map<List<ResponseGetVendorUserDTO>>(vendor.items),
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize,
+            TotalCount = vendor.totalCount
+        };
     }
 }

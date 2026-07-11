@@ -4,6 +4,9 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IUserOrderService
 {
+    public  Task<ShippingCheckResponseDTO> CheckService(
+    RequestAddOrderDTO requestAddOrderDTO,
+    int userId);
     public Task OnPaymentFailed(int orderId);
     public Task OnPaymentVerified(int orderId);
     public Task<ResponseAddOrderDTO> AddOrder(RequestAddOrderDTO requestAddOrderDTO, int userId);

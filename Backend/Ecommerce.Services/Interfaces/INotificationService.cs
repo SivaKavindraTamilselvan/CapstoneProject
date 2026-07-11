@@ -1,4 +1,6 @@
 // Ecommerce.Services/Interfaces/INotificationService.cs
+using Ecommerce.DTOs;
+
 namespace Ecommerce.Services.Interfaces
 {
     public interface INotificationService
@@ -10,5 +12,7 @@ namespace Ecommerce.Services.Interfaces
             int notificationTypeId,
             string? referenceType = null,
             int? referenceId = null);
+        public Task<PagedResponse<ResponseNotification>> GetAllNotificationByUserId(NotificationFilter request, int userId);
+        public Task<ResponseNotification> UpdateNotification(int notificationId, int userId);
     }
 }
