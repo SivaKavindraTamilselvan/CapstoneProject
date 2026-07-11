@@ -46,6 +46,14 @@ public class VendorProductController : ControllerBase
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [HttpGet("variant/{productVariantId}")]
+    public async Task<IActionResult> GetProductVariantWithFullDetails(int productVariantId)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductService.GetProductVariantWithFullDetails(productVariantId,vendorUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpPost("AddProduct")]
     public async Task<ActionResult<ResponseAddProduct>> AddProduct(RequestAddProduct requestAddProduct)
     {
@@ -133,4 +141,21 @@ public class VendorProductController : ControllerBase
         var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
         return Ok(result);
     }
+
+
+    [HttpGet("subcategory-attributes")]
+    public async Task<ActionResult<List<ResponseAdminGetCategoryAttribute>>> GetSubCategoryAttributes([FromQuery] RequestSubCategoryAttributeFilter request)
+    {
+        var result = await _vendorProductService.GetCategoryAttribute(request);
+        return Ok(result);
+    }
+
+    [HttpGet("attributes")]
+    public async Task<ActionResult<List<ResponseAdminGetAttribute>>> GetAllAttributes()
+    {
+        var result = await _vendorProductService.GetAllAttribute();
+        return Ok(result);
+    }
+
+
 }

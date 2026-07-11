@@ -24,7 +24,7 @@ public class CancelController : ControllerBase
         _addressService = addressService;
         _reviewService = reviewService;
     }
-    
+
     [HttpGet("admin-cancels")]
     public async Task<IActionResult> GetAllCancelsForAdmin([FromQuery] RequestAdminCancelFilter request)
     {
@@ -35,14 +35,21 @@ public class CancelController : ControllerBase
     public async Task<IActionResult> GetAllCancelsForUser([FromQuery] RequestUserCancelFilter request)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userCancelService.GetAllCancelsForUser(request,UserId);
+        var result = await _userCancelService.GetAllCancelsForUser(request, UserId);
         return Ok(result);
     }
     [HttpGet("vendor-cancels")]
     public async Task<IActionResult> GetAllCancelsForVendor([FromQuery] RequestVendorCancelFilter request)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userCancelService.GetAllCancelsForVendor(request,vendorUserId);
+        var result = await _userCancelService.GetAllCancelsForVendor(request, vendorUserId);
+        return Ok(result);
+    }
+    [HttpGet("admin-cancel/{cancelId}")]
+    public async Task<IActionResult> GetCancelsForAdmin(int cancelId)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCancelService.GetAllCancel(cancelId, vendorUserId);
         return Ok(result);
     }
     [HttpPost("request-cancels")]

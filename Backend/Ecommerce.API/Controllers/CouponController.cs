@@ -10,11 +10,11 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class CouponController : ControllerBase
 {
-    private readonly IVendorCouponService _vendorCouponService;
+    private readonly ICouponService _couponService;
     private readonly IUserCouponService _userCouponService;
-    public CouponController(IVendorCouponService vendorCouponService,IUserCouponService userCouponService)
+    public CouponController(ICouponService couponService, IUserCouponService userCouponService)
     {
-        _vendorCouponService = vendorCouponService;
+        _couponService = couponService;
         _userCouponService = userCouponService;
     }
     [Authorize("CouponPolicy")]
@@ -23,7 +23,52 @@ public class CouponController : ControllerBase
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         int roleId = int.Parse(User.FindFirst(ClaimTypes.Role)!.Value);
-        var result = await _vendorCouponService.AddCoupon(requestAddCouponDTO, roleId, UserId);
+        var result = await _couponService.AddCoupon(requestAddCouponDTO, roleId, UserId);
+        return Ok(result);
+    }
+
+    [Authorize("CouponPolicy")]
+    [HttpGet("coupons")]
+    public async Task<ActionResult<ResponseAddCouponDTO>> GetAdminCoupons([FromQuery] AdminCouponFilter request)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _couponService.GetCouponsForAdmin(request, adminUserId);
+        return Ok(result);
+    }
+
+    [Authorize("CouponPolicy")]
+    [HttpGet("coupons/{couponId}")]
+    public async Task<ActionResult<CouponDetailDto>> GetAdminCouponById([FromRoute] int couponId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _couponService.GetCouponByIdForAdmin(couponId, adminUserId);
+        return Ok(result);
+    }
+
+    [Authorize("CouponPolicy")]
+    [HttpPatch("coupons/deactivate/{couponId}")]
+    public async Task<ActionResult<CouponDetailDto>> DeactivateCouponById([FromRoute] int couponId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _couponService.DeactivateCoupon(couponId, adminUserId);
+        return Ok(result);
+    }
+
+    [Authorize("CouponPolicy")]
+    [HttpPatch("coupons/activate/{couponId}")]
+    public async Task<ActionResult<CouponDetailDto>> ActivateCouponById([FromRoute] int couponId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _couponService.ActivateCoupon(couponId, adminUserId);
+        return Ok(result);
+    }
+
+    [Authorize("CouponPolicy")]
+    [HttpPatch("coupons/update")]
+    public async Task<ActionResult<CouponDetailDto>> UpdateCoupon(UpdateCouponDto update)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _couponService.UpdateCouponByIdForAdmin(update, adminUserId);
         return Ok(result);
     }
 
