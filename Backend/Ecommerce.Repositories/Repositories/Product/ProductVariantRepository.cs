@@ -16,7 +16,7 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         .Include(pv => pv.ProductVariantStatus).Include(pv => pv.ProductApprovalStatus)
         .Include(p => p.Product).ThenInclude(pv => pv!.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
-        .Include(pv => pv.ProductImages).ThenInclude(p=>p.DisplayOrder)
+        .Include(pv => pv.ProductImages).ThenInclude(p => p.DisplayOrder)
         .Include(pv => pv.Inventories);
     }
     public ProductVariantRepsository(EcommerceContext ecommerceContext) : base(ecommerceContext)
@@ -91,9 +91,9 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, total);
     }
-    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(RequestVendorProductVariantFilter request,int vendorid)
+    public async Task<(List<ProductVariant> Items, int TotalCount)> GetAllVariantsForVendor(RequestVendorProductVariantFilter request, int vendorid)
     {
-        var query = BaseQuery().Where(p=>p.Product!.VendorId == vendorid);
+        var query = BaseQuery().Where(p => p.Product!.VendorId == vendorid);
         if (request.AddedByVendorUserId.HasValue)
         {
             query = query.Where(p => p.AddedByVendorUserId == request.AddedByVendorUserId.Value);
@@ -146,9 +146,27 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         {
             query = query.Where(p => p.MinimuQuantityPerUser >= request.MinimuQuantityPerUser.Value);
         }
+        if (request.includeIsDeleted.HasValue)
+        {
+            if (request.includeIsDeleted.Value)
+            {
+                query = query.Where(p => p.ProductApprovalStatusId == 6 || p.ProductVariantStatusId == 4);
+            }
+            else
+            {
+                query = query.Where(p => p.ProductApprovalStatusId != 6 && p.ProductVariantStatusId != 4);
+            }
+
+        }
         var total = await query.CountAsync();
 
         var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, total);
     }
+    public async Task<ProductVariant?> GetVariantsForVendor(int variantId)
+    {
+        return await BaseQuery().Where(p => p.ProductVariantId == variantId).FirstOrDefaultAsync();
+
+    }
+
 }

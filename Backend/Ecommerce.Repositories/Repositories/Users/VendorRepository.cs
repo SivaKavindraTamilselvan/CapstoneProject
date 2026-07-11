@@ -66,6 +66,17 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
         {
             query = query.Where(a => a.IsActive == request.IsActive);
         }
+        if (request.includeIsDeleted.HasValue)
+        {
+            if (request.includeIsDeleted.Value == true)
+            {
+                query = query.Where(a => a.ApprovalStatusId == 4);
+            }
+            else
+            {
+                query = query.Where(a => a.ApprovalStatusId != 4);
+            }
+        }
         var totalCount = await query.CountAsync();
         var vendor = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (vendor, totalCount);
@@ -79,7 +90,7 @@ public class VendorRepsository : AbstractRepository<int, Vendor>, IVendorRepsosi
     public async Task<Vendor?> GetVendorsByVendorIdForAdmin(int vendorId)
     {
         var query = _ecommerceContext.Vendor.Include(v => v.ReviwedByAdmin).ThenInclude(a => a!.User).Include(a => a.ApprovalStatus).AsQueryable();
-        return await query.Where(v=>v.VendorId == vendorId).FirstOrDefaultAsync();
+        return await query.Where(v => v.VendorId == vendorId).FirstOrDefaultAsync();
     }
 
 

@@ -20,6 +20,7 @@ public class CancelRepsository : AbstractRepository<int, Cancel>, ICancelRepsosi
     }
     public async Task<(List<Cancel> data, int totalCount)> GetAllCancelsForAdmin(RequestAdminCancelFilter request)
     {
+        Console.WriteLine(request.VendorId);
         var query = BaseQuery();
         if (request.CancelStatusId.HasValue)
         {
@@ -122,5 +123,10 @@ public class CancelRepsository : AbstractRepository<int, Cancel>, ICancelRepsosi
 
         var data = await query.OrderByDescending(c => c.CancelledDate).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (data, totalCount);
+    }
+
+    public async Task<Cancel?> GetCancelById(int cancelId)
+    {
+        return await BaseQuery().Where(c=>c.CancelId == cancelId).FirstOrDefaultAsync();
     }
 }
