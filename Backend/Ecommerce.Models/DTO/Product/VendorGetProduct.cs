@@ -13,6 +13,7 @@ public class RequestVendorProductFilter : PaginationFilter
     public string? SearchTerm { get; set; }
     public bool? hasIssues { get; set; }
     public bool? isAvailableForSale { get; set; }
+    public bool? includeIsDeleted { get; set; }
     public int? MinAvailableQuantity { get; set; }
     public int? MinReservedQuantity { get; set; }
     public int? MaxAvailableQuantity { get; set; }
@@ -24,10 +25,12 @@ public class ResponseVendorGetAllProductDTO
     public int ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public int ProductSubCategoryId { get; set; }
     public string ProductSubCategoryName { get; set; } = string.Empty;
     public string ProductCategoryName { get; set; } = string.Empty;
     public string ProductApprovalStatus { get; set; } = string.Empty;
     public string ProductStatus { get; set; } = string.Empty;
+    public int MainProductSubCategoryAttributeId { get; set; }
     public string MainProductSubCategoryAttributeName { get; set; } = string.Empty;
     public int AddedByVendorUserId {get;set;}
     public string AddedByVendorUser {get;set;} = string.Empty;

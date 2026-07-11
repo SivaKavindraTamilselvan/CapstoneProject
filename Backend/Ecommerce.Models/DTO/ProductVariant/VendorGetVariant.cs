@@ -22,6 +22,8 @@ public class RequestVendorProductVariantFilter : PaginationFilter
     public int? MaxReservedQuantity { get; set; }
     public bool? hasIssues { get; set; }
     public bool? IsAvailableForSale { get; set; }
+    public bool? includeIsDeleted { get; set; }
+
 
 }
 public class ResponseVendorGetProductVariant
@@ -35,7 +37,7 @@ public class ResponseVendorGetProductVariant
     public decimal HeightInCm { get; set; }
     public int MinimuQuantityPerUser { get; set; }
     public int AddedByVendorUserId { get; set; }
-    public string AddedByVendorUser {get;set;} = string.Empty;
+    public string AddedByVendorUser { get; set; } = string.Empty;
     public string ProductVariantStatus { get; set; } = string.Empty;
     public string ProductApprovalStatus { get; set; } = string.Empty;
     public int AvailableQuantity { get; set; }
@@ -68,7 +70,7 @@ public class ResponseVendorGetProductVariantOnly
     public decimal HeightInCm { get; set; }
     public int MinimuQuantityPerUser { get; set; }
     public int AddedByVendorUserId { get; set; }
-    public string AddedByVendorUser {get;set;} = string.Empty;
+    public string AddedByVendorUser { get; set; } = string.Empty;
     public string ProductVariantStatus { get; set; } = string.Empty;
     public string ProductVariantApprovalStatus { get; set; } = string.Empty;
     public int AvailableQuantity { get; set; }
