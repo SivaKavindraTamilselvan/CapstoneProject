@@ -11,6 +11,8 @@ public class RequestUpdateInventoryDTO
     [Required(ErrorMessage = "Available Quantity is required.")]
     [Range(0, int.MaxValue, ErrorMessage = "Available Quantity cannot be negative.")]
     public int AvailableQuantity { get; set; }
+
+    public bool UpdateType {get;set;}
 }
 
 public class ResponseUpdateInventoryDTO

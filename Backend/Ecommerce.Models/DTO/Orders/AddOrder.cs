@@ -11,3 +11,9 @@ public class ResponseAddOrderDTO
     public int OrderId { get; set; }
     public DateTime OrderDate { get; set; }
 }
+
+public class ShippingCheckResponseDTO
+{
+    public decimal TotalShippingCharge { get; set; }
+    public bool IsShippingAvailable { get; set; }
+}

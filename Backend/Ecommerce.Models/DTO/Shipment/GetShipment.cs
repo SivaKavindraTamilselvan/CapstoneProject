@@ -29,6 +29,7 @@ public class ShipmentItemResponseDto
     public string ProductName { get; set; } = string.Empty;
     public string SKU { get; set; } = string.Empty;
     public int Quantity { get; set; }
+    public int ProductVariantId { get; set; }
     public decimal UnitPrice { get; set; }
 }
 

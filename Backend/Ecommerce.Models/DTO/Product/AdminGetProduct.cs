@@ -13,6 +13,7 @@ public class RequestAdminProductFilter : PaginationFilter
     public string? SearchTerm { get; set; }
     public bool? hasIssues { get; set; }
     public bool? isAvailableForSale { get; set; }
+    public bool? includeIsDeleted { get; set; }
     public int? MinAvailableQuantity { get; set; }
     public int? MinReservedQuantity { get; set; }
     public int? MaxAvailableQuantity { get; set; }
@@ -24,12 +25,14 @@ public class ResponseAdminGetAllProductDTO
     public int ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
+    public int ProductSubCategoryId { get; set; }
     public string ProductSubCategoryName { get; set; } = string.Empty;
     public string ProductCategoryName { get; set; } = string.Empty;
     public string VendorName { get; set; } = string.Empty;
     public string ProductApprovalStatus { get; set; } = string.Empty;
     public string ProductStatus { get; set; } = string.Empty;
     public string MainProductSubCategoryAttributeName { get; set; } = string.Empty;
+    public int MainProductSubCategoryAttributeId { get; set; }
     public DateTime CreatedAt { get; set; }
     public DateTime? UpdatedAt { get; set; }
     public bool IsAvailableForSale { get; set; }

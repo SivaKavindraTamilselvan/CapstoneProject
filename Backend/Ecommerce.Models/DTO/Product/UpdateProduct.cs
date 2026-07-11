@@ -21,6 +21,9 @@ public class RequestUpdateProduct
     [Required(ErrorMessage = "Product Sub Category Id Needed To Add The Product")]
     [Range(1, int.MaxValue, ErrorMessage = "Product Sub Category Id must be greater than 0")]
     public int ProductSubCategoryId { get; set; }
+    [Required(ErrorMessage = "Product Main Sub Category Attribute Id Needed To Add The Product")]
+    [Range(1, int.MaxValue, ErrorMessage = "Product Sub Category Id must be greater than 0")]
+    public int MainProductSubCategoryAttributeId { get; set; }
 }
 public class ResponseUpdateProduct
 {

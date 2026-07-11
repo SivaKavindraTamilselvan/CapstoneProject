@@ -27,6 +27,10 @@ public class CancelSummaryDto
     public string DeliveryCity { get; set; } = string.Empty;
     public string DeliveryAddress { get; set; } = string.Empty;
     public string DeliveryPincode { get; set; } = string.Empty;
+    public int UserId {get;set;}
+    public string ContactPersonName {get;set;} = string.Empty;
+    public string ContactPhoneNumber {get;set;} = string.Empty;
+
 }
 
 public class RequestAdminCancelFilter : PaginationFilter
@@ -56,4 +60,10 @@ public class RequestUserCancelFilter : PaginationFilter
     public int? CancelStatusId { get; set; }
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
+}
+
+public class CancelReasonResponse
+{
+    public int CancelReasonId {get;set;}
+    public string CancelReasonDescription {get;set;} = string.Empty;
 }

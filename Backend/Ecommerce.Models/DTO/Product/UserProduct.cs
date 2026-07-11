@@ -17,6 +17,7 @@ public class ResponseUserGetProductDetailDTO
     public string ProductSubCategoryName { get; set; } = string.Empty;
     public string ProductCategoryName { get; set; } = string.Empty;
     public string VendorName { get; set; } = string.Empty;
+    public string MainProductSubCategoryAttributeName { get; set; } = string.Empty;
     public List<ResponseUserProductVariant> ProductVariants { get; set; } = new();
     public List<ResponseProductImageDTO> ProductImages { get; set; } = new();
 }
