@@ -40,7 +40,7 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Login failed.Vendor User with {email} is deleted or deactivated", requestLoginUserDTO.Email);
                 throw new InvalidCredentialException("Vendor Credential is not valid");
             }
-            if(!vendor.IsActive)
+            if (!vendor.IsActive)
             {
                 _logger.LogError("Login failed. Vendor Is deleted or deactivated");
                 throw new InvalidCredentialException("Vendor Is deleted");
@@ -78,5 +78,37 @@ public partial class AuthenticationService : IAuthentication
         _logger.LogInformation("Login successful for UserId {UserId}", result.UserId);
         return response;
     }
+
+    public async Task<ResponseRegisterUserDTO> ChangePassword(RequestChangePasswordDTO request, int userId)
+    {
+        await _userValidation.ValidateUser(userId);
+        var user = await _userRepsository.Get(userId);
+        if (user == null)
+        {
+            _logger.LogError("User not found");
+            throw new InvalidCredentialException("User Id Not Found");
+        }
+        HMACSHA256 hMACSHA256 = new HMACSHA256(user.HashedKey);
+        var userHashPassword = hMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(request.CurrentPassword));
+        for (int i = 0; i < userHashPassword.Length; i++)
+        {
+            if (userHashPassword[i] != user.Password[i])
+            {
+                _logger.LogError("Invalid current password");
+                throw new InvalidCredentialException("Invalid password");
+            }
+        }
+        HMACSHA256 newhMACSHA256 = new HMACSHA256();
+        user.Password = newhMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(request.NewPassword));
+        user.HashedKey = newhMACSHA256.Key;
+        user.UpdatedAt = DateTime.Now;
+        var updatedUser = await _userRepsository.Update(user.UserId,user);
+        if (updatedUser == null)
+        {
+            throw new DataRegistrationException($"Change Password failed");
+        }
+        return _mapper.Map<ResponseRegisterUserDTO>(updatedUser); // authentication mapper
+    }
+
 
 }

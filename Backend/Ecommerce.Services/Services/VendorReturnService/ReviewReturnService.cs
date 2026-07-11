@@ -7,12 +7,16 @@ using Microsoft.Extensions.Logging;
 
 public partial class VendorReturnService : IVendorReturnService
 {
+    private readonly IAdminRefundService _adminRefundService;
+    private readonly IAdminReturnService _adminReturnService;
     private readonly ILogger<VendorReturnService> _logger;
     private readonly IReturnRepsository _returnRepsository;
     private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IMapper _mapper;
-    public VendorReturnService(ILogger<VendorReturnService> logger, IReturnRepsository returnRepsository, IMapper mapper, IVendorUserValidation vendorUserValidation)
+    public VendorReturnService(IAdminRefundService adminRefundService,IAdminReturnService adminReturnService,ILogger<VendorReturnService> logger, IReturnRepsository returnRepsository, IMapper mapper, IVendorUserValidation vendorUserValidation)
     {
+        _adminRefundService = adminRefundService;
+        _adminReturnService=adminReturnService;
         _returnRepsository = returnRepsository;
         _vendorUserValidation = vendorUserValidation;
         _mapper = mapper;
@@ -40,7 +44,9 @@ public partial class VendorReturnService : IVendorReturnService
         var previousStatus = returnItem.ReturnStatusId;
         returnItem.ReviewedByVendorId = vendorUser.VendorUserId;
         await _returnRepsository.Update(returnItem.ReturnId, returnItem);
+        await _adminReturnService.CreateReturnShipment(returnItem.ReturnId);
         _logger.LogInformation("ReturnId {ReturnId} reviewed successfully by Vendor UserId {VendorUserId}. Status changed from {PreviousStatus} to {NewStatus}", returnItem.ReturnId, vendorUserId, previousStatus, returnItem.ReturnStatusId);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);
     }
+    
 }

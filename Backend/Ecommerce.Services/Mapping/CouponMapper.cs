@@ -8,15 +8,26 @@ namespace Ecommerce.Mappers
     {
         public CouponMappingProfile()
         {
-            // add the coupon
             CreateMap<RequestAddCouponDTO, Coupons>();
             CreateMap<Coupons, ResponseAddCouponDTO>();
 
-            // get all the couponsxw
             CreateMap<Coupons, ResponseGetAllCoupon>();
 
             CreateMap<RequestAddCouponProductDTO, CouponsProduct>();
             CreateMap<Coupons, ResponseAddCouponProductDTO>();
+
+            CreateMap<Coupons, CouponListDto>()
+            .ForMember(dest => dest.IsExpired, opt => opt.MapFrom(src => src.EndDate < DateTime.Now))
+            .ForMember(dest => dest.CouponTypeName, opt => opt.MapFrom(src => src.CouponType != null ? src.CouponType.CouponTypeName : string.Empty))
+            .ForMember(dest => dest.UsageCount, opt => opt.MapFrom(src => src.CouponUsages.Count));
+
+            CreateMap<Coupons, CouponDetailDto>()
+            .ForMember(dest => dest.IsExpired, opt => opt.MapFrom(src => src.EndDate < DateTime.Now))
+            .ForMember(dest => dest.CouponTypeName, opt => opt.MapFrom(src => src.CouponType != null ? src.CouponType.CouponTypeName : string.Empty))
+            .ForMember(dest => dest.CreatedByUserName, opt => opt.MapFrom(src => src.CreatedByUser != null ? src.CreatedByUser.FirstName + " " + src.CreatedByUser.LastName : string.Empty))
+            .ForMember(dest => dest.UsageCount, opt => opt.MapFrom(src => src.CouponUsages.Count))
+            .ForMember(dest => dest.ApplicableProductIds, opt => opt.Ignore())
+            .ForMember(dest => dest.UsageHistory, opt => opt.Ignore());
         }
     }
 }

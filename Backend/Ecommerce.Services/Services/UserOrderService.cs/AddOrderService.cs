@@ -21,7 +21,7 @@ public partial class UserOrderService : IUserOrderService
     private readonly IOrderRepsository _orderRepsository;
     private readonly IMapper _mapper;
     private readonly IShipmentRepsository _shipmentRepsository;
-    public UserOrderService(INotificationService notificationService,IProductRepsository productRepsository, IShipmentRepsository shipmentRepsository, IOrderRepsository orderRepsository, IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
+    public UserOrderService(INotificationService notificationService, IProductRepsository productRepsository, IShipmentRepsository shipmentRepsository, IOrderRepsository orderRepsository, IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IOrderItemRepsository orderItemRepsository, IMapper mapper)
     {
         _notificationService = notificationService;
         _productRepsository = productRepsository;
@@ -74,7 +74,9 @@ public partial class UserOrderService : IUserOrderService
             totalShippingCharge += shippingCharge;
             shipmentChargeDetails.Add((group.Key.PickupAddressId, shippingCharge));
         }
-        decimal totalOrderCost = totalShippingCharge + productCharge + couponCharge;
+        decimal totalOrderCost = totalShippingCharge + productCharge - couponCharge;
+        totalOrderCost = totalOrderCost * 1.18m; 
+        Console.WriteLine(totalOrderCost + " "+totalShippingCharge + " " + productCharge);
         RequestCreateOrderDTO requestCreateOrderDTO = new RequestCreateOrderDTO();
         requestCreateOrderDTO.TotalShippingAmount = totalShippingCharge;
         requestCreateOrderDTO.TotalProductAmount = productCharge;
@@ -84,7 +86,7 @@ public partial class UserOrderService : IUserOrderService
         var order = await _orderService.CreateOrder(requestCreateOrderDTO);
         var orderItems = await _orderService.CreateOrderItems(selectedItems, order, selectedCoupon);
         var payment = await _paymentService.CreatePayment(order.OrderId, requestAddOrderDTO.PaymentMethod);
-        if(cod == 1)
+        if (cod == 1)
         {
             await OnPaymentVerified(order.OrderId);
         }

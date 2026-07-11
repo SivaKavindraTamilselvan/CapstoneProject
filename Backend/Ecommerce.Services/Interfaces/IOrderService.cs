@@ -5,13 +5,14 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IOrderService
 {
+        public  Task<OrderItemSummaryDto> GetOrderByOrderId(int orderId);
     public Task<OrderSummaryDto> GetOrderForAdminByOrderId(int orderId);
-    public Task<List<OrderSummaryDto>> GetOrderByAdmin(AdminOrderFilterParams orderFilterParams);
+    public Task<PagedResponse<OrderSummaryDto>> GetOrderByAdmin(AdminOrderFilterParams orderFilterParams);
 
-    public Task<List<OrderItemSummaryDto>> GetOrderByVendor(OrderFilterParams orderFilterParams, int userid);
+    public Task<PagedResponse<OrderItemSummaryDto>> GetOrderByVendor(OrderFilterParams orderFilterParams, int userid);
 
     public Task<OrderSummaryDto> GetOrderForUserByOrderId(int orderId);
-    public Task<List<OrderSummaryDto>> GetOrderByUserId(OrderFilterParams orderFilterParams, int userid);
+    public Task<PagedResponse<OrderSummaryDto>> GetOrderByUserId(OrderFilterParams orderFilterParams, int userid);
     
     public Task ConfirmOrderStatus(int orderId,bool status);
 

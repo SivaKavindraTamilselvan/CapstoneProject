@@ -54,4 +54,5 @@ public partial class ShipmentService : IShipmentService
         _logger.LogInformation("ShipmentItem created successfully. ShipmentId: {ShipmentId}, OrderItemId: {OrderItemId}", shipmentId, orderitemid);
         return shipmentItems;
     }
+    
 }

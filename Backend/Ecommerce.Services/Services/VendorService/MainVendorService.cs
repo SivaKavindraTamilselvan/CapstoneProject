@@ -15,11 +15,13 @@ public partial class VendorService : IVendorService
     private readonly IProductRepsository _productRepsository;
     private readonly IApprovalHistoryRepsository _approvalHistoryRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
+    private readonly IUserRepsository _userRepsository;
     private readonly IMapper _mapper;
 
 
-    public VendorService(ILogger<VendorService> logger,IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
+    public VendorService(IUserRepsository userRepsository,ILogger<VendorService> logger,IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
     {
+        _userRepsository = userRepsository;
         _authentication = authentication;
         _ecommerceContext = ecommerceContext;
         _vendorUserRepsository = vendorUserRepsository;

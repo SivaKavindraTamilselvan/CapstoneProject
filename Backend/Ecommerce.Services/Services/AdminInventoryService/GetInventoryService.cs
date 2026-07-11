@@ -27,7 +27,7 @@ public class AdminInventoryService : IAdminInventoryService
             PageSize = request.PageSize
         };
     }
-    public async Task<ResponseVendorInventoryDTO> GetInventoryById(int inventoryid, int adminUserId)
+    public async Task<ResponseAdminInventoryDTO> GetInventoryById(int inventoryid, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         var result = await _inventoryRepsository.GetInventoryById(inventoryid);
@@ -36,6 +36,6 @@ public class AdminInventoryService : IAdminInventoryService
             throw new DataNotFoundException("Inventory Not Found");
         }
 
-        return _mapper.Map<ResponseVendorInventoryDTO>(result);
+        return _mapper.Map<ResponseAdminInventoryDTO>(result);
     }
 }

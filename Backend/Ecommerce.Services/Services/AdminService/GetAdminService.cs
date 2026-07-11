@@ -39,4 +39,24 @@ public partial class AdminService : IAdminService
         }
         return _mapper.Map<ResponseGetAdminUserDTO>(adminUser);
     }
+
+    public async Task<PagedResponse<ResponseGetAdminUserDTO>> GetAllUser(RequestAdiminUserFilter request, int logedusedId)
+    {
+        await _adminUserValidation.ValidateAdminUserByUserId(logedusedId);
+        _logger.LogInformation("Fetching admin users.");
+        var user = await _adminUserRepsository.GetAllAdminUser(request);
+        if (user.totalCount == 0)
+        {
+            _logger.LogWarning("No admin users found.");
+            throw new DataNotFoundException("No Admin User Found");
+        }
+        _logger.LogInformation("{Count} admin users found", user.totalCount);
+        return new PagedResponse<ResponseGetAdminUserDTO>
+        {
+            Items = _mapper.Map<List<ResponseGetAdminUserDTO>>(user.items),
+            TotalCount = user.totalCount,
+            PageNumber = request.PageNumber,
+            PageSize = request.PageSize
+        };
+    }
 }

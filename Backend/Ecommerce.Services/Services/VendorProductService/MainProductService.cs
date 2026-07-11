@@ -16,10 +16,14 @@ public partial class VendorProductService : IVendorProductService
     private readonly IMapper _mapper;
     private readonly ILogger<VendorProductService> _logger;
     private readonly INotificationService _notificationService;
+    private readonly IAttributeRepsository _attributeRepsository;
+    private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
 
 
-    public VendorProductService(IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<VendorProductService> logger,IProductVariantRepsository productVariantRepsository,IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
+    public VendorProductService(IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<VendorProductService> logger,IProductVariantRepsository productVariantRepsository,IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
     {
+        _attributeRepsository = attributeRepsository;
+        _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
         _adminUserRepsository = adminUserRepsository;
         _vendorUserRepsository = vendorUserRepsository;
         _notificationService = notificationService;

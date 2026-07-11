@@ -59,7 +59,7 @@ public partial class AddressService : IAddressService
             userId,
             "Inventory Address Deleted",
             $"Your inventory address in {selectedAddress.City}, {selectedAddress.State} has been deleted.",
-            notificationTypeId: 1,
+            notificationTypeId: 25,
             referenceType: "Address",
             referenceId: selectedAddress.AddressId);
         return _mapper.Map<ResponseGetAddressDTO>(selectedAddress);

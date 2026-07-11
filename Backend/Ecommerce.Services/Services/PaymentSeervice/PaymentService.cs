@@ -59,7 +59,10 @@ public class PaymentService : IPaymentService
         }
 
         decimal paymentAmount = order.FinalAmount;
-        paymentAmount = 5000;
+        if(paymentAmount>=25000)
+        {
+            paymentAmount = 25000;
+        }
         // Razorpay
         string keyId = _configuration["Razorpay:KeyId"] ?? string.Empty;
         string keySecret = _configuration["Razorpay:KeySecret"] ?? string.Empty;
