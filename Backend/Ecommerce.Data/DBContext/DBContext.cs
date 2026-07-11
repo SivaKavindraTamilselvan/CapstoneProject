@@ -35,11 +35,15 @@ public class EcommerceContext : DbContext
     public DbSet<ShipmentItems> ShipmentItems { get; set; }
     public DbSet<Shipment> Shipment { get; set; }
     public DbSet<Return> Return { get; set; }
-    public DbSet<Inventory> Inventory {get;set;}
-    public DbSet<CouponUsage> CouponUsage {get;set;}
-    public DbSet<Refund> Refund {get;set;}
-    public DbSet<CancelRefund> CancelRefund {get;set;}
-    public DbSet<ProductVariantAttribute> ProductVariantAttribute {get;set;}
+    public DbSet<Inventory> Inventory { get; set; }
+    public DbSet<CouponUsage> CouponUsage { get; set; }
+    public DbSet<Refund> Refund { get; set; }
+    public DbSet<CancelRefund> CancelRefund { get; set; }
+    public DbSet<ProductVariantAttribute> ProductVariantAttribute { get; set; }
+    public DbSet<Notification> Notification { get; set; }
+    public DbSet<NotificationType> NotificationType { get; set; }
+
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // master tables
