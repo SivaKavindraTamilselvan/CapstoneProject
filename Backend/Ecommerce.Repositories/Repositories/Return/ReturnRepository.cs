@@ -22,6 +22,10 @@ public class ReturnRepsository : AbstractRepository<int, Return>, IReturnRepsosi
     {
         return await _ecommerceContext.Return.Include(r => r.OrderItems).ThenInclude(o => o!.ProductVariant).ThenInclude(p => p!.Product).Where(r => r.ReturnId == returnId).FirstOrDefaultAsync();
     }
+     public async Task<Return?> GetTheReturnProductByOrderItemId(int orderItemId)
+    {
+        return await _ecommerceContext.Return.Where(o=>o.OrderItemId==orderItemId).FirstOrDefaultAsync();
+    }
 
     private IQueryable<Return> BaseQuery()
     {
@@ -139,6 +143,36 @@ public class ReturnRepsository : AbstractRepository<int, Return>, IReturnRepsosi
 
         var data = await query.OrderByDescending(r => r.RequestedDate).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (data, totalCount);
+    }
+
+    public async Task<Return?> GetReturnDetails(int returnId)
+    {
+        return await _ecommerceContext.Return
+            .Include(r => r.ReturnReason)
+            .Include(r => r.ReturnStatus)
+            .Include(r => r.ReviewedByVendor)
+                .ThenInclude(v => v!.User)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.Order)
+                    .ThenInclude(o => o!.Users)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.Order)
+                    .ThenInclude(o => o!.OrderStatus)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.Order)
+                    .ThenInclude(o => o!.Address)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.ProductVariant)
+                    .ThenInclude(pv => pv!.Product)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.ProductVariant)
+                    .ThenInclude(pv => pv!.ProductImages)
+            .Include(r => r.OrderItems)
+                .ThenInclude(oi => oi!.ProductVariant)
+                    .ThenInclude(pv => pv!.ProductVariantAttributes)
+                        .ThenInclude(a => a.ProductSubCategoryAttribute)
+                            .ThenInclude(v => v!.AttributeMaster)
+            .FirstOrDefaultAsync(r => r.ReturnId == returnId);
     }
 
 }

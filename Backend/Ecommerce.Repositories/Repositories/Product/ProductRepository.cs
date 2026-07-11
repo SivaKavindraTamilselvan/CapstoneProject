@@ -19,10 +19,11 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
         .Include(p => p.Vendor)
         .Include(pv => pv.AddedByVendorUser).ThenInclude(vu => vu!.User)
-        .Include(p => p.ProductImages).ThenInclude(p=>p.DisplayOrder).Include(p => p.ProductVariants).ThenInclude(pv => pv.Inventories).ThenInclude(a=>a.Address)
+        .Include(p => p.ProductImages).ThenInclude(p => p.DisplayOrder).Include(p => p.ProductVariants).ThenInclude(pv => pv.Inventories).ThenInclude(a => a.Address)
         .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
-        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductImages);
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductImages)
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductApprovalStatus);
     }
 
     public async Task<(List<Product> items, int totalCount)> GetAdminProduct(RequestAdminProductFilter request)
@@ -80,10 +81,34 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         {
             query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
         }
+        if (request.includeIsDeleted.HasValue)
+        {
+            if (request.includeIsDeleted.Value)
+            {
+                query = query.Where(p => p.ProductApprovalStatusId == 6);
+            }
+            else
+            {
+                query = query.Where(p => p.ProductApprovalStatusId != 6);
+            }
+
+        }
+        if (request.isAvailableForSale.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+            p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+            p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+            p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+            p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+            pv.Inventories.Any(i => i.AvailableQuantity > 0 && i.Address!.IsActive) && pv.ProductVariantAttributes.All(a =>
+            a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
+        }
+
         var totalCount = await query.CountAsync();
         var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, totalCount);
     }
+
 
     public async Task<(List<Product> items, int totalCount)> GetVendorProduct(RequestVendorProductFilter request, int vendorid)
     {
@@ -136,46 +161,130 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         {
             query = query.Where(p => p.ProductVariants.Any(p => p.Inventories.Any(a => a.ReservedQuantity >= request.MinReservedQuantity)));
         }
+        if (request.includeIsDeleted.HasValue)
+        {
+            if (request.includeIsDeleted.Value)
+            {
+                query = query.Where(p => p.ProductApprovalStatusId == 6 || p.ProductStatusId == 4);
+            }
+            else
+            {
+                query = query.Where(p => p.ProductApprovalStatusId != 6 && p.ProductStatusId !=4);
+            }
+           
+        }
+        if (request.isAvailableForSale.HasValue)
+        {
+            query = query.Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+            p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+            p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+            p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+            p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+            pv.Inventories.Any(i => i.AvailableQuantity > 0 && i.Address!.IsActive) && pv.ProductVariantAttributes.All(a =>
+            a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
+        }
         var totalCount = await query.CountAsync();
         var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
         return (items, totalCount);
     }
+
     public async Task<(List<Product> items, int totalCount)> GetUserProducts(RequestUserProductFilter request)
     {
-        var query = BaseQuery().Where(p => p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
-        p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
-        p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
-        p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
-        p.ProductVariants.Any(pv => pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
-        pv.Inventories.Any(i => i.AvailableQuantity > 0 && i.Address!.IsActive) && pv.ProductVariantAttributes.All(a =>
-        a.ProductSubCategoryAttribute!.IsActive && a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
+        var query = _ecommerceContext.Product
+            .Include(p => p.ProductApprovalStatus)
+            .Include(p => p.ProductStatus)
+            .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
+            .Include(p => p.Vendor)
+            .Include(p => p.AddedByVendorUser).ThenInclude(vu => vu!.User)
+            .Include(p => p.ProductImages).ThenInclude(p => p.DisplayOrder)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.Inventories).ThenInclude(inv => inv.Address)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.ProductVariantAttributes)
+                    .ThenInclude(pva => pva.ProductSubCategoryAttribute)
+                        .ThenInclude(psa => psa!.AttributeMaster)
+            .Include(p => p.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.ProductImages)
+            .Where(p =>
+                p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                p.ProductStatusId == (int)ProductStatusEnum.Active &&
+                p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
+                p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
+                p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
+                p.ProductVariants.Any(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+                    pv.Inventories.Any(i => i.AvailableQuantity > 0 && i.Address!.IsActive) &&
+                    pv.ProductVariantAttributes.All(a =>
+                        a.ProductSubCategoryAttribute!.IsActive &&
+                        a.ProductSubCategoryAttribute.AttributeMaster!.IsActive)));
+
         if (request.ProductCategoryId.HasValue)
-        {
             query = query.Where(p => p.ProductSubCategory!.ProductCategoryId == request.ProductCategoryId.Value);
-        }
+
         if (request.ProductSubCategoryId.HasValue)
-        {
             query = query.Where(p => p.ProductSubCategoryId == request.ProductSubCategoryId.Value);
-        }
+
         if (request.MinPrice.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Price >= request.MinPrice.Value));
-        }
+            query = query.Where(p => p.ProductVariants.Any(pv => pv.Price >= request.MinPrice.Value));
+
         if (request.MaxPrice.HasValue)
-        {
-            query = query.Where(p => p.ProductVariants.Any(p => p.Price <= request.MaxPrice.Value));
-        }
+            query = query.Where(p => p.ProductVariants.Any(pv => pv.Price <= request.MaxPrice.Value));
+
         if (!string.IsNullOrEmpty(request.SearchTerm))
-        {
             query = query.Where(p => p.ProductName.ToLower().Contains(request.SearchTerm.ToLower()));
-        }
+
         if (!string.IsNullOrWhiteSpace(request.ProductName))
-        {
             query = query.Where(p => p.ProductName.ToLower() == request.ProductName.ToLower());
-        }
+
         var totalCount = await query.CountAsync();
-        var items = await query.OrderByDescending(p => p.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
+        var items = await query
+            .OrderByDescending(p => p.CreatedAt)
+            .Skip((request.PageNumber - 1) * request.PageSize)
+            .Take(request.PageSize)
+            .ToListAsync();
+
         return (items, totalCount);
+    }
+
+    public async Task<Product?> GetUserProductWithFullDetails(int productId)
+    {
+        return await _ecommerceContext.Product
+            .Include(p => p.ProductApprovalStatus)
+            .Include(p => p.ProductStatus)
+            .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
+            .Include(p => p.Vendor)
+            .Include(p => p.AddedByVendorUser).ThenInclude(vu => vu!.User)
+            .Include(p => p.ProductImages).ThenInclude(p => p.DisplayOrder)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.Inventories).ThenInclude(inv => inv.Address)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.ProductVariantAttributes)
+                    .ThenInclude(pva => pva.ProductSubCategoryAttribute)
+                        .ThenInclude(psa => psa!.AttributeMaster)
+            .Include(p => p.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
+            .Include(p => p.ProductVariants
+                .Where(pv =>
+                    pv.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+                    pv.ProductVariantStatusId == (int)ProductStatusEnum.Active))
+                .ThenInclude(pv => pv.ProductImages)
+            .FirstOrDefaultAsync(p => p.ProductId == productId);
     }
     public async Task<Product?> GetProductWithFullDetails(int productId)
     {
@@ -195,7 +304,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
     }
     public async Task<Product?> CheckTheWholeProduct(int ProductId, int Qunatity)
     {
-        var query = BaseQuery().Where(p => p.ProductId == ProductId &&  p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
+        var query = BaseQuery().Where(p => p.ProductId == ProductId && p.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved && p.ProductStatusId == (int)ProductStatusEnum.Active &&
         p.ProductSubCategory != null && p.ProductSubCategory.IsActive &&
         p.ProductSubCategory.ProductCategory != null && p.ProductSubCategory.ProductCategory.IsActive &&
         p.MainProductSubCategoryAttribute!.IsActive && p.MainProductSubCategoryAttribute.AttributeMaster!.IsActive &&
@@ -206,4 +315,39 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         return await query.FirstOrDefaultAsync();
     }
 
+    public async Task<ProductValidationResult> ValidateProductChain(Product product)
+    {
+        var issues = new List<string>();
+
+        if (!product.ProductSubCategory!.ProductCategory!.IsActive)
+        {
+            issues.Add($"Category '{product.ProductSubCategory.ProductCategory.ProductCategoryName}' is deactivated by admin");
+        }
+
+        if (!product.ProductSubCategory.IsActive)
+        {
+            issues.Add($"SubCategory '{product.ProductSubCategory.ProductSubCategoryName}' is deactivated by admin");
+        }
+        if (product.MainProductSubCategoryAttribute != null && !product.MainProductSubCategoryAttribute.IsActive)
+        {
+            issues.Add($"Main variant attribute '{product.MainProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated");
+        }
+
+        foreach (var variant in product.ProductVariants)
+        {
+            foreach (var variantAttr in variant.ProductVariantAttributes)
+            {
+                if (variantAttr.ProductSubCategoryAttribute != null && !variantAttr.ProductSubCategoryAttribute.IsActive)
+                {
+                    issues.Add($"Attribute '{variantAttr.ProductSubCategoryAttribute.AttributeMaster!.AttributeName}' is deactivated for this subcategory");
+                }
+            }
+        }
+
+        return new ProductValidationResult
+        {
+            IsValid = issues.Count == 0,
+            Issues = issues
+        };
+    }
 }
