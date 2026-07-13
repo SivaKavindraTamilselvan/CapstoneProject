@@ -328,4 +328,16 @@ public partial class AdminProductService : IAdminProductService
 
         return response;
     }
+
+     public async Task<List<ApprovalHistoryDto>> GetProductHistory(int entityId)
+    {
+        var histories = await _approvalHistoryRepsository.GetProductApprovalHistory(entityId);
+        return _mapper.Map<List<ApprovalHistoryDto>>(histories);
+    }
+    public async Task<List<ApprovalHistoryDto>> GetProductVariantHistory(int entityId)
+    {
+        var histories = await _approvalHistoryRepsository.GetProductVariantApprovalHistory(entityId);
+        return _mapper.Map<List<ApprovalHistoryDto>>(histories);
+    }
+
 }

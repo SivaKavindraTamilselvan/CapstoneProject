@@ -132,6 +132,11 @@ namespace Ecommerce.Mappers
             CreateMap<ProductVariantAttribute, ResponseProductVariantAttribute>()
             .ForMember(dest => dest.AttributeName, opt => opt.MapFrom(src => src.ProductSubCategoryAttribute!.AttributeMaster!.AttributeName))
             .ForMember(dest => dest.AttributeValue, opt => opt.MapFrom(src => src.AttributeValue));
+
+            CreateMap<ApprovalHistory, ApprovalHistoryDto>()
+            .ForMember(dest => dest.PreviousStatusName, opt => opt.MapFrom(src => src.PreviousStatus.ProductApprovalStatusName))
+            .ForMember(dest => dest.NewStatusName, opt => opt.MapFrom(src => src.NewStatus.ProductApprovalStatusName));
+
         }
     }
 }

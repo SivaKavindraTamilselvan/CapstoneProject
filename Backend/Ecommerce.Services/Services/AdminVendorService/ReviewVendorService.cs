@@ -18,6 +18,7 @@ public partial class AdminVendorService : IAdminVendorService
                 throw new DataApprovalStatusException("Vendor Already Reviewed");
             }
             var adminUser = await _adminUserValidation.ValidateAdminUserByUserId(userId);
+            /*
             ApprovalHistory approvalHistory = new ApprovalHistory();
             approvalHistory.EntityId = vendor.VendorId;
             approvalHistory.PreviousStatusId = vendor.ApprovalStatusId;
@@ -25,6 +26,7 @@ public partial class AdminVendorService : IAdminVendorService
             approvalHistory.Remarks = requestReviewOfVendorDTO.Remark;
             approvalHistory.ReviewedByAdminId = adminUser.AdminUserId;
             approvalHistory.ReviewedAt = DateTime.Now;
+            */
 
             vendor.ApprovalStatusId = requestReviewOfVendorDTO.ApprovalStatusId;
             vendor.ReviewedByAdminId = adminUser.AdminUserId;
@@ -33,7 +35,7 @@ public partial class AdminVendorService : IAdminVendorService
             _logger.LogInformation("Updating VendorId {VendorId} with ApprovalStatusId {ApprovalStatusId}", vendor.VendorId, requestReviewOfVendorDTO.ApprovalStatusId);
 
             await _vendorRepsository.Update(requestReviewOfVendorDTO.VendorId, vendor);
-            await _approvalHistoryRepsository.Create(approvalHistory);
+            //await _approvalHistoryRepsository.Create(approvalHistory);
 
             _logger.LogInformation("VendorId {VendorId} reviewed successfully by AdminUserId {AdminUserId}", vendor.VendorId, adminUser.AdminUserId);
 

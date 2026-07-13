@@ -42,6 +42,8 @@ public class EcommerceContext : DbContext
     public DbSet<ProductVariantAttribute> ProductVariantAttribute { get; set; }
     public DbSet<Notification> Notification { get; set; }
     public DbSet<NotificationType> NotificationType { get; set; }
+    public DbSet<Reviews> Reviews { get; set; }
+    public DbSet<ApprovalHistory> ApprovalHistory { get; set; }
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -519,8 +521,8 @@ public class EcommerceContext : DbContext
             entity.Property(ah => ah.NewStatusId).IsRequired();
             entity.HasOne(ah => ah.NewStatus).WithMany(ps => ps.NewApprovalHistories).HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
 
-            entity.Property(ah => ah.ReviewedByAdminId).IsRequired();
-            entity.HasOne(ah => ah.ReviewedByAdmin).WithMany().HasForeignKey(ah => ah.ReviewedByAdminId).OnDelete(DeleteBehavior.Restrict);
+            entity.Property(ah => ah.ReviewerId).IsRequired();
+            entity.Property(ah => ah.ReviewerType).IsRequired();
 
             entity.Property(ah => ah.Remarks).HasMaxLength(500);
             entity.Property(ah => ah.ReviewedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");

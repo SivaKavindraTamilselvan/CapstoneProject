@@ -38,4 +38,36 @@ public class ReviewService : IReviewService
         _logger.LogInformation("ReviewId {ReviewId} created successfully for OrderItemId {OrderItemId}",createdReview.ReviewId,requestAddReviewDTO.OrderDetailsId);
         return _mapper.Map<ResponseAddReviewDTO>(createdReview);
     }
+    public async Task<ProductReviewSummaryDTO> GetProductReviewSummary(int productId)
+    {
+        var reviews = await _reviewRepsository.GetByProductId(productId);
+
+        var breakdown = new Dictionary<int, int> { { 5, 0 }, { 4, 0 }, { 3, 0 }, { 2, 0 }, { 1, 0 } };
+        foreach (var r in reviews)
+        {
+            if (breakdown.ContainsKey(r.StarId))
+                breakdown[r.StarId]++;
+        }
+
+        double average = reviews.Count > 0
+            ? Math.Round(reviews.Average(r => r.StarId), 1)
+            : 0;
+
+        return new ProductReviewSummaryDTO
+        {
+            ProductId = productId,
+            AverageRating = average,
+            TotalReviews = reviews.Count,
+            StarBreakdown = breakdown,
+            Reviews = reviews.Select(r => new ReviewItemDTO
+            {
+                ReviewId = r.ReviewId,
+                StarId = r.StarId,
+                ReviewDescription = r.ReviewDescription?.ReviewDescriptionName ?? string.Empty, // adjust property name
+                AdditionalReviewDescription = r.AdditionalReviewDescription,
+                UserName = r.OrderItems?.Order?.Users?.FirstName, // adjust nav chain to reach user name
+                CreatedAt = r.CreatedAt
+            }).ToList()
+        };
+    }
 }

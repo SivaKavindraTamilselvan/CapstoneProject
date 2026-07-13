@@ -22,8 +22,8 @@ public partial class AdminProductService : IAdminProductService
         approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
         approvalHistory.EntityType = "Product";
         approvalHistory.EntityId = product.ProductId;
-        approvalHistory.ReviewedByAdminId = adminUser.AdminUserId;
-        approvalHistory.Remarks = requestReviewOfProductDTO.Remarks;
+        approvalHistory.ReviewerType = "Admin";
+        approvalHistory.ReviewerId = adminUser.AdminUserId;
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
@@ -73,7 +73,8 @@ public partial class AdminProductService : IAdminProductService
         approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
         approvalHistory.EntityType = "Product_Variant";
         approvalHistory.EntityId = product.ProductId;
-        approvalHistory.ReviewedByAdminId = adminUser.AdminUserId;
+        approvalHistory.ReviewerType = "Admin";
+        approvalHistory.ReviewerId = adminUser.AdminUserId;
         approvalHistory.Remarks = requestReviewOfProductDTO.Remarks;
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
