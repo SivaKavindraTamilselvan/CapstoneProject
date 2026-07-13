@@ -1,4 +1,4 @@
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient, HttpHeaders, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { AddUserOrderModel, CreateReview, ProductReviewSummary } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
@@ -19,10 +19,15 @@ export class UserOrderService {
     constructor(private http: HttpClient) {
 
     }
-    placeOrder(request: AddUserOrderModel): Observable<any> {
-        let url = BaseURL + "/Order/AddOrder";
-        return this.http.post(url, request);
-    }
+   placeOrder(request: AddUserOrderModel, idempotencyKey: string): Observable<any> {
+    let url = BaseURL + "/Order/AddOrder";
+
+    const headers = new HttpHeaders({
+        'Idempotency-Key': idempotencyKey
+    });
+
+    return this.http.post(url, request, { headers });
+}
     getOrders(filter: UserOrderFilter) {
         const url = BaseURL + "/Order/user";
         let params = new HttpParams();
@@ -55,17 +60,17 @@ export class UserOrderService {
         return this.http.get(url, {});
     }
 
-    createReview(model : CreateReview){
+    createReview(model: CreateReview) {
         const url = `${BaseURL}/User/AddReview`;
         return this.http.post(url, model);
     }
 
 
-    createReturn(model : AddReturnModel){
+    createReturn(model: AddReturnModel) {
         const url = `${BaseURL}/Order/RequestReturnOrder`;
         return this.http.post(url, model);
     }
-     getProductReviews(productId: number): Observable<ProductReviewSummary> {
+    getProductReviews(productId: number): Observable<ProductReviewSummary> {
         return this.http.get<ProductReviewSummary>(`${BaseURL}/UserProduct/product-review/${productId}`);
     }
 

@@ -1,10 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { NotificationResponseModel } from '../../../models/notification/notification.model';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../../services/notification.Service';
 import { NotificationFilterModel } from '../../../models/notification/notification.filter';
 import { DatePipe, NgClass } from '@angular/common';
+import { NotificationHubService } from '../../../services/notificationHubService';
 
 @Component({
   selector: 'app-admin-notification-list',
@@ -13,6 +14,7 @@ import { DatePipe, NgClass } from '@angular/common';
   styleUrl: './admin-notification-list.css',
 })
 export class AdminNotificationList {
+  private hub = inject(NotificationHubService);
   notifications = signal<PagedResponse<NotificationResponseModel> | null>(null);
 
   notificationTypeId = signal<number | undefined>(undefined);
@@ -45,7 +47,22 @@ export class AdminNotificationList {
 
   totalPages = computed(() => this.notifications()?.totalPages ?? 1);
 
-  constructor(private route: Router, private notificationService: NotificationService) { }
+  constructor(private route: Router, private notificationService: NotificationService) {
+    // ← new: react to live pushes
+    effect(() => {
+      const incoming = this.hub.latestNotification();
+      if (!incoming) return;
+
+      this.notifications.update(current => {
+        if (!current) return current;
+        return {
+          ...current,
+          items: [incoming, ...current.items],
+          totalCount: current.totalCount + 1,
+        };
+      });
+    });
+   }
 
   ngOnInit(): void {
     this.loadNotification();
@@ -108,7 +125,7 @@ export class AdminNotificationList {
                   isRead: !item.isRead,
                   readAt: !item.isRead ? new Date().toISOString() : null
                 }
-              : item
+                : item
             )
           };
         });
@@ -183,25 +200,25 @@ export class AdminNotificationList {
   }
 
   formatNotificationDate(createdAt: string | Date): string {
-  const date = new Date(createdAt);
-  const today = new Date();
+    const date = new Date(createdAt);
+    const today = new Date();
 
-  const isSameDate =
-    date.getFullYear() === today.getFullYear() &&
-    date.getMonth() === today.getMonth() &&
-    date.getDate() === today.getDate();
+    const isSameDate =
+      date.getFullYear() === today.getFullYear() &&
+      date.getMonth() === today.getMonth() &&
+      date.getDate() === today.getDate();
 
-  if (isSameDate) {
-    return date.toLocaleTimeString('en-US', {
-      hour: '2-digit',
-      minute: '2-digit'
-    });
-  } else {
-    return date.toLocaleDateString('en-GB', {
-      day: '2-digit',
-      month: 'short',
-      year: 'numeric'
-    });
+    if (isSameDate) {
+      return date.toLocaleTimeString('en-US', {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    } else {
+      return date.toLocaleDateString('en-GB', {
+        day: '2-digit',
+        month: 'short',
+        year: 'numeric'
+      });
+    }
   }
-}
 }

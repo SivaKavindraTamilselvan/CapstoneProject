@@ -1,10 +1,11 @@
-import { Component, computed, signal } from '@angular/core';
+import { Component, computed, effect, inject, signal } from '@angular/core';
 import { PagedResponse } from '../../models/paged-response.model';
 import { NotificationResponseModel } from '../../models/notification/notification.model';
 import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.Service';
 import { NotificationFilterModel } from '../../models/notification/notification.filter';
 import { NgClass } from '@angular/common';
+import { NotificationHubService } from '../../services/notificationHubService';
 
 @Component({
   selector: 'app-vendor-notification-list',
@@ -13,6 +14,7 @@ import { NgClass } from '@angular/common';
   styleUrl: './vendor-notification-list.css',
 })
 export class VendorNotificationList {
+  private hub = inject(NotificationHubService);
   notifications = signal<PagedResponse<NotificationResponseModel> | null>(null);
 
   notificationTypeId = signal<number | undefined>(undefined);
@@ -45,7 +47,24 @@ export class VendorNotificationList {
 
   totalPages = computed(() => this.notifications()?.totalPages ?? 1);
 
-  constructor(private route: Router, private notificationService: NotificationService) { }
+  constructor(private route: Router, private notificationService: NotificationService) {
+    
+    effect(() => {
+        console.log('Hub status:', this.hub.connectionStatus());
+
+      const incoming = this.hub.latestNotification();
+      if (!incoming) return;
+
+      this.notifications.update(current => {
+        if (!current) return current;
+        return {
+          ...current,
+          items: [incoming, ...current.items],
+          totalCount: current.totalCount + 1,
+        };
+      });
+    });
+   }
 
   ngOnInit(): void {
     this.loadNotification();
