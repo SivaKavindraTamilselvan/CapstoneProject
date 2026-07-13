@@ -20,6 +20,7 @@ export class AddProduct {
   successMessage = signal<string | null>(null);
   product = signal(new AddProductModel());
   productImages = signal<AddProductImageModel[]>([]);
+  imagePreviews = signal<string[]>([]);
   productCategoryId = signal<number | null>(null);
   attributeId = signal<number | null>(null);
   productSubCategoryId = signal<number | null>(null);
@@ -29,8 +30,26 @@ export class AddProduct {
 
   loading = signal(false);
 
+  // Fixed image angle types instead of a running sequence number
+  imageAngles: { label: string; value: number }[] = [
+    { label: 'Front', value: 1 },
+    { label: 'Back', value: 2 },
+    { label: 'Left', value: 3 },
+    { label: 'Right', value: 4 },
+  ];
+
+   scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   constructor(private vendorProductService: VendorProductService) { }
+
   ngOnInit() {
+    this.scrollToTop();
     this.loadCategories();
     this.loadAttributes();
   }
@@ -63,23 +82,36 @@ export class AddProduct {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
 
-    const startOrder = this.productImages().length + 1;
-
-    Array.from(input.files).forEach((file, index) => {
+    Array.from(input.files).forEach((file) => {
       const reader = new FileReader();
 
       reader.onload = () => {
         const imageModel = new AddProductImageModel();
         imageModel.imageUrl = file.name;
-        imageModel.displayOrderId = startOrder + index;
+        imageModel.displayOrderId = this.nextAvailableAngle();
         imageModel.isMainImage = this.productImages().length === 0;
+
         this.productImages.update((imgs) => [...imgs, imageModel]);
+        this.imagePreviews.update((previews) => [...previews, reader.result as string]);
       };
 
       reader.readAsDataURL(file);
     });
 
     input.value = '';
+  }
+
+  private nextAvailableAngle(): number {
+    const usedAngles = this.productImages().map((img) => img.displayOrderId);
+    const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
+    return free ? free.value : 1;
+  }
+
+  onAngleChange(index: number, event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.productImages.update((imgs) =>
+      imgs.map((img, i) => (i === index ? { ...img, displayOrderId: value } : img))
+    );
   }
 
   setMainImage(index: number): void {
@@ -92,15 +124,15 @@ export class AddProduct {
   }
 
   removeImage(index: number): void {
-    this.productImages.update((imgs) =>
-      imgs
-        .filter((_, i) => i !== index)
-        .map((img, i) => ({
-          ...img,
-          displayOrderId: i + 1,
-          isMainImage: i === 0,
-        }))
-    );
+    this.productImages.update((imgs) => imgs.filter((_, i) => i !== index));
+    this.imagePreviews.update((previews) => previews.filter((_, i) => i !== index));
+
+    this.productImages.update((imgs) => {
+      if (imgs.length > 0 && !imgs.some((i) => i.isMainImage)) {
+        return imgs.map((img, i) => ({ ...img, isMainImage: i === 0 }));
+      }
+      return imgs;
+    });
   }
 
   addProduct(): void {
@@ -109,6 +141,7 @@ export class AddProduct {
 
     if (this.addForm().invalid()) {
       this.errorMessage.set("Enter proper details");
+      this.scrollToTop();
       return;
     }
 
@@ -130,12 +163,12 @@ export class AddProduct {
 
         if (!productId) {
           this.errorMessage.set('Product added, but product ID was not returned.');
+          this.loading.set(false);
           return;
         }
 
         this.addProductImages(productId);
-        this.loading.set(false);
-
+        this.scrollToTop();
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -174,6 +207,7 @@ export class AddProduct {
 
     if (images.length === 0) {
       this.successMessage.set('Product added successfully');
+      this.loading.set(false);
       this.resetForm();
       return;
     }
@@ -187,6 +221,7 @@ export class AddProduct {
 
           if (uploadedCount === images.length) {
             this.successMessage.set('Product and images added successfully');
+            this.loading.set(false);
             this.resetForm();
           }
         },
@@ -217,12 +252,14 @@ export class AddProduct {
 
     this.product.set(new AddProductModel());
     this.productImages.set([]);
+    this.imagePreviews.set([]);
     this.productCategoryId.set(null);
     this.productSubCategoryId.set(null);
     this.attributeId.set(null);
     this.subCategories.set([]);
 
     this.addForm().reset();
+    this.scrollToTop();
   }
 
   loadCategories(): void {
@@ -249,7 +286,7 @@ export class AddProduct {
   loadAttributes(): void {
     this.errorMessage.set(null);
     const id = this.productSubCategoryId();
-    if(id==null){
+    if (id == null) {
       return;
     }
     this.vendorProductService.getmappedAttribute(id).subscribe({
@@ -300,6 +337,7 @@ export class AddProduct {
       });
     }
   }
+
   onSubcategoryChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.product.update(product => ({
@@ -309,6 +347,7 @@ export class AddProduct {
     this.productSubCategoryId.set(value);
     this.loadAttributes();
   }
+
   onAttributeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);
     this.product.update(product => ({

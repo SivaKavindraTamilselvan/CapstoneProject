@@ -18,6 +18,10 @@ export class AddressService {
         let url = BaseURL + "/Address/add-address";
         return this.http.post(url, request);
     }
+    getAddressId(id: number) {
+        let url = BaseURL + `/Address/address/${id}`;
+        return this.http.get(url,{});
+    }
     getAddress(filter: AddressFilter) {
         let url = BaseURL + "/Address/vendor-address";
         let params = new HttpParams();

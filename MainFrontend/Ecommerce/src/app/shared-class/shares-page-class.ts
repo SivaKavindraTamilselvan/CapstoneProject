@@ -77,4 +77,19 @@ export abstract class BasePage extends PopupBase {
         this.clearFilterValues();
         this.loadData();
     }
+
+    allowOnlyNumbers(event: KeyboardEvent): void {
+        const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+        if (allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key)) {
+            return;
+        }
+        event.preventDefault();
+    }
+    allowOnlyDecimals(event: KeyboardEvent): void {
+        const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End','.'];
+        if (allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key)) {
+            return;
+        }
+        event.preventDefault();
+    }
 }

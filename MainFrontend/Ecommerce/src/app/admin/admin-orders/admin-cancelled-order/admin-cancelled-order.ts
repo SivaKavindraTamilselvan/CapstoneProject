@@ -126,6 +126,7 @@ export class AdminCancelledOrder extends BasePage {
       ...filter,
       fromDate: value || null
     }));
+    this.validateDateRange();
   }
 
   onToDateInput(event: Event): void {
@@ -135,6 +136,61 @@ export class AdminCancelledOrder extends BasePage {
       ...filter,
       toDate: value || null
     }));
+    this.validateDateRange();
+  }
+
+  onCancelReasonChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+
+    this.cancelFilter.update(filter => ({
+      ...filter,
+      cancelReasonId: value ? Number(value) : null
+    }));
+  }
+
+  private readonly MIN_VALID_DATE = '2026-06-01';
+
+  private validateDateRange(): void {
+    const from = this.cancelFilter().fromDate;
+    const to = this.cancelFilter().toDate;
+
+    const minDate = this.stripTime(new Date(this.MIN_VALID_DATE));
+    const today = this.stripTime(new Date());
+
+    const fromDate = from ? this.stripTime(new Date(from)) : null;
+    const toDate = to ? this.stripTime(new Date(to)) : null;
+
+    if (fromDate && fromDate < minDate) {
+      this.filterErrorMessage.set('From date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (toDate && toDate < minDate) {
+      this.filterErrorMessage.set('To date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (fromDate && fromDate > today) {
+      this.filterErrorMessage.set('From date cannot be in the future.');
+      return;
+    }
+
+    if (toDate && toDate > today) {
+      this.filterErrorMessage.set('To date cannot be in the future.');
+      return;
+    }
+
+    if (fromDate && toDate && fromDate > toDate) {
+      this.filterErrorMessage.set('From date cannot be later than To date.');
+      return;
+    }
+
+    this.filterErrorMessage.set(null);
+  }
+
+  private stripTime(date: Date): Date {
+    date.setHours(0, 0, 0, 0);
+    return date;
   }
   viewCancel(id: number) {
     this.route.navigate(['admin/orders/cancelled-order', id]);

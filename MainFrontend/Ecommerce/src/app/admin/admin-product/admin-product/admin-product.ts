@@ -21,6 +21,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 import { DeletePopupComponents } from '../../../shared-components/delete-popup-components/delete-popup-components';
 import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
 import { combineLatest } from 'rxjs';
+import { AiValidationResult } from '../../../models/ai.model';
 
 @Component({
   selector: 'app-admin-product',
@@ -312,9 +313,9 @@ export class AdminProduct extends BasePage {
           this.onCancelDelete();
           this.successMessage.set(null);
           this.loadProduct();
-           this.progress.set(false);
+          this.progress.set(false);
         }, 3000);
-       
+
       },
       error: (error) => {
         this.successMessage.set(null);
@@ -340,6 +341,8 @@ export class AdminProduct extends BasePage {
 
   showReviewPopup = signal(false);
   reviewProductModel = signal(new ReviewProductModel());
+  aiReview = signal<AiValidationResult | null>(null);
+  loadingAi = signal(false);
   approvalStatusOption = [
     { id: 4, label: 'Accepted' },
     { id: 5, label: 'Rejected' },
@@ -352,6 +355,7 @@ export class AdminProduct extends BasePage {
   });
 
   openReviewPopup(productId: number) {
+    this.aiReview.set(null);
     this.reviewProductModel.update(model => ({
       ...model,
       productId: productId,
@@ -359,6 +363,24 @@ export class AdminProduct extends BasePage {
       remark: ''
     }));
     this.showReviewPopup.set(true);
+  }
+  runAiReview(productId: number | null) {
+    if (!productId) return;
+
+    this.loadingAi.set(true);
+    this.aiReview.set(null);
+    this.errorMessage.set('');
+
+    this.adminProductService.getAiReview(productId).subscribe({
+      next: (res) => {
+        this.aiReview.set(res);
+        this.loadingAi.set(false);
+      },
+      error: () => {
+        this.errorMessage.set('AI check failed. Please try again.');
+        this.loadingAi.set(false);
+      }
+    });
   }
   onConfirmReview() {
     this.errorMessage.set('');
@@ -388,7 +410,7 @@ export class AdminProduct extends BasePage {
           this.onCancelReview();
           this.successMessage.set(null);
           this.loadProduct();
-           this.progress.set(false);
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {
@@ -414,7 +436,7 @@ export class AdminProduct extends BasePage {
 
   actions: TableAction<ProductModel>[] = [
     { label: 'View', color: 'green', action: 'view' },
-    { label: 'Delete', color: 'red', action: 'delete', visible: product => product.productApprovalStatus !== 'Deleted_By_Admin' && this.status()==null },
+    { label: 'Delete', color: 'red', action: 'delete', visible: product => product.productApprovalStatus !== 'Deleted_By_Admin' && this.status() == null },
     { label: 'Review', color: 'gray', action: 'review', visible: product => product.productApprovalStatus === 'Vendor_Approved' && this.status() == 2 }];
 
   columns: Column[] = [

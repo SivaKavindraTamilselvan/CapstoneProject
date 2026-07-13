@@ -8,6 +8,7 @@ import { PagedResponse } from "../models/paged-response.model";
 import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
 import { RequestAdminCancelFilter } from "../models/user/order/cancel.order.model";
+import { AdminCreateReturnRefund, RequestAdminReturnFilter } from "../models/admin/admin-orders/get-order.model";
 
 @Injectable({
     providedIn: "root"
@@ -46,9 +47,30 @@ export class AdminOrderService {
 
         return this.http.get(url, { params });
     }
+     getReturnedOrder(filter: RequestAdminReturnFilter) {
+        const url = BaseURL + "/AdminReturn/returns";
+        let params = new HttpParams();
+
+        Object.entries(filter).forEach(([key, value]) => {
+            if (value !== null && value !== undefined && value !== '') {
+                params = params.set(key, value.toString());
+            }
+        });
+
+        return this.http.get(url, { params });
+    }
     getCancelOrdersDetails(id: number) {
         const url = BaseURL + `/Cancel/admin-cancel/${id}`;
         return this.http.get(url, {});
+    }
+     getReturnOrdersDetails(id: number) {
+        const url = BaseURL + `/AdminReturn/returns/${id}`;
+        return this.http.get(url, {});
+    }
+
+     createReturnOrdersDetails(model : AdminCreateReturnRefund) {
+        const url = BaseURL + `/Admin/CreateReturnRefund`;
+        return this.http.post(url, model);
     }
 
 }

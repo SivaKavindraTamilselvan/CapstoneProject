@@ -42,6 +42,7 @@ export class CreateCategoryComponent extends PopupBase {
       next: (response: any) => {
         this.successMessage.set("Category added successfully");
         setTimeout(() => {
+          this.cancel();
           this.added.emit();
           this.close.emit();
           this.loading.set(false);

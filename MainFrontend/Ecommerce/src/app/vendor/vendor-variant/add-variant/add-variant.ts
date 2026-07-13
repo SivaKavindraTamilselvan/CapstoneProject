@@ -18,6 +18,7 @@ import { AdminMappedAttributeModel } from '../../../models/admin/admin-product-c
 export class AddVariant {
   errorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
+  loading = signal(false);
 
   subcategoryid = signal<number | null>(null);
   productid = signal<number | null>(null);
@@ -26,7 +27,15 @@ export class AddVariant {
 
   productVariant = signal(new AddProductVariantModel());
   productVariantImages = signal<AddProductVariantImageModel[]>([]);
+  variantImagePreviews = signal<string[]>([]);
 
+  // Fixed image angle types instead of a running sequence number
+  imageAngles: { label: string; value: number }[] = [
+    { label: 'Front', value: 1 },
+    { label: 'Back', value: 2 },
+    { label: 'Left', value: 3 },
+    { label: 'Right', value: 4 },
+  ];
 
   constructor(
     private route: Router,
@@ -35,6 +44,7 @@ export class AddVariant {
   ) { }
 
   ngOnInit(): void {
+    window.scroll(0,0);
     const productId = Number(this.router.snapshot.paramMap.get('id'));
     const subCategoryId = Number(this.router.snapshot.queryParamMap.get('subCategoryId'));
     const mainProductAttributeId = Number(this.router.snapshot.queryParamMap.get('mainProductAttributeId'));
@@ -76,10 +86,19 @@ export class AddVariant {
     });
   });
 
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   loadAttributes(): void {
     this.errorMessage.set(null);
     const id = (this.subcategoryid());
     if (id == null) {
+      this.scrollToTop();
       return;
     }
     this.vendorProductService.getmappedAttribute(id).subscribe({
@@ -142,33 +161,51 @@ export class AddVariant {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
 
-    const startOrder = this.productVariantImages().length + 1;
-
-    Array.from(input.files).forEach((file, index) => {
+    Array.from(input.files).forEach((file) => {
       const reader = new FileReader();
       reader.onload = () => {
         const image = new AddProductVariantImageModel();
         image.imageUrl = file.name;
-        image.displayOrderId = startOrder + index;
+        image.displayOrderId = this.nextAvailableAngle();
+
         this.productVariantImages.update((imgs) => [...imgs, image]);
+        this.variantImagePreviews.update((previews) => [...previews, reader.result as string]);
       };
-      reader.readAsDataURL(file); // FIX: was missing — onload never fired without this
+      reader.readAsDataURL(file);
     });
 
     input.value = '';
   }
 
-  removeImage(index: number): void {
+  private nextAvailableAngle(): number {
+    const usedAngles = this.productVariantImages().map((img) => img.displayOrderId);
+    const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
+    return free ? free.value : 1;
+  }
+
+  onAngleChange(index: number, event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
     this.productVariantImages.update((imgs) =>
-      imgs
-        .filter((_, i) => i !== index)
-        .map((img, i) => ({ ...img, displayOrderId: i + 1 }))
+      imgs.map((img, i) => (i === index ? { ...img, displayOrderId: value } : img))
     );
+  }
+
+  removeImage(index: number): void {
+    this.productVariantImages.update((imgs) => imgs.filter((_, i) => i !== index));
+    this.variantImagePreviews.update((previews) => previews.filter((_, i) => i !== index));
   }
 
   addVariant(): void {
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    if (this.addForm().invalid()) {
+      this.errorMessage.set('Enter proper details');
+      this.scrollToTop();
+      return;
+    }
+
+    this.loading.set(true);
+
     this.productVariant.update(v => ({
       ...v,
       productId: this.productid() ?? 0
@@ -183,10 +220,12 @@ export class AddVariant {
 
         if (!variantId) {
           this.errorMessage.set('Variant added, but variant ID was not returned.');
+           this.loading.set(false);
           return;
         }
 
         this.addVariantImages(variantId);
+        this.scrollToTop();
       },
       error: (error) => {
         if (error.status === 400 && error.error?.errors) {
@@ -212,6 +251,7 @@ export class AddVariant {
         else {
           this.errorMessage.set('Failed to add product.');
         }
+        this.loading.set(false);
       }
     });
   }
@@ -224,6 +264,7 @@ export class AddVariant {
 
     if (images.length === 0) {
       this.successMessage.set('Variant added successfully');
+      this.loading.set(false);
       this.resetForm();
       return;
     }
@@ -236,6 +277,7 @@ export class AddVariant {
           uploadedCount++;
           if (uploadedCount === images.length) {
             this.successMessage.set('Variant and images added successfully');
+            this.loading.set(false);
             this.resetForm();
           }
         },
@@ -243,14 +285,20 @@ export class AddVariant {
           this.errorMessage.set(
             error.error?.message ?? 'Variant added, but image upload failed'
           );
+          this.loading.set(false);
         },
       });
     });
   }
 
   resetForm(): void {
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
     this.productVariant.set(new AddProductVariantModel());
     this.productVariantImages.set([]);
+    this.variantImagePreviews.set([]);
+    this.addForm().reset();
+    this.scrollToTop();
   }
 
   onIsReturnChange(event: Event): void {

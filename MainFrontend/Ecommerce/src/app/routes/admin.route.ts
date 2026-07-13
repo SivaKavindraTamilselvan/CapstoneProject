@@ -3,8 +3,6 @@ import { CategoryList } from '../admin/admin-category/category-list/category-lis
 import { Subcategorylist } from '../admin/admin-subcategory/subcategorylist/subcategorylist';
 import { AttributeList } from '../admin/admin-attribute/attribute-list/attribute-list';
 import { MappedAttributeList } from '../admin/admin-mapped-attribute/mapped-attribute-list/mapped-attribute-list';
-import { ActiveMappedAttribute } from '../admin/admin-mapped-attribute/active-mapped-attribute/active-mapped-attribute';
-import { InactiveMappedAttribute } from '../admin/admin-mapped-attribute/inactive-mapped-attribute/inactive-mapped-attribute';
 import { AddCoupon } from '../admin/admin-coupon/add-coupon/add-coupon';
 import { GetAdminOrders } from '../admin/admin-orders/get-admin-orders/get-admin-orders';
 import { ShipmentList } from '../admin/admin-shipment/shipment-list/shipment-list';

@@ -240,7 +240,7 @@ export class AdminList extends BasePage {
     this.progress.set(true);
     this.adminUserService.activateAdminUser(id).subscribe({
       next: () => {
-        this.successMessage.set('Admin user activated successfully.');
+        this.successMessage.set('Admin user activated successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.successMessage.set('');
           this.closePopup();
@@ -268,7 +268,7 @@ export class AdminList extends BasePage {
     this.progress.set(true);
     this.adminUserService.deactivateAdminUser(id).subscribe({
       next: () => {
-        this.successMessage.set('Admin user deactivated successfully.');
+        this.successMessage.set('Admin user deactivated successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.successMessage.set('');
           this.closePopup();

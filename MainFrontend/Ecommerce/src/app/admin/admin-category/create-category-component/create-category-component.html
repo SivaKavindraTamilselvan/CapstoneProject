@@ -9,12 +9,12 @@
         </p>
 
         @if(successMessage()) {
-        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-sm text-center font-bold my-4">
             {{ successMessage() }}
         </div>
         }
         @if(errorMessage()) {
-        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-sm text-center font-bold my-4">
             {{ errorMessage() }}
         </div>
         }

@@ -68,7 +68,7 @@ export class VendorList extends BasePage {
         this.vendors.set(response);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
         if (error.status === 404) {
           this.vendors.set({
             items: [],

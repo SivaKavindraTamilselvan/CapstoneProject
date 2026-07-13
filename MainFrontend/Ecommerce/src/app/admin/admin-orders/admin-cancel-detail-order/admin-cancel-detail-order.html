@@ -17,7 +17,7 @@
             {{ item.cancelStatus }}
         </span>
     </div>
-    <div class="flex gap-6">
+    <div class="flex flex-col lg:flex-row gap-6">
 
         <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
             <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
@@ -66,7 +66,7 @@
                     <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Reason</span>
                     <div class="flex-1 text-sm text-gray-700 leading-relaxed">
                         <div>{{ item.cancelReason }}</div>
-                        
+
                     </div>
                 </div>
                 <div class="flex px-5 py-4">
@@ -76,7 +76,7 @@
                         <div class="text-sm text-red-400 ">{{ item.additionalReason }}</div>
                         }
                         @else{
-                            <div class="text-sm text-red-400 italic">No Additional Reason</div>
+                        <div class="text-sm text-red-400 italic">No Additional Reason</div>
                         }
                     </div>
                 </div>

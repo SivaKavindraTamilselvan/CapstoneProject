@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/response/vendor-variant.model';
@@ -10,23 +10,28 @@ import { PopupComponent } from '../../../shared-components/popup-component/popup
 import { UpdateProductComponent } from '../../vendor-product/update-product-component/update-product-component';
 import { DeleteProductComponent } from '../../vendor-product/delete-product-componentd/delete-product-componentd';
 import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
+import { ProductImageModel } from '../../../models/product/product-image.model';
+import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-model/add-variant-image.model';
+import { AuthStateService } from '../../../services/auth-State.Service';
 
 @Component({
   selector: 'app-vendor-variant-details',
-  imports: [DatePipe, DecimalPipe, NgClass,UpdateRejectVairantComponent,UpdateProductComponent,DeleteProductComponent,ReviewPopupComponent],
+  imports: [DatePipe, DecimalPipe, NgClass, UpdateRejectVairantComponent, UpdateProductComponent, DeleteProductComponent, ReviewPopupComponent],
   templateUrl: './vendor-variant-details.html',
   styleUrl: './vendor-variant-details.css',
 })
 export class VendorVariantDetails {
   variantModel = signal<VendorProductVariantModel | null>(null);
   currentImageIndex = signal(0);
+  role = signal<string | undefined>(undefined);
 
-  constructor(private route: Router, private vendorProductService: VendorProductService, private router: ActivatedRoute) {
+  constructor(private route: Router, private vendorProductService: VendorProductService, private router: ActivatedRoute,private authService : AuthStateService) {
 
   }
 
   ngOnInit(): void {
     const productId = Number(this.router.snapshot.paramMap.get('id'));
+    this.role.set(this.authService.getVendorRole());
 
     if (productId) {
       this.loadProductDetails(productId);
@@ -96,7 +101,7 @@ export class VendorVariantDetails {
     }
 
     const id = this.variantModel()?.productVariantId;
-    if(id==null){
+    if (id == null) {
       return;
     }
     const request = {
@@ -170,6 +175,110 @@ export class VendorVariantDetails {
   closeUpdateRejectedPopup() {
     this.showUpdateRejectedPopup.set(false);
     this.selectedVariantForUpdateRejected.set(null);
+  }
+
+  isImagePopupOpen = signal(false);
+  isUploading = signal(false);
+  isDeleting = signal<number | null>(null);
+  isSettingMain = signal<number | null>(null);
+  imageError = signal<string | null>(null);
+  imageSuccess = signal<string | null>(null);
+
+  onFileSelected(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
+
+    this.imageError.set(null);
+    this.imageSuccess.set(null);
+
+    const file = input.files[0];
+    const nextOrder = this.variantModel()!.productImages.length + 1;
+    const isFirstImage = this.variantModel()!.productImages.length === 0;
+
+    this.isUploading.set(true);
+
+    const imageModel = new AddProductVariantImageModel();
+    imageModel.productVariantId = this.variantModel()!.productVariantId;
+    imageModel.imageUrl = file.name;
+    imageModel.displayOrderId = nextOrder;
+
+    const id = this.variantModel()?.productVariantId;
+    if (id == null) {
+      return;
+    }
+
+    this.vendorProductService.addProductVariantImage(imageModel).subscribe({
+      next: (res: any) => {
+        const newImage: ProductImageModel = res.data ?? res;
+        this.loadProductDetails(id);
+        this.imageSuccess.set("Product Variant Image Addedd Succesfully");
+
+        this.variantModel.update(p => p ? {
+          ...p,
+          productImages: [...p.productImages, newImage]
+        } : p);
+
+        this.isUploading.set(false);
+        input.value = '';
+      },
+      error: (error) => {
+        if (error.error?.message) {
+          this.imageError.set(error.error.message);
+        } else if (error.status === 0) {
+          this.imageError.set('Unable to upload image. Check your internet connection.');
+        } else {
+          this.imageError.set('Failed to upload image.');
+        }
+        this.isUploading.set(false);
+      }
+    });
+  }
+
+  deleteImage(productImageId: number): void {
+    const target = this.variantModel()!.productImages.find(i => i.productImageId === productImageId);
+
+    if (target?.isMainImage && this.variantModel()!.productImages.length > 1) {
+      this.imageError.set('Set another image as main before deleting this one.');
+      return;
+    }
+
+    this.isDeleting.set(productImageId);
+    this.imageError.set(null);
+    this.imageSuccess.set(null);
+
+
+    this.vendorProductService.deleteProductImage(productImageId).subscribe({
+      next: () => {
+        this.imageSuccess.set("Product Variant Image Deleted Succesfully");
+        this.variantModel.update(p => p ? {
+          ...p,
+          productImages: p.productImages.filter(i => i.productImageId !== productImageId)
+        } : p);
+        this.isDeleting.set(null);
+      },
+      error: (error) => {
+        if (error.error?.message) {
+          this.imageError.set(error.error.message);
+        } else if (error.status === 0) {
+          this.imageError.set('Unable to delete image. Check your internet connection.');
+        } else {
+          this.imageError.set('Failed to delete image.');
+        }
+        this.isDeleting.set(null);
+      }
+    });
+  }
+
+  sortedProductImages = computed(() => {
+    const imgs = this.variantModel()?.productImages ?? [];
+    return [...imgs].sort((a, b) => {
+      if (a.isMainImage !== b.isMainImage) return a.isMainImage ? -1 : 1;
+      return a.displayOrder - b.displayOrder;
+    });
+  });
+
+  goBack(): void {
+    this.route.navigate(['/vendor/products/variants/list']);
   }
 
 }

@@ -131,7 +131,7 @@ export class VendorOrderList extends BasePage {
   handleAction(event: { type: string; row: OrderItemSummaryModel }) {
     switch (event.type) {
       case 'view':
-
+        this.viewOrder(event.row.orderItemsId);
         break;
       case 'update':
         this.confirmActivate(event.row.orderItemsId);
@@ -313,5 +313,9 @@ onToDateInput(event: Event): void {
   closeUpdatePopup() {
     this.showDeactivatePopup.set(false);
     this.selectedOrderId.set(null);
+  }
+
+  viewOrder(id:number){
+    this.route.navigate(['vendor/orders',id]);
   }
 }

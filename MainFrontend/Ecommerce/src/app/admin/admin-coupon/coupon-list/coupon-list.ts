@@ -55,8 +55,8 @@ export class CouponList extends BasePage {
   couponTypeId = signal<number | null>(null);
   isExpired = signal<boolean | null>(null);
   isActive = signal<boolean | null>(null);
-  validFrom = signal<Date | null>(null);
-  validTo = signal<Date | null>(null);
+  validFrom = signal<string | null>(null);
+  validTo = signal<string | null>(null);
 
   showActivatePopup = signal(false);
   errorMessage = signal<string | null>(null);
@@ -69,6 +69,9 @@ export class CouponList extends BasePage {
   loadCoupon() {
     this.buildFilter();
 
+    if (this.filterErrorMessage()) {
+      return; // don't hit the API with a known-invalid range
+    }
     this.progress.set(true);
     this.adminCouponService.getCoupon(this.couponFilter()).subscribe({
       next: (response: PagedResponse<CouponListModel>) => {
@@ -119,12 +122,11 @@ export class CouponList extends BasePage {
     min(path.couponTypeId, 1, { message: 'Coupon type ID must be greater than 0.' });
     min(path.minDiscountValue, 0, { message: 'Minimum discount value cannot be negative.' });
     min(path.maxDiscountValue, 0, { message: 'Maximum discount value cannot be negative.' });
-    min(path.minOrderAmount, 0, { message: 'Minimum order amount cannot be negative.' });
-    min(path.maxOrderAmount, 0, { message: 'Maximum order amount cannot be negative.' });
+    min(path.minOrderAmount, 1, { message: 'Minimum order amount cannot be negative or 0' });
+    min(path.maxOrderAmount, 1, { message: 'Maximum order amount cannot be negative or 0.' });
   });
 
   private buildFilter() {
-
     this.couponFilter.update(filter => ({
       ...filter,
       pageNumber: this.pageNumber(),
@@ -170,21 +172,51 @@ export class CouponList extends BasePage {
 
   onValidFromChange(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
-    this.validFrom.set(v ? new Date(v) : null);
-    this.couponFilter.update(filter => ({
-      ...filter,
-      validFrom: v ? new Date(v) : null
-    }));
+    this.validFrom.set(v || null);
+    this.couponFilter.update(filter => ({ ...filter, validFrom: v || null }));
+    this.validateDateRange();
   }
 
   onValidToChange(event: Event): void {
     const v = (event.target as HTMLInputElement).value;
-    this.validTo.set(v ? new Date(v) : null);
-    this.couponFilter.update(filter => ({
-      ...filter,
-      validTo: v ? new Date(v) : null
-    }));
+    this.validTo.set(v || null);
+    this.couponFilter.update(filter => ({ ...filter, validTo: v || null }));
+    this.validateDateRange();
   }
+  private readonly MIN_VALID_DATE = '2026-06-01';
+
+  private validateDateRange(): void {
+    const from = this.couponFilter().validFrom;
+    const to = this.couponFilter().validTo;
+    const minDate = new Date(this.MIN_VALID_DATE);
+    minDate.setHours(0, 0, 0, 0);
+
+    const fromDate = from ? this.stripTime(new Date(from)) : null;
+    const toDate = to ? this.stripTime(new Date(to)) : null;
+
+    if (fromDate && fromDate < minDate) {
+      this.filterErrorMessage.set('From date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (toDate && toDate < minDate) {
+      this.filterErrorMessage.set('To date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (fromDate && toDate && fromDate > toDate) {
+      this.filterErrorMessage.set('From date cannot be later than To date.');
+      return;
+    }
+
+    this.filterErrorMessage.set(null);
+  }
+
+  private stripTime(date: Date): Date {
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
 
   showUpdateCouponPopup = signal(false);
   selectedCouponIdForUpdate = signal<number | null>(null);

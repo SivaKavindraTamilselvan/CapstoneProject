@@ -27,10 +27,11 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 import { UpdateRejectedProductComponent } from '../update-rejected-product-component/update-rejected-product-component';
 import { UpdateProductComponent } from '../update-product-component/update-product-component';
 import { DeleteProductComponent } from '../delete-product-componentd/delete-product-componentd';
+import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
 
 @Component({
   selector: 'app-product-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent,UpdateRejectedProductComponent,UpdateProductComponent,DeleteProductComponent],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent, UpdateRejectedProductComponent, UpdateProductComponent, DeleteProductComponent, ReviewPopupComponent],
   templateUrl: './product-list.html',
   styleUrl: './product-list.css',
 })
@@ -46,7 +47,7 @@ export class ProductList extends BasePage {
       { label: 'Review', color: 'gray', action: 'review' }
     ];
 
-    if (this.status() === 6) return [
+    if (this.status() === 5) return [
       { label: 'View', color: 'green', action: 'view' },
       { label: 'Update', color: 'blue', action: 'update-rejected' }
     ];
@@ -344,30 +345,85 @@ export class ProductList extends BasePage {
     }));
   }
 
-
-
-  reviewProductModel = signal(new ReviewProductModel());
   viewProduct(productId: number) {
     this.route.navigate(['/vendor/products', productId]);
   }
 
-  reviewerrorMessage = signal<string | null>(null);
-
+  reviewProductModel = signal(new ReviewProductModel());
+  
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
     required(path.remark, { message: "Enter The Remarks" });
     maxLength(path.remark, 150, { message: "Maximum 100 characters" });
   });
 
-  openReviewPopup(productId: number) {
-    this.selectedProductId.set(productId);
+  approvalStatusOption = [
+    { id: 2, label: 'Accepted' },
+    { id: 3, label: 'Rejected' },
+  ];
 
-    this.reviewProductModel.set(
-      new ReviewProductModel(productId, null, "")
-    );
-
+  openReviewPopup(productVariantId: number) {
+    this.selectedProductIdForUpdate.set(productVariantId);
+    this.reviewProductModel.set(new ReviewProductModel(productVariantId, null, ""));
     this.showReviewPopup.set(true);
   }
+
+  onConfirmReview() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    const errors = [];
+    if (this.reviewForm.approvalStatusId().invalid()) {
+      errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
+    }
+    if (this.reviewForm.remark().invalid()) {
+      errors.push(this.reviewForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(", "));
+    if (this.reviewForm().invalid()) {
+      return;
+    }
+    this.progress.set(true);
+
+    const request = {
+      productId: this.reviewProductModel().productId,
+      approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
+      remark: this.reviewProductModel().remark
+    };
+    this.vendorProductService.reviewProduct(request).subscribe({
+      next: () => {
+        this.successMessage.set("Product reviewed successfully");
+        setTimeout(() => {
+          this.onCancelReview();
+          this.successMessage.set(null);
+          this.loadData();
+          this.progress.set(false);
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set(null);
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors).flat().join(", ");
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(error.error?.message ?? "Something went wrong. Please try again.");
+        }
+        this.progress.set(false);
+      }
+    });
+  }
+  onCancelReview() {
+    this.showReviewPopup.set(false);
+    this.reviewForm().reset();
+    this.reviewProductModel.set(new ReviewProductModel());
+    this.errorMessage.set('');
+    this.successMessage.set('');
+  }
+
+
+
+  
+  reviewerrorMessage = signal<string | null>(null);
 
   showReviewPopup = signal(false);
   showUpdatePopup = signal(false);

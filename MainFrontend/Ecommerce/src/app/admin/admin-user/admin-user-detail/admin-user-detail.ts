@@ -29,7 +29,7 @@ export class AdminUserDetail extends PopupBase {
     this.adminUserService.getAdminUserDetail(id).subscribe({
       next: (response: any) => {
         this.adminUser.set(response);
-        console.log(response);
+        //console.log(response);
         this.loading.set(false);
       },
       error: (error) => {
@@ -132,8 +132,8 @@ export class AdminUserDetail extends PopupBase {
       next: () => {
         this.successMessage.set(
           isActivate
-            ? 'Admin user activated successfully.'
-            : 'Admin user deactivated successfully.'
+            ? 'Admin user activated successfully. Closing in 3 seconds...'
+            : 'Admin user deactivated successfully. Closing in 3 seconds...'
         );
         this.loadAdminUser(id);
         setTimeout(() => {
@@ -143,7 +143,7 @@ export class AdminUserDetail extends PopupBase {
         }, 3000);
       },
       error: error => {
-        console.log(error);
+        //console.log(error);
         this.progress.set(false);
          this.errorMessage.set(
         error.error?.message ?? 'Something went wrong.'

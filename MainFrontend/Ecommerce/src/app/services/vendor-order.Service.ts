@@ -11,6 +11,7 @@ import { RequestVendorReturnFilter, VendorOrderFilter } from "../models/vendor/v
 import { OrderItemSummaryModel } from "../models/admin/admin-orders/get-items.model";
 import { ReviewReturnModel, ReviewReturnProductModel } from "../models/vendor/vendor-return/return.model";
 import { ReviewProductModel } from "../models/product/review-product.model";
+import { OrderItemModel } from "../models/admin/admin-orders/get-orderitem.model";
 
 @Injectable({
     providedIn: "root"
@@ -38,7 +39,7 @@ export class VendorOrderService {
         return this.http.put(url, {});
     }
 
-    getReturnOrder(filter : RequestVendorReturnFilter){
+    getReturnOrder(filter: RequestVendorReturnFilter) {
         const url = BaseURL + "/Vendor/returns";
         let params = new HttpParams();
 
@@ -51,20 +52,24 @@ export class VendorOrderService {
         return this.http.get<PagedResponse<OrderItemSummaryModel>>(url, { params });
     }
 
-    reviewReturn(model :ReviewReturnModel){
-        const url = BaseURL + "/Vendor/ReviewReturnProductByVendor";
-        return this.http.put(url, model);
-    }
-  
-
-    reviewReturnProduct(model :ReviewReturnProductModel){
+    reviewReturn(model: ReviewReturnModel) {
         const url = BaseURL + "/Vendor/ReviewReturnProductByVendor";
         return this.http.put(url, model);
     }
 
-    acceptReturnProduct(returnId:number){
-        alert(returnId);
+
+    reviewReturnProduct(model: ReviewReturnProductModel) {
+        const url = BaseURL + "/Vendor/ReviewReturnOriginalProductByVendor";
+        return this.http.post(url, model);
+    }
+
+    acceptReturnProduct(returnId: number) {
         const url = BaseURL + `/Vendor/CreateReturnRefund/${returnId}`;
-        return this.http.post(url,{});
+        return this.http.post(url, {});
+    }
+
+    getOrdersDetails(id: number) {
+        const url = BaseURL + `/Order/GetUserOrderItemsById/${id}`;
+        return this.http.get<OrderItemModel>(url, {});
     }
 }

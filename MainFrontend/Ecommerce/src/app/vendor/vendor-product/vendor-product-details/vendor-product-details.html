@@ -1,7 +1,14 @@
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Product List
+</button>
 @if (productModel()) {
 
-<section class="p-4 sm:p-12 mx-auto">
-    <!-- Availability Badge -->
+<section class="p-4 sm:px-12 mx-auto">
     <div class="flex flex-col items-center justify-center mb-6">
         <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm" [ngClass]="productModel()!.isAvailableForSale 
         ? 'bg-green-100 text-green-700 border border-green-300' 
@@ -10,7 +17,30 @@
         </span>
     </div>
 
-
+    @if (productModel()!.validationIssues.length) {
+    <div class="flex justify-center">
+        <div class="mb-6 rounded-xl max-w-xl border border-amber-300 bg-amber-50  overflow-hidden">
+            <div class="flex items-center justify-center gap-2 px-5 py-3 bg-amber-100 border-b border-amber-300">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-amber-700" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
+                </svg>
+                <h3 class="font-bold text-amber-800 text-sm uppercase tracking-wide">
+                    Validation Issues ({{ productModel()!.validationIssues.length }})
+                </h3>
+            </div>
+            <ul class="divide-y divide-amber-200">
+                @for (issue of productModel()!.validationIssues; track $index) {
+                <li class="px-5 py-2.5 text-sm text-amber-800 flex items-start gap-2">
+                    <span class="text-amber-500 mt-0.5">•</span>
+                    <span>{{ issue }}</span>
+                </li>
+                }
+            </ul>
+        </div>
+    </div>
+    }
 
     <div class="flex flex-col lg:flex-row gap-8 mb-10">
 
@@ -57,17 +87,30 @@
                     }
                 </div>
                 }
+
+                <button (click)="isImagePopupOpen.set(true)"
+                    class="absolute top-3 right-3 bg-white/90 hover:bg-white border border-gray-200 rounded-lg px-3 py-1.5 text-xs font-semibold text-slate-800 shadow-md transition flex items-center gap-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    Manage Images
+                </button>
             </div>
             }
             @else {
             <div
-                class="flex items-center justify-center text-gray-400 text-sm h-[320px] border border-dashed border-gray-300 rounded-xl bg-white">
+                class="flex flex-col items-center justify-center gap-3 text-gray-400 text-sm h-[320px] border border-dashed border-gray-300 rounded-xl bg-white">
                 No Images Added for this Product
+                <button (click)="isImagePopupOpen.set(true)"
+                    class="bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold px-4 py-2 rounded-lg shadow-sm transition">
+                    Add Image
+                </button>
             </div>
             }
         </div>
 
-        <!-- Basic Information Card -->
         <div class="flex-1 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
             <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
                 <h2 class="">
@@ -167,7 +210,7 @@
                     </td>
                     <td class="px-4 py-3">
                         <button
-                            class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
+                            class="bg-green-700 py-1.5 px-4 rounded-lg font-semibold text-white text-xs cursor-pointer hover:bg-green-800 transition-colors shadow-sm" (click)="viewVariant(v.productVariantId)">
                             View
                         </button>
                     </td>
@@ -183,20 +226,158 @@
         </table>
     </div>
     <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100">
+
+        @if(role() && productModel()!.productApprovalStatus == "Pending"){
         <button
-            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm">
-            Delete
-        </button>
-        <button
-            class="bg-blue-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-blue-700 transition-colors shadow-sm" (click)="addVariant()">
-            Add Product Variant
-        </button>
-        @if (productModel()!.productApprovalStatus == "Vendor_Approved") {
-        <button
-            class="bg-slate-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-slate-900 transition-colors shadow-sm">
+            class="bg-yellow-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-yellow-900 transition-colors shadow-sm"
+            (click)="openReviewPopup(productModel()!.productId)">
             Review
         </button>
         }
+        @if(productModel()!.productApprovalStatus != "Deleted_By_Admin"){
+
+        <button
+            class="bg-gray-500 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-gray-700 transition-colors shadow-sm" (click)="openUpdatePopup(productModel()!.productId)">
+            Update
+        </button>
+
+        <button
+            class="bg-red-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-red-700 transition-colors shadow-sm" (click)="openDeletePopup(productModel()!.productId)">
+            Delete
+        </button>
+        }
+        @if(productModel()!.productApprovalStatus == "Admin_Approved"){
+        <button
+            class="bg-blue-600 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-blue-700 transition-colors shadow-sm"
+            (click)="addVariant()">
+            Add Product Variant
+        </button>
+        }
+
+        @if(role() && productModel()!.productApprovalStatus == "Admin_Rejected"){
+        <button
+            class="bg-gray-500 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-gray-700 transition-colors shadow-sm" (click)="openUpdateRejectedPopup(productModel()!)">
+            Update Rejected Product
+        </button>
+        }
     </div>
+
+
+    <app-review-popup-component [show]="showReviewPopup()" title="Review Product"
+        message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
+        confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
+        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
+        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+    </app-review-popup-component>
+
+    @if (showActivatePopup()) {
+    <app-delete-product-component [productId]="selectedProductIdForDelete()" (closed)="closeDeletePopup()"
+        (deleted)="loadData()" mode="product">
+    </app-delete-product-component>
+    }
+
+    @if (showUpdatePopup()) {
+    <app-update-product-component [productId]="selectedProductIdForUpdate()" (closed)="closeUpdatePopup()"
+        (updated)="loadData()" mode="product">
+    </app-update-product-component>
+    }
+
+    @if (showUpdateRejectedPopup()) {
+    <app-update-rejected-product-component [product]="selectedProductForUpdateRejected()"
+        (closed)="closeUpdateRejectedPopup()" (updated)="loadData()">
+    </app-update-rejected-product-component>
+    }
 </section>
+
+@if (isImagePopupOpen()) {
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4" (click)="isImagePopupOpen.set(false)">
+    <div class="w-full max-w-2xl bg-white rounded-xl overflow-hidden max-h-[90vh] overflow-y-auto"
+        (click)="$event.stopPropagation()">
+        <div class="relative flex justify-center items-center text-lg font-bold px-5 py-3 sticky top-0">
+            <h2>Manage Product Images</h2>
+            <button (click)="isImagePopupOpen.set(false)" class="absolute cursor-pointer right-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="p-5">
+            <div class="grid grid-cols-3 sm:grid-cols-4 gap-4">
+                @for (img of sortedProductImages(); track img.productImageId) {
+                <div class="relative group aspect-square rounded-lg border overflow-hidden bg-white"
+                    [class.border-blue-500]="img.isMainImage" [class.ring-2]="img.isMainImage"
+                    [class.ring-blue-500]="img.isMainImage" [class.border-gray-200]="!img.isMainImage">
+
+                    <img [src]="'http://localhost:5173/images/' + img.imageUrl" alt="Product Image"
+                        class="w-full h-full object-contain p-2" />
+
+                    @if (img.isMainImage) {
+                    <span
+                        class="absolute top-2 left-2 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                        Main
+                    </span>
+                    }
+
+                    <div
+                        class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition flex items-end justify-center gap-1.5 p-1.5 opacity-0 group-hover:opacity-100">
+                        @if (!img.isMainImage) {
+                        <button (click)="setAsMainImage(img.productImageId)"
+                            [disabled]="isSettingMain() === img.productImageId"
+                            class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
+                            @if (isSettingMain() === img.productImageId) {
+                            Setting...
+                            } @else {
+                            Set Main
+                            }
+                        </button>
+                        <button (click)="deleteImage(img.productImageId)"
+                            [disabled]="isDeleting() === img.productImageId"
+                            class="bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
+                            @if (isDeleting() === img.productImageId) {
+                            Setting...
+                            } @else {
+                            Delete
+                            }
+                        </button>
+                        }
+                    </div>
+                </div>
+                }
+
+                <label
+                    class="aspect-square rounded-lg border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 cursor-pointer flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition">
+                    <input type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)"
+                        [disabled]="isUploading()" />
+                    @if (isUploading()) {
+                    <svg class="animate-spin w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">
+                        </path>
+                    </svg>
+                    <span class="text-xs mt-1 font-medium">Uploading...</span>
+                    } @else {
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4" />
+                    </svg>
+                    <span class="text-xs mt-1 font-medium">Add Image</span>
+                    }
+                </label>
+            </div>
+
+            @if (imageError()) {
+            <p class="text-red-600 text-xs mt-3 text-center font-medium">{{ imageError() }}</p>
+            }
+            @if (imageSuccess()) {
+            <p class="text-green-600 text-xs mt-3 text-center font-medium">{{ imageSuccess() }}</p>
+            }
+        </div>
+    </div>
+</div>
+}
+
 }

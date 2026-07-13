@@ -9,6 +9,8 @@ export class ShipmentFilter {
 
     public trackingNumber: string = '',
 
+    public onGoingShipment: boolean | null = null,
+
     public fromDate: string = '',
     public toDate: string = '',
 

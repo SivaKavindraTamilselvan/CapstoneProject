@@ -6,17 +6,22 @@ export class AddReturnModel {
     public returnQuantity: number = 1
   ) {}
 }
-
 export class ReturnSummaryModel {
   constructor(
     public returnId: number = 0,
+    public orderItemId: number = 0,
+    public reviewedByVendorId: number = 0,
     public productImageUrl: string = '',
     public productName: string = '',
     public sku: string = '',
     public vendorName: string = '',
     public returnQuantity: number = 0,
     public returnAmount: number = 0,
+    public damageCost: number = 0,
     public returnReason: string = '',
+    public additionalReason: string = '',
+    public reviewRemark: string = '',
+    public vendorReview: string = '',
     public returnStatus: string = '',
     public inventoryCity: string = '',
     public deliveryCity: string = '',

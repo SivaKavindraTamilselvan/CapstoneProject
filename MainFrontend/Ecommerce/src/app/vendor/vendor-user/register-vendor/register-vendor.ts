@@ -7,7 +7,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-register-vendor',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './register-vendor.html',
   styleUrl: './register-vendor.css',
 })
@@ -32,11 +32,21 @@ export class RegisterVendor {
     required(path.vendorRoleId, { message: "Vendor Role Id Is Required" })
     pattern(path.vendorRoleId, /^[2-9]{1}$/, { message: "Select a valid vendor role" })
   })
+
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   handleRegisterClick() {
     this.errorMessage.set(null);
     this.successMessage.set(null);
     if (this.registerForm().invalid()) {
       this.errorMessage.set("Enter Proper Details");
+      this.scrollToTop();
       return;
     }
     this.progress.set(true);
@@ -44,6 +54,7 @@ export class RegisterVendor {
       next: (response: any) => {
         this.successMessage.set("Registration Successfull");
         this.progress.set(false);
+        this.scrollToTop();
       },
       error: (error) => {
         this.progress.set(false);
@@ -64,14 +75,17 @@ export class RegisterVendor {
         else {
           this.errorMessage.set("Something went wrong. Please try again.")
         }
+        this.scrollToTop();
       }
     })
   }
   resetFilter() {
     this.vendorModel.set(new RegisterVendorUserModel());
     this.registerForm().reset();
+
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    this.scrollToTop();
   }
 }
 

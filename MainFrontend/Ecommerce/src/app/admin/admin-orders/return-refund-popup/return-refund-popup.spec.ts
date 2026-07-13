@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ActiveMappedAttribute } from './active-mapped-attribute';
+import { ReturnRefundPopup } from './return-refund-popup';
 
-describe('ActiveMappedAttribute', () => {
-  let component: ActiveMappedAttribute;
-  let fixture: ComponentFixture<ActiveMappedAttribute>;
+describe('ReturnRefundPopup', () => {
+  let component: ReturnRefundPopup;
+  let fixture: ComponentFixture<ReturnRefundPopup>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ActiveMappedAttribute],
+      imports: [ReturnRefundPopup],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ActiveMappedAttribute);
+    fixture = TestBed.createComponent(ReturnRefundPopup);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

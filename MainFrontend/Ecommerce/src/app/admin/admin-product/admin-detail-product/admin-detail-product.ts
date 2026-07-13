@@ -34,7 +34,7 @@ export class AdminDetailProduct {
   loadProductDetails(productId: number) {
     this.adminProductService.getProductDetails(productId).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.productModel.set(response);
       },
       error: (error) => {

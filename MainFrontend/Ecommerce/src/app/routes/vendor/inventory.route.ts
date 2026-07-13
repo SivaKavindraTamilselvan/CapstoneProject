@@ -3,6 +3,7 @@ import { InventoryList } from "../../vendor/inventory/inventory-list/inventory-l
 import { VendorInventoryDetails } from "../../vendor/inventory/vendor-inventory-details/vendor-inventory-details";
 import { AddWarehouse } from "../../vendor/vendor-warehouse/add-warehouse/add-warehouse";
 import { VendorWarehouseList } from "../../vendor/vendor-warehouse/vendor-warehouse-list/vendor-warehouse-list";
+import { GetWarehouseAddress } from "../../vendor/vendor-warehouse/get-warehouse-address/get-warehouse-address";
 
 export const VendorInventoryRoute: Routes = [
     {
@@ -13,6 +14,10 @@ export const VendorInventoryRoute: Routes = [
         path: 'warehouses',
         component: VendorWarehouseList,
         data: { status: true, title: 'Warehouse List' }
+    },
+    {
+        path: 'warehouses/:id',
+        component: GetWarehouseAddress
     },
     {
         path: 'deleted-warehouses',

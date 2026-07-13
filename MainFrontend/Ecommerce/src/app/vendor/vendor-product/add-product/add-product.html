@@ -1,139 +1,213 @@
-<section class="bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
-    <div class="pb-4 flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">
+<section class="p-2 md:px-6 lg:px-8 mt-4 lg:py-8 min-h-screen">
+    <div class="pb-6 flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-lg sm:text-xl sm:text-3xl">
             Add Product
         </h1>
     </div>
     <div class="flex justify-center px-2 w-full">
-        <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl p-8 space-y-6">
-            @if(errorMessage()) {
-            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-sm text-center font-bold">
-                {{errorMessage()}}
-            </div>
+        <div class="bg-white w-full max-w-4xl p-6 sm:p-10 space-y-8">
+
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
             }
-            @if(successMessage()){
-            <p class="bg-green-600 px-4 py-3 rounded-md text-white text-sm text-center font-bold">
-                {{ successMessage() }}
-            </p>
+            @if(errorMessage())
+            {
+            <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
             }
 
-            <form (ngSubmit)="addProduct()" class="flex flex-col gap-5">
+
+            <form (ngSubmit)="addProduct()" class="flex flex-col gap-8">
+
+                <!-- Basic Details -->
                 <div>
-                    <label class="block font-semibold mb-1">Product Name</label>
-                    <input type="text" [formField]="addForm.productName"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
-                        placeholder="Enter product name">
-                    @if (addForm.productName().touched() && addForm.productName().invalid())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{ addForm.productName().errors()[0].message }}</p>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Basic Details
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Name</label>
+                            <input type="text" [formField]="addForm.productName"
+                                class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition"
+                                placeholder="Enter product name">
+                            @if (addForm.productName().touched() && addForm.productName().invalid())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{ addForm.productName().errors()[0].message }}</p>
+                            }
+                        </div>
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Description</label>
+                            <textarea [formField]="addForm.description"
+                                class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition"
+                                rows="4" placeholder="Enter product description"></textarea>
+                            @if (addForm.description().touched() && addForm.description().invalid())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Classification
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
+                            <select (change)="onCategoryChange($event)"
+                                class="border border-gray-300 bg-white rounded-lg px-3 py-2.5 w-full text-sm outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition">
+                                <option value="">All</option>
+                                @for(cat of categories(); track cat.productCategoryId) {
+                                <option [value]="cat.productCategoryId"
+                                    [selected]="productCategoryId() === cat.productCategoryId">
+                                    {{cat.productCategoryName}}
+                                </option>
+                                }
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
+                            <select (change)="onSubcategoryChange($event)"
+                                class="border border-gray-300 bg-white rounded-lg px-3 py-2.5 w-full text-sm outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition disabled:bg-gray-100 disabled:text-gray-400"
+                                [disabled]="!productCategoryId()">
+                                @if(!productCategoryId()) {
+                                <option value="">Select category first</option>
+                                }
+                                @else{
+                                <option value="">All</option>
+                                }
+                                @for(sub of subCategories(); track sub.productSubCategoryId) {
+                                <option [value]="sub.productSubCategoryId">
+                                    {{sub.productSubCategoryName}}
+                                </option>
+                                }
+                            </select>
+                            @if (addForm.productSubCategoryId().touched() && addForm.productSubCategoryId().invalid())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
+                            }
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Main Attribute</label>
+                            <select (change)="onAttributeChange($event)"
+                                class="border border-gray-300 bg-white rounded-lg px-3 py-2.5 w-full text-sm outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition disabled:bg-gray-100 disabled:text-gray-400"
+                                [disabled]="!productSubCategoryId()">
+                                @if(!productSubCategoryId()) {
+                                <option value="">Select sub category first</option>
+                                }
+                                @else{
+                                <option value="">All</option>
+                                }
+                                @for(cat of attributes(); track cat.productSubCategoryAttributeId) {
+                                <option [value]="cat.productSubCategoryAttributeId"
+                                    [selected]="attributeId() === cat.productSubCategoryAttributeId">
+                                    {{cat.attributeName}}
+                                </option>
+                                }
+                            </select>
+                            @if (addForm.mainProductSubCategoryAttributeId().touched() &&
+                            addForm.mainProductSubCategoryAttributeId().invalid())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{
+                                addForm.mainProductSubCategoryAttributeId().errors()[0].message }}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Product Images
+                    </h2>
+
+                    <label
+                        class="flex flex-col items-center justify-center gap-2 w-full border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 rounded-xl px-4 py-8 cursor-pointer transition text-gray-400 hover:text-blue-600">
+                        <input type="file" multiple accept="image/*" (change)="onImageSelected($event)"
+                            class="hidden" />
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <span class="text-sm font-medium">Click to upload product images</span>
+                        <span class="text-xs text-gray-400">Tag each image as Front, Back, Left or Right</span>
+                    </label>
+
+                    @if(productImages().length === 0){
+                    <div
+                        class="border-2 border-dashed border-gray-200 rounded-xl py-6 mt-4 flex flex-col items-center justify-center gap-1 text-gray-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" fill="none" viewBox="0 0 24 24"
+                            stroke="currentColor" stroke-width="1.5">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14M14 8h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                        </svg>
+                        <p class="text-xs font-medium">No images uploaded yet</p>
+                    </div>
                     }
-                </div>
-                <div>
-                    <label class="block font-semibold mb-1">Description</label>
-                    <textarea [formField]="addForm.description"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700"
-                        rows="4" placeholder="Enter product description"></textarea>
-                    @if (addForm.description().touched() && addForm.description().invalid())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
-                    }
-                </div>
 
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Category</label>
-                    <select (change)="onCategoryChange($event)"
-                        class="border border-gray-400 rounded-md px-3 py-2 w-full">
-                        <option value="">All</option>
-                        @for(cat of categories(); track cat.productCategoryId) {
-                        <option [value]="cat.productCategoryId"
-                            [selected]="productCategoryId() === cat.productCategoryId">
-                            {{cat.productCategoryName}}
-                        </option>
+                    @if(productImages().length > 0){
+                    <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 mt-4">
+                        @for(img of productImages(); track $index){
+                        <div class="relative group aspect-square rounded-lg border overflow-hidden bg-white flex flex-col shadow-sm"
+                            [class.border-blue-500]="img.isMainImage" [class.ring-2]="img.isMainImage"
+                            [class.ring-blue-500]="img.isMainImage" [class.border-gray-200]="!img.isMainImage">
+
+                            <div class="relative flex-1">
+                                <img [src]="imagePreviews()[$index]" alt="Product Image"
+                                    class="w-full h-full object-contain p-2" />
+
+                                @if (img.isMainImage) {
+                                <span
+                                    class="absolute top-1.5 left-1.5 bg-blue-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                                    Main
+                                </span>
+                                }
+
+                                <div
+                                    class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition flex items-end justify-center gap-1.5 p-1.5 opacity-0 group-hover:opacity-100">
+                                    @if (!img.isMainImage) {
+                                    <button type="button" (click)="setMainImage($index)"
+                                        class="bg-blue-600 hover:bg-blue-700 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
+                                        Set Main
+                                    </button>
+                                    }
+                                    <button type="button" (click)="removeImage($index)"
+                                        class="bg-red-600 hover:bg-red-700 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
+                                        Delete
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div class="space-y-2 py-2 flex items-center justify-around">
+                                <label class="block text-xs font-semibold text-gray-600">
+                                    Display Angle
+                                </label>
+
+                                <select (change)="onAngleChange($index, $event)"
+                                    class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition-all duration-200 cursor-pointer outline-none hover:border-blue-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-200">
+                                    @for (angle of imageAngles; track angle.value) {
+                                    <option [value]="angle.value" [selected]="img.displayOrderId === angle.value">
+                                        {{ angle.label }}
+                                    </option>
+                                    }
+                                </select>
+                            </div>
+                        </div>
                         }
-                    </select>
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Sub Category</label>
-                    <select (change)="onSubcategoryChange($event)"
-                        class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productCategoryId()">
-                        @if(!productCategoryId()) {
-                        <option value="">Select category first</option>
-                        }
-                        @else{
-                        <option value="">All</option>
-                        }
-                        @for(sub of subCategories(); track sub.productSubCategoryId) {
-                        <option [value]="sub.productSubCategoryId">
-                            {{sub.productSubCategoryName}}
-                        </option>
-                        }
-                    </select>
-                    @if (addForm.productSubCategoryId().touched() && addForm.productSubCategoryId().invalid())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{ addForm.description().errors()[0].message }}</p>
-                    }
-                </div>
-
-                <div>
-                    <label class="block text-sm font-semibold text-gray-700 mb-1">Main Attribute</label>
-                    <select (change)="onAttributeChange($event)"
-                        class="border border-gray-400 rounded-md px-3 py-2 w-full" [disabled]="!productSubCategoryId()">
-                        @if(!productSubCategoryId()) {
-                        <option value="">Select sub category first</option>
-                        }
-                        @else{
-                        <option value="">All</option>
-                        }
-                        @for(cat of attributes(); track cat.productSubCategoryAttributeId) {
-                        <option [value]="cat.productSubCategoryAttributeId" [selected]="attributeId() === cat.productSubCategoryAttributeId">
-                            {{cat.attributeName}}
-                        </option>
-                        }
-                    </select>
-                    @if (addForm.mainProductSubCategoryAttributeId().touched() &&
-                    addForm.mainProductSubCategoryAttributeId().invalid())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{
-                        addForm.mainProductSubCategoryAttributeId().errors()[0].message }}</p>
-                    }
-                </div>
-
-                <div>
-                    <label class="block font-semibold mb-1">Product Images</label>
-                    <input type="file" multiple accept="image/*" (change)="onImageSelected($event)"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-2 focus:ring-blue-700" />
-
-                </div>
-
-                @if(productImages().length > 0){
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    @for(img of productImages(); track $index){
-                    <div class="border rounded-lg p-2 relative">
-                        <img src="" alt="" class="w-full h-28 object-cover rounded">
-
-                        <button type="button" (click)="setMainImage($index)"
-                            class="mt-2 w-full text-sm py-1 rounded text-white" [class.bg-green-700]="img.isMainImage"
-                            [class.bg-blue-700]="!img.isMainImage">
-                            {{ img.isMainImage ? 'Main Image' : 'Set Main' }}
-                        </button>
-
-                        <button type="button" (click)="removeImage($index)"
-                            class="mt-2 w-full bg-red-600 text-white text-sm py-1 rounded">
-                            Remove
-                        </button>
                     </div>
                     }
                 </div>
-                }
+
                 <div class="flex gap-2 w-full">
                     <button type="submit"
-                        class="flex-1 bg-blue-950 text-white px-6 py-3 rounded-lg font-semibold hover:bg-blue-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="flex-1 bg-blue-950 text-white px-6 py-3 rounded-xl font-semibold hover:bg-blue-900 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition"
                         [disabled]="loading()">
                         {{loading()? 'Adding...' : 'Add Product' }}
                     </button>
                     <button type="button"
-                        class="flex-1 bg-gray-500 text-white px-6 py-3 rounded-lg font-semibold hover:bg-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="flex-1 bg-gray-500 text-white px-6 py-3 rounded-xl font-semibold hover:bg-gray-600 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed transition"
                         [disabled]="loading()" (click)="resetForm()">
                         Reset
                     </button>

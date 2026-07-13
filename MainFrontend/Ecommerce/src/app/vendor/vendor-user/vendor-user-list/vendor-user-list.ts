@@ -196,10 +196,10 @@ export class VendorUserList extends BasePage {
   actions = computed<TableAction<VendorUserModel>[]>(() =>
     this.status() == null
       ? [
-        { label: 'View', color: 'green', action: 'view' }
+        { label: 'View', color: 'blue', action: 'view' }
       ]
       : [
-        { label: 'View', color: 'green', action: 'view' },
+        { label: 'View', color: 'blue', action: 'view' },
         { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive && category.vendorRoleId!=1 },
         { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
       ]

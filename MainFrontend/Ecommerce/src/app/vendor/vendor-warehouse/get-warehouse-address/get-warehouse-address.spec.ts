@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminReturnOrder } from './admin-return-order';
+import { GetWarehouseAddress } from './get-warehouse-address';
 
-describe('AdminReturnOrder', () => {
-  let component: AdminReturnOrder;
-  let fixture: ComponentFixture<AdminReturnOrder>;
+describe('GetWarehouseAddress', () => {
+  let component: GetWarehouseAddress;
+  let fixture: ComponentFixture<GetWarehouseAddress>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminReturnOrder],
+      imports: [GetWarehouseAddress],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminReturnOrder);
+    fixture = TestBed.createComponent(GetWarehouseAddress);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

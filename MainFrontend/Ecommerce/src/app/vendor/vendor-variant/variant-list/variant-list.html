@@ -48,7 +48,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Product ID</label>
-            <input type="number" placeholder="Product ID..." [formField]="filterForm.productId"
+            <input type="number" placeholder="Product ID..." [formField]="filterForm.productId" (keydown)="allowOnlyNumbers($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.productId().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -91,7 +91,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Minimum Quantity Per User</label>
-            <input type="number" placeholder="Quantity" [formField]="filterForm.minimuQuantityPerUser"
+            <input type="number" placeholder="Quantity" [formField]="filterForm.minimuQuantityPerUser" (keydown)="allowOnlyNumbers($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.minimuQuantityPerUser().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -102,7 +102,7 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor User ID</label>
-            <input type="number" placeholder="Added Vendor User Id" [formField]="filterForm.addedByVendorUserId"
+            <input type="number" placeholder="Added Vendor User Id" [formField]="filterForm.addedByVendorUserId" (keydown)="allowOnlyNumbers($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.addedByVendorUserId().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -114,10 +114,10 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minPrice"
+                <input type="number" placeholder="Min" [formField]="filterForm.minPrice" (keydown)="allowOnlyDecimals($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxPrice"
+                <input type="number" placeholder="Max" [formField]="filterForm.maxPrice" (keydown)="allowOnlyDecimals($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minPrice().invalid()) {
@@ -135,10 +135,10 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxAvailableQuantity"
+                <input type="number" placeholder="Max" [formField]="filterForm.maxAvailableQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minAvailableQuantity().invalid()) {
@@ -156,10 +156,10 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity"
+                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minReservedQuantity().invalid()) {

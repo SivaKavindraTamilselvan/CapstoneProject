@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { InactiveMappedAttribute } from './inactive-mapped-attribute';
+import { AdminReturDetails } from './admin-retur-details';
 
-describe('InactiveMappedAttribute', () => {
-  let component: InactiveMappedAttribute;
-  let fixture: ComponentFixture<InactiveMappedAttribute>;
+describe('AdminReturDetails', () => {
+  let component: AdminReturDetails;
+  let fixture: ComponentFixture<AdminReturDetails>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InactiveMappedAttribute],
+      imports: [AdminReturDetails],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(InactiveMappedAttribute);
+    fixture = TestBed.createComponent(AdminReturDetails);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

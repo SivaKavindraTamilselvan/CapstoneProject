@@ -12,7 +12,7 @@ import { Column } from '../../../shared-components/data-table-component/column.m
 import { TableAction } from '../../../shared-components/data-table-component/table-actions.model';
 import { VendorWarehouseService } from '../../../services/vendor-warehouse.Service';
 import { BasePage } from '../../../shared-class/shares-page-class';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { form, FormField, maxLength, min, pattern, required } from '@angular/forms/signals';
 import { PopupComponent } from '../../../shared-components/popup-component/popup-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -67,6 +67,9 @@ export class VendorWarehouseList extends BasePage {
       case 'add':
         this.openInventoryPopup(event.row.addressId);
         break;
+      case 'view':
+        this.viewWarehouse(event.row.addressId);
+        break;
     }
   }
   address = signal<PagedResponse<AddressModel> | null>(null);
@@ -88,7 +91,7 @@ export class VendorWarehouseList extends BasePage {
     this.addressFilter.set(new AddressFilter());
   }
 
-  constructor(private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
+  constructor(private route : Router,private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -254,5 +257,8 @@ export class VendorWarehouseList extends BasePage {
   closeInventoryPopup() {
     this.showAddInventoryPopup.set(false);
     this.selectedAddressIdForInventory.set(null);
+  }
+  viewWarehouse(id :number){
+    this.route.navigate(['vendor/warehouses',id]);
   }
 }

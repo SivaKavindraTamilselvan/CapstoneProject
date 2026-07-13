@@ -127,7 +127,7 @@
                         Updated At
                     </td>
                     <td class="py-3 px-2 border border-gray-300 break-words">
-                        {{coupon().updatedAt}}
+                        {{coupon().updatedAt ? coupon().updatedAt : 'Not Updated After Creation'}}
                     </td>
                 </tr>
 
@@ -207,7 +207,7 @@
                 <div class="flex items-center justify-between mb-3 py-2 border-b border-gray-200">
                     <span class="font-bold text-blue-950">#{{usage.couponUsageId}}</span>
                     <button
-                        class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900">View</button>
+                        class="bg-green-700 py-1.5 px-3 rounded-md font-bold text-white text-sm cursor-pointer hover:bg-green-900" (click)="viewOrder(usage.orderId)">View</button>
                 </div>
                 <table class="w-full border border-gray-300 border-collapse table-fixed">
                     <colgroup>
