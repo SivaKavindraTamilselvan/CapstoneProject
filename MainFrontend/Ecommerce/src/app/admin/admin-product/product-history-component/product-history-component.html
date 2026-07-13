@@ -1,0 +1,101 @@
+<div class="mb-6">
+    <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Approval History</h1>
+</div>
+
+<div>
+    @if (loading()) {
+    <p class="text-slate-500 text-sm px-5 py-6">Loading approval history...</p>
+    } @else if (errorMessage()) {
+    <p class="text-red-600 text-sm px-5 py-6">{{ errorMessage() }}</p>
+    } @else {
+
+    <!-- Desktop table -->
+    <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm bg-white overflow-hidden">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-slate-800 text-white text-sm">
+                    <th class="px-4 py-3 text-center font-semibold">Previous Status</th>
+                    <th class="px-4 py-3 text-center font-semibold">New Status</th>
+                    <th class="px-4 py-3 text-center font-semibold">Reviewer Type</th>
+                    <th class="px-4 py-3 text-center font-semibold">Reviewer ID</th>
+                    <th class="px-4 py-3 text-center font-semibold">Remarks</th>
+                    <th class="px-4 py-3 text-center font-semibold">Reviewed At</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-gray-100">
+                @for (h of history(); track h.approvalHistoryId) {
+                <tr class="text-center text-sm hover:bg-gray-50 transition-colors">
+                    <td class="px-4 py-3 text-gray-700">{{ h.previousStatusName ?? '—' }}</td>
+                    <td class="px-4 py-3 font-medium text-gray-900">{{ h.newStatusName ?? '—' }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ h.reviewerType }}</td>
+                    <td class="px-4 py-3 text-gray-700">{{ h.reviewerId }}</td>
+                    <td class="px-4 py-3 text-gray-700 text-left max-w-xs truncate" [title]="h.remarks ?? ''">
+                        {{ h.remarks ?? '—' }}
+                    </td>
+                    <td class="px-4 py-3 text-gray-500">{{ h.reviewedAt | date: 'dd/MM/yyyy, h:mm a' }}</td>
+                </tr>
+                } @empty {
+                <tr>
+                    <td colspan="6" class="px-4 py-8 text-center text-gray-400 text-sm">No approval history found.</td>
+                </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Mobile cards -->
+    <div class="md:hidden flex flex-col gap-4 p-4">
+        @if (history().length) {
+        @for (h of history(); track h.approvalHistoryId) {
+        <div class=" rounded-xl p-4 shadow-sm bg-white">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                <span class="font-bold text-blue-950 text-sm">
+                    {{ h.reviewerType }} #{{ h.reviewerId }}
+                </span>
+                <span class="text-xs text-gray-400">
+                    {{ h.reviewedAt | date: 'dd/MM/yyyy, h:mm a' }}
+                </span>
+            </div>
+
+            <table class="w-full border border-gray-300 border-collapse table-fixed">
+                <colgroup>
+                    <col class="w-2/5">
+                    <col class="w-3/5">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Previous Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-900">
+                            {{ h.previousStatusName ?? '—' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            New Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-900 font-medium">
+                            {{ h.newStatusName ?? '—' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Remarks
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ h.remarks ?? '—' }}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        } @else {
+        <div class="text-center text-gray-400 py-6 text-sm">
+            No approval history found.
+        </div>
+        }
+    </div>
+    }
+</div>

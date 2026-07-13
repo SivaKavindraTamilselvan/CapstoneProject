@@ -8,10 +8,11 @@ import { UserCartService } from '../../services/user-cart.Service';
 import { AddCartItemModel } from '../../models/user/cart/add-cart,model';
 import { UserFavoriteService } from '../../services/user-favorite.Service';
 import { AddFavoriteItemModel } from '../../models/user/favorites/add-favorite.model';
+import { ProductReviews } from '../user-product/product-reviews/product-reviews';
 
 @Component({
   selector: 'app-user-product-details',
-  imports: [CommonModule],
+  imports: [CommonModule,ProductReviews],
   templateUrl: './user-product-details.html',
   styleUrl: './user-product-details.css',
 })

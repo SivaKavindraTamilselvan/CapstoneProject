@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddUserOrderModel, CreateReview } from "../models/user/order/place-order.model";
+import { AddUserOrderModel, CreateReview, ProductReviewSummary } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { UserOrderFilter } from "../models/user/order/order-fiter";
@@ -64,6 +64,9 @@ export class UserOrderService {
     createReturn(model : AddReturnModel){
         const url = `${BaseURL}/Order/RequestReturnOrder`;
         return this.http.post(url, model);
+    }
+     getProductReviews(productId: number): Observable<ProductReviewSummary> {
+        return this.http.get<ProductReviewSummary>(`${BaseURL}/UserProduct/product-review/${productId}`);
     }
 
 

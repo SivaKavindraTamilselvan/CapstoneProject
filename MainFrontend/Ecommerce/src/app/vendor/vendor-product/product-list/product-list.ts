@@ -353,8 +353,8 @@ export class ProductList extends BasePage {
   
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
-    required(path.remark, { message: "Enter The Remarks" });
-    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
+    required(path.remarks, { message: "Enter The Remarks" });
+    maxLength(path.remarks, 150, { message: "Maximum 100 characters" });
   });
 
   approvalStatusOption = [
@@ -375,8 +375,8 @@ export class ProductList extends BasePage {
     if (this.reviewForm.approvalStatusId().invalid()) {
       errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
     }
-    if (this.reviewForm.remark().invalid()) {
-      errors.push(this.reviewForm.remark().errors()[0].message);
+    if (this.reviewForm.remarks().invalid()) {
+      errors.push(this.reviewForm.remarks().errors()[0].message);
     }
     this.errorMessage.set(errors.join(", "));
     if (this.reviewForm().invalid()) {
@@ -387,7 +387,7 @@ export class ProductList extends BasePage {
     const request = {
       productId: this.reviewProductModel().productId,
       approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
+      remarks: this.reviewProductModel().remarks
     };
     this.vendorProductService.reviewProduct(request).subscribe({
       next: () => {
@@ -446,7 +446,7 @@ export class ProductList extends BasePage {
     const request = {
       productId: this.reviewProductModel().productId,
       approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
+      remarks: this.reviewProductModel().remarks
     };
     this.vendorProductService.reviewProduct(request).subscribe({
       next: () => {

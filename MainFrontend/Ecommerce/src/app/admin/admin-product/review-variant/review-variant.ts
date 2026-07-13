@@ -434,7 +434,7 @@ export class ReviewVariant {
   }
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
-    required(path.remark, { message: "Enter The Remarks" });
+    required(path.remarks, { message: "Enter The Remarks" });
   });
 
   openReviewPopup(productId: number) {
@@ -463,7 +463,7 @@ export class ReviewVariant {
     const request = {
       productVariantId: this.reviewProductModel().productVariantId,
       approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
+      remarks: this.reviewProductModel().remarks
     };
     this.adminProductService.reviewProductVariant(request).subscribe({
       next: () => {

@@ -8,10 +8,12 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class UserProductController : ControllerBase
 {
+    private readonly IReviewService _reviewService;
     private readonly IUserProductService _userProductService;
 
-    public UserProductController(IUserProductService userProductService)
+    public UserProductController(IReviewService reviewService, IUserProductService userProductService)
     {
+        _reviewService = reviewService;
         _userProductService = userProductService;
     }
 
@@ -21,11 +23,18 @@ public class UserProductController : ControllerBase
         var result = await _userProductService.GetUserProducts(request);
         return Ok(result);
     }
-    
+
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
         var result = await _userProductService.GetProductWithFullDetails(productId);
+        return Ok(result);
+    }
+
+    [HttpGet("product-review/{productId}")]
+    public async Task<IActionResult> GetProductReviews(int productId)
+    {
+        var result = await _reviewService.GetProductReviewSummary(productId);
         return Ok(result);
     }
 }

@@ -1,6 +1,6 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddUserOrderModel } from "../models/user/order/place-order.model";
+import { AddUserOrderModel, ProductReviewSummary } from "../models/user/order/place-order.model";
 import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
 import { UserCouponModel } from "../models/user/coupon/user-coupon.model";
@@ -72,4 +72,5 @@ export class VendorOrderService {
         const url = BaseURL + `/Order/GetUserOrderItemsById/${id}`;
         return this.http.get<OrderItemModel>(url, {});
     }
+   
 }

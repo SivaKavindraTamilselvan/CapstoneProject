@@ -12,6 +12,7 @@ import { AdminProductVariantFilter } from "../models/admin/admin-product/filter/
 import { ProductVariantModel } from "../models/product/product-variant.model";
 import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
 import { AiValidationResult } from "../models/ai.model";
+import { ApprovalHistoryModel } from "../models/product/review-product.model";
 
 @Injectable({
     providedIn: "root"
@@ -111,6 +112,14 @@ export class AdminProductService {
     }
     getAiVariantReview(variantId: number): Observable<AiValidationResult> {
         return this.http.post<AiValidationResult>(`${BaseURL}/AdminProduct/variant/${variantId}/ai-review`, {});
+    }
+
+    getApprovalHistory(productId: number, isVariant = false): Observable<ApprovalHistoryModel[]> {
+        const url = isVariant
+            ? `${BaseURL}/AdminProduct/approval-history/variant/${productId}`
+            : `${BaseURL}/AdminProduct/approval-history/${productId}`;
+
+        return this.http.get<ApprovalHistoryModel[]>(url);
     }
 
 }

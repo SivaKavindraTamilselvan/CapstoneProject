@@ -189,7 +189,7 @@
         [aiReview]="aiReview()" [loadingAi]="loadingAi()"
         message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
         confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
-        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
+        [remarkField]="reviewForm.remarks" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
         [successMessage]="successMessage() ?? ''" (confirm)="onConfirmReview()" (cancel)="onCancelReview()"
         (aiCheckRequested)="runAiReview(reviewProductModel().productId)">
     </app-review-popup-component>
