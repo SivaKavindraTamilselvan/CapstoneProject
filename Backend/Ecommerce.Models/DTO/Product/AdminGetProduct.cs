@@ -46,3 +46,22 @@ public class ProductValidationResult
     public List<string> Issues { get; set; } = new();
 }
 
+
+
+public class ApprovalHistoryDto
+{
+    public int ApprovalHistoryId { get; set; }
+
+    public string EntityType { get; set; } = string.Empty;
+    public int EntityId { get; set; }
+
+    public string? PreviousStatusName { get; set; }
+    public string? NewStatusName { get; set; }
+
+    public string ReviewerType { get; set; } = string.Empty;
+    public int ReviewerId { get; set; }
+
+    public string? Remarks { get; set; }
+
+    public DateTime ReviewedAt { get; set; }
+}

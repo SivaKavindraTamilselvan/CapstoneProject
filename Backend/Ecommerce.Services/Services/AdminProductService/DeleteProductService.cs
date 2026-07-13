@@ -13,6 +13,7 @@ public partial class AdminProductService : IAdminProductService
         var adminUser = await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Product {ProductId} - {ProductName} found. Current Approval Status: {StatusId}", product.ProductId, product.ProductName, product.ProductApprovalStatusId);
 
+        /*
         ApprovalHistory approvalHistory = new ApprovalHistory();
         approvalHistory.PreviousStatusId = product.ProductApprovalStatusId;
         approvalHistory.EntityType = "Product";
@@ -22,11 +23,12 @@ public partial class AdminProductService : IAdminProductService
         approvalHistory.NewStatusId = (int)ProductApprovalStatusEnum.Deleted_By_Admin;
         product.ProductApprovalStatusId = (int)ProductApprovalStatusEnum.Deleted_By_Admin;
         product.UpdatedAt = DateTime.Now;
+        */
 
         _logger.LogInformation("Product {ProductId} marked as Deleted_By_Admin by AdminUserId {AdminUserId}", product.ProductId, adminUser.AdminUserId);
         await _productRepsository.Update(product.ProductId, product);
-        await _approvalHistoryRepsository.Create(approvalHistory);
-        _logger.LogInformation("Approval history created for ProductId {ProductId}. PreviousStatus: {PreviousStatus}, NewStatus: {NewStatus}", product.ProductId, approvalHistory.PreviousStatusId, approvalHistory.NewStatusId);
+        //await _approvalHistoryRepsository.Create(approvalHistory);
+        _logger.LogInformation("Approval history created for ProductId {ProductId}", product.ProductId);
 
         var ownerVendor = await _vendorUserRepsository.GetOwnerVendorUserByVendorId(product.VendorId);
         if (ownerVendor != null)

@@ -18,6 +18,7 @@ public partial class AdminVendorService : IAdminVendorService
                 _logger.LogWarning("Vendor review failed. VendorId {VendorId} not found", deleteVendorDto.VendorId);
                 throw new DataNotFoundException("Vendor ID Not Found");
             }
+            /*
             ApprovalHistory approvalHistory = new ApprovalHistory();
             approvalHistory.EntityId = vendor.VendorId;
             approvalHistory.PreviousStatusId = vendor.ApprovalStatusId;
@@ -26,6 +27,7 @@ public partial class AdminVendorService : IAdminVendorService
             approvalHistory.ReviewedByAdminId = adminUser.AdminUserId;
             approvalHistory.ReviewedAt = DateTime.Now;
             await _approvalHistoryRepsository.Create(approvalHistory);
+            */
 
             vendor.ApprovalStatusId = (int)ApprovalStatusEnum.Deleted_By_Admin;
             vendor.ReviewedAt = DateTime.Now;
