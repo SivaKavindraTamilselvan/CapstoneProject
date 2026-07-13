@@ -79,6 +79,22 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("approval-history/{productId}")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistory(int productId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetProductHistory(productId);
+        return Ok(result);
+    }
+    
+    [HttpGet("approval-history/variant/{productId}")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistoryVaraint(int productId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetProductVariantHistory(productId);
+        return Ok(result);
+    }
+
     [HttpPost("{id}/ai-review")]
     public async Task<IActionResult> AiReview(int id)
     {

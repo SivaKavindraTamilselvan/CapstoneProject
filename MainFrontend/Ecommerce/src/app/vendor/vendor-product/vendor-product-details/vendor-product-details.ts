@@ -18,10 +18,12 @@ import { UpdateRejectedProductComponent } from '../update-rejected-product-compo
 import { DeleteProductComponent } from '../delete-product-componentd/delete-product-componentd';
 import { UpdateProductComponent } from '../update-product-component/update-product-component';
 import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
+import { ProductReviews } from '../../../users/user-product/product-reviews/product-reviews';
+import { ProductHistoryComponent } from '../../../admin/admin-product/product-history-component/product-history-component';
 
 @Component({
   selector: 'app-vendor-product-details',
-  imports: [CommonModule, UpdateRejectedProductComponent, UpdateProductComponent, DeleteProductComponent,ReviewPopupComponent],
+  imports: [CommonModule, UpdateRejectedProductComponent, UpdateProductComponent, DeleteProductComponent,ReviewPopupComponent,ProductReviews,ProductHistoryComponent],
   templateUrl: './vendor-product-details.html',
   styleUrl: './vendor-product-details.css',
 })
@@ -288,8 +290,8 @@ export class VendorProductDetails extends PopupBase {
   progress = signal(false);
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
-    required(path.remark, { message: "Enter The Remarks" });
-    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
+    required(path.remarks, { message: "Enter The Remarks" });
+    maxLength(path.remarks, 150, { message: "Maximum 100 characters" });
   });
 
   approvalStatusOption = [
@@ -310,8 +312,8 @@ export class VendorProductDetails extends PopupBase {
     if (this.reviewForm.approvalStatusId().invalid()) {
       errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
     }
-    if (this.reviewForm.remark().invalid()) {
-      errors.push(this.reviewForm.remark().errors()[0].message);
+    if (this.reviewForm.remarks().invalid()) {
+      errors.push(this.reviewForm.remarks().errors()[0].message);
     }
     this.errorMessage.set(errors.join(", "));
     if (this.reviewForm().invalid()) {
@@ -322,7 +324,7 @@ export class VendorProductDetails extends PopupBase {
     const request = {
       productId: this.reviewProductModel().productId,
       approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
+      remarks: this.reviewProductModel().remarks
     };
     this.vendorProductService.reviewProduct(request).subscribe({
       next: () => {

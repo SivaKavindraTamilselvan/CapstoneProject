@@ -387,8 +387,8 @@ export class VariantList extends BasePage {
 
   reviewForm = form(this.reviewProductVariantModel, (path) => {
     required(path.approvalStatusId, { message: 'Enter The Approval Status' });
-    required(path.remark, { message: 'Enter The Remarks' });
-    maxLength(path.remark, 150, { message: 'Maximum 100 characters' });
+    required(path.remarks, { message: 'Enter The Remarks' });
+    maxLength(path.remarks, 150, { message: 'Maximum 100 characters' });
   });
 
   openReviewPopup(productVariantId: number) {
@@ -430,8 +430,8 @@ export class VariantList extends BasePage {
     if (this.reviewForm.approvalStatusId().invalid()) {
       errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
     }
-    if (this.reviewForm.remark().invalid()) {
-      errors.push(this.reviewForm.remark().errors()[0].message);
+    if (this.reviewForm.remarks().invalid()) {
+      errors.push(this.reviewForm.remarks().errors()[0].message);
     }
     this.errorMessage.set(errors.join(', '));
     if (this.reviewForm().invalid()) {
@@ -442,7 +442,7 @@ export class VariantList extends BasePage {
     const request = {
       productVariantId: this.reviewProductVariantModel().productVariantId,
       approvalStatusId: Number(this.reviewProductVariantModel().approvalStatusId),
-      remark: this.reviewProductVariantModel().remark
+      remarks: this.reviewProductVariantModel().remarks
     };
     this.adminProductService.reviewProductVariant(request).subscribe({
       next: () => {

@@ -9,10 +9,12 @@ import { AdminDeleteProductModel } from '../../../models/admin/admin-product/mod
 import { DeleteProductComponent } from '../../../vendor/vendor-product/delete-product-componentd/delete-product-componentd';
 import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
 import { DeletePopupComponents } from '../../../shared-components/delete-popup-components/delete-popup-components';
+import { ProductReviews } from '../../../users/user-product/product-reviews/product-reviews';
+import { ProductHistoryComponent } from '../product-history-component/product-history-component';
 
 @Component({
   selector: 'app-admin-detail-product',
-  imports: [DatePipe, DecimalPipe,CommonModule,DeletePopupComponents,ReviewPopupComponent],
+  imports: [DatePipe, DecimalPipe,CommonModule,DeletePopupComponents,ReviewPopupComponent,ProductReviews,ProductHistoryComponent],
   templateUrl: './admin-detail-product.html',
   styleUrl: './admin-detail-product.css',
 })
@@ -139,8 +141,8 @@ export class AdminDetailProduct {
 
   reviewForm = form(this.reviewProductModel, (path) => {
     required(path.approvalStatusId, { message: "Enter The Approval Status" });
-    required(path.remark, { message: "Enter The Remarks" });
-    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
+    required(path.remarks, { message: "Enter The Remarks" });
+    maxLength(path.remarks, 150, { message: "Maximum 100 characters" });
   });
 
   openReviewPopup(productId: number) {
@@ -159,8 +161,8 @@ export class AdminDetailProduct {
     if (this.reviewForm.approvalStatusId().invalid()) {
       errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
     }
-    if (this.reviewForm.remark().invalid()) {
-      errors.push(this.reviewForm.remark().errors()[0].message);
+    if (this.reviewForm.remarks().invalid()) {
+      errors.push(this.reviewForm.remarks().errors()[0].message);
     }
     this.errorMessage.set(errors.join(", "));
     if (this.reviewForm().invalid()) {
@@ -171,7 +173,7 @@ export class AdminDetailProduct {
     const request = {
       productId: this.reviewProductModel().productId,
       approvalStatusId: Number(this.reviewProductModel().approvalStatusId),
-      remark: this.reviewProductModel().remark
+      remarks: this.reviewProductModel().remarks
     };
     const id = this.productModel()?.productId;
     if(id == null){

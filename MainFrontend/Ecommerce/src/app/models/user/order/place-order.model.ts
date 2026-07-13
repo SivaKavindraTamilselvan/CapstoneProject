@@ -14,3 +14,20 @@ export class CreateReview {
         public starId: number | null = null
     ) { }
 }
+
+export interface ReviewItem {
+  reviewId: number;
+  starId: number;
+  reviewDescription: string;
+  additionalReviewDescription?: string;
+  userName?: string;
+  createdAt: string;
+}
+
+export interface ProductReviewSummary {
+  productId: number;
+  averageRating: number;
+  totalReviews: number;
+  starBreakdown: Record<number, number>;
+  reviews: ReviewItem[];
+}
