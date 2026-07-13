@@ -135,9 +135,11 @@ public class VendorProductController : ControllerBase
     }
 
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
-    [HttpPut("UpdateProductImageAsDefault")]
-    public async Task<ActionResult<ResponseMakeDefaultImageDTO>> UpdateProductImageAsDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO)
+    [HttpPut("UpdateProductImageAsDefault/{productImageId}")]
+    public async Task<ActionResult<ResponseMakeDefaultImageDTO>> UpdateProductImageAsDefault(int productImageId)
     {
+        RequestMakeDefaultImageDTO requestMakeDefaultImageDTO = new RequestMakeDefaultImageDTO();
+        requestMakeDefaultImageDTO.ProductImageId = productImageId;
         var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
         return Ok(result);
     }

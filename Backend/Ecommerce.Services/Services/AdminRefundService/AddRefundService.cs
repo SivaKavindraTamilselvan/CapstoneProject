@@ -38,8 +38,7 @@ public class AdminRefundService : IAdminRefundService
         await _refundRepsository.Create(refund);
         return _mapper.Map<ResponseAddRefundDTO>(refund);
     }
-    public async Task<ResponseAddRefundDTO> CreateReturnRefund(
-     RequestAddReturnRefundDTO requestAddReturnRefundDTO)
+    public async Task<ResponseAddRefundDTO> CreateReturnRefund(RequestAddReturnRefundDTO requestAddReturnRefundDTO)
     {
         var returnItem = await _returnRepsository.Get(requestAddReturnRefundDTO.ReturnId);
 
@@ -84,6 +83,9 @@ public class AdminRefundService : IAdminRefundService
             DeductionReason = requestAddReturnRefundDTO.Remarks,
             ReturnId = returnItem.ReturnId
         };
+
+        returnItem.ReturnStatusId = 8;
+        await _returnRepsository.Update(returnItem.ReturnId,returnItem);
 
         await _returnRefundRepsository.Create(returnRefund);
 

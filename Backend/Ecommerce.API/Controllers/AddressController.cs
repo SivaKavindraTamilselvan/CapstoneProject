@@ -41,6 +41,14 @@ public class AddressController : ControllerBase
         return Ok(result);
     }
     [Authorize]
+    [HttpGet("address/{addressId}")]
+    public async Task<ActionResult<ResponseGetAddressDTO>> GetUserAddress(int addressId)
+    {
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _addressService.GetAddress(UserId,addressId);
+        return Ok(result);
+    }
+    [Authorize]
     [HttpPatch("{addressId}/deactivate")]
     public async Task<ActionResult<ResponseGetAddressDTO>> DeleteAddress([FromRoute] int addressId)
     {
@@ -48,7 +56,7 @@ public class AddressController : ControllerBase
         var result = await _addressService.DeleteUserAddress(addressId, UserId);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOwnerAndInventoryVendorOnly")]
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpGet("vendor-address")]
     public async Task<ActionResult<PagedResponse<ResponseGetAddressDTO>>> GetAllVendorAddress([FromQuery] AddressRequestFilter request)
     {
@@ -56,7 +64,7 @@ public class AddressController : ControllerBase
         var result = await _addressService.GetAllTheVendorAddress(UserId, request);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorOwnerAndInventoryVendorOnly")]
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpPatch("vendor/{addressId}/deactivate")]
     public async Task<ActionResult<ResponseGetAddressDTO>> DeleteVendorAddress([FromRoute] int addressId)
     {

@@ -10,12 +10,14 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class AdminProductController : ControllerBase
 {
+    private readonly AiProductValidationService _aiService;
     private readonly IAdminProductAttributeService _adminProductAttributeService;
     private readonly IAdminProductCategoryService _adminProductCategoryService;
     private readonly IAdminProductService _adminProductService;
 
-    public AdminProductController(IAdminProductService adminProductService,IAdminProductAttributeService adminProductAttributeService,IAdminProductCategoryService adminProductCategoryService)
+    public AdminProductController(AiProductValidationService aiProductValidationService, IAdminProductService adminProductService, IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService)
     {
+        _aiService = aiProductValidationService;
         _adminProductAttributeService = adminProductAttributeService;
         _adminProductCategoryService = adminProductCategoryService;
         _adminProductService = adminProductService;
@@ -25,7 +27,7 @@ public class AdminProductController : ControllerBase
     public async Task<IActionResult> GetAllProducts([FromQuery] RequestAdminProductFilter request)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductService.GetAllProductsForAdmin(request,adminUserId);
+        var result = await _adminProductService.GetAllProductsForAdmin(request, adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
@@ -33,7 +35,7 @@ public class AdminProductController : ControllerBase
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductService.GetProductWithFullDetails(productId,adminUserId);
+        var result = await _adminProductService.GetProductWithFullDetails(productId, adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
@@ -41,7 +43,15 @@ public class AdminProductController : ControllerBase
     public async Task<IActionResult> GetAllProductsVariant([FromQuery] RequestAdminProductVariantFilter filter)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductService.GetAllProductVariant(filter,adminUserId);
+        var result = await _adminProductService.GetAllProductVariant(filter, adminUserId);
+        return Ok(result);
+    }
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpGet("product-variant/{productVariantId}")]
+    public async Task<IActionResult> GetProductVariantWithFullDetails(int productVariantId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.GetProductVariantWithFullDetails(productVariantId, adminUserId);
         return Ok(result);
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
@@ -65,8 +75,32 @@ public class AdminProductController : ControllerBase
     public async Task<ActionResult<ResponseReviewOfProductDTO>> DeleteProduct(RequestDeleteProductDTO requestDeleteProductDTO)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminProductService.DeleteProduct(requestDeleteProductDTO,adminUserId);
+        var result = await _adminProductService.DeleteProduct(requestDeleteProductDTO, adminUserId);
         return Ok(result);
     }
-    
+
+    [HttpPost("{id}/ai-review")]
+    public async Task<IActionResult> AiReview(int id)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var product = await _adminProductService.GetProductWithFullDetails(id, adminUserId); // make sure this includes ProductImages, ProductSubCategory.ProductCategory
+        if (product == null)
+            return NotFound();
+
+        var result = await _aiService.ValidateAsync(product);
+        return Ok(result);
+    }
+
+    [HttpPost("variant/{id}/ai-review")]
+    public async Task<IActionResult> AiReviewVariant(int id)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var variant = await _adminProductService.GetProductVariantWithFullDetails(id, adminUserId);
+        if (variant == null)
+            return NotFound();
+
+        var result = await _aiService.ValidateVariantAsync(variant);
+        return Ok(result);
+    }
+
 }

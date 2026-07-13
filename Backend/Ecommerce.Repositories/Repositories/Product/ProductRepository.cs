@@ -23,7 +23,8 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
         .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductImages)
-        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductApprovalStatus);
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductApprovalStatus)
+        .Include(p => p.ProductVariants).ThenInclude(pv => pv.ProductVariantStatus);
     }
 
     public async Task<(List<Product> items, int totalCount)> GetAdminProduct(RequestAdminProductFilter request)
@@ -169,9 +170,9 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             }
             else
             {
-                query = query.Where(p => p.ProductApprovalStatusId != 6 && p.ProductStatusId !=4);
+                query = query.Where(p => p.ProductApprovalStatusId != 6 && p.ProductStatusId != 4);
             }
-           
+
         }
         if (request.isAvailableForSale.HasValue)
         {

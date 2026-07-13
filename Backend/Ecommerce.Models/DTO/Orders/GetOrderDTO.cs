@@ -1,5 +1,6 @@
 // OrderFilterParams.cs
 using Ecommerce.DTOs;
+using Ecommerce.Models;
 
 public class AdminOrderFilterParams : PaginationFilter
 {
@@ -30,8 +31,16 @@ public class OrderFilterParams : PaginationFilter
 public class OrderSummaryDto
 {
     public int OrderId { get; set; }
+     public int UserId { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
+    public string ContactPersonName { get; set; } = string.Empty;
+    public string ContactPersonPhoneNumber { get; set; } = string.Empty;
+    public string UserAddress { get; set; } = string.Empty;
+    public string UserLandMark { get; set; } = string.Empty;
+    public string UserCity { get; set; } = string.Empty;
+    public string UserState { get; set; } = string.Empty;
+    public string UserPincode { get; set; } = string.Empty;
     public decimal TotalProductAmount { get; set; }
     public decimal TotalShippingAmount { get; set; }
     public decimal TotalCouponAmount { get; set; }
@@ -45,6 +54,13 @@ public class OrderSummaryDto
 // OrderItemSummaryDto.cs
 public class OrderItemSummaryDto
 {
+    public string UserName { get; set; } = string.Empty;
+    public string ContactPersonName { get; set; } = string.Empty;
+    public string ContactPersonPhoneNumber { get; set; } = string.Empty;
+    public string UserAddress { get; set; } = string.Empty;
+    public string UserLandMark { get; set; } = string.Empty;
+    public string UserCity { get; set; } = string.Empty;
+    public string UserPincode { get; set; } = string.Empty;
     public int OrderItemsId { get; set; }
     public string ProductImageUrl { get; set; } = string.Empty;
     public string SKU { get; set; } = string.Empty;
@@ -57,9 +73,18 @@ public class OrderItemSummaryDto
     public decimal Discount { get; set; }
     public int InventoryId { get; set; }
     public bool canReturn { get; set; }
+
+    public string VendorContactPersonName { get; set; } = string.Empty;
+    public string VendorContactPersonPhoneNumber { get; set; } = string.Empty;
+
+    public List<CancelSummaryDto> cancels {get;set;}
     public List<ReturnSummaryDto> returns { get; set; }
     public string InventoryCity { get; set; } = string.Empty;
     public string InventoryAddress { get; set; } = string.Empty;
+    public string InventoryState { get; set; } = string.Empty;
+    public string InventoryPincode { get; set; } = string.Empty;
+    public string InventoryLandMark { get; set; } = string.Empty;
+    public int AddressId {get;set;}
     public decimal ItemTotal { get; set; }
     public string OrderItemStatus { get; set; } = string.Empty;
 }

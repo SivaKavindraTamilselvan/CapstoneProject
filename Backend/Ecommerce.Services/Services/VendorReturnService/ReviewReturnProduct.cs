@@ -20,7 +20,7 @@ public partial class VendorReturnService : IVendorReturnService
         returnItem.VendorReview = requestReviewReturnProductDTO.Remarks;
         returnItem.ReviewedByVendorId = vendorUser.VendorUserId;
         returnItem.ReviewedDate = DateTime.Now;
-        returnItem.ReturnStatusId = 7;
+        returnItem.ReturnStatusId = 11;
         await _returnRepsository.Update(returnItem.ReturnId, returnItem);
         _logger.LogInformation("ReturnId {ReturnId} reviewed successfully by Vendor UserId {VendorUserId}. DamageCost: {DamageCost}", returnItem.ReturnId, vendorUserId, returnItem.DamageCost);
         return _mapper.Map<ResponseReviewReturnDTO>(returnItem);

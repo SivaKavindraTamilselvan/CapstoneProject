@@ -23,6 +23,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     {
         return _ecommerceContext.Order
             .Include(o => o.Users)
+            .Include(o => o.Address)
             .Include(o => o.OrderStatus)
             .Include(o => o.OrderItems)
                 .ThenInclude(oi => oi.ProductVariant)
@@ -39,6 +40,8 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
                 .ThenInclude(i => i!.Address)
             .Include(o => o.OrderItems).ThenInclude(o => o.Returns).ThenInclude(r => r.ReturnReason)
             .Include(o => o.OrderItems).ThenInclude(o => o.Returns).ThenInclude(r => r.ReturnStatus)
+            .Include(o => o.OrderItems).ThenInclude(o => o.Cancels).ThenInclude(r => r.CancelReason)
+             .Include(o => o.OrderItems).ThenInclude(o => o.Cancels).ThenInclude(r => r.CancelStatus)
             .AsNoTracking();
     }
 
@@ -134,6 +137,10 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     .Include(oi => oi.OrderItemStatus)
     .Include(o => o.Returns).ThenInclude(r => r.ReturnReason)
             .Include(o => o.Returns).ThenInclude(r => r.ReturnStatus)
+    .Include(oi => oi.Cancels).ThenInclude(a => a.CancelReason)
+         .Include(oi => oi.Cancels).ThenInclude(a => a.CancelStatus)
+.Include(oi => oi.OrderItemStatus)
+       .Include(oi => oi.Order).ThenInclude(a => a.Address)
 
     .Where(oi => oi.OrderItemsId == orderItemId);
         return await query.FirstOrDefaultAsync();
@@ -152,6 +159,10 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
        .Include(oi => oi.Inventory)
            .ThenInclude(i => i!.Address)
        .Include(oi => oi.OrderItemStatus)
+       .Include(oi => oi.Order).ThenInclude(a => a.Address)
+        .Include(oi => oi.Cancels).ThenInclude(a => a.CancelReason)
+         .Include(oi => oi.Cancels).ThenInclude(a => a.CancelStatus)
+
        .Where(oi =>
            oi.ProductVariant != null &&
            oi.ProductVariant.Product != null &&

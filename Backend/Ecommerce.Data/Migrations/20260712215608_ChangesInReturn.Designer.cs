@@ -3,6 +3,7 @@ using System;
 using Ecommerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Data.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    partial class EcommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20260712215608_ChangesInReturn")]
+    partial class ChangesInReturn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -1104,21 +1107,6 @@ namespace Ecommerce.Data.Migrations
                         {
                             OrderItemStatusId = 8,
                             OrderItemStatusName = "Refunded"
-                        },
-                        new
-                        {
-                            OrderItemStatusId = 9,
-                            OrderItemStatusName = "Return_Requested"
-                        },
-                        new
-                        {
-                            OrderItemStatusId = 10,
-                            OrderItemStatusName = "Return_Accepted"
-                        },
-                        new
-                        {
-                            OrderItemStatusId = 11,
-                            OrderItemStatusName = "Return_Rejected"
                         });
                 });
 

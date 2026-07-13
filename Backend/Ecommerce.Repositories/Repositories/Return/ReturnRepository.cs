@@ -22,9 +22,9 @@ public class ReturnRepsository : AbstractRepository<int, Return>, IReturnRepsosi
     {
         return await _ecommerceContext.Return.Include(r => r.OrderItems).ThenInclude(o => o!.ProductVariant).ThenInclude(p => p!.Product).Where(r => r.ReturnId == returnId).FirstOrDefaultAsync();
     }
-     public async Task<Return?> GetTheReturnProductByOrderItemId(int orderItemId)
+    public async Task<Return?> GetTheReturnProductByOrderItemId(int orderItemId)
     {
-        return await _ecommerceContext.Return.Where(o=>o.OrderItemId==orderItemId).FirstOrDefaultAsync();
+        return await _ecommerceContext.Return.Where(o => o.OrderItemId == orderItemId).FirstOrDefaultAsync();
     }
 
     private IQueryable<Return> BaseQuery()
@@ -77,6 +77,14 @@ public class ReturnRepsository : AbstractRepository<int, Return>, IReturnRepsosi
         if (request.ToDate.HasValue)
         {
             query = query.Where(r => r.RequestedDate <= request.ToDate.Value);
+        }
+
+        if (request.OnGoing.HasValue)
+        {
+            if (request.OnGoing.Value == true)
+            {
+                query = query.Where(r => r.ReturnStatusId == 2 || (r.ReturnStatusId>=4  && r.ReturnStatusId<=8) || r.ReturnStatusId == 11);
+            }
         }
 
         var totalCount = await query.CountAsync();

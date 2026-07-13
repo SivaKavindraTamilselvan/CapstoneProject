@@ -19,7 +19,7 @@ public class InventoryRepsository : AbstractRepository<int, Inventory>, IInvento
     }
     public async Task<(List<Inventory>items,int totalQuantity)> GetInventoryForVendor(RequestVendorInventoryFilter request, int vendorId)
     {
-        var query = BaseQuery().Where(i => i.ProductVariant!.Product!.VendorId == vendorId);
+        var query = BaseQuery().Where(i => i.ProductVariant!.Product!.VendorId == vendorId && i.Address!.IsActive == true);
         if (request.AddressId.HasValue)
         {
             query = query.Where(a => a.AddressId == request.AddressId.Value);
