@@ -62,6 +62,13 @@ public class ShipmentRepsository : AbstractRepository<int, Shipment>, IShipmentR
         {
             query = query.Where(s => s.CreatedAt <= filter.ToDate.Value.Date.AddDays(1));
         }
+        if (filter.OnGoingShipment.HasValue)
+        {
+            if (filter.OnGoingShipment.Value == true)
+            {
+                query = query.Where(s => s.ShipmentStatusId >= 4 && s.ShipmentStatusId <= 7);
+            }
+        }
         if (!string.IsNullOrWhiteSpace(filter.CourierName))
         {
             query = query.Where(s => s.CourierName.ToLower() == filter.CourierName.ToLower());

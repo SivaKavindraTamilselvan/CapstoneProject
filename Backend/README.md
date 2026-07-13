@@ -28,7 +28,7 @@
 - Model Builder For each of the model table is added
 - in Program.cs mention the context region that is configure the DBContext
 
-- dotnet ef migrations add ChangesInTheProductMainAttribute --project Ecommerce.Data --startup-project Ecommerce.API
+- dotnet ef migrations add ChangesInTheOrderStatus --project Ecommerce.Data --startup-project Ecommerce.API
 - dotnet ef database update --project Ecommerce.Data --startup-project Ecommerce.API
 - dotnet ef migrations remove --project Ecommerce.Data --startup-project Ecommerce.API
 

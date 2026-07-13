@@ -52,6 +52,13 @@ public class CancelController : ControllerBase
         var result = await _userCancelService.GetAllCancel(cancelId, vendorUserId);
         return Ok(result);
     }
+    [HttpGet("vendor-cancel/{cancelId}")]
+    public async Task<IActionResult> GetCancelsForVendor(int cancelId)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCancelService.GetAllCancel(cancelId, vendorUserId);
+        return Ok(result);
+    }
     [HttpPost("request-cancels")]
     public async Task<IActionResult> RequestCancels(RequestCancelDTO request)
     {

@@ -7,6 +7,7 @@ using Ecommerce.Services.Interfaces;
 
 public class AdminReturnService : IAdminReturnService
 {
+    private readonly IShipmentRepsository _shipmentRepsository;
     private readonly IMapper _mapper;
     private readonly IInventoryValidation _inventoryValidation;
     private readonly IOrderValidation _orderValidation;
@@ -121,6 +122,9 @@ public class AdminReturnService : IAdminReturnService
     }
     private async Task<string> CreateReturnShipmentTracking(int shipmentId, Return user)
     {
+        var shipment = await _shipmentRepsository.Get(shipmentId);
+        shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
+        await _shipmentRepsository.Update(shipmentId,shipment);
         var customerAddress = user.OrderItems!.Order!.Address!;
 
         var remarks = "Return shipment created from customer location";
@@ -155,6 +159,13 @@ public class AdminReturnService : IAdminReturnService
             PageSize = request.PageSize,
             TotalCount = result.totalCount
         }; 
+    }
+
+    public async Task<ReturnSummaryDto> GetAllReturns(int returnId)
+    {
+        var result = await _returnRepsository.GetReturnSummaryById(returnId);
+        return _mapper.Map<ReturnSummaryDto>(result);
+          
     }
 
 }

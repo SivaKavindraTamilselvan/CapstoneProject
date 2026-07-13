@@ -197,6 +197,9 @@ public class EcommerceContext : DbContext
             os.HasData(new OrderItemStatus() { OrderItemStatusId = 6, OrderItemStatusName = "Returned" });
             os.HasData(new OrderItemStatus() { OrderItemStatusId = 7, OrderItemStatusName = "Cancelled" });
             os.HasData(new OrderItemStatus() { OrderItemStatusId = 8, OrderItemStatusName = "Refunded" });
+            os.HasData(new OrderItemStatus() { OrderItemStatusId = 9, OrderItemStatusName = "Return_Requested" });
+            os.HasData(new OrderItemStatus() { OrderItemStatusId = 10, OrderItemStatusName = "Return_Accepted" });
+            os.HasData(new OrderItemStatus() { OrderItemStatusId = 11, OrderItemStatusName = "Return_Rejected" });
         });
         modelBuilder.Entity<OrderStatus>(o =>
         {
@@ -289,6 +292,7 @@ public class EcommerceContext : DbContext
            rs.HasData(new ReturnStatus() { ReturnStatusId = 8, ReturnStatusName = "Refund_Processed" });
            rs.HasData(new ReturnStatus() { ReturnStatusId = 9, ReturnStatusName = "Completed" });
            rs.HasData(new ReturnStatus() { ReturnStatusId = 10, ReturnStatusName = "Cancelled" });
+           rs.HasData(new ReturnStatus() { ReturnStatusId = 11, ReturnStatusName = "Dispute_Return" });
        });
         modelBuilder.Entity<Star>(s =>
         {

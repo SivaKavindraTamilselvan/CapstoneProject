@@ -21,12 +21,16 @@ public partial class CancelService : ICancelService
         var orderItemAmount = order.Quantity * order.UnitPrice - order.Discount;
         var ConvenienceFee = orderItemAmount * 0.05m;
         var refundAmount = orderItemAmount - ConvenienceFee;
+
+        var cancelledOrderItemId = await UpdateOrderItemStatus(order.OrderItemsId, requestCancelDTO.CancelQuantity);
+
         var cancel = _mapper.Map<Cancel>(requestCancelDTO);
         cancel.CancelledDate = DateTime.Now;
+        cancel.OrderItemId = cancelledOrderItemId;
         cancel.CancelStatusId = 2;
         cancel.ConvenienceFee = ConvenienceFee;
         await _cancelRepsository.Create(cancel);
-        await UpdateOrderItemStatus(order.OrderItemsId, requestCancelDTO.CancelQuantity);
+
         await UpdateOrder(order.OrderId);
         await UpdateInventory(order.InventoryId, requestCancelDTO.CancelQuantity);
         await CreateRefund(order.OrderItemsId, 1, cancel.CancelId, refundAmount);
@@ -62,7 +66,7 @@ public partial class CancelService : ICancelService
             UnitPrice = orderItem.UnitPrice,
             Discount = (orderItem.Discount / (orderItem.Quantity + cancelQuantity)) * cancelQuantity,
             OrderItemStatusId = 7,
-           
+
         };
 
         await _orderItemRepsository.Create(cancelledItem);

@@ -9,6 +9,7 @@ public class RequestShipmentFilter : PaginationFilter
     public string? CourierName { get; set; }
     public int? PickUpAddressId { get; set; }
     public string? TrackingNumber { get; set; }
+    public bool? OnGoingShipment {get;set;}
     public DateTime? FromDate { get; set; }
     public DateTime? ToDate { get; set; }
 }

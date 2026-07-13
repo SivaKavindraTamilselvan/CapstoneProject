@@ -8,12 +8,14 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserReturnService : IUserReturnService
 {
+    private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IReturnRepsository _returnRepsository;
     private readonly IOrderValidation _orderValidation;
     private readonly IShipmentValidation _shipmentValidation;
     private readonly IMapper _mapper;
-    public UserReturnService(IReturnRepsository returnRepsository, IOrderValidation orderValidation, IMapper mapper, IShipmentValidation shipmentValidation)
+    public UserReturnService(IOrderItemRepsository orderItemRepsository,IReturnRepsository returnRepsository, IOrderValidation orderValidation, IMapper mapper, IShipmentValidation shipmentValidation)
     {
+        _orderItemRepsository = orderItemRepsository;
         _returnRepsository = returnRepsository;
         _orderValidation = orderValidation;
         _shipmentValidation = shipmentValidation;

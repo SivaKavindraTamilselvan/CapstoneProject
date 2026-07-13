@@ -94,4 +94,11 @@ public class AdminReturnController : ControllerBase
         return Ok(result);
     }
 
+    [HttpGet("returns/{returnId}")]
+    public async Task<IActionResult> GetAllReturns(int returnId)
+    {
+        var result = await _adminReturnService.GetAllReturns(returnId);
+        return Ok(result);
+    }
+
 }

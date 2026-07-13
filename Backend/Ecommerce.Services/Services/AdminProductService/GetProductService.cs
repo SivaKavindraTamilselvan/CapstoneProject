@@ -295,4 +295,37 @@ public partial class AdminProductService : IAdminProductService
 
         return response;
     }
+     public async Task<ResponseVendorGetProductVariantOnly> GetProductVariantWithFullDetails(int productVariantId, int adminUserId)
+    {
+        _logger.LogInformation("Admin UserId {VendorUserId} requested full details for ProductVariantId {ProductVariantId}",
+            adminUserId, productVariantId);
+
+        await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
+
+        var variant = await _productVariantRepsository.GetVariantsForVendor(productVariantId);
+        if (variant == null)
+        {
+            _logger.LogWarning("ProductVariant not found for ProductVariantId {ProductVariantId}", productVariantId);
+            throw new DataNotFoundException("Product variant not found");
+        }
+
+        var response = _mapper.Map<ResponseVendorGetProductVariantOnly>(variant);
+
+        var validation = await _productValidation.ValidateProductChain(variant.Product!);
+
+        response.IsAvailableForSale =
+            variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+            variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
+            validation.IsValid &&
+            variant.Inventories.Any(inv =>
+                inv != null && inv.IsActive &&
+                inv.AvailableQuantity > 0 &&
+                inv.Address != null && inv.Address.IsActive);
+
+        response.ValidationIssues = validation.Issues;
+
+        _logger.LogInformation("Returning full details for ProductVariantId {ProductVariantId}", variant.ProductVariantId);
+
+        return response;
+    }
 }

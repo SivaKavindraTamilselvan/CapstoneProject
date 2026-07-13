@@ -105,7 +105,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 
-
+builder.Services.AddHttpClient<AiProductValidationService>();
 # region AdminAuthorization
 builder.Services.AddAuthorization(options =>
 {
