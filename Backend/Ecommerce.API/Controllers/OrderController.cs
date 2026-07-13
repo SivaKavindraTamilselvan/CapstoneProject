@@ -18,7 +18,7 @@ public class OrderController : ControllerBase
     private readonly IVendorOrderService _vendorOrderService;
     private readonly IUserReturnService _userReturnService;
 
-    public OrderController(IOrderService orderService,IUserReturnService userReturnService, IUserOrderService userOrderService, IVendorOrderService vendorOrderService)
+    public OrderController(IOrderService orderService, IUserReturnService userReturnService, IUserOrderService userOrderService, IVendorOrderService vendorOrderService)
     {
         _orderService = orderService;
         _userOrderService = userOrderService;
@@ -27,10 +27,15 @@ public class OrderController : ControllerBase
     }
     [Authorize]
     [HttpPost("AddOrder")]
-    public async Task<ActionResult<ResponseAddOrderDTO>> AddOrder(RequestAddOrderDTO requestAddOrderDTO)
+    public async Task<ActionResult<ResponseAddOrderDTO>> AddOrder(RequestAddOrderDTO requestAddOrderDTO, [FromHeader(Name = "Idempotency-Key")] string idempotencyKey)
     {
+        if (string.IsNullOrWhiteSpace(idempotencyKey))
+        {
+            return BadRequest(new { message = "Idempotency-Key header is required." });
+        }
+
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId);
+        var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId,idempotencyKey);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
@@ -58,14 +63,14 @@ public class OrderController : ControllerBase
     public async Task<IActionResult> GetOrdersVendor([FromQuery] OrderFilterParams filters)
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _orderService.GetOrderByVendor(filters,vendorId);
+        var result = await _orderService.GetOrderByVendor(filters, vendorId);
         return Ok(result);
     }
     [HttpGet("user")]
     public async Task<IActionResult> GetOrdersUser([FromQuery] OrderFilterParams filters)
     {
         int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _orderService.GetOrderByUserId(filters,vendorId);
+        var result = await _orderService.GetOrderByUserId(filters, vendorId);
         return Ok(result);
     }
     [Authorize]
@@ -99,7 +104,7 @@ public class OrderController : ControllerBase
     public async Task<ActionResult<ShippingCheckResponseDTO>> CheckService(RequestAddOrderDTO request)
     {
         int userid = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userOrderService.CheckService(request,userid);
+        var result = await _userOrderService.CheckService(request, userid);
         return Ok(result);
     }
 }

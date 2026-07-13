@@ -44,6 +44,9 @@ public class EcommerceContext : DbContext
     public DbSet<NotificationType> NotificationType { get; set; }
     public DbSet<Reviews> Reviews { get; set; }
     public DbSet<ApprovalHistory> ApprovalHistory { get; set; }
+    public DbSet<PasswordSetToken> PasswordSetTokens { get; set; }
+    public DbSet<IdempotencyKey> IdempotencyKeys { get; set; }
+
 
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -558,12 +561,22 @@ public class EcommerceContext : DbContext
             oi.HasOne(oi => oi.ProductVariant).WithMany(pv => pv.OrderItems).HasForeignKey(oi => oi.ProductVariantId).HasConstraintName("FK_Order_Items_Product_Variant").OnDelete(DeleteBehavior.Restrict);
             oi.HasOne(oi => oi.OrderItemStatus).WithMany(os => os.OrderItems).HasForeignKey(oi => oi.OrderItemStatusId).HasConstraintName("FK_Order_Items_Status").OnDelete(DeleteBehavior.Restrict);
         });
+
+        modelBuilder.Entity<IdempotencyKey>()
+    .HasIndex(i => i.Key)
+    .IsUnique();
+
+
+        modelBuilder.Entity<PasswordSetToken>()
+        .HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.Cascade);
+        modelBuilder.Entity<PasswordSetToken>().HasIndex(p => p.Token).IsUnique();
+        
         modelBuilder.Entity<Cart>(c =>
-        {
-            c.HasKey(c => c.CartId).HasName("PK_Cart");
-            c.HasIndex(c => c.UserId).IsUnique();
-            c.HasOne(c => c.Users).WithOne(u => u.Cart).HasForeignKey<Cart>(c => c.UserId).HasConstraintName("FK_Cart_User").OnDelete(DeleteBehavior.Restrict);
-        });
+            {
+                c.HasKey(c => c.CartId).HasName("PK_Cart");
+                c.HasIndex(c => c.UserId).IsUnique();
+                c.HasOne(c => c.Users).WithOne(u => u.Cart).HasForeignKey<Cart>(c => c.UserId).HasConstraintName("FK_Cart_User").OnDelete(DeleteBehavior.Restrict);
+            });
         modelBuilder.Entity<CartItems>(ci =>
         {
             ci.HasKey(ci => ci.CartItemsId).HasName("PK_Cart_Items");

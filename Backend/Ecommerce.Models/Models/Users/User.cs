@@ -18,6 +18,7 @@ public class User
     public Favorites? Favorites {get;set;}
     public AdminUser? AdminUsers {get;set;}
     public VendorUser? VendorUser {get;set;}
+    public bool IsPasswordSet { get; set; } = true;
 
     public ICollection<Coupons> Coupons {get;set;} = new List<Coupons>();
     public ICollection<Order> Orders {get;set;} = new List<Order>();

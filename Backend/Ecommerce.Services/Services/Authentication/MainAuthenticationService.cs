@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 
 public partial class AuthenticationService : IAuthentication
 {
+    private readonly IEmailService _emailService;
+    private readonly IPasswordSetTokenRepsository _passwordSetTokenRepsository;
     private readonly IUserRepsository _userRepsository;
     private readonly IAdminUserRepsository _adminRepository;
     private readonly IVendorRepsository _vendorRepsository;
@@ -18,8 +20,10 @@ public partial class AuthenticationService : IAuthentication
     private readonly IUserValidation _userValidation;
     private readonly ILogger<AuthenticationService> _logger;
     private readonly IMapper _mapper;
-    public AuthenticationService(IUserValidation userValidation,IRegistrationValidation registrationValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper,ICartRepsository cartRepsository,IFavoriteRepsository favoriteRepsository)
+    public AuthenticationService(IEmailService emailService,IPasswordSetTokenRepsository passwordSetTokenRepsository,IUserValidation userValidation,IRegistrationValidation registrationValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper,ICartRepsository cartRepsository,IFavoriteRepsository favoriteRepsository)
     {
+        _emailService = emailService;
+        _passwordSetTokenRepsository = passwordSetTokenRepsository;
         _userValidation = userValidation;
         _ecommerceContext = ecommerceContext;
         _userRepsository = userRepsository;
