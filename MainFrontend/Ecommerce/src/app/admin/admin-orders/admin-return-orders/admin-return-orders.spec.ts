@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminReturnDetailOrder } from './admin-return-detail-order';
+import { AdminReturnOrders } from './admin-return-orders';
 
-describe('AdminReturnDetailOrder', () => {
-  let component: AdminReturnDetailOrder;
-  let fixture: ComponentFixture<AdminReturnDetailOrder>;
+describe('AdminReturnOrders', () => {
+  let component: AdminReturnOrders;
+  let fixture: ComponentFixture<AdminReturnOrders>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AdminReturnDetailOrder],
+      imports: [AdminReturnOrders],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(AdminReturnDetailOrder);
+    fixture = TestBed.createComponent(AdminReturnOrders);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

@@ -20,6 +20,7 @@ export class CouponDetail {
   constructor(private adminCouponService: AdminCouponService, private route: ActivatedRoute,private router : Router) {}
 
   ngOnInit() {
+    window.scroll(0,0);
     const couponId = Number(this.route.snapshot.paramMap.get('id'));
     if (couponId) {
       this.loadCoupon(couponId);
@@ -34,7 +35,6 @@ export class CouponDetail {
     });
   }
 
-  // Popup state
   showPopup = signal(false);
   selectedId = signal<number | null>(null);
   selectedAction = signal<'activate' | 'deactivate' | null>(null);

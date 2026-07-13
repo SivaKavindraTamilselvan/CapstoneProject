@@ -1,3 +1,4 @@
+import { CancelSummaryModel } from "../../user/order/cancel.order.model";
 import { ReturnSummaryModel } from "../../user/order/return.order.model";
 
 export class OrderItemModel {
@@ -15,10 +16,22 @@ export class OrderItemModel {
     public inventoryId: number = 0,
     public inventoryCity: string = '',
     public inventoryAddress: string = '',
-    public productImageUrl : string ='',
+    public inventoryLandMark: string = '',
+    public inventoryState: string = '',
+    public inventoryPincode: string = '',
+    public productImageUrl: string = '',
     public itemTotal: number = 0,
     public orderItemStatus: string = '',
-    public returns : ReturnSummaryModel[] = [] 
+    public contactPersonName: string = '',
+    public contactPersonPhoneNumber: string = '',
+    public vendorContactPersonName: string = '',
+    public vendorContactPersonPhoneNumber: string = '',
+    public userAddress: string = '',
+    public userLandMark: string = '',
+    public userCity: string = '',
+    public userPincode: string = '',
+    public returns: ReturnSummaryModel[] = [],
+    public cancels: CancelSummaryModel[] = []
   ) { }
 
 }

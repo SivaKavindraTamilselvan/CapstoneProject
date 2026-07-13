@@ -8,11 +8,15 @@ import { AdminVendorUserModel } from '../../../models/admin/vendor/vendor-user.m
 import { AdminVendorUserFilter } from '../../../models/admin/vendor/vendor-user.filter';
 import { Column } from '../../../shared-components/data-table-component/column.model';
 import { DetailedCardComponenet } from '../../../shared-components/detailed-card-componenet/detailed-card-componenet';
-import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
+import { ReviewVendorModel } from '../../../models/admin/vendor/review.vendor.model';
+import { AdminDeleteVendorModel } from '../../../models/admin/vendor/delete-vendor.model';
+import { form, maxLength, required } from '@angular/forms/signals';
+import { ReviewPopupComponent } from '../../../shared-components/review-popup-component/review-popup-component';
+import { DeletePopupComponents } from '../../../shared-components/delete-popup-components/delete-popup-components';
 
 @Component({
   selector: 'app-vendor-details',
-  imports: [DetailedCardComponenet],
+  imports: [DetailedCardComponenet,ReviewPopupComponent,DeletePopupComponents],
   providers: [DatePipe],
   templateUrl: './vendor-details.html',
   styleUrl: './vendor-details.css',
@@ -45,6 +49,7 @@ export class VendorDetails {
 
   }
   ngOnInit() {
+    window.scrollTo(0, 0);
     const vendorId = Number(this.route.snapshot.paramMap.get('id'));
     if (vendorId) {
       this.vendorId.set(vendorId);
@@ -60,7 +65,7 @@ export class VendorDetails {
     this.adminVendorService.getVendorDetails(vendorid).subscribe({
       next: (response: any) => {
         this.vendor.set(response);
-        console.log(response);
+        //console.log(response);
       },
       error: (error) => {
         if (error.status == 404) {
@@ -99,7 +104,7 @@ export class VendorDetails {
     }
     this.adminVendorService.getVendorUser(this.buildFilter()).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.vendorUsers.set(response);
       }
     })
@@ -168,7 +173,7 @@ export class VendorDetails {
   viewProducts(vendorId: number) {
     this.router.navigate(['/admin/products/list'],
       {
-        queryParams: 
+        queryParams:
         {
           vendorId: vendorId
         }
@@ -178,7 +183,7 @@ export class VendorDetails {
   viewProductVariant(vendorId: number) {
     this.router.navigate(['/admin/product-variant/list'],
       {
-        queryParams: 
+        queryParams:
         {
           vendorId: vendorId
         }
@@ -188,7 +193,7 @@ export class VendorDetails {
   viewOrder(vendorId: number) {
     this.router.navigate(['/admin/orders/list'],
       {
-        queryParams: 
+        queryParams:
         {
           vendorId: vendorId
         }
@@ -197,5 +202,159 @@ export class VendorDetails {
   }
   goBack(): void {
     this.router.navigate(['/admin/vendors/list']);
+  }
+
+  approvalStatusOption = [
+    { id: 2, label: 'Accepted' },
+    { id: 3, label: 'Rejected' },
+  ];
+
+  showDeletePopup = signal(false);
+  showReviewPopup = signal(false);
+
+  successMessage = signal<string>('');
+  //errorMessage = signal<string>('');
+  progress = signal(false);
+
+  deleteVendorModel = signal(new AdminDeleteVendorModel());
+
+  deleteForm = form(this.deleteVendorModel, (path) => {
+    required(path.remark, { message: 'Enter The Remarks' });
+    maxLength(path.remark, 150, { message: 'Maximum 100 characters' });
+  });
+
+  openDeletePopup(vendorId: number) {
+    this.deleteVendorModel.update(model => ({
+      ...model,
+      vendorId,
+      remark: '',
+    }));
+    this.showDeletePopup.set(true);
+  }
+
+  onConfirmDelete() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+
+    const errors = [];
+    if (this.deleteForm.remark().invalid()) {
+      errors.push(this.deleteForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(', '));
+
+    if (this.deleteForm().invalid()) {
+      return;
+    }
+    this.progress.set(true);
+    const request = {
+      vendorId: this.deleteVendorModel().vendorId,
+      remark: this.deleteVendorModel().remark,
+    };
+    this.adminVendorService.DeleteVendor(request).subscribe({
+      next: () => {
+        this.successMessage.set('Vendor deleted successfully');
+        setTimeout(() => {
+          this.onCancelDelete();
+          this.successMessage.set('');
+          this.loadVendor();
+          this.progress.set(false);
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set('');
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors).flat().join(', ');
+          this.errorMessage.set(messages);
+        } else {
+          this.errorMessage.set(error.error?.message ?? 'Something went wrong. Please try again.');
+        }
+
+        this.progress.set(false);
+      },
+    });
+  }
+  onCancelDelete() {
+    this.showDeletePopup.set(false);
+    this.deleteForm().reset();
+    this.deleteVendorModel.set(new AdminDeleteVendorModel());
+    this.errorMessage.set('');
+    this.successMessage.set('');
+  }
+
+  reviewVendorModel = signal(new ReviewVendorModel());
+
+  reviewForm = form(this.reviewVendorModel, (path) => {
+    required(path.approvalStatusId, { message: "Enter The Approval Status" });
+    required(path.remark, { message: "Enter The Remarks" });
+    maxLength(path.remark, 150, { message: "Maximum 100 characters" });
+  })
+
+  openReviewPopup(vendorId: number) {
+    this.reviewVendorModel.update(model => ({
+      ...model,
+      vendorId: vendorId,
+      approvalStatusId: null,
+      remark: ''
+    }));
+    this.showReviewPopup.set(true);
+  }
+
+  onConfirmReview() {
+    this.errorMessage.set('');
+    this.successMessage.set('');
+    const errors = [];
+    if (this.reviewForm.approvalStatusId().invalid()) {
+      errors.push(this.reviewForm.approvalStatusId().errors()[0].message);
+    }
+    if (this.reviewForm.remark().invalid()) {
+      errors.push(this.reviewForm.remark().errors()[0].message);
+    }
+    this.errorMessage.set(errors.join(", "));
+    if (this.reviewForm().invalid()) {
+      return;
+    }
+    this.progress.set(true);
+    const request = {
+      vendorId: this.reviewVendorModel().vendorId,
+      approvalStatusId: Number(this.reviewVendorModel().approvalStatusId),
+      remark: this.reviewVendorModel().remark.trim()
+    };
+    this.adminVendorService.reviewVendor(request).subscribe({
+      next: () => {
+        this.successMessage.set("Vendor reviewed successfully. Closing in 3 seconds...");
+        setTimeout(() => {
+          this.onCancelReview();
+          this.successMessage.set('');
+          this.loadVendor();
+          this.progress.set(false);
+        }, 3000);
+      },
+      error: (error) => {
+        this.successMessage.set('');
+
+        if (error.status === 400 && error.error?.errors) {
+          const messages = Object.values(error.error.errors)
+            .flat()
+            .join(", ");
+
+          this.errorMessage.set(messages);
+        }
+        else {
+          this.errorMessage.set(
+            error.error?.message ?? "Something went wrong. Please try again."
+          );
+        }
+        this.progress.set(false);
+      }
+    });
+  }
+
+  onCancelReview() {
+    this.showReviewPopup.set(false);
+    this.reviewForm().reset();
+    this.reviewVendorModel.set(new ReviewVendorModel());
+    this.errorMessage.set('');
+    this.successMessage.set('');
   }
 }

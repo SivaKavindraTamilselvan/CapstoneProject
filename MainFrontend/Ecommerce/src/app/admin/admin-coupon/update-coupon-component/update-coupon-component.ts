@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { AdminCouponService } from '../../../services/admin-coupon.Service';
 import { UpdateCouponModel } from '../../../models/admin/admin-coupon/update-coupon.model';
 import { form, FormField, min } from '@angular/forms/signals';
@@ -6,20 +6,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-update-coupon-component',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './update-coupon-component.html',
   styleUrl: './update-coupon-component.css',
 })
 export class UpdateCouponComponent {
   constructor(private adminCouponService: AdminCouponService) {
-    effect(() => {
-      if (this.updateCouponForm().invalid()) {
-        this.formErrorMessage.set('Please fix the validation errors.');
-      } else {
-        this.formErrorMessage.set(null);
-      }
-    });
-
     effect(() => {
       const id = this.couponId();
       if (id != null) {
@@ -35,9 +27,17 @@ export class UpdateCouponComponent {
 
   updateCouponModel = signal(new UpdateCouponModel());
   progress = signal(false);
-  formErrorMessage = signal<string | null>(null);
   successMessage = signal<string | null>(null);
   updateErrorMessage = signal<string | null>(null);
+
+  private dateRangeError = signal<string | null>(null);
+
+  formErrorMessage = computed(() => {
+    if (this.updateCouponForm().invalid()) {
+      return 'Please fix the validation errors.';
+    }
+    return this.dateRangeError();
+  });
 
   updateCouponForm = form(this.updateCouponModel, (path) => {
     min(path.discountValue, 0, { message: 'Discount value cannot be negative.' });
@@ -60,6 +60,7 @@ export class UpdateCouponComponent {
             response.couponDescription
           )
         );
+        this.dateRangeError.set(null);
         this.progress.set(false);
       },
       error: (error) => {
@@ -71,14 +72,13 @@ export class UpdateCouponComponent {
   }
 
   updateCoupon(): void {
-    if (this.updateCouponForm().invalid()) {
-      this.formErrorMessage.set('Please fix the validation errors.');
-      return;
+    if (this.updateCouponForm().invalid() || this.dateRangeError()) {
+      return; // formErrorMessage computed already reflects why
     }
 
     this.progress.set(true);
     this.adminCouponService.updateCoupon(this.updateCouponModel()).subscribe({
-      next: (response) => {
+      next: () => {
         this.progress.set(false);
         this.successMessage.set('Coupon updated successfully.');
         this.updated.emit();
@@ -99,9 +99,71 @@ export class UpdateCouponComponent {
 
   close(): void {
     this.updateCouponModel.set(new UpdateCouponModel());
-    this.formErrorMessage.set(null);
+    this.dateRangeError.set(null);
     this.updateErrorMessage.set(null);
     this.successMessage.set(null);
     this.closed.emit();
+  }
+
+  onStartDateChange(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.updateCouponModel.update(m => ({ ...m, startDate: v || '' }));
+    this.validateDateRange();
+  }
+
+  onEndDateChange(event: Event): void {
+    const v = (event.target as HTMLInputElement).value;
+    this.updateCouponModel.update(m => ({ ...m, endDate: v || '' }));
+    this.validateDateRange();
+  }
+
+  private getToday(): Date {
+    return this.stripTime(new Date());
+  }
+
+  private validateDateRange(): void {
+    const from = this.updateCouponModel().startDate;
+    const to = this.updateCouponModel().endDate;
+    const minDate = this.getToday();
+    const fromDate = from ? this.stripTime(new Date(from)) : null;
+    const toDate = to ? this.stripTime(new Date(to)) : null;
+
+    if (fromDate && fromDate < minDate) {
+      this.dateRangeError.set('Start date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (toDate && toDate < minDate) {
+      this.dateRangeError.set('End date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (fromDate && toDate && fromDate > toDate) {
+      this.dateRangeError.set('Start date cannot be later than End date.');
+      return;
+    }
+
+    this.dateRangeError.set(null);
+  }
+
+  private stripTime(date: Date): Date {
+    date.setHours(0, 0, 0, 0);
+    return date;
+  }
+
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    if (allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key)) {
+      return;
+    }
+    event.preventDefault();
+  }
+
+  allowOnlyDecimals(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End', '.'];
+    if (allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key)) {
+      return;
+    }
+    event.preventDefault();
   }
 }

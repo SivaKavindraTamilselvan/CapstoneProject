@@ -31,16 +31,6 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Product Status</label>
-            <select (change)="onProductStatusChange($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full">
-                <option value="">All</option>
-                @for(opt of productStatusOptions; track opt.id) {
-                <option [value]="opt.id" [selected]="productStatusId() === opt.id">{{opt.label}}</option>
-                }
-            </select>
-        </div>
-
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">Product Status</label>
             <select (change)="onProductStatusChange($event)" [value]="productStatusId() ?? ''"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full">
                 <option value="">All</option>
@@ -84,10 +74,10 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.searchTerm"
+                <input type="number" placeholder="Max" [formField]="filterForm.searchTerm" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
             </div>
@@ -105,13 +95,13 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity"
+                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
                 @if (filterForm.minReservedQuantity().invalid())
                 {
                 <p class="text-red-600 text-xs mt-1">{{ filterForm.minReservedQuantity().errors()[0].message }}</p>
                 }
-                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity"
+                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity" (keydown)="allowOnlyNumbers($event)"
                     class="border border-gray-400 rounded-md px-3 py-2 w-full" />
                 @if (filterForm.maxReservedQuantity().invalid())
                 {
@@ -137,6 +127,13 @@
     @if(errorMessage()){
     <div class="text-red-700 text-center font-bold py-4">{{errorMessage()}}</div>
     }
+
+    <app-review-popup-component [show]="showReviewPopup()" title="Review Product"
+        message="Review this product by selecting an approval status and providing your remarks. Your review will update the product's approval status."
+        confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
+        [remarkField]="reviewForm.remark" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
+        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+    </app-review-popup-component>
 
     <app-data-table-component [columns]="columns" [rows]="products()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
@@ -164,7 +161,7 @@
     }
 
     @if (showUpdateRejectedPopup()) {
-    <app-update-rejected-product-component [product]="selectedProductForUpdateRejected()" [categories]="categories()"
+    <app-update-rejected-product-component [product]="selectedProductForUpdateRejected()"
         (closed)="closeUpdateRejectedPopup()" (updated)="loadProduct()">
     </app-update-rejected-product-component>
     }

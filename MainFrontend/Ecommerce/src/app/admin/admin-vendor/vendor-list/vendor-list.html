@@ -25,7 +25,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Company PhoneNumber</label>
-            <input type="string" placeholder="Company PhoneNumber" [formField]="filterForm.companyPhoneNumber"
+            <input type="string" placeholder="Company PhoneNumber" [formField]="filterForm.companyPhoneNumber" (keydown)="allowOnlyNumbers($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.companyPhoneNumber().invalid())
             {
@@ -52,7 +52,7 @@
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Reviewed By Admin</label>
-            <input type="number" placeholder="Admin Id" [formField]="filterForm.reviewedByAdminId"
+            <input type="number" placeholder="Admin Id" [formField]="filterForm.reviewedByAdminId" (keydown)="allowOnlyNumbers($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.reviewedByAdminId().invalid())
             {
@@ -60,7 +60,7 @@
             }
         </div>
 
-        @if(status()!=4){
+        @if(status()!=4 && status()!=1){
         <div>
             <label class="text-sm font-semibold text-gray-700 mb-1">Approval Status</label>
             <select (change)="onApprovalChange($event)" [value]="draftstatus() ?? ''"

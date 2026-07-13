@@ -29,35 +29,38 @@
             <label class="block text-sm font-semibold text-gray-700 mb-1">Discount Value</label>
             <div class="flex gap-4">
                 <input type="number" placeholder="Min" [formField]="filterForm.minDiscountValue"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minDiscountValue().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minDiscountValue().errors()[0].message }}</p>
-                }
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
                 <input type="number" placeholder="Max" [formField]="filterForm.maxDiscountValue"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maxDiscountValue().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxDiscountValue().errors()[0].message }}</p>
-                }
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
+            @if (filterForm.minDiscountValue().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minDiscountValue().errors()[0].message }}</p>
+            }
+            @if (filterForm.maxDiscountValue().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maxDiscountValue().errors()[0].message }}</p>
+            }
         </div>
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Min Order Amount</label>
             <div class="flex gap-4">
                 <input type="number" placeholder="Min" [formField]="filterForm.minOrderAmount"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.minOrderAmount().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.minOrderAmount().errors()[0].message }}</p>
-                }
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
                 <input type="number" placeholder="Max" [formField]="filterForm.maxOrderAmount"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-                @if (filterForm.maxOrderAmount().invalid())
-                {
-                <p class="text-red-600 text-xs mt-1">{{ filterForm.maxOrderAmount().errors()[0].message }}</p>
-                }
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
             </div>
+            @if (filterForm.minOrderAmount().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.minOrderAmount().errors()[0].message }}</p>
+            }
+            @if (filterForm.maxOrderAmount().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.maxOrderAmount().errors()[0].message }}</p>
+            }
         </div>
 
         <div>

@@ -2,6 +2,7 @@ import { Routes } from "@angular/router";
 
 import { VendorOrderList } from "../../vendor/vendor-order/vendor-order-list/vendor-order-list";
 import { VendorReturnOrder } from "../../vendor/vendor-return/vendor-return-order/vendor-return-order";
+import { VendorOrderDetails } from "../../vendor/vendor-order/vendor-order-details/vendor-order-details";
 
 export const VendorOrderRoute: Routes = [
     {
@@ -18,6 +19,10 @@ export const VendorOrderRoute: Routes = [
         path: 'orders/cancelled-orders',
         component: VendorOrderList,
         data: { status: 7, title: 'Cancelled Orders' }
+    },
+     {
+        path: 'orders/:id',
+        component: VendorOrderDetails
     },
     {
         path: 'returns/pending',

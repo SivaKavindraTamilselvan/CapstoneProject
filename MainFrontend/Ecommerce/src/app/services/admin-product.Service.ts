@@ -6,11 +6,12 @@ import { PagedResponse } from "../models/paged-response.model";
 import { ProductModel } from "../models/product/product.model";
 import { AdminProductFilter } from "../models/admin/admin-product/filter/admin-product.filter";
 import { ReviewProductRequestModel } from "../models/product/review-product.dto";
-import { AdminDeleteProductModel } from "../models/admin/admin-product/models/delete-product.model";
+import { AdminDeleteProductModel, AdminDeleteVariantModel } from "../models/admin/admin-product/models/delete-product.model";
 import { AdminAttributeModel } from "../models/admin/admin-product-category/response/admin-attribute.model";
 import { AdminProductVariantFilter } from "../models/admin/admin-product/filter/admin-variant.filter";
 import { ProductVariantModel } from "../models/product/product-variant.model";
 import { ReviewProductVariantRequestModel } from "../models/product/review-variant.dto";
+import { AiValidationResult } from "../models/ai.model";
 
 @Injectable({
     providedIn: "root"
@@ -96,4 +97,20 @@ export class AdminProductService {
         let url = BaseURL + "/AdminProduct/ReviewProductVariant";
         return this.http.post(url, request);
     }
+    getProductVariantDetails(productId: number) {
+        let url = `${BaseURL}/AdminProduct/product-variant/${productId}`;
+        return this.http.get<ProductModel>(url, {});
+    }
+    deleteProductVariant(request: AdminDeleteVariantModel) {
+        let url = BaseURL + "/AdminProduct/DeleteProduct";
+        return this.http.patch(url, request);
+    }
+
+    getAiReview(productId: number): Observable<AiValidationResult> {
+        return this.http.post<AiValidationResult>(`${BaseURL}/AdminProduct/${productId}/ai-review`, {});
+    }
+    getAiVariantReview(variantId: number): Observable<AiValidationResult> {
+        return this.http.post<AiValidationResult>(`${BaseURL}/AdminProduct/variant/${variantId}/ai-review`, {});
+    }
+
 }

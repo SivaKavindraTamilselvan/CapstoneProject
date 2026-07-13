@@ -65,7 +65,11 @@ export class AddInventoryComponent {
         if (error.status === 400 && error.error?.errors) {
           const messages = Object.values(error.error.errors).flat().join(", ");
           this.errorMessage.set(messages);
-        } else {
+        }
+        else if (error.status === 500) {
+          this.errorMessage.set("Inventory already exists for the selected product variant and address.");
+        }
+        else {
           this.errorMessage.set(error.error?.message ?? "Something went wrong. Please try again.");
         }
       }

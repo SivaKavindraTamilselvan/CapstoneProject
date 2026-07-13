@@ -31,8 +31,10 @@ export class RegisterAdmin {
     pattern(path.requestRegisterUserDTO.password, /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/, { message: "Password must contains 8-12 characters,uppercase,lowercase,symbols and number" })
     required(path.adminRoleId, { message: "Admin Role Id Is Required" })
     pattern(path.adminRoleId, /^[2-9]{1}$/, { message: "Select a valid admin role" })
+    pattern(path.requestRegisterUserDTO.firstName,/^[A-Za-z]+(?: [A-Za-z]+)*$/,{ message: "First Name can contain only letters and spaces" })
+    pattern(path.requestRegisterUserDTO.lastName,/^[A-Za-z]+(?: [A-Za-z]+)*$/,{ message: "Last Name can contain only letters and spaces" })
   })
-  handleRegisterClick(event : Event) {
+  handleRegisterClick(event: Event) {
     event.preventDefault();
     this.errorMessage.set(null);
     this.successMessage.set(null);
@@ -47,7 +49,7 @@ export class RegisterAdmin {
         this.progress.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
         if (error.status == 409) {
@@ -74,5 +76,12 @@ export class RegisterAdmin {
     this.registerForm().reset();
     this.errorMessage.set(null);
     this.successMessage.set(null);
+  }
+  allowOnlyNumbers(event: KeyboardEvent): void {
+    const allowedKeys = ['Backspace', 'Delete', 'Tab', 'Escape', 'Enter', 'ArrowLeft', 'ArrowRight', 'Home', 'End'];
+    if (allowedKeys.includes(event.key) || /^[0-9]$/.test(event.key)) {
+      return;
+    }
+    event.preventDefault();
   }
 }

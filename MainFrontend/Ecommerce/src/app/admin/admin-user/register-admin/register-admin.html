@@ -1,11 +1,12 @@
-<section class="flex flex-col min-h-screen bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
-    <div class="sm:pb-4 flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-lg sm:text-2xl">
-            Register Admin
+<section class="flex flex-col min-h-screen bg-gray-50 p-2 md:px-6 lg:px-8 mt-4 lg:py-8">
+    <div class="pb-6 flex items-center justify-center">
+        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">
+            Register Admin User
         </h1>
     </div>
     <div class="flex justify-center px-2">
-        <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl p-8 space-y-6">
+        <div
+            class="bg-white rounded-2xl shadow-xl shadow-gray-200/60 border border-gray-100 w-full max-w-4xl p-6 sm:p-10 space-y-8">
             @if(successMessage()) {
             <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
             }
@@ -14,85 +15,114 @@
             <div class="bg-red-600 px-4 py-3 rounded-sm text-white text-center font-bold"> {{errorMessage()}} </div>
             }
             <form (ngSubmit)="handleRegisterClick($event)" class="flex flex-col gap-5">
-                <div class="flex gap-4 flex-col sm:flex-row">
-                    <div class="flex-1">
-                        <label class="font-bold sm:text-md mb-2 block">Email</label>
-                        <input type="email" placeholder="Enter your Email"
-                            [formField]="registerForm.requestRegisterUserDTO.email"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (registerForm.requestRegisterUserDTO.email().touched() &&
-                        registerForm.requestRegisterUserDTO.email().invalid())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{
-                            registerForm.requestRegisterUserDTO.email().errors()[0].message }}</p>
-                        }
-                    </div>
-                    <div class="flex-1">
-                        <label class="font-bold sm:text-lg mb-2 block">Phone Number</label>
-                        <input type="text" placeholder="Enter your Phone Number"
-                            [formField]="registerForm.requestRegisterUserDTO.phoneNumber"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (registerForm.requestRegisterUserDTO.phoneNumber().touched() &&
-                        registerForm.requestRegisterUserDTO.phoneNumber().invalid())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{
-                            registerForm.requestRegisterUserDTO.phoneNumber().errors()[0].message }}</p>
-                        }
-                    </div>
-                </div>
-                <div class="flex gap-4 flex-col sm:flex-row">
-                    <div class="flex-1">
-                        <label class="font-bold sm:text-lg mb-2 block">First Name</label>
-                        <input placeholder="Enter your First Name"
-                            [formField]="registerForm.requestRegisterUserDTO.firstName"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (registerForm.requestRegisterUserDTO.firstName().touched() &&
-                        registerForm.requestRegisterUserDTO.firstName().invalid())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{
-                            registerForm.requestRegisterUserDTO.firstName().errors()[0].message }}</p>
-                        }
-                    </div>
-                    <div class="flex-1">
-                        <label class="font-bold sm:text-lg mb-2 block">Last Name</label>
-                        <input placeholder="Enter your Last Name"
-                            [formField]="registerForm.requestRegisterUserDTO.lastName"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (registerForm.requestRegisterUserDTO.lastName().touched() &&
-                        registerForm.requestRegisterUserDTO.lastName().invalid())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{
-                            registerForm.requestRegisterUserDTO.lastName().errors()[0].message }}</p>
-                        }
-                    </div>
-                </div>
                 <div>
-                    <label class="font-bold sm:text-lg mb-2 block">Password</label>
-                    <input type="password" placeholder="Enter your Password"
-                        [formField]="registerForm.requestRegisterUserDTO.password"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                    @if (registerForm.requestRegisterUserDTO.password().touched() &&
-                    registerForm.requestRegisterUserDTO.password().invalid())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{
-                        registerForm.requestRegisterUserDTO.password().errors()[0].message }}</p>
-                    }
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-blue-700 rounded-full"></span>
+                        Contact Details
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div class="flex gap-4 flex-col sm:flex-row">
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Email</label>
+                                <input type="email" placeholder="Enter your email"
+                                    [formField]="registerForm.requestRegisterUserDTO.email"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (registerForm.requestRegisterUserDTO.email().touched() &&
+                                registerForm.requestRegisterUserDTO.email().invalid())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{
+                                    registerForm.requestRegisterUserDTO.email().errors()[0].message }}</p>
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Phone Number</label>
+                                <input type="text" placeholder="Enter your phone number"
+                                    [formField]="registerForm.requestRegisterUserDTO.phoneNumber"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (registerForm.requestRegisterUserDTO.phoneNumber().touched() &&
+                                registerForm.requestRegisterUserDTO.phoneNumber().invalid())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{
+                                    registerForm.requestRegisterUserDTO.phoneNumber().errors()[0].message }}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
                 </div>
+
+                <!-- Personal Details -->
                 <div>
-                    <label class="font-bold sm:text-lg mb-2 block">Admin Role</label>
-                    <select [formField]="registerForm.adminRoleId"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700">
-                        <option value="">Select Admin Role</option>
-                        <option value="2">Vendor Admin</option>
-                        <option value="3">Product Admin</option>
-                        <option value="4">Order Admin</option>
-                        <option value="5">Shipment Admin</option>
-                        <option value="6">Return Admin</option>
-                        <option value="7">Refund Admin</option>
-                        <option value="8">Payment Admin</option>
-                        <option value="9">Report Admin</option>
-                    </select>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-blue-700 rounded-full"></span>
+                        Personal Details
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div class="flex gap-4 flex-col sm:flex-row">
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">First Name</label>
+                                <input placeholder="Enter your first name"
+                                    [formField]="registerForm.requestRegisterUserDTO.firstName"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (registerForm.requestRegisterUserDTO.firstName().touched() &&
+                                registerForm.requestRegisterUserDTO.firstName().invalid())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{
+                                    registerForm.requestRegisterUserDTO.firstName().errors()[0].message }}</p>
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Last Name</label>
+                                <input placeholder="Enter your last name"
+                                    [formField]="registerForm.requestRegisterUserDTO.lastName"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (registerForm.requestRegisterUserDTO.lastName().touched() &&
+                                registerForm.requestRegisterUserDTO.lastName().invalid())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{
+                                    registerForm.requestRegisterUserDTO.lastName().errors()[0].message }}</p>
+                                }
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Password</label>
+                            <input type="password" placeholder="Enter your password"
+                                [formField]="registerForm.requestRegisterUserDTO.password"
+                                class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                            @if (registerForm.requestRegisterUserDTO.password().touched() &&
+                            registerForm.requestRegisterUserDTO.password().invalid())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{
+                                registerForm.requestRegisterUserDTO.password().errors()[0].message }}</p>
+                            }
+                        </div>
+                    </div>
                 </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        <span class="w-1.5 h-4 bg-blue-700 rounded-full"></span>
+                        Access
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5">
+                        <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor Role</label>
+                        <select [formField]="registerForm.adminRoleId"
+                            class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 text-sm outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition">
+                            <option value="">Select Admin Role</option>
+                            <option value="2">Vendor Admin</option>
+                            <option value="3">Product Admin</option>
+                            <option value="4">Order Admin</option>
+                            <option value="5">Shipment Admin</option>
+                            <option value="6">Return Admin</option>
+                            <option value="7">Refund Admin</option>
+                            <option value="8">Payment Admin</option>
+                            <option value="9">Report Admin</option>
+                        </select>
+                        <p class="text-xs text-gray-400 mt-1.5">Determines which sections of the admin panel this user
+                            can access.</p>
+                    </div>
+                </div>
+
                 <div class="flex w-full gap-4">
                     <button type="submit" [disabled]="progress()"
                         class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">

@@ -1,0 +1,109 @@
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Return Orders
+</button>
+
+<section class="p-4 sm:px-12 mx-auto">
+
+    @if (returnDetail(); as item) {
+
+    <div class="flex flex-col items-center justify-center mb-6">
+        <span class="py-2 px-5 rounded-full font-bold text-sm tracking-wide uppercase shadow-sm"
+            [ngClass]="statusClass(item.returnStatus)">
+            {{ item.returnStatus }}
+        </span>
+    </div>
+
+    <div class="flex flex-col lg:flex-row gap-6">
+
+        <div class="lg:w-64 flex-shrink-0 bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden mb-8">
+            <div class="aspect-square bg-gray-100 flex items-center justify-center">
+                @if (item.productImageUrl) {
+                <img [src]="item.productImageUrl" [alt]="item.productName" class="w-full h-full object-cover">
+                } @else {
+                <span class="text-gray-400 text-sm">No image available</span>
+                }
+            </div>
+            <div class="p-4">
+                <h2 class="font-bold text-blue-950 text-sm">{{ item.productName }}</h2>
+                <p class="text-xs text-gray-500 mt-1">SKU: {{ item.sku }}</p>
+            </div>
+        </div>
+
+        <div class="flex-1 flex flex-col gap-6">
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
+                    <h2>Return Order Details</h2>
+                    <h1>#{{ item.returnId }}</h1>
+                </div>
+
+                <div class="divide-y divide-gray-100">
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Vendor</span>
+                        <span class="text-gray-900 text-sm">{{ item.vendorName }}</span>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Return Qty</span>
+                        <span class="text-gray-900 text-sm">{{ item.returnQuantity }}</span>
+                    </div>
+                    <div class="flex px-5 py-3 bg-gray-50">
+                        <span class="w-44 font-bold text-gray-700 text-sm flex-shrink-0">Return Amount</span>
+                        <span class="text-gray-900 font-bold text-sm">₹{{ item.returnAmount | number }}</span>
+                    </div>
+                    <div class="flex px-5 py-4">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Reason</span>
+                        <div class="flex-1 text-sm text-gray-700 leading-relaxed">
+                            {{ item.returnReason }}
+                        </div>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Requested On</span>
+                        <span class="text-gray-900 text-sm">{{ item.requestedDate | date:'dd/MM/yyyy hh:mm a' }}</span>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Reviewed On</span>
+                        <span class="text-gray-900 text-sm">
+                            @if (item.reviewedDate) {
+                            {{ item.reviewedDate | date:'dd/MM/yyyy hh:mm a' }}
+                            } @else {
+                            <span class="text-gray-400 italic">Not yet reviewed</span>
+                            }
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                <div class="flex justify-between items-center text-lg font-bold border-b px-5 py-3.5">
+                    <h2>Shipping Route</h2>
+                </div>
+
+                <div class="divide-y divide-gray-100">
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Ship From</span>
+                        <span class="text-gray-900 text-sm">{{ item.inventoryCity }}</span>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Return To</span>
+                        <span class="text-gray-900 text-sm">{{ item.deliveryCity }}</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    }
+    @else if (loading()) {
+    <div class="text-center text-gray-400 py-12 text-sm">Loading return order details...</div>
+    }
+    @else {
+    <div class="text-center text-gray-400 py-12 text-sm">Return order not found.</div>
+    }
+
+</section>

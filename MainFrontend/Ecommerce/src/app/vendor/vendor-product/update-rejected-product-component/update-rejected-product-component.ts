@@ -1,4 +1,4 @@
-import { Component, effect, input, output, signal } from '@angular/core';
+import { Component, effect, input, output, signal, untracked } from '@angular/core';
 import { VendorProductService } from '../../../services/vendor-product.Service';
 import { VendorProductModel } from '../../../models/vendor/vendor-product/response/vendor-product.model';
 import { AdminProductCategoryModel } from '../../../models/admin/admin-product-category/response/admin-category';
@@ -10,23 +10,38 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-update-rejected-product-component',
-  imports: [FormField,ReactiveFormsModule,FormsModule],
+  imports: [FormField, ReactiveFormsModule, FormsModule],
   templateUrl: './update-rejected-product-component.html',
   styleUrl: './update-rejected-product-component.css',
 })
 export class UpdateRejectedProductComponent {
+  productCategoryId = signal<number | null>(null);
+  productSubCategoryId = signal<number | null>(null);
+  categories = signal<AdminProductCategoryModel[]>([]);
+  subCategories = signal<AdminProductSubCategoryModel[]>([]);
+  attributes = signal<AdminMappedAttributeModel[]>([]);
+
+
   constructor(private vendorProductService: VendorProductService) {
     effect(() => {
       const p = this.product();
-      const cats = this.categories();
-      if (p && cats.length) {
-        this.initializeFromProduct(p, cats);
-      }
+      if (!p) return;
+      untracked(() => {
+        this.updateRejectedProductModel.set(
+          new UpdateRejectedProductModel(
+            p.productId,
+            p.productName,
+            p.description,
+            p.productSubCategoryId,
+            p.mainProductSubCategoryAttributeId
+          )
+        );
+        this.loadCategories();
+      });
     });
   }
 
   product = input<VendorProductModel | null>(null);
-  categories = input<AdminProductCategoryModel[]>([]);
 
   closed = output<void>();
   updated = output<void>();
@@ -48,95 +63,111 @@ export class UpdateRejectedProductComponent {
     required(path.mainProductSubCategoryAttributeId, { message: 'Main attribute is required' });
     min(path.mainProductSubCategoryAttributeId, 1, { message: 'Invalid attribute' });
   });
-  private initializeFromProduct(product: VendorProductModel, categories: AdminProductCategoryModel[]) {
-    const category = categories.find(c => c.productCategoryName === product.productCategoryName);
-    if (!category) return;
 
-    this.updateCategoryId.set(Number(category.productCategoryId));
+  attributeId = signal<number | null>(null);
 
-    this.vendorProductService.getSubCategory(category.productCategoryId).subscribe({
+
+loadCategories(): void {
+    this.errorMessage.set(null);
+    this.vendorProductService.getProductCategory().subscribe({
       next: (res: any) => {
-        this.updateSubCategories.set(res.items ?? res);
-
-        const subCategory = this.updateSubCategories().find(
-          s => s.productSubCategoryName === product.productSubCategoryName
-        );
-        if (!subCategory) return;
-
-        this.loadAttributes(subCategory.productSubCategoryId, product);
-      }
-    });
-  }
-  private loadAttributes(subCategoryId: number, product: VendorProductModel): void {
-    this.vendorProductService.getmappedAttribute(subCategoryId).subscribe({
-      next: (res: any) => {
-        const data = res.items ?? res;
-        this.allAttributes.set(data);
-        this.filteredAttributes.set(data);
-
-        const attribute = data.find(
-          (x: AdminMappedAttributeModel) =>
-            x.attributeName.trim().toLowerCase() ===
-            product.mainProductSubCategoryAttributeName?.trim().toLowerCase()
-        );
-
-        this.updateRejectedProductModel.set(
-          new UpdateRejectedProductModel(
-            product.productId,
-            product.productName,
-            product.description,
-            subCategoryId,
-            attribute?.productSubCategoryAttributeId ?? 0
-          )
-        );
+        this.categories.set(res.items ?? res);
       },
-      error: err => console.log(err)
-    });
-  }
-  onUpdateCategoryChange(event: Event) {
-    const id = Number((event.target as HTMLSelectElement).value);
-    this.updateCategoryId.set(id);
-
-    this.vendorProductService.getSubCategory(id).subscribe({
-      next: (res: any) => {
-        this.updateSubCategories.set(res.items ?? res);
-        this.updateRejectedProductModel.update(model => ({
-          ...model,
-          productSubCategoryId: 0,
-          mainProductSubCategoryAttributeId: 0
-        }));
-        this.filteredAttributes.set([]);
+      error: (error) => {
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load categories. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load product categories.'
+          );
+        }
       }
     });
   }
 
-  onUpdateSubCategoryChange(event: Event) {
-    const id = Number((event.target as HTMLSelectElement).value);
+  loadAttributes(): void {
+    this.errorMessage.set(null);
+    const id = this.productSubCategoryId();
+    if (id == null) {
+      return;
+    }
+    this.vendorProductService.getmappedAttribute(id).subscribe({
+      next: (res: any) => {
+        this.attributes.set(res.items ?? res);
+        console.log(res);
+      },
+      error: (error) => {
 
-    this.updateRejectedProductModel.update(model => ({
-      ...model,
-      productSubCategoryId: id,
-      mainProductSubCategoryAttributeId: 0
-    }));
+        console.error(error);
 
-    this.filteredAttributes.set(
-      this.allAttributes().filter(x => x.productSubCategoryId === id)
-    );
+        if (error.status === 0) {
+          this.errorMessage.set(
+            'Unable to load attributes. Check your internet connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Failed to load attributes.'
+          );
+        }
+      }
+    });
   }
 
-  onUpdateAttributeChange(event: Event) {
-    const id = Number((event.target as HTMLSelectElement).value);
-    this.updateRejectedProductModel.update(model => ({
-      ...model,
-      mainProductSubCategoryAttributeId: id
-    }));
+  onCategoryChange(event: Event): void {
+    const v = (event.target as HTMLSelectElement).value;
+    const id = v ? Number(v) : null;
+    this.productCategoryId.set(id);
+    this.productSubCategoryId.set(null);
+    this.subCategories.set([]);
+    if (id) {
+      this.errorMessage.set(null);
+      this.vendorProductService.getSubCategory(id).subscribe({
+        next: (res: any) => this.subCategories.set(res.items ?? res),
+        error: (error) => {
+          if (error.status === 0) {
+            this.errorMessage.set(
+              'Unable to load subcategories. Check your internet connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Failed to load product subcategories.'
+            );
+          }
+        }
+      });
+    }
   }
+
+  onSubcategoryChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.updateRejectedProductModel.update(product => ({
+      ...product,
+      productSubCategoryId: value
+    }));
+    this.productSubCategoryId.set(value);
+    this.loadAttributes();
+  }
+
+  onAttributeChange(event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.updateRejectedProductModel.update(product => ({
+      ...product,
+      mainProductSubCategoryAttributeId: value
+    }));
+    this.attributeId.set(value);
+  }
+
   updateRejectedProduct() {
     this.errorMessage.set(null);
     this.successMessage.set(null);
 
     if (this.updateRejectedForm().invalid()) {
-      this.errorMessage.set("Enter valid details");
+      this.errorMessage.set('Enter valid details');
       return;
     }
 
@@ -144,7 +175,7 @@ export class UpdateRejectedProductComponent {
     this.vendorProductService.updateRejectedProduct(this.updateRejectedProductModel()).subscribe({
       next: () => {
         this.progress.set(false);
-        this.successMessage.set("Product updated successfully");
+        this.successMessage.set('Product updated successfully');
         setTimeout(() => {
           this.successMessage.set(null);
           this.updated.emit();
@@ -153,12 +184,17 @@ export class UpdateRejectedProductComponent {
       },
       error: err => {
         this.progress.set(false);
-        this.errorMessage.set(err.error?.message ?? "Failed to update product");
+        this.errorMessage.set(err.error?.message ?? 'Failed to update product');
       }
     });
   }
+
   close() {
     this.updateRejectedProductModel.set(new UpdateRejectedProductModel());
+    this.updateCategoryId.set(null);
+    this.updateSubCategories.set([]);
+    this.allAttributes.set([]);
+    this.filteredAttributes.set([]);
     this.errorMessage.set(null);
     this.successMessage.set(null);
     this.closed.emit();

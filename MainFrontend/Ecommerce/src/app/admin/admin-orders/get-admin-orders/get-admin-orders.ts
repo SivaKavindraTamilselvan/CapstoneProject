@@ -14,10 +14,11 @@ import { FilterComponent } from '../../../shared-components/filter-component/fil
 import { DataTableComponent } from '../../../shared-components/data-table-component/data-table-component';
 import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { HeaderComponent } from '../../../shared-components/header-component/header-component';
 
 @Component({
   selector: 'app-get-admin-orders',
-  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule],
+  imports: [MobileCardComponent, FilterComponent, DataTableComponent, PaginationComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent],
   providers: [DatePipe],
   templateUrl: './get-admin-orders.html',
   styleUrl: './get-admin-orders.css',
@@ -199,18 +200,16 @@ export class GetAdminOrders extends BasePage {
     }
   }
 
-
   protected loadData(): void {
     this.loadOrders();
   }
-
 
   filterForm = form(this.orderFilter, (path) => {
     pattern(path.orderNumber, /^[A-Za-z0-9-]*$/, { message: 'Order number can contain only letters, numbers, and hyphens.' });
     maxLength(path.orderNumber, 50, { message: 'Order number cannot exceed 50 characters.' });
     min(path.orderStatusId, 1, { message: 'Order status ID must be greater than 0.' });
-    min(path.minAmount, 0, { message: 'Minimum amount cannot be negative.' });
-    min(path.maxAmount, 0, { message: 'Maximum amount cannot be negative.' });
+    min(path.minAmount, 1, { message: 'Minimum amount cannot be negative or 0.' });
+    min(path.maxAmount, 1, { message: 'Maximum amount cannot be negative or 0.' });
     min(path.userId, 1, { message: 'User ID must be greater than 0.' });
     min(path.vendorId, 1, { message: 'Vendor ID must be greater than 0.' });
   });
@@ -245,27 +244,7 @@ export class GetAdminOrders extends BasePage {
       orderStatusId: value === '' ? null : Number(value)
     }));
   }
-  onOrderNumberInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.orderNumber.set(value);
-  }
-  onUserIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.userId.set(value ? Number(value) : null);
-  }
-  onVendorIdInput(event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.vendorId.set(value ? Number(value) : null);
-  }
-  onMinPriceInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.minAmount.set(v ? Number(v) : null);
-  }
 
-  onMaxPriceInput(event: Event): void {
-    const v = (event.target as HTMLInputElement).value;
-    this.maxAmount.set(v ? Number(v) : null);
-  }
   onFromDateInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.fromDate.set(value);
@@ -273,6 +252,7 @@ export class GetAdminOrders extends BasePage {
       ...filter,
       fromDate: value || null
     }));
+    this.validateDateRange();
   }
 
   onToDateInput(event: Event): void {
@@ -282,6 +262,52 @@ export class GetAdminOrders extends BasePage {
       ...filter,
       toDate: value || null
     }));
+    this.validateDateRange();
+  }
+
+  private readonly MIN_VALID_DATE = '2026-06-01';
+
+  private validateDateRange(): void {
+    const from = this.orderFilter().fromDate;
+    const to = this.orderFilter().toDate;
+
+    const minDate = this.stripTime(new Date(this.MIN_VALID_DATE));
+    const today = this.stripTime(new Date());
+
+    const fromDate = from ? this.stripTime(new Date(from)) : null;
+    const toDate = to ? this.stripTime(new Date(to)) : null;
+
+    if (fromDate && fromDate < minDate) {
+      this.filterErrorMessage.set('From date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (toDate && toDate < minDate) {
+      this.filterErrorMessage.set('To date cannot be before 01/06/2026.');
+      return;
+    }
+
+    if (fromDate && fromDate > today) {
+      this.filterErrorMessage.set('From date cannot be in the future.');
+      return;
+    }
+
+    if (toDate && toDate > today) {
+      this.filterErrorMessage.set('To date cannot be in the future.');
+      return;
+    }
+
+    if (fromDate && toDate && fromDate > toDate) {
+      this.filterErrorMessage.set('From date cannot be later than To date.');
+      return;
+    }
+
+    this.filterErrorMessage.set(null);
+  }
+
+  private stripTime(date: Date): Date {
+    date.setHours(0, 0, 0, 0);
+    return date;
   }
 
   viewOrder(id: number) {

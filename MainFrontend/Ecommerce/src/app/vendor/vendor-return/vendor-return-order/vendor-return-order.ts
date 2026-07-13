@@ -145,12 +145,15 @@ export class VendorReturnOrder extends BasePage {
     }
     else if (this.status() == 8) {
       return [
+       
         { label: 'View', color: 'green', action: 'view' },
         { label: 'Review', color: 'gray', action: 'review' },
       ];
     }
 
     return [
+       { label: 'Review', color: 'gray', action: 'review' },
+      { label: 'View', color: 'green', action: 'view' },
       { label: 'Accept & Refund', color: 'green', action: 'refund' }
     ];
   });
@@ -158,7 +161,7 @@ export class VendorReturnOrder extends BasePage {
   handleAction(event: { type: string; row: ReturnListModel }) {
     switch (event.type) {
       case 'view':
-        this.viewReturn(event.row.returnId);
+        this.viewReturn(event.row.orderItemId);
         break;
       case 'approve':
         this.openApprovePopup(event.row.returnId);
@@ -231,7 +234,7 @@ export class VendorReturnOrder extends BasePage {
   }
 
   viewReturn(returnId: number) {
-    this.route.navigate(['/vendor/return-details', returnId]);
+    this.route.navigate(['/vendor/orders', returnId]);
   }
 
 }

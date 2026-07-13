@@ -3,7 +3,7 @@ export class AdminProductVariantFilter {
         public pageNumber: number = 1,
         public pageSize: number = 10,
 
-        public sku: string | null = null,
+        public sku: string ='',
         public VendorId: number | null = null,
 
         public productId: number | null = null,

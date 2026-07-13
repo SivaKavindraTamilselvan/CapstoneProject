@@ -31,7 +31,7 @@ export const VendorProductVariantRoute: Routes = [
     {
         path: 'products/variants/update-rejected',
         component: VariantList,
-        data: { status: 6, deleted: false, title: 'Rejected Variant List' }
+        data: { status: 5, deleted: false, title: 'Rejected Variant List' }
     },
     {
         path: 'products/variant/:id',

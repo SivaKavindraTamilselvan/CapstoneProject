@@ -9,7 +9,7 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Added Admin</label>
             <input type="number" placeholder="Admin ID" [formField]="filterForm.addedByAdminId"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.addedByAdminId().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.addedByAdminId().errors()[0].message }}</p>
@@ -32,7 +32,7 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Product Sub Category Id</label>
             <input type="number" placeholder="Sub Category ID" [formField]="filterForm.productSubCategoryId"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.productSubCategoryId().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.productSubCategoryId().errors()[0].message }}</p>
@@ -42,7 +42,7 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Minumum Commission Percentage</label>
             <input type="number" placeholder="Min Commission" [formField]="filterForm.minimumCommissionPercentage"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.minimumCommissionPercentage().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.minimumCommissionPercentage().errors()[0].message }}
@@ -53,7 +53,7 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Commission Percentage</label>
             <input type="number" placeholder="Max Commission" [formField]="filterForm.maximumCommissionPercentage"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.maximumCommissionPercentage().invalid())
             {
             <p class="text-red-600 text-xs mt-1">{{ filterForm.maximumCommissionPercentage().errors()[0].message }}
@@ -86,9 +86,8 @@
 
     <app-popup-component [show]="showPopup()" [title]="popupTitle()" [titleClass]="titleClass()"
         [message]="popupMessage()" [confirmText]="popupConfirmText()" [cancelText]="'Cancel'" [loading]="progress()"
-        [loadingText]="loadingText()" [successMessage]="successMessage()"
-        [errorMessage]="errorMessage()" [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()"
-        (cancel)="closePopup()">
+        [loadingText]="loadingText()" [successMessage]="successMessage()" [errorMessage]="errorMessage()"
+        [confirmButtonClass]="popupButtonClass()" (confirm)="confirmPopup()" (cancel)="closePopup()">
     </app-popup-component>
 
     @if (showAddPopup()) {
@@ -99,12 +98,12 @@
                 Add Sub Category
             </h2>
             @if(successMessage()) {
-            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center text-sm font-bold my-4">
                 {{ successMessage() }}
             </div>
             }
             @if(errorMessage()) {
-            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold my-4">
+            <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center text-sm font-bold my-4">
                 {{ errorMessage() }}
             </div>
             }

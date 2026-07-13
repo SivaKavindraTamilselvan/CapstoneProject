@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { VendorUserModel } from '../../../models/vendor/vendor-user/response-vendor-user.model';
 import { VendorUserService } from '../../../services/vendor-user.Service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import { DetailedCardComponenet } from '../../../shared-components/detailed-card-componenet/detailed-card-componenet';
 import { PopupBase } from '../../../shared-class/popup-base-class';
@@ -21,7 +21,7 @@ export class VendorUserDetails extends PopupBase {
   errorMessage = signal<string | null>(null);
   showActivatePopup = signal(false);
   loading = signal(true);
-  constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute) {
+  constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute,private router :Router) {
     super();
   }
   loadAdminUser(id: number) {
@@ -146,5 +146,8 @@ export class VendorUserDetails extends PopupBase {
     });
   }
 
+  goBack(): void {
+    this.router.navigate(['/vendor/users/list']);
+  }
 }
 

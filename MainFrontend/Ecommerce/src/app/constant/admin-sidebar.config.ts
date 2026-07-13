@@ -139,6 +139,8 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     roles: ['super-admin', 'order-admin', 'vendor-admin'],
     children: [
       { label: 'Shipment List', route: '/admin/shipments/list' },
+      { label: 'OnGoing Shipments List', route: '/admin/ongoing-shipments/list' },
+      { label: 'Delivered Shipment List', route: '/admin/completed-shipments/list' },
     ]
   },
   {
@@ -146,9 +148,9 @@ export const SIDEBAR_MENU: SidebarItem[] = [
     label: 'Return',
     roles: ['super-admin', 'order-admin', 'vendor-admin'],
     children: [
-      { label: 'Shipment List', route: '/admin/reports/order' },
-      { label: 'Update Shipment', route: '/admin/reports/product' },
-      { label: 'Shipment Lost', route: '/admin/shipments/lost' }
+      { label: 'Dispute Returns', route: '/admin/returns/dispute' },
+      { label: 'OnGoing Returns', route: '/admin/returns/ongoing' },
+      { label: 'All Returns', route: '/admin/returns/list' }
     ]
   }
 ];

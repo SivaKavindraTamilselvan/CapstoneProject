@@ -1,6 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { FormField, form, required, minLength, min } from '@angular/forms/signals';
+import { FormField, form, required, minLength, min, validate } from '@angular/forms/signals';
 import { Router } from '@angular/router';
 
 import { AddCouponModel } from '../../../models/admin/admin-coupon/add-coupon.model';
@@ -43,10 +43,42 @@ export class AddCoupon {
     min(path.minimumNumberOfUsage, 1, { message: 'Minimum Usage must be greater than 0' });
 
     required(path.couponDescription, { message: 'Coupon Description is required' });
-    
   });
 
+  scrollToTop(): void {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
+  }
+
   handleAddCouponClick() {
+    const startDate = new Date(this.couponModel().startDate);
+    const endDate = new Date(this.couponModel().endDate);
+    const today = new Date();
+
+    today.setHours(0, 0, 0, 0);
+    startDate.setHours(0, 0, 0, 0);
+    endDate.setHours(0, 0, 0, 0);
+
+    if (startDate < today) {
+      this.errorMessage.set("Start date cannot be before today.");
+      this.scrollToTop();
+      return;
+    }
+
+    if (endDate < today) {
+      this.errorMessage.set("End date cannot be before today.");
+      this.scrollToTop();
+      return;
+    }
+
+    if (endDate < startDate) {
+      this.errorMessage.set("End date cannot be earlier than the start date.");
+      this.scrollToTop();
+      return;
+    }
 
     if (this.addForm().invalid()) {
       this.errorMessage.set("Enter Proper Details");
@@ -63,62 +95,44 @@ export class AddCoupon {
     this.couponService.addCoupon(this.couponModel()).subscribe({
 
       next: () => {
-
         this.successMessage.set("Coupon Added Successfully");
-
         this.progress.set(false);
         this.resetForm();
-
         this.couponModel.set(new AddCouponModel());
-
         this.errorMessage.set(null);
-
+        this.scrollToTop();
       },
 
       error: (error) => {
-
-        console.error(error);
-
+        //console.error(error);
         this.progress.set(false);
-
         if (error.status === 409) {
-
           this.errorMessage.set(error.error.message);
-
         }
         else if (error.status === 400 && error.error?.errors) {
-
           const messages = Object.values(error.error.errors)
             .flat()
             .join(", ");
-
           this.errorMessage.set(messages);
-
         }
         else {
-
           this.errorMessage.set("Something went wrong. Please try again.");
-
         }
-
+        this.scrollToTop();
       }
-
     });
-
   }
 
   resetForm() {
-
     this.couponModel.set(new AddCouponModel());
-
     this.errorMessage.set(null);
-
+    this.scrollToTop();
   }
 
   allowOnlyNumbers(event: KeyboardEvent): void {
-  if (['e', 'E', '+', '-', '.'].includes(event.key)) {
-    event.preventDefault();
+    if (['e', 'E', '+', '-', '.'].includes(event.key)) {
+      event.preventDefault();
+    }
   }
-}
 
 }

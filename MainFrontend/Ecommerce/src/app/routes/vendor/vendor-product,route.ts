@@ -36,8 +36,8 @@ export const VendorProductRoute: Routes = [
     {
         path: 'products/update-rejected',
         component: ProductList,
-        data: { status: 6, deleted: false, title: 'Product List' }
-    }, 
+        data: { status: 5, deleted: false, title: 'Rejected Product List' }
+    },
     {
         path: 'products/:id',
         component: VendorProductDetails

@@ -4,3 +4,10 @@ export class AdminDeleteProductModel {
         public remark: string = ""
     ) { }
 }
+
+export class AdminDeleteVariantModel {
+    constructor(
+        public productVariantId: number = 0,
+        public remark: string = ""
+    ) { }
+}

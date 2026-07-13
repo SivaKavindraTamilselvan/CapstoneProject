@@ -9,9 +9,19 @@ import { AdminShipmentDetails } from "../../admin/admin-shipment/admin-shipment-
 export const AdminShipmentRoutes: Routes = [
 
     {
+        path: 'ongoing-shipments/list',
+        component: ShipmentList,
+        data: { status: null, ongoing: true, title: 'OnGoing Shipment List' }
+    },
+    {
+        path: 'completed-shipments/list',
+        component: ShipmentList,
+        data: { status: 8, ongoing: false, title: 'Completed List' }
+    },
+    {
         path: 'shipments/list',
         component: ShipmentList,
-        data: { status: null, title: 'Shipment List' }
+        data: { status: null, ongoing: false, title: 'Shipment List' }
     },
     {
         path: 'shipment-details/:id',

@@ -12,7 +12,7 @@ import { NgClass } from '@angular/common';
 })
 export class VendorInventoryDetails {
   inventory = signal<VendorInventoryModel |null >(null);
-  constructor(private route : ActivatedRoute,private vendorInventoryService : VendorInventoryService){
+  constructor(private route : ActivatedRoute,private vendorInventoryService : VendorInventoryService,private router : Router){
 
   }
   ngOnInit(): void {
@@ -31,5 +31,8 @@ export class VendorInventoryDetails {
         console.error(error);
       }
     })
+  }
+  goBack(): void {
+    this.router.navigate(['/vendor/inventory']);
   }
 }

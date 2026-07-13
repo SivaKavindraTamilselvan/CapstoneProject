@@ -42,4 +42,17 @@ export class AdminOrderDetails {
   viewVariant(id : number){
     this.router.navigate(['/admin/product-variant-details', id]);
   }
+  viewCancel(id : number){
+    this.router.navigate(['/admin/orders/cancelled-order', id]);
+  }
+  viewShipment(id : number){
+    this.router.navigate(['/admin/shipments/list'],
+       {
+        queryParams:
+        {
+          orderId: id
+        }
+      }
+    );
+  }
 }

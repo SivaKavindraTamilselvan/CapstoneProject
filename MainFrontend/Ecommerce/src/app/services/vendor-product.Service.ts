@@ -141,4 +141,14 @@ export class VendorProductService {
         const url = BaseURL + `/VendorProduct/attributes`;
         return this.http.get(url);
     }
+
+    deleteProductImage(id: number) {
+        let url = BaseURL + `/VendorProduct/DeleteProductImage/${id}`
+        return this.http.delete(url);
+    }
+
+    makeImageDefault(id: number) {
+        let url = BaseURL + `/VendorProduct/UpdateProductImageAsDefault/${id}`
+        return this.http.put(url,{});
+    }
 }

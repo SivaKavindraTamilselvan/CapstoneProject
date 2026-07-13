@@ -1,6 +1,7 @@
 export class ReturnListModel {
     constructor(
         public returnId: number = 0,
+        public orderItemId: number = 0,
         public productImageUrl: string = '',
         public productName: string = '',
         public sku: string = '',

@@ -1,8 +1,8 @@
 <section class="bg-white px-8 py-8">
-    <app-header-component title="Canelled Orders" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
+    <app-header-component title="Return Orders" [filterApplied]="filterApplied()" (toggle)="toggleFilterPanel()"
         (reset)="resetFilters()">
     </app-header-component>
-    <app-filter-component [open]="filterPanelOpen()" title="Cancel Order Filters" [errorMessage]="filterErrorMessage()"
+    <app-filter-component [open]="filterPanelOpen()" title="Return Order Filters" [errorMessage]="filterErrorMessage()"
         (close)="closeFilterPanel()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()" (reset)="resetFilters()">
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
@@ -17,73 +17,72 @@
             </p>
             }
         </div>
+
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
                 Order Item ID
             </label>
             <input type="number" placeholder="Order Item ID" [formField]="filterForm.orderItemId"
-                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if(filterForm.orderItemId().invalid()){
             <p class="text-red-600 text-xs mt-1">
                 {{filterForm.orderItemId().errors()[0].message}}
             </p>
             }
         </div>
+
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
                 Vendor ID
             </label>
-
             <input type="number" placeholder="Vendor ID" [formField]="filterForm.vendorId"
-                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-
+                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if(filterForm.vendorId().invalid()){
             <p class="text-red-600 text-xs mt-1">
                 {{filterForm.vendorId().errors()[0].message}}
             </p>
             }
         </div>
-        <div>
-            <label class="block text-sm font-semibold text-gray-700 mb-1">
-                Product Variant ID
-            </label>
-
-            <input type="number" placeholder="Product Variant ID" [formField]="filterForm.productVariantId"
-                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
-
-            @if(filterForm.productVariantId().invalid()){
-            <p class="text-red-600 text-xs mt-1">
-                {{filterForm.productVariantId().errors()[0].message}}
-            </p>
-            }
-        </div>
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
-                Cancel Reason
+                Return Status
             </label>
-
-            <select (change)="onCancelReasonChange($event)"
+            <select (change)="onReturnStatusChange($event)"
                 class="border border-gray-400 rounded-md px-3 py-2 w-full">
-                <option [ngValue]="null">All Cancel Reasons</option>
-                <option [value]="1">Ordered by mistake</option>
-                <option [value]="2">Found a better price elsewhere</option>
-                <option [value]="3">Delivery time is too long</option>
-                <option [value]="4">Changed my mind</option>
-                <option [value]="5">Incorrect shipping address</option>
-                <option [value]="6">Duplicate order placed</option>
-                <option [value]="7">Payment issue</option>
-                <option [value]="8">Product no longer needed</option>
-                <option [value]="9">Want to change product variant</option>
-                <option [value]="10">Other</option>
+                <option [ngValue]="null">All Statuses</option>
+                <option [value]="1">Pending</option>
+                <option [value]="2">Approved</option>
+                <option [value]="3">Rejected</option>
             </select>
-
-            @if(filterForm.cancelReasonId().invalid()){
+            @if(filterForm.returnStatusId().invalid()){
             <p class="text-red-600 text-xs mt-1">
-                {{ filterForm.cancelReasonId().errors()[0].message }}
+                {{ filterForm.returnStatusId().errors()[0].message }}
             </p>
             }
         </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Return Reason
+            </label>
+            <select (change)="onReturnReasonChange($event)"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+                <option [ngValue]="null">All Return Reasons</option>
+                <option [value]="1">Product damaged</option>
+                <option [value]="2">Wrong item received</option>
+                <option [value]="3">Size/fit issue</option>
+                <option [value]="4">Quality not as expected</option>
+                <option [value]="5">Changed my mind</option>
+                <option [value]="6">Other</option>
+            </select>
+            @if(filterForm.returnReasonId().invalid()){
+            <p class="text-red-600 text-xs mt-1">
+                {{ filterForm.returnReasonId().errors()[0].message }}
+            </p>
+            }
+        </div>
+
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">
                 Date Range
@@ -97,17 +96,19 @@
         </div>
     </app-filter-component>
 
-    <app-data-table-component [columns]="columns" [rows]="cancelOrders()?.items ?? []" [actions]="actions"
+    <app-data-table-component [columns]="columns" [rows]="returnOrders()?.items ?? []" [actions]="actions"
         (action)="handleAction($event)">
     </app-data-table-component>
 
-    <app-mobile-card-component [columns]="mobileColumns" [rows]="cancelOrders()?.items ?? []" [actions]="actions"
-        [titleKey]="'cancelId'" (action)="handleAction($event)">
+    <app-mobile-card-component [columns]="mobileColumns" [rows]="returnOrders()?.items ?? []" [actions]="actions"
+        [titleKey]="'returnId'" (action)="handleAction($event)">
     </app-mobile-card-component>
 
     <app-pagination-component [pageNumber]="pageNumber()" [pageSize]="pageSize()" [totalPages]="totalPages()"
-        [totalCount]="cancelOrders()?.totalCount ?? 0" (previous)="previousPage()" (next)="nextPage()"
+        [totalCount]="returnOrders()?.totalCount ?? 0" (previous)="previousPage()" (next)="nextPage()"
         (pageSizeChange)="onPageSizeChanged($event)">
     </app-pagination-component>
+
+    <app-return-refund-popup></app-return-refund-popup>
 
 </section>
