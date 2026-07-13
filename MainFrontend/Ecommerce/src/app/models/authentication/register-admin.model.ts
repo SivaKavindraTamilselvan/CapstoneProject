@@ -5,3 +5,17 @@ export class RegisterAdminModel{
 
     }
 }
+
+export interface RequestSetPasswordDTO {
+  token: string;
+  newPassword: string;
+}
+
+export interface ResponseSetPasswordDTO {
+  email: string;
+  message: string;
+}
+
+export interface RequestResendInviteDTO {
+  email: string;
+}

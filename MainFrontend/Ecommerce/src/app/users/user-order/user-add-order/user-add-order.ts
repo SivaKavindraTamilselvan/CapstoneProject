@@ -181,9 +181,12 @@ export class UserAddOrder {
   toggleCoupon(couponId: number): void {
     this.selectedCouponId.set(this.selectedCouponId() === couponId ? null : couponId);
   }
+  placeOrderIdempotencyKey = signal<string>(crypto.randomUUID());
+
 
   placeOrder(): void {
     if (!this.selectedAddressId() || !this.selectedPaymentId()) return;
+
 
     const payload: AddUserOrderModel = {
       addressId: this.selectedAddressId()!,
@@ -193,8 +196,9 @@ export class UserAddOrder {
 
     this.isLoading.set(true);
     this.error.set(null);
+    const headers = { 'Idempotency-Key': this.placeOrderIdempotencyKey() };
 
-    this.orderService.placeOrder(payload).subscribe({
+    this.orderService.placeOrder(payload, this.placeOrderIdempotencyKey()).subscribe({
       next: (orderResponse) => {
         const orderId: number = orderResponse.orderId;
         this.initiatePayment(orderId, payload.paymentMethod);

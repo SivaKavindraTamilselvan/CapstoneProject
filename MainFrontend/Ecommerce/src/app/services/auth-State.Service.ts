@@ -1,12 +1,14 @@
-import { Injectable, signal } from "@angular/core";
+import { inject, Injectable, signal } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 import { ADMIN_ROLES } from "../constant/admin.role.constant";
 import { VENDOR_ROLES } from "../constant/vendor.role.constant";
+import { NotificationHubService } from "./notificationHubService";
 
 @Injectable({
     providedIn: "root"
 })
 export class AuthStateService {
+    private hub = inject(NotificationHubService);
     private userIdSubject = new BehaviorSubject<string | undefined>(undefined);
     private userNameSubject = new BehaviorSubject<string | undefined>(undefined);
     private roleIdSubject = new BehaviorSubject<string | undefined>(undefined);
@@ -62,6 +64,7 @@ export class AuthStateService {
         this.userIdSubject.next(payload?.["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"]);
         this.scheduleAutoLogout(payload.exp);
         this.isLoggedIn.set(true);
+        this.hub.start(); 
 
     }
     private scheduleAutoLogout(expSeconds: number) {
@@ -108,6 +111,7 @@ export class AuthStateService {
         this.vendorRoleNameSubject.next(undefined);
         this.clearLogoutTimer();
         this.isLoggedIn.set(false);
+        this.hub.stop();
     }
 
     getAdminRole(): string | undefined {
