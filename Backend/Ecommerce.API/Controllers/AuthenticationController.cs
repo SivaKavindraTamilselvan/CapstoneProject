@@ -3,9 +3,11 @@ using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace Ecommerce.API.Controllers;
 
+[EnableRateLimiting("AuthPolicy")]
 [Route("api/[controller]")]
 [ApiController]
 public class AuthenticationController : ControllerBase
@@ -50,7 +52,15 @@ public class AuthenticationController : ControllerBase
     public async Task<IActionResult> ChangePassword([FromBody] RequestChangePasswordDTO request)
     {
         int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _authentication.ChangePassword(request,userId);
+        var result = await _authentication.ChangePassword(request, userId);
+        return Ok(result);
+    }
+
+    [HttpPost("set-password")]
+    [AllowAnonymous]
+    public async Task<IActionResult> SetPassword([FromBody] RequestSetPasswordDTO requestSetPasswordDTO)
+    {
+        var result = await _authentication.SetPassword(requestSetPasswordDTO);
         return Ok(result);
     }
 }

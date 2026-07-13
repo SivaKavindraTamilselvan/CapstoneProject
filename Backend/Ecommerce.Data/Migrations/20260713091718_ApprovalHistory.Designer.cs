@@ -3,6 +3,7 @@ using System;
 using Ecommerce.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Ecommerce.Data.Migrations
 {
     [DbContext(typeof(EcommerceContext))]
-    partial class EcommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20260713091718_ApprovalHistory")]
+    partial class ApprovalHistory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -835,48 +838,6 @@ namespace Ecommerce.Data.Migrations
                         .IsUnique();
 
                     b.ToTable("FavoritesItems");
-                });
-
-            modelBuilder.Entity("Ecommerce.Models.IdempotencyKey", b =>
-                {
-                    b.Property<int>("IdempotencyKeyId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("IdempotencyKeyId"));
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<DateTime>("ExpiresAt")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<bool>("IsCompleted")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("Key")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("RequestHash")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("ResponseBody")
-                        .HasColumnType("text");
-
-                    b.Property<int?>("ResponseStatusCode")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("IdempotencyKeyId");
-
-                    b.HasIndex("Key")
-                        .IsUnique();
-
-                    b.ToTable("IdempotencyKeys");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.Inventory", b =>
