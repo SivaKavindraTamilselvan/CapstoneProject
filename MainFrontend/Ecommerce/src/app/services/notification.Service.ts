@@ -26,4 +26,14 @@ export class NotificationService {
         const url = BaseURL + `/Notification/notifcation/${id}`;
         return this.http.put<NotificationResponseModel>(url, {});
     }
+
+    deleteNotification(id: number) {
+        const url = BaseURL + `/Notification/notification/${id}`;
+        return this.http.delete(url, { responseType: 'text' });
+    }
+
+    clearAllNotifications() {
+        const url = BaseURL + `/Notification/notification/clear`;
+        return this.http.delete(url, { responseType: 'text' });
+    }
 }

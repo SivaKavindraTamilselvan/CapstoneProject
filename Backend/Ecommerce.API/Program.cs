@@ -1,5 +1,6 @@
 using System.Text;
 using Ecommerce.Services;
+using Ecommerce.Services.Services;
 using Ecommerce.Data;
 using Ecommerce.Mappers;
 using Ecommerce.Repositories.Interfaces;
@@ -434,6 +435,7 @@ builder.Services.AddScoped<IAdminInventoryService, AdminInventoryService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IDashBoardService, AdminDashboardService>();
 builder.Services.AddScoped<IVendorDashboardService, VendorDashboardService>();
+builder.Services.AddHostedService<DemandNudgeBackgroundService>();
 
 #endregion
 

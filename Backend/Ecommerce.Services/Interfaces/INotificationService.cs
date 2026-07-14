@@ -14,5 +14,7 @@ namespace Ecommerce.Services.Interfaces
             int? referenceId = null);
         public Task<PagedResponse<ResponseNotification>> GetAllNotificationByUserId(NotificationFilter request, int userId);
         public Task<ResponseNotification> UpdateNotification(int notificationId, int userId);
+        public Task DeleteNotification(int notificationId, int userId);
+        public Task ClearAllNotifications(int userId);
     }
 }

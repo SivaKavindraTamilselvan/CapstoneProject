@@ -54,4 +54,22 @@ public class NotificationController : ControllerBase
         var result = await _notificationService.UpdateNotification(notificationId,userId);
         return Ok(result);
     }
+
+    [Authorize]
+    [HttpDelete("notification/{notificationId}")]
+    public async Task<IActionResult> DeleteNotification([FromRoute] int notificationId)
+    {
+        int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        await _notificationService.DeleteNotification(notificationId, userId);
+        return Ok("Notification deleted successfully");
+    }
+
+    [Authorize]
+    [HttpDelete("notification/clear")]
+    public async Task<IActionResult> ClearAllNotifications()
+    {
+        int userId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        await _notificationService.ClearAllNotifications(userId);
+        return Ok("All notifications cleared successfully");
+    }
 }

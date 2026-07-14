@@ -92,4 +92,21 @@ public class NotificationService : INotificationService
         var updatedNotification = await _notificationRepsository.Update(notification.NotificationId,notification);
         return _mapper.Map<ResponseNotification>(updatedNotification);
     }
+
+    public async Task DeleteNotification(int notificationId, int userId)
+    {
+        await _userValidation.ValidateUser(userId);
+        var notification = await _notificationRepsository.Get(notificationId);
+        if (notification == null || notification.UserId != userId)
+        {
+            throw new DataNotFoundException("Notification is not found");
+        }
+        await _notificationRepsository.Delete(notificationId);
+    }
+
+    public async Task ClearAllNotifications(int userId)
+    {
+        await _userValidation.ValidateUser(userId);
+        await _notificationRepsository.ClearAllNotificationsByUserId(userId);
+    }
 }

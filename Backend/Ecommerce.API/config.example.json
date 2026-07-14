@@ -1,0 +1,68 @@
+{
+  "Logging": {
+    "LogLevel": {
+      "Default": "Information",
+      "Microsoft.AspNetCore": "Warning"
+    }
+  },
+  "ConnectionStrings": {
+    "Default": "Host=localhost;Port=5432;Database=EcommerceDB;Username=postgres;Password=your_postgres_password"
+  },
+  "JWT": {
+    "Key": "your_super_secret_jwt_key_that_is_at_least_32_characters",
+    "Issuer": "EcommerceAPI",
+    "DurationInMinutes": 60
+  },
+  "Serilog": {
+    "Using": [
+      "Serilog.Sinks.Console",
+      "Serilog.Sinks.File"
+    ],
+    "MinimumLevel": "Information",
+    "WriteTo": [
+      {
+        "Name": "Console"
+      },
+      {
+        "Name": "File",
+        "Args": {
+          "path": "logs/MyAppLog-.txt",
+          "rollingInterval": "Day"
+        }
+      }
+    ],
+    "Enrich": [
+      "FromLogContext",
+      "WithMachineName",
+      "WithThreadId"
+    ],
+    "Properties": {
+      "Application": "EcommerceAPI"
+    }
+  },
+  "Shiprocket": {
+    "Email": "user@example.com",
+    "Password": "your_shiprocket_password"
+  },
+  "Razorpay": {
+    "KeyId": "rzp_test_yourKeyId",
+    "KeySecret": "your_razorpay_secret"
+  },
+  "EmailSettings": {
+    "SmtpHost": "smtp.gmail.com",
+    "SmtpPort": 587,
+    "SenderName": "Ecommerce Support",
+    "SenderEmail": "support@yourdomain.com",
+    "Username": "your@email.com",
+    "Password": "app-password",
+    "UseSsl": true
+  },
+  "DemandNudgeSettings": {
+    "PollingIntervalMinutes": 1,
+    "MinimumWaitTimeMinutes": 1,
+    "PriceDropPercentage": 10,
+    "LowStockThreshold": 5,
+    "MaxNotificationsPerItem": 3
+  },
+  "AllowedHosts": "*"
+}

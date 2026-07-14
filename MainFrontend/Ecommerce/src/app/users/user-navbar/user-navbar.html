@@ -65,18 +65,87 @@
                 </span>
             </button>
 
-            <button class="group relative cursor-pointer hover:text-gray-500 transition">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="size-6">
-                    <path stroke-linecap="round" stroke-linejoin="round"
-                        d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
-                </svg>
+            <div class="relative">
+                <button class="group relative cursor-pointer hover:text-gray-500 transition" (click)="toggleNotificationDropdown()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0M3.124 7.5A8.969 8.969 0 0 1 5.292 3m13.416 0a8.969 8.969 0 0 1 2.168 4.5" />
+                    </svg>
+                    @if(unreadCount() > 0) {
+                        <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs font-bold px-1.5 py-0.5 rounded-full">
+                            {{ unreadCount() }}
+                        </span>
+                    }
 
-                <span
-                    class="absolute hidden group-hover:block py-1 px-3 text-sm text-black bg-white rounded-sm shadow-md whitespace-nowrap top-8 right-0">
-                    Notification
-                </span>
-            </button>
+                    <span
+                        class="absolute hidden group-hover:block py-1 px-3 text-sm text-black bg-white rounded-sm shadow-md whitespace-nowrap top-8 right-0 z-50">
+                        Notification
+                    </span>
+                </button>
+
+                @if(isNotificationDropdownOpen()) {
+                    <div class="absolute top-10 right-0 w-96 bg-white border border-gray-200 shadow-2xl rounded-lg overflow-hidden z-[100]">
+                        <div class="bg-gray-50 text-gray-800 font-bold px-4 py-3 border-b border-gray-200 flex justify-between items-center">
+                            <span class="text-lg">Notifications</span>
+                            @if(notifications().length > 0) {
+                                <button class="text-sm font-normal text-red-500 hover:text-red-700 hover:underline transition" (click)="clearAllNotifications()">Clear All</button>
+                            }
+                        </div>
+                        <div class="max-h-96 overflow-y-auto">
+                            @if(notifications().length === 0) {
+                                <div class="px-4 py-8 flex flex-col items-center justify-center text-gray-500">
+                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-10 mb-2 opacity-50">
+                                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0" />
+                                    </svg>
+                                    <span class="text-sm">No notifications yet.</span>
+                                </div>
+                            }
+                            @for(notif of notifications(); track notif.notificationId) {
+                                <div 
+                                    class="px-4 py-3 border-b border-gray-100 cursor-pointer flex gap-4 transition relative group"
+                                    [ngClass]="{
+                                        'bg-orange-50/60 hover:bg-orange-100/60': !notif.isRead && notif.notificationTypeId === 21,
+                                        'bg-green-50/60 hover:bg-green-100/60': !notif.isRead && notif.title.includes('Price Drop'),
+                                        'bg-blue-50/60 hover:bg-blue-100/60': !notif.isRead && notif.notificationTypeId !== 21 && !notif.title.includes('Price Drop'),
+                                        'bg-white hover:bg-gray-50': notif.isRead
+                                    }"
+                                    (click)="markAsRead(notif)"
+                                >
+                                    <div class="flex-shrink-0 mt-1 flex items-center justify-center w-10 h-10 rounded-full"
+                                        [ngClass]="{
+                                            'bg-orange-100 text-orange-600': notif.notificationTypeId === 21,
+                                            'bg-green-100 text-green-600': notif.title.includes('Price Drop'),
+                                            'bg-blue-100 text-blue-600': notif.notificationTypeId !== 21 && !notif.title.includes('Price Drop')
+                                        }">
+                                        @if(notif.notificationTypeId === 21) {
+                                            <span class="text-xl">⚠️</span>
+                                        } @else if(notif.title.includes('Price Drop')) {
+                                            <span class="text-xl">📉</span>
+                                        } @else {
+                                            <span class="text-xl">🕒</span>
+                                        }
+                                    </div>
+                                    <div class="flex flex-col gap-1 pr-6 flex-grow">
+                                        <span class="font-semibold text-sm" [ngClass]="{'text-blue-900': !notif.isRead, 'text-gray-800': notif.isRead}">{{notif.title}}</span>
+                                        <span class="text-xs text-gray-600 line-clamp-2 leading-relaxed">{{notif.message}}</span>
+                                        <span class="text-xs text-gray-400 mt-1">{{notif.createdAt | date:'short'}}</span>
+                                    </div>
+                                    <button 
+                                        class="absolute top-3 right-3 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition" 
+                                        (click)="deleteNotification(notif, $event)"
+                                        title="Delete Notification"
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" class="size-4">
+                                            <path d="M6.28 5.22a.75.75 0 0 0-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 1 0 1.06 1.06L10 11.06l3.72 3.72a.75.75 0 1 0 1.06-1.06L11.06 10l3.72-3.72a.75.75 0 0 0-1.06-1.06L10 8.94 6.28 5.22Z" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+            </div>
             <button class="hidden md:block group relative cursor-pointer hover:text-gray-500 transition"
                 (click)="goToProfile()">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

@@ -595,6 +595,10 @@ public class EcommerceContext : DbContext
         {
             ci.HasKey(ci => ci.FavoritesItemsId).HasName("PK_Favorites_Items");
             ci.HasIndex(ci => new { ci.FavoritesId, ci.ProductVariantId }).IsUnique();
+            ci.Property(ci => ci.CreatedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+            ci.Property(ci => ci.LastNotifiedPrice).HasDefaultValue(0);
+            ci.Property(ci => ci.LastNotifiedAt).HasColumnType("timestamp without time zone");
+            ci.Property(ci => ci.NotificationCount).HasDefaultValue(0);
             ci.HasOne(ci => ci.Favorites).WithMany(c => c.FavoritesItems).HasForeignKey(ci => ci.FavoritesId).HasConstraintName("FK_Favorites").OnDelete(DeleteBehavior.Cascade);
             ci.HasOne(ci => ci.ProductVariant).WithMany(pv => pv.FavoritesItems).HasForeignKey(ci => ci.ProductVariantId).HasConstraintName("FK_Favorites_Items_Product_Variant").OnDelete(DeleteBehavior.Restrict);
         });

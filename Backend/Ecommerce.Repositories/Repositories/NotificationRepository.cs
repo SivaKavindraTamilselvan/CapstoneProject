@@ -35,4 +35,10 @@ public class NotificationRepsository : AbstractRepository<int, Notification>, IN
         return (items, totalCount);
     }
 
+    public async Task ClearAllNotificationsByUserId(int userId)
+    {
+        var notifications = await _ecommerceContext.Notification.Where(n => n.UserId == userId).ToListAsync();
+        _ecommerceContext.Notification.RemoveRange(notifications);
+        await _ecommerceContext.SaveChangesAsync();
+    }
 }

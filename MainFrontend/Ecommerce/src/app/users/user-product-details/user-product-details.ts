@@ -8,6 +8,8 @@ import { UserCartService } from '../../services/user-cart.Service';
 import { AddCartItemModel } from '../../models/user/cart/add-cart,model';
 import { UserFavoriteService } from '../../services/user-favorite.Service';
 import { AddFavoriteItemModel } from '../../models/user/favorites/add-favorite.model';
+import { FavoriteItemModel } from '../../models/user/favorites/user-favorite.model';
+import { RemoveFavoriteItemModel } from '../../models/user/favorites/remove-favorite.model';
 import { ProductReviews } from '../user-product/product-reviews/product-reviews';
 
 @Component({
@@ -71,11 +73,24 @@ export class UserProductDetails {
       .join(' · ') || 'Base';
   }
 
+  favorites = signal<FavoriteItemModel[]>([]);
+
+  isInFavorites = computed(() => {
+    const variant = this.selectedVariant();
+    if (!variant) return false;
+    return this.favorites().some(f => f.productVariantId === variant.productVariantId);
+  });
+
   constructor(private userFavoriteService:UserFavoriteService,private userProductService: UserProductService, private route: ActivatedRoute, private userCartService: UserCartService) { }
 
   ngOnInit() {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
     if (productId) this.loadProduct(productId);
+    
+    this.userFavoriteService.getFavoriteItems().subscribe({
+      next: (favs) => this.favorites.set(favs),
+      error: (err) => console.error(err)
+    });
   }
 
   loadProduct(productId: number) {
@@ -138,14 +153,32 @@ export class UserProductDetails {
       error: (err) => console.error(err)
     });
   }
-  addToFavorites() {
-    const addmodel = new AddFavoriteItemModel();
+  
+  toggleFavorites() {
     const variant = this.selectedVariant();
     if (!variant) return;
-    addmodel.productVariantId = variant.productVariantId;
-    this.userFavoriteService.addToFavorite(addmodel).subscribe({
-      next: () => console.log('Added to Favorites'),
-      error: (err) => console.error(err)
-    });
+
+    if (this.isInFavorites()) {
+      const item = this.favorites().find(f => f.productVariantId === variant.productVariantId);
+      if (item) {
+        const rm = new RemoveFavoriteItemModel(item.favoritesItemsId);
+        this.userFavoriteService.removeFromFavorite(rm).subscribe({
+          next: () => {
+            this.favorites.update(favs => favs.filter(f => f.favoritesItemsId !== item.favoritesItemsId));
+          },
+          error: (err) => console.error(err)
+        });
+      }
+    } else {
+      const addmodel = new AddFavoriteItemModel();
+      addmodel.productVariantId = variant.productVariantId;
+      this.userFavoriteService.addToFavorite(addmodel).subscribe({
+        next: () => {
+          // Re-fetch to ensure we have the correct ID for potential removal
+          this.userFavoriteService.getFavoriteItems().subscribe(favs => this.favorites.set(favs));
+        },
+        error: (err) => console.error(err)
+      });
+    }
   }
 }
