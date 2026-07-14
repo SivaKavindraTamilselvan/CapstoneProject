@@ -3,6 +3,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Ecommerce.API.Controllers;
 
@@ -10,12 +11,14 @@ namespace Ecommerce.API.Controllers;
 [ApiController]
 public class VendorProductController : ControllerBase
 {
+    private readonly IBlobStorageService _blobStorageService;
     private readonly IVendorProductService _vendorProductService;
     private readonly IVendorProductImageService _vendorProductImageService;
     private readonly IVendorProductVariantService _vendorProductVariantService;
 
-    public VendorProductController(IVendorProductService vendorProductService, IVendorProductImageService vendorProductImageService, IVendorProductVariantService vendorProductVariantService)
+    public VendorProductController(IBlobStorageService blobStorageService, IVendorProductService vendorProductService, IVendorProductImageService vendorProductImageService, IVendorProductVariantService vendorProductVariantService)
     {
+        _blobStorageService = blobStorageService;
         _vendorProductService = vendorProductService;
         _vendorProductImageService = vendorProductImageService;
         _vendorProductVariantService = vendorProductVariantService;
@@ -42,7 +45,7 @@ public class VendorProductController : ControllerBase
     public async Task<IActionResult> GetProductWithFullDetails(int productId)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetProductWithFullDetails(productId,vendorUserId);
+        var result = await _vendorProductService.GetProductWithFullDetails(productId, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -50,7 +53,7 @@ public class VendorProductController : ControllerBase
     public async Task<IActionResult> GetProductVariantWithFullDetails(int productVariantId)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductService.GetProductVariantWithFullDetails(productVariantId,vendorUserId);
+        var result = await _vendorProductService.GetProductVariantWithFullDetails(productVariantId, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -77,12 +80,12 @@ public class VendorProductController : ControllerBase
         var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductVariantImage, vendorUserId);
         return Ok(result);
     }
-     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
+    [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
     [HttpDelete("DeleteProductImage/{productImageId}")]
     public async Task<ActionResult<ResponseAddProductVariantImage>> DeleteImage(int productImageId)
     {
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _vendorProductImageService.DeleteProductImage(productImageId,vendorUserId);
+        var result = await _vendorProductImageService.DeleteProductImage(productImageId, vendorUserId);
         return Ok(result);
     }
     [Authorize(Policy = "VendorOnwerAndProductVendorOnly")]
@@ -159,5 +162,57 @@ public class VendorProductController : ControllerBase
         return Ok(result);
     }
 
+    [HttpPost("upload-image")]
+    public async Task<IActionResult> UploadProductImage([FromForm] RequestUploadProductImage requestUploadProductImage)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (requestUploadProductImage.File == null || requestUploadProductImage.File.Length == 0)
+            return BadRequest("No file uploaded.");
+
+        using var stream = requestUploadProductImage.File.OpenReadStream();
+        var blobUrl = await _blobStorageService.UploadImageAsync(
+            stream,
+            requestUploadProductImage.File.FileName,
+            requestUploadProductImage.File.ContentType);
+
+        var requestAddProductImage = new RequestAddProductImage
+        {
+            ProductId = requestUploadProductImage.ProductId,
+            ImageUrl = blobUrl,
+            DisplayOrderId = requestUploadProductImage.DisplayOrderId,
+            IsMainImage = requestUploadProductImage.IsMainImage
+        };
+
+        var result = await _vendorProductImageService.AddProductImage(requestAddProductImage, vendorUserId);
+        return Ok(result);
+    }
+
+
+    [HttpPost("upload-variant-image")]
+    public async Task<IActionResult> UploadProductVariantImage([FromForm] RequestUploadProductVariantImage requestUploadProductImage)
+    {
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+
+        if (requestUploadProductImage.File == null || requestUploadProductImage.File.Length == 0)
+            return BadRequest("No file uploaded.");
+
+        using var stream = requestUploadProductImage.File.OpenReadStream();
+        var blobUrl = await _blobStorageService.UploadImageAsync(
+            stream,
+            requestUploadProductImage.File.FileName,
+            requestUploadProductImage.File.ContentType);
+
+        var requestAddProductImage = new RequestAddProductVariantImage
+        {
+            ProductVariantId = requestUploadProductImage.ProductVariantId,
+            ImageUrl = blobUrl,
+            DisplayOrderId = requestUploadProductImage.DisplayOrderId,
+            
+        };
+
+        var result = await _vendorProductImageService.AddProductVariantImage(requestAddProductImage, vendorUserId);
+        return Ok(result);
+    }
 
 }

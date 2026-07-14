@@ -2860,6 +2860,46 @@ namespace Ecommerce.Data.Migrations
                     b.ToTable("Vendor");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.VendorApprovalHistory", b =>
+                {
+                    b.Property<int>("ApprovalHistoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("ApprovalHistoryId"));
+
+                    b.Property<int>("EntityId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("NewStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("PreviousStatusId")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Remarks")
+                        .HasMaxLength(500)
+                        .HasColumnType("character varying(500)");
+
+                    b.Property<DateTime>("ReviewedAt")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp without time zone")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<int>("ReviewerId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("ApprovalHistoryId");
+
+                    b.HasIndex("NewStatusId");
+
+                    b.HasIndex("PreviousStatusId");
+
+                    b.HasIndex("ReviewerId");
+
+                    b.ToTable("VendorApprovalHistory");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.VendorRole", b =>
                 {
                     b.Property<int>("VendorRoleId")
@@ -4072,6 +4112,33 @@ namespace Ecommerce.Data.Migrations
                     b.Navigation("ReviwedByAdmin");
                 });
 
+            modelBuilder.Entity("Ecommerce.Models.VendorApprovalHistory", b =>
+                {
+                    b.HasOne("Ecommerce.Models.ApprovalStatus", "NewStatus")
+                        .WithMany("NewApprovalHistories")
+                        .HasForeignKey("NewStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.ApprovalStatus", "PreviousStatus")
+                        .WithMany("PreviousApprovalHistories")
+                        .HasForeignKey("PreviousStatusId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("Ecommerce.Models.AdminUser", "AdminUser")
+                        .WithMany("VendorApprovalHistories")
+                        .HasForeignKey("ReviewerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("AdminUser");
+
+                    b.Navigation("NewStatus");
+
+                    b.Navigation("PreviousStatus");
+                });
+
             modelBuilder.Entity("Ecommerce.Models.VendorUser", b =>
                 {
                     b.HasOne("Ecommerce.Models.VendorUser", "AddedByVendor")
@@ -4154,11 +4221,17 @@ namespace Ecommerce.Data.Migrations
 
                     b.Navigation("ProductSubCategoryAttributes");
 
+                    b.Navigation("VendorApprovalHistories");
+
                     b.Navigation("Vendors");
                 });
 
             modelBuilder.Entity("Ecommerce.Models.ApprovalStatus", b =>
                 {
+                    b.Navigation("NewApprovalHistories");
+
+                    b.Navigation("PreviousApprovalHistories");
+
                     b.Navigation("Vendors");
                 });
 

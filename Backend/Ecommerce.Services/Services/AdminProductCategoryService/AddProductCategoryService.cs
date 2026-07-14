@@ -43,6 +43,7 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
         ProductSubCategory productSubCategory = new ProductSubCategory();
         productSubCategory.ProductCategoryId = requestAddProductSubCategoryDTO.ProductCategoryId;
         productSubCategory.ProductSubCategoryName = requestAddProductSubCategoryDTO.ProductSubCategoryName;
+        productSubCategory.CommissionPercentage = requestAddProductSubCategoryDTO.CommissionPercentage;
         productSubCategory.AddedByAdminId = admin.AdminUserId;
         await _productSubCategoryRepsository.Create(productSubCategory);
         _logger.LogInformation("Product SubCategory {SubCategoryId} - {SubCategoryName} created successfully",productSubCategory.ProductSubCategoryId,productSubCategory.ProductSubCategoryName);

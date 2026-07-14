@@ -4,6 +4,7 @@ import { ShipmentTrackingModel } from "./admin-shipment-tracking.model";
 export class ShipmentModel {
   constructor(
     public shipmentId: number = 0,
+    public shipmentTypeId: number = 0,
     public orderId: number = 0,
 
     public currentStatus: string = '',

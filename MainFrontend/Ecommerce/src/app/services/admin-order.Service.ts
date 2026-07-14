@@ -1,14 +1,10 @@
 import { HttpClient, HttpParams } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { AddUserOrderModel } from "../models/user/order/place-order.model";
-import { Observable } from "rxjs";
 import { BaseURL } from "../environment";
-import { UserCouponModel } from "../models/user/coupon/user-coupon.model";
-import { PagedResponse } from "../models/paged-response.model";
-import { AdminUserFilter } from "../models/admin/admin-user/admin-user.filter";
 import { AdminOrderFilter } from "../models/admin/admin-orders/get-order.filter";
 import { RequestAdminCancelFilter } from "../models/user/order/cancel.order.model";
 import { AdminCreateReturnRefund, RequestAdminReturnFilter } from "../models/admin/admin-orders/get-order.model";
+import { OrderItemModel } from "../models/admin/admin-orders/get-orderitem.model";
 
 @Injectable({
     providedIn: "root"
@@ -30,10 +26,16 @@ export class AdminOrderService {
 
         return this.http.get(url, { params });
     }
+
     getOrdersDetails(id: number) {
         const url = BaseURL + `/Order/GetAdminOrderById/${id}`;
         return this.http.get(url, {});
     }
+
+    getOrdersItemsDetails(id: number) {
+            const url = BaseURL + `/Order/GetUserOrderItemsById/${id}`;
+            return this.http.get<OrderItemModel>(url, {});
+        }
 
     getCancelledOrder(filter: RequestAdminCancelFilter) {
         const url = BaseURL + "/Cancel/admin-cancels";
@@ -47,7 +49,8 @@ export class AdminOrderService {
 
         return this.http.get(url, { params });
     }
-     getReturnedOrder(filter: RequestAdminReturnFilter) {
+
+    getReturnedOrder(filter: RequestAdminReturnFilter) {
         const url = BaseURL + "/AdminReturn/returns";
         let params = new HttpParams();
 
@@ -59,16 +62,18 @@ export class AdminOrderService {
 
         return this.http.get(url, { params });
     }
+
     getCancelOrdersDetails(id: number) {
         const url = BaseURL + `/Cancel/admin-cancel/${id}`;
         return this.http.get(url, {});
     }
-     getReturnOrdersDetails(id: number) {
+
+    getReturnOrdersDetails(id: number) {
         const url = BaseURL + `/AdminReturn/returns/${id}`;
         return this.http.get(url, {});
     }
 
-     createReturnOrdersDetails(model : AdminCreateReturnRefund) {
+    createReturnOrdersDetails(model: AdminCreateReturnRefund) {
         const url = BaseURL + `/Admin/CreateReturnRefund`;
         return this.http.post(url, model);
     }

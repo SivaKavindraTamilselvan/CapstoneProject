@@ -344,8 +344,8 @@ export class AdminProduct extends BasePage {
   aiReview = signal<AiValidationResult | null>(null);
   loadingAi = signal(false);
   approvalStatusOption = [
-    { id: 4, label: 'Accepted' },
-    { id: 5, label: 'Rejected' },
+    { id: 4, label: 'Accept' },
+    { id: 5, label: 'Reject' },
   ];
 
   reviewForm = form(this.reviewProductModel, (path) => {

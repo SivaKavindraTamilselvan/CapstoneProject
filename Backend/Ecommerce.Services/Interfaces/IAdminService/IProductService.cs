@@ -4,6 +4,7 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IAdminProductService
 {
+    public Task<ResponseReviewOfProductVariantDTO> DeleteProductVaraint(RequestDeleteVariantDTO requestDeleteProductDTO, int adminUserId);
     public Task<List<ApprovalHistoryDto>> GetProductHistory(int entityId);
     public Task<List<ApprovalHistoryDto>> GetProductVariantHistory(int entityId);
     public Task<ResponseVendorGetProductVariantOnly> GetProductVariantWithFullDetails(int productVariantId, int adminUserId);

@@ -51,6 +51,10 @@ export class UserGetOrder {
   ngOnInit() {
     this.loadOrders();
   }
+
+  goBack(): void {
+    this.router.navigate(['/user/products']);
+  }
   loadOrders() {
     this.userOrderService.getOrders(this.buildFilter()).subscribe({
       next: (response: any) => {

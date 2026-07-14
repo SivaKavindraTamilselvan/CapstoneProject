@@ -11,7 +11,7 @@ export class AdminProductVariantFilter {
         public categoryId: number | null = null,
         public subCategoryId: number | null = null,
         public statusId: number | null = null,
-        public approvalStatusId: number | null = null,
+        public ApprovalStatusId: number | null = null,
 
         public minPrice: number | null = null,
         public maxPrice: number | null = null,
@@ -30,6 +30,7 @@ export class AdminProductVariantFilter {
         public maxReservedQuantity: number | null = null,
 
         public hasIssues: boolean | null = null,
+        public includeIsDeleted : boolean | null = null,
         public isAvailableForSale: boolean | null = null
     ) { }
 }

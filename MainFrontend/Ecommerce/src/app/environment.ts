@@ -1,1 +1,2 @@
-export const BaseURL = 'http://localhost:5173/api';
+export const BaseURL = 'https://ecommerce-api-tzrub6c7qmrd6.azurewebsites.net/api';
+export const ImageBaseUrl = '';

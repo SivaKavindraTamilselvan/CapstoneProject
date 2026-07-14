@@ -27,7 +27,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 export class VendorOrderList extends BasePage {
 
   actions = computed<TableAction<OrderItemSummaryModel>[]>(() => {
-    if (this.pageTitle() === 'Product Category List') {
+    if (this.orderStatus()==null) {
       return [
         {
           label: 'view',

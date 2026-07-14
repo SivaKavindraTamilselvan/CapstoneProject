@@ -4,6 +4,8 @@ import { ReturnSummaryModel } from "../../user/order/return.order.model";
 export class OrderItemModel {
 
   constructor(
+    public orderId: number = 0,
+
     public orderItemsId: number = 0,
     public sku: string = '',
     public canReturn: boolean | null = null,

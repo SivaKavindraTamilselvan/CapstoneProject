@@ -1,5 +1,5 @@
 <div class="flex justify-center px-2">
-    <div class="bg-white rounded-2xl shadow-xl shadow-gray-200/60 border border-gray-100 w-full max-w-4xl p-6 sm:p-10 space-y-8">
+    <div class="bg-white rounded-2xl  w-full max-w-4xl p-6 sm:p-10 space-y-8">
 
         @if (errorMessage()) {
         <div class="bg-red-50 border border-red-200 px-4 py-3.5 rounded-xl text-red-700 text-sm font-semibold flex items-center gap-2">
@@ -20,10 +20,8 @@
 
         <form (ngSubmit)="addAddress()" class="flex flex-col gap-8">
 
-            <!-- Contact Info -->
             <div>
                 <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-                    <span class="w-1.5 h-4 bg-blue-700 rounded-full"></span>
                     Contact Info
                 </h2>
                 <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
@@ -34,7 +32,7 @@
                             </label>
                             <input placeholder="Enter your name" [formField]="addForm.contactName"
                                 class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
-                            @if (submitted() && addForm.contactName().touched() && addForm.contactName().invalid()) {
+                            @if (addForm.contactName().touched() && addForm.contactName().invalid()) {
                             <p class="text-red-600 text-xs mt-1">
                                 {{ addForm.contactName().errors()[0].message }}
                             </p>
@@ -47,7 +45,7 @@
                             <input type="text" placeholder="Enter 10-digit mobile number"
                                 [formField]="addForm.contactPhoneNumber"
                                 class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
-                            @if (submitted() && addForm.contactPhoneNumber().touched() &&
+                            @if (addForm.contactPhoneNumber().touched() &&
                             addForm.contactPhoneNumber().invalid()) {
                             <p class="text-red-600 text-xs mt-1">
                                 {{ addForm.contactPhoneNumber().errors()[0].message }}
@@ -58,10 +56,8 @@
                 </div>
             </div>
 
-            <!-- Address Details -->
             <div>
                 <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
-                    <span class="w-1.5 h-4 bg-blue-700 rounded-full"></span>
                     Address Details
                 </h2>
                 <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
@@ -71,7 +67,7 @@
                         </label>
                         <textarea rows="3" placeholder="House No., Street, Area" [formField]="addForm.addressLine"
                             class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition resize-none"></textarea>
-                        @if (submitted() && addForm.addressLine().touched() && addForm.addressLine().invalid()) {
+                        @if (addForm.addressLine().touched() && addForm.addressLine().invalid()) {
                         <p class="text-red-600 text-xs mt-1">
                             {{ addForm.addressLine().errors()[0].message }}
                         </p>
@@ -85,7 +81,7 @@
                         <input placeholder="Near school, mall, etc." [formField]="addForm.landMark"
                             class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
 
-                        @if (submitted() && addForm.landMark().touched() && addForm.landMark().invalid()) {
+                        @if (addForm.landMark().touched() && addForm.landMark().invalid()) {
                         <p class="text-red-600 text-xs mt-1">
                             {{ addForm.landMark().errors()[0].message }}
                         </p>
@@ -119,7 +115,7 @@
                             </span>
                             }
                         </div>
-                        @if (submitted() && addForm.pinCode().touched() && addForm.pinCode().invalid()) {
+                        @if (addForm.pinCode().touched() && addForm.pinCode().invalid()) {
                         <p class="text-red-600 text-xs mt-1">
                             {{ addForm.pinCode().errors()[0].message }}
                         </p>
@@ -152,7 +148,7 @@
                             <input placeholder="Auto-filled after PIN entry" [value]="address().city" readonly
                                 class="w-full border border-gray-200 rounded-lg px-4 py-2.5 outline-none bg-gray-100 text-gray-500 cursor-not-allowed transition" />
                             }
-                            @if (submitted() && addForm.city().touched() && addForm.city().invalid()) {
+                            @if (addForm.city().touched() && addForm.city().invalid()) {
                             <p class="text-red-600 text-xs mt-1">
                                 {{ addForm.city().errors()[0].message }}
                             </p>
@@ -165,7 +161,7 @@
                             <input placeholder="Auto-filled after PIN entry" [value]="address().state" readonly
                                 class="w-full border border-gray-200 rounded-lg px-4 py-2.5 outline-none bg-gray-100 text-gray-500 cursor-not-allowed transition" />
 
-                            @if (submitted() && addForm.state().touched() && addForm.state().invalid()) {
+                            @if ( addForm.state().touched() && addForm.state().invalid()) {
                             <p class="text-red-600 text-xs mt-1">
                                 {{ addForm.state().errors()[0].message }}
                             </p>
@@ -175,7 +171,6 @@
                 </div>
             </div>
 
-            <!-- Default Address -->
             <label
                 class="flex items-center gap-3 bg-gray-50 border border-gray-200 rounded-xl px-5 py-3.5 cursor-pointer hover:border-blue-400 transition"
                 [class.border-blue-600]="address().isDefault" [class.bg-blue-50]="address().isDefault">
@@ -187,7 +182,6 @@
                 </div>
             </label>
 
-            <!-- Submit -->
             <div class="flex w-full gap-3">
                 <button type="submit" [disabled]="progress()"
                     class="flex-1 bg-blue-950 text-white font-semibold px-4 py-3 rounded-xl cursor-pointer hover:bg-blue-900 disabled:opacity-60 disabled:cursor-not-allowed transition-colors">

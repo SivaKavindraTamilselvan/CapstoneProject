@@ -14,6 +14,7 @@ import { UserFavorite } from '../users/user-favorite/user-favorite';
 import { UserProfilePage } from '../users/user-profile-page/user-profile-page';
 import { SharedRoutes } from './shared-route';
 import { UserOrderDetails } from '../users/user-order/user-order-details/user-order-details';
+import { UserNotifications } from '../notification/user-notifications/user-notifications';
 
 export const UserRoutes: Routes = [
     {
@@ -71,6 +72,10 @@ export const UserRoutes: Routes = [
     {
         path: 'profile',
         component: UserProfilePage
+    },
+    {
+        path: 'notification',
+        component: UserNotifications
     },
 
     ...SharedRoutes

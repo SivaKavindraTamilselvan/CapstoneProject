@@ -48,6 +48,8 @@ public class OrderSummaryDto
     public string OrderStatus { get; set; } = string.Empty;
     public DateTime OrderDate { get; set; }
     public int TotalItems { get; set; }
+    public string PaymentStatus { get; set; } = string.Empty; 
+    public string PaymentType { get; set; } = string.Empty;
     public List<OrderItemSummaryDto> OrderItems { get; set; } = new();
 }
 
@@ -62,6 +64,7 @@ public class OrderItemSummaryDto
     public string UserCity { get; set; } = string.Empty;
     public string UserPincode { get; set; } = string.Empty;
     public int OrderItemsId { get; set; }
+    public int OrderId { get; set; }
     public string ProductImageUrl { get; set; } = string.Empty;
     public string SKU { get; set; } = string.Empty;
     public int ProductId { get; set; }

@@ -40,10 +40,7 @@ export const AdminRoutes: Routes = [
         path: 'profile',
         component: AdminProfilePage
     },
-    {
-        path: 'order/:id',
-        component: AdminOrderDetails
-    },
+    
      
     ...AdminUserRoutes,
     ...AdminVendorRoutes,

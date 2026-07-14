@@ -29,6 +29,8 @@ export class ProfilePage {
   showNewPassword = signal(false);
   showConfirmPassword = signal(false);
 
+  progress = signal(false);
+
   constructor(private profileService: ProfileService, private router: Router) { }
 
   ngOnInit() {
@@ -87,8 +89,12 @@ export class ProfilePage {
       .subscribe({
         next: () => {
           this.successMessage.set('Password updated successfully.');
-          this.cancelPasswordChange();
-          setTimeout(() => this.successMessage.set(''), 4000);
+          
+          setTimeout(() => {
+            this.successMessage.set('');
+            this.progress.set(false);
+            this.cancelPasswordChange();
+          }, 3000);
         },
         error: (err: any) => {
           this.passwordErrorMessage.set(

@@ -13,7 +13,7 @@ public class ProductSubCategoryRepsository : AbstractRepository<int, ProductSubC
     }
     public async Task<ProductSubCategory?> CheckUniqueProductSubCategory(string productSubCategoryName)
     {
-        var product = await _ecommerceContext.ProductSubCategory.FirstOrDefaultAsync(p => p.ProductSubCategoryName == productSubCategoryName);
+        var product = await _ecommerceContext.ProductSubCategory.FirstOrDefaultAsync(p => p.ProductSubCategoryName.ToLower().Trim() == productSubCategoryName.ToLower().Trim());
         return product;
     }
 

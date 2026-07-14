@@ -25,7 +25,7 @@ export class VendorVariantDetails {
   currentImageIndex = signal(0);
   role = signal<string | undefined>(undefined);
 
-  constructor(private route: Router, private vendorProductService: VendorProductService, private router: ActivatedRoute,private authService : AuthStateService) {
+  constructor(private route: Router, private vendorProductService: VendorProductService, private router: ActivatedRoute, private authService: AuthStateService) {
 
   }
 
@@ -45,7 +45,10 @@ export class VendorVariantDetails {
         this.variantModel.set(response);
       },
       error: (error) => {
-        console.error(error);
+        if (error.status === 401) {
+          this.route.navigate(['/unauthorized']);
+        }
+        this.errorMessage.set(error.error.message);
       }
     })
   }
@@ -69,8 +72,8 @@ export class VendorVariantDetails {
   reviewProductModel = signal(new ReviewProductVariantModel());
   progress = signal(false);
   approvalStatusOption = [
-    { id: 2, label: 'Accepted' },
-    { id: 3, label: 'Rejected' },
+    { id: 2, label: 'Accept' },
+    { id: 3, label: 'Reject' },
   ];
 
   reviewForm = form(this.reviewProductModel, (path) => {
@@ -177,6 +180,7 @@ export class VendorVariantDetails {
     this.selectedVariantForUpdateRejected.set(null);
   }
 
+  // ================== IMAGE MANAGEMENT ==================
   isImagePopupOpen = signal(false);
   isUploading = signal(false);
   isDeleting = signal<number | null>(null);
@@ -184,34 +188,48 @@ export class VendorVariantDetails {
   imageError = signal<string | null>(null);
   imageSuccess = signal<string | null>(null);
 
+  // Fixed image angle types — same convention as add-variant
+  imageAngles: { label: string; value: number }[] = [
+    { label: 'Front', value: 1 },
+    { label: 'Back', value: 2 },
+    { label: 'Left', value: 3 },
+    { label: 'Right', value: 4 },
+  ];
+
+  private nextAvailableAngle(): number {
+    const usedAngles = (this.variantModel()?.productImages ?? []).map(i => i.displayOrder);
+    const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
+    return free ? free.value : 1;
+  }
+
+  imgAngleLabel(value: number): string {
+    return this.imageAngles.find(a => a.value === value)?.label ?? '';
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
+
+    const id = this.variantModel()?.productVariantId;
+    if (id == null) return;
 
     this.imageError.set(null);
     this.imageSuccess.set(null);
 
     const file = input.files[0];
-    const nextOrder = this.variantModel()!.productImages.length + 1;
-    const isFirstImage = this.variantModel()!.productImages.length === 0;
+    const displayOrderId = this.nextAvailableAngle();
 
     this.isUploading.set(true);
 
-    const imageModel = new AddProductVariantImageModel();
-    imageModel.productVariantId = this.variantModel()!.productVariantId;
-    imageModel.imageUrl = file.name;
-    imageModel.displayOrderId = nextOrder;
+    const formData = new FormData();
+    formData.append('ProductVariantId', id.toString());
+    formData.append('File', file);
+    formData.append('DisplayOrderId', displayOrderId.toString());
 
-    const id = this.variantModel()?.productVariantId;
-    if (id == null) {
-      return;
-    }
-
-    this.vendorProductService.addProductVariantImage(imageModel).subscribe({
+    this.vendorProductService.uploadProductVariantImage(formData).subscribe({
       next: (res: any) => {
         const newImage: ProductImageModel = res.data ?? res;
-        this.loadProductDetails(id);
-        this.imageSuccess.set("Product Variant Image Addedd Succesfully");
+        this.imageSuccess.set('Product Variant Image Added Successfully');
 
         this.variantModel.update(p => p ? {
           ...p,
@@ -246,10 +264,9 @@ export class VendorVariantDetails {
     this.imageError.set(null);
     this.imageSuccess.set(null);
 
-
     this.vendorProductService.deleteProductImage(productImageId).subscribe({
       next: () => {
-        this.imageSuccess.set("Product Variant Image Deleted Succesfully");
+        this.imageSuccess.set('Product Variant Image Deleted Successfully');
         this.variantModel.update(p => p ? {
           ...p,
           productImages: p.productImages.filter(i => i.productImageId !== productImageId)
@@ -276,6 +293,7 @@ export class VendorVariantDetails {
       return a.displayOrder - b.displayOrder;
     });
   });
+
 
   goBack(): void {
     this.route.navigate(['/vendor/products/variants/list']);

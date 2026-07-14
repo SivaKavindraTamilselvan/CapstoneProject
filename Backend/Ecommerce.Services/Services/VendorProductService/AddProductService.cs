@@ -20,6 +20,11 @@ public partial class VendorProductService : IVendorProductService
         var product = _mapper.Map<Product>(requestAddProduct);
         product.VendorId = vendor.VendorId;
         product.AddedByVendorUserId = vendorUser.VendorUserId;
+
+        if (vendorUser.VendorRoleId == 1)
+        {
+            product.ProductApprovalStatusId = 2;
+        }
         await _productRepsository.Create(product);
         _logger.LogInformation("Product created successfully. ProductId: {ProductId}, ProductName: {ProductName}, VendorId: {VendorId}", product.ProductId, product.ProductName, vendor.VendorId);
         _logger.LogInformation("Sending product review notification to {AdminCount} vendor admins", vendor.VendorId);

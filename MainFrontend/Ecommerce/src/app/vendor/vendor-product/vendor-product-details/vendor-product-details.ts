@@ -23,7 +23,7 @@ import { ProductHistoryComponent } from '../../../admin/admin-product/product-hi
 
 @Component({
   selector: 'app-vendor-product-details',
-  imports: [CommonModule, UpdateRejectedProductComponent, UpdateProductComponent, DeleteProductComponent,ReviewPopupComponent,ProductReviews,ProductHistoryComponent],
+  imports: [CommonModule, UpdateRejectedProductComponent, UpdateProductComponent, DeleteProductComponent, ReviewPopupComponent, ProductReviews, ProductHistoryComponent],
   templateUrl: './vendor-product-details.html',
   styleUrl: './vendor-product-details.css',
 })
@@ -51,7 +51,10 @@ export class VendorProductDetails extends PopupBase {
         this.productModel.set(response);
       },
       error: (error) => {
-        console.error(error);
+        if (error.status === 401) {
+          this.router.navigate(['/unauthorized']);
+        }
+        this.errorMessage.set(error.error.message);
       }
     })
   }
@@ -85,6 +88,8 @@ export class VendorProductDetails extends PopupBase {
       },
     });
   }
+
+  // ================== IMAGE MANAGEMENT ==================
   isImagePopupOpen = signal(false);
   isUploading = signal(false);
   isDeleting = signal<number | null>(null);
@@ -92,35 +97,50 @@ export class VendorProductDetails extends PopupBase {
   imageError = signal<string | null>(null);
   imageSuccess = signal<string | null>(null);
 
+  // Fixed image angle types — same convention as add-product
+  imageAngles: { label: string; value: number }[] = [
+    { label: 'Front', value: 1 },
+    { label: 'Back', value: 2 },
+    { label: 'Left', value: 3 },
+    { label: 'Right', value: 4 },
+  ];
+
+  private nextAvailableAngle(): number {
+    const usedAngles = (this.productModel()?.productImages ?? []).map(i => i.displayOrder);
+    const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
+    return free ? free.value : 1;
+  }
+
+  imgAngleLabel(value: number): string {
+    return this.imageAngles.find(a => a.value === value)?.label ?? '';
+  }
+
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (!input.files?.length) return;
+
+    const id = this.productModel()?.productId;
+    if (id == null) return;
 
     this.imageError.set(null);
     this.imageSuccess.set(null);
 
     const file = input.files[0];
-    const nextOrder = this.productModel()!.productImages.length + 1;
-    const isFirstImage = this.productModel()!.productImages.length === 0;
+    const isFirstImage = (this.productModel()?.productImages.length ?? 0) === 0;
+    const displayOrderId = this.nextAvailableAngle();
 
     this.isUploading.set(true);
 
-    const imageModel = new AddProductImageModel();
-    imageModel.productId = this.productModel()!.productId;
-    imageModel.imageUrl = file.name;
-    imageModel.displayOrderId = nextOrder;
-    imageModel.isMainImage = isFirstImage;
+    const formData = new FormData();
+    formData.append('ProductId', id.toString());
+    formData.append('File', file);
+    formData.append('DisplayOrderId', displayOrderId.toString());
+    formData.append('IsMainImage', isFirstImage.toString());
 
-    const id = this.productModel()?.productId;
-    if (id == null) {
-      return;
-    }
-
-    this.vendorProductService.addProductImage(imageModel).subscribe({
+    this.vendorProductService.uploadProductImage(formData).subscribe({
       next: (res: any) => {
         const newImage: ProductImageModel = res.data ?? res;
-        this.loadProductDetails(id);
-        this.imageSuccess.set("Product Image Addedd Succesfully");
+        this.imageSuccess.set('Product Image Added Successfully');
 
         this.productModel.update(p => p ? {
           ...p,
@@ -155,10 +175,9 @@ export class VendorProductDetails extends PopupBase {
     this.imageError.set(null);
     this.imageSuccess.set(null);
 
-
     this.vendorProductService.deleteProductImage(productImageId).subscribe({
       next: () => {
-        this.imageSuccess.set("Product Image Deleted Succesfully");
+        this.imageSuccess.set('Product Image Deleted Successfully');
         this.productModel.update(p => p ? {
           ...p,
           productImages: p.productImages.filter(i => i.productImageId !== productImageId)
@@ -185,10 +204,9 @@ export class VendorProductDetails extends PopupBase {
     this.isSettingMain.set(productImageId);
     this.imageError.set(null);
 
-
     this.vendorProductService.makeImageDefault(productImageId).subscribe({
       next: () => {
-        this.imageSuccess.set("Default Product Image Changed Succesfully");
+        this.imageSuccess.set('Default Product Image Changed Successfully');
 
         this.productModel.update(p => p ? {
           ...p,
@@ -219,6 +237,8 @@ export class VendorProductDetails extends PopupBase {
       return a.displayOrder - b.displayOrder;
     });
   });
+
+
 
   categories = signal<AdminProductCategoryModel[]>([]);
   subCategories = signal<AdminProductSubCategoryModel[]>([]);
@@ -295,8 +315,8 @@ export class VendorProductDetails extends PopupBase {
   });
 
   approvalStatusOption = [
-    { id: 2, label: 'Accepted' },
-    { id: 3, label: 'Rejected' },
+    { id: 2, label: 'Accept' },
+    { id: 3, label: 'Reject' },
   ];
 
   openReviewPopup(productVariantId: number) {
@@ -396,11 +416,11 @@ export class VendorProductDetails extends PopupBase {
     this.selectedProductForUpdateRejected.set(null);
   }
 
-   goBack(): void {
+  goBack(): void {
     this.router.navigate(['/vendor/products/list']);
   }
 
-   viewVariant(id:number): void {
-    this.router.navigate(['vendor/products/variant',id]);
+  viewVariant(id: number): void {
+    this.router.navigate(['vendor/products/variant', id]);
   }
 }

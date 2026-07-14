@@ -6,6 +6,14 @@
     </svg>
     Back to Product List
 </button>
+@if(errorMessage())
+{
+<div class="flex flex-col items-center justify-center py-10">
+    <div class="bg-red-600 text-white px-6 py-3 rounded-md font-semibold mb-6">
+        {{ errorMessage() }}
+    </div>
+</div>
+}
 @if (productModel()) {
 
 <section class="p-4 sm:px-12 mx-auto">
@@ -49,8 +57,8 @@
             <div class="relative group">
                 <div
                     class="relative h-[320px] w-full border border-gray-200 rounded-xl flex items-center justify-center bg-white shadow-sm overflow-hidden">
-                    <img [src]="'http://localhost:5173/images/' + productModel()!.productImages[currentImageIndex()].imageUrl"
-                        alt="Product Image" class="max-h-full max-w-full object-contain p-4" />
+                    <img [src]="productModel()!.productImages[currentImageIndex()].imageUrl" alt="Product Image"
+                        class="max-h-full max-w-full object-contain p-4" />
 
                     <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">
                         {{ currentImageIndex() + 1 }} / {{ productModel()!.productImages.length }}
@@ -163,105 +171,110 @@
                 </div>
             </div>
         </div>
-        <div class="sm:mb-6">
-            <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product Variant</h1>
-        </div>
-        <div class="md:hidden flex flex-col gap-4 mb-6">
-            @if (productModel()?.productVariants?.length) {
-            @for (v of productModel()!.productVariants; track v.productVariantId) {
-            <div class="border border-gray-200 rounded-xl p-4 shadow-sm bg-white overflow-x-hidden">
-                <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
-                    <span class="font-bold text-blue-950">
-                        SKU: {{ v.sku }}
-                    </span>
-                    <button
-                        class="bg-green-700 py-2 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm"
-                        (click)="viewProduct(productModel()!.productId)">
-                        View
-                    </button>
-                </div>
 
-                <table class="w-full border border-gray-300 border-collapse table-fixed">
-                    <colgroup>
-                        <col class="w-2/5">
-                        <col class="w-3/5">
-                    </colgroup>
-                    <tbody>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Price
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-900">
-                                ₹{{ v.price | number }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Variant Status
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
-                                {{ v.productVariantStatus }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Approval
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
-                                {{ v.productApprovalStatus }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Max Qty
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
-                                {{ v.minimumQuantityPerUser }}
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Return
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm">
-                                <span [class]="v.isReturn ? 'text-green-700 font-medium' : 'text-gray-400'">
-                                    {{ v.isReturn ? 'Yes' : 'No' }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Exchange
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm">
-                                <span [class]="v.isExchange ? 'text-green-700 font-medium' : 'text-gray-400'">
-                                    {{ v.isExchange ? 'Yes' : 'No' }}
-                                </span>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
-                                Available
-                            </td>
-                            <td class="py-3 px-2 border border-gray-300 break-words text-sm">
-                                <span
-                                    [class]="v.isAvailableForSale ? 'text-green-700 font-medium' : 'text-red-600 font-medium'">
-                                    {{ v.isAvailableForSale ? 'Yes' : 'No' }}
-                                </span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            }
-            }
-            @else {
-            <div class="text-center text-gray-400 py-6 text-sm">
-                No variants found.
-            </div>
-            }
-        </div>
     </div>
+
+    <div class="sm:mb-6">
+        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product Variant</h1>
+    </div>
+
+    <div class="md:hidden flex flex-col gap-4 mb-6">
+
+        @if (productModel()?.productVariants?.length) {
+        @for (v of productModel()!.productVariants; track v.productVariantId) {
+        <div class="border border-gray-200 rounded-xl p-4 shadow-sm bg-white overflow-x-hidden">
+            <div class="flex items-center justify-between mb-3 pb-2 border-b border-gray-200">
+                <span class="font-bold text-blue-950">
+                    SKU: {{ v.sku }}
+                </span>
+                <button
+                    class="bg-green-700 py-2 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm"
+                    (click)="viewProduct(productModel()!.productId)">
+                    View
+                </button>
+            </div>
+
+            <table class="w-full border border-gray-300 border-collapse table-fixed">
+                <colgroup>
+                    <col class="w-2/5">
+                    <col class="w-3/5">
+                </colgroup>
+                <tbody>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Price
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-900">
+                            ₹{{ v.price | number }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Variant Status
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.productVariantStatus }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Approval
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.productApprovalStatus }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Max Qty
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm text-gray-700">
+                            {{ v.minimumQuantityPerUser }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Return
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span [class]="v.isReturn ? 'text-green-700 font-medium' : 'text-gray-400'">
+                                {{ v.isReturn ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Exchange
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span [class]="v.isExchange ? 'text-green-700 font-medium' : 'text-gray-400'">
+                                {{ v.isExchange ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="font-semibold py-3 px-2 border border-gray-300 bg-gray-50 text-sm text-gray-500">
+                            Available
+                        </td>
+                        <td class="py-3 px-2 border border-gray-300 break-words text-sm">
+                            <span
+                                [class]="v.isAvailableForSale ? 'text-green-700 font-medium' : 'text-red-600 font-medium'">
+                                {{ v.isAvailableForSale ? 'Yes' : 'No' }}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        }
+        }
+        @else {
+        <div class="text-center text-gray-400 py-6 text-sm">
+            No variants found.
+        </div>
+        }
+    </div>
+
 
 
     <div class="hidden md:block overflow-x-auto rounded-xl border border-gray-200 shadow-sm mb-6">
@@ -322,6 +335,7 @@
             </tbody>
         </table>
     </div>
+
     <app-product-history-component [productId]="productModel()!.productId" />
     <app-product-reviews [productId]="productModel()!.productId" />
     <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100">
@@ -412,7 +426,7 @@
                     [class.border-blue-500]="img.isMainImage" [class.ring-2]="img.isMainImage"
                     [class.ring-blue-500]="img.isMainImage" [class.border-gray-200]="!img.isMainImage">
 
-                    <img [src]="'http://localhost:5173/images/' + img.imageUrl" alt="Product Image"
+                    <img [src]="img.imageUrl" alt="Product Image"
                         class="w-full h-full object-contain p-2" />
 
                     @if (img.isMainImage) {
@@ -422,32 +436,30 @@
                     </span>
                     }
 
+                    @if (imgAngleLabel(img.displayOrder)) {
+                    <span
+                        class="absolute top-2 right-2 bg-slate-800/80 text-white text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide">
+                        {{ imgAngleLabel(img.displayOrder) }}
+                    </span>
+                    }
+
                     <div
                         class="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition flex items-end justify-center gap-1.5 p-1.5 opacity-0 group-hover:opacity-100">
                         @if (!img.isMainImage) {
                         <button (click)="setAsMainImage(img.productImageId)"
                             [disabled]="isSettingMain() === img.productImageId"
                             class="bg-blue-600 hover:bg-blue-700 disabled:bg-blue-300 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
-                            @if (isSettingMain() === img.productImageId) {
-                            Setting...
-                            } @else {
-                            Set Main
-                            }
+                            @if (isSettingMain() === img.productImageId) { Setting... } @else { Set Main }
                         </button>
                         <button (click)="deleteImage(img.productImageId)"
                             [disabled]="isDeleting() === img.productImageId"
                             class="bg-red-600 hover:bg-red-700 disabled:bg-red-300 text-white rounded-md px-2 py-1 text-[10px] font-semibold shadow-md transition">
-                            @if (isDeleting() === img.productImageId) {
-                            Setting...
-                            } @else {
-                            Delete
-                            }
+                            @if (isDeleting() === img.productImageId) { Deleting... } @else { Delete }
                         </button>
                         }
                     </div>
                 </div>
                 }
-
                 <label
                     class="aspect-square rounded-lg border-2 border-dashed border-gray-300 hover:border-blue-500 hover:bg-blue-50 cursor-pointer flex flex-col items-center justify-center text-gray-400 hover:text-blue-600 transition">
                     <input type="file" accept="image/*" class="hidden" (change)="onFileSelected($event)"

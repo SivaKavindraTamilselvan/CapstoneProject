@@ -14,7 +14,7 @@ public class ProductCategoryRepsository : AbstractRepository<int, ProductCategor
     // used for adding the product category
     public async Task<ProductCategory?> CheckUniqueProductCategory(string productCategoryName)
     {
-        var product = await _ecommerceContext.ProductCategory.FirstOrDefaultAsync(p => p.ProductCategoryName == productCategoryName);
+        var product = await _ecommerceContext.ProductCategory.FirstOrDefaultAsync(p => p.ProductCategoryName.ToLower().Trim() == productCategoryName.ToLower().Trim());
         return product;
     }
     // get the product category for admin

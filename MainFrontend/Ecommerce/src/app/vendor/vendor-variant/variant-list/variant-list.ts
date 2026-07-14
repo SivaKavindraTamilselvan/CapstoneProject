@@ -358,7 +358,6 @@ export class VariantList extends BasePage {
     { key: 'availableQuantity', header: 'Stock' },
     { key: 'productVariantStatus', header: 'Variant Status' },
     { key: 'productVariantApprovalStatus', header: 'Approval' },
-    { key: 'isAvailableForSale', header: 'For Sale', formatter: value => value ? 'Yes' : 'No' }
   ];
   mobileColumns = [...this.columns];
 
@@ -389,8 +388,8 @@ export class VariantList extends BasePage {
   showReviewPopup = signal(false);
   reviewProductModel = signal(new ReviewProductVariantModel());
   approvalStatusOption = [
-    { id: 2, label: 'Accepted' },
-    { id: 3, label: 'Rejected' },
+    { id: 2, label: 'Accept' },
+    { id: 3, label: 'Reject' },
   ];
 
   reviewForm = form(this.reviewProductModel, (path) => {

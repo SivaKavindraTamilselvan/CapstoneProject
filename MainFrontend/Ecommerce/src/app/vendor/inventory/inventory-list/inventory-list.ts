@@ -165,7 +165,7 @@ columns: Column[] = [
       ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      isActive: this.inevntoryStatus(),
+      status: this.inevntoryStatus(),
 
     }));
   }

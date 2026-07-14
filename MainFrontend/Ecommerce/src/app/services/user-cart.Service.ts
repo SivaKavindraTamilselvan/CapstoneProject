@@ -38,4 +38,5 @@ export class UserCartService {
         let url = BaseURL + "/Cart/UpdateToCart";
         return this.http.put(url, request);
     }
+    
 }

@@ -23,6 +23,10 @@ export class UserFavorite {
     this.loadFavorite();
   }
 
+  goBack(): void {
+    this.router.navigate(['/user/products']);
+  }
+
   loadFavorite() {
     this.isLoading.set(true);
     this.error.set(null);

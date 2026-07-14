@@ -58,3 +58,5 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 src/app/environment.secure.ts
+
+.env

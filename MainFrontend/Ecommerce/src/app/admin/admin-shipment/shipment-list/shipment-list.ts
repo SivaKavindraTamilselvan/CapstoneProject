@@ -241,7 +241,7 @@ export class ShipmentList extends BasePage {
 
   actions: TableAction<ShipmentModel>[] = [
     { label: 'View', color: 'green', action: 'view' },
-    { label: 'Update', color: 'blue', action: 'update' }
+    { label: 'Update', color: 'blue', action: 'update',visible : (row) => this.onGoing()==true}
   ];
 
   columns: Column[] = [

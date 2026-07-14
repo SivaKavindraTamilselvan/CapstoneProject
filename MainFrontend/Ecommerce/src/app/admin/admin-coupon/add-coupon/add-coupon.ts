@@ -39,8 +39,8 @@ export class AddCoupon {
     required(path.startDate, { message: 'Start Date is required' });
     required(path.endDate, { message: 'End Date is required' });
 
-    required(path.minimumNumberOfUsage, { message: 'Minimum Usage is required' });
-    min(path.minimumNumberOfUsage, 1, { message: 'Minimum Usage must be greater than 0' });
+    required(path.minimumNumberOfUsage, { message: 'Maximum Usage is required' });
+    min(path.minimumNumberOfUsage, 1, { message: 'Maximum Usage must be greater than 0' });
 
     required(path.couponDescription, { message: 'Coupon Description is required' });
   });
@@ -126,6 +126,7 @@ export class AddCoupon {
   resetForm() {
     this.couponModel.set(new AddCouponModel());
     this.errorMessage.set(null);
+    this.addForm().reset();
     this.scrollToTop();
   }
 

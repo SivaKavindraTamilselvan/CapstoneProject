@@ -56,8 +56,8 @@ export class VendorList extends BasePage {
   }
 
   approvalStatusOption = [
-    { id: 2, label: 'Accepted' },
-    { id: 3, label: 'Rejected' },
+    { id: 2, label: 'Accept' },
+    { id: 3, label: 'Reject' },
   ];
   vendors = signal<PagedResponse<AdminVendorModel> | null>(null);
   totalPages = computed(() => this.vendors()?.totalPages ?? 1);

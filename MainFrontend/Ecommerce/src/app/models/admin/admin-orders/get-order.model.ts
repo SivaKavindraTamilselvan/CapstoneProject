@@ -24,6 +24,8 @@ export class OrderModel {
     public finalAmount: number = 0,
 
     public totalItems: number = 0,
+    public paymentStatus : string = '',
+    public paymentType :string = '',
 
     public orderItems: OrderItemModel[] = []
 

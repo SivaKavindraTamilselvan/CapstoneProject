@@ -4,7 +4,6 @@ import { AdminList } from "../../admin/admin-user/admin-list/admin-list";
 import { AdminUserDetail } from "../../admin/admin-user/admin-user-detail/admin-user-detail";
 import { AdminProduct } from "../../admin/admin-product/admin-product/admin-product";
 import { AdminDetailProduct } from "../../admin/admin-product/admin-detail-product/admin-detail-product";
-import { ReviewVariant } from "../../admin/admin-product/review-variant/review-variant";
 import { VariantList } from "../../admin/admin-product/variant-list/variant-list";
 import { CategoryList } from "../../admin/admin-category/category-list/category-list";
 import { Subcategorylist } from "../../admin/admin-subcategory/subcategorylist/subcategorylist";

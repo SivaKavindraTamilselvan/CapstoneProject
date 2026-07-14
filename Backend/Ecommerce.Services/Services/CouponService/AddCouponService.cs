@@ -34,6 +34,7 @@ public class CouponService : ICouponService
         {
             coupon.CouponTypeId = 2;
         }
+        Console.WriteLine(requestAddCouponDTO.MinimumNumberOfUsage);
         coupon.CreatedByUserId = UserId;
         await _couponRepsository.Create(coupon);
         return _mapper.Map<ResponseAddCouponDTO>(coupon);

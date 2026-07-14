@@ -22,6 +22,7 @@ export class AdminProductCategoryService {
     constructor(private http: HttpClient) {
 
     }
+    // product category
     getProductCategory(filter: AdminProductCategoryFilter) {
         let url = BaseURL + "/admin/product-categories";
         let params = new HttpParams();
@@ -34,18 +35,27 @@ export class AdminProductCategoryService {
 
         return this.http.get<PagedResponse<AdminProductCategoryModel>>(url, { params });
     }
+
+    
     addCategory(categoryModel: AddProductCategoryModel) {
         let url = BaseURL + "/admin/product-categories";
         return this.http.post(url, categoryModel);
     }
+
+    
     deactivateCategory(categoryId : number){
         let url = `${BaseURL}/admin/product-categories/${categoryId}/deactivate`;
         return this.http.patch(url,{});
     }
+
+    
     activateCategory(categoryId : number){
         let url = `${BaseURL}/admin/product-categories/${categoryId}/activate`;
         return this.http.patch(url,{});
     }
+
+    // product sub category
+
     getProductSubCategory(filter: AdminProductSubCategoryFilter) {
         let url = BaseURL + "/admin/product-categories/subcategories";
         let params = new HttpParams();
@@ -57,18 +67,24 @@ export class AdminProductCategoryService {
         });
         return this.http.get<PagedResponse<AdminProductSubCategoryModel>>(url, { params });
     }
+
     addSubCategory(categoryModel: AddProductSubCategoryModel) {
         let url = BaseURL + "/admin/product-categories/subcategories";
         return this.http.post(url, categoryModel);
     }
+
     deactivateSubCategory(subcategoryId : number){
         let url = `${BaseURL}/admin/product-categories/subcategories/${subcategoryId}/deactivate`;
         return this.http.patch(url,{});
     }
+
     activateSubCategory(subcategoryId : number){
         let url = `${BaseURL}/admin/product-categories/subcategories/${subcategoryId}/activate`;
         return this.http.patch(url,{});
     }
+
+    // attributes
+
     getAttribute(filter: AttributeFilter) {
         let url = BaseURL + "/admin/product-attributes";
         let params = new HttpParams();
@@ -80,18 +96,24 @@ export class AdminProductCategoryService {
         });
         return this.http.get<PagedResponse<AdminAttributeModel>>(url, { params });
     }
+
     addAttribute(attributeModel: AddAttributeModel) {
         let url = BaseURL + "/admin/product-attributes";
         return this.http.post(url, attributeModel);
     }
+
     deactivateAttribute(attributeId : number){
         let url = `${BaseURL}/admin/product-attributes/${attributeId}/deactivate`;
         return this.http.patch(url,{});
     }
+
     activateAttribute(attributeId : number){
         let url = `${BaseURL}/admin/product-attributes/${attributeId}/activate`;
         return this.http.patch(url,{});
     }
+
+    // mapped attribute
+
     getmappedAttribute(filter: MappedAttributeFilter) {
         let url = BaseURL + "/admin/product-attributes/subcategory-attributes";
         let params = new HttpParams();
@@ -103,36 +125,17 @@ export class AdminProductCategoryService {
         });
         return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
     }
-    getactivemappedAttribute(filter: MappedAttributeFilter) {
-        let url = BaseURL + "/admin/product-attributes/subcategory-attributes?status=true";
-        let params = new HttpParams();
 
-        Object.entries(filter).forEach(([key, value]) => {
-            if (value !== null && value !== undefined && value !== '') {
-                params = params.set(key, value.toString());
-            }
-        });
-        return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
-    }
-    getinactiveAttribute(filter: MappedAttributeFilter) {
-        let url = BaseURL + "/admin/product-attributes/subcategory-attributes?status=false";
-        let params = new HttpParams();
-
-        Object.entries(filter).forEach(([key, value]) => {
-            if (value !== null && value !== undefined && value !== '') {
-                params = params.set(key, value.toString());
-            }
-        });
-        return this.http.get<PagedResponse<AdminMappedAttributeModel>>(url, { params });
-    }
     addMappedAttribute(mappedAttributeModel : AddMapedAttributeModel){
         let url = BaseURL + "/admin/product-attributes/subcategory-attributes";
         return this.http.post(url, mappedAttributeModel);
     }
+
     deactivateMappedAttribute(attributeId : number){
         let url = `${BaseURL}/admin/product-attributes/subcategory-attributes/${attributeId}/deactivate`;
         return this.http.patch(url,{});
     }
+    
     activateMappedAttribute(attributeId : number){
         let url = `${BaseURL}/admin/product-attributes/subcategory-attributes/${attributeId}/activate`;
         return this.http.patch(url,{});

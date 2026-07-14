@@ -9,7 +9,29 @@ public partial class OrderService : IOrderService
     public async Task<OrderSummaryDto> GetOrderForAdminByOrderId(int orderId)
     {
         var order = await _orderRepsository.GetOrderByOrderId(orderId);
-        return _mapper.Map<OrderSummaryDto>(order);
+        if (order == null || order.OrderId != orderId)
+        {
+            throw new DataNotFoundException("Order Not Found");
+        }
+
+        var dto = _mapper.Map<OrderSummaryDto>(order);
+
+        var successfulPayment = order.Payments?
+            .FirstOrDefault(p => p.PaymentStatus.PaymentStatusName == "Success");
+
+        if (successfulPayment != null)
+        {
+            dto.PaymentStatus = "Success";
+            dto.PaymentType = successfulPayment.ModeOfPayment.ModeOfPaymentName ?? string.Empty;
+        }
+        else
+        {
+            dto.PaymentStatus = "Failed";
+            var lastAttempt = order.Payments?.OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+            dto.PaymentType = lastAttempt?.ModeOfPayment?.ModeOfPaymentName ?? string.Empty;
+        }
+
+        return dto;
     }
 
     //admin get all order
@@ -79,8 +101,26 @@ public partial class OrderService : IOrderService
             }
         }
 
-        foreach (var orderDto in result)
+        for (int i = 0; i < order.items.Count; i++)
         {
+            var sourceOrder = order.items[i];
+            var orderDto = result[i];
+
+            var successfulPayment = sourceOrder.Payments?
+            .FirstOrDefault(p => p.PaymentStatus.PaymentStatusName == "Success" || p.PaymentStatusId == /* your success status id */ 2);
+
+            if (successfulPayment != null)
+            {
+                orderDto.PaymentStatus = "Success";
+                orderDto.PaymentType = successfulPayment.ModeOfPayment.ModeOfPaymentName ?? successfulPayment.ModeOfPayment.ModeOfPaymentName ?? string.Empty;
+            }
+            else
+            {
+                orderDto.PaymentStatus = "Failed";
+                var lastAttempt = sourceOrder.Payments?.OrderByDescending(p => p.CreatedAt).FirstOrDefault();
+                orderDto.PaymentType = lastAttempt?.ModeOfPayment.ModeOfPaymentName ?? lastAttempt?.ModeOfPayment.ModeOfPaymentName ?? string.Empty;
+            }
+
             foreach (var orderItem in orderDto.OrderItems)
             {
                 var image = await _productImageRepsository.GetMainImageByProduct(orderItem.ProductId);
@@ -156,6 +196,7 @@ public partial class OrderService : IOrderService
         {
             Console.WriteLine(result.ProductVariant.Product.ProductName);
         }
+
         return _mapper.Map<OrderItemSummaryDto>(result);
     }
 }

@@ -1,3 +1,4 @@
+using System.Security.Authentication;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
@@ -63,13 +64,21 @@ public partial class VendorService : IVendorService
     }
     public async Task<ResponseGetVendorUserDTO> GetVendorUserByUserId(int userId, int logedusedId)
     {
-        await _vendorUserValidation.ValidateVendorUserByUserId(logedusedId);
+        var owner = await _vendorUserValidation.ValidateVendorUserByUserId(logedusedId);
+        if (owner.VendorRoleId != 1)
+        {
+            throw new InvalidCredentialException("Only Vendor Owner Can access");
+        }
         _logger.LogInformation("Fetching admin user by UserId {UserId}", userId);
         var adminUser = await _vendorUserRepsository.GetVendorUserByVendorUserId(userId);
         if (adminUser == null)
         {
             _logger.LogWarning("Admin user not found for UserId {UserId}", userId);
             throw new DataNotFoundException("Admin User Not Found");
+        }
+        if (owner.VendorId != adminUser.VendorId)
+        {
+            throw new InvalidCredentialException("Cannot Access other vendor users");
         }
         return _mapper.Map<ResponseGetVendorUserDTO>(adminUser);
     }

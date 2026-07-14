@@ -1,18 +1,21 @@
 import { Component, signal, computed } from '@angular/core';
 import { UserProductService } from '../../services/user-product.Service';
 import { UserProductModel } from '../../models/user/product/user-product.model';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { UserProductVariantModel } from '../../models/user/product/user-variant.model';
 import { UserCartService } from '../../services/user-cart.Service';
 import { AddCartItemModel } from '../../models/user/cart/add-cart,model';
 import { UserFavoriteService } from '../../services/user-favorite.Service';
 import { AddFavoriteItemModel } from '../../models/user/favorites/add-favorite.model';
+import { RemoveFavoriteItemModel } from '../../models/user/favorites/remove-favorite.model';
 import { ProductReviews } from '../user-product/product-reviews/product-reviews';
+import { AuthService } from '../../services/auth.Service'; // confirm actual path
+import { AuthStateService } from '../../services/auth-State.Service';
 
 @Component({
   selector: 'app-user-product-details',
-  imports: [CommonModule,ProductReviews],
+  imports: [CommonModule, ProductReviews],
   templateUrl: './user-product-details.html',
   styleUrl: './user-product-details.css',
 })
@@ -21,6 +24,15 @@ export class UserProductDetails {
   currentImageIndex = signal(0);
   selectedVariant = signal<UserProductVariantModel | null>(null);
   selectedMainAttrValue = signal<string | null>(null);
+
+  errorMessage = signal<string | null>(null);
+  successMessage = signal<string | null>(null);
+
+  cartVariantIds = signal<Set<number>>(new Set());
+  favoriteVariantIds = signal<Set<number>>(new Set());
+
+  cartLoading = signal(false);
+  favoriteLoading = signal(false);
 
   uniqueMainAttrValues = computed(() => {
     const p = this.product();
@@ -71,11 +83,72 @@ export class UserProductDetails {
       .join(' · ') || 'Base';
   }
 
-  constructor(private userFavoriteService:UserFavoriteService,private userProductService: UserProductService, private route: ActivatedRoute, private userCartService: UserCartService) { }
+  constructor(
+    private userFavoriteService: UserFavoriteService,
+    private userProductService: UserProductService,
+    private route: ActivatedRoute,
+    private userCartService: UserCartService,
+    private router: Router,
+    private authService: AuthStateService 
+  ) { }
 
   ngOnInit() {
     const productId = Number(this.route.snapshot.paramMap.get('id'));
     if (productId) this.loadProduct(productId);
+    this.loadCartStatus();
+    this.loadFavoriteStatus();
+  }
+
+  isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
+  loadCartStatus(): void {
+    if (!this.isLoggedIn()) {
+      this.cartVariantIds.set(new Set());
+      return;
+    }
+    this.cartLoading.set(true);
+    this.userCartService.getCartItems().subscribe({
+      next: (items: any) => {
+        const list = items?.items ?? items ?? [];
+        const ids = new Set<number>(list.map((i: any) => i.productVariantId));
+        this.cartVariantIds.set(ids);
+        this.cartLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load cart status', err);
+        this.cartLoading.set(false);
+      }
+    });
+  }
+
+  loadFavoriteStatus(): void {
+    if (!this.isLoggedIn()) {
+      this.favoriteVariantIds.set(new Set());
+      return;
+    }
+    this.favoriteLoading.set(true);
+    this.userFavoriteService.getFavoriteItems().subscribe({
+      next: (items: any) => {
+        const list = items?.items ?? items ?? [];
+        const ids = new Set<number>(list.map((i: any) => i.productVariantId));
+        this.favoriteVariantIds.set(ids);
+        this.favoriteLoading.set(false);
+      },
+      error: (err) => {
+        console.error('Failed to load favorite status', err);
+        this.favoriteLoading.set(false);
+      }
+    });
+  }
+
+  isInCart(variantId: number): boolean {
+    return this.cartVariantIds().has(variantId);
+  }
+
+  isInFavorite(variantId: number): boolean {
+    return this.favoriteVariantIds().has(variantId);
   }
 
   loadProduct(productId: number) {
@@ -92,7 +165,6 @@ export class UserProductDetails {
 
         this.selectedMainAttrValue.set(firstMainAttr);
 
-        // Auto-select first available variant too
         const firstVariant = response.productVariants?.find(
           (v: UserProductVariantModel) => v.isAvailableForSale &&
             v.attributes.find((a: any) =>
@@ -108,8 +180,6 @@ export class UserProductDetails {
 
   selectMainAttr(value: string) {
     this.selectedMainAttrValue.set(value);
-
-    // Always auto-select first available variant under this attr
     const firstMatch = this.filteredVariants().find(v => v.isAvailableForSale) ?? null;
     this.selectedVariant.set(firstMatch);
   }
@@ -128,24 +198,84 @@ export class UserProductDetails {
     const total = this.product()?.productImages?.length ?? 0;
     this.currentImageIndex.update(i => (i + 1) % total);
   }
+
   addToCart() {
-    const addmodel = new AddCartItemModel();
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    if (!this.isLoggedIn()) {
+      this.goToLogin();
+      return;
+    }
+
     const variant = this.selectedVariant();
     if (!variant) return;
+
+    const addmodel = new AddCartItemModel();
     addmodel.productVariantId = variant.productVariantId;
+
     this.userCartService.addToCart(addmodel).subscribe({
-      next: () => console.log('Added to cart'),
-      error: (err) => console.error(err)
+      next: () => {
+        this.cartVariantIds.update(ids => {
+          const updated = new Set(ids);
+          updated.add(variant.productVariantId);
+          return updated;
+        });
+        this.successMessage.set('Added to cart');
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage.set(err.error?.message ?? 'Failed to add to cart');
+      }
     });
   }
+
   addToFavorites() {
-    const addmodel = new AddFavoriteItemModel();
+    this.errorMessage.set(null);
+    this.successMessage.set(null);
+
+    if (!this.isLoggedIn()) {
+      this.goToLogin();
+      return;
+    }
+
     const variant = this.selectedVariant();
     if (!variant) return;
+
+    const addmodel = new AddFavoriteItemModel();
     addmodel.productVariantId = variant.productVariantId;
+
     this.userFavoriteService.addToFavorite(addmodel).subscribe({
-      next: () => console.log('Added to Favorites'),
-      error: (err) => console.error(err)
+      next: () => {
+        this.favoriteVariantIds.update(ids => {
+          const updated = new Set(ids);
+          updated.add(variant.productVariantId);
+          return updated;
+        });
+        this.successMessage.set('Added to favorites');
+      },
+      error: (err) => {
+        console.error(err);
+        this.errorMessage.set(err.error?.message ?? 'Failed to add to favorites');
+      }
     });
+  }
+
+  goToLogin(): void {
+    this.router.navigate(['/login'], {
+      queryParams: { returnUrl: this.router.url }
+    });
+  }
+
+  goToCart(): void {
+    this.router.navigate(['/user/cart']); // adjust to your actual route
+  }
+
+  goToFavorites(): void {
+    this.router.navigate(['/user/favorite']); // adjust to your actual route
+  }
+
+  goBack(): void {
+    this.router.navigate(['/user/products']);
   }
 }

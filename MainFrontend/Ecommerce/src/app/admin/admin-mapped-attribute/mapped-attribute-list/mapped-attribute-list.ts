@@ -140,8 +140,10 @@ export class MappedAttributeList extends BasePage {
   clearFilterValues(): void {
     this.attributeMasterId.set(null);
     this.attributeMappedFilter.set(new MappedAttributeFilter());
-    this.productCategoryId.set(null);
     this.productSubCategoryId.set(null);
+    this.subCategories.set([]);
+    this.productCategoryId.set(null);
+    
     this.attributeMappedFilter.update(filter => ({
       ...filter,
       productSubCategoryId: null,
@@ -159,7 +161,11 @@ export class MappedAttributeList extends BasePage {
     effect(() => {
       if (this.filterForm().invalid()) {
         this.filterErrorMessage.set('Please fix the validation errors.');
-      } else {
+      }
+      else if (this.categorySelectionRequired()) {
+        this.filterErrorMessage.set('Select the Sub category before submitting');
+      }  
+      else {
         this.filterErrorMessage.set(null);
       }
     });

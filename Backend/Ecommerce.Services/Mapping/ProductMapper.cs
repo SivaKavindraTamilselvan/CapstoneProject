@@ -13,6 +13,8 @@ namespace Ecommerce.Mappers
 
             CreateMap<Product, ResponseReviewOfProductDTO>();
 
+            CreateMap<ProductVariant,ResponseReviewOfProductVariantDTO>();
+
             CreateMap<RequestUpdateProduct, Product>()
             .ForMember(dest => dest.ProductId, opt => opt.Ignore())
             .ForMember(dest => dest.VendorId, opt => opt.Ignore())

@@ -129,12 +129,12 @@ export class UpdateCouponComponent {
     const toDate = to ? this.stripTime(new Date(to)) : null;
 
     if (fromDate && fromDate < minDate) {
-      this.dateRangeError.set('Start date cannot be before 01/06/2026.');
+      this.dateRangeError.set('Start date cannot be before today.');
       return;
     }
 
     if (toDate && toDate < minDate) {
-      this.dateRangeError.set('End date cannot be before 01/06/2026.');
+      this.dateRangeError.set('End date cannot be before today..');
       return;
     }
 

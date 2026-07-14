@@ -25,10 +25,8 @@ export class RegisterAdmin {
     required(path.requestRegisterUserDTO.firstName, { message: "Enter The FirstName" })
     required(path.requestRegisterUserDTO.lastName, { message: "Enter The Last Name" })
     required(path.requestRegisterUserDTO.phoneNumber, { message: "Enter The Phone Number" })
-    required(path.requestRegisterUserDTO.password, { message: "Enter The Password" })
     email(path.requestRegisterUserDTO.email, { message: "Enter Valid Email Address" })
     pattern(path.requestRegisterUserDTO.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: "Enter Valid Phone Number" })
-    pattern(path.requestRegisterUserDTO.password, /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/, { message: "Password must contains 8-12 characters,uppercase,lowercase,symbols and number" })
     required(path.adminRoleId, { message: "Admin Role Id Is Required" })
     pattern(path.adminRoleId, /^[2-9]{1}$/, { message: "Select a valid admin role" })
     pattern(path.requestRegisterUserDTO.firstName,/^[A-Za-z]+(?: [A-Za-z]+)*$/,{ message: "First Name can contain only letters and spaces" })
@@ -43,6 +41,7 @@ export class RegisterAdmin {
       return;
     }
     this.progress.set(true);
+    this.adminModel().requestRegisterUserDTO.password = "Admin@123";
     this.authService.registerAdminAPICall(this.adminModel()).subscribe({
       next: (response: any) => {
         this.successMessage.set("Registration Successfull");

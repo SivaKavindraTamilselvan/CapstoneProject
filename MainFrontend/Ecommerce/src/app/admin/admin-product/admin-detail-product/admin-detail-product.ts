@@ -40,7 +40,10 @@ export class AdminDetailProduct {
         this.productModel.set(response);
       },
       error: (error) => {
-        console.error(error);
+       if (error.status === 401) {
+          this.router.navigate(['/unauthorized']);
+        }
+        this.errorMessage.set(error.error.message);
       }
     })
   }
@@ -135,8 +138,8 @@ export class AdminDetailProduct {
   showReviewPopup = signal(false);
   reviewProductModel = signal(new ReviewProductModel());
   approvalStatusOption = [
-    { id: 4, label: 'Accepted' },
-    { id: 5, label: 'Rejected' },
+    { id: 4, label: 'Accept' },
+    { id: 5, label: 'Reject' },
   ];
 
   reviewForm = form(this.reviewProductModel, (path) => {

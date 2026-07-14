@@ -36,6 +36,7 @@ public class ShipmentItemResponseDto
 
 public class ShipmentDetailResponseDto
 {
+    public int? ShipmentTypeId { get; set; }
     public int ShipmentId { get; set; }
     public int OrderId { get; set; }
     public string CurrentStatus { get; set; } = string.Empty;

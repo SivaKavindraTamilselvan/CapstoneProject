@@ -21,7 +21,7 @@ export class VendorUserDetails extends PopupBase {
   errorMessage = signal<string | null>(null);
   showActivatePopup = signal(false);
   loading = signal(true);
-  constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute,private router :Router) {
+  constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute, private router: Router) {
     super();
   }
   loadAdminUser(id: number) {
@@ -33,9 +33,16 @@ export class VendorUserDetails extends PopupBase {
       },
       error: (error) => {
         if (error.status == 404) {
-          this.errorMessage.set("Admin User Is Not Found");
-          this.loading.set(false);
+          this.errorMessage.set("Vendor User Is Not Found");
         }
+        if (error.status === 401) {
+          this.router.navigate(['/unauthorized']);
+        }
+        else {
+          this.errorMessage.set(error.error.message);
+        }
+
+        this.loading.set(false);
       }
     })
   }

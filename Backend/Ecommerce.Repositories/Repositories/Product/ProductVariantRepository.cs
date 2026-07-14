@@ -17,7 +17,9 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         .Include(p => p.Product).ThenInclude(pv => pv!.MainProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.ProductVariantAttributes).ThenInclude(pva => pva.ProductSubCategoryAttribute).ThenInclude(psa => psa!.AttributeMaster)
         .Include(pv => pv.ProductImages).ThenInclude(p => p.DisplayOrder)
-        .Include(pv => pv.Inventories);
+        .Include(pv => pv.Inventories)
+        .Include(pv => pv.Inventories).ThenInclude(i => i.Address);
+
     }
     public ProductVariantRepsository(EcommerceContext ecommerceContext) : base(ecommerceContext)
     {
@@ -86,6 +88,19 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
         {
             query = query.Where(p => p.MinimuQuantityPerUser >= request.MinimuQuantityPerUser.Value);
         }
+        if (request.includeIsDeleted.HasValue)
+        {
+            if (request.includeIsDeleted.Value)
+            {
+                query = query.Where(p => p.ProductApprovalStatusId == 6);
+            }
+            else
+            {
+                query = query.Where(p => p.ProductApprovalStatusId != 6);
+            }
+
+        }
+
         var total = await query.CountAsync();
 
         var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();
@@ -158,6 +173,7 @@ public class ProductVariantRepsository : AbstractRepository<int, ProductVariant>
             }
 
         }
+
         var total = await query.CountAsync();
 
         var items = await query.OrderByDescending(pv => pv.CreatedAt).Skip((request.PageNumber - 1) * request.PageSize).Take(request.PageSize).ToListAsync();

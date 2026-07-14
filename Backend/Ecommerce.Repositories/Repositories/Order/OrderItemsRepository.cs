@@ -65,4 +65,5 @@ public class OrderItemRepsository : AbstractRepository<int, OrderItems>, IOrderI
     {
         return await _ecommerceContext.OrderItems.Where(oi => oi.Order!.OrderStatusId == 2 && oi.OrderItemStatusId == 4).SumAsync(oi => oi.ProductVariant!.Product!.ProductSubCategory!.CommissionPercentage * oi.UnitPrice * oi.Quantity / 100m);
     }
+
 }

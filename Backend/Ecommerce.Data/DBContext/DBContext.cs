@@ -530,6 +530,20 @@ public class EcommerceContext : DbContext
             entity.Property(ah => ah.Remarks).HasMaxLength(500);
             entity.Property(ah => ah.ReviewedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
         });
+
+        modelBuilder.Entity<VendorApprovalHistory>(entity =>
+        {
+            entity.HasKey(ah => ah.ApprovalHistoryId);
+            entity.Property(ah => ah.EntityId).IsRequired();
+            entity.Property(ah => ah.PreviousStatusId).IsRequired();
+            entity.HasOne(ah => ah.PreviousStatus).WithMany(ps => ps.PreviousApprovalHistories).HasForeignKey(ah => ah.PreviousStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.Property(ah => ah.NewStatusId).IsRequired();
+            entity.HasOne(ah => ah.NewStatus).WithMany(ps => ps.NewApprovalHistories).HasForeignKey(ah => ah.NewStatusId).OnDelete(DeleteBehavior.Restrict);
+            entity.Property(ah => ah.ReviewerId).IsRequired();
+            entity.HasOne(ah => ah.AdminUser).WithMany(ps => ps.VendorApprovalHistories).HasForeignKey(ah => ah.ReviewerId).OnDelete(DeleteBehavior.Restrict);
+            entity.Property(ah => ah.Remarks).HasMaxLength(500);
+            entity.Property(ah => ah.ReviewedAt).HasColumnType("timestamp without time zone").HasDefaultValueSql("CURRENT_TIMESTAMP");
+        });
         // Orders
 
         modelBuilder.Entity<Order>(o =>
@@ -570,7 +584,7 @@ public class EcommerceContext : DbContext
         modelBuilder.Entity<PasswordSetToken>()
         .HasOne(p => p.User).WithMany().HasForeignKey(p => p.UserId).OnDelete(DeleteBehavior.Cascade);
         modelBuilder.Entity<PasswordSetToken>().HasIndex(p => p.Token).IsUnique();
-        
+
         modelBuilder.Entity<Cart>(c =>
             {
                 c.HasKey(c => c.CartId).HasName("PK_Cart");

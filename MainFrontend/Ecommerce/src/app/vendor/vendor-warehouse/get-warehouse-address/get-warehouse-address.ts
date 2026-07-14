@@ -50,6 +50,9 @@ export class GetWarehouseAddress extends PopupBase {
       },
       error: (error) => {
         this.loading.set(false);
+        if (error.status === 409) {
+          this.router.navigate(['/unauthorized']);
+        }
         if (error.status === 0) {
           this.errorMessage.set(
             'Unable to connect to the server. Please check your internet connection.'

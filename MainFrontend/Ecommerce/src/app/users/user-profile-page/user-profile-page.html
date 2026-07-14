@@ -1,4 +1,7 @@
+<h1 class="text-2xl font-extrabold text-blue-950 m-6 text-center">My Profile</h1>
+
 <div class="mx-auto flex flex-col sm:flex-row w-full gap-6">
+
     <div class="flex-1">
         <app-profile-page></app-profile-page>
     </div>
@@ -36,11 +39,10 @@
                         </p>
                         <p class="text-sm text-gray-500">Phone: {{ item.contactPhoneNumber }}</p>
                     </div>
-
                     <div class="flex flex-col items-end gap-2 shrink-0">
                         @if (!item.isDefault) {
                         <button type="button" (click)="makeDefaultAddress(item.addressId)"
-                            class="text-xs font-semibold text-blue-800 hover:text-blue-950 cursor-pointer whitespace-nowrap">
+                            class="text-xs font-semibold text-blue-700 hover:text-blue-950 hover:underline cursor-pointer whitespace-nowrap">
                             Make Default
                         </button>
                         }

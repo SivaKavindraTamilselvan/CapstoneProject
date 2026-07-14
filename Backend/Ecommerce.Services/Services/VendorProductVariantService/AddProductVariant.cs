@@ -42,6 +42,10 @@ public partial class VendorProductVariantService : IVendorProductVariantService
         productVariant.AddedByVendorUserId = vendorUser.VendorUserId;
         productVariant.SKU = await GenerateSku(product.ProductId);
 
+        if (vendorUser.VendorRoleId == 1)
+        {
+            productVariant.ProductApprovalStatusId = 2;
+        }
         await _productVariantRepsository.Create(productVariant);
 
         _logger.LogInformation("Product Variant {ProductVariantId} created for ProductId {ProductId} with SKU {SKU}", productVariant.ProductVariantId, product.ProductId, productVariant.SKU);

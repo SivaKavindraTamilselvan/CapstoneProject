@@ -216,7 +216,7 @@ export class UserAddOrder {
         this.isLoading.set(false);
 
         if (!payment.requiresOnlinePayment) {
-          this.router.navigate(['/order-success'], { queryParams: { orderId } });
+          this.router.navigate(['/user/order-success'], { queryParams: { orderId } });
           return;
         }
 

@@ -32,6 +32,10 @@ export class UserCart {
     this.loadCart();
   }
 
+  goBack(): void {
+    this.router.navigate(['/user/products']);
+  }
+
   loadCart() {
     this.isLoading.set(true);
     this.error.set(null);

@@ -1,3 +1,11 @@
+<button (click)="goBack()"
+    class="flex gap-1.5 text-sm px-6 pt-6 font-semibold text-slate-600 hover:text-slate-900 cursor-pointer transition">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
+        stroke-width="2.5">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" />
+    </svg>
+    Back to Product List
+</button>
 <section class="min-h-screen">
  <div class="mx-auto px-4 sm:px-6 py-6 sm:py-8">
     @if(isLoading()) {
@@ -21,99 +29,106 @@
     </div>
     }
     @else {
-    <div class="max-w-7xl mx-auto pb-12">
+    <div class="max-w-6xl mx-auto pb-12">
 
-        <div class="pb-4">
-            <h1 class="text-blue-950 font-extrabold text-center text-2xl">Your Cart</h1>
+        <div class="flex items-center justify-between pb-6">
+            <h1 class="text-blue-950 font-extrabold text-xl sm:text-2xl">
+                Your Cart <span class="text-gray-400 font-medium text-base sm:text-lg">({{ totalItems() }} items)</span>
+            </h1>
+            <button (click)="removeAllItem()"
+                class="text-red-600 text-sm font-semibold hover:text-red-800 cursor-pointer">
+                Remove all
+            </button>
         </div>
 
-        <div class="flex justify-end pb-8">
-            <button class="bg-red-500 text-white font-bold px-4 py-2 rounded-md hover:bg-red-700 cursor-pointer" (click)="removeAllItem()">Remove All</button>
-        </div>
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
-            <div class="lg:col-span-2">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
 
-                <div class="flex flex-wrap justify-center gap-6">
+            <div class="lg:col-span-2 bg-white rounded-xl border border-gray-200 divide-y divide-gray-100">
 
-                    @for(item of cartItems(); track item.cartItemsId) {
+                @for(item of cartItems(); track item.cartItemsId) {
 
-                    <div
-                        class="w-full sm:w-72 border border-gray-200 rounded-xl overflow-hidden bg-white flex flex-col hover:shadow-lg transition">
+                <div class="flex gap-3 sm:gap-4 p-3 sm:p-4">
 
-                        <div class="aspect-square bg-gray-100 overflow-hidden" (click)="goToProductDetails(item.productId)">
-                            <img [src]=" 'http://localhost:5173/images/' + item.mainImageUrl || 'assets/images/no-image.png'" [alt]="item.productName"
-                                class="w-full h-full object-cover">
-                        </div>
-                        <div class="p-4 flex flex-col flex-1">
+                    <div class="w-20 h-20 sm:w-28 sm:h-28 bg-gray-100 rounded-lg overflow-hidden shrink-0 cursor-pointer"
+                        (click)="goToProductDetails(item.productId)">
+                        <img [src]="item.mainImageUrl || 'assets/images/no-image.png'"
+                            [alt]="item.productName" class="w-full h-full object-cover" />
+                    </div>
 
-                            <p class="text-xs text-gray-400">{{ item.sku }}</p>
+                    <div class="flex flex-col flex-1 min-w-0">
 
-                            <h3 class="font-bold text-lg mt-1 line-clamp-2">
-                                {{ item.productName }}
-                            </h3>
-
-                            <p class="text-sm text-gray-500 line-clamp-2 mt-2 flex-1">
-                                {{ item.description }}
-                            </p>
-
-                            <div class="mt-4">
-                                <p class="text-xl font-bold text-blue-700">
-                                    ₹{{ item.price | number }}
-                                </p>
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="min-w-0">
+                                <p class="text-[11px] text-gray-400 uppercase tracking-wide truncate">{{ item.sku }}</p>
+                                <h3 class="font-semibold text-sm sm:text-base text-blue-950 line-clamp-2 cursor-pointer"
+                                    (click)="goToProductDetails(item.productId)">
+                                    {{ item.productName }}
+                                </h3>
                             </div>
+                            <button (click)="removeItem(item.cartItemsId)" aria-label="Remove item"
+                                class="text-gray-400 hover:text-red-600 p-1 shrink-0 cursor-pointer">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
 
-                            <div class="mt-4 flex justify-between items-center">
+                        <p class="hidden sm:block text-xs text-gray-500 line-clamp-1 mt-1">
+                            {{ item.description }}
+                        </p>
 
-                                <div class="flex items-center border rounded-lg overflow-hidden">
-                                    <button (click)="updateQuantity(item.cartItemsId, item.qunatity - 1)"
-                                        [disabled]="item.qunatity <= 1"
-                                        class="w-8 h-8 hover:bg-gray-100 disabled:opacity-40">
-                                        -
-                                    </button>
-                                    <span class="w-10 text-center text-sm font-medium">
-                                        {{ item.qunatity }}
-                                    </span>
-                                    <button (click)="updateQuantity(item.cartItemsId, item.qunatity + 1)"
-                                        class="w-8 h-8 hover:bg-gray-100">
-                                        +
-                                    </button>
-                                </div>
+                        <div class="mt-auto pt-2 sm:pt-3 flex items-end justify-between gap-2">
 
-                                <button (click)="removeItem(item.cartItemsId)"
-                                    class="text-white hover:bg-red-700 rounded-md cursor-pointer font-medium bg-red-500 px-4 py-2 ">
-                                    Remove
+                            <div class="flex items-center border border-gray-300 rounded-md overflow-hidden h-8">
+                                <button (click)="updateQuantity(item.cartItemsId, item.qunatity - 1)"
+                                    [disabled]="item.qunatity <= 1"
+                                    class="w-8 h-full flex items-center justify-center hover:bg-gray-100 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer text-gray-700 font-medium">
+                                    −
+                                </button>
+                                <span class="w-8 text-center text-sm font-semibold text-gray-800">
+                                    {{ item.qunatity }}
+                                </span>
+                                <button (click)="updateQuantity(item.cartItemsId, item.qunatity + 1)"
+                                    class="w-8 h-full flex items-center justify-center hover:bg-gray-100 cursor-pointer text-gray-700 font-medium">
+                                    +
                                 </button>
                             </div>
+
+                            <p class="text-base sm:text-lg font-extrabold text-slate-900">
+                                ₹{{ item.price | number }}
+                            </p>
                         </div>
                     </div>
-                    }
                 </div>
+                }
             </div>
 
             <div class="lg:col-span-1">
-                <div class="border border-gray-200 rounded-lg p-6 sticky top-4">
+                <div class="bg-white border border-gray-200 rounded-xl p-5 sm:p-6 sticky top-4">
 
-                    <h3 class="font-semibold text-lg mb-4">Order Summary</h3>
+                    <h3 class="font-bold text-blue-950 text-base sm:text-lg mb-4">Order Summary</h3>
 
-                    <div class="space-y-3">
-                        <div class="flex justify-between text-sm">
+                    <div class="space-y-3 text-sm">
+                        <div class="flex justify-between">
                             <span class="text-gray-600">Subtotal ({{ totalItems() }} items)</span>
-                            <span class="font-medium">₹{{ totalAmount() | number }}</span>
+                            <span class="font-medium text-gray-800">₹{{ totalAmount() | number }}</span>
                         </div>
 
-                        <div class="flex justify-between text-sm">
+                        <div class="flex justify-between">
                             <span class="text-gray-600">Delivery</span>
-                            <span class="text-green-600 font-medium">Calculated at checkout</span>
+                            <span class="text-green-700 font-medium">Calculated at checkout</span>
                         </div>
 
-                        <div class="border-t pt-3 flex justify-between font-bold">
+                        <div class="border-t border-gray-200 pt-3 flex justify-between font-bold text-blue-950 text-base">
                             <span>Total</span>
                             <span>₹{{ totalAmount() | number }}</span>
                         </div>
                     </div>
 
                     <button (click)="goToCheckout()"
-                        class="w-full mt-6 bg-blue-600 text-white py-3 rounded-lg hover:bg-blue-700 font-medium transition">
+                        class="w-full mt-6 bg-blue-800 text-white py-3 rounded-lg hover:bg-blue-950 font-bold transition cursor-pointer">
                         Proceed to Checkout
                     </button>
 

@@ -23,6 +23,7 @@ public class RequestAdminProductVariantFilter : PaginationFilter
     public int? MaxReservedQuantity { get; set; }
     public bool? hasIssues { get; set; }
     public bool? IsAvailableForSale { get; set; }
+    public bool?includeIsDeleted {get;set;}
 }
 public class ResponseAdminProductVariantDTO
 {

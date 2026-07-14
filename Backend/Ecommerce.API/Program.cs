@@ -18,15 +18,56 @@ using Ecommerce.Middlewares;
 using Microsoft.Extensions.FileProviders;
 using Ecommerce.Repositories;
 using System.Threading.RateLimiting;
-
+using Azure.Identity;
+using Azure.Security.KeyVault.Secrets;
 
 var builder = WebApplication.CreateBuilder(args);
+
+var keyVaultName = builder.Configuration["KeyVaultName"];
+if (!string.IsNullOrEmpty(keyVaultName))
+{
+    var vaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
+    var credential = new DefaultAzureCredential();
+    var secretClient = new SecretClient(vaultUri, credential);
+
+    // FIXED: was "ConnectionStrings:DefaultConnection", now matches GetConnectionString("Default")
+    builder.Configuration["ConnectionStrings:Default"] =
+        secretClient.GetSecret("PostgresConnectionString").Value.Value;
+
+    builder.Configuration["BlobStorage:ConnectionString"] =
+        secretClient.GetSecret("BlobStorageConnectionString").Value.Value;
+    builder.Configuration["Jwt:Key"] =
+        secretClient.GetSecret("JwtKey").Value.Value;
+    builder.Configuration["Razorpay:KeyId"] =
+        secretClient.GetSecret("RazorpayKeyId").Value.Value;
+    builder.Configuration["Razorpay:KeySecret"] =
+        secretClient.GetSecret("RazorpayKeySecret").Value.Value;
+    builder.Configuration["Shiprocket:Email"] =
+        secretClient.GetSecret("ShiprocketEmail").Value.Value;
+    builder.Configuration["Shiprocket:Password"] =
+        secretClient.GetSecret("ShiprocketPassword").Value.Value;
+    builder.Configuration["EmailSettings:SmtpHost"] =
+        secretClient.GetSecret("EmailSmtpHost").Value.Value;
+    builder.Configuration["EmailSettings:SmtpPort"] =
+        secretClient.GetSecret("EmailSmtpPort").Value.Value;
+    builder.Configuration["EmailSettings:SenderName"] =
+        secretClient.GetSecret("EmailSenderName").Value.Value;
+    builder.Configuration["EmailSettings:SenderEmail"] =
+        secretClient.GetSecret("EmailSenderEmail").Value.Value;
+    builder.Configuration["EmailSettings:Username"] =
+        secretClient.GetSecret("EmailUsername").Value.Value;
+    builder.Configuration["EmailSettings:Password"] =
+        secretClient.GetSecret("EmailPassword").Value.Value;
+    builder.Configuration["EmailSettings:UseSsl"] =
+        secretClient.GetSecret("EmailUseSsl").Value.Value;
+    builder.Configuration["AiValidation:BaseUrl"] =
+        secretClient.GetSecret("AiValidationServiceUrl").Value.Value;
+}
 
 builder.Services.AddRateLimiter(options =>
 {
     options.RejectionStatusCode = StatusCodes.Status429TooManyRequests;
 
-    // Global fallback limiter — applies to any endpoint without a specific policy
     options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
@@ -37,7 +78,6 @@ builder.Services.AddRateLimiter(options =>
                 QueueLimit = 0
             }));
 
-    // Named policy specifically for auth endpoints (login, register, set-password)
     options.AddPolicy("AuthPolicy", httpContext =>
         RateLimitPartition.GetFixedWindowLimiter(
             partitionKey: httpContext.Connection.RemoteIpAddress?.ToString() ?? "unknown",
@@ -92,13 +132,26 @@ builder.Services.AddSignalR();
 
 builder.Services.AddCors(options =>
 {
-    options.AddDefaultPolicy(builder =>
+    options.AddDefaultPolicy(policy =>
     {
-        builder.WithOrigins("http://localhost:7163", "http://localhost:4200", "http://localhost:5173", "null")
+        policy.WithOrigins(
+                "http://localhost:7163",
+                "http://localhost:4200",
+                "http://localhost:5173",
+                "null",
+                "https://blue-dune-032aab810.7.azurestaticapps.net")
                .AllowAnyHeader()
                .AllowAnyMethod()
                .AllowCredentials();
     });
+});
+
+// FIXED: only ONE registration for AiProductValidationService, with BaseAddress set.
+// The duplicate bare AddHttpClient<AiProductValidationService>() further down has been removed.
+builder.Services.AddHttpClient<AiProductValidationService>(client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["AiValidation:BaseUrl"]!);
+    client.Timeout = TimeSpan.FromSeconds(30);
 });
 
 builder.Services.AddAuthentication(options =>
@@ -133,13 +186,15 @@ builder.Services.AddAuthentication(options =>
         }
     };
 });
+
 builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
 builder.Services.AddScoped<IEmailService, EmailService>();
-builder.Services.AddHttpClient<AiProductValidationService>();
-builder.Services.AddScoped<IPasswordSetTokenRepsository,PasswordSetTokenRepsository>();
+// REMOVED: duplicate builder.Services.AddHttpClient<AiProductValidationService>(); (was overriding BaseAddress above)
+builder.Services.AddScoped<IPasswordSetTokenRepsository, PasswordSetTokenRepsository>();
 builder.Services.AddScoped<IIdempotencyKeyRepsository, IdempotencyKeyRepsository>();
 builder.Services.AddScoped<IIdempotencyService, IdempotencyService>();
-# region AdminAuthorization
+
+#region AdminAuthorization
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("SuperAdminOnly", policy =>
@@ -221,20 +276,7 @@ builder.Services.AddAuthorization(options =>
     });
 });
 
-
-builder.Services.AddAuthorization(options =>
-{
-    options.AddPolicy("ProductAdminOrSuperAdminOnly", policy =>
-    {
-        policy.RequireClaim(ClaimTypes.Role, "1");
-        policy.RequireClaim("AdminRoleId", "1", "3");
-    });
-});
-
-# endregion
-
-
-
+#endregion
 
 builder.Services.AddAuthorization(options =>
 {
@@ -271,6 +313,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("VendorRoleId", "1", "7", "2");
     });
 });
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOnwerAndOrderVendorOnly", policy =>
@@ -279,6 +322,7 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("VendorRoleId", "1", "4", "2");
     });
 });
+
 builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("VendorOwnerAndReturnVendorOnly", policy =>
@@ -296,7 +340,6 @@ builder.Services.AddAuthorization(options =>
         policy.RequireClaim("VendorRoleId", "1", "6", "2");
     });
 });
-
 
 builder.Services.AddAuthorization(options =>
 {
@@ -331,7 +374,6 @@ builder.Services.AddAutoMapper(m => m.AddProfile(new ProductCategoryMappingProfi
 builder.Services.AddAutoMapper(m => m.AddProfile(new RefundMappingProfile()));
 builder.Services.AddAutoMapper(m => m.AddProfile(new ReturnMappingProfile()));
 builder.Services.AddAutoMapper(m => m.AddProfile(new InventoryMappingProfile()));
-
 #endregion
 
 #region Validation
@@ -344,7 +386,6 @@ builder.Services.AddScoped<ICartValidation, CartValidation>();
 builder.Services.AddScoped<IFavoriteValidation, FavoriteValidation>();
 builder.Services.AddScoped<IInventoryValidation, InventoryValidation>();
 builder.Services.AddScoped<IOrderValidation, OrderValidation>();
-builder.Services.AddScoped<IProductValidation, ProductValidation>();
 builder.Services.AddScoped<IShipmentValidation, ShipmentValidation>();
 builder.Services.AddScoped<IVendorUserValidation, VendorUserValidation>();
 builder.Services.AddScoped<IProductAttributeValidation, ProductAttributeValidation>();
@@ -384,10 +425,10 @@ builder.Services.AddScoped<IShipmentItemsRepsository, ShipmentItemRepsository>()
 builder.Services.AddScoped<IShipmentRepsository, ShipmentRepsository>();
 builder.Services.AddScoped<IShipmentTrackingRepsository, ShipmentTrackingRepsository>();
 builder.Services.AddScoped<IAddressRepsository, AddressRepsository>();
-builder.Services.AddScoped<IInventoryRepsository, InventoryRepsository>();
 builder.Services.AddScoped<IAdminReturnService, AdminReturnService>();
 builder.Services.AddScoped<IReturnRefundRepsository, ReturnRefundRepsository>();
 builder.Services.AddScoped<INotificationRepsository, NotificationRepsository>();
+builder.Services.AddScoped<IVendorApprovalRepsository, VendorApprovalHistories>();
 #endregion
 
 #region Services
@@ -401,7 +442,6 @@ builder.Services.AddScoped<IVendorProductService, VendorProductService>();
 builder.Services.AddScoped<IAdminProductService, AdminProductService>();
 builder.Services.AddScoped<IAdminVendorService, AdminVendorService>();
 builder.Services.AddScoped<IAddressService, AddressService>();
-builder.Services.AddScoped<IVendorProductService, VendorProductService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<ICouponService, CouponService>();
 builder.Services.AddScoped<IUserCouponService, UserCouponService>();
@@ -412,18 +452,14 @@ builder.Services.AddScoped<IVendorOrderService, VendorOrderService>();
 builder.Services.AddScoped<IAdminShipmentService, AdminShipmentService>();
 builder.Services.AddScoped<IAdminProductAttributeService, AdminProductAttributeService>();
 builder.Services.AddScoped<IAdminProductCategoryService, AdminProductCategoryService>();
-builder.Services.AddScoped<IAdminProductService, AdminProductService>();
 builder.Services.AddScoped<IVendorProductImageService, VendorProductImageService>();
 builder.Services.AddScoped<IVendorProductVariantService, VendorProductVariantService>();
-builder.Services.AddScoped<IVendorProductService, VendorProductService>();
 builder.Services.AddScoped<IOrderService, OrderService>();
 builder.Services.AddScoped<IShipmentService, ShipmentService>();
 builder.Services.AddScoped<IReviewService, ReviewService>();
 builder.Services.AddScoped<IVendorReturnService, VendorReturnService>();
 builder.Services.AddScoped<INotificationService, NotificationService>();
 builder.Services.AddScoped<IUserProductService, UserProductService>();
-builder.Services.AddScoped<IAdminProductService, AdminProductService>();
-builder.Services.AddScoped<IVendorProductService, VendorProductService>();
 builder.Services.AddScoped<IUserProductCategoryService, UserProductCategoryService>();
 builder.Services.AddScoped<IUserReturnService, UserReturnService>();
 builder.Services.AddScoped<IAdminRefundService, AdminRefundService>();
@@ -434,9 +470,8 @@ builder.Services.AddScoped<IAdminInventoryService, AdminInventoryService>();
 builder.Services.AddScoped<IProfileService, ProfileService>();
 builder.Services.AddScoped<IDashBoardService, AdminDashboardService>();
 builder.Services.AddScoped<IVendorDashboardService, VendorDashboardService>();
-
+builder.Services.AddScoped<IBlobStorageService, BlobStorageService>();
 #endregion
-
 
 var app = builder.Build();
 
@@ -445,26 +480,32 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 app.UseMiddleware<ExceptionHandlingMiddleware>();
 
 app.UseRouting();
 app.UseCors();
 
-
 app.UseHttpsRedirection();
 app.UseRateLimiter();
 
 app.UseAuthentication();
-
 app.UseAuthorization();
 
-app.UseStaticFiles(); // ← add this
+// FIXED: removed duplicate/stray app.UseStaticFiles() calls and the leftover commented-out block.
+// Only one static files registration now, with the missing-directory crash fixed.
+var imagesPath = Path.Combine(builder.Environment.ContentRootPath, "images");
+if (!Directory.Exists(imagesPath))
+{
+    Directory.CreateDirectory(imagesPath);
+}
+
 app.UseStaticFiles(new StaticFileOptions
 {
-    FileProvider = new PhysicalFileProvider(
-        Path.Combine(builder.Environment.ContentRootPath, "images")),
+    FileProvider = new PhysicalFileProvider(imagesPath),
     RequestPath = "/images"
 });
+
 app.MapControllers();
 
 app.MapHub<NotificationHub>("/notificationhub");

@@ -8,12 +8,12 @@ export const VendorOrderRoute: Routes = [
     {
         path: 'orders/list',
         component: VendorOrderList,
-        data: { status: null, order: null, title: 'Update Orders' }
+        data: { status: null, order: null, title: 'All Orders' }
     },
     {
         path: 'orders/confirmed-orders',
         component: VendorOrderList,
-        data: { status: 1, order: 2, title: 'Update Orders' }
+        data: { status: 1, order: 2, title: 'OnGoing Orders' }
     },
     {
         path: 'orders/cancelled-orders',

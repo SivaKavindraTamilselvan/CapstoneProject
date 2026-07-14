@@ -1,6 +1,9 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace Ecommerce.DTOs;
+
+using System.ComponentModel.DataAnnotations;
+
 public class RequestAddProductImage
 {
     [Required(ErrorMessage = "Product Id Needed To Add The Product Image")]

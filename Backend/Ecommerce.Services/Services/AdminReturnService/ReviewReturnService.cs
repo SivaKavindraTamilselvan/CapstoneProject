@@ -14,8 +14,9 @@ public class AdminReturnService : IAdminReturnService
     private readonly IReturnRepsository _returnRepsository;
     private readonly IShipRocketService _shipRocketService;
     private readonly IShipmentService _shipmentService;
-    public AdminReturnService(IMapper mapper,IInventoryValidation inventoryValidation, IOrderValidation orderValidation, IReturnRepsository returnRepsository, IShipRocketService shipRocketService, IShipmentService shipmentService)
+    public AdminReturnService(IShipmentRepsository shipmentRepsository, IMapper mapper, IInventoryValidation inventoryValidation, IOrderValidation orderValidation, IReturnRepsository returnRepsository, IShipRocketService shipRocketService, IShipmentService shipmentService)
     {
+        _shipmentRepsository = shipmentRepsository;
         _mapper = mapper;
         _inventoryValidation = inventoryValidation;
         _orderValidation = orderValidation;
@@ -62,15 +63,19 @@ public class AdminReturnService : IAdminReturnService
             throw new DataNotFoundException("Inventory Address Not Found");
 
         var service = await CheckReturnShipmentServiceability(user, inventory, product);
-        if(service == null)
+        if (service == null)
         {
             throw new Exception("No Service Is Found");
         }
         var shipment = await CreateReturnShipmentRecord(user, service);
 
         await CreateReturnShipmentItem(shipment.ShipmentId, user.OrderItemId);
-
-        var trackingRemarks = await CreateReturnShipmentTracking(shipment.ShipmentId, user);
+        Console.WriteLine(shipment.ShipmentId);
+        var a = await _shipmentRepsository.Get(shipment.ShipmentId);
+        shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
+        shipment.ShipmentStatusId = 4;
+        await _shipmentRepsository.Update(shipment.ShipmentId, shipment);
+        var trackingRemarks = await CreateReturnShipmentTracking(shipment.ShipmentId, returnId);
         await UpdateInventory(inventory.OrderItems.InventoryId, user.ReturnQuantity);
 
         return new ResponseCreateReturnShipmentDTO
@@ -120,12 +125,15 @@ public class AdminReturnService : IAdminReturnService
     {
         await _shipmentService.CreateShipmentItems(shipmentId, orderItemId);
     }
-    private async Task<string> CreateReturnShipmentTracking(int shipmentId, Return user)
+    private async Task<string> CreateReturnShipmentTracking(int shipmentId, int returnId)
     {
-        var shipment = await _shipmentRepsository.Get(shipmentId);
-        shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
-        await _shipmentRepsository.Update(shipmentId,shipment);
-        var customerAddress = user.OrderItems!.Order!.Address!;
+        //var shipment = await _shipmentRepsository.Get(shipmentId);
+        //Console.WriteLine("fsefs"+shipmentId);
+
+        //shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
+        //await _shipmentRepsository.Update(shipmentId,shipment);
+        var orderUser = await _returnRepsository.GetTheReturnUserByReturnId(returnId);
+        var customerAddress = orderUser!.OrderItems!.Order!.Address!;
 
         var remarks = "Return shipment created from customer location";
 
@@ -158,14 +166,14 @@ public class AdminReturnService : IAdminReturnService
             PageNumber = request.PageNumber,
             PageSize = request.PageSize,
             TotalCount = result.totalCount
-        }; 
+        };
     }
 
     public async Task<ReturnSummaryDto> GetAllReturns(int returnId)
     {
         var result = await _returnRepsository.GetReturnSummaryById(returnId);
         return _mapper.Map<ReturnSummaryDto>(result);
-          
+
     }
 
 }

@@ -12,7 +12,7 @@ public partial class VendorProductService : IVendorProductService
         var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorId);
         _logger.LogInformation("Vendor UserId {VendorUserId} validated. VendorId {VendorId}", vendorId, vendor.VendorId);
 
-        bool needsInMemoryPaging = request.hasIssues.HasValue;
+        bool needsInMemoryPaging = request.hasIssues.HasValue || request.isAvailableForSale.HasValue;
         RequestVendorProductFilter repoRequest = request;
 
         if (needsInMemoryPaging)
@@ -190,7 +190,6 @@ public partial class VendorProductService : IVendorProductService
 
         var vendor = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
 
-        // ── Fix: bypass paging when hasIssues or IsAvailableForSale filter is active ──
         bool needsInMemoryPaging = request.hasIssues.HasValue || request.IsAvailableForSale.HasValue;
         RequestVendorProductVariantFilter repoRequest = request;
 

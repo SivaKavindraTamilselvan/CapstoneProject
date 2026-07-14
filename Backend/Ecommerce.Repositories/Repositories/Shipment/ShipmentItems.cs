@@ -85,7 +85,7 @@ public class ShipmentRepsository : AbstractRepository<int, Shipment>, IShipmentR
 
     public async Task<Shipment?> GetShipmentDetailForOrderItemsId(int orderItemsId)
     {
-        return await BaseQuery().FirstOrDefaultAsync(s => s.Order!.OrderItems.Any(o => o.OrderItemsId == orderItemsId));
+        return await BaseQuery().FirstOrDefaultAsync(s => s.ShipmentItems.Any(o => o.OrderItemsId == orderItemsId));
     }
 
 }

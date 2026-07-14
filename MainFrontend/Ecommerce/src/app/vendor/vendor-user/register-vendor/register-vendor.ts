@@ -25,10 +25,8 @@ export class RegisterVendor {
     required(path.requestRegisterUserDTO.firstName, { message: "Enter The FirstName" })
     required(path.requestRegisterUserDTO.lastName, { message: "Enter The Last Name" })
     required(path.requestRegisterUserDTO.phoneNumber, { message: "Enter The Phone Number" })
-    required(path.requestRegisterUserDTO.password, { message: "Enter The Password" })
     email(path.requestRegisterUserDTO.email, { message: "Enter Valid Email Address" })
     pattern(path.requestRegisterUserDTO.phoneNumber, /^[1-9]{1}[0-9]{9}$/, { message: "Enter Valid Phone Number" })
-    pattern(path.requestRegisterUserDTO.password, /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,12}$/, { message: "Password must contains 8-12 characters,uppercase,lowercase,symbols and number" })
     required(path.vendorRoleId, { message: "Vendor Role Id Is Required" })
     pattern(path.vendorRoleId, /^[2-9]{1}$/, { message: "Select a valid vendor role" })
   })
@@ -50,6 +48,7 @@ export class RegisterVendor {
       return;
     }
     this.progress.set(true);
+    this.vendorModel().requestRegisterUserDTO.password = "Vendor@123";
     this.authService.registerVendorUserAPICall(this.vendorModel()).subscribe({
       next: (response: any) => {
         this.successMessage.set("Registration Successfull");

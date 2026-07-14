@@ -4,7 +4,6 @@ import { AdminList } from "../../admin/admin-user/admin-list/admin-list";
 import { AdminUserDetail } from "../../admin/admin-user/admin-user-detail/admin-user-detail";
 import { AdminProduct } from "../../admin/admin-product/admin-product/admin-product";
 import { AdminDetailProduct } from "../../admin/admin-product/admin-detail-product/admin-detail-product";
-import { ReviewVariant } from "../../admin/admin-product/review-variant/review-variant";
 import { VariantList } from "../../admin/admin-product/variant-list/variant-list";
 import { CategoryList } from "../../admin/admin-category/category-list/category-list";
 import { Subcategorylist } from "../../admin/admin-subcategory/subcategorylist/subcategorylist";
@@ -15,6 +14,8 @@ import { AdminCancelledOrder } from "../../admin/admin-orders/admin-cancelled-or
 import { AdminCancelDetailOrder } from "../../admin/admin-orders/admin-cancel-detail-order/admin-cancel-detail-order";
 import { AdminReturDetails } from "../../admin/admin-orders/admin-retur-details/admin-retur-details";
 import { AdminReturnOrders } from "../../admin/admin-orders/admin-return-orders/admin-return-orders";
+import { AdminOrderDetails } from "../../admin/admin-orders/admin-order-details/admin-order-details";
+import { AdminOrderItem } from "../../admin/admin-orders/admin-order-item/admin-order-item";
 
 
 export const AdminOrderRoutes: Routes = [
@@ -22,6 +23,14 @@ export const AdminOrderRoutes: Routes = [
         path: 'orders/list',
         component: GetAdminOrders,
         data: { status: null, title: 'Order List' }
+    },
+    {
+        path: 'order/:id',
+        component: AdminOrderDetails
+    },
+    {
+        path: 'order/order-item/:id',
+        component: AdminOrderItem
     },
     {
         path: 'orders/confirmed-orders',

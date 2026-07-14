@@ -127,12 +127,11 @@ public partial class AdminProductService : IAdminProductService
         };
     }
 
-    public async Task<PagedResponse<ResponseAdminProductVariantOnlyDTO>> GetAllProductVariant(
-        RequestAdminProductVariantFilter request, int adminUserId)
+    public async Task<PagedResponse<ResponseAdminProductVariantOnlyDTO>> GetAllProductVariant(RequestAdminProductVariantFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
 
-        bool needsInMemoryPaging = request.hasIssues.HasValue;
+        bool needsInMemoryPaging = request.hasIssues.HasValue || request.IsAvailableForSale.HasValue;
         RequestAdminProductVariantFilter repoRequest = request;
 
         if (needsInMemoryPaging)
@@ -167,7 +166,6 @@ public partial class AdminProductService : IAdminProductService
 
         _logger.LogInformation("Admin requested product variant list with filters {@Request}", request);
 
-        // ── Fix: pass repoRequest, not request ───────────────────────────────────
         var result = await _productVariantRepsository.GetAllVariantsForAdmin(repoRequest);
 
         _logger.LogInformation("Retrieved {VariantCount} product variants from repository. TotalCount: {TotalCount}",

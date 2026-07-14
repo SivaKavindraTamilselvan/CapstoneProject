@@ -135,7 +135,7 @@ export class VariantList extends BasePage {
     min(path.categoryId, 1, { message: 'ID cannot be negative or 0.' });
     min(path.subCategoryId, 1, { message: 'ID cannot be negative or 0.' });
     min(path.statusId, 1, { message: 'ID cannot be negative or 0.' });
-    min(path.approvalStatusId, 1, { message: 'ID cannot be negative or 0.' });
+    min(path.ApprovalStatusId, 1, { message: 'ID cannot be negative or 0.' });
     min(path.minPrice, 0, { message: 'Minimum price cannot be negative or 0.' });
     min(path.maxPrice, 0, { message: 'Maximum price cannot be negative or 0.' });
     min(path.minimuQuantityPerUser, 0, { message: 'Minimum available quantity cannot be negative.' });
@@ -156,6 +156,7 @@ export class VariantList extends BasePage {
       ...filter,
       approvalStatusId: this.status() == null && this.deleted() == false ? this.draftstatus() : this.status(),
       pageNumber: this.pageNumber(),
+      includeIsDeleted: this.deleted(),
       pageSize: this.pageSize(),
       searchTerm: filter.searchTerm ? filter.searchTerm.trim().toLowerCase() : filter.searchTerm,
     }));
@@ -381,8 +382,8 @@ export class VariantList extends BasePage {
   showReviewPopup = signal(false);
   reviewProductVariantModel = signal(new ReviewProductVariantModel());
   approvalStatusOption = [
-    { id: 4, label: 'Accepted' },
-    { id: 5, label: 'Rejected' },
+    { id: 4, label: 'Accept' },
+    { id: 5, label: 'Reject' },
   ];
 
   reviewForm = form(this.reviewProductVariantModel, (path) => {
@@ -476,12 +477,11 @@ export class VariantList extends BasePage {
     this.successMessage.set('');
   }
 
-  // ---------------- Table actions ----------------
 
-  actions: TableAction<ProductVariantModel>[] = [
+  actions: TableAction<VendorProductVariantModel>[] = [
     { label: 'View', color: 'green', action: 'view' },
-    { label: 'Delete', color: 'red', action: 'delete', visible: variant => variant.productApprovalStatus !== 'Deleted_By_Admin' && this.status() == null },
-    { label: 'Review', color: 'gray', action: 'review', visible: variant => variant.productApprovalStatus === 'Vendor_Approved' && this.status() == 2 }
+    { label: 'Delete', color: 'red', action: 'delete', visible: variant => variant.productVariantApprovalStatus !== 'Deleted_By_Admin' && this.status() ==null},
+    { label: 'Review', color: 'gray', action: 'review', visible: variant =>this.status() == 2 }
   ];
 
   columns: Column[] = [

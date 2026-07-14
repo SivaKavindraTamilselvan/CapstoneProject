@@ -51,7 +51,7 @@
             <div class="relative group">
                 <div
                     class="relative h-[320px] w-full border border-gray-200 rounded-xl flex items-center justify-center bg-white shadow-sm overflow-hidden">
-                    <img [src]="'http://localhost:5173/images/' + variantModel()!.productImages[currentImageIndex()].imageUrl"
+                    <img [src]="variantModel()!.productImages[currentImageIndex()].imageUrl"
                         alt="Product Variant Image" class="max-h-full max-w-full object-contain p-4" />
 
                     <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">

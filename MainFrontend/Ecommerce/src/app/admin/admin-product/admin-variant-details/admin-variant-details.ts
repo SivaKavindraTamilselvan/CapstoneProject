@@ -177,11 +177,11 @@ export class AdminVariantDetails {
     this.progress.set(true);
 
     const request = {
-      productId: this.deleteProductModel().productVariantId,
+      productVariantId: this.deleteProductModel().productVariantId,
       remark: this.deleteProductModel().remark
     };
 
-    this.adminProductService.deleteProduct(request).subscribe({
+    this.adminProductService.deleteProductVariant(request).subscribe({
       next: () => {
         this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
         setTimeout(() => {

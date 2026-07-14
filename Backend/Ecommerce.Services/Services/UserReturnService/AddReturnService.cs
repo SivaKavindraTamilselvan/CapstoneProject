@@ -16,7 +16,10 @@ public partial class UserReturnService : IUserReturnService
         {
             throw new DataApprovalStatusException("Order Is Not Available For Return");
         }
-
+        if (requestAddReturnDTO.ReturnQuantity > orderItem.Quantity)
+        {
+            throw new DataApprovalStatusException("Return for quantity Higher Than the Order Quantity Is Not Possible");
+        }
         var shipment = await _shipmentValidation.ValidateGetShipmentByOrderItemId(orderItem.OrderItemsId);
         if (shipment.DeliveryDate == null || orderItem.OrderItemStatusId != 4)
         {
@@ -26,7 +29,12 @@ public partial class UserReturnService : IUserReturnService
         {
             throw new DataApprovalStatusException("Order Item Request Exceeded The date Limit");
         }
-
+        var returns = await _returnRepsository.GetTheReturnProductByOrderItemId(requestAddReturnDTO.OrderItemId);
+        if(returns != null)
+        {
+            throw new DataApprovalStatusException("Return Already Requested");
+        }
+       
         int returnOrderItemId;
 
         if (orderItem.Quantity == requestAddReturnDTO.ReturnQuantity)

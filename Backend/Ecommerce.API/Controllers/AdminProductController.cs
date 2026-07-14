@@ -79,6 +79,15 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
+    [HttpPatch("DeleteProductVariant")]
+    public async Task<ActionResult<ResponseReviewOfProductDTO>> DeleteVariant(RequestDeleteVariantDTO requestDeleteProductDTO)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminProductService.DeleteProductVaraint(requestDeleteProductDTO, adminUserId);
+        return Ok(result);
+    }
+
     [HttpGet("approval-history/{productId}")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistory(int productId)
     {
@@ -86,7 +95,7 @@ public class AdminProductController : ControllerBase
         var result = await _adminProductService.GetProductHistory(productId);
         return Ok(result);
     }
-    
+
     [HttpGet("approval-history/variant/{productId}")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistoryVaraint(int productId)
     {

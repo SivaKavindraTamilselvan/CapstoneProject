@@ -95,7 +95,7 @@ export class UserNavbar {
   }
 
   goToNotifications(): void {
-    this.router.navigate(['/user/notifications']);
+    this.router.navigate(['/user/notification']);
   }
 
   goToProducts(subCategoryId: number): void {

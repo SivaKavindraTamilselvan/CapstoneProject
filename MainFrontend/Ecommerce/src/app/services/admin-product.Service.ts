@@ -103,7 +103,7 @@ export class AdminProductService {
         return this.http.get<ProductModel>(url, {});
     }
     deleteProductVariant(request: AdminDeleteVariantModel) {
-        let url = BaseURL + "/AdminProduct/DeleteProduct";
+        let url = BaseURL + "/AdminProduct/DeleteProductVariant";
         return this.http.patch(url, request);
     }
 

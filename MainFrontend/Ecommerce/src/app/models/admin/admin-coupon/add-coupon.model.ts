@@ -5,7 +5,7 @@ export class AddCouponModel {
         public minimumOrderAmount: number = 0,
         public startDate: string = '',
         public endDate: string = '',
-        public minimumNumberOfUsage: number = 0,
+        public minimumNumberOfUsage: number = 1,
         public couponDescription: string = ''
     ) { }
 }

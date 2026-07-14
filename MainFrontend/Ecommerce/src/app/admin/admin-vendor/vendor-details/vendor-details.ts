@@ -16,7 +16,7 @@ import { DeletePopupComponents } from '../../../shared-components/delete-popup-c
 
 @Component({
   selector: 'app-vendor-details',
-  imports: [DetailedCardComponenet,ReviewPopupComponent,DeletePopupComponents],
+  imports: [DetailedCardComponenet, ReviewPopupComponent, DeletePopupComponents],
   providers: [DatePipe],
   templateUrl: './vendor-details.html',
   styleUrl: './vendor-details.css',
@@ -71,6 +71,9 @@ export class VendorDetails {
         if (error.status == 404) {
           this.errorMessage.set("Admin User Is Not Found");
         }
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong.'
+        );
       }
     })
   }
@@ -106,6 +109,13 @@ export class VendorDetails {
       next: (response: any) => {
         //console.log(response);
         this.vendorUsers.set(response);
+      },
+      error: (error) => {
+        this.errorMessage.set(
+          error.error?.message ||
+          error.message ||
+          'Failed to load vendor users.'
+        );
       }
     })
   }
@@ -168,6 +178,7 @@ export class VendorDetails {
     { key: 'createdAt', header: 'Created Date', formatter: value => this.datePipe.transform(value, 'dd MMM yyyy, hh:mm a') ?? '' },
     { key: 'reviewedByAdminId', header: 'Reviewed Admin Id', },
     { key: 'reviewAdminName', header: 'Reviewed Admin Name', },
+    { key: 'gstNumber', header: 'GST Number', },
   ];
 
   viewProducts(vendorId: number) {

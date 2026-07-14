@@ -151,4 +151,11 @@ export class VendorProductService {
         let url = BaseURL + `/VendorProduct/UpdateProductImageAsDefault/${id}`
         return this.http.put(url,{});
     }
+
+     uploadProductImage(formData: FormData): Observable<any> {
+        return this.http.post(`${BaseURL}/VendorProduct/upload-image`, formData);
+    }
+    uploadProductVariantImage(formData: FormData): Observable<any> {
+        return this.http.post(`${BaseURL}/VendorProduct/upload-variant-image`, formData);
+    }
 }

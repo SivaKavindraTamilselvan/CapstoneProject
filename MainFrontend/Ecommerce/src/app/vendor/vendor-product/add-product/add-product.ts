@@ -79,28 +79,27 @@ export class AddProduct {
   });
 
   onImageSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-    if (!input.files?.length) return;
+  const input = event.target as HTMLInputElement;
+  if (!input.files?.length) return;
 
-    Array.from(input.files).forEach((file) => {
-      const reader = new FileReader();
+  Array.from(input.files).forEach((file) => {
+    const reader = new FileReader();
 
-      reader.onload = () => {
-        const imageModel = new AddProductImageModel();
-        imageModel.imageUrl = file.name;
-        imageModel.displayOrderId = this.nextAvailableAngle();
-        imageModel.isMainImage = this.productImages().length === 0;
+    reader.onload = () => {
+      const imageModel = new AddProductImageModel();
+      imageModel.file = file; // store the actual File, not file.name
+      imageModel.displayOrderId = this.nextAvailableAngle();
+      imageModel.isMainImage = this.productImages().length === 0;
 
-        this.productImages.update((imgs) => [...imgs, imageModel]);
-        this.imagePreviews.update((previews) => [...previews, reader.result as string]);
-      };
+      this.productImages.update((imgs) => [...imgs, imageModel]);
+      this.imagePreviews.update((previews) => [...previews, reader.result as string]);
+    };
 
-      reader.readAsDataURL(file);
-    });
+    reader.readAsDataURL(file);
+  });
 
-    input.value = '';
-  }
-
+  input.value = '';
+}
   private nextAvailableAngle(): number {
     const usedAngles = this.productImages().map((img) => img.displayOrderId);
     const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
@@ -149,6 +148,7 @@ export class AddProduct {
       this.errorMessage.set(
         'Please upload at least one product image.'
       );
+      this.scrollToTop();
       return;
     }
 
@@ -199,56 +199,62 @@ export class AddProduct {
     });
   }
 
-  private addProductImages(productId: number): void {
-    const images = this.productImages().map((img) => {
-      img.productId = productId;
-      return img;
-    });
 
-    if (images.length === 0) {
-      this.successMessage.set('Product added successfully');
-      this.loading.set(false);
-      this.resetForm();
-      return;
-    }
+ private addProductImages(productId: number): void {
+  const images = this.productImages().map((img) => {
+    img.productId = productId;
+    return img;
+  });
 
-    let uploadedCount = 0;
-
-    images.forEach((image) => {
-      this.vendorProductService.addProductImage(image).subscribe({
-        next: () => {
-          uploadedCount++;
-
-          if (uploadedCount === images.length) {
-            this.successMessage.set('Product and images added successfully');
-            this.loading.set(false);
-            this.resetForm();
-          }
-        },
-        error: (error) => {
-
-          if (error.error?.message) {
-            this.errorMessage.set(error.error.message);
-          }
-          else if (error.status === 0) {
-            this.errorMessage.set(
-              'Images could not be uploaded. Please check your connection.'
-            );
-          }
-          else {
-            this.errorMessage.set(
-              'Product was added, but one or more images failed to upload.'
-            );
-          }
-          this.loading.set(false);
-        }
-      });
-    });
+  if (images.length === 0) {
+    this.successMessage.set('Product added successfully');
+    this.loading.set(false);
+    this.resetForm();
+    return;
   }
+
+  let uploadedCount = 0;
+
+  images.forEach((image) => {
+    const formData = new FormData();
+    formData.append('ProductId', image.productId.toString());
+    formData.append('File', image.file as File);
+    formData.append('DisplayOrderId', image.displayOrderId.toString());
+    formData.append('IsMainImage', image.isMainImage.toString());
+
+    this.vendorProductService.uploadProductImage(formData).subscribe({
+      next: () => {
+        uploadedCount++;
+
+        if (uploadedCount === images.length) {
+          this.successMessage.set('Product and images added successfully');
+          this.loading.set(false);
+          this.resetForm();
+        }
+      },
+      error: (error) => {
+        if (error.error?.message) {
+          this.errorMessage.set(error.error.message);
+        }
+        else if (error.status === 0) {
+          this.errorMessage.set(
+            'Images could not be uploaded. Please check your connection.'
+          );
+        }
+        else {
+          this.errorMessage.set(
+            'Product was added, but one or more images failed to upload.'
+          );
+        }
+        this.loading.set(false);
+      }
+    });
+  });
+}
 
   resetForm(): void {
     this.errorMessage.set(null);
-    this.successMessage.set(null);
+    //this.successMessage.set(null);
 
     this.product.set(new AddProductModel());
     this.productImages.set([]);

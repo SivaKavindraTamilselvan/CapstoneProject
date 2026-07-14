@@ -1,13 +1,13 @@
 <section class="bg-white p-2 md:px-6 lg:px-8 mt-4 lg:py-4">
 
-    <div class="pb-4 flex items-center justify-center">
+    <div class="pb-6 flex items-center justify-center">
         <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">
             Add Coupon
         </h1>
     </div>
 
     <div class="flex justify-center px-2">
-        <div class="bg-white rounded-2xl shadow-2xl shadow-white/30 w-full max-w-4xl px-8 py-4 sm:p-8 space-y-6">
+        <div class="w-full max-w-4xl p-6 sm:p-10 space-y-8">
 
             @if(errorMessage()) {
             <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center font-bold">
@@ -19,88 +19,119 @@
                 {{ successMessage() }}
             </div>
             }
+
             <form class="flex flex-col gap-5">
-                <div class="flex gap-4 flex-col sm:flex-row">
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-md sm:text-lg mb-2 block">Coupon Code</label>
-                        <input type="text" placeholder="Enter Coupon Code" [formField]="addForm.couponCode"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.couponCode().invalid()&& addForm.couponCode().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.couponCode().errors()[0].message }}</p>
-                        }
-                    </div>
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-lg mb-2 block">Discount Value</label>
-                        <input type="number" (keydown)="allowOnlyNumbers($event)" placeholder="Enter Discount Value" [formField]="addForm.discountValue"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.discountValue().invalid()&& addForm.discountValue().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.discountValue().errors()[0].message }}</p>
-                        }
-                    </div>
-                </div>
-                <div class="flex gap-4 flex-col sm:flex-row">
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-lg mb-2 block">Minimum Order Amount</label>
-                        <input type="number" (keydown)="allowOnlyNumbers($event)" placeholder="Enter Minimum Order" [formField]="addForm.minimumOrderAmount"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.minimumOrderAmount().invalid()&& addForm.minimumOrderAmount().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.minimumOrderAmount().errors()[0].message }}</p>
-                        }
-                    </div>
 
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-lg mb-2 block">Minimum Usage</label>
-                        <input type="number" (keydown)="allowOnlyNumbers($event)" placeholder="Enter Minimum Usage"
-                            [formField]="addForm.minimumNumberOfUsage"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.minimumNumberOfUsage().invalid()&& addForm.minimumNumberOfUsage().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.minimumNumberOfUsage().errors()[0].message }}
-                        </p>
-                        }
-                    </div>
-                </div>
-                <div class="flex gap-4 flex-col sm:flex-row">
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-lg mb-2 block">Start Date</label>
-                        <input type="date" [formField]="addForm.startDate"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.startDate().invalid()&& addForm.startDate().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.startDate().errors()[0].message }}</p>
-                        }
-                    </div>
-                    <div class="flex-1">
-                        <label class="font-bold text-md sm:text-lg mb-2 block">End Date</label>
-                        <input type="date" [formField]="addForm.endDate"
-                            class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700" />
-                        @if (addForm.endDate().invalid() && addForm.endDate().touched())
-                        {
-                        <p class="text-red-600 text-xs mt-1">{{ addForm.endDate().errors()[0].message }}</p>
-                        }
-                    </div>
-                </div>
                 <div>
-                    <label class="font-bold text-md sm:text-lg mb-2 block">Coupon Description</label>
-                    <textarea rows="4" placeholder="Enter Coupon Description" [formField]="addForm.couponDescription"
-                        class="w-full border rounded-lg px-4 py-3 outline-none focus:ring-1 focus:ring-blue-700">
-                    </textarea>
-                    @if (addForm.couponDescription().invalid()&& addForm.couponDescription().touched())
-                    {
-                    <p class="text-red-600 text-xs mt-1">{{ addForm.couponDescription().errors()[0].message }}</p>
-                    }
-                </div>
-                <div class="flex w-full gap-4">
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Coupon Details
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div class="flex gap-4 flex-col sm:flex-row">
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Coupon Code</label>
+                                <input type="text" placeholder="Enter Coupon Code" [formField]="addForm.couponCode"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.couponCode().invalid() && addForm.couponCode().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.couponCode().errors()[0].message }}</p>
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Discount Value</label>
+                                <input type="number" (keydown)="allowOnlyNumbers($event)"
+                                    placeholder="Enter Discount Value" [formField]="addForm.discountValue"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.discountValue().invalid() && addForm.discountValue().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.discountValue().errors()[0].message }}</p>
+                                }
+                            </div>
+                        </div>
 
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-700 mb-1">Coupon Description</label>
+                            <textarea rows="4" placeholder="Enter Coupon Description"
+                                [formField]="addForm.couponDescription"
+                                class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition">
+                            </textarea>
+                            @if (addForm.couponDescription().invalid() && addForm.couponDescription().touched())
+                            {
+                            <p class="text-red-600 text-xs mt-1">{{ addForm.couponDescription().errors()[0].message }}</p>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Usage Rules
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div class="flex gap-4 flex-col sm:flex-row">
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Minimum Order
+                                    Amount</label>
+                                <input type="number" (keydown)="allowOnlyNumbers($event)"
+                                    placeholder="Enter Minimum Order" [formField]="addForm.minimumOrderAmount"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.minimumOrderAmount().invalid() &&
+                                addForm.minimumOrderAmount().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.minimumOrderAmount().errors()[0].message }}</p>
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Maximum Usage</label>
+                                <input type="number" (keydown)="allowOnlyNumbers($event)"
+                                    placeholder="Enter Minimum Usage" [formField]="addForm.minimumNumberOfUsage"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.minimumNumberOfUsage().invalid() &&
+                                addForm.minimumNumberOfUsage().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.minimumNumberOfUsage().errors()[0].message }}</p>
+                                }
+                            </div>
+                        </div>
+                        <p class="text-xs text-gray-400">Customers must meet these thresholds for the coupon to apply.</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h2 class="text-sm font-bold text-slate-800 uppercase tracking-wide mb-3 flex items-center gap-2">
+                        Validity Period
+                    </h2>
+                    <div class="bg-gray-50 rounded-xl border border-gray-200 p-5 space-y-4">
+                        <div class="flex gap-4 flex-col sm:flex-row">
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">Start Date</label>
+                                <input type="date" [formField]="addForm.startDate"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.startDate().invalid() && addForm.startDate().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.startDate().errors()[0].message }}</p>
+                                }
+                            </div>
+                            <div class="flex-1">
+                                <label class="block text-sm font-semibold text-gray-700 mb-1">End Date</label>
+                                <input type="date" [formField]="addForm.endDate"
+                                    class="w-full border border-gray-300 bg-white rounded-lg px-4 py-2.5 outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition" />
+                                @if (addForm.endDate().invalid() && addForm.endDate().touched())
+                                {
+                                <p class="text-red-600 text-xs mt-1">{{ addForm.endDate().errors()[0].message }}</p>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="flex w-full gap-4">
                     <button type="button" (click)="handleAddCouponClick()" [disabled]="progress()"
-                        class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer">
+                        class="flex-1 bg-green-800 text-white font-bold py-3 rounded-lg hover:bg-green-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60 disabled:hover:bg-green-800">
                         {{ progress() ? 'Saving...' : 'Add Coupon' }}
                     </button>
-                    <button type="button" (click)="resetForm()"
-                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer">
+                    <button type="button" (click)="resetForm()" [disabled]="progress()"
+                        class="flex-1 bg-blue-700 text-white font-bold py-3 rounded-lg hover:bg-blue-900 cursor-pointer disabled:cursor-not-allowed disabled:opacity-60">
                         Reset
                     </button>
                 </div>

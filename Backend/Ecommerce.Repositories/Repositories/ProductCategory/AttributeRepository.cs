@@ -15,7 +15,7 @@ public class AttributeRepsository : AbstractRepository<int, AttributeMaster>, IA
     // condition for validation before inserting
     public async Task<AttributeMaster?> GetTheAttributeByName(string attributeName)
     {
-        return await _ecommerceContext.AttributeMaster.FirstOrDefaultAsync(a => a.AttributeName == attributeName);
+        return await _ecommerceContext.AttributeMaster.FirstOrDefaultAsync(a => a.AttributeName.ToLower().Trim() == attributeName.ToLower().Trim());
     }
 
     // used for admin no needed for user or vendor as the attribute list is not needed for them

@@ -138,7 +138,9 @@ public partial class UserOrderService : IUserOrderService
             foreach (var group in groupedShipments)
             {
                 var pickupAddress = group.First().Inventory.Address!;
+                Console.WriteLine(shipmentChargeDetails);
                 var shippingCharge = shipmentChargeDetails.First(x => x.PickupAddressId == group.Key.PickupAddressId).ShippingCharge;
+                Console.WriteLine(shippingCharge);
                 var ExpectedDeliveryDate = group.First().ExpectedDeliveryDate;
                 var courier = group.First().CourierName;
 
@@ -159,6 +161,14 @@ public partial class UserOrderService : IUserOrderService
                 existing?.IdempotencyKeyId ?? 0,
                 200,
                 JsonSerializer.Serialize(response));
+
+            await _notificationService.SendToUser(
+                userId,
+                "Order Placed Successfully",
+                $"Your order #{order.OrderId} has been placed successfully.",
+                notificationTypeId: 1,
+                referenceType: "Order",
+                referenceId: order.OrderId);
 
             return response;
         }

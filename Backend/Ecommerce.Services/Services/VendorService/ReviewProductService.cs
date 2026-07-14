@@ -10,6 +10,7 @@ public partial class VendorService : IVendorService
     {
         var User = await _vendorUserValidation.ValidateVendorUserByUserId(vendorUserId);
         await _productValidation.VendorValidateProduct(requestReviewOfProductDTO.ProductId, User.VendorId);
+
         _logger.LogInformation("Vendor UserId {VendorUserId} reviewing ProductId {ProductId} with StatusId {StatusId}", vendorUserId, requestReviewOfProductDTO.ProductId, requestReviewOfProductDTO.ApprovalStatusId);
         if (requestReviewOfProductDTO.ApprovalStatusId != 2 && requestReviewOfProductDTO.ApprovalStatusId != 3)
         {
@@ -37,6 +38,12 @@ public partial class VendorService : IVendorService
         approvalHistory.Remarks = requestReviewOfProductDTO.Remarks;
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
+
+        var vendor = await _vendorUserRepsository.Get(User.VendorId);
+        if (vendor != null && vendor.VendorRoleId == 1)
+        {
+            product.ProductApprovalStatusId = 2;
+        }
         product = await _productRepsository.Update(product.ProductId, product);
         var updatedproduct = await _productRepsository.Get(product!.ProductId);
         await _approvalHistoryRepsository.Create(approvalHistory);
@@ -70,6 +77,12 @@ public partial class VendorService : IVendorService
         approvalHistory.NewStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.ProductApprovalStatusId = requestReviewOfProductDTO.ApprovalStatusId;
         product.UpdatedAt = DateTime.Now;
+
+        var vendor = await _vendorUserRepsository.Get(vendorUser.VendorId);
+        if (vendor != null && vendor.VendorRoleId == 1)
+        {
+            product.ProductApprovalStatusId = 2;
+        }
         var updated = await _productVariantRepsository.Update(product.ProductVariantId, product);
         await _approvalHistoryRepsository.Create(approvalHistory);
         _logger.LogInformation("ProductVariantId {ProductVariantId} reviewed successfully by Vendor UserId {VendorUserId}. Status changed from {OldStatus} to {NewStatus}", product.ProductVariantId, vendorUserId, approvalHistory.PreviousStatusId, approvalHistory.NewStatusId);

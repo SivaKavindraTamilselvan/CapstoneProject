@@ -1,6 +1,6 @@
 <section class="bg-white px-8 py-8">
     <div class="pb-8 relative flex items-center justify-center">
-        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">Product Variant</h1>
+        <h1 class="text-blue-950 font-extrabold text-center text-xl sm:text-2xl">{{pageTitle()}}</h1>
         <div class="absolute right-0 flex items-center gap-0 sm:gap-2">
             @if(filterApplied()){
             <button type="button" class="p-2 hover:bg-gray-100 cursor-pointer rounded-md" (click)="resetFilters()">
@@ -243,4 +243,11 @@
         [totalCount]="variant()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
         (next)="nextPage()" (pageSizeChange)="onPageSizeChanged($event)">
     </app-pagination-component>
+
+    <app-delete-popup-components [show]="showDeletePopup()" title="Delete Product Variant"
+        message="Are you sure you want to delete this product variant This action is permanent and cannot be undone."
+        confirmText="Delete Variant" [remarkField]="deleteForm.remark" [loading]="progress()"
+        [errorMessage]="errorMessage() ?? ''" [successMessage]="successMessage() ?? ''" (confirm)="onConfirmDelete()"
+        (cancel)="onCancelDelete()">
+    </app-delete-popup-components>
 </section>

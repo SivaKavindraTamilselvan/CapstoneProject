@@ -88,6 +88,7 @@ public class AdminController : ControllerBase
         var result = await _adminService.ActivateAdminUser(adminUserId,UserId);
         return Ok(result);
     }
+    
     [HttpGet("returns")]
     public async Task<IActionResult> GetAllReturnsForAdmin([FromQuery] RequestAdminReturnFilter request)
     {

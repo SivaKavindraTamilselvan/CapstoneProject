@@ -98,8 +98,7 @@
 
             <div class="flex-1 flex flex-col gap-6 w-full">
                 @if(orderItem() && orderItem()!.returns && orderItem()!.returns.length > 0) {
-                <div
-                    class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+                <div class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
                     <div
                         class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
                         <div>
@@ -156,7 +155,59 @@
                     </div>
                 </div>
                 }
-                @if(shipment()) {
+                @if(orderItem() && orderItem()!.cancels && orderItem()!.cancels.length > 0) {
+                <div class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
+                    <div
+                        class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                        <div>
+                            <h2 class="text-base sm:text-lg font-bold text-slate-800">Cancel Details</h2>
+                            <p class="text-xs sm:text-sm text-slate-500 mt-0.5">{{ orderItem()!.cancels.length }} Cancel
+                                request(s)
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="divide-y divide-slate-100">
+                        @for(ret of orderItem()!.cancels; track ret.cancelId) {
+                        <div class="px-4 sm:px-6 py-4 sm:py-5">
+
+                            <div class="flex items-center justify-between flex-wrap gap-2 mb-3">
+                                <span class="text-sm font-bold text-slate-800">Cancel #{{ ret.cancelId }}</span>
+                                <span
+                                    class="px-3 sm:px-4 py-1.5 rounded-full text-xs sm:text-sm font-semibold whitespace-nowrap"
+                                    [ngClass]="returnStatusColor(ret.cancelStatus)">
+                                    {{ ret.cancelStatus }}
+                                </span>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Reason</p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.cancelReason }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Quantity</p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.cancelQuantity }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Refund
+                                        Amount</p>
+                                    <p class="text-sm text-slate-700 mt-1">₹{{ ret.cancelAmount | number:'1.2-2' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Requested On
+                                    </p>
+                                    <p class="text-sm text-slate-700 mt-1">{{ ret.cancelledDate | date:'medium' }}</p>
+                                </div>
+
+                            </div>
+
+                        </div>
+                        }
+                    </div>
+                </div>
+                }
+                @if(shipment() && orderItem()?.orderItemStatus !=="Cancelled" && shipment()?.shipmentTypeId==1) {
                 <div class="w-full bg-white rounded-md overflow-hidden border border-slate-200 shadow-sm">
                     <div
                         class="px-4 sm:px-6 py-4 sm:py-5 border-b border-slate-100 flex items-center justify-between flex-wrap gap-3">
@@ -236,10 +287,17 @@
                         }
                     </div>
                 </div>
-                } @else {
+                }
+                @else if(shipment()?.shipmentTypeId==2){
                 <div
-                    class="w-full lg:w-2/3 bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
-                    <p class="text-slate-500 font-medium">No shipment created yet for this item.</p>
+                    class="w-full  bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
+                    <p class="text-slate-500 font-medium">Return Shipment not visibile for user.</p>
+                </div>
+                }
+                @else {
+                <div
+                    class="w-full  bg-white rounded-2xl border border-dashed border-slate-300 shadow-sm py-10 sm:py-12 text-center">
+                    <p class="text-slate-500 font-medium">Shipment created deleted for this item.</p>
                 </div>
                 }
             </div>

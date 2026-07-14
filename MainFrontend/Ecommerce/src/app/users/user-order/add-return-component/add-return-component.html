@@ -1,83 +1,120 @@
 <div class="fixed inset-0 bg-black/50 flex items-center justify-center w-full p-4 z-50">
     <div class="w-full max-w-md rounded-xl bg-white p-6 sm:p-8 shadow-2xl">
 
-        <h2 class="text-center text-lg sm:text-xl font-bold text-slate-800">
+        <!-- Title -->
+        <h2 class="text-center text-xl font-bold text-red-700">
             Return Item
         </h2>
 
-        @if (successMessage()) {
-            <p class="text-green-600 text-sm sm:text-base text-center mt-4 font-medium">
-                {{ successMessage() }}
-            </p>
+        <p class="text-gray-600 text-sm sm:text-base font-semibold text-center mt-3">
+            Please provide the details for returning your item.
+        </p>
+
+        @if(successMessage()) {
+        <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center text-sm font-bold my-4">
+            {{ successMessage() }}
+        </div>
         } @else {
 
-            <div class="mt-6 space-y-4">
+        @if(errorMessage()) {
+        <div class="bg-red-600 px-4 py-3 rounded-md text-white text-center text-sm font-bold my-4">
+            {{ errorMessage() }}
+        </div>
+        }
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Return Reason
-                    </label>
-                    <select
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
-                        (change)="onReasonChange($event)">
-                        <option value="">Select a reason</option>
-                        @for (reason of returnReasons; track reason.id) {
-                            <option [value]="reason.id">{{ reason.name }}</option>
-                        }
-                    </select>
-                    @if (returnForm.returnReasonId().touched() && returnForm.returnReasonId().invalid()) {
-                        <p class="text-red-500 text-xs mt-1">Select the return reason</p>
+        <form class="mt-6 space-y-5">
+
+            <!-- Return Reason -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Return Reason
+                </label>
+
+                <select
+                    (change)="onReasonChange($event)"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600">
+
+                    <option value="">Select Return Reason</option>
+
+                    @for (reason of returnReasons; track reason.id) {
+                    <option [value]="reason.id">
+                        {{ reason.name }}
+                    </option>
                     }
-                </div>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Quantity
-                    </label>
-                    <input
-                        type="number"
-                        min="1"
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
-                        [value]="returnModel().returnQuantity"
-                        (input)="onQuantityInput($event)" />
-                    @if (returnForm.returnQuantity().touched() && returnForm.returnQuantity().invalid()) {
-                        <p class="text-red-500 text-xs mt-1">Enter the return quantity</p>
-                    }
-                </div>
+                </select>
 
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-1">
-                        Additional Reason
-                    </label>
-                    <textarea
-                        rows="3"
-                        class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-slate-700"
-                        [formField]="returnForm.additionalReason"></textarea>
-                    @if (returnForm.additionalReason().touched() && returnForm.additionalReason().invalid()) {
-                        <p class="text-red-500 text-xs mt-1">Enter the additional reason</p>
-                    }
-                </div>
-
-                @if (errorMessage()) {
-                    <p class="text-red-500 text-sm text-center">
-                        {{ errorMessage() }}
-                    </p>
+                @if(returnForm.returnReasonId().touched() &&
+                returnForm.returnReasonId().invalid()) {
+                <p class="text-red-600 text-sm mt-1">
+                    Select the return reason.
+                </p>
                 }
-
             </div>
 
-            <div class="flex justify-center gap-4 mt-8">
+            <!-- Quantity -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Return Quantity
+                </label>
+
+                <input
+                    type="number"
+                    min="1"
+                    [value]="returnModel().returnQuantity"
+                    (input)="onQuantityInput($event)"
+                    placeholder="Enter quantity"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600">
+
+                @if(returnForm.returnQuantity().touched() &&
+                returnForm.returnQuantity().invalid()) {
+                <p class="text-red-600 text-sm mt-1">
+                    Enter the return quantity.
+                </p>
+                }
+            </div>
+
+            <!-- Additional Reason -->
+            <div>
+                <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    Additional Reason
+                </label>
+
+                <textarea
+                    rows="4"
+                    [formField]="returnForm.additionalReason"
+                    placeholder="Enter additional details (optional)"
+                    class="w-full rounded-lg border border-gray-300 px-4 py-3 resize-none outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600">
+                </textarea>
+
+                @if(returnForm.additionalReason().touched() &&
+                returnForm.additionalReason().invalid()) {
+                <p class="text-red-600 text-sm mt-1">
+                    Enter the additional reason.
+                </p>
+                }
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-center gap-4 pt-2">
+
                 <button
+                    type="button"
                     class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
                     (click)="onCancel()">
                     Cancel
                 </button>
+
                 <button
-                    class="rounded-md px-5 py-2 font-semibold text-white bg-gradient-to-r from-slate-800 to-slate-700 hover:opacity-90"
+                    type="button"
+                    class="px-5 py-2 rounded-md bg-red-700 text-white font-semibold hover:bg-red-800"
                     (click)="onConfirm()">
                     Submit Return
                 </button>
+
             </div>
+
+        </form>
 
         }
 

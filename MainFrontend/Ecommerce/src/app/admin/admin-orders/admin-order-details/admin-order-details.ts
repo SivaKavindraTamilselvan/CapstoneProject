@@ -8,15 +8,15 @@ import { OrderItemSummaryModel } from '../../../models/admin/admin-orders/get-it
 
 @Component({
   selector: 'app-admin-order-details',
-  imports: [DecimalPipe,NgClass,DatePipe],
+  imports: [DecimalPipe, NgClass, DatePipe],
   templateUrl: './admin-order-details.html',
   styleUrl: './admin-order-details.css',
 })
 export class AdminOrderDetails {
-  orderModel = signal<OrderModel| null>(null);
+  orderModel = signal<OrderModel | null>(null);
 
 
-  constructor(private orderService: AdminOrderService, private route: ActivatedRoute,private router : Router) {
+  constructor(private orderService: AdminOrderService, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
@@ -36,18 +36,21 @@ export class AdminOrderDetails {
       }
     })
   }
-  goBack(){
+  goBack() {
     this.router.navigate(['/admin/orders/list']);
   }
-  viewVariant(id : number){
+  viewOrderItem(id: number) {
+    this.router.navigate(['/admin/order/order-item', id]);
+  }
+  viewVariant(id: number) {
     this.router.navigate(['/admin/product-variant-details', id]);
   }
-  viewCancel(id : number){
+  viewCancel(id: number) {
     this.router.navigate(['/admin/orders/cancelled-order', id]);
   }
-  viewShipment(id : number){
+  viewShipment(id: number) {
     this.router.navigate(['/admin/shipments/list'],
-       {
+      {
         queryParams:
         {
           orderId: id
