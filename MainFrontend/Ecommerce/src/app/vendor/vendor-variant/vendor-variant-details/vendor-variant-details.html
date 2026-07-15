@@ -58,8 +58,8 @@
             <div class="relative group">
                 <div
                     class="relative h-[320px] w-full border border-gray-200 rounded-xl flex items-center justify-center bg-white shadow-sm overflow-hidden">
-                    <img [src]="variantModel()!.productImages[currentImageIndex()].imageUrl"
-                        alt="Product Variant Image" class="max-h-full max-w-full object-contain p-4" />
+                    <img [src]="variantModel()!.productImages[currentImageIndex()].imageUrl" alt="Product Variant Image"
+                        class="max-h-full max-w-full object-contain p-4" />
 
                     <div class="absolute bottom-3 right-3 bg-black/60 text-white text-xs px-2.5 py-1 rounded-full">
                         {{ currentImageIndex() + 1 }} / {{ variantModel()!.productImages.length }}
@@ -270,7 +270,10 @@
         </table>
     </div>
 
-    <div class="flex items-center justify-center sm:justify-end gap-3 ">
+
+    <app-product-history-component [productId]="variantModel()!.productVariantId" [isVariant]="true">
+    </app-product-history-component>
+    <div class="flex items-center justify-center my-4 sm:justify-end gap-3 ">
         @if (variantModel()!.productVariantApprovalStatus != "Deleted_By_Admin" && variantModel()!.productVariantStatus
         != "Archived") {
         <button
