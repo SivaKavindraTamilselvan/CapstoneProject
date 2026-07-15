@@ -4,6 +4,7 @@ import { AddAddressModel } from '../../models/address/add-address.model';
 import { form, FormField, pattern, required } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
+import { BaseURL } from '../../environment';
 
 interface PostOffice {
   Name: string;
@@ -108,7 +109,7 @@ export class AddAddress {
   fetchPinData(pin: string) {
     this.pinLookupLoading.set(true);
     this.pinLookupError.set(null);
-    this.http.get<PinApiResponse[]>(`/pincode-api/pincode/${pin}`).subscribe({
+    this.http.get<PinApiResponse[]>(`${BaseURL}/Address/pincode/${pin}`).subscribe({
       next: (response) => {
         this.pinLookupLoading.set(false);
         const result = response?.[0];
@@ -123,7 +124,7 @@ export class AddAddress {
             city: '',
           }));
           this.addForm.state().markAsTouched();
-        } 
+        }
         else {
           this.pinLookupError.set('No results found for this PIN code.');
           this.cityOptions.set([]);

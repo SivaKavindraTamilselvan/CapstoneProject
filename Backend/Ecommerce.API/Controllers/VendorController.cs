@@ -91,7 +91,6 @@ public class VendorController : ControllerBase
         var result = await _vendorReturnService.ReviewReturnOrderProduct(requestReviewReturnDTO, vendorUserId);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
     [HttpPost("CreateReturnRefund/{returnId}")]
     public async Task<ActionResult> CreateReturnRefund(int returnId)
     {

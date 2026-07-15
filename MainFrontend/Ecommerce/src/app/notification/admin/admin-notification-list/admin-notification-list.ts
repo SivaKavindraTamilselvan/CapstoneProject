@@ -6,14 +6,16 @@ import { NotificationService } from '../../../services/notification.Service';
 import { NotificationFilterModel } from '../../../models/notification/notification.filter';
 import { DatePipe, NgClass } from '@angular/common';
 import { NotificationHubService } from '../../../services/notificationHubService';
+import { BasePage } from '../../../shared-class/shares-page-class';
+import { PaginationComponent } from '../../../shared-components/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-admin-notification-list',
-  imports: [NgClass],
+  imports: [NgClass,PaginationComponent],
   templateUrl: './admin-notification-list.html',
   styleUrl: './admin-notification-list.css',
 })
-export class AdminNotificationList {
+export class AdminNotificationList extends BasePage {
   private hub = inject(NotificationHubService);
   notifications = signal<PagedResponse<NotificationResponseModel> | null>(null);
 
@@ -21,10 +23,7 @@ export class AdminNotificationList {
   isRead = signal<boolean | undefined>(undefined);
   minCreatedAt = signal<Date | undefined>(undefined);
   maxCreatedAt = signal<Date | undefined>(undefined);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-
-  filterPanelOpen = signal<boolean>(false);
+  
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
   selectedNotification = signal<number | null>(null);
@@ -33,22 +32,17 @@ export class AdminNotificationList {
   progress = signal(false);
   filterapplied = signal(false);
 
-  toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilter();
-    }
+  protected loadData(): void {
+    this.loadNotification();
   }
 
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
 
+  
   totalPages = computed(() => this.notifications()?.totalPages ?? 1);
 
   constructor(private route: Router, private notificationService: NotificationService) {
     // ← new: react to live pushes
+    super();
     effect(() => {
       const incoming = this.hub.latestNotification();
       if (!incoming) return;
@@ -143,7 +137,7 @@ export class AdminNotificationList {
     this.closeFilterPanel();
   }
 
-  resetFilter(): void {
+  clearFilterValues(): void {
     this.filtererrorMessage.set("");
     this.isRead.set(undefined);
     this.notificationTypeId.set(undefined);
@@ -153,19 +147,7 @@ export class AdminNotificationList {
     this.loadNotification();
   }
 
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
-    this.loadNotification();
-  }
-
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
-
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
+  
 
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

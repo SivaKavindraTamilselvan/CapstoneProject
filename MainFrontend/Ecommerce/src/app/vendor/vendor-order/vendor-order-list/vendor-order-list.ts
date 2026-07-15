@@ -293,6 +293,8 @@ onToDateInput(event: Event): void {
   }));
 }
 
+successMessage = signal('');
+
   updateOrder() {
     const orderId = this.selectedOrderId();
     if (orderId === null) return;
@@ -300,6 +302,8 @@ onToDateInput(event: Event): void {
       next: (response: any) => {
         this.loadOrders();
         this.closePopup();
+        this.successMessage.set("Order Updated.. ");
+        this.showDeactivatePopup.set(false);
       }
     })
   }

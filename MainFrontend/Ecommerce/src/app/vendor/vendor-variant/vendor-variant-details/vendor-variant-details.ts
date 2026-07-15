@@ -13,10 +13,11 @@ import { ReviewPopupComponent } from '../../../shared-components/review-popup-co
 import { ProductImageModel } from '../../../models/product/product-image.model';
 import { AddProductVariantImageModel } from '../../../models/vendor/vendor-product/add-model/add-variant-image.model';
 import { AuthStateService } from '../../../services/auth-State.Service';
+import { ProductHistoryComponent } from '../../../admin/admin-product/product-history-component/product-history-component';
 
 @Component({
   selector: 'app-vendor-variant-details',
-  imports: [DatePipe, DecimalPipe, NgClass, UpdateRejectVairantComponent, UpdateProductComponent, DeleteProductComponent, ReviewPopupComponent],
+  imports: [DatePipe, DecimalPipe, NgClass, UpdateRejectVairantComponent, UpdateProductComponent, DeleteProductComponent, ReviewPopupComponent,ProductHistoryComponent],
   templateUrl: './vendor-variant-details.html',
   styleUrl: './vendor-variant-details.css',
 })

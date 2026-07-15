@@ -65,7 +65,7 @@ export class RegisterAdmin {
           this.errorMessage.set(messages);
         }
         else {
-          this.errorMessage.set("Something went wrong. Please try again.")
+          this.errorMessage.set(error.error.message);
         }
       }
     })

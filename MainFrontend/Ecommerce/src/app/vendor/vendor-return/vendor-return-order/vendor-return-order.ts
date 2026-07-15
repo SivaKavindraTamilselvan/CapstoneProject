@@ -134,7 +134,6 @@ export class VendorReturnOrder extends BasePage {
         { label: 'View', color: 'green', action: 'view' },
         { label: 'Approve', color: 'green', action: 'approve' },
         { label: 'Reject', color: 'red', action: 'reject' },
-        { label: 'Review', color: 'gray', action: 'review' },
       ];
     }
     else if (this.status() == 6) {
@@ -143,18 +142,15 @@ export class VendorReturnOrder extends BasePage {
         { label: 'Review', color: 'gray', action: 'review' },
       ];
     }
-    else if (this.status() == 8) {
+    else if (this.status() == 11) {
       return [
-       
+
         { label: 'View', color: 'green', action: 'view' },
-        { label: 'Review', color: 'gray', action: 'review' },
       ];
     }
 
     return [
-       { label: 'Review', color: 'gray', action: 'review' },
       { label: 'View', color: 'green', action: 'view' },
-      { label: 'Accept & Refund', color: 'green', action: 'refund' }
     ];
   });
 

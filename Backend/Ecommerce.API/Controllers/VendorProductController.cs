@@ -192,6 +192,7 @@ public class VendorProductController : ControllerBase
     [HttpPost("upload-variant-image")]
     public async Task<IActionResult> UploadProductVariantImage([FromForm] RequestUploadProductVariantImage requestUploadProductImage)
     {
+        Console.WriteLine("dnmkdsmc");
         int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
 
         if (requestUploadProductImage.File == null || requestUploadProductImage.File.Length == 0)
@@ -203,6 +204,8 @@ public class VendorProductController : ControllerBase
             requestUploadProductImage.File.FileName,
             requestUploadProductImage.File.ContentType);
 
+        Console.WriteLine(requestUploadProductImage.File);
+        Console.WriteLine(blobUrl);
         var requestAddProductImage = new RequestAddProductVariantImage
         {
             ProductVariantId = requestUploadProductImage.ProductVariantId,

@@ -52,7 +52,12 @@
                     </div>
                     <div class="flex px-5 py-3">
                         <span class="w-44 font-medium text-gray-500 text-sm">Payment Status</span>
+                        @if(orderModel()!.paymentType == "Cash On Delivery"){
+                        <span class="text-gray-900 text-sm">Pending</span>
+                        }
+                        @else{
                         <span class="text-gray-900 text-sm">{{ orderModel()!.paymentStatus }}</span>
+                        }
                     </div>
                 </div>
             </div>
@@ -206,24 +211,11 @@
                         </span>
                     </td>
                     <td class="px-4 py-3">
-                        <button (click)="viewOrderItem(item.orderItemsId)"
-                            class=" bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer
+                        <button (click)="viewOrderItem(item.orderItemsId)" class=" bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer
                             hover:bg-green-800 transition-colors shadow-sm">
                             View
                         </button>
-                        @if (item.orderItemStatus == "Cancelled" && item.cancels.length > 0) {
-                        <button
-                            class="bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm"
-                            (click)="viewCancel(item.cancels[0].cancelId)">
-                            View
-                        </button>
-                        }
-                        @else if(item.orderItemStatus == "Returned"){
-                        <button
-                            class="bg-green-700 py-3 px-4 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
-                            View
-                        </button>
-                        }
+                        
                     </td>
                 </tr>
                 }

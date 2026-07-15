@@ -8,4 +8,5 @@ public class CartItems
     public int ProductVariantId {get;set;}
     public ProductVariant? ProductVariant {get;set;}
     public int Qunatity {get;set;} = 1;
+   
 }

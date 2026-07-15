@@ -11,6 +11,8 @@ public partial class UserCartService : IUserCartService
         CartItems cartItems = new CartItems();
         cartItems.CartId = cart.CartId;
         cartItems.ProductVariantId = requestAddCartItemsDTO.ProductVariantId;
+        cart.UpdatedAt = DateTime.UtcNow;
+        await _cartRepsository.Update(cart.CartId,cart);
         await _cartItemsRepsository.Create(cartItems);
         return _mapper.Map<ResponseCartItemsDTO>(cartItems);
     }

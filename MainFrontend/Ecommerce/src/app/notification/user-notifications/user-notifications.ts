@@ -6,14 +6,16 @@ import { Router } from '@angular/router';
 import { NotificationService } from '../../services/notification.Service';
 import { NotificationFilterModel } from '../../models/notification/notification.filter';
 import { NgClass } from '@angular/common';
+import { BasePage } from '../../shared-class/shares-page-class';
+import { PaginationComponent } from '../../shared-components/pagination-component/pagination-component';
 
 @Component({
   selector: 'app-user-notifications',
-  imports: [NgClass],
+  imports: [NgClass,PaginationComponent],
   templateUrl: './user-notifications.html',
   styleUrl: './user-notifications.css',
 })
-export class UserNotifications {
+export class UserNotifications extends BasePage{
   private hub = inject(NotificationHubService);
   notifications = signal<PagedResponse<NotificationResponseModel> | null>(null);
 
@@ -21,10 +23,7 @@ export class UserNotifications {
   isRead = signal<boolean | undefined>(undefined);
   minCreatedAt = signal<Date | undefined>(undefined);
   maxCreatedAt = signal<Date | undefined>(undefined);
-  pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
-
-  filterPanelOpen = signal<boolean>(false);
+  
   successMessage = signal<string | null>(null);
   errorMessage = signal<string | null>(null);
   selectedNotification = signal<number | null>(null);
@@ -33,22 +32,11 @@ export class UserNotifications {
   progress = signal(false);
   filterapplied = signal(false);
 
-  toggleFilterPanel(): void {
-    const wasOpen = this.filterPanelOpen();
-    this.filterPanelOpen.update((open) => !open);
-    if (wasOpen && !this.filterapplied()) {
-      this.resetFilter();
-    }
-  }
-
-  closeFilterPanel(): void {
-    this.filterPanelOpen.set(false);
-  }
 
   totalPages = computed(() => this.notifications()?.totalPages ?? 1);
 
   constructor(private route: Router, private notificationService: NotificationService) {
-    
+    super();
     effect(() => {
         console.log('Hub status:', this.hub.connectionStatus());
 
@@ -145,7 +133,7 @@ export class UserNotifications {
     this.closeFilterPanel();
   }
 
-  resetFilter(): void {
+  clearFilterValues(): void {
     this.filtererrorMessage.set("");
     this.isRead.set(undefined);
     this.notificationTypeId.set(undefined);
@@ -155,19 +143,13 @@ export class UserNotifications {
     this.loadNotification();
   }
 
-  goToPage(page: number): void {
-    if (page < 1 || page > this.totalPages()) return;
-    this.pageNumber.set(page);
+
+  protected loadData(): void {
     this.loadNotification();
   }
 
-  nextPage(): void {
-    this.goToPage(this.pageNumber() + 1);
-  }
 
-  previousPage(): void {
-    this.goToPage(this.pageNumber() - 1);
-  }
+  
 
   onPageSizeChange(event: Event): void {
     const value = Number((event.target as HTMLSelectElement).value);

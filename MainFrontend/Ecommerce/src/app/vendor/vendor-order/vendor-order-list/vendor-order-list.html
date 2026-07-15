@@ -28,7 +28,8 @@
         </div>
         <div>
             <label class="text-sm font-semibold text-gray-700 mb-1">Status</label>
-            <select (change)="onStatusChange($event)" [value]="orderStatusId() ?? ''" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <select (change)="onStatusChange($event)" [value]="orderStatusId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
 
                 <option value="">All</option>
                 <option value="1">Pending</option>
@@ -41,7 +42,8 @@
         </div>
         <div>
             <label class="text-sm font-semibold text-gray-700 mb-1">Order Item Status</label>
-            <select (change)="onOrderStatusChange($event)" [value]="orderItemStatusId() ?? ''" class="border border-gray-400 rounded-md px-3 py-2 w-full">
+            <select (change)="onOrderStatusChange($event)" [value]="orderItemStatusId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
 
                 <option value="">All</option>
 
@@ -112,6 +114,9 @@
             <h2 class="text-xl font-bold text-green-700 text-center">
                 Confirm Package
             </h2>
+            @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
+            }
             <p class="text-gray-600 text-center mt-4">
                 Are you sure you want to mark as packed?
             </p>

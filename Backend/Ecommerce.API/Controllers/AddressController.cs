@@ -16,6 +16,17 @@ public class AddressController : ControllerBase
         _addressService = addressService;
     }
 
+    [HttpGet("pincode/{pincode}")]
+    public async Task<IActionResult> GetPincode(string pincode)
+    {
+        using var client = new HttpClient();
+
+        var response = await client.GetStringAsync(
+            $"https://api.postalpincode.in/pincode/{pincode}");
+
+        return Content(response, "application/json");
+    }
+
     [Authorize]
     [HttpPost("add-address")]
     public async Task<ActionResult<ResponseAddAddressDTO>> AddAddress(RequestAddAddressDTO requestAddAddressDTO)
@@ -45,7 +56,7 @@ public class AddressController : ControllerBase
     public async Task<ActionResult<ResponseGetAddressDTO>> GetUserAddress(int addressId)
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _addressService.GetAddress(UserId,addressId);
+        var result = await _addressService.GetAddress(UserId, addressId);
         return Ok(result);
     }
     [Authorize]

@@ -4,6 +4,7 @@ using Ecommerce.Services.Interfaces;
 
 public partial class UserCartService : IUserCartService
 {
+    private readonly ICartRepsository _cartRepsository;
     private readonly IProductValidation _productValidation;
     private readonly ICartItemsRepsository _cartItemsRepsository;
     private readonly ICartValidation _cartValidation;
@@ -11,8 +12,9 @@ public partial class UserCartService : IUserCartService
     private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly IMapper _mapper;
 
-    public UserCartService(IProductVariantRepsository productVariantRepsository,IProductImageRepsository productImageRepsository,IProductValidation productValidation,ICartItemsRepsository cartItemsRepsository,IMapper mapper,ICartValidation cartValidation)
+    public UserCartService(ICartRepsository cartRepsository,IProductVariantRepsository productVariantRepsository,IProductImageRepsository productImageRepsository,IProductValidation productValidation,ICartItemsRepsository cartItemsRepsository,IMapper mapper,ICartValidation cartValidation)
     {
+        _cartRepsository = cartRepsository;
         _productVariantRepsository = productVariantRepsository;
         _productImageRepsository = productImageRepsository;
         _productValidation = productValidation;

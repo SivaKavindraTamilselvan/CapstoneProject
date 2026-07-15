@@ -9,10 +9,11 @@ import { AdminDeleteProductModel, AdminDeleteVariantModel } from '../../../model
 import { VendorProductVariantModel } from '../../../models/vendor/vendor-product/response/vendor-variant.model';
 import { ReviewProductVariantModel } from '../../../models/product/review-variant.model';
 import { DatePipe, DecimalPipe, NgClass } from '@angular/common';
+import { ProductHistoryComponent } from '../product-history-component/product-history-component';
 
 @Component({
   selector: 'app-admin-variant-details',
-  imports: [ReviewPopupComponent, DeletePopupComponents, DatePipe, DecimalPipe, NgClass],
+  imports: [ReviewPopupComponent, DeletePopupComponents, DatePipe, DecimalPipe, NgClass,ProductHistoryComponent],
   templateUrl: './admin-variant-details.html',
   styleUrl: './admin-variant-details.css',
 })
