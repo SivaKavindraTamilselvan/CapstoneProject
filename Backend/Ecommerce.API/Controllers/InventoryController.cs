@@ -16,7 +16,8 @@ public class InventoryController : ControllerBase
         _adminInventoryService = adminInventoryService;
         _inventoryService = inventoryService;
     }
-    [Authorize(Policy = "VendorOwnerOnly")]
+
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpPost("AddInventory")]
     public async Task<ActionResult<ResponseAddInventoryDTO>> AddInventory(RequestAddInventoryDTO requestAddInventoryDTO)
     {
@@ -32,21 +33,8 @@ public class InventoryController : ControllerBase
         var result = await _inventoryService.UpdateInventory(requestUpdateInventoryDTO, vendorUserId);
         return Ok(result);
     }
-    [HttpGet("inventories")]
-    public async Task<ActionResult> GetInventoryForAdmin([FromQuery] RequestAdminInventoryFilter request)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminInventoryService.GetInventory(request, adminUserId);
-        return Ok(result);
-    }
-    [HttpGet("inventories/{inventoryId}")]
-    public async Task<ActionResult> GetInventoryForAdminById([FromRoute] int inventoryId)
-    {
-        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminInventoryService.GetInventoryById(inventoryId, adminUserId);
-        return Ok(result);
-    }
 
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpGet("vendor-inventories")]
     public async Task<ActionResult> GetInventoryForVendor([FromQuery] RequestVendorInventoryFilter request)
     {
@@ -54,6 +42,8 @@ public class InventoryController : ControllerBase
         var result = await _inventoryService.GetInventory(request, adminUserId);
         return Ok(result);
     }
+
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpGet("vendor-inventories/{inventoryId}")]
     public async Task<ActionResult> GetInventoryForVendorById([FromRoute] int inventoryId)
     {
@@ -61,6 +51,8 @@ public class InventoryController : ControllerBase
         var result = await _inventoryService.GetInventoryById(inventoryId, adminUserId);
         return Ok(result);
     }
+
+    [Authorize(Policy = "VendorOnwerAndInventoryVendorOnly")]
     [HttpPut("vendor-inventories/{inventoryId}")]
     public async Task<ActionResult> DeleteInventoryForVendorById([FromRoute] int inventoryId)
     {
@@ -69,5 +61,22 @@ public class InventoryController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "OrderAdminOrSuperAdminOnly")]
+    [HttpGet("inventories")]
+    public async Task<ActionResult> GetInventoryForAdmin([FromQuery] RequestAdminInventoryFilter request)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminInventoryService.GetInventory(request, adminUserId);
+        return Ok(result);
+    }
+
+    [Authorize(Policy = "OrderAdminOrSuperAdminOnly")]
+    [HttpGet("inventories/{inventoryId}")]
+    public async Task<ActionResult> GetInventoryForAdminById([FromRoute] int inventoryId)
+    {
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminInventoryService.GetInventoryById(inventoryId, adminUserId);
+        return Ok(result);
+    }
 
 }

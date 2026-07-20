@@ -25,55 +25,8 @@ public class OrderController : ControllerBase
         _vendorOrderService = vendorOrderService;
         _userReturnService = userReturnService;
     }
-    [Authorize]
-    [HttpPost("AddOrder")]
-    public async Task<ActionResult<ResponseAddOrderDTO>> AddOrder(RequestAddOrderDTO requestAddOrderDTO, [FromHeader(Name = "Idempotency-Key")] string idempotencyKey)
-    {
-        if (string.IsNullOrWhiteSpace(idempotencyKey))
-        {
-            return BadRequest(new { message = "Idempotency-Key header is required." });
-        }
 
-        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId,idempotencyKey);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
-    [HttpPut("UpdateOrderStatus")]
-    public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
-    {
-        var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpPost("RequestReturnOrder")]
-    public async Task<ActionResult<ResponseAddReturnDTO>> RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO)
-    {
-        var result = await _userReturnService.AddReturn(requestAddReturnDTO);
-        return Ok(result);
-    }
-    [HttpGet("admin")]
-    public async Task<IActionResult> GetOrdersAdmin([FromQuery] AdminOrderFilterParams filters)
-    {
-        var result = await _orderService.GetOrderByAdmin(filters);
-        return Ok(result);
-    }
-    [Authorize]
-    [HttpGet("vendor")]
-    public async Task<IActionResult> GetOrdersVendor([FromQuery] OrderFilterParams filters)
-    {
-        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _orderService.GetOrderByVendor(filters, vendorId);
-        return Ok(result);
-    }
-    [HttpGet("user")]
-    public async Task<IActionResult> GetOrdersUser([FromQuery] OrderFilterParams filters)
-    {
-        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _orderService.GetOrderByUserId(filters, vendorId);
-        return Ok(result);
-    }
-    [Authorize]
+    [Authorize(Policy = "OrderAdminOrSuperAdminOnly")]
     [HttpGet("GetAdminOrderById/{orderId}")]
     public async Task<ActionResult> GetAdminOrderByOrderId([FromRoute] int orderId)
     {
@@ -82,6 +35,49 @@ public class OrderController : ControllerBase
         Console.WriteLine(result);
         return Ok(result);
     }
+
+
+    [Authorize(Policy = "OrderAdminOrSuperAdminOnly")]
+    [HttpGet("admin")]
+    public async Task<IActionResult> GetOrdersAdmin([FromQuery] AdminOrderFilterParams filters)
+    {
+        var result = await _orderService.GetOrderByAdmin(filters);
+        return Ok(result);
+    }
+
+    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
+    [HttpPut("UpdateOrderStatus")]
+    public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
+    {
+        var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);
+        return Ok(result);
+    }
+
+    [Authorize(Policy = "VendorOnwerAndOrderVendorOnly")]
+    [HttpGet("vendor")]
+    public async Task<IActionResult> GetOrdersVendor([FromQuery] OrderFilterParams filters)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderByVendor(filters, vendorId);
+        return Ok(result);
+    }
+
+    [Authorize]
+    [HttpPost("RequestReturnOrder")]
+    public async Task<ActionResult<ResponseAddReturnDTO>> RequestAddReturn(RequestAddReturnDTO requestAddReturnDTO)
+    {
+        var result = await _userReturnService.AddReturn(requestAddReturnDTO);
+        return Ok(result);
+    }
+
+    [HttpGet("user")]
+    public async Task<IActionResult> GetOrdersUser([FromQuery] OrderFilterParams filters)
+    {
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _orderService.GetOrderByUserId(filters, vendorId);
+        return Ok(result);
+    }
+
     [Authorize]
     [HttpGet("GetUserOrderById/{orderId}")]
     public async Task<ActionResult> GetUserOrderByOrderId(int orderId)
@@ -99,12 +95,28 @@ public class OrderController : ControllerBase
         var result = await _orderService.GetOrderByOrderId(orderItemsId);
         return Ok(result);
     }
+
     [Authorize]
     [HttpPost("CheckService")]
     public async Task<ActionResult<ShippingCheckResponseDTO>> CheckService(RequestAddOrderDTO request)
     {
         int userid = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userOrderService.CheckService(request, userid);
+        return Ok(result);
+    }
+
+
+    [Authorize]
+    [HttpPost("AddOrder")]
+    public async Task<ActionResult<ResponseAddOrderDTO>> AddOrder(RequestAddOrderDTO requestAddOrderDTO, [FromHeader(Name = "Idempotency-Key")] string idempotencyKey)
+    {
+        if (string.IsNullOrWhiteSpace(idempotencyKey))
+        {
+            return BadRequest(new { message = "Idempotency-Key header is required." });
+        }
+
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId, idempotencyKey);
         return Ok(result);
     }
 }

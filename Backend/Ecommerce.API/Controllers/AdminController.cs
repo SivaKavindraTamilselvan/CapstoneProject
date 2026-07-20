@@ -11,13 +11,9 @@ namespace Ecommerce.API.Controllers;
 public class AdminController : ControllerBase
 {
     private readonly IAdminService _adminService;
-    private readonly IAdminReturnService _adminReturnService;
-    private readonly IAdminRefundService _adminRefundService;
-    public AdminController(IAdminRefundService adminRefundService, IAdminReturnService adminReturnService, IAdminService adminService)
+    public AdminController(IAdminService adminService)
     {
         _adminService = adminService;
-        _adminReturnService = adminReturnService;
-        _adminRefundService = adminRefundService;
     }
 
     [Authorize(Policy = "SuperAdminOnly")]
@@ -28,34 +24,7 @@ public class AdminController : ControllerBase
         var result = await _adminService.RegisterAdmin(requestRegisterAdminDTO, adminUserId);
         return Ok(result);
     }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("CreateReturnShipment")]
-    public async Task<ActionResult> CreateShipmentForReturnProduct(int returnId)
-    {
-        var result = await _adminReturnService.CreateReturnShipment(returnId);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPut("reviewRefund")]
-    public async Task<ActionResult> UpdateRefund(RequestUpdateRefundDTO requestUpdateRefundDTO)
-    {
-        var result = await _adminRefundService.ReviewRefund(requestUpdateRefundDTO);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("createRefund")]
-    public async Task<ActionResult> CreateRefund(RequestAddRefundDTO requestAddRefundDTO)
-    {
-        var result = await _adminRefundService.CreateRefund(requestAddRefundDTO);
-        return Ok(result);
-    }
-    [Authorize(Policy = "VendorAdminOrSuperAdminOnly")]
-    [HttpPost("CreateReturnRefund")]
-    public async Task<ActionResult> CreateReturnRefund(RequestAddReturnRefundDTO requestAddRefundDTO)
-    {
-        var result = await _adminRefundService.CreateReturnRefund(requestAddRefundDTO);
-        return Ok(result);
-    }
+
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpGet("GetAdminUser")]
     public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUser([FromQuery]RequestAdiminUserFilter request)
@@ -64,6 +33,7 @@ public class AdminController : ControllerBase
         var result = await _adminService.GetAllAdminUser(request,UserId);
         return Ok(result);
     }
+
     [Authorize(Policy = "SuperAdminOnly")]
     [HttpGet("GetAdminUser/{adminUserId}")]
     public async Task<ActionResult<List<ResponseGetAdminUserDTO>>> GetAdminUserByAdminUserId(int adminUserId)
@@ -86,13 +56,6 @@ public class AdminController : ControllerBase
     {
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _adminService.ActivateAdminUser(adminUserId,UserId);
-        return Ok(result);
-    }
-    
-    [HttpGet("returns")]
-    public async Task<IActionResult> GetAllReturnsForAdmin([FromQuery] RequestAdminReturnFilter request)
-    {
-        var result = await _adminReturnService.GetAllReturnsForAdmin(request);
         return Ok(result);
     }
 

@@ -11,15 +11,11 @@ namespace Ecommerce.API.Controllers;
 public class AdminProductController : ControllerBase
 {
     private readonly AiProductValidationService _aiService;
-    private readonly IAdminProductAttributeService _adminProductAttributeService;
-    private readonly IAdminProductCategoryService _adminProductCategoryService;
     private readonly IAdminProductService _adminProductService;
 
-    public AdminProductController(AiProductValidationService aiProductValidationService, IAdminProductService adminProductService, IAdminProductAttributeService adminProductAttributeService, IAdminProductCategoryService adminProductCategoryService)
+    public AdminProductController(AiProductValidationService aiProductValidationService, IAdminProductService adminProductService)
     {
         _aiService = aiProductValidationService;
-        _adminProductAttributeService = adminProductAttributeService;
-        _adminProductCategoryService = adminProductCategoryService;
         _adminProductService = adminProductService;
     }
     [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
@@ -88,6 +84,7 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "ProductPolicy")]
     [HttpGet("approval-history/{productId}")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistory(int productId)
     {
@@ -96,6 +93,7 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "ProductPolicy")]
     [HttpGet("approval-history/variant/{productId}")]
     public async Task<ActionResult<ResponseReviewOfProductDTO>> ApprovalHistoryVaraint(int productId)
     {
@@ -104,11 +102,12 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("{id}/ai-review")]
     public async Task<IActionResult> AiReview(int id)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var product = await _adminProductService.GetProductWithFullDetails(id, adminUserId); // make sure this includes ProductImages, ProductSubCategory.ProductCategory
+        var product = await _adminProductService.GetProductWithFullDetails(id, adminUserId);
         if (product == null)
             return NotFound();
 
@@ -116,6 +115,7 @@ public class AdminProductController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "ProductAdminOrSuperAdminOnly")]
     [HttpPost("variant/{id}/ai-review")]
     public async Task<IActionResult> AiReviewVariant(int id)
     {

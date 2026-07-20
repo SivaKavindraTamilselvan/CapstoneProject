@@ -2,6 +2,7 @@ using System.Security.Claims;
 using Ecommerce.DTOs;
 using Ecommerce.DTOs.Shipment;
 using Ecommerce.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 [ApiController]
@@ -12,7 +13,7 @@ public class ShiprocketController : ControllerBase
     private readonly IShipRocketService _shiprocketService;
     private readonly IAdminShipmentService _adminShipmentService;
 
-    public ShiprocketController(IShipmentService shipmentService,IShipRocketService shiprocketService,IAdminShipmentService adminShipmentService)
+    public ShiprocketController(IShipmentService shipmentService, IShipRocketService shiprocketService, IAdminShipmentService adminShipmentService)
     {
         _shipmentService = shipmentService;
         _shiprocketService = shiprocketService;
@@ -28,15 +29,16 @@ public class ShiprocketController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "CouponLogisticAdminOrSuperAdminOnly")]
     [HttpPut("updateShipmentStatus")]
-
     public async Task<IActionResult> UpdateShipmentStatus(ShipmentStatusRequestDTO shipmentStatusRequestDTO)
     {
         int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
-        var result = await _adminShipmentService.UpdateShimentStatus(shipmentStatusRequestDTO,adminUserId);
+        var result = await _adminShipmentService.UpdateShimentStatus(shipmentStatusRequestDTO, adminUserId);
         return Ok(result);
     }
 
+    [Authorize(Policy = "CouponLogisticAdminOrSuperAdminOnly")]
     [HttpGet]
     public async Task<IActionResult> GetAllShipmentsForAdmin([FromQuery] RequestShipmentFilter filter)
     {
@@ -44,6 +46,7 @@ public class ShiprocketController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize(Policy = "CouponLogisticAdminOrSuperAdminOnly")]
     [HttpGet("{shipmentId}")]
     public async Task<IActionResult> GetShipmentDetailForAdmin([FromRoute] int shipmentId)
     {
@@ -51,6 +54,7 @@ public class ShiprocketController : ControllerBase
         return Ok(result);
     }
 
+    [Authorize]
     [HttpGet("user/{orderItemId}")]
     public async Task<IActionResult> GetShipmentDetailForUser([FromRoute] int orderItemId)
     {

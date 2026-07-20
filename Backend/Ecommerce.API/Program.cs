@@ -344,16 +344,34 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("CouponPolicy", policy =>
     {
+        policy.RequireClaim(ClaimTypes.Role, "1");
+        policy.RequireClaim("AdminRoleId", "1", "5");
+    });
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ProductPolicy", policy =>
+    {
         policy.RequireAssertion(context =>
         {
-            var role = context.User.FindFirst(ClaimTypes.Role)?.Value;
-            var adminRoleId = context.User.FindFirst("AdminRoleId")?.Value;
-            var vendorRoleId = context.User.FindFirst("VendorRoleId")?.Value;
+            var roleClaim = context.User.FindFirst(ClaimTypes.Role)?.Value;
 
-            return
-                (role == "1" && (adminRoleId == "1" || adminRoleId == "5"))
-                ||
-                (role == "3" && (vendorRoleId == "1" || vendorRoleId == "2" || vendorRoleId == "8"));
+            // Vendor (Role "3") with VendorRoleId Owner(1), ProductVendor(2), or (3)
+            if (roleClaim == "3")
+            {
+                var vendorRoleClaim = context.User.FindFirst("VendorRoleId")?.Value;
+                return vendorRoleClaim == "1" || vendorRoleClaim == "2" || vendorRoleClaim == "3";
+            }
+
+            // Admin (Role "1") with AdminRoleId 1 or 3
+            if (roleClaim == "1")
+            {
+                var adminRoleClaim = context.User.FindFirst("AdminRoleId")?.Value;
+                return adminRoleClaim == "1" || adminRoleClaim == "3";
+            }
+
+            return false;
         });
     });
 });

@@ -13,15 +13,11 @@ public class UserController : ControllerBase
 {
     private readonly ICancelService _userCancelService;
     private readonly IUserReturnService _userReturnService;
-    private readonly IUserFavoriteService _userFavoriteService;
-    private readonly IAddressService _addressService;
     private readonly IReviewService _reviewService;
     public UserController(ICancelService userCancelService, IUserReturnService userReturnService, IUserFavoriteService userFavoriteService, IAddressService addressService, IReviewService reviewService)
     {
         _userCancelService = userCancelService;
         _userReturnService = userReturnService;
-        _userFavoriteService = userFavoriteService;
-        _addressService = addressService;
         _reviewService = reviewService;
     }
     
@@ -32,6 +28,8 @@ public class UserController : ControllerBase
         var result = await _reviewService.AddReview(requestAddReviewDTO);
         return Ok(result);
     }
+
+    [Authorize]
     [HttpGet("returns")]
     public async Task<IActionResult> GetAllReturnsForUser([FromQuery] RequestUserReturnFilter request)
     {
