@@ -24,13 +24,13 @@ using Azure.Security.KeyVault.Secrets;
 var builder = WebApplication.CreateBuilder(args);
 
 var keyVaultName = builder.Configuration["KeyVaultName"];
+Console.WriteLine($"KeyVaultName = {builder.Configuration["KeyVaultName"]}");
 if (!string.IsNullOrEmpty(keyVaultName))
 {
     var vaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
     var credential = new DefaultAzureCredential();
     var secretClient = new SecretClient(vaultUri, credential);
 
-    // FIXED: was "ConnectionStrings:DefaultConnection", now matches GetConnectionString("Default")
     builder.Configuration["ConnectionStrings:Default"] =
         secretClient.GetSecret("PostgresConnectionString").Value.Value;
 
@@ -146,8 +146,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-// FIXED: only ONE registration for AiProductValidationService, with BaseAddress set.
-// The duplicate bare AddHttpClient<AiProductValidationService>() further down has been removed.
+
 builder.Services.AddHttpClient<AiProductValidationService>(client =>
 {
     client.BaseAddress = new Uri(builder.Configuration["AiValidation:BaseUrl"]!);
@@ -429,6 +428,7 @@ builder.Services.AddScoped<IAdminReturnService, AdminReturnService>();
 builder.Services.AddScoped<IReturnRefundRepsository, ReturnRefundRepsository>();
 builder.Services.AddScoped<INotificationRepsository, NotificationRepsository>();
 builder.Services.AddScoped<IVendorApprovalRepsository, VendorApprovalHistories>();
+builder.Services.AddScoped<ILogChanges, LogChangeRepsository>();
 #endregion
 
 #region Services

@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminService : IAdminService
 {
+    private readonly ILogChanges _logChanges;
     private readonly IAdminUserValidation _adminUserValidation;
     private readonly ILogger<AdminService> _logger;
     private readonly IAuthentication _authentication;
@@ -15,8 +16,9 @@ public partial class AdminService : IAdminService
     private readonly IUserRepsository _userRepsository;
     private readonly EcommerceContext _ecommerceContext;
     private readonly IMapper _mapper;
-    public AdminService(IAdminUserValidation adminUserValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAuthentication authentication, IMapper mapper, ILogger<AdminService> logger, IAdminUserRepsository adminUserRepsository)
+    public AdminService(ILogChanges logChanges,IAdminUserValidation adminUserValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAuthentication authentication, IMapper mapper, ILogger<AdminService> logger, IAdminUserRepsository adminUserRepsository)
     {
+        _logChanges = logChanges;
         _adminUserValidation = adminUserValidation;
         _authentication = authentication;
         _ecommerceContext = ecommerceContext;

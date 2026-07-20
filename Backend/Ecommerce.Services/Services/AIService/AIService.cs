@@ -146,8 +146,8 @@ public class AiProductValidationService
         IHttpClientFactory httpClientFactory,
         IConfiguration configuration)
     {
-        _httpClient = httpClient; // BaseAddress already set via AddHttpClient<AiProductValidationService>() in Program.cs
-        _imageClient = httpClientFactory.CreateClient(); // pooled, not "new HttpClient()"
+        _httpClient = httpClient;
+        _imageClient = httpClientFactory.CreateClient(); 
         _frontendBaseUrl = configuration["AppSettings:FrontendBaseUrl"] ?? "http://localhost:5173";
     }
 

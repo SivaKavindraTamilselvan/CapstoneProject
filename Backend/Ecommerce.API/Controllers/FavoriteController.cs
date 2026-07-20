@@ -26,7 +26,8 @@ public class FavoriteController : ControllerBase
     [HttpPut("DeleteFavoriteItem")]
     public async Task<ActionResult<ResponseFavoriteItemsDTO>> DeleteCartItem(RequestDeleteFavoriteItemsDTO requestDeleteFavoriteItemsDTO)
     {
-        var result = await _userFavoriteService.DeleteFavorite(requestDeleteFavoriteItemsDTO);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userFavoriteService.DeleteFavorite(requestDeleteFavoriteItemsDTO,UserId);
         return Ok(result);
     }
 

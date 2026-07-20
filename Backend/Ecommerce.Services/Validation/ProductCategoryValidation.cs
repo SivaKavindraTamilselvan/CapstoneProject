@@ -23,6 +23,7 @@ public class ProductCategoryValidation : IProductCategoryValidation
         {
             throw new DataAlreadyRegisteredException("Sub category is deactivated");
         }
+        await ValidateCategory(subCategory.ProductCategoryId);
         return subCategory;
     }
     public async Task<ProductCategory> ValidateCategory(int categoryId)

@@ -4,11 +4,11 @@ using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
-public class VendorValidation :IVendorValidation
+public class VendorValidation : IVendorValidation
 {
     private readonly ILogger<VendorValidation> _logger;
     private readonly IVendorRepsository _vendorRepsository;
-    public VendorValidation(ILogger<VendorValidation> logger,IVendorRepsository vendorRepsository)
+    public VendorValidation(ILogger<VendorValidation> logger, IVendorRepsository vendorRepsository)
     {
         _logger = logger;
         _vendorRepsository = vendorRepsository;
@@ -26,7 +26,7 @@ public class VendorValidation :IVendorValidation
     public async Task<Vendor> ValidateVendorIfApproved(int vendorId)
     {
         var vendor = await ValidateVendor(vendorId);
-        if(vendor.ApprovalStatusId !=2)
+        if (vendor.ApprovalStatusId != (int)ApprovalStatusEnum.Accepted)
         {
             throw new DataApprovalStatusException("The Vendor Is Not Approved Yet");
         }

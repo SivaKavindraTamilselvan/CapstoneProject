@@ -23,7 +23,7 @@ public class ReviewService : IReviewService
     {
         _logger.LogInformation("Adding review for OrderItemId {OrderItemId}",requestAddReviewDTO.OrderDetailsId);
         var order = await _orderValidation.ValidateOrderItem(requestAddReviewDTO.OrderDetailsId);
-        if (order.OrderItemStatusId != 4)
+        if (order.OrderItemStatusId != (int)OrderItemStatusEnum.Delivered)
         {
             _logger.LogWarning("Review cannot be added for OrderItemId {OrderItemId} because status is {OrderItemStatusId}",requestAddReviewDTO.OrderDetailsId,order.OrderItemStatusId);
             throw new DataApprovalStatusException("Order Item Not Delivered Yet");
@@ -63,9 +63,9 @@ public class ReviewService : IReviewService
             {
                 ReviewId = r.ReviewId,
                 StarId = r.StarId,
-                ReviewDescription = r.ReviewDescription?.ReviewDescriptionName ?? string.Empty, // adjust property name
+                ReviewDescription = r.ReviewDescription?.ReviewDescriptionName ?? string.Empty,
                 AdditionalReviewDescription = r.AdditionalReviewDescription,
-                UserName = r.OrderItems?.Order?.Users?.FirstName, // adjust nav chain to reach user name
+                UserName = r.OrderItems?.Order?.Users?.FirstName,
                 CreatedAt = r.CreatedAt
             }).ToList()
         };

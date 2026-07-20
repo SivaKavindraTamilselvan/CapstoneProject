@@ -1,6 +1,7 @@
 using AutoMapper;
 using Ecommerce.Data;
 using Ecommerce.DTOs;
+using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
@@ -8,12 +9,13 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminService : IAdminService
 {
-    public async Task<ResponseGetAdminUserDTO> ActivateAdminUser(int adminUserId,int logedusedId)
+    public async Task<ResponseGetAdminUserDTO> ActivateAdminUser(int adminUserId, int logedusedId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
-           
+            await _adminUserValidation.ValidateOwnerAdminUserByUserId(logedusedId);
+            
             _logger.LogInformation("Activating Admin User {AdminUserId}", adminUserId);
             var adminUser = await _adminUserRepsository.GetAdminUserByAdminUserId(adminUserId);
             if (adminUser == null)
@@ -42,17 +44,33 @@ public partial class AdminService : IAdminService
             }
             user.IsActive = true;
             user.UpdatedAt = DateTime.Now;
+
+
             await _userRepsository.Update(user.UserId, user);
+
+            var logChanges = new LogChanges
+            {
+                TableName = nameof(AdminUser),
+                RecordId = adminUser.AdminUserId,
+                Actions = (int)AuditAction.Updated,
+                OldValue = $"AdminUserId={adminUser.AdminUserId}, UserId={adminUser.UserId}, IsActive=False",
+                NewValue = $"AdminUserId={adminUser.AdminUserId}, UserId={adminUser.UserId}, IsActive=True",
+                UserId = logedusedId,
+                ChangedAt = DateTime.Now
+            };
+
+            await _logChanges.Create(logChanges);
+            _logger.LogInformation("Audit log created for AdminUserId {AdminUserId}",adminUser.AdminUserId);
             _logger.LogInformation("User account activated for UserId {UserId}", user.UserId);
             _logger.LogInformation("Admin User {AdminUserId} activated successfully", adminUserId);
             await transaction.CommitAsync();
             return _mapper.Map<ResponseGetAdminUserDTO>(adminUser);
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
-            _logger.LogError(ex,"Error occurred while activating Admin User {AdminUserId}",adminUserId);
+            _logger.LogError(ex, "Error occurred while activating Admin User {AdminUserId}", adminUserId);
             await transaction.RollbackAsync();
-            _logger.LogInformation("Transaction rolled back for Admin User {AdminUserId}",adminUserId);
+            _logger.LogInformation("Transaction rolled back for Admin User {AdminUserId}", adminUserId);
             throw;
         }
     }

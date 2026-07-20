@@ -21,6 +21,25 @@ public partial class AuthenticationService : IAuthentication
         {
             throw new DataRegistrationException($"Registration for User with the Email {user.Email} failed");
         }
+
+        var userLog = new LogChanges
+        {
+            TableName = nameof(User),
+            RecordId = createdUser.UserId,
+            Actions = (int)AuditAction.Created,
+            OldValue = string.Empty,
+            NewValue = $"UserId={createdUser.UserId}, Email={createdUser.Email}, RoleId={createdUser.RoleId}",
+            UserId = createdUser.UserId,
+            ChangedAt = DateTime.Now
+        };
+
+        var createdUserLog = await _logChanges.Create(userLog);
+        if (createdUserLog == null)
+        {
+            _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", userLog.TableName, userLog.RecordId);
+            throw new DataRegistrationException("Audit log creation failed.");
+        }
+
         return _mapper.Map<ResponseRegisterUserDTO>(createdUser); // authentication mapper
     }
 
@@ -31,6 +50,7 @@ public partial class AuthenticationService : IAuthentication
         {
             _logger.LogInformation("User registration started for {Email}", requestRegisterUserDTO.Email);
             var user = await RegisterUser(requestRegisterUserDTO, (int)RoleEnum.User);
+
             Cart cart = new Cart();
             cart.UserId = user.UserId;
             var createdCart = await _cartRepsository.Create(cart);
@@ -39,6 +59,24 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Cart Creation Failed for User {UserID}", user.UserId);
                 throw new DataRegistrationException($"Cart Registration for User with the Email {user.Email} failed");
             }
+
+            var cartLog = new LogChanges
+            {
+                TableName = nameof(Cart),
+                RecordId = createdCart.CartId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"CartId={createdCart.CartId}, UserId={createdCart.UserId}",
+                UserId = user.UserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdCartLog = await _logChanges.Create(cartLog);
+            if (createdCartLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", cartLog.TableName, cartLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             Favorites favorites = new Favorites();
             favorites.UserId = user.UserId;
             var createdFavorite = await _favoriteRepsository.Create(favorites);
@@ -47,10 +85,27 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Favorite Creation Failed for User {UserID}", user.UserId);
                 throw new DataRegistrationException($"Favorite Registration for User with the Email {user.Email} failed");
             }
+
+            var favoritesLog = new LogChanges
+            {
+                TableName = nameof(Favorites),
+                RecordId = createdFavorite.FavoritesId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"FavoritesId={createdFavorite.FavoritesId}, UserId={createdFavorite.UserId}",
+                UserId = user.UserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdFavoritesLog = await _logChanges.Create(favoritesLog);
+            if (createdFavoritesLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", favoritesLog.TableName, favoritesLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             _logger.LogInformation("User registered successfully with UserId {UserId}", user.UserId);
             await transaction.CommitAsync();
             return _mapper.Map<ResponseRegisterUserDTO>(user); // authentication mapper
-
         }
         catch
         {
@@ -59,6 +114,7 @@ public partial class AuthenticationService : IAuthentication
             throw;
         }
     }
+
     public async Task<ResponseRegisterAdminDTO> RegisterAdmin(RequestRegisterAdminDTO requestRegisterAdminDTO, int adminUserId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
@@ -91,14 +147,53 @@ public partial class AuthenticationService : IAuthentication
                 throw new DataRegistrationException($"Registration for Admin User with the Email {user.Email} failed");
             }
 
+            var adminUserLog = new LogChanges
+            {
+                TableName = nameof(AdminUser),
+                RecordId = createdAdminUser.AdminUserId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"AdminUserId={createdAdminUser.AdminUserId}, UserId={createdAdminUser.UserId}, AdminRoleId={createdAdminUser.AdminRoleId}, AssignedByAdminUserId={createdAdminUser.AssignedByAdminUserId}",
+                UserId = adminUserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdAdminUserLog = await _logChanges.Create(adminUserLog);
+            if (createdAdminUserLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", adminUserLog.TableName, adminUserLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             token = Guid.NewGuid().ToString("N");
-            await _passwordSetTokenRepsository.Create(new PasswordSetToken
+            var createdToken = await _passwordSetTokenRepsository.Create(new PasswordSetToken
             {
                 UserId = user.UserId,
                 Token = token,
                 ExpiresAt = DateTime.UtcNow.AddHours(48),
                 IsUsed = false
             });
+            if (createdToken == null)
+            {
+                _logger.LogError("Failed to create password set token for UserId {UserId}", user.UserId);
+                throw new DataRegistrationException("Password set token creation failed");
+            }
+
+            var tokenLog = new LogChanges
+            {
+                TableName = nameof(PasswordSetToken),
+                RecordId = createdToken.PasswordSetTokenId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"PasswordSetTokenId={createdToken.PasswordSetTokenId}, UserId={createdToken.UserId}, ExpiresAt={createdToken.ExpiresAt}",
+                UserId = adminUserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdTokenLog = await _logChanges.Create(tokenLog);
+            if (createdTokenLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", tokenLog.TableName, tokenLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
 
             await transaction.CommitAsync();
 
@@ -125,6 +220,7 @@ public partial class AuthenticationService : IAuthentication
             throw;
         }
     }
+
     public async Task<ResponseRegisterVendorDTO> RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
@@ -135,6 +231,7 @@ public partial class AuthenticationService : IAuthentication
             _logger.LogInformation("User registration started for {Email}", requestRegisterVendorDTO.requestRegisterUserDTO.Email);
             await _registrationValidation.ValidateVendorDetails(requestRegisterVendorDTO);
             user = await RegisterUserWithoutPassword(requestRegisterVendorDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
+
             var vendor = _mapper.Map<Vendor>(requestRegisterVendorDTO);
             var createdVendor = await _vendorRepsository.Create(vendor);
             if (createdVendor == null)
@@ -142,6 +239,24 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Registration for Vendor With Company name {companyname} failed", vendor.VendorCompanyName);
                 throw new DataRegistrationException($"Registration for vendor failed");
             }
+
+            var vendorLog = new LogChanges
+            {
+                TableName = nameof(Vendor),
+                RecordId = createdVendor.VendorId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"VendorId={createdVendor.VendorId}, VendorCompanyName={createdVendor.VendorCompanyName}",
+                UserId = user.UserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdVendorLog = await _logChanges.Create(vendorLog);
+            if (createdVendorLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", vendorLog.TableName, vendorLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             VendorUser vendorUser = new VendorUser();
             vendorUser.VendorId = createdVendor.VendorId;
             vendorUser.UserId = user.UserId;
@@ -152,17 +267,59 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Registration for Vendor User with the Email {userEmail} failed", user.Email);
                 throw new DataRegistrationException($"Registration for vendor User with the Email {user.Email} failed");
             }
+
+            var vendorUserLog = new LogChanges
+            {
+                TableName = nameof(VendorUser),
+                RecordId = createdVendorUser.VendorUserId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"VendorUserId={createdVendorUser.VendorUserId}, VendorId={createdVendorUser.VendorId}, UserId={createdVendorUser.UserId}, VendorRoleId={createdVendorUser.VendorRoleId}",
+                UserId = user.UserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdVendorUserLog = await _logChanges.Create(vendorUserLog);
+            if (createdVendorUserLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", vendorUserLog.TableName, vendorUserLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             token = Guid.NewGuid().ToString("N");
-            await _passwordSetTokenRepsository.Create(new PasswordSetToken
+            var createdToken = await _passwordSetTokenRepsository.Create(new PasswordSetToken
             {
                 UserId = user.UserId,
                 Token = token,
                 ExpiresAt = DateTime.UtcNow.AddHours(48),
                 IsUsed = false
             });
+            if (createdToken == null)
+            {
+                _logger.LogError("Failed to create password set token for UserId {UserId}", user.UserId);
+                throw new DataRegistrationException("Password set token creation failed");
+            }
+
+            var tokenLog = new LogChanges
+            {
+                TableName = nameof(PasswordSetToken),
+                RecordId = createdToken.PasswordSetTokenId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"PasswordSetTokenId={createdToken.PasswordSetTokenId}, UserId={createdToken.UserId}, ExpiresAt={createdToken.ExpiresAt}",
+                UserId = user.UserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdTokenLog = await _logChanges.Create(tokenLog);
+            if (createdTokenLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", tokenLog.TableName, tokenLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
             await transaction.CommitAsync();
             _logger.LogInformation("Vendor registered successfully with UserId {UserId}", user.UserId);
             var responseVendor = _mapper.Map<ResponseRegisterVendorDTO>(createdVendor);
+
             try
             {
                 await _emailService.SendSetPasswordEmailAsync(user.Email, user.FirstName, token);
@@ -180,6 +337,7 @@ public partial class AuthenticationService : IAuthentication
             throw;
         }
     }
+
     public async Task<User> RegisterUserWithoutPassword(RequestRegisterUserDTO requestRegisterUserDTO, int roleId)
     {
         await _registrationValidation.ValidateUserDetails(requestRegisterUserDTO);
@@ -196,8 +354,27 @@ public partial class AuthenticationService : IAuthentication
         {
             throw new DataRegistrationException($"Registration for User with the Email {user.Email} failed");
         }
+
+        var userLog = new LogChanges
+        {
+            TableName = nameof(User),
+            RecordId = createdUser.UserId,
+            Actions = (int)AuditAction.Created,
+            OldValue = string.Empty,
+            NewValue = $"UserId={createdUser.UserId}, Email={createdUser.Email}, RoleId={createdUser.RoleId}",
+            UserId = createdUser.UserId,
+            ChangedAt = DateTime.Now
+        };
+        var createdUserLog = await _logChanges.Create(userLog);
+        if (createdUserLog == null)
+        {
+            _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", userLog.TableName, userLog.RecordId);
+            throw new DataRegistrationException("Audit log creation failed.");
+        }
+
         return createdUser;
     }
+
     public async Task<ResponseSetPasswordDTO> SetPassword(RequestSetPasswordDTO requestSetPasswordDTO)
     {
         var tokenEntity = await _passwordSetTokenRepsository.GetByToken(requestSetPasswordDTO.Token);
@@ -222,7 +399,28 @@ public partial class AuthenticationService : IAuthentication
         user.HashedKey = hmac.Key;
         user.IsPasswordSet = true;
 
-        await _userRepsository.Update(user.UserId, user); // adjust to whatever your update method is named
+        var updatedUser = await _userRepsository.Update(user.UserId, user); // adjust to whatever your update method is named
+        if (updatedUser == null)
+        {
+            throw new DataRegistrationException($"Password update for User with the Email {user.Email} failed");
+        }
+
+        var passwordLog = new LogChanges
+        {
+            TableName = nameof(User),
+            RecordId = updatedUser.UserId,
+            Actions = (int)AuditAction.Updated,
+            OldValue = $"UserId={user.UserId}, IsPasswordSet=false",
+            NewValue = $"UserId={updatedUser.UserId}, IsPasswordSet={updatedUser.IsPasswordSet}",
+            UserId = updatedUser.UserId,
+            ChangedAt = DateTime.Now
+        };
+        var createdPasswordLog = await _logChanges.Create(passwordLog);
+        if (createdPasswordLog == null)
+        {
+            throw new DataRegistrationException("Audit log creation failed.");
+        }
+
         await _passwordSetTokenRepsository.MarkAsUsed(tokenEntity.PasswordSetTokenId);
 
         return new ResponseSetPasswordDTO

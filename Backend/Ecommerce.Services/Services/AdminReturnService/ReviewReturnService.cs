@@ -70,7 +70,6 @@ public class AdminReturnService : IAdminReturnService
         var shipment = await CreateReturnShipmentRecord(user, service);
 
         await CreateReturnShipmentItem(shipment.ShipmentId, user.OrderItemId);
-        Console.WriteLine(shipment.ShipmentId);
         var a = await _shipmentRepsository.Get(shipment.ShipmentId);
         shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
         shipment.ShipmentStatusId = 4;

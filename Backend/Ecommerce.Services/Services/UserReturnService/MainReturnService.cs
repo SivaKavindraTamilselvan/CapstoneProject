@@ -5,6 +5,7 @@ using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class UserReturnService : IUserReturnService
 {
@@ -13,12 +14,14 @@ public partial class UserReturnService : IUserReturnService
     private readonly IOrderValidation _orderValidation;
     private readonly IShipmentValidation _shipmentValidation;
     private readonly IMapper _mapper;
-    public UserReturnService(IOrderItemRepsository orderItemRepsository,IReturnRepsository returnRepsository, IOrderValidation orderValidation, IMapper mapper, IShipmentValidation shipmentValidation)
+    private readonly ILogger<UserReturnService> _logger;
+    public UserReturnService(ILogger<UserReturnService> logger,IOrderItemRepsository orderItemRepsository,IReturnRepsository returnRepsository, IOrderValidation orderValidation, IMapper mapper, IShipmentValidation shipmentValidation)
     {
         _orderItemRepsository = orderItemRepsository;
         _returnRepsository = returnRepsository;
         _orderValidation = orderValidation;
         _shipmentValidation = shipmentValidation;
         _mapper = mapper;
+        _logger = logger;
     }
 }

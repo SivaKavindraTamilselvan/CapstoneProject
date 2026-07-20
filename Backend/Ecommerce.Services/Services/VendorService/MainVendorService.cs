@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 
 public partial class VendorService : IVendorService
 {
+    private readonly IVendorValidation _vendorValidation;
+    private readonly ILogChanges _logChanges;
     private readonly ILogger<VendorService> _logger;
     private readonly IAuthentication _authentication;
     private readonly EcommerceContext _ecommerceContext;
@@ -19,8 +21,10 @@ public partial class VendorService : IVendorService
     private readonly IMapper _mapper;
 
 
-    public VendorService(IUserRepsository userRepsository,ILogger<VendorService> logger,IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
+    public VendorService(IVendorValidation vendorValidation,ILogChanges logChanges,IUserRepsository userRepsository,ILogger<VendorService> logger,IProductVariantRepsository productVariantRepsository,IApprovalHistoryRepsository approvalHistoryRepsository,IProductRepsository productRepsository, IVendorUserValidation vendorUserValidation,IProductValidation productValidation,IMapper mapper,EcommerceContext ecommerceContext, IAuthentication authentication,IVendorUserRepsository vendorUserRepsository)
     {
+        _vendorValidation = vendorValidation;
+        _logChanges = logChanges;
         _userRepsository = userRepsository;
         _authentication = authentication;
         _ecommerceContext = ecommerceContext;

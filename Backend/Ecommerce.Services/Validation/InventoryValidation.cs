@@ -23,4 +23,19 @@ public class InventoryValidation : IInventoryValidation
         }
         return inventory;
     }
+
+    public async Task<Inventory> VendorValidateInventory(int inventoryId,int vendorId)
+    {
+        var inventory = await ValidateInventory(inventoryId);
+        inventory = await _inventoryRepsository.GetInventoryByVendorId(inventoryId,vendorId);
+        if(inventory == null)
+        {
+            throw new DataNotFoundException("Inventory Is Not Found");
+        }
+        if(!inventory.IsActive)
+        {
+            throw new DataNotFoundException("Inventory is deactivated");
+        }
+        return inventory;
+    }
 }

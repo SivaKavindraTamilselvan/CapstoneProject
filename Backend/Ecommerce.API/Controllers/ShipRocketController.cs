@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using Ecommerce.DTOs;
 using Ecommerce.DTOs.Shipment;
 using Ecommerce.Services.Interfaces;
@@ -31,7 +32,8 @@ public class ShiprocketController : ControllerBase
 
     public async Task<IActionResult> UpdateShipmentStatus(ShipmentStatusRequestDTO shipmentStatusRequestDTO)
     {
-        var result = await _adminShipmentService.UpdateShimentStatus(shipmentStatusRequestDTO);
+        int adminUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _adminShipmentService.UpdateShimentStatus(shipmentStatusRequestDTO,adminUserId);
         return Ok(result);
     }
 

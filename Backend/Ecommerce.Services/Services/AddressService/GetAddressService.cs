@@ -21,7 +21,6 @@ public partial class AddressService : IAddressService
     public async Task<ResponseGetAddressDTO> GetAddress(int userId, int addressId)
     {
         _logger.LogInformation("Fetching active addresses for UserId {UserId}", userId);
-        await _userValidation.ValidateUser(userId);
         await _userValidation.ValidateAddress(addressId, userId);
         var address = await _addressRepsository.Get(addressId);
         if (address == null)
@@ -29,7 +28,7 @@ public partial class AddressService : IAddressService
             _logger.LogWarning("No active addresses found for UserId {UserId}", userId);
             throw new DataNotFoundException("No Address Is Found");
         }
-        _logger.LogInformation("active addresses found for UserId {UserId}", userId);
+        _logger.LogInformation("Active addresses found for UserId {UserId}", userId);
         return _mapper.Map<ResponseGetAddressDTO>(address);
     }
     public async Task<PagedResponse<ResponseGetAddressDTO>> GetAllTheVendorAddress(int UserId, AddressRequestFilter request)

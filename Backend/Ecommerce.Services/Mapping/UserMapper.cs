@@ -50,6 +50,13 @@ namespace Ecommerce.Mappers
            .ForMember(d => d.PhoneNumber, o => o.MapFrom(s => s.User!.PhoneNumber))
            .ForMember(d => d.VendorRoleName, o => o.MapFrom(s => s.VendorRole!.VendorRoleName));
 
+            CreateMap<VendorUser, ResponseGetVendorUserListDTO>()
+            .ForMember(d => d.FirstName, o => o.MapFrom(s => s.User!.FirstName))
+            .ForMember(d => d.LastName, o => o.MapFrom(s => s.User!.LastName))
+            .ForMember(d => d.Email, o => o.MapFrom(s => s.User!.Email))
+            .ForMember(d => d.PhoneNumber, o => o.MapFrom(s => s.User!.PhoneNumber))
+            .ForMember(d => d.VendorRoleName, o => o.MapFrom(s => s.VendorRole!.VendorRoleName));
+
             CreateMap<Notification, ResponseNotification>()
             .ForMember(dest => dest.NotificationTypeName, opt => opt.MapFrom(src => src.NotificationType != null ? src.NotificationType.TypeName : string.Empty));
 

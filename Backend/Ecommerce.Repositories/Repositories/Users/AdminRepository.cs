@@ -23,7 +23,15 @@ public class AdminRepsository : AbstractRepository<int, AdminUser>, IAdminUserRe
     }
     public async Task<List<int>> GetProductAdminUserIds()
     {
-        return await _ecommerceContext.AdminUser.Include(u => u.User).Where(u => (u.AdminRoleId == 2 || u.AdminRoleId == 1) && u.IsActive).Select(u => u.User!.UserId).ToListAsync();
+        return await _ecommerceContext.AdminUser.Include(u => u.User).Where(u => (u.AdminRoleId == 3 || u.AdminRoleId == 1) && u.IsActive).Select(u => u.User!.UserId).ToListAsync();
+    }
+    public async Task<List<int>> GetOrderAdminUserIds()
+    {
+        return await _ecommerceContext.AdminUser.Include(u => u.User).Where(u => (u.AdminRoleId == 4 || u.AdminRoleId == 1) && u.IsActive).Select(u => u.User!.UserId).ToListAsync();
+    }
+    public async Task<List<int>> GetShipmentAdminUserIds()
+    {
+        return await _ecommerceContext.AdminUser.Include(u => u.User).Where(u => (u.AdminRoleId == 5 || u.AdminRoleId == 1) && u.IsActive).Select(u => u.User!.UserId).ToListAsync();
     }
     public async Task<(List<AdminUser> items, int totalCount)> GetAllAdminUser(RequestAdiminUserFilter request)
     {

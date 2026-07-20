@@ -62,7 +62,8 @@ public class CancelController : ControllerBase
     [HttpPost("request-cancels")]
     public async Task<IActionResult> RequestCancels(RequestCancelDTO request)
     {
-        var result = await _userCancelService.RequestCancel(request);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCancelService.RequestCancel(request,UserId);
         return Ok(result);
     }
 

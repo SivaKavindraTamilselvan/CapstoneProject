@@ -1,10 +1,13 @@
 using AutoMapper;
+using Ecommerce.Data;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 public partial class VendorProductService : IVendorProductService
 {
+    private readonly EcommerceContext _ecommerceContext;
+    private readonly ILogChanges _logChanges;
     private readonly IAdminUserRepsository _adminUserRepsository;
     private readonly IVendorUserRepsository _vendorUserRepsository;
     private readonly IProductVariantRepsository _productVariantRepsository;
@@ -20,8 +23,10 @@ public partial class VendorProductService : IVendorProductService
     private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
 
 
-    public VendorProductService(IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<VendorProductService> logger,IProductVariantRepsository productVariantRepsository,IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
+    public VendorProductService(EcommerceContext ecommerceContext,ILogChanges logChanges,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<VendorProductService> logger,IProductVariantRepsository productVariantRepsository,IProductValidation productValidation,IVendorUserValidation vendorUserValidation,IMapper mapper, IProductRepsository productRepsository, IVendorValidation vendorValidation,IProductCategoryValidation productCategoryValidation)
     {
+        _ecommerceContext = ecommerceContext;
+        _logChanges = logChanges;
         _attributeRepsository = attributeRepsository;
         _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
         _adminUserRepsository = adminUserRepsository;

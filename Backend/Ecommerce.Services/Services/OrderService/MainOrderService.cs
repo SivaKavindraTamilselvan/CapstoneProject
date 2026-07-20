@@ -3,9 +3,12 @@ using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class OrderService : IOrderService
 {
+    private readonly ILogChanges _logChanges;
+    private readonly ILogger<OrderService> _logger;
     private readonly IReturnRepsository _returnRepsository;
     private readonly IProductImageRepsository _productImageRepsository;
     private readonly IUserRepsository _userRepsository;
@@ -19,8 +22,10 @@ public partial class OrderService : IOrderService
     private readonly IShipmentService _shipmentService;
 
     private readonly IMapper _mapper;
-    public OrderService(IReturnRepsository returnRepsository,IProductImageRepsository productImageRepsository,ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(ILogChanges logChanges,ILogger<OrderService> logger,IReturnRepsository returnRepsository,IProductImageRepsository productImageRepsository,ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
+        _logChanges = logChanges;
+        _logger = logger;
         _returnRepsository = returnRepsository;
         _productImageRepsository = productImageRepsository;
         _couponUsageRepsository = couponUsageRepsository;

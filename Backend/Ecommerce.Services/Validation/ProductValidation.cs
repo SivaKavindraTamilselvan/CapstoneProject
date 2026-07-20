@@ -36,7 +36,7 @@ public class ProductValidation : IProductValidation
         }
         if (product.VendorId != vendorId)
         {
-            throw new InvalidCredentialException("You cannot access other vendor products");
+            throw new UnauthorizationException("You cannot access other vendor products");
         }
         return product;
     }
@@ -52,7 +52,7 @@ public class ProductValidation : IProductValidation
     public async Task<Product> ValidateProductIfApproved(int productId)
     {
         var product = await ValidateProduct(productId);
-        if (product.ProductApprovalStatusId != 4)
+        if (product.ProductApprovalStatusId != (int)ProductApprovalStatusEnum.Admin_Approved)
         {
             throw new DataApprovalStatusException("Product Is Not Yet Approved");
         }
@@ -65,7 +65,7 @@ public class ProductValidation : IProductValidation
         {
             throw new DataNotFoundException("Product Is Not found");
         }
-        if (product.ProductApprovalStatusId != 4)
+        if (product.ProductApprovalStatusId != (int)ProductApprovalStatusEnum.Admin_Approved)
         {
             throw new DataApprovalStatusException("Product Is Not Yet Approved");
         }

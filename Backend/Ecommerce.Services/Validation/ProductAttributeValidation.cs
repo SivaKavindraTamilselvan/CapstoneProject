@@ -34,6 +34,9 @@ public class ProductAttributeValidation : IProductAttributeValidation
         await ValidateAttribute(AttributeId);
         var subCategory = await _productCategoryValidation.ValidateSubCategory(productSubCategoryId);
         await _productCategoryValidation.ValidateCategory(subCategory.ProductCategoryId);
+
+        // get the mapped attribute based on attribute id , sub category id
+        /*
         var result = await _productSubCategoryAttributeRepsository.ValidateProductSubCategoryAttribute(AttributeId, productSubCategoryId);
         if (result != null && !result.IsActive)
         {
@@ -43,6 +46,7 @@ public class ProductAttributeValidation : IProductAttributeValidation
         {
             throw new DataNotFoundException("The Sub Category is mapped to the Attribute");
         }
+        */
     }
     public async Task ValidateAttributeName(string name)
     {

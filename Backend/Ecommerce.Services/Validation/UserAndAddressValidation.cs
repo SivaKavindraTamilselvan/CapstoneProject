@@ -23,7 +23,7 @@ public class UserValidation : IUserValidation
         }
         if(!user.IsActive)
         {
-            throw new DataNotFoundException("User Is Deactivated");
+            throw new UnauthorizationException("User Is Deactivated");
         }
         return user;
     }
@@ -31,15 +31,15 @@ public class UserValidation : IUserValidation
     // validate address and that address belong to that user
     public async Task<Address> ValidateAddress(int addressId,int userId)
     {
+        await ValidateUser(userId);
         var address = await _addressRepsository.Get(addressId);
-        Console.WriteLine(addressId);
         if(address == null)
         {
             throw new DataNotFoundException("Address Not Found");
         }
         if(address.UserId !=userId)
         {
-            throw new DataApprovalStatusException("You Cannot access other address datas");
+            throw new UnauthorizationException("You Cannot access other address datas");
         }
         return address;
     }

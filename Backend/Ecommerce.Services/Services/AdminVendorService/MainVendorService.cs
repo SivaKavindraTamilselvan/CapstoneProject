@@ -6,6 +6,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminVendorService : IAdminVendorService
 {
+    private readonly ILogChanges _logChanges;
     private readonly EcommerceContext _ecommerceContext;
     private readonly IVendorApprovalRepsository _approvalHistoryRepsository;
     private readonly ILogger<AdminVendorService> _logger;
@@ -16,8 +17,9 @@ public partial class AdminVendorService : IAdminVendorService
     private readonly IAdminUserValidation _adminUserValidation;
     private readonly INotificationService _notificationService;
     private readonly IMapper _mapper;
-    public AdminVendorService(EcommerceContext ecommerceContext,IVendorApprovalRepsository approvalHistoryRepsository,IVendorRepsository vendorRepsository,IAdminUserValidation adminUserValidation,IVendorValidation vendorValidation,ILogger<AdminVendorService> logger,INotificationService notificationService,IMapper mapper,IVendorUserRepsository vendorUserRepsository,IAdminUserRepsository adminUserRepsository)
+    public AdminVendorService(ILogChanges logChanges,EcommerceContext ecommerceContext,IVendorApprovalRepsository approvalHistoryRepsository,IVendorRepsository vendorRepsository,IAdminUserValidation adminUserValidation,IVendorValidation vendorValidation,ILogger<AdminVendorService> logger,INotificationService notificationService,IMapper mapper,IVendorUserRepsository vendorUserRepsository,IAdminUserRepsository adminUserRepsository)
     {
+        _logChanges = logChanges;
         _ecommerceContext = ecommerceContext;
         _approvalHistoryRepsository = approvalHistoryRepsository;
         _adminUserValidation = adminUserValidation;

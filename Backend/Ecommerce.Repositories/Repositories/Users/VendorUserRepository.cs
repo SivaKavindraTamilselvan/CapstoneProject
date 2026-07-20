@@ -19,7 +19,7 @@ public class VendorUserRepsository : AbstractRepository<int, VendorUser>, IVendo
 
     public async Task<VendorUser?> CheckUserIsVendorOwner(int userId)
     {
-        var vendorUser = await _ecommerceContext.VendorUser.FirstOrDefaultAsync(v => v.UserId == userId && v.VendorRoleId==1);
+        var vendorUser = await _ecommerceContext.VendorUser.FirstOrDefaultAsync(v => v.UserId == userId && v.VendorRoleId == 1);
         return vendorUser;
     }
 
@@ -31,6 +31,16 @@ public class VendorUserRepsository : AbstractRepository<int, VendorUser>, IVendo
     public async Task<VendorUser?> GetOwnerVendorUserByVendorId(int vendorId)
     {
         return await _ecommerceContext.VendorUser.Where(v => v.VendorId == vendorId && v.VendorRoleId == 1).FirstOrDefaultAsync();
+    }
+
+     public async Task<List<VendorUser>> GetOrderVendorUserByVendorId(int vendorId)
+    {
+        return await _ecommerceContext.VendorUser.Where(v => v.VendorId == vendorId && (v.VendorRoleId == 1 || v.VendorRoleId == 4)).ToListAsync();
+    }
+
+    public async Task<List<int>> GetAllProductVendorUserIds()
+    {
+        return await _ecommerceContext.VendorUser.Where(v => v.VendorRoleId == (int)VendorRoleEnum.Owner || v.VendorRoleId == (int)VendorRoleEnum.ProductManager).Select(v => v.UserId).ToListAsync();
     }
     public async Task<(List<VendorUser> items, int totalCount)> GetVendorsForAdmin(RequestAdminVendorUserFilter request)
     {
@@ -52,10 +62,10 @@ public class VendorUserRepsository : AbstractRepository<int, VendorUser>, IVendo
         return (items, totalCount);
     }
 
-    public async Task<(List<VendorUser> items, int totalCount)> GetVendorsForVendor(RequestVendorUserFilter request,int vendorId)
+    public async Task<(List<VendorUser> items, int totalCount)> GetVendorsForVendor(RequestVendorUserFilter request, int vendorId)
     {
         var query = _ecommerceContext.VendorUser.Include(u => u.User).Include(u => u.VendorRole).AsQueryable();
-        query = query.Where(v=>v.VendorId == vendorId);
+        query = query.Where(v => v.VendorId == vendorId);
         if (request.VendorRoleId.HasValue)
         {
             query = query.Where(u => u.VendorRoleId == request.VendorRoleId.Value);

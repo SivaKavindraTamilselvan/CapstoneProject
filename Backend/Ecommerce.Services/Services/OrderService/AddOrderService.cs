@@ -1,8 +1,11 @@
 using AutoMapper;
 using Ecommerce.DTOs;
 using Ecommerce.Models;
+using Ecommerce.Models.Exceptions;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
+using Npgsql.Internal;
 
 public partial class OrderService : IOrderService
 {
@@ -14,7 +17,7 @@ public partial class OrderService : IOrderService
         order.OrderNumber = $"ORD-{DateTime.UtcNow:yyyyMMdd}-{Random.Shared.Next(100000, 999999)}";
         order.FinalAmount = order.TotalProductAmount - order.TotalCouponAmount;
         order.FinalAmount = order.FinalAmount * 1.18m + order.TotalShippingAmount;
-        order.OrderStatusId = 1;
+        order.OrderStatusId = (int)OrderStatusEnum.Pending;
         order.OrderDate = DateTime.Now;
         await _orderRepsository.Create(order);
         return order;
@@ -23,6 +26,8 @@ public partial class OrderService : IOrderService
     // linked with the cart
     public async Task<List<OrderItems>> CreateOrderItems(List<SelectedCartInventory> selectedItems, Order order, Coupons? selectedCoupon)
     {
+        _logger.LogInformation("Creating order items for OrderId {OrderId}. SelectedItemCount {Count}", order.OrderId, selectedItems.Count);
+
         List<OrderItems> orderItemsList = new List<OrderItems>();
 
         foreach (var selected in selectedItems)
@@ -36,7 +41,7 @@ public partial class OrderService : IOrderService
             orderItems.OrderId = order.OrderId;
             orderItems.UnitPrice = cartItem.ProductVariant!.Price;
             orderItems.Discount = 0;
-            orderItems.OrderItemStatusId = 1;
+            orderItems.OrderItemStatusId = (int)OrderItemStatusEnum.Pending;
 
             if (selectedCoupon != null)
             {
@@ -44,31 +49,90 @@ public partial class OrderService : IOrderService
                 if (applicable)
                 {
                     orderItems.Discount = selectedCoupon.DiscountValue;
+                    _logger.LogInformation("CouponId {CouponId} applied to ProductVariantId {ProductVariantId}. Discount {Discount}", selectedCoupon.CouponId, cartItem.ProductVariantId, orderItems.Discount);
                 }
             }
+
             var createdOrderItem = await _orderItemRepsository.Create(orderItems);
-            if (createdOrderItem != null)
+            if (createdOrderItem == null)
             {
-                orderItemsList.Add(createdOrderItem);
+                _logger.LogError("Failed to create OrderItem for OrderId {OrderId}, ProductVariantId {ProductVariantId}", order.OrderId, cartItem.ProductVariantId);
+                throw new DataRegistrationException("Order item creation failed");
             }
-            var inventory = await _inventoryValidation.ValidateInventory(selected.Inventory.InventoryId);
-            inventory.AvailableQuantity = inventory.AvailableQuantity - cartItem.Qunatity;
-            inventory.ReservedQuantity = inventory.ReservedQuantity + cartItem.Qunatity;
-            await _inventoryRepsository.Update(inventory.InventoryId, inventory);
+            orderItemsList.Add(createdOrderItem);
+            _logger.LogInformation("OrderItem {OrderItemsId} created for OrderId {OrderId}, ProductVariantId {ProductVariantId}, Quantity {Quantity}", createdOrderItem.OrderItemsId, order.OrderId, createdOrderItem.ProductVariantId, createdOrderItem.Quantity);
+
+            var orderItemLog = new LogChanges
+            {
+                TableName = nameof(OrderItems),
+                RecordId = createdOrderItem.OrderItemsId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"OrderItemsId={createdOrderItem.OrderItemsId}, OrderId={createdOrderItem.OrderId}, ProductVariantId={createdOrderItem.ProductVariantId}, Quantity={createdOrderItem.Quantity}, UnitPrice={createdOrderItem.UnitPrice}, Discount={createdOrderItem.Discount}",
+                ChangedAt = DateTime.Now,
+                UserId = order.UserId,
+            };
+
+            var createdOrderItemLog = await _logChanges.Create(orderItemLog);
+            if (createdOrderItemLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", orderItemLog.TableName, orderItemLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for TableName {TableName}, RecordId {RecordId}", orderItemLog.TableName, orderItemLog.RecordId);
 
         }
+
         if (selectedCoupon != null)
         {
+            _logger.LogInformation("Recording coupon usage for OrderId {OrderId}, CouponId {CouponId}", order.OrderId, selectedCoupon.CouponId);
             await CreateCouponUsage(order.OrderId, selectedCoupon.CouponId);
         }
 
+        _logger.LogInformation("CreateOrderItems completed for OrderId {OrderId}. {Count} order items created", order.OrderId, orderItemsList.Count);
         return orderItemsList;
     }
+
     private async Task CreateCouponUsage(int orderId, int couponId)
     {
+        _logger.LogInformation("Creating CouponUsage record for OrderId {OrderId}, CouponId {CouponId}", orderId, couponId);
+
         CouponUsage couponUsage = new CouponUsage();
         couponUsage.CouponId = couponId;
         couponUsage.OrderId = orderId;
-        await _couponUsageRepsository.Create(couponUsage);
+
+        var order = await _orderRepsository.Get(orderId);
+        if (order == null)
+        {
+            throw new DataNotFoundException("Order Id not found for coupon usage creation");
+        }
+
+        var createdCouponUsage = await _couponUsageRepsository.Create(couponUsage);
+        if (createdCouponUsage == null)
+        {
+            _logger.LogError("Failed to create CouponUsage for OrderId {OrderId}, CouponId {CouponId}", orderId, couponId);
+            throw new DataRegistrationException("Coupon usage creation failed");
+        }
+        _logger.LogInformation("CouponUsage {CouponUsageId} created for OrderId {OrderId}, CouponId {CouponId}", createdCouponUsage.CouponUsageId, orderId, couponId);
+
+        var couponUsageLog = new LogChanges
+        {
+            TableName = nameof(CouponUsage),
+            RecordId = createdCouponUsage.CouponUsageId,
+            Actions = (int)AuditAction.Created,
+            OldValue = string.Empty,
+            NewValue = $"CouponUsageId={createdCouponUsage.CouponUsageId}, OrderId={createdCouponUsage.OrderId}, CouponId={createdCouponUsage.CouponId}",
+            ChangedAt = DateTime.Now,
+            UserId = order.UserId
+        };
+
+        var createdLog = await _logChanges.Create(couponUsageLog);
+        if (createdLog == null)
+        {
+            _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", couponUsageLog.TableName, couponUsageLog.RecordId);
+            throw new DataRegistrationException("Audit log creation failed.");
+        }
+        _logger.LogInformation("Audit log created for TableName {TableName}, RecordId {RecordId}", couponUsageLog.TableName, couponUsageLog.RecordId);
     }
+
 }

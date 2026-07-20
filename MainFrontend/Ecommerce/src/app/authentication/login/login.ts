@@ -68,6 +68,9 @@ export class Login {
 
           this.errorMessage.set(messages);
         }
+        else if (error.status === 429) {
+          this.errorMessage.set("To Many Request. Try after some time");
+        }
         else {
           this.errorMessage.set("Something went wrong. Please try again.");
         }

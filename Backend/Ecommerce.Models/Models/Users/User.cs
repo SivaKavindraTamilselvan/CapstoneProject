@@ -19,6 +19,7 @@ public class User
     public AdminUser? AdminUsers {get;set;}
     public VendorUser? VendorUser {get;set;}
     public bool IsPasswordSet { get; set; } = true;
+    public decimal WalletCost {get;set;} = 0;
 
     public ICollection<Coupons> Coupons {get;set;} = new List<Coupons>();
     public ICollection<Order> Orders {get;set;} = new List<Order>();

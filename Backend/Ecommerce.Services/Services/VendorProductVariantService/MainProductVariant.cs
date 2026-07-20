@@ -1,10 +1,13 @@
 using AutoMapper;
+using Ecommerce.Data;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
 using Microsoft.Extensions.Logging;
 
 public partial class VendorProductVariantService : IVendorProductVariantService
 {
+    private readonly EcommerceContext _ecommerceContext;
+    private readonly ILogChanges _logChanges;
     private readonly IAdminUserRepsository _adminUserRepsository;
     private readonly ILogger<VendorProductVariantService> _logger;
     private readonly IVendorValidation _vendorValidation;
@@ -17,8 +20,10 @@ public partial class VendorProductVariantService : IVendorProductVariantService
     private readonly INotificationService _notificationService;
     private readonly IVendorUserRepsository _vendorUserRepsository;
 
-    public VendorProductVariantService(IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,IAdminUserRepsository adminUserRepsository,ILogger<VendorProductVariantService> logger,IVendorValidation vendorValidation,IProductAttributeValidation productAttributeValidation,IMapper mapper, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IProductValidation productValidation,IProductCategoryValidation productCategoryValidation,IVendorUserValidation vendorUserValidation)
+    public VendorProductVariantService(EcommerceContext ecommerceContext,ILogChanges logChanges,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,IAdminUserRepsository adminUserRepsository,ILogger<VendorProductVariantService> logger,IVendorValidation vendorValidation,IProductAttributeValidation productAttributeValidation,IMapper mapper, IProductRepsository productRepsository, IProductVariantRepsository productVariantRepsository, IProductImageRepsository productImageRepsository, IProductVariantAttributeRepsository productVariantAttributeRepsository,IProductValidation productValidation,IProductCategoryValidation productCategoryValidation,IVendorUserValidation vendorUserValidation)
     {
+        _ecommerceContext = ecommerceContext;
+        _logChanges = logChanges;
         _vendorUserRepsository = vendorUserRepsository;
         _notificationService = notificationService;
         _adminUserRepsository = adminUserRepsository;

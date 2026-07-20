@@ -27,7 +27,8 @@ public class CartController : ControllerBase
     [HttpPut("UpdateToCart")]
     public async Task<ActionResult<ResponseCartItemsDTO>> UpdateToCart(RequestUpdateCartItemsDTO requestUpdateCartItemsDTO)
     {
-        var result = await _userCartService.UpdateCart(requestUpdateCartItemsDTO);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCartService.UpdateCart(requestUpdateCartItemsDTO,UserId);
         return Ok(result);
     }
 
@@ -35,7 +36,8 @@ public class CartController : ControllerBase
     [HttpPut("DeleteCartItem")]
     public async Task<ActionResult<ResponseCartItemsDTO>> DeleteCartItem(RequestDeleteCartItemsDTO requestDeleteCartItemsDTO)
     {
-        var result = await _userCartService.DeleteCart(requestDeleteCartItemsDTO);
+        int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _userCartService.DeleteCart(requestDeleteCartItemsDTO,UserId);
         return Ok(result);
     }
 

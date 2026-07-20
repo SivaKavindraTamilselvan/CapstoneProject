@@ -1,20 +1,18 @@
 using AutoMapper;
 using Ecommerce.Repositories.Interfaces;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
-public partial class UserProductCategoryService :IUserProductCategoryService
+public partial class UserProductService : IUserProductService
 {
-    private readonly IProductCategoryRepsository _productCategoryRepsository;
-    private readonly IAttributeRepsository _attributeRepsository;
-    private readonly IProductSubCategoryAttributeRepsository _productSubCategoryAttributeRepsository;
-    private readonly IProductSubCategoryRepsository _productSubCategoryRepsository;
+    private readonly ILogger<UserProductService> _logger;
+    private readonly IProductRepsository _productRepository;
     private readonly IMapper _mapper;
-    public UserProductCategoryService(IProductCategoryRepsository productCategoryRepsository,IMapper mapper,IAttributeRepsository attributeRepsository,IProductSubCategoryAttributeRepsository productSubCategoryAttributeRepsository,IProductSubCategoryRepsository productSubCategoryRepsository)
+
+    public UserProductService(ILogger<UserProductService> logger,IProductRepsository productRepository, IMapper mapper)
     {
-        _productCategoryRepsository = productCategoryRepsository;
-        _productSubCategoryAttributeRepsository = productSubCategoryAttributeRepsository;
-        _attributeRepsository = attributeRepsository;
-        _productSubCategoryRepsository = productSubCategoryRepsository;
+        _productRepository = productRepository;
         _mapper = mapper;
+        _logger = logger;
     }
 }

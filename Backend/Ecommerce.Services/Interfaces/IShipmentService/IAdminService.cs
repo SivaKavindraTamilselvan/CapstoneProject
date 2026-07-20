@@ -4,5 +4,5 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IAdminShipmentService
 {
-     public Task<ShipmentStatusResponseDTO> UpdateShimentStatus(ShipmentStatusRequestDTO shipmentStatusRequestDTO);
+     public Task<ShipmentStatusResponseDTO> UpdateShimentStatus(ShipmentStatusRequestDTO shipmentStatusRequestDTO, int adminUserId);
 }
