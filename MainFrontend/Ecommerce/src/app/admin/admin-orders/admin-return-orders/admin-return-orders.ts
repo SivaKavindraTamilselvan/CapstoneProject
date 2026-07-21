@@ -20,7 +20,7 @@ import { ReturnListModel } from '../../../models/vendor/vendor-return/return.mod
 
 @Component({
   selector: 'app-admin-return-orders',
-  imports: [HeaderComponent, DataTableComponent, MobileCardComponent, PaginationComponent, NgClass, FormsModule, ReactiveFormsModule, FormField, FilterComponent, ReturnRefundPopup],
+  imports: [HeaderComponent, DataTableComponent, MobileCardComponent, PaginationComponent, FormsModule, ReactiveFormsModule, FormField, FilterComponent, ReturnRefundPopup],
   providers: [DatePipe],
   templateUrl: './admin-return-orders.html',
   styleUrl: './admin-return-orders.css',

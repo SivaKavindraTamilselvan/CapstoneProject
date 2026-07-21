@@ -80,10 +80,6 @@ export class UserNavbar {
   onSearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.userProductService.navbarSearchTerm.set(value);
-    // No forced navigation here — if a category is selected, the search stays
-    // scoped to that category (UserProduct combines searchTerm with the
-    // active category/subcategory route param). If no category is selected
-    // (plain /user/products), the search is naturally global.
   }
 
   selectCategory(categoryId: number) {

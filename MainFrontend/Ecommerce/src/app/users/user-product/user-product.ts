@@ -6,11 +6,10 @@ import { UserProductFilter } from '../../models/user/product/user-product.filter
 import { ActivatedRoute, Route, Router } from '@angular/router';
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
-import { ProductReviews } from './product-reviews/product-reviews';
 
 @Component({
   selector: 'app-user-product',
-  imports: [ProductReviews],
+  imports: [],
   templateUrl: './user-product.html',
   styleUrl: './user-product.css',
 })

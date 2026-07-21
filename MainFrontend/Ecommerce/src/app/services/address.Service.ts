@@ -5,7 +5,6 @@ import { AddAddressModel } from "../models/address/add-address.model";
 import { AddressFilter } from "../models/address/address-filter";
 import { PagedResponse } from "../models/paged-response.model";
 import { AddressModel } from "../models/address/address-response.model";
-import { DeleteAddress } from "../address/delete-address/delete-address";
 
 @Injectable({
     providedIn: "root"

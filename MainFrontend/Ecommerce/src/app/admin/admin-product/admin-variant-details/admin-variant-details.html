@@ -307,15 +307,15 @@
     <app-delete-popup-components [show]="showDeletePopup()" title="Delete Product Variant"
         message="Are you sure you want to delete this product variant This action is permanent and cannot be undone."
         confirmText="Delete Variant" [remarkField]="deleteForm.remark" [loading]="progress()"
-        [errorMessage]="errorMessage() ?? ''" [successMessage]="successMessage() ?? ''" (confirm)="onConfirmDelete()"
+        [errorMessage]="errorMessage()" [successMessage]="successMessage()" (confirm)="onConfirmDelete()"
         (cancel)="onCancelDelete()">
     </app-delete-popup-components>
 
     <app-review-popup-component [show]="showReviewPopup()" title="Review Product Variant"
         message="Review this product variant by selecting an approval status and providing your remarks. Your review will update the product's approval status."
         confirmText="Submit Review" [statusField]="reviewForm.approvalStatusId" [statusOptions]="approvalStatusOption"
-        [remarkField]="reviewForm.remarks" [loading]="progress()" [errorMessage]="errorMessage() ?? ''"
-        [successMessage]="successMessage()?? '' " (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
+        [remarkField]="reviewForm.remarks" [loading]="progress()" [errorMessage]="errorMessage()"
+        [successMessage]="successMessage()" (confirm)="onConfirmReview()" (cancel)="onCancelReview()">
     </app-review-popup-component>
 </section>
 }
