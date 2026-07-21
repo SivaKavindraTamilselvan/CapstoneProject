@@ -43,6 +43,9 @@
             </div>
         </aside>
 
+
+
+
         <div class="flex-1 px-3 sm:px-6 lg:px-8 py-6 sm:py-8 min-w-0">
 
             <div class="pb-6 sm:pb-8 relative flex items-center justify-center">
@@ -55,6 +58,16 @@
                     </svg>
                 </button>
             </div>
+            @if (tableLoading()) {
+            <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+                <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <p class="text-sm font-medium">Loading user products...</p>
+            </div>
+            } @else {
 
             <div class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-3 sm:gap-5">
                 @if(products()) {
@@ -62,12 +75,12 @@
                 <div class="group border border-gray-200 rounded-lg sm:rounded-xl overflow-hidden bg-white flex flex-col hover:shadow-md hover:border-gray-300 transition-all duration-200 cursor-pointer"
                     (click)="goToProductDetails(product.productId)">
 
-                    <div class="aspect-square bg-gray-50 overflow-hidden relative">
+                    <div class="h-32 sm:h-40 md:h-44 xl:h-48 w-full bg-gray-50 overflow-hidden relative shrink-0">
                         @if(getMainImage(product); as imageUrl) {
                         <img [src]="imageUrl" [alt]="product.productName"
                             class="h-full w-full object-contain group-hover:scale-105 transition-transform duration-300" />
                         } @else {
-                        <div class="flex items-center justify-center text-gray-300">
+                        <div class="flex items-center justify-center text-gray-300 h-full">
                             <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 sm:h-12 sm:w-12" fill="none"
                                 viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
                                 <path stroke-linecap="round" stroke-linejoin="round"
@@ -137,6 +150,9 @@
                 </div>
             </div>
             }
+            }
         </div>
+
     </div>
+
 </section>

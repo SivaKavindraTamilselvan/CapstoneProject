@@ -14,7 +14,6 @@ public partial class AdminService : IAdminService
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
         try
         {
-
             await _adminUserValidation.ValidateOwnerAdminUserByUserId(logedusedId);
             _logger.LogInformation("Deactivating Admin User {AdminUserId}", adminUserId);
             var adminUser = await _adminUserRepsository.GetAdminUserByAdminUserId(adminUserId);
@@ -29,13 +28,16 @@ public partial class AdminService : IAdminService
                 throw new DataApprovalStatusException("Admin User is already deactivated");
             }
             adminUser.IsActive = false;
-            adminUser = await _adminUserRepsository.Update(adminUser.AdminUserId, adminUser);
-            if (adminUser == null)
+
+            var updatedAdminUser = await _adminUserRepsository.Update(adminUser.AdminUserId, adminUser);
+            if (updatedAdminUser == null)
             {
                 _logger.LogError("Failed to deactivate AdminUser {AdminUserId}", adminUserId);
                 throw new DataRegistrationException("Failed to deactivate Admin User");
             }
+            adminUser = updatedAdminUser;
             _logger.LogInformation("AdminUser record deactivated for AdminUserId {AdminUserId}", adminUserId);
+
             var user = await _userRepsository.Get(adminUser.UserId);
             if (user == null)
             {
@@ -44,7 +46,13 @@ public partial class AdminService : IAdminService
             }
             user.IsActive = false;
             user.UpdatedAt = DateTime.Now;
-            await _userRepsository.Update(user.UserId, user);
+
+            var updatedUser = await _userRepsository.Update(user.UserId, user);
+            if (updatedUser == null)
+            {
+                _logger.LogError("Failed to deactivate UserId {UserId} for AdminUserId {AdminUserId}", user.UserId, adminUser.AdminUserId);
+                throw new DataRegistrationException("Failed to deactivate User");
+            }
 
             var adminUserLog = new LogChanges
             {
@@ -57,27 +65,34 @@ public partial class AdminService : IAdminService
                 ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(adminUserLog);
-
-            _logger.LogInformation(
-                "Audit log created for AdminUserId {AdminUserId}",
-                adminUser.AdminUserId);
+            var createdAdminUserLog = await _logChanges.Create(adminUserLog);
+            if (createdAdminUserLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", adminUserLog.TableName, adminUserLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for AdminUserId {AdminUserId}", adminUser.AdminUserId);
 
             var userLog = new LogChanges
             {
                 TableName = nameof(User),
-                RecordId = user.UserId,
-                Actions = (int)AuditAction.Deleted,
+                RecordId = updatedUser.UserId,
+                Actions = (int)AuditAction.Updated,
                 OldValue = $"UserId={user.UserId}, IsActive=True",
-                NewValue = $"UserId={user.UserId}, IsActive=False",
+                NewValue = $"UserId={updatedUser.UserId}, IsActive=False",
                 UserId = logedusedId,
                 ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(userLog);
+            var createdUserLog = await _logChanges.Create(userLog);
+            if (createdUserLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", userLog.TableName, userLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for UserId {UserId}", updatedUser.UserId);
 
-            _logger.LogInformation("Audit log created for UserId {UserId}",user.UserId);
-            _logger.LogInformation("User account deactivated for UserId {UserId}", user.UserId);
+            _logger.LogInformation("User account deactivated for UserId {UserId}", updatedUser.UserId);
             _logger.LogInformation("Admin User {AdminUserId} deactivated successfully", adminUserId);
             await transaction.CommitAsync();
             return _mapper.Map<ResponseGetAdminUserDTO>(adminUser);

@@ -102,4 +102,19 @@ export class UserOrderDetails implements OnInit {
       default: return 'bg-gray-100 text-gray-700';
     }
   }
+  downloadInvoice(orderId: number): void {
+    this.orderService.downloadInvoice(orderId).subscribe({
+      next: (blob: Blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = `Invoice-Order-${orderId}.pdf`;
+        link.click();
+        window.URL.revokeObjectURL(url);
+      },
+      error: (error) => {
+        console.error('Failed to download invoice', error);
+      }
+    });
+  }
 }

@@ -14,11 +14,41 @@ public partial class OrderService : IOrderService
     public async Task<Order> CreateOrder(RequestCreateOrderDTO requestCreateOrderDTO)
     {
         var order = _mapper.Map<Order>(requestCreateOrderDTO);
+
+        var user = await _userRepsository.Get(requestCreateOrderDTO.UserId);
+        if (user == null)
+        {
+            throw new DataNotFoundException("User not found");
+        }
+
         order.OrderNumber = $"ORD-{DateTime.UtcNow:yyyyMMdd}-{Random.Shared.Next(100000, 999999)}";
         order.FinalAmount = order.TotalProductAmount - order.TotalCouponAmount;
         order.FinalAmount = order.FinalAmount * 1.18m + order.TotalShippingAmount;
         order.OrderStatusId = (int)OrderStatusEnum.Pending;
         order.OrderDate = DateTime.Now;
+
+        if (requestCreateOrderDTO.useWallet == true)
+        {
+
+            var usedAmount = Math.Min(user.WalletCost, order.FinalAmount);
+
+
+            order.FinalAmount -= usedAmount;
+
+            var previousWalletCost = user.WalletCost;
+            user.WalletCost = user.WalletCost - usedAmount;
+            order.TotalWalletAmount = usedAmount;
+
+            var updatedUser = await _userRepsository.Update(user.UserId, user);
+            if (updatedUser == null)
+            {
+                _logger.LogError("Failed to debit wallet for UserId {UserId}", user.UserId);
+                throw new DataRegistrationException("Wallet debit failed");
+            }
+            _logger.LogInformation("Wallet debited for UserId {UserId}. WalletCost {OldWalletCost} -> {NewWalletCost}, Amount used {UsedAmount}",
+                user.UserId, previousWalletCost, user.WalletCost, usedAmount);
+        }
+
         await _orderRepsository.Create(order);
         return order;
     }
@@ -43,6 +73,14 @@ public partial class OrderService : IOrderService
             orderItems.Discount = 0;
             orderItems.OrderItemStatusId = (int)OrderItemStatusEnum.Pending;
 
+            var productVariant = await _productVariantRepsository.Get(cartItem.ProductVariantId);
+
+            if (cartItem.Qunatity > productVariant!.MinimuQuantityPerUser)
+            {
+                throw new DataRegistrationException(
+                    $"You can purchase a maximum of {productVariant.MinimuQuantityPerUser} units of this product."
+                );
+            }
             if (selectedCoupon != null)
             {
                 bool applicable = selectedCoupon.CouponsProducts.Any(p => p.ProductId == cartItem.ProductVariant!.ProductId);

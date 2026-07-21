@@ -1,17 +1,18 @@
 # main.py
 from fastapi import FastAPI
 from pydantic import BaseModel
-import requests, os, json
+import requests, os, json, base64, mimetypes
 from typing import List
 from azure.identity import DefaultAzureCredential
 from azure.keyvault.secrets import SecretClient
 from dotenv import load_dotenv
 
-load_dotenv()  # still useful for local dev fallback
+load_dotenv() 
 
 app = FastAPI()
 
 KEY_VAULT_NAME = os.getenv("KeyVaultName")
+
 
 def load_secret(name: str, fallback_env: str = None) -> str:
     if KEY_VAULT_NAME:
@@ -23,8 +24,100 @@ def load_secret(name: str, fallback_env: str = None) -> str:
         return os.getenv(fallback_env, "")
     return ""
 
-GROQ_API_KEY = load_secret("GroqApiKey", fallback_env="GROQ_API_KEY")
-GROQ_URL = "https://api.groq.com/openai/v1/chat/completions"
+
+ANTHROPIC_API_KEY = load_secret("AnthropicApiKey", fallback_env="ANTHROPIC_API_KEY")
+ANTHROPIC_BASE_URL = load_secret("AnthropicBaseUrl", fallback_env="ANTHROPIC_BASE_URL") or "https://api.anthropic.com"
+ANTHROPIC_URL = f"{ANTHROPIC_BASE_URL.rstrip('/')}/v1/messages"
+ANTHROPIC_VERSION = "2023-06-01"
+MODEL_NAME = "claude-sonnet-4-6"
+
+
+def image_url_to_base64_block(url: str) -> dict:
+    """
+    Returns an Anthropic base64 image content block from either:
+      1. A real HTTP(S) image URL -- downloaded and base64-encoded here, or
+      2. An already-encoded data URI (e.g. "data:image/jpeg;base64,...") -- parsed directly,
+         no network request needed.
+
+    NOTE: the Presidio LLM gateway proxy this service is currently pointed at does not support
+    the "url" image source type ("URL sources are not supported" error) -- it requires images to
+    be sent as base64 data, one way or another.
+    """
+    if url.startswith("data:"):
+        try:
+            header, encoded = url.split(",", 1)
+            media_type = header.split(":", 1)[1].split(";")[0] or "image/jpeg"
+        except (IndexError, ValueError):
+            media_type = "image/jpeg"
+            encoded = url.split(",", 1)[-1]
+
+        return {
+            "type": "image",
+            "source": {
+                "type": "base64",
+                "media_type": media_type,
+                "data": encoded,
+            },
+        }
+
+    resp = requests.get(url, timeout=15)
+    resp.raise_for_status()
+
+    content_type = resp.headers.get("Content-Type")
+    if not content_type or not content_type.startswith("image/"):
+        guessed, _ = mimetypes.guess_type(url)
+        content_type = guessed or "image/jpeg"
+
+    encoded = base64.b64encode(resp.content).decode("utf-8")
+
+    return {
+        "type": "image",
+        "source": {
+            "type": "base64",
+            "media_type": content_type,
+            "data": encoded,
+        },
+    }
+
+
+def call_claude(content_blocks: list) -> str:
+    """Calls the Anthropic Messages API (or configured gateway) and returns the reply text."""
+    payload = {
+        "model": MODEL_NAME,
+        "max_tokens": 400,
+        "temperature": 0.2,
+        "messages": [
+            {"role": "user", "content": content_blocks}
+        ],
+    }
+    headers = {
+        "x-api-key": ANTHROPIC_API_KEY,
+        "anthropic-version": ANTHROPIC_VERSION,
+        "Content-Type": "application/json",
+    }
+    resp = requests.post(ANTHROPIC_URL, headers=headers, json=payload, timeout=60)
+
+    if not resp.ok:
+        print("ANTHROPIC ERROR BODY:", resp.text)
+
+    resp.raise_for_status()
+    data = resp.json()
+
+    text_parts = [block["text"] for block in data.get("content", []) if block.get("type") == "text"]
+    return "".join(text_parts)
+
+
+def parse_json_response(content: str) -> dict:
+    content = content.strip().strip("```json").strip("```").strip()
+    try:
+        return json.loads(content)
+    except json.JSONDecodeError:
+        return {
+            "isValid": False,
+            "confidence": 0,
+            "issues": ["AI response parse error"],
+            "recommendation": "REJECT",
+        }
 
 
 class ProductValidationRequest(BaseModel):
@@ -67,32 +160,10 @@ def validate_product(p: ProductValidationRequest):
     content_blocks = [{"type": "text", "text": build_prompt(p)}]
 
     for url in p.imageUrls:
-        content_blocks.append({
-            "type": "image_url",
-            "image_url": {"url": url}
-        })
+        content_blocks.append(image_url_to_base64_block(url))
 
-    payload = {
-        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "messages": [{"role": "user", "content": content_blocks}],
-        "temperature": 0.2,
-        "max_completion_tokens": 400
-    }
-    headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
-    resp = requests.post(GROQ_URL, headers=headers, json=payload, timeout=30)
-
-    if not resp.ok:
-        print("GROQ ERROR BODY:", resp.text)
-
-    resp.raise_for_status()
-    content = resp.json()["choices"][0]["message"]["content"]
-
-    content = content.strip().strip("```json").strip("```").strip()
-    try:
-        result = json.loads(content)
-    except json.JSONDecodeError:
-        result = {"isValid": False, "confidence": 0, "issues": ["AI response parse error"], "recommendation": "REJECT"}
-    return result
+    content = call_claude(content_blocks)
+    return parse_json_response(content)
 
 
 class VariantAttribute(BaseModel):
@@ -151,32 +222,10 @@ def validate_variant(p: ProductVariantValidationRequest):
     content_blocks = [{"type": "text", "text": build_variant_prompt(p)}]
 
     for url in p.imageUrls:
-        content_blocks.append({
-            "type": "image_url",
-            "image_url": {"url": url}
-        })
+        content_blocks.append(image_url_to_base64_block(url))
 
-    payload = {
-        "model": "meta-llama/llama-4-scout-17b-16e-instruct",
-        "messages": [{"role": "user", "content": content_blocks}],
-        "temperature": 0.2,
-        "max_completion_tokens": 400
-    }
-    headers = {"Authorization": f"Bearer {GROQ_API_KEY}", "Content-Type": "application/json"}
-    resp = requests.post(GROQ_URL, headers=headers, json=payload, timeout=30)
-
-    if not resp.ok:
-        print("GROQ ERROR BODY:", resp.text)
-
-    resp.raise_for_status()
-    content = resp.json()["choices"][0]["message"]["content"]
-
-    content = content.strip().strip("```json").strip("```").strip()
-    try:
-        result = json.loads(content)
-    except json.JSONDecodeError:
-        result = {"isValid": False, "confidence": 0, "issues": ["AI response parse error"], "recommendation": "REJECT"}
-    return result
+    content = call_claude(content_blocks)
+    return parse_json_response(content)
 
 
 if __name__ == "__main__":

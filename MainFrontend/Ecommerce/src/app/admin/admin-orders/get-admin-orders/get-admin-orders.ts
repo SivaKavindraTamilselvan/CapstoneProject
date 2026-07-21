@@ -169,15 +169,18 @@ export class GetAdminOrders extends BasePage {
 
   }
 
+  tableLoading = signal(false);
   loadOrders() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.adminOrderService.getOrders(this.orderFilter()).subscribe({
       next: (response: any) => {
         this.orders.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
 
         if (error.status === 404) {
           this.orders.set({
@@ -188,6 +191,7 @@ export class GetAdminOrders extends BasePage {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     });
   }

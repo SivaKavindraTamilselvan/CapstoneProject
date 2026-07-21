@@ -23,7 +23,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 
 @Component({
   selector: 'app-vendor-warehouse-list',
-  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule, AddInventoryComponent,HeaderComponent],
+  imports: [PaginationComponent, FilterComponent, DataTableComponent, MobileCardComponent, PopupComponent, FormsModule, FormField, ReactiveFormsModule, AddInventoryComponent, HeaderComponent],
   templateUrl: './vendor-warehouse-list.html',
   styleUrl: './vendor-warehouse-list.css',
 })
@@ -61,6 +61,7 @@ export class VendorWarehouseList extends BasePage {
         this.popupConfirmText.set('Delete Warehouse');
         this.popupButtonClass.set('bg-red-700 hover:bg-red-900');
         this.titleClass.set('text-red-700');
+        this.loadingText.set("Deleting...");
 
         this.showPopup.set(true);
         break;
@@ -91,7 +92,7 @@ export class VendorWarehouseList extends BasePage {
     this.addressFilter.set(new AddressFilter());
   }
 
-  constructor(private route : Router,private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
+  constructor(private route: Router, private router: ActivatedRoute, private addressService: VendorWarehouseService, private vendorInventoryService: VendorInventoryService) {
     super();
     effect(() => {
       if (this.filterForm().invalid()) {
@@ -132,15 +133,18 @@ export class VendorWarehouseList extends BasePage {
     min(path.pageSize, 1, { message: 'Page size must be at least 1.', });
   });
 
+  tableLoading = signal(false);
   loadAddress() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.addressService.getWarehouseAddress(this.addressFilter()).subscribe({
       next: (response: any) => {
         this.address.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
         if (error.status == 404) {
           this.address.set({
             items: [],
@@ -166,6 +170,7 @@ export class VendorWarehouseList extends BasePage {
         else {
           this.errorMessage.set('Failed to load warehouses.');
         }
+        this.tableLoading.set(false);
       }
     })
   }
@@ -220,9 +225,10 @@ export class VendorWarehouseList extends BasePage {
 
     this.addressService.deleteWarehouseAddress(id).subscribe({
       next: () => {
-        this.progress.set(false);
+        
         this.successMessage.set("Warehouse deleted successfully. Closing in 3 seconds...");
         setTimeout(() => {
+          this.progress.set(false);
           this.successMessage.set(null);
           this.closePopup();
           this.loadAddress();
@@ -258,7 +264,7 @@ export class VendorWarehouseList extends BasePage {
     this.showAddInventoryPopup.set(false);
     this.selectedAddressIdForInventory.set(null);
   }
-  viewWarehouse(id :number){
-    this.route.navigate(['vendor/warehouses',id]);
+  viewWarehouse(id: number) {
+    this.route.navigate(['vendor/warehouses', id]);
   }
 }

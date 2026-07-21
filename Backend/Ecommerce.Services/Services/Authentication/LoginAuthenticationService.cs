@@ -32,6 +32,11 @@ public partial class AuthenticationService : IAuthentication
             _logger.LogError("Login failed. User with {email} is deleted or deactivated", requestLoginUserDTO.Email);
             throw new InvalidCredentialException("User Is deleted or deactivated");
         }
+         if (!result.IsPasswordSet)
+        {
+            _logger.LogError("Login failed. User with {email} is password not set", requestLoginUserDTO.Email);
+            throw new InvalidCredentialException("User Password not set. So cannot login");
+        }
         if (result.RoleId == (int)RoleEnum.Vendor)
         {
             var vendor = await _vendorUserRepsository.GetVendorUserByUserId(result.UserId);
@@ -45,6 +50,8 @@ public partial class AuthenticationService : IAuthentication
                 _logger.LogError("Login failed. Vendor Is deleted or deactivated");
                 throw new InvalidCredentialException("Vendor Is deleted");
             }
+            await _vendorValidation.ValidateVendorIfApproved(vendor.VendorId);
+
         }
         int? adminRoleId = null;
         if (result.RoleId == (int)RoleEnum.Admin)
@@ -102,7 +109,7 @@ public partial class AuthenticationService : IAuthentication
         user.Password = newhMACSHA256.ComputeHash(Encoding.UTF32.GetBytes(request.NewPassword));
         user.HashedKey = newhMACSHA256.Key;
         user.UpdatedAt = DateTime.Now;
-        var updatedUser = await _userRepsository.Update(user.UserId,user);
+        var updatedUser = await _userRepsository.Update(user.UserId, user);
         if (updatedUser == null)
         {
             throw new DataRegistrationException($"Change Password failed");

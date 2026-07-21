@@ -6,14 +6,14 @@ import { Router } from '@angular/router';
 import { UserOrderService } from '../../../services/user-order.Service';
 import { UserOrderFilter } from '../../../models/user/order/order-fiter';
 import { CancelOrderModel } from '../../../models/user/order/cancel.order.model';
-import { form, FormField, pattern, required } from '@angular/forms/signals';
+import { form, FormField, pattern, required, validate } from '@angular/forms/signals';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AddReturnModel } from '../../../models/user/order/return.order.model';
 import { AddReturnComponent } from '../add-return-component/add-return-component';
 
 @Component({
   selector: 'app-user-get-order',
-  imports: [CommonModule, FormField, ReactiveFormsModule, FormsModule,AddReturnComponent],
+  imports: [CommonModule, FormField, ReactiveFormsModule, FormsModule, AddReturnComponent],
   templateUrl: './user-get-order.html',
   styleUrl: './user-get-order.css',
 })
@@ -39,7 +39,7 @@ export class UserGetOrder {
   maxAmount = signal<number | null>(null);
 
   pageNumber = signal<number>(1);
-  pageSize = signal<number>(10);
+  pageSize = signal<number>(5);
 
   totalPages = computed(() => this.orders()?.totalPages ?? 1);
 
@@ -55,14 +55,18 @@ export class UserGetOrder {
   goBack(): void {
     this.router.navigate(['/user/products']);
   }
+
+  tableLoading = signal(false);
   loadOrders() {
+    this.tableLoading.set(true);
     this.userOrderService.getOrders(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.orders.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
 
         if (error.status === 404) {
           this.orders.set({
@@ -73,6 +77,7 @@ export class UserGetOrder {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     });
   }
@@ -231,13 +236,16 @@ export class UserGetOrder {
     this.cancelModel.set(new CancelOrderModel());
     this.errorMessage.set(null);
     this.successMessage.set(null);
+    this.isSubmitting.set(false);
   }
 
   cancelModel = signal(new CancelOrderModel());
 
   cancelForm = form(this.cancelModel, (path) => {
-    required(path.cancelReasonId, {
-      message: 'Select the cancel reason'
+    validate(path.cancelReasonId, (ctx) => {
+      return ctx.value() === 0
+        ? { kind: 'required', message: 'Select the cancel reason' }
+        : null;
     });
 
     required(path.cancelStatusId, {
@@ -252,6 +260,8 @@ export class UserGetOrder {
       message: 'Enter the additional reason'
     });
   });
+  isSubmitting = signal(false);
+
   handleCancel() {
     this.errorMessage.set(null);
     this.successMessage.set(null);
@@ -269,6 +279,8 @@ export class UserGetOrder {
       cancelQuantity: Number(this.cancelModel().cancelQuantity)
     };
 
+    this.isSubmitting.set(true);
+
     this.userOrderService.cancelOrder(request).subscribe({
       next: () => {
         this.successMessage.set('Order cancelled successfully');
@@ -276,9 +288,12 @@ export class UserGetOrder {
         setTimeout(() => {
           this.closePopup();
           this.loadOrders();
-        }, 2000);
+          this.isSubmitting.set(false);
+        }, 3000);
       },
       error: (error) => {
+        this.isSubmitting.set(false);
+
         if (error.status === 400 && error.error?.errors) {
           const messages = Object.values(error.error.errors)
             .flat()

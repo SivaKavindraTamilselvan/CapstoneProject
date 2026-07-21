@@ -77,9 +77,10 @@ export class UpdateRejectVairantComponent {
     this.progress.set(true);
     this.vendorProductService.updateRejectedVariant(this.updateModel()).subscribe({
       next: () => {
-        this.progress.set(false);
+        
         this.successMessage.set("Variant updated successfully");
         setTimeout(() => {
+          this.progress.set(false);
           this.successMessage.set(null);
           this.updated.emit();
           this.close();

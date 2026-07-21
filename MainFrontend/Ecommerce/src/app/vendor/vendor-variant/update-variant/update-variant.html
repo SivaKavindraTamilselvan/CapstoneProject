@@ -318,16 +318,16 @@
                     <option value="3">Temporarily Not Available</option>
                     <option value="4">Archived</option>
                 </select>
-                <div class="flex justify-end gap-3 pt-4">
-                    <button type="button" class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
-                        (click)="closePopup()">
-                        Cancel
-                    </button>
-                    <button type="submit"
-                        class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold hover:bg-blue-900">
-                        Submit
-                    </button>
-                </div>
+                <div class="flex justify-center gap-4 pt-2">
+                <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
+                    hover:bg-gray-400 disabled:opacity-60" (click)="closePopup()">
+                    Cancel
+                </button>
+                <button type="submit" [disabled]="progress()" class="px-5 py-2 rounded-md bg-blue-700 text-white font-semibold 
+                    hover:bg-blue-900 disabled:opacity-60">
+                    {{ progress() ? 'Updating...' : 'Update Variant' }}
+                </button>
+            </div>
             </form>
         </div>
     </div>

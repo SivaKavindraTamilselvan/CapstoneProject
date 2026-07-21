@@ -53,9 +53,10 @@ export class AddVariant {
     this.loadAttributes();
     this.mainAttributeId.set(mainProductAttributeId);
 
+    // ngOnInit
     this.productVariant.update((v) => ({
       ...v,
-      productId,
+      ProductId: productId,
       subCategoryId,
       mainProductAttributeId,
     }));
@@ -140,111 +141,111 @@ export class AddVariant {
   }
 
   updateAttributeId(index: number, event: Event): void {
-    const value = Number((event.target as HTMLInputElement).value);
-    this.productVariant.update((v) => {
-      const updated = [...v.productVariantAttribute];
-      updated[index] = { ...updated[index], productSubCategoryAttributeId: value };
-      return { ...v, productVariantAttribute: updated };
-    });
-  }
+  const value = Number((event.target as HTMLInputElement).value);
+  this.productVariant.update((v) => {
+    const updated = [...v.productVariantAttribute];
+    updated[index] = { ...updated[index], ProductSubCategoryAttributeId: value };
+    return { ...v, productVariantAttribute: updated };
+  });
+}
 
   updateAttributeValue(index: number, event: Event): void {
-    const value = (event.target as HTMLInputElement).value;
-    this.productVariant.update((v) => {
-      const updated = [...v.productVariantAttribute];
-      updated[index] = { ...updated[index], attributeValue: value };
-      return { ...v, productVariantAttribute: updated };
-    });
-  }
+  const value = (event.target as HTMLInputElement).value;
+  this.productVariant.update((v) => {
+    const updated = [...v.productVariantAttribute];
+    updated[index] = { ...updated[index], AttributeValue: value };
+    return { ...v, productVariantAttribute: updated };
+  });
+}
 
   onImageSelected(event: Event): void {
-  const input = event.target as HTMLInputElement;
-  if (!input.files?.length) return;
+    const input = event.target as HTMLInputElement;
+    if (!input.files?.length) return;
 
-  Array.from(input.files).forEach((file) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      const image = new AddProductVariantImageModel();
-      image.file = file; // store the actual File, not file.name
-      image.displayOrderId = this.nextAvailableAngle();
+    Array.from(input.files).forEach((file) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        const image = new AddProductVariantImageModel();
+        image.file = file; // store the actual File, not file.name
+        image.displayOrderId = this.nextAvailableAngle();
 
-      this.productVariantImages.update((imgs) => [...imgs, image]);
-      this.variantImagePreviews.update((previews) => [...previews, reader.result as string]);
-    };
-    reader.readAsDataURL(file);
-  });
+        this.productVariantImages.update((imgs) => [...imgs, image]);
+        this.variantImagePreviews.update((previews) => [...previews, reader.result as string]);
+      };
+      reader.readAsDataURL(file);
+    });
 
-  input.value = '';
-}
-
-private nextAvailableAngle(): number {
-  const usedAngles = this.productVariantImages().map((img) => img.displayOrderId);
-  const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
-  return free ? free.value : 1;
-}
-
-onAngleChange(index: number, event: Event): void {
-  const value = Number((event.target as HTMLSelectElement).value);
-  this.productVariantImages.update((imgs) =>
-    imgs.map((img, i) => (i === index ? { ...img, displayOrderId: value } : img))
-  );
-}
-
-removeImage(index: number): void {
-  this.productVariantImages.update((imgs) => imgs.filter((_, i) => i !== index));
-  this.variantImagePreviews.update((previews) => previews.filter((_, i) => i !== index));
-}
-
-private addVariantImages(variantId: number): void {
-  const images = this.productVariantImages().map((img) => {
-    img.productVariantId = variantId;
-    return img;
-  });
-
-  if (images.length === 0) {
-    this.successMessage.set('Variant added successfully');
-    this.loading.set(false);
-    this.resetForm();
-    return;
+    input.value = '';
   }
 
-  let uploadedCount = 0;
+  private nextAvailableAngle(): number {
+    const usedAngles = this.productVariantImages().map((img) => img.displayOrderId);
+    const free = this.imageAngles.find((a) => !usedAngles.includes(a.value));
+    return free ? free.value : 1;
+  }
 
-  images.forEach((image) => {
-    const formData = new FormData();
-    formData.append('ProductVariantId', image.productVariantId.toString());
-    formData.append('File', image.file as File);
-    formData.append('DisplayOrderId', image.displayOrderId.toString());
+  onAngleChange(index: number, event: Event): void {
+    const value = Number((event.target as HTMLSelectElement).value);
+    this.productVariantImages.update((imgs) =>
+      imgs.map((img, i) => (i === index ? { ...img, displayOrderId: value } : img))
+    );
+  }
 
-    this.vendorProductService.uploadProductVariantImage(formData).subscribe({
-      next: () => {
-        uploadedCount++;
+  removeImage(index: number): void {
+    this.productVariantImages.update((imgs) => imgs.filter((_, i) => i !== index));
+    this.variantImagePreviews.update((previews) => previews.filter((_, i) => i !== index));
+  }
 
-        if (uploadedCount === images.length) {
-          this.successMessage.set('Variant and images added successfully');
-          this.loading.set(false);
-          this.resetForm();
-        }
-      },
-      error: (error) => {
-        if (error.error?.message) {
-          this.errorMessage.set(error.error.message);
-        }
-        else if (error.status === 0) {
-          this.errorMessage.set(
-            'Images could not be uploaded. Please check your connection.'
-          );
-        }
-        else {
-          this.errorMessage.set(
-            'Variant was added, but one or more images failed to upload.'
-          );
-        }
-        this.loading.set(false);
-      }
+  private addVariantImages(variantId: number): void {
+    const images = this.productVariantImages().map((img) => {
+      img.productVariantId = variantId;
+      return img;
     });
-  });
-}
+
+    if (images.length === 0) {
+      this.successMessage.set('Variant added successfully');
+      this.loading.set(false);
+      this.resetForm();
+      return;
+    }
+
+    let uploadedCount = 0;
+
+    images.forEach((image) => {
+      const formData = new FormData();
+      formData.append('ProductVariantId', image.productVariantId.toString());
+      formData.append('File', image.file as File);
+      formData.append('DisplayOrderId', image.displayOrderId.toString());
+
+      this.vendorProductService.uploadProductVariantImage(formData).subscribe({
+        next: () => {
+          uploadedCount++;
+
+          if (uploadedCount === images.length) {
+            this.successMessage.set('Variant and images added successfully');
+            this.loading.set(false);
+            this.resetForm();
+          }
+        },
+        error: (error) => {
+          if (error.error?.message) {
+            this.errorMessage.set(error.error.message);
+          }
+          else if (error.status === 0) {
+            this.errorMessage.set(
+              'Images could not be uploaded. Please check your connection.'
+            );
+          }
+          else {
+            this.errorMessage.set(
+              'Variant was added, but one or more images failed to upload.'
+            );
+          }
+          this.loading.set(false);
+        }
+      });
+    });
+  }
 
   addVariant(): void {
     this.errorMessage.set(null);
@@ -255,11 +256,19 @@ private addVariantImages(variantId: number): void {
       return;
     }
 
+    const productId = this.productid();
+    if (!productId || productId <= 0) {
+      this.errorMessage.set('Product ID is missing or invalid. Please navigate to this page from a valid product.');
+      this.scrollToTop();
+      return;
+    }
+
     this.loading.set(true);
 
+    // addVariant
     this.productVariant.update(v => ({
       ...v,
-      productId: this.productid() ?? 0
+      ProductId: productId
     }));
 
     this.vendorProductService.addProductVariant(this.productVariant()).subscribe({
@@ -307,7 +316,7 @@ private addVariantImages(variantId: number): void {
     });
   }
 
-  
+
 
   resetForm(): void {
     this.errorMessage.set(null);
@@ -318,11 +327,12 @@ private addVariantImages(variantId: number): void {
     const mainProductAttributeId = this.mainAttributeId();
 
     this.productVariant.set(new AddProductVariantModel());
-    this.addForm().reset();
+    //this.addForm().reset();
 
+    // resetForm
     this.productVariant.update((v) => ({
       ...v,
-      productId : productId,
+      ProductId: productId,
       subCategoryId,
       mainProductAttributeId,
     }));

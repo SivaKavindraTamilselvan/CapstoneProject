@@ -59,7 +59,7 @@ public class VendorOrderService : IVendorOrderService
         return _mapper.Map<List<OrderItemSummaryDto>>(Orders);
     }
 
-    public async Task<ResponseGetOrderItems> UpdateTheOrderStatus(int orderItemId)
+    public async Task<ResponseGetOrderItems> UpdateTheOrderStatus(int orderItemId, int userId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
 
@@ -92,7 +92,7 @@ public class VendorOrderService : IVendorOrderService
                 Actions = (int)AuditAction.Updated,
                 OldValue = $"OrderItemsId={orderItemId}, OrderItemStatusId={previousOrderItemStatusId}",
                 NewValue = $"OrderItemsId={updatedOrder.OrderItemsId}, OrderItemStatusId={updatedOrder.OrderItemStatusId}",
-                UserId = order.Order.UserId,
+                UserId = userId,
                 ChangedAt = DateTime.Now
             };
 
@@ -141,7 +141,7 @@ public class VendorOrderService : IVendorOrderService
                 _logger.LogWarning("OrderId {OrderId} has no associated UserId. Skipping customer notification", order.Order.OrderId);
             }
 
-            await CheckIfAllOrderForShipmetPacked(orderItemId);
+            await CheckIfAllOrderForShipmetPacked(orderItemId, userId);
             await transaction.CommitAsync();
 
             return _mapper.Map<ResponseGetOrderItems>(updatedOrder);
@@ -158,12 +158,21 @@ public class VendorOrderService : IVendorOrderService
         }
     }
 
-    private async Task CheckIfAllOrderForShipmetPacked(int orderItemId)
+    private async Task CheckIfAllOrderForShipmetPacked(int orderItemId, int userid)
     {
         _logger.LogDebug("Checking shipment completion for OrderItemId {OrderItemId}", orderItemId);
 
         var shipment = await _shipmentValidation.ValidateGetShipmentByOrderItemId(orderItemId);
-        await _shipmentValidation.ValidateGetPendingPackedTheShipmentItemsByShipmentId(shipment.ShipmentId);
+
+        try
+        {
+            await _shipmentValidation.ValidateGetPendingPackedTheShipmentItemsByShipmentId(shipment.ShipmentId);
+        }
+        catch (DataAlreadyRegisteredException)
+        {
+            _logger.LogInformation("ShipmentId {ShipmentId} still has pending unpacked items. Skipping shipment-ready transition for now.", shipment.ShipmentId);
+            return;
+        }
         _logger.LogInformation("All shipment items packed for ShipmentId {ShipmentId}. Creating tracking number", shipment.ShipmentId);
 
         int previousShipmentStatusId = shipment.ShipmentStatusId;
@@ -186,7 +195,8 @@ public class VendorOrderService : IVendorOrderService
             Actions = (int)AuditAction.Updated,
             OldValue = $"ShipmentId={shipment.ShipmentId}, ShipmentStatusId={previousShipmentStatusId}",
             NewValue = $"ShipmentId={updatedShipment.ShipmentId}, ShipmentStatusId={updatedShipment.ShipmentStatusId}, TrackingNumber={updatedShipment.TrackingNumber}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userid
         };
 
         var createdShipmentLog = await _logChanges.Create(shipmentLog);

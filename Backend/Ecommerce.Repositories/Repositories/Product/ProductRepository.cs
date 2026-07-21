@@ -195,7 +195,7 @@ public class ProductRepsository : AbstractRepository<int, Product>, IProductReps
             .Include(p => p.ProductApprovalStatus)
             .Include(p => p.ProductStatus)
             .Include(p => p.ProductSubCategory).ThenInclude(p => p!.ProductCategory)
-            .Include(p => p.Vendor)
+            .Include(p => p.Vendor).Where(v=>v.Vendor!.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted)
             .Include(p => p.AddedByVendorUser).ThenInclude(vu => vu!.User)
             .Include(p => p.ProductImages).ThenInclude(p => p.DisplayOrder)
             .Include(p => p.ProductVariants

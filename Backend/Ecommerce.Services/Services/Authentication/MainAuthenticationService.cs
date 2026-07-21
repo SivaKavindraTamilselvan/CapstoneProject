@@ -6,6 +6,8 @@ using Microsoft.Extensions.Logging;
 
 public partial class AuthenticationService : IAuthentication
 {
+    private readonly IVendorUserValidation _vendorUserValidation;
+    private readonly IVendorValidation _vendorValidation;
     private readonly ILogChanges _logChanges;
     private readonly IEmailService _emailService;
     private readonly IPasswordSetTokenRepsository _passwordSetTokenRepsository;
@@ -21,8 +23,10 @@ public partial class AuthenticationService : IAuthentication
     private readonly IUserValidation _userValidation;
     private readonly ILogger<AuthenticationService> _logger;
     private readonly IMapper _mapper;
-    public AuthenticationService(ILogChanges logChanges,IEmailService emailService,IPasswordSetTokenRepsository passwordSetTokenRepsository,IUserValidation userValidation,IRegistrationValidation registrationValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper,ICartRepsository cartRepsository,IFavoriteRepsository favoriteRepsository)
+    public AuthenticationService(IVendorUserValidation vendorUserValidation,IVendorValidation vendorValidation,ILogChanges logChanges,IEmailService emailService,IPasswordSetTokenRepsository passwordSetTokenRepsository,IUserValidation userValidation,IRegistrationValidation registrationValidation,EcommerceContext ecommerceContext, IUserRepsository userRepsository, IAdminUserRepsository adminUserRepsository, IVendorRepsository vendorRepsository, IVendorUserRepsository vendorUserRepsository, ITokenService tokenService, ILogger<AuthenticationService> logger, IMapper mapper,ICartRepsository cartRepsository,IFavoriteRepsository favoriteRepsository)
     {
+        _vendorUserValidation = vendorUserValidation;
+        _vendorValidation = vendorValidation;
         _logChanges = logChanges;
         _emailService = emailService;
         _passwordSetTokenRepsository = passwordSetTokenRepsository;

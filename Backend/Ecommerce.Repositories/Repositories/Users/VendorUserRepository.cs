@@ -38,6 +38,11 @@ public class VendorUserRepsository : AbstractRepository<int, VendorUser>, IVendo
         return await _ecommerceContext.VendorUser.Where(v => v.VendorId == vendorId && (v.VendorRoleId == 1 || v.VendorRoleId == 4)).ToListAsync();
     }
 
+     public async Task<List<VendorUser>> GetProductVendorUserByVendorId(int vendorId)
+    {
+        return await _ecommerceContext.VendorUser.Where(v => v.VendorId == vendorId && (v.VendorRoleId == 1 || v.VendorRoleId == 3)).ToListAsync();
+    }
+
     public async Task<List<int>> GetAllProductVendorUserIds()
     {
         return await _ecommerceContext.VendorUser.Where(v => v.VendorRoleId == (int)VendorRoleEnum.Owner || v.VendorRoleId == (int)VendorRoleEnum.ProductManager).Select(v => v.UserId).ToListAsync();

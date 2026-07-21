@@ -96,15 +96,19 @@ export class AdminProduct extends BasePage {
     this.loadProduct();
   }
 
+  tableLoading = signal(false);
   loadProduct(): void {
     this.buildFilters();
+    this.tableLoading.set(true);
     console.log(this.adminProductFilter().includeIsDeleted);
     this.adminProductService.getProducts(this.adminProductFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
+        this.tableLoading.set(false);
 
       },
     });
@@ -443,7 +447,7 @@ export class AdminProduct extends BasePage {
     { key: 'productId', header: 'ID' },
     { key: 'productName', header: 'Name' },
     { key: 'productCategoryName', header: 'Category' },
-    { key: 'productSubCategoryName', header: 'SubCategory' },
+    { key: 'productSubCategoryName', header: 'Sub Category' },
     { key: 'vendorName', header: 'Vendor' },
     { key: 'productApprovalStatus', header: 'Approval' },
     { key: 'productStatus', header: 'Status' }

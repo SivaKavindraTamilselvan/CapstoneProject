@@ -75,15 +75,18 @@ export class Subcategorylist extends BasePage {
     this.subCategoryFilter.update(m => ({ ...m, productCategoryId: null }));
   }
 
+  tableLoading = signal(false);
   loadSubCategory(): void {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.adminCategoryService.getProductSubCategory(this.subCategoryFilter()).subscribe({
       next: (response: PagedResponse<AdminProductSubCategoryModel>) => {
         this.subcategory.set(response);
-        console.log(this.subcategory());
+        this.tableLoading.set(false);
+        //console.log(this.subcategory());
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
 
         if (error.status === 404) {
           this.subcategory.set({
@@ -94,6 +97,7 @@ export class Subcategorylist extends BasePage {
             totalPages: 1,
           });
         }
+        this.tableLoading.set(false);
       },
     });
   }

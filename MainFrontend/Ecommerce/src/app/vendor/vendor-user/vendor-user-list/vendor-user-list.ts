@@ -89,11 +89,15 @@ export class VendorUserList extends BasePage {
     }));
   }
 
+  tableLoading = signal(false);
+
   loadAdminUser() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.vendorUserService.getAdminUser(this.adminUserFilter()).subscribe({
       next: (response: any) => {
         this.adminUsers.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         if (error.status == 404) {
@@ -105,6 +109,7 @@ export class VendorUserList extends BasePage {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     })
   }
@@ -132,13 +137,14 @@ export class VendorUserList extends BasePage {
     this.progress.set(true);
     this.vendorUserService.deactivateAdminUser(id).subscribe({
       next: (response: any) => {
-        this.successMessage.set('Vendor user deactivated successfully.');
+        this.successMessage.set('Vendor user deactivated successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.successMessage.set('');
           this.closePopup();
+           this.loadAdminUser();
           this.progress.set(false);
         }, 3000);
-        this.loadAdminUser();
+       
       },
       error: (error) => {
         console.log(error);
@@ -160,13 +166,14 @@ export class VendorUserList extends BasePage {
     this.progress.set(true);
     this.vendorUserService.activateAdminUser(id).subscribe({
       next: (response: any) => {
-        this.successMessage.set('Vendor user activated successfully.');
+        this.successMessage.set('Vendor user activated successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.successMessage.set('');
           this.closePopup();
+          this.loadAdminUser();
           this.progress.set(false);
         }, 3000);
-        this.loadAdminUser();
+
       },
       error: (error) => {
         console.log(error);
@@ -200,7 +207,7 @@ export class VendorUserList extends BasePage {
       ]
       : [
         { label: 'View', color: 'blue', action: 'view' },
-        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive && category.vendorRoleId!=1 },
+        { label: 'Deactivate', color: 'red', action: 'deactivate', visible: category => category.isActive && category.vendorRoleName != 'Owner' },
         { label: 'Activate', color: 'green', action: 'activate', visible: category => !category.isActive }
       ]
   );

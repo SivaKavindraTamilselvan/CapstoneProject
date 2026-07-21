@@ -15,7 +15,7 @@ public partial class AdminService : IAdminService
         try
         {
             await _adminUserValidation.ValidateOwnerAdminUserByUserId(logedusedId);
-            
+
             _logger.LogInformation("Activating Admin User {AdminUserId}", adminUserId);
             var adminUser = await _adminUserRepsository.GetAdminUserByAdminUserId(adminUserId);
             if (adminUser == null)
@@ -29,13 +29,16 @@ public partial class AdminService : IAdminService
                 throw new DataApprovalStatusException("Admin User is already activated");
             }
             adminUser.IsActive = true;
-            adminUser = await _adminUserRepsository.Update(adminUser.AdminUserId, adminUser);
-            if (adminUser == null)
+
+            var updatedAdminUser = await _adminUserRepsository.Update(adminUser.AdminUserId, adminUser);
+            if (updatedAdminUser == null)
             {
                 _logger.LogError("Failed to activate AdminUser {AdminUserId}", adminUserId);
                 throw new DataRegistrationException("Failed to activate Admin User");
             }
+            adminUser = updatedAdminUser;
             _logger.LogInformation("AdminUser record activated for AdminUserId {AdminUserId}", adminUserId);
+
             var user = await _userRepsository.Get(adminUser.UserId);
             if (user == null)
             {
@@ -45,8 +48,12 @@ public partial class AdminService : IAdminService
             user.IsActive = true;
             user.UpdatedAt = DateTime.Now;
 
-
-            await _userRepsository.Update(user.UserId, user);
+            var updatedUser = await _userRepsository.Update(user.UserId, user);
+            if (updatedUser == null)
+            {
+                _logger.LogError("Failed to activate UserId {UserId} for AdminUserId {AdminUserId}", user.UserId, adminUser.AdminUserId);
+                throw new DataRegistrationException("Failed to activate User");
+            }
 
             var logChanges = new LogChanges
             {
@@ -59,9 +66,34 @@ public partial class AdminService : IAdminService
                 ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(logChanges);
-            _logger.LogInformation("Audit log created for AdminUserId {AdminUserId}",adminUser.AdminUserId);
-            _logger.LogInformation("User account activated for UserId {UserId}", user.UserId);
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", logChanges.TableName, logChanges.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for AdminUserId {AdminUserId}", adminUser.AdminUserId);
+
+            var userLogChanges = new LogChanges
+            {
+                TableName = nameof(User),
+                RecordId = updatedUser.UserId,
+                Actions = (int)AuditAction.Updated,
+                OldValue = $"UserId={user.UserId}, IsActive=False",
+                NewValue = $"UserId={updatedUser.UserId}, IsActive=True",
+                UserId = logedusedId,
+                ChangedAt = DateTime.Now
+            };
+
+            var createdUserLog = await _logChanges.Create(userLogChanges);
+            if (createdUserLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", userLogChanges.TableName, userLogChanges.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for UserId {UserId}", updatedUser.UserId);
+
+            _logger.LogInformation("User account activated for UserId {UserId}", updatedUser.UserId);
             _logger.LogInformation("Admin User {AdminUserId} activated successfully", adminUserId);
             await transaction.CommitAsync();
             return _mapper.Map<ResponseGetAdminUserDTO>(adminUser);

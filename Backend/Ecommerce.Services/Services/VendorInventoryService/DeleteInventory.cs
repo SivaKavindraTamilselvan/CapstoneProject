@@ -28,9 +28,6 @@ public partial class InventoryService : IInventoryService
             await _userValidation.ValidateAddress(inventory.AddressId, vendorUserId);
             _logger.LogInformation("AddressId {AddressId} validated successfully", inventory.AddressId);
 
-            await _inventoryValidation.VendorValidateInventory(inventoryId, vendorUser.VendorId);
-            _logger.LogInformation("InventoryId {InventoryId} ownership validated for VendorId {VendorId}", inventory.InventoryId, vendorUser.VendorId);
-
             bool previousIsActive = inventory.IsActive;
             inventory.IsActive = false;
 

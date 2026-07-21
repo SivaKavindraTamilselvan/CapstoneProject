@@ -37,15 +37,16 @@ export class ReviewReturnComponent {
 
     this.vendorReturnService.reviewReturn(request).subscribe({
       next: () => {
-        this.progress.set(false);
+       
         this.successMessage.set(
           this.decision() ? 'Return approved successfully' : 'Return rejected successfully'
         );
 
         setTimeout(() => {
+           this.progress.set(false);
           this.reviewed.emit();
           this.closed.emit();
-        }, 1500);
+        }, 3000);
       },
       error: (error) => {
         this.progress.set(false);

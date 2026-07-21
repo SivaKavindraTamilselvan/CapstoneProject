@@ -12,20 +12,24 @@ import { Router } from '@angular/router';
 })
 export class UserProfilePage {
   address = signal<AddressModel[] | null>(null);
-  constructor(private addressService: AddressService,private router :Router) {
+  constructor(private addressService: AddressService, private router: Router) {
 
   }
   ngOnInit() {
     this.loadAddress();
   }
+  isLoading = signal(false);
   loadAddress() {
+    this.isLoading.set(true);
     this.addressService.getUserAddress().subscribe({
       next: (response: any) => {
         this.address.set(response);
-        console.log(response);
+        this.isLoading.set(false);
+        //console.log(response);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
+        this.isLoading.set(false);
       }
     })
   }
@@ -49,7 +53,7 @@ export class UserProfilePage {
   deleteAddress(addressId: number) {
     this.addressService.deleteUserAddress(addressId).subscribe({
       next: (response: any) => {
-        alert("Warehouse deleted");
+        //alert("Warehouse deleted");
         this.loadAddress();
       }
     })

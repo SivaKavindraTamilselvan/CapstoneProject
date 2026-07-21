@@ -16,6 +16,7 @@ import { PaginationComponent } from '../../../shared-components/pagination-compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
 import { ReturnRefundPopup } from '../return-refund-popup/return-refund-popup';
+import { ReturnListModel } from '../../../models/vendor/vendor-return/return.model';
 
 @Component({
   selector: 'app-admin-return-orders',
@@ -82,21 +83,29 @@ export class AdminReturnOrders extends BasePage {
 
   mobileColumns = [...this.columns];
 
-  returnOrders = signal<PagedResponse<ReturnSummaryModel> | null>(null);
+  returnOrders = signal<PagedResponse<ReturnListModel> | null>(null);
 
   fromDate = signal('');
   toDate = signal('');
 
+  // --- Filter panel state (matching vendor return filter pattern) ---
+  draftstatus = signal<number | null>(null);
+  returnReasonId = signal<number | null>(null);
+
+ 
   returnFilter = signal(new RequestAdminReturnFilter());
 
   totalPages = computed(() =>
     this.returnOrders()?.totalPages ?? 1
   );
 
+  tableLoading = signal(false);
   loadReturnOrders() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.orderService.getReturnedOrder(this.returnFilter()).subscribe({
       next: (response: any) => {
+        this.tableLoading.set(false);
         this.returnOrders.set(response);
       },
       error: error => {
@@ -109,12 +118,22 @@ export class AdminReturnOrders extends BasePage {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     });
   }
 
   clearFilterValues(): void {
+    this.draftstatus.set(null);
+    this.returnReasonId.set(null);
+    this.fromDate.set('');
+    this.toDate.set('');
     this.returnFilter.set(new RequestAdminReturnFilter());
+    this.returnFilter.update(filter => ({
+      ...filter,
+      returnReasonId: null,
+      returnStatusId: null
+    }));
   }
 
   filterForm = form(this.returnFilter, path => {
@@ -131,6 +150,11 @@ export class AdminReturnOrders extends BasePage {
         ...filter,
         returnStatusId: this.categoryStatus()
       }));
+    } else {
+      this.returnFilter.update(filter => ({
+        ...filter,
+        returnStatusId: this.draftstatus()
+      }));
     }
     if (this.categoryStatus() == null && this.ongoing() == true) {
       this.returnFilter.update(filter => ({
@@ -140,12 +164,14 @@ export class AdminReturnOrders extends BasePage {
     }
     this.returnFilter.update(filter => ({
       ...filter,
+      returnReasonId: this.returnReasonId(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
       fromDate: this.fromDate() || null,
       toDate: this.toDate() || null,
     }));
   }
+
 
   onFromDateInput(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
@@ -169,18 +195,12 @@ export class AdminReturnOrders extends BasePage {
 
   onReturnReasonChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    this.returnFilter.update(filter => ({
-      ...filter,
-      returnReasonId: value ? Number(value) : null
-    }));
+    this.returnReasonId.set(value ? Number(value) : null);
   }
 
   onReturnStatusChange(event: Event): void {
     const value = (event.target as HTMLSelectElement).value;
-    this.returnFilter.update(filter => ({
-      ...filter,
-      returnStatusId: value ? Number(value) : null
-    }));
+    this.draftstatus.set(value ? Number(value) : null);
   }
 
   private readonly MIN_VALID_DATE = '2026-06-01';
@@ -225,7 +245,7 @@ export class AdminReturnOrders extends BasePage {
   }
 
   viewReturn(id: number) {
-    this.router.navigate(['admin/orders/return-order', id]);
+    this.router.navigate(['admin/order/order-item', id]);
   }
 
 
@@ -239,7 +259,7 @@ export class AdminReturnOrders extends BasePage {
   handleAction(event: { type: string; row: ReturnSummaryModel }) {
     switch (event.type) {
       case 'view':
-        this.viewReturn(event.row.returnId);
+        this.viewReturn(event.row.orderItemId);
         break;
       case 'update':
         this.createRefund(event.row.returnId, event.row.returnAmount);

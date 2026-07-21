@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class VendorReturnService : IVendorReturnService
 {
+    private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly EcommerceContext _ecommerceContext;
     private readonly IAdminRefundService _adminRefundService;
     private readonly IAdminReturnService _adminReturnService;
@@ -20,6 +21,7 @@ public partial class VendorReturnService : IVendorReturnService
     private readonly INotificationService _notificationService;
 
     public VendorReturnService(
+        IOrderItemRepsository orderItemRepsository,
         EcommerceContext ecommerceContext,
         IAdminRefundService adminRefundService,
         IAdminReturnService adminReturnService,
@@ -30,6 +32,7 @@ public partial class VendorReturnService : IVendorReturnService
         ILogChanges logChanges,
         INotificationService notificationService)
     {
+        _orderItemRepsository = orderItemRepsository;
         _ecommerceContext = ecommerceContext;
         _adminRefundService = adminRefundService;
         _adminReturnService = adminReturnService;
@@ -108,7 +111,6 @@ public partial class VendorReturnService : IVendorReturnService
             }
             _logger.LogInformation("Return shipment created for ReturnId {ReturnId}", updatedReturn.ReturnId);
 
-            // Notify the customer of the vendor's review decision
             var customerUserId = returnItem.OrderItems?.Order?.UserId;
             if (customerUserId != null && customerUserId != 0)
             {

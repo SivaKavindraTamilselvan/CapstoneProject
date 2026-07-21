@@ -17,8 +17,9 @@ public partial class AdminProductCategoryService : IAdminProductCategoryService
     private readonly IProductCategoryValidation _productCategoryValidation;
     private readonly IAdminUserValidation _adminUserValidation;
     private readonly IMapper _mapper;
-    public AdminProductCategoryService(ILogChanges logChanges,EcommerceContext ecommerceContext,ILogger<AdminProductCategoryService> logger,INotificationService notificationService,IVendorRepsository vendorRepsository,IAdminUserValidation adminUserValidation,IMapper mapper, IProductCategoryRepsository productCategoryRepsository, IProductSubCategoryRepsository productSubCategoryRepsository, IProductCategoryValidation productCategoryValidation)
+    public AdminProductCategoryService(IVendorUserRepsository vendorUserRepsository,ILogChanges logChanges,EcommerceContext ecommerceContext,ILogger<AdminProductCategoryService> logger,INotificationService notificationService,IVendorRepsository vendorRepsository,IAdminUserValidation adminUserValidation,IMapper mapper, IProductCategoryRepsository productCategoryRepsository, IProductSubCategoryRepsository productSubCategoryRepsository, IProductCategoryValidation productCategoryValidation)
     {
+        _vendorUserRepsository = vendorUserRepsository;
         _logger = logger;
         _notificationService = notificationService;
         _vendorRepsository = vendorRepsository;

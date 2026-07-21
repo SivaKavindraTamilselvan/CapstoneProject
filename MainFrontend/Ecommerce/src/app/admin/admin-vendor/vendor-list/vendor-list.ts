@@ -61,11 +61,15 @@ export class VendorList extends BasePage {
   ];
   vendors = signal<PagedResponse<AdminVendorModel> | null>(null);
   totalPages = computed(() => this.vendors()?.totalPages ?? 1);
+
+  tableLoading = signal(false);
   loadVendor() {
     this.buildFilters();
+    this.tableLoading.set(true);
     this.adminVendorService.getVendor(this.adminVendorFilter()).subscribe({
       next: (response: any) => {
         this.vendors.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         //console.log(error);
@@ -83,6 +87,7 @@ export class VendorList extends BasePage {
         } else {
           this.errorMessage.set(error.errorMessage ?? '');
         }
+        this.tableLoading.set(false);
       },
     });
   }

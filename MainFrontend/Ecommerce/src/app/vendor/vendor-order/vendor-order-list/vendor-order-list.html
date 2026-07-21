@@ -94,6 +94,17 @@
         </div>
     </app-filter-component>
 
+    @if (tableLoading()) {
+    <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+        <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        <p class="text-sm font-medium">Loading orders...</p>
+    </div>
+    } @else {
+
     <app-data-table-component [columns]="columns" [rows]="orders()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
     </app-data-table-component>
@@ -101,6 +112,7 @@
     <app-mobile-card-component [columns]="mobileColumns" [rows]="orders()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)" [titleKey]="'orderId'">
     </app-mobile-card-component>
+    }
 
     <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
         [totalCount]="orders()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()" (next)="nextPage()"
@@ -114,21 +126,46 @@
             <h2 class="text-xl font-bold text-green-700 text-center">
                 Confirm Package
             </h2>
-            @if(successMessage()) {
-            <div class="bg-green-600 px-4 py-3 rounded-md text-white text-center font-bold">{{successMessage()}}</div>
-            }
+
             <p class="text-gray-600 text-center mt-4">
                 Are you sure you want to mark as packed?
             </p>
+
+             @if(successMessage()) {
+            <div class="bg-green-600 px-4 py-3 my-2 rounded-md text-white text-center text-sm font-bold mt-4">
+                {{ successMessage() }}
+            </div>
+            }
+
+            @if(errorMessage()) {
+            <div class="bg-red-600 px-4 py-3 my-2 rounded-md text-white text-sm text-center font-bold mt-4">
+                {{ errorMessage() }}
+            </div>
+            }
+
+
             <div class="flex justify-center gap-4 mt-8">
-                <button class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400"
+                <button [disabled]="isSubmitting()"
+                    class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
                     (click)="closeUpdatePopup()">
                     Cancel
                 </button>
 
-                <button class="px-5 py-2 rounded-md bg-green-700 text-white font-semibold hover:bg-green-900"
+                <button [disabled]="isSubmitting()"
+                    class="px-5 py-2 rounded-md bg-green-700 text-white font-semibold hover:bg-green-900 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 min-w-[90px]"
                     (click)="updateOrder()">
-                    Packed
+                    @if(isSubmitting()) {
+                    <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                        </circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z">
+                        </path>
+                    </svg>
+                    <span>Packing...</span>
+                    } @else {
+                    <span>Packed</span>
+                    }
                 </button>
             </div>
         </div>

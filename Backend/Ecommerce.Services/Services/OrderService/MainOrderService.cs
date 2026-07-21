@@ -7,6 +7,8 @@ using Microsoft.Extensions.Logging;
 
 public partial class OrderService : IOrderService
 {
+    private readonly IShipmentItemsRepsository _shipmentItemsRepsository;
+    private readonly IProductVariantRepsository _productVariantRepsository;
     private readonly ILogChanges _logChanges;
     private readonly ILogger<OrderService> _logger;
     private readonly IReturnRepsository _returnRepsository;
@@ -22,8 +24,10 @@ public partial class OrderService : IOrderService
     private readonly IShipmentService _shipmentService;
 
     private readonly IMapper _mapper;
-    public OrderService(ILogChanges logChanges,ILogger<OrderService> logger,IReturnRepsository returnRepsository,IProductImageRepsository productImageRepsository,ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
+    public OrderService(IShipmentItemsRepsository shipmentItemsRepsository,IProductVariantRepsository productVariantRepsository,ILogChanges logChanges,ILogger<OrderService> logger,IReturnRepsository returnRepsository,IProductImageRepsository productImageRepsository,ICouponUsageRepsository couponUsageRepsository,IVendorUserValidation vendorUserValidation,IUserRepsository userRepsository,IShipmentService shipmentService, IShipmentRepsository shipmentRepsository, IInventoryRepsository inventoryRepsository, IInventoryValidation inventoryValidation, IInventoryService inventoryService, IOrderRepsository orderRepsository, IMapper mapper, IOrderItemRepsository orderItemRepsository)
     {
+        _shipmentItemsRepsository = shipmentItemsRepsository;
+        _productVariantRepsository = productVariantRepsository;
         _logChanges = logChanges;
         _logger = logger;
         _returnRepsository = returnRepsository;

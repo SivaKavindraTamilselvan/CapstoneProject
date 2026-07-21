@@ -5,6 +5,7 @@ namespace Ecommerce.Services.Interfaces;
 
 public interface IAuthentication
 {
+    public Task<ResponseRegisterVendorUserDTO> RegisterVendorUser(RequestRegisterVendorUserDTO requestRegisterVendorUserDTO, int vendorUserId);
     Task<User> RegisterUserWithoutPassword(RequestRegisterUserDTO requestRegisterUserDTO, int roleId);
     Task<ResponseSetPasswordDTO> SetPassword(RequestSetPasswordDTO requestSetPasswordDTO);
     public Task<ResponseRegisterUserDTO> ChangePassword(RequestChangePasswordDTO request, int userId);

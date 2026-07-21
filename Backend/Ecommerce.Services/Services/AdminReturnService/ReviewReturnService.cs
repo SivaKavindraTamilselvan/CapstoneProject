@@ -72,7 +72,7 @@ public class AdminReturnService : IAdminReturnService
         await CreateReturnShipmentItem(shipment.ShipmentId, user.OrderItemId);
         var a = await _shipmentRepsository.Get(shipment.ShipmentId);
         shipment.TrackingNumber = $"SHIPTRACK-RETURN" + shipment.ShipmentId.ToString();
-        shipment.ShipmentStatusId = 4;
+        shipment.ShipmentStatusId = (int)ShipmentStatusEnum.Ready_For_Pick_Up;
         await _shipmentRepsository.Update(shipment.ShipmentId, shipment);
         var trackingRemarks = await CreateReturnShipmentTracking(shipment.ShipmentId, returnId);
         await UpdateInventory(inventory.OrderItems.InventoryId, user.ReturnQuantity);
@@ -139,7 +139,7 @@ public class AdminReturnService : IAdminReturnService
         var trackingDTO = new RequestAddShipmentTrackingDTO
         {
             ShipmentId = shipmentId,
-            ShipmentStatusId = 4,
+            ShipmentStatusId = (int)ShipmentStatusEnum.Ready_For_Pick_Up,
             Location = customerAddress.City,
             Remarks = remarks
         };

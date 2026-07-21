@@ -23,14 +23,14 @@ namespace Ecommerce.Mappers
             .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.OrderStatus != null ? src.OrderStatus.OrderStatusName : ""))
             .ForMember(dest => dest.TotalItems, opt => opt.MapFrom(src => src.OrderItems.Count))
             .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
-            .ForMember(dest => dest.ContactPersonName, opt => opt.MapFrom(src => src.Address!= null ? src.Address.ContactName : ""))
-            .ForMember(dest => dest.ContactPersonPhoneNumber, opt => opt.MapFrom(src => src.Address!= null ? src.Address.ContactPhoneNumber : ""))
-            .ForMember(dest => dest.UserAddress, opt => opt.MapFrom(src => src.Address!= null ? src.Address.AddressLine : ""))
-            .ForMember(dest => dest.UserLandMark, opt => opt.MapFrom(src => src.Address!= null ? src.Address.LandMark : ""))
-            .ForMember(dest => dest.UserState, opt => opt.MapFrom(src => src.Address!= null ? src.Address.State : ""))
-            .ForMember(dest => dest.UserPincode, opt => opt.MapFrom(src => src.Address!= null ? src.Address.PinCode : ""))
-            .ForMember(dest => dest.UserCity, opt => opt.MapFrom(src => src.Address!= null ? src.Address.City : ""));
-            
+            .ForMember(dest => dest.ContactPersonName, opt => opt.MapFrom(src => src.Address != null ? src.Address.ContactName : ""))
+            .ForMember(dest => dest.ContactPersonPhoneNumber, opt => opt.MapFrom(src => src.Address != null ? src.Address.ContactPhoneNumber : ""))
+            .ForMember(dest => dest.UserAddress, opt => opt.MapFrom(src => src.Address != null ? src.Address.AddressLine : ""))
+            .ForMember(dest => dest.UserLandMark, opt => opt.MapFrom(src => src.Address != null ? src.Address.LandMark : ""))
+            .ForMember(dest => dest.UserState, opt => opt.MapFrom(src => src.Address != null ? src.Address.State : ""))
+            .ForMember(dest => dest.UserPincode, opt => opt.MapFrom(src => src.Address != null ? src.Address.PinCode : ""))
+            .ForMember(dest => dest.UserCity, opt => opt.MapFrom(src => src.Address != null ? src.Address.City : ""));
+
 
 
             // for normal usage or API
@@ -164,8 +164,70 @@ namespace Ecommerce.Mappers
     opt => opt.MapFrom(src => src.Returns))
      .ForMember(dest => dest.cancels,
     opt => opt.MapFrom(src => src.Cancels));
+            // Order invoice mapping
+            CreateMap<Order, OrderInvoiceDto>()
+                .ForMember(dest => dest.CustomerName,
+                    opt => opt.MapFrom(src =>
+                        src.Users != null ? src.Users.FirstName + " " + src.Users.LastName : ""))
 
+                .ForMember(dest => dest.CustomerEmail,
+                    opt => opt.MapFrom(src =>
+                        src.Users != null ? src.Users.Email : ""))
+
+                .ForMember(dest => dest.CustomerPhone,
+                    opt => opt.MapFrom(src =>
+                        src.Address != null ? src.Address.ContactPhoneNumber : ""))
+
+                .ForMember(dest => dest.AddressLine,
+                    opt => opt.MapFrom(src =>
+                        src.Address != null ? src.Address.AddressLine : ""))
+
+                .ForMember(dest => dest.City,
+                    opt => opt.MapFrom(src =>
+                        src.Address != null ? src.Address.City : ""))
+
+                .ForMember(dest => dest.State,
+                    opt => opt.MapFrom(src =>
+                        src.Address != null ? src.Address.State : ""))
+
+                .ForMember(dest => dest.PinCode,
+                    opt => opt.MapFrom(src =>
+                        src.Address != null ? src.Address.PinCode : ""))
+
+                .ForMember(dest => dest.OrderStatus,
+                    opt => opt.MapFrom(src =>
+                        src.OrderStatus != null ? src.OrderStatus.OrderStatusName : ""))
+
+                
+
+                .ForMember(dest => dest.TotalWalletAmount,
+                    opt => opt.MapFrom(src => src.TotalWalletAmount))
+
+                .ForMember(dest => dest.Tax,
+                    opt => opt.MapFrom(src =>
+                        (src.TotalProductAmount - src.TotalCouponAmount) * 0.18m))
+
+                .ForMember(dest => dest.Items,
+                    opt => opt.MapFrom(src => src.OrderItems));
+
+            // Order invoice line item mapping
+            CreateMap<OrderItems, OrderInvoiceItemDto>()
+                .ForMember(dest => dest.ProductName,
+                    opt => opt.MapFrom(src =>
+                        src.ProductVariant != null && src.ProductVariant.Product != null
+                            ? src.ProductVariant.Product.ProductName
+                            : ""))
+
+                .ForMember(dest => dest.Sku,
+                    opt => opt.MapFrom(src =>
+                        src.ProductVariant != null ? src.ProductVariant.SKU : ""))
+
+                .ForMember(dest => dest.LineTotal,
+                    opt => opt.MapFrom(src =>
+                        (src.UnitPrice * src.Quantity) - src.Discount));
         }
+
+
 
 
     }

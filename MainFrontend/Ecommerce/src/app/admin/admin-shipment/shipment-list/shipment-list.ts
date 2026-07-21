@@ -78,15 +78,18 @@ export class ShipmentList extends BasePage {
     
   }
 
+  tableLoading = signal(false);
   loadShipments() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.shipmentService.getShipment(this.shipmentFilter()).subscribe({
       next: (response: PagedResponse<ShipmentModel>) => {
         this.shipments.set(response);
-        console.log(response);
+        this.tableLoading.set(false);
+        //console.log(response);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
 
         if (error.status === 404) {
           this.shipments.set({
@@ -97,6 +100,7 @@ export class ShipmentList extends BasePage {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     });
   }

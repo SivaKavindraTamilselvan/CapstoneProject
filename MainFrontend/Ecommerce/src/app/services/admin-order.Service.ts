@@ -74,7 +74,7 @@ export class AdminOrderService {
     }
 
     createReturnOrdersDetails(model: AdminCreateReturnRefund) {
-        const url = BaseURL + `/Admin/CreateReturnRefund`;
+        const url = BaseURL + `/AdminReturn/CreateReturnRefund`;
         return this.http.post(url, model);
     }
 

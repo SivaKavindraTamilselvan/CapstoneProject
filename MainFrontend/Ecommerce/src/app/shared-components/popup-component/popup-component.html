@@ -22,7 +22,7 @@
                 [disabled]="loading()">
                 {{ cancelText() }}
             </button>
-            <button [disabled]="loading()" class="rounded-md px-5 py-2 font-semibold text-white disabled:opacity-60"  [ngClass]="confirmButtonClass()" 
+            <button [disabled]="loading()" class="rounded-md px-5 py-2 font-semibold text-white disabled:opacity-60 hover:cursor-pointer"  [ngClass]="confirmButtonClass()" 
                  (click)="onConfirm()">
                 {{ loading() ? loadingText() : confirmText() }}
             </button>

@@ -49,7 +49,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
                 throw new DataRegistrationException("Audit log creation failed.");
             }
             _logger.LogInformation("Audit log created for AttributeMasterId {AttributeMasterId}", createdAttribute.AttributeMasterId);
-            
+
             var vendorOwnerIds = await _vendorUserRepsository.GetAllProductVendorUserIds();
 
             foreach (var vendorUserId in vendorOwnerIds)
@@ -88,6 +88,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
             var mappedattribute = await _productSubCategoryAttributeRepsository.CheckProductSubCategoryAttribute(requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
             if (mappedattribute != null)
             {
+                _logger.LogWarning("AttributeMasterId {AttributeMasterId} already mapped to ProductSubCategoryId {ProductSubCategoryId}", requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
                 throw new DataAlreadyRegisteredException("Data Already mapped with this inputs");
             }
             _logger.LogInformation("Validation completed for AttributeMasterId {AttributeMasterId} and ProductSubCategoryId {ProductSubCategoryId}", requestAddProductSubCategoryAttributeDTO.AttributeMasterId, requestAddProductSubCategoryAttributeDTO.ProductSubCategoryId);
@@ -141,7 +142,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
                     referenceId: createdProductSubCategoryAttribute.ProductSubCategoryAttributeId);
             }
 
-             await transaction.CommitAsync();
+            await transaction.CommitAsync();
             _logger.LogInformation("Transaction committed for ProductSubCategoryAttributeId {ProductSubCategoryAttributeId}", createdProductSubCategoryAttribute.ProductSubCategoryAttributeId);
 
 

@@ -49,7 +49,8 @@ public class OrderController : ControllerBase
     [HttpPut("UpdateOrderStatus")]
     public async Task<ActionResult<ResponseGetOrderItems>> UpdateOrderStatus(int orderitemid)
     {
-        var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid);
+        int vendorId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorOrderService.UpdateTheOrderStatus(orderitemid, vendorId);
         return Ok(result);
     }
 
@@ -118,5 +119,14 @@ public class OrderController : ControllerBase
         int UserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
         var result = await _userOrderService.AddOrder(requestAddOrderDTO, UserId, idempotencyKey);
         return Ok(result);
+    }
+
+    [Authorize]
+    [HttpGet("{orderId}/invoice")]
+    public async Task<IActionResult> DownloadInvoice(int orderId)
+    {
+        var invoiceData = await _orderService.GetOrderInvoiceData(orderId);
+        var pdfBytes = OrderInvoicePdfBuilder.Build(invoiceData);
+        return File(pdfBytes, "application/pdf", $"Invoice-{invoiceData.OrderNumber}.pdf");
     }
 }

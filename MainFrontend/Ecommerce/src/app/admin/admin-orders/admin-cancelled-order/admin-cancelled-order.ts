@@ -193,12 +193,12 @@ export class AdminCancelledOrder extends BasePage {
     return date;
   }
   viewCancel(id: number) {
-    this.route.navigate(['admin/orders/cancelled-order', id]);
+    this.route.navigate(['admin/order/order-item', id]);
   }
   handleAction(event: { type: string; row: CancelSummaryModel }) {
     switch (event.type) {
       case 'view':
-        this.viewCancel(event.row.cancelId);
+        this.viewCancel(event.row.orderItemId);
         break;
 
     }

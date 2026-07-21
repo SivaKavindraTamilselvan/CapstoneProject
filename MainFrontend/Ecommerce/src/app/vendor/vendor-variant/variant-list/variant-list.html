@@ -48,8 +48,8 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Product ID</label>
-            <input type="number" placeholder="Product ID..." [formField]="filterForm.productId" (keydown)="allowOnlyNumbers($event)"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            <input type="number" placeholder="Product ID..." [formField]="filterForm.productId"
+                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.productId().invalid()) {
             <p class="text-red-600 text-xs mt-1">
                 {{ filterForm.productId().errors()[0].message }}
@@ -91,8 +91,8 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Minimum Quantity Per User</label>
-            <input type="number" placeholder="Quantity" [formField]="filterForm.minimuQuantityPerUser" (keydown)="allowOnlyNumbers($event)"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            <input type="number" placeholder="Quantity" [formField]="filterForm.minimuQuantityPerUser"
+                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.minimuQuantityPerUser().invalid()) {
             <p class="text-red-600 text-xs mt-1">
                 {{ filterForm.minimuQuantityPerUser().errors()[0].message }}
@@ -102,8 +102,8 @@
 
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Vendor User ID</label>
-            <input type="number" placeholder="Added Vendor User Id" [formField]="filterForm.addedByVendorUserId" (keydown)="allowOnlyNumbers($event)"
-                class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            <input type="number" placeholder="Added Vendor User Id" [formField]="filterForm.addedByVendorUserId"
+                (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             @if (filterForm.addedByVendorUserId().invalid()) {
             <p class="text-red-600 text-xs mt-1">
                 {{ filterForm.addedByVendorUserId().errors()[0].message }}
@@ -114,11 +114,11 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Price Range</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minPrice" (keydown)="allowOnlyDecimals($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Min" [formField]="filterForm.minPrice"
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxPrice" (keydown)="allowOnlyDecimals($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Max" [formField]="filterForm.maxPrice"
+                    (keydown)="allowOnlyDecimals($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minPrice().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -135,11 +135,11 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Available Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity" (keydown)="allowOnlyNumbers($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Min" [formField]="filterForm.minAvailableQuantity"
+                    (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxAvailableQuantity" (keydown)="allowOnlyNumbers($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Max" [formField]="filterForm.maxAvailableQuantity"
+                    (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minAvailableQuantity().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -156,11 +156,11 @@
         <div>
             <label class="block text-sm font-semibold text-gray-700 mb-1">Reserved Quantity</label>
             <div class="flex gap-2">
-                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity" (keydown)="allowOnlyNumbers($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Min" [formField]="filterForm.minReservedQuantity"
+                    (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
 
-                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity" (keydown)="allowOnlyNumbers($event)"
-                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+                <input type="number" placeholder="Max" [formField]="filterForm.maxReservedQuantity"
+                    (keydown)="allowOnlyNumbers($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
             </div>
             @if (filterForm.minReservedQuantity().invalid()) {
             <p class="text-red-600 text-xs mt-1">
@@ -204,6 +204,17 @@
 
     </app-filter-component>
 
+    @if (tableLoading()) {
+    <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+        <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        <p class="text-sm font-medium">Loading product variant...</p>
+    </div>
+    } @else {
+
     <app-data-table-component [columns]="columns" [rows]="variant()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
     </app-data-table-component>
@@ -211,6 +222,7 @@
     <app-mobile-card-component [columns]="mobileColumns" [rows]="variant()?.items ?? []" [actions]="actions()"
         [titleKey]="'productVariantId'" (action)="handleAction($event)">
     </app-mobile-card-component>
+    }
 
     <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
         [totalCount]="variant()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"
@@ -230,13 +242,13 @@
     </app-delete-product-component>
     }
 
-     @if (showUpdatePopup()) {
+    @if (showUpdatePopup()) {
     <app-update-product-component [productId]="selectedProductIdForUpdate()" (closed)="closeUpdatePopup()"
         (updated)="loadProductVariant()" mode="variant">
     </app-update-product-component>
     }
 
-    
+
     @if (showUpdateRejectedPopup()) {
     <app-update-reject-vairant-component [variant]="selectedVariantForUpdateRejected()"
         (closed)="closeUpdateRejectedPopup()" (updated)="loadProductVariant()">

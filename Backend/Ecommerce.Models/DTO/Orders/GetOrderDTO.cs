@@ -31,7 +31,7 @@ public class OrderFilterParams : PaginationFilter
 public class OrderSummaryDto
 {
     public int OrderId { get; set; }
-     public int UserId { get; set; }
+    public int UserId { get; set; }
     public string OrderNumber { get; set; } = string.Empty;
     public string UserName { get; set; } = string.Empty;
     public string ContactPersonName { get; set; } = string.Empty;
@@ -44,11 +44,12 @@ public class OrderSummaryDto
     public decimal TotalProductAmount { get; set; }
     public decimal TotalShippingAmount { get; set; }
     public decimal TotalCouponAmount { get; set; }
+     public decimal TotalWalletAmount { get; set; }
     public decimal FinalAmount { get; set; }
     public string OrderStatus { get; set; } = string.Empty;
     public DateTime OrderDate { get; set; }
     public int TotalItems { get; set; }
-    public string PaymentStatus { get; set; } = string.Empty; 
+    public string PaymentStatus { get; set; } = string.Empty;
     public string PaymentType { get; set; } = string.Empty;
     public List<OrderItemSummaryDto> OrderItems { get; set; } = new();
 }
@@ -74,20 +75,61 @@ public class OrderItemSummaryDto
     public int Quantity { get; set; }
     public decimal UnitPrice { get; set; }
     public decimal Discount { get; set; }
+     public decimal Coupon { get; set; }
+    public decimal Wallet { get; set; }
+    public decimal OverallCost { get; set; }
+    public decimal ShippingCharge { get; set; }
     public int InventoryId { get; set; }
     public bool canReturn { get; set; }
 
     public string VendorContactPersonName { get; set; } = string.Empty;
     public string VendorContactPersonPhoneNumber { get; set; } = string.Empty;
 
-    public List<CancelSummaryDto> cancels {get;set;}
+    public List<CancelSummaryDto> cancels { get; set; }
     public List<ReturnSummaryDto> returns { get; set; }
     public string InventoryCity { get; set; } = string.Empty;
     public string InventoryAddress { get; set; } = string.Empty;
     public string InventoryState { get; set; } = string.Empty;
     public string InventoryPincode { get; set; } = string.Empty;
     public string InventoryLandMark { get; set; } = string.Empty;
-    public int AddressId {get;set;}
+    public int AddressId { get; set; }
     public decimal ItemTotal { get; set; }
     public string OrderItemStatus { get; set; } = string.Empty;
+}
+
+public class OrderInvoiceDto
+{
+    public int OrderId { get; set; }
+    public string OrderNumber { get; set; } = string.Empty;
+    public DateTime OrderDate { get; set; }
+    public string CustomerName { get; set; } = string.Empty;
+    public string CustomerEmail { get; set; } = string.Empty;
+    public string CustomerPhone { get; set; } = string.Empty;
+
+    public string AddressLine { get; set; } = string.Empty;
+    public string City { get; set; } = string.Empty;
+    public string State { get; set; } = string.Empty;
+    public string PinCode { get; set; } = string.Empty;
+
+    public string PaymentMethod { get; set; } = string.Empty;
+    public string OrderStatus { get; set; } = string.Empty;
+
+    public decimal TotalProductAmount { get; set; }
+    public decimal TotalShippingAmount { get; set; }
+    public decimal TotalCouponAmount { get; set; }
+    public decimal TotalWalletAmount { get; set; }
+    public decimal Tax { get; set; }
+    public decimal FinalAmount { get; set; }
+
+    public List<OrderInvoiceItemDto> Items { get; set; } = new();
+}
+
+public class OrderInvoiceItemDto
+{
+    public string ProductName { get; set; } = string.Empty;
+    public string Sku { get; set; } = string.Empty;
+    public int Quantity { get; set; }
+    public decimal UnitPrice { get; set; }
+    public decimal Discount { get; set; }
+    public decimal LineTotal { get; set; }
 }

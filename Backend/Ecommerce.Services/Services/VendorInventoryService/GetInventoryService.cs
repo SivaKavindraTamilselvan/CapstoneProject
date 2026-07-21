@@ -32,7 +32,6 @@ public partial class InventoryService : IInventoryService
         _logger.LogInformation("Vendor UserId {VendorUserId} requested InventoryId {InventoryId}", vendorUserId, inventoryid);
         var vendorUser = await _vendorUserValidation.ValidateInventoryVendorUserByUserId(vendorUserId);
         await _vendorValidation.ValidateVendorIfApproved(vendorUser.VendorId); 
-        await _inventoryValidation.VendorValidateInventory(inventoryid,vendorUser.VendorId);
         var inventory = await _inventoryRepsository.GetInventoryByVendorId(vendorUser.VendorId, inventoryid);
         if (inventory == null)
         {

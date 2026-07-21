@@ -19,8 +19,11 @@ public partial class InventoryService : IInventoryService
             var vendorUser = await _vendorUserValidation.ValidateInventoryVendorUserByUserId(vendorUserId);
             await _vendorValidation.ValidateVendorIfApproved(vendorUser.VendorId);
 
-            var inventory = await _inventoryValidation.VendorValidateInventory(requestUpdateInventoryDTO.InventoryId, vendorUser.VendorId);
-            await _userValidation.ValidateAddress(inventory.AddressId, vendorUserId);
+            var inventory = await _inventoryRepsository.Get(requestUpdateInventoryDTO.InventoryId);
+            if(inventory == null)
+            {
+                throw new DataNotFoundException("Inventory Id is not found");
+            }
 
             int previousAvailableQuantity = inventory.AvailableQuantity;
 
@@ -30,6 +33,10 @@ public partial class InventoryService : IInventoryService
             }
             else
             {
+                if (inventory.AvailableQuantity < requestUpdateInventoryDTO.AvailableQuantity)
+                {
+                    throw new DataApprovalStatusException("Stock cannot be negative");
+                }
                 inventory.AvailableQuantity = inventory.AvailableQuantity - requestUpdateInventoryDTO.AvailableQuantity;
             }
 

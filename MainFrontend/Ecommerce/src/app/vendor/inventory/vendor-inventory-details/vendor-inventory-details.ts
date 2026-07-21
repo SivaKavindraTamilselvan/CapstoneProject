@@ -22,13 +22,17 @@ export class VendorInventoryDetails {
       this.loadInventory(inventoryId);
     }
   }
+  tableLoading = signal(false);
   loadInventory(inventoryId : number){
+    this.tableLoading.set(true);
     this.vendorInventoryService.getInventoryDetails(inventoryId).subscribe({
       next : (response:any)=>{
         this.inventory.set(response);
+        this.tableLoading.set(false);
       },
       error:(error)=>{
-        console.error(error);
+        //console.error(error);
+        this.tableLoading.set(false);
       }
     })
   }

@@ -29,26 +29,37 @@ public partial class AddressService : IAddressService
             }
             selectedAddress.IsActive = false;
             selectedAddress.UpdatedAt = DateTime.Now;
-            await _addressRepsository.Update(addressId, selectedAddress);
+
+            var updatedAddress = await _addressRepsository.Update(addressId, selectedAddress);
+            if (updatedAddress == null)
+            {
+                _logger.LogError("Failed to update AddressId {AddressId}", addressId);
+                throw new DataRegistrationException("Failed to update address");
+            }
             _logger.LogInformation("AddressId {AddressId} successfully deactivated by UserId {UserId}", addressId, userId);
 
             var logChanges = new LogChanges
             {
                 TableName = nameof(Address),
-                RecordId = selectedAddress.AddressId,
+                RecordId = updatedAddress.AddressId,
                 Actions = (int)AuditAction.Deleted,
                 OldValue = $"AddressId={selectedAddress.AddressId}, UserId={selectedAddress.UserId}, AddressLine={selectedAddress.AddressLine}, City={selectedAddress.City}, State={selectedAddress.State}, PinCode={selectedAddress.PinCode}, IsActive=True",
-                NewValue = $"AddressId={selectedAddress.AddressId}, UserId={selectedAddress.UserId}, AddressLine={selectedAddress.AddressLine}, City={selectedAddress.City}, State={selectedAddress.State}, PinCode={selectedAddress.PinCode}, IsActive=False",
+                NewValue = $"AddressId={updatedAddress.AddressId}, UserId={updatedAddress.UserId}, AddressLine={updatedAddress.AddressLine}, City={updatedAddress.City}, State={updatedAddress.State}, PinCode={updatedAddress.PinCode}, IsActive=False",
                 UserId = userId,
                 ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(logChanges);
-            _logger.LogInformation("Audit log created for AddressId {AddressId}", selectedAddress.AddressId);
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", logChanges.TableName, logChanges.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for AddressId {AddressId}", updatedAddress.AddressId);
 
             await transaction.CommitAsync();
 
-            return _mapper.Map<ResponseGetAddressDTO>(selectedAddress);
+            return _mapper.Map<ResponseGetAddressDTO>(updatedAddress);
         }
         catch (Exception ex)
         {
@@ -58,6 +69,7 @@ public partial class AddressService : IAddressService
             throw;
         }
     }
+
     public async Task<ResponseGetAddressDTO> DeleteInventoryAddress(int addressId, int userId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
@@ -79,37 +91,46 @@ public partial class AddressService : IAddressService
             }
             selectedAddress.IsActive = false;
             selectedAddress.UpdatedAt = DateTime.Now;
-            await _addressRepsository.Update(addressId, selectedAddress);
+
+            var updatedAddress = await _addressRepsository.Update(addressId, selectedAddress);
+            if (updatedAddress == null)
+            {
+                _logger.LogError("Failed to update Inventory AddressId {AddressId}", addressId);
+                throw new DataRegistrationException("Failed to update address");
+            }
             _logger.LogInformation("Inventory AddressId {AddressId} successfully deactivated by UserId {UserId}", addressId, userId);
 
             var logChanges = new LogChanges
             {
                 TableName = nameof(Address),
-                RecordId = selectedAddress.AddressId,
+                RecordId = updatedAddress.AddressId,
                 Actions = (int)AuditAction.Deleted,
                 OldValue = $"AddressId={selectedAddress.AddressId}, UserId={selectedAddress.UserId}, AddressLine={selectedAddress.AddressLine}, City={selectedAddress.City}, State={selectedAddress.State}, PinCode={selectedAddress.PinCode}, IsActive=True",
-                NewValue = $"AddressId={selectedAddress.AddressId}, UserId={selectedAddress.UserId}, AddressLine={selectedAddress.AddressLine}, City={selectedAddress.City}, State={selectedAddress.State}, PinCode={selectedAddress.PinCode}, IsActive=False",
+                NewValue = $"AddressId={updatedAddress.AddressId}, UserId={updatedAddress.UserId}, AddressLine={updatedAddress.AddressLine}, City={updatedAddress.City}, State={updatedAddress.State}, PinCode={updatedAddress.PinCode}, IsActive=False",
                 UserId = userId,
-                ChangedAt = DateTime.UtcNow
+                ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(logChanges);
-
-            _logger.LogInformation("Audit log created for Inventory AddressId {AddressId}", selectedAddress.AddressId);
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", logChanges.TableName, logChanges.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+            _logger.LogInformation("Audit log created for Warehouse AddressId {AddressId}", updatedAddress.AddressId);
 
             await _notificationService.SendToUser(
                 userId,
-                "Inventory Address Deleted",
-                $"Your inventory address in {selectedAddress.City}, {selectedAddress.State} has been deleted.",
+                "Warehouse Address Deleted",
+                $"Your inventory address in {updatedAddress.City}, {updatedAddress.State} has been deleted.",
                 notificationTypeId: (int)NotificationTypeEnum.WarehouseDeleted,
                 referenceType: "Address",
-                referenceId: selectedAddress.AddressId);
-                
-            await transaction.CommitAsync();
-            
-            return _mapper.Map<ResponseGetAddressDTO>(selectedAddress);
-        }
+                referenceId: updatedAddress.AddressId);
 
+            await transaction.CommitAsync();
+
+            return _mapper.Map<ResponseGetAddressDTO>(updatedAddress);
+        }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Transaction failed while deleting AddressId {AddressId}", addressId);

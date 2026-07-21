@@ -108,14 +108,18 @@ export class VariantList extends BasePage {
     this.loadProductVariant();
   }
 
+  tableLoading = signal(false);
   loadProductVariant(): void {
     this.buildFilters();
+    this.tableLoading.set(true);
     this.adminProductService.getProductVariant(this.adminVariantFilter()).subscribe({
       next: (response: any) => {
         this.variant.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
+        this.tableLoading.set(false);
       },
     });
   }

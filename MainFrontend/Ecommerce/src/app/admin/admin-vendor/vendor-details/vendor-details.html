@@ -1,4 +1,4 @@
-@if(errorMessage()==null){
+@if(pageErrorMessage()==null){
 <button (click)="goBack()"
     class="flex gap-1.5 text-sm p-6 font-semibold text-slate-600 hover:text-slate-900 sm:mb-6 cursor-pointer transition">
     <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"
@@ -7,6 +7,17 @@
     </svg>
     Back to Vendor List
 </button>
+
+@if (tableLoading()) {
+<div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+    <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+    </svg>
+    <p class="text-sm font-medium">Loading vendors...</p>
+</div>
+} @else {
+
 <section class="bg-white px-4 sm:px-6 lg:px-12 flex flex-col items-center justify-center">
     <div class="flex flex-col sm:flex-row gap-4">
         <div class="flex-1">
@@ -304,10 +315,11 @@
 
 </section>
 }
-@if(errorMessage()){
+@if(pageErrorMessage()){
 <div class="flex flex-col items-center justify-center py-10">
     <div class="bg-red-600 text-white px-6 py-3 rounded-md font-semibold mb-6">
-        {{ errorMessage() }}
+        {{ pageErrorMessage() }}
     </div>
 </div>
+}
 }

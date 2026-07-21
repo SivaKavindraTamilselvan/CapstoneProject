@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class UserOrderService : IUserOrderService
 {
+    private readonly IUserRepsository _userRepsository;
     private readonly IOrderItemRepsository _orderItemRepsository;
     private readonly IAdminUserRepsository _adminUserRepsository;
     private readonly EcommerceContext _ecommerceContext;
@@ -32,8 +33,9 @@ public partial class UserOrderService : IUserOrderService
     private readonly ILogChanges _logChanges;
     private readonly IVendorUserRepsository _vendorUserRepsository;
 
-    public UserOrderService(IVendorUserRepsository vendorUserRepsository,IOrderItemRepsository orderItemRepsository,IAdminUserRepsository adminUserRepsository, EcommerceContext ecommerceContext, IIdempotencyService idempotencyService, INotificationService notificationService, IProductRepsository productRepsository, IShipmentRepsository shipmentRepsository, IOrderRepsository orderRepsository, IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IMapper mapper, ILogger<UserOrderService> logger, ILogChanges logChanges)
+    public UserOrderService(IUserRepsository userRepsository,IVendorUserRepsository vendorUserRepsository,IOrderItemRepsository orderItemRepsository,IAdminUserRepsository adminUserRepsository, EcommerceContext ecommerceContext, IIdempotencyService idempotencyService, INotificationService notificationService, IProductRepsository productRepsository, IShipmentRepsository shipmentRepsository, IOrderRepsository orderRepsository, IPaymentService paymentService, IOrderService orderService, IShipmentService shipmentService, ICartItemsRepsository cartItemsRepsository, IShipRocketService shipRocketService, IUserCartService userCartService, IUserCouponService userCouponService, IAddressRepsository addressRepsository, IMapper mapper, ILogger<UserOrderService> logger, ILogChanges logChanges)
     {
+        _userRepsository = userRepsository;
         _vendorUserRepsository = vendorUserRepsository;
         _orderItemRepsository = orderItemRepsository;
         _adminUserRepsository = adminUserRepsository;
@@ -142,6 +144,7 @@ public partial class UserOrderService : IUserOrderService
             requestCreateOrderDTO.TotalCouponAmount = couponCharge;
             requestCreateOrderDTO.UserId = userId;
             requestCreateOrderDTO.AddressId = deliveryAddress.AddressId;
+            requestCreateOrderDTO.useWallet = requestAddOrderDTO.useWallet;
 
             // order created
             var order = await _orderService.CreateOrder(requestCreateOrderDTO);

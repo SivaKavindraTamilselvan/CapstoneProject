@@ -4,7 +4,7 @@ export class AddReturnModel {
     public orderItemId: number = 0,
     public additionalReason: string = '',
     public returnQuantity: number = 1
-  ) {}
+  ) { }
 }
 export class ReturnSummaryModel {
   constructor(
@@ -18,6 +18,8 @@ export class ReturnSummaryModel {
     public returnQuantity: number = 0,
     public returnAmount: number = 0,
     public damageCost: number = 0,
+    public adminDamageCost: number = 0,
+    public convenienceFee: number = 0,
     public returnReason: string = '',
     public additionalReason: string = '',
     public reviewRemark: string = '',
@@ -27,5 +29,5 @@ export class ReturnSummaryModel {
     public deliveryCity: string = '',
     public requestedDate: string = '',
     public reviewedDate: string | null = null
-  ) {}
+  ) { }
 }

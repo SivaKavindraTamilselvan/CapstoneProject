@@ -20,16 +20,17 @@ import { VendorProductRoute } from "./vendor-product,route";
 import { VendorOrderRoute } from "./vendor-order.route";
 import { VendorHomeDashboard } from "../../vendor/vendor-dashboard/vendor-home-dashboard/vendor-home-dashboard";
 import { VendorProductVariantRoute } from "./vendor-variant.route";
+import { VendorProfilePage } from "../../vendor/vendor-profile-page/vendor-profile-page";
 
 export const VendorRoute: Routes = [
     {
         path: '',
         component: VendorHomeDashboard
     },
-
-  
-
-
+    {
+        path: 'profile',
+        component: VendorProfilePage
+    },
     {
         path: 'notifications',
         component: VendorNotificationList

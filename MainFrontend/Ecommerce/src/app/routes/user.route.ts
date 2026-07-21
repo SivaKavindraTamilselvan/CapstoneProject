@@ -34,6 +34,10 @@ export const UserRoutes: Routes = [
         component: SubCategoryMobile
     },
     {
+        path: 'category/:categoryId/products',
+        component: UserProduct
+    },
+    {
         path: 'subcategory/:subCategoryId/products',
         component: UserProduct
     },

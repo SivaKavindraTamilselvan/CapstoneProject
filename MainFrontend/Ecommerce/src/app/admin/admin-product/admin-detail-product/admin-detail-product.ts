@@ -14,7 +14,7 @@ import { ProductHistoryComponent } from '../product-history-component/product-hi
 
 @Component({
   selector: 'app-admin-detail-product',
-  imports: [DatePipe, DecimalPipe,CommonModule,DeletePopupComponents,ReviewPopupComponent,ProductReviews,ProductHistoryComponent],
+  imports: [DatePipe, DecimalPipe, CommonModule, DeletePopupComponents, ReviewPopupComponent, ProductReviews, ProductHistoryComponent],
   templateUrl: './admin-detail-product.html',
   styleUrl: './admin-detail-product.css',
 })
@@ -23,7 +23,7 @@ export class AdminDetailProduct {
   currentImageIndex = signal(0);
 
 
-  constructor(private adminProductService: AdminProductService, private route: ActivatedRoute,private router : Router) {
+  constructor(private adminProductService: AdminProductService, private route: ActivatedRoute, private router: Router) {
 
   }
   ngOnInit(): void {
@@ -33,17 +33,22 @@ export class AdminDetailProduct {
       this.loadProductDetails(productId);
     }
   }
+
+  tableLoading = signal(false);
   loadProductDetails(productId: number) {
+    this.tableLoading.set(true);
     this.adminProductService.getProductDetails(productId).subscribe({
       next: (response: any) => {
         //console.log(response);
         this.productModel.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-       if (error.status === 401) {
+        if (error.status === 401) {
           this.router.navigate(['/unauthorized']);
         }
         this.errorMessage.set(error.error.message);
+        this.tableLoading.set(false);
       }
     })
   }
@@ -100,7 +105,7 @@ export class AdminDetailProduct {
       remark: this.deleteProductModel().remark
     };
     const id = this.productModel()?.productId;
-    if(id == null){
+    if (id == null) {
       return;
     }
     this.adminProductService.deleteProduct(request).subscribe({
@@ -110,7 +115,7 @@ export class AdminDetailProduct {
           this.onCancelDelete();
           this.successMessage.set(null);
           this.loadProductDetails(id);
-           this.progress.set(false);
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {
@@ -179,7 +184,7 @@ export class AdminDetailProduct {
       remarks: this.reviewProductModel().remarks
     };
     const id = this.productModel()?.productId;
-    if(id == null){
+    if (id == null) {
       return;
     }
     this.adminProductService.reviewProduct(request).subscribe({
@@ -189,7 +194,7 @@ export class AdminDetailProduct {
           this.onCancelReview();
           this.successMessage.set(null);
           this.loadProductDetails(id);
-           this.progress.set(false);
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {

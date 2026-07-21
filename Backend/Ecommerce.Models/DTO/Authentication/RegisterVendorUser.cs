@@ -16,6 +16,7 @@ public class ResponseRegisterVendorUserDTO
     public int VendorId { get; set; }
     public int UserId { get; set; }
     public int VendorRoleId {get;set;}
+    public string? Email { get; set; }
     public bool IsActive { get; set; } = true;
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 }

@@ -4,6 +4,7 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IOrderRepsository : IRepository<int, Order>
 {
+    public  Task<int> GetNumberOfOrderItems(int orderId);
     public Task<decimal> GetVendorGrossSalesAsync(int vendorId);
     public Task<decimal> GetVendorYesterdaySalesAsync(int vendorId);
     public Task<decimal> GetVendorLast30DaysSalesAsync(int vendorId);

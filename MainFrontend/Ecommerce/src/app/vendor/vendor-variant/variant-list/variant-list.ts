@@ -147,15 +147,18 @@ export class VariantList extends BasePage {
     }));
   }
 
+  tableLoading = signal(false);
   loadProductVariant(): void {
     this.buildFilters();
+    this.tableLoading.set(true);
     this.vendorProductService.getProductVariant(this.vendorProductFilter()).subscribe({
       next: (response: any) => {
         this.variant.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
         if (error.status === 404) {
           this.variant.set({
             items: [],
@@ -181,6 +184,7 @@ export class VariantList extends BasePage {
         else {
           this.errorMessage.set('Failed to load variants.');
         }
+        this.tableLoading.set(false);
       },
     });
   }

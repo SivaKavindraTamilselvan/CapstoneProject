@@ -25,7 +25,25 @@ public partial class VendorReturnService : IVendorReturnService
                 throw new DataNotFoundException("Return Not Found");
             }
 
+            var orderItem = await _orderItemRepsository.GetOrderItemByOrderItemId(returnItem.OrderItemId);
+            if (orderItem == null)
+            {
+                _logger.LogWarning("OrderItemId {OrderItemId} not found for ReturnId {ReturnId}", returnItem.OrderItemId, returnItem.ReturnId);
+                throw new DataNotFoundException("Order Item Not Found");
+            }
+
+            decimal orderItemAmount = orderItem.Quantity * orderItem.UnitPrice - orderItem.Discount;
+            decimal maxAllowedDamageCost = orderItemAmount * 0.5m;
+
+            if (requestReviewReturnProductDTO.DamageCost > maxAllowedDamageCost)
+            {
+                _logger.LogWarning("DamageCost {DamageCost} exceeds 50% of order item cost {MaxAllowed} for ReturnId {ReturnId}",
+                    requestReviewReturnProductDTO.DamageCost, maxAllowedDamageCost, returnItem.ReturnId);
+                throw new DataApprovalStatusException("Damage cost cannot exceed 50% of the refundable order item amount");
+            }
+
             int previousReturnStatusId = returnItem.ReturnStatusId;
+
 
             returnItem.DamageCost = requestReviewReturnProductDTO.DamageCost;
             returnItem.VendorReview = requestReviewReturnProductDTO.Remarks;

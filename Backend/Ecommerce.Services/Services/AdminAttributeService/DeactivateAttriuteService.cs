@@ -18,18 +18,24 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
             var attribute = await _productAttributeValidation.ValidateAttribute(attributeId);
 
             attribute.IsActive = false;
-            await _attributeRepsository.Update(attribute.AttributeMasterId, attribute);
+
+            var updatedAttribute = await _attributeRepsository.Update(attribute.AttributeMasterId, attribute);
+            if (updatedAttribute == null)
+            {
+                _logger.LogError("Failed to update AttributeId {AttributeId} by AdminUserId {AdminUserId}", attribute.AttributeMasterId, adminUserId);
+                throw new DataRegistrationException("Attribute update failed.");
+            }
 
             _logger.LogInformation("AttributeId {AttributeId} ({AttributeName}) deactivated successfully",
-                attribute.AttributeMasterId, attribute.AttributeName);
+                updatedAttribute.AttributeMasterId, updatedAttribute.AttributeName);
 
             var logChanges = new LogChanges
             {
                 TableName = nameof(AttributeMaster),
-                RecordId = attribute.AttributeMasterId,
+                RecordId = updatedAttribute.AttributeMasterId,
                 Actions = (int)AuditAction.Updated,
                 OldValue = $"AttributeMasterId={attribute.AttributeMasterId}, AttributeName={attribute.AttributeName}, IsActive=True",
-                NewValue = $"AttributeMasterId={attribute.AttributeMasterId}, AttributeName={attribute.AttributeName}, IsActive=False",
+                NewValue = $"AttributeMasterId={updatedAttribute.AttributeMasterId}, AttributeName={updatedAttribute.AttributeName}, IsActive=False",
                 UserId = adminUserId,
                 ChangedAt = DateTime.Now
             };
@@ -41,8 +47,8 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
                 throw new DataRegistrationException("Audit log creation failed.");
             }
 
-            _logger.LogInformation("Audit log created for AttributeId {AttributeId}", attribute.AttributeMasterId);
-            
+            _logger.LogInformation("Audit log created for AttributeId {AttributeId}", updatedAttribute.AttributeMasterId);
+
             var vendorOwnerIds = await _vendorUserRepsository.GetAllProductVendorUserIds();
             _logger.LogInformation("Sending deactivation notification to {VendorCount} vendors", vendorOwnerIds.Count);
             foreach (var vendorUserId in vendorOwnerIds)
@@ -50,15 +56,15 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
                 await _notificationService.SendToUser(
                     vendorUserId,
                     "Category Attribute Updated",
-                    $"Attribute '{attribute.AttributeName}' has been deactivated. Please review your products.",
+                    $"Attribute '{updatedAttribute.AttributeName}' has been deactivated. Please review your products.",
                     notificationTypeId: (int)NotificationTypeEnum.Attribute,
                     referenceType: "AttributeMaster",
-                    referenceId: attribute.AttributeMasterId);
+                    referenceId: updatedAttribute.AttributeMasterId);
             }
 
-            _logger.LogInformation("Attribute deactivation process completed for AttributeId {AttributeId}",attribute.AttributeMasterId);
+            _logger.LogInformation("Attribute deactivation process completed for AttributeId {AttributeId}", updatedAttribute.AttributeMasterId);
             await transaction.CommitAsync();
-            return _mapper.Map<ResponseAdminGetAttribute>(attribute);
+            return _mapper.Map<ResponseAdminGetAttribute>(updatedAttribute);
         }
         catch (Exception ex)
         {
@@ -71,6 +77,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
             throw;
         }
     }
+
     public async Task<ResponseAdminGetCategoryAttribute> DectivateProductSubCategoryAttribute(int subcategoryAttribute, int adminUserId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
@@ -102,18 +109,23 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
 
             productSubCategory.IsActive = false;
 
-            await _productSubCategoryAttributeRepsository.Update(subcategoryAttribute, productSubCategory);
+            var updatedProductSubCategory = await _productSubCategoryAttributeRepsository.Update(subcategoryAttribute, productSubCategory);
+            if (updatedProductSubCategory == null)
+            {
+                _logger.LogError("Failed to update ProductSubCategoryAttributeId {ProductSubCategoryAttributeId} by AdminUserId {AdminUserId}", subcategoryAttribute, adminUserId);
+                throw new DataRegistrationException("Product SubCategory Attribute update failed.");
+            }
 
             _logger.LogInformation("ProductSubCategoryAttributeId {ProductSubCategoryAttributeId} deactivated successfully",
-                productSubCategory.ProductSubCategoryAttributeId);
+                updatedProductSubCategory.ProductSubCategoryAttributeId);
 
             var logChanges = new LogChanges
             {
                 TableName = nameof(ProductSubCategoryAttribute),
-                RecordId = productSubCategory.ProductSubCategoryAttributeId,
+                RecordId = updatedProductSubCategory.ProductSubCategoryAttributeId,
                 Actions = (int)AuditAction.Updated,
                 OldValue = $"ProductSubCategoryAttributeId={productSubCategory.ProductSubCategoryAttributeId}, ProductSubCategoryId={productSubCategory.ProductSubCategoryId}, AttributeMasterId={productSubCategory.AttributeMasterId}, IsActive=True",
-                NewValue = $"ProductSubCategoryAttributeId={productSubCategory.ProductSubCategoryAttributeId}, ProductSubCategoryId={productSubCategory.ProductSubCategoryId}, AttributeMasterId={productSubCategory.AttributeMasterId}, IsActive=False",
+                NewValue = $"ProductSubCategoryAttributeId={updatedProductSubCategory.ProductSubCategoryAttributeId}, ProductSubCategoryId={updatedProductSubCategory.ProductSubCategoryId}, AttributeMasterId={updatedProductSubCategory.AttributeMasterId}, IsActive=False",
                 UserId = adminUserId,
                 ChangedAt = DateTime.Now
             };
@@ -126,7 +138,7 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
             }
 
             _logger.LogInformation("Audit log created for ProductSubCategoryAttributeId {ProductSubCategoryAttributeId}",
-                productSubCategory.ProductSubCategoryAttributeId);
+                updatedProductSubCategory.ProductSubCategoryAttributeId);
 
             var vendorOwnerIds = await _vendorRepsository.GetAllVendorOwnerUserIds();
 
@@ -138,18 +150,18 @@ public partial class AdminProductAttributeService : IAdminProductAttributeServic
                 await _notificationService.SendToUser(
                     vendorUserId,
                     "Category Attribute Updated",
-                    $"A product subcategory attribute mapping for subcategory {productSubCategory.ProductSubCategoryId} has been deactivated. Please review your products.",
+                    $"A product subcategory attribute mapping for subcategory {updatedProductSubCategory.ProductSubCategoryId} has been deactivated. Please review your products.",
                     notificationTypeId: (int)NotificationTypeEnum.MappedAttribute,
                     referenceType: "ProductSubCategoryAttribute",
-                    referenceId: productSubCategory.ProductSubCategoryAttributeId);
+                    referenceId: updatedProductSubCategory.ProductSubCategoryAttributeId);
             }
 
             _logger.LogInformation("ProductSubCategoryAttribute deactivation process completed for Id {ProductSubCategoryAttributeId}",
-                productSubCategory.ProductSubCategoryAttributeId);
+                updatedProductSubCategory.ProductSubCategoryAttributeId);
 
             await transaction.CommitAsync();
 
-            return _mapper.Map<ResponseAdminGetCategoryAttribute>(productSubCategory);
+            return _mapper.Map<ResponseAdminGetCategoryAttribute>(updatedProductSubCategory);
         }
         catch (Exception ex)
         {

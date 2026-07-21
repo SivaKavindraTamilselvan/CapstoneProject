@@ -24,12 +24,16 @@ export class VendorUserDetails extends PopupBase {
   constructor(private datePipe: DatePipe, private vendorUserService: VendorUserService, private route: ActivatedRoute, private router: Router) {
     super();
   }
+
+  tableLoading = signal(false);
   loadAdminUser(id: number) {
+    this.tableLoading.set(true);
     this.vendorUserService.getAdminUserDetail(id).subscribe({
       next: (response: any) => {
         this.adminUser.set(response);
-        console.log(response);
+        //console.log(response);
         this.loading.set(false);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         if (error.status == 404) {
@@ -41,7 +45,7 @@ export class VendorUserDetails extends PopupBase {
         else {
           this.errorMessage.set(error.error.message);
         }
-
+        this.tableLoading.set(false);
         this.loading.set(false);
       }
     })
@@ -135,13 +139,13 @@ export class VendorUserDetails extends PopupBase {
     const request = isActivate ? this.vendorUserService.activateAdminUser(id) : this.vendorUserService.deactivateAdminUser(id);
     request.subscribe({
       next: () => {
-        isActivate ? this.successMessage.set('Vendor user activated successfully.') : this.successMessage.set('Vendor user deactivated successfully.');
+        isActivate ? this.successMessage.set('Vendor user activated successfully. Closing in 3 seconds...') : this.successMessage.set('Vendor user deactivated successfully. Closing in 3 seconds...');
         setTimeout(() => {
           this.successMessage.set('');
           this.closePopup();
+          this.loadAdminUser(id);
           this.progress.set(false);
         }, 3000);
-        this.loadAdminUser(id);
       },
       error: (error) => {
         console.log(error);

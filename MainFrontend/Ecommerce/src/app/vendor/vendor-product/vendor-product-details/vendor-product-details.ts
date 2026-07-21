@@ -44,17 +44,22 @@ export class VendorProductDetails extends PopupBase {
       this.loadProductDetails(productId);
     }
   }
+
+  tableLoading = signal(false);
   loadProductDetails(productId: number) {
+    this.tableLoading.set(true);
     this.vendorProductService.getProductDetails(productId).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.productModel.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         if (error.status === 401) {
           this.router.navigate(['/unauthorized']);
         }
         this.errorMessage.set(error.error.message);
+        this.tableLoading.set(false);
       }
     })
   }
@@ -89,7 +94,6 @@ export class VendorProductDetails extends PopupBase {
     });
   }
 
-  // ================== IMAGE MANAGEMENT ==================
   isImagePopupOpen = signal(false);
   isUploading = signal(false);
   isDeleting = signal<number | null>(null);
@@ -97,7 +101,6 @@ export class VendorProductDetails extends PopupBase {
   imageError = signal<string | null>(null);
   imageSuccess = signal<string | null>(null);
 
-  // Fixed image angle types — same convention as add-product
   imageAngles: { label: string; value: number }[] = [
     { label: 'Front', value: 1 },
     { label: 'Back', value: 2 },
@@ -146,6 +149,8 @@ export class VendorProductDetails extends PopupBase {
           ...p,
           productImages: [...p.productImages, newImage]
         } : p);
+
+        this.loadData();
 
         this.isUploading.set(false);
         input.value = '';

@@ -66,8 +66,10 @@ export class CouponList extends BasePage {
     this.loadCoupon();
   }
 
+  tableLoading = signal(false);
   loadCoupon() {
     this.buildFilter();
+    this.tableLoading.set(true);
 
     if (this.filterErrorMessage()) {
       return; // don't hit the API with a known-invalid range
@@ -77,6 +79,7 @@ export class CouponList extends BasePage {
       next: (response: PagedResponse<CouponListModel>) => {
         this.coupons.set(response);
         this.progress.set(false);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         console.log(error);
@@ -99,6 +102,7 @@ export class CouponList extends BasePage {
         else {
           this.errorMessage.set(error.error?.message ?? 'Something went wrong.');
         }
+        this.tableLoading.set(false);
       }
     });
   }

@@ -33,8 +33,8 @@
                         <div class="flex items-center justify-center gap-4 sm:gap-5 lg:gap-0">
                             <div
                                 class="w-20 h-20 sm:w-24 sm:h-24 lg:w-50 lg:h-50 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
-                                <img [src]="orderItem()!.productImageUrl"
-                                    [alt]="orderItem()!.productName" class="w-full h-full object-cover">
+                                <img [src]="orderItem()!.productImageUrl" [alt]="orderItem()!.productName"
+                                    class="w-full h-full object-cover">
                             </div>
 
                             <div class="flex-1 min-w-0 sm:hidden lg:hidden">
@@ -50,42 +50,91 @@
                             </h3>
                             <p class="text-xs text-slate-500 mt-1">Sold by <span class="font-medium text-slate-600">{{
                                     orderItem()!.vendorName }}</span></p>
-                            <p class="text-sm text-slate-500 mt-2">Qty: {{ orderItem()!.quantity }}</p>
-                            <p class="text-xs text-slate-400 mt-1">Shipping from {{ orderItem()!.inventoryCity }} · {{
-                                orderItem()!.inventoryAddress }}</p>
-                        </div>
 
-                        <div
-                            class="flex flex-row sm:flex-col lg:flex-row items-center sm:items-end lg:items-center justify-between sm:justify-start lg:justify-between gap-1.5 pt-3 sm:pt-0 lg:pt-3 border-t sm:border-t-0 lg:border-t border-slate-100 sm:ml-auto lg:ml-0">
-                            @if(orderItem()!.discount > 0){
-                            <span class="text-sm text-slate-400 line-through">₹{{ orderItem()!.unitPrice |
-                                number:'1.2-2' }}</span>
+                        </div>
+                    </div>
+
+                    <div
+                        class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex flex-col sm:flex-row gap-2 sm:justify-between sm:items-center">
+                        <button type="button" (click)="downloadInvoice(orderItem()!.orderId)"
+                            class="w-full sm:w-auto flex items-center justify-center gap-1.5 px-4 py-2 text-sm font-semibold text-slate-700 border border-slate-300 rounded-md hover:bg-slate-50 transition-colors cursor-pointer">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                                stroke="currentColor" stroke-width="2">
+                                <path stroke-linecap="round" stroke-linejoin="round"
+                                    d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" />
+                            </svg>
+                            Download Invoice
+                        </button>
+
+                        <div class="flex flex-col sm:flex-row gap-2">
+                            @if(orderItem()!.orderItemStatus === 'Pending'){
+                            <button type="button" (click)="openCancelPopup(orderItem()!.orderItemsId)"
+                                class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors cursor-pointer">
+                                Cancel Item
+                            </button>
                             }
-                            <span class="text-xl sm:text-2xl font-bold text-blue-800">₹{{ orderItem()!.itemTotal |
-                                number:'1.2-2' }}</span>
+                            @if(orderItem()!.orderItemStatus === 'Delivered'){
+                            <button
+                                class="bg-blue-600 text-white font-semibold w-full sm:w-auto text-sm cursor-pointer hover:bg-blue-800 px-4 py-2 rounded-md"
+                                (click)="openReviewPopup(orderItem()!.orderItemsId)">
+                                Write Review
+                            </button>
+                            }
                         </div>
                     </div>
-
-                    <p class="text-xs text-slate-400 mt-3 sm:hidden">Shipping from {{ orderItem()!.inventoryCity }} · {{
-                        orderItem()!.inventoryAddress }}</p>
-
-                    @if(orderItem()!.orderItemStatus === 'Pending'){
-                    <div class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex justify-end">
-                        <button type="button" (click)="openCancelPopup(orderItem()!.orderItemsId)"
-                            class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors cursor-pointer">
-                            Cancel Item
-                        </button>
-                    </div>
-                    }
-                    @if(orderItem()!.orderItemStatus === 'Delivered'){
-                    <div class="mt-4 sm:mt-5 pt-4 sm:pt-5 border-t border-slate-100 flex justify-end">
-                        <button
-                            class="bg-blue-600 text-white font-semibold w-full sm:w-auto text-sm cursor-pointer hover:bg-blue-800 px-4 py-2 rounded-md"
-                            (click)="openReviewPopup(orderItem()!.orderItemsId)">
-                            Write Review
-                        </button>
-                    </div>
-                    }
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Quantity</span>
+                    <span class="text-gray-900 text-sm">{{ orderItem()!.quantity }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Unit Price</span>
+                    <span class="text-gray-900 text-sm">₹{{ orderItem()!.unitPrice | number }}</span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Discount</span>
+                    <span class="text-sm">
+                        @if (orderItem()!.discount > 0) {
+                        <span class="text-green-700 font-medium">- ₹{{ orderItem()!.discount | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">No discount</span>
+                        }
+                    </span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Wallet</span>
+                    <span class="text-sm">
+                        @if (orderItem()!.wallet > 0) {
+                        <span class="text-green-700 font-medium">- ₹{{ orderItem()!.wallet | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">No Wallet</span>
+                        }
+                    </span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Coupon</span>
+                    <span class="text-sm">
+                        @if (orderItem()!.coupon > 0) {
+                        <span class="text-green-700 font-medium">- ₹{{ orderItem()!.coupon | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">No Coupon</span>
+                        }
+                    </span>
+                </div>
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm">Shipping Charge</span>
+                    <span class="text-sm">
+                        @if (orderItem()!.shippingCharge > 0) {
+                        <span class="text-red-700 font-medium">+ ₹{{ orderItem()!.shippingCharge | number }}</span>
+                        } @else {
+                        <span class="text-gray-400">No Shipping Charge</span>
+                        }
+                    </span>
+                </div>
+                <div class="flex px-5 py-4 bg-gray-50">
+                    <span class="w-44 font-bold text-gray-700 text-sm">Item Total</span>
+                    <span class="text-gray-900 font-extrabold text-base">₹{{ orderItem()!.overallCost | number
+                        }}</span>
                 </div>
             </div>
 
@@ -238,7 +287,8 @@
                                 }}</p>
                         </div>
                         <div>
-                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Shipping Charge</p>
+                            <p class="text-xs text-slate-400 font-semibold uppercase tracking-wide">Overall Shipping
+                                Charge</p>
                             <p class="text-sm text-slate-700 mt-1">
                                 {{ shipment()!.shippingCharge > 0 ? '₹' + (shipment()!.shippingCharge | number:'1.2-2')
                                 :

@@ -211,6 +211,7 @@ export class AddAddress {
     this.address.set(new AddAddressModel());
     this.cityOptions.set([]);
     this.pinLookupError.set(null);
+    this.addForm().reset();
     this.submitted.set(false);
     this.pinLookupLoading.set(false);
   }

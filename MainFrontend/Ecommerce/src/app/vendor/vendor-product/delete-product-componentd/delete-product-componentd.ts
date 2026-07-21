@@ -46,12 +46,12 @@ export class DeleteProductComponent {
     request.productStatusId = 4;
     this.vendorProductService.deleteProduct(request).subscribe({
       next: () => {
-        this.progress.set(false);
         this.successMessage.set("Product deleted successfully. Closing in 3 seconds...");
         setTimeout(() => {
           this.successMessage.set(null);
           this.deleted.emit();
           this.close();
+          this.progress.set(false);
         }, 3000);
       },
       error: (error) => {

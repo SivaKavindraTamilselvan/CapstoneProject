@@ -33,14 +33,18 @@ export class AdminVariantDetails {
     }
   }
 
+  tableLoading = signal(false);
   loadProductDetails(productId: number) {
+    this.tableLoading.set(true);
     this.adminProductService.getProductVariantDetails(productId).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.variantModel.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        this.tableLoading.set(false);
+        //console.error(error);
       }
     })
   }

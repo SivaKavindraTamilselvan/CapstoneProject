@@ -19,6 +19,11 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         return await order.ToListAsync();
     }
 
+    public async Task<int> GetNumberOfOrderItems(int orderId)
+    {
+       return await _ecommerceContext.OrderItems.Where(o=>o.OrderId == orderId).CountAsync();
+    }
+
     public IQueryable<Order> GetBaseQuery()
     {
         return _ecommerceContext.Order
@@ -42,6 +47,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
             .ThenInclude(oi => oi.Inventory)
                 .ThenInclude(i => i!.Address)
             .Include(o => o.OrderItems).ThenInclude(o => o.Returns).ThenInclude(r => r.ReturnReason)
+            .Include(o => o.OrderItems).ThenInclude(o => o.Returns).ThenInclude(r => r.ReturnRefund).ThenInclude(r => r.Refund)
             .Include(o => o.OrderItems).ThenInclude(o => o.Returns).ThenInclude(r => r.ReturnStatus)
             .Include(o => o.OrderItems).ThenInclude(o => o.Cancels).ThenInclude(r => r.CancelReason)
              .Include(o => o.OrderItems).ThenInclude(o => o.Cancels).ThenInclude(r => r.CancelStatus)
@@ -136,6 +142,8 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
 
     .Include(oi => oi.Inventory)
         .ThenInclude(i => i!.Address)
+    .Include(o => o.Returns).ThenInclude(r => r.ReturnRefund).ThenInclude(r => r.Refund)
+
 
     .Include(oi => oi.OrderItemStatus)
     .Include(o => o.Returns).ThenInclude(r => r.ReturnReason)

@@ -9,6 +9,7 @@ public class Order
     public decimal TotalProductAmount { get; set; } = 0;
     public decimal TotalShippingAmount { get; set; } = 0;
     public decimal TotalCouponAmount { get; set; } = 0;
+    public decimal TotalWalletAmount { get; set; } = 0;
     public decimal FinalAmount { get; set; } = 0;
     public int AddressId { get; set; }
     public Address? Address { get; set; }

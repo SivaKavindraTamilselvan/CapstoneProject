@@ -208,11 +208,14 @@ export class MappedAttributeList extends BasePage {
     }
   }
 
+  tableLoading = signal(false);
   loadAttribute() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.adminCategoryService.getmappedAttribute(this.attributeMappedFilter()).subscribe({
       next: (response: any) => {
         this.attribute.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         console.error(error);
@@ -225,6 +228,7 @@ export class MappedAttributeList extends BasePage {
             totalPages: 1,
           });
         }
+        this.tableLoading.set(false);
       },
     });
   }

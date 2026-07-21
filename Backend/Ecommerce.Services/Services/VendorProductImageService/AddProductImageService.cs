@@ -66,7 +66,7 @@ public partial class VendorProductImageService : IVendorProductImageService
                 _logger.LogInformation("Setting ProductImageId {ProductImageId} as default image for ProductId {ProductId}", createdImage.ProductImageId, createdImage.ProductId);
                 RequestMakeDefaultImageDTO requestMakeDefaultImageDTO = new RequestMakeDefaultImageDTO();
                 requestMakeDefaultImageDTO.ProductImageId = createdImage.ProductImageId;
-                await MakeImageDefault(requestMakeDefaultImageDTO);
+                await MakeImageDefault(requestMakeDefaultImageDTO,vendorUserId);
             }
 
             var productAdminUserIds = await _adminUserRepsository.GetProductAdminUserIds();
@@ -93,7 +93,7 @@ public partial class VendorProductImageService : IVendorProductImageService
         }
     }
 
-    public async Task<ResponseMakeDefaultImageDTO> MakeImageDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO)
+    public async Task<ResponseMakeDefaultImageDTO> MakeImageDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO,int userId)
     {
         _logger.LogInformation("Setting ProductImageId: {ProductImageId} as the default image", requestMakeDefaultImageDTO.ProductImageId);
 
@@ -165,7 +165,8 @@ public partial class VendorProductImageService : IVendorProductImageService
             Actions = (int)AuditAction.Updated,
             OldValue = $"ProductImageId={image.ProductImageId}, IsMainImage={previousImageIsMainImage}",
             NewValue = $"ProductImageId={updatedDefaultImage.ProductImageId}, IsMainImage={updatedDefaultImage.IsMainImage}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userId
         };
         var createdDefaultLog = await _logChanges.Create(defaultLog);
         if (createdDefaultLog == null)

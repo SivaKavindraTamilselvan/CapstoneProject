@@ -19,15 +19,15 @@ export class UserOrderService {
     constructor(private http: HttpClient) {
 
     }
-   placeOrder(request: AddUserOrderModel, idempotencyKey: string): Observable<any> {
-    let url = BaseURL + "/Order/AddOrder";
+    placeOrder(request: AddUserOrderModel, idempotencyKey: string): Observable<any> {
+        let url = BaseURL + "/Order/AddOrder";
 
-    const headers = new HttpHeaders({
-        'Idempotency-Key': idempotencyKey
-    });
+        const headers = new HttpHeaders({
+            'Idempotency-Key': idempotencyKey
+        });
 
-    return this.http.post(url, request, { headers });
-}
+        return this.http.post(url, request, { headers });
+    }
     getOrders(filter: UserOrderFilter) {
         const url = BaseURL + "/Order/user";
         let params = new HttpParams();
@@ -45,6 +45,12 @@ export class UserOrderService {
         return this.http.post<ShippingCheckResponse>(url, model);
     }
 
+    downloadInvoice(orderId: number): Observable<Blob> {
+        return this.http.get(`${BaseURL}/Order/${orderId}/invoice`, {
+            responseType: 'blob',
+        });
+    }
+
     cancelOrder(model: CancelOrderModel) {
         const url = `${BaseURL}/Cancel/request-cancels`;
         return this.http.post(url, model);
@@ -59,7 +65,10 @@ export class UserOrderService {
         const url = BaseURL + `/Shiprocket/user/${id}`;
         return this.http.get(url, {});
     }
-
+    getWalletBalane() {
+        const url = BaseURL + "/User/wallet-balance";
+        return this.http.get(url, {});
+    }
     createReview(model: CreateReview) {
         const url = `${BaseURL}/User/AddReview`;
         return this.http.post(url, model);

@@ -47,20 +47,6 @@
                 }
             </div>
 
-            <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">
-                    Reserved Quantity
-                </label>
-                <input type="number" [formField]="addForm.reservedQuantity" placeholder="Enter reserved quantity"
-                    class="w-full border rounded-lg px-4 py-3 outline-none 
-                    focus:border-blue-600 focus:ring-1 focus:ring-blue-600">
-                @if(addForm.reservedQuantity().invalid() && addForm.reservedQuantity().touched()) {
-                <p class="text-red-600 text-sm mt-1">
-                    {{ addForm.reservedQuantity().errors()[0].message }}
-                </p>
-                }
-            </div>
-
             <div class="flex justify-center gap-4 pt-2">
                 <button type="button" [disabled]="progress()" class="px-5 py-2 rounded-md bg-gray-300 font-semibold 
                     hover:bg-gray-400 disabled:opacity-60" (click)="close()">

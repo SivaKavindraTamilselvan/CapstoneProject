@@ -6,8 +6,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class AdminProductService : IAdminProductService
 {
-    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(
-        RequestAdminProductFilter request, int adminUserId)
+    public async Task<PagedResponse<ResponseAdminGetAllProductDTO>> GetAllProductsForAdmin(RequestAdminProductFilter request, int adminUserId)
     {
         await _adminUserValidation.ValidateAdminUserByUserId(adminUserId);
         _logger.LogInformation("Admin requested product list {@Request}", request);
@@ -55,6 +54,7 @@ public partial class AdminProductService : IAdminProductService
             var validation = await _productValidation.ValidateProductChain(products[i]);
 
             response[i].IsAvailableForSale =
+                products[i].Vendor.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted &&
                 products[i].ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
                 products[i].ProductStatusId == (int)ProductStatusEnum.Active &&
                 validation.IsValid &&
@@ -79,6 +79,7 @@ public partial class AdminProductService : IAdminProductService
                 if (variant == null) continue;
 
                 variantResponse.IsAvailableForSale =
+                    variant.Product.Vendor.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted &&
                     variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
                     variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
                     validation.IsValid &&
@@ -259,6 +260,7 @@ public partial class AdminProductService : IAdminProductService
         var validation = await _productValidation.ValidateProductChain(product);
 
         response.IsAvailableForSale =
+            product.Vendor.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted &&
             product.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
             product.ProductStatusId == (int)ProductStatusEnum.Active &&
             validation.IsValid &&
@@ -280,6 +282,7 @@ public partial class AdminProductService : IAdminProductService
             if (variant == null) continue;
 
             variantResponse.IsAvailableForSale =
+            variant.Product.Vendor.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted &&
                 variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
                 variant.ProductVariantStatusId == (int)ProductStatusEnum.Active &&
                 validation.IsValid &&
@@ -293,7 +296,7 @@ public partial class AdminProductService : IAdminProductService
 
         return response;
     }
-     public async Task<ResponseVendorGetProductVariantOnly> GetProductVariantWithFullDetails(int productVariantId, int adminUserId)
+    public async Task<ResponseVendorGetProductVariantOnly> GetProductVariantWithFullDetails(int productVariantId, int adminUserId)
     {
         _logger.LogInformation("Admin UserId {VendorUserId} requested full details for ProductVariantId {ProductVariantId}",
             adminUserId, productVariantId);
@@ -327,7 +330,7 @@ public partial class AdminProductService : IAdminProductService
         return response;
     }
 
-     public async Task<List<ApprovalHistoryDto>> GetProductHistory(int entityId)
+    public async Task<List<ApprovalHistoryDto>> GetProductHistory(int entityId)
     {
         var histories = await _approvalHistoryRepsository.GetProductApprovalHistory(entityId);
         return _mapper.Map<List<ApprovalHistoryDto>>(histories);

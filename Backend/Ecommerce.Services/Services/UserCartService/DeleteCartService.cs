@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class UserCartService : IUserCartService
 {
-    public async Task<ResponseCartItemsDTO> DeleteCart(RequestDeleteCartItemsDTO requestDeleteCartItemsDTO,int userId)
+    public async Task<ResponseCartItemsDTO> DeleteCart(RequestDeleteCartItemsDTO requestDeleteCartItemsDTO, int userId)
     {
         _logger.LogInformation("Deleting CartItemId {CartItemId}.", requestDeleteCartItemsDTO.CartItemsId);
 
@@ -22,7 +22,7 @@ public partial class UserCartService : IUserCartService
 
             var cartItems = await _cartValidation.ValidateCartItems(requestDeleteCartItemsDTO.CartItemsId);
             await _cartItemsRepsository.Delete(cartItems.CartItemsId);
-            _logger.LogInformation("CartItemId {CartItemId} deleted successfully.",cartItems.CartItemsId);
+            _logger.LogInformation("CartItemId {CartItemId} deleted successfully.", cartItems.CartItemsId);
 
             var logChanges = new LogChanges
             {
@@ -39,71 +39,67 @@ public partial class UserCartService : IUserCartService
 
             if (createdLog == null)
             {
-                _logger.LogError("Failed to create audit log for CartItemId {CartItemId}.",cartItems.CartItemsId);
+                _logger.LogError("Failed to create audit log for CartItemId {CartItemId}.", cartItems.CartItemsId);
                 throw new DataRegistrationException("Failed to create audit log.");
             }
 
             _logger.LogInformation("Audit log created successfully for CartItemId {CartItemId}.", cartItems.CartItemsId);
             await transaction.CommitAsync();
 
-            _logger.LogInformation("Delete cart operation completed successfully for CartItemId {CartItemId}.",cartItems.CartItemsId);
+            _logger.LogInformation("Delete cart operation completed successfully for CartItemId {CartItemId}.", cartItems.CartItemsId);
             return _mapper.Map<ResponseCartItemsDTO>(cartItems);
         }
         catch (Exception ex)
         {
             await transaction.RollbackAsync();
-            _logger.LogError(ex,"Error occurred while deleting CartItemId {CartItemId}.",requestDeleteCartItemsDTO.CartItemsId);
+            _logger.LogError(ex, "Error occurred while deleting CartItemId {CartItemId}.", requestDeleteCartItemsDTO.CartItemsId);
             throw;
         }
     }
 
     public async Task<List<ResponseCartItemsDTO>> DeleteAllCart(int userId)
     {
-        _logger.LogInformation("Deleting all cart items for UserId {UserId}.",userId);
-        using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
+        _logger.LogInformation("Deleting all cart items for UserId {UserId}.", userId);
+        var isNested = _ecommerceContext.Database.CurrentTransaction != null;
+        var transaction = isNested
+            ? null
+            : await _ecommerceContext.Database.BeginTransactionAsync();
 
         try
         {
-             // validate the user if active and found
             await _userValidation.ValidateUser(userId);
-            var cartItems = await _cartValidation.ValidateDeleteCartItemsByUserId(userId);
 
-            foreach (var item in cartItems)
+
+            var logChanges = new LogChanges
             {
-                await _cartItemsRepsository.Delete(item.CartItemsId);
+                TableName = nameof(CartItems),
+                RecordId = userId,
+                Actions = (int)AuditAction.Deleted,
+                OldValue = "All cart items were deleted.",
+                NewValue = string.Empty,
+                UserId = userId,
+                ChangedAt = DateTime.Now
+            };
 
-                _logger.LogInformation("Deleted CartItemId {CartItemId}.",item.CartItemsId);
-
-                var logChanges = new LogChanges
-                {
-                    TableName = nameof(CartItems),
-                    RecordId = item.CartItemsId,
-                    Actions = (int)AuditAction.Deleted,
-                    OldValue =$"CartItemsId={item.CartItemsId}, CartId={item.CartId}, ProductVariantId={item.ProductVariantId}",
-                    NewValue = string.Empty,
-                    UserId = userId,
-                    ChangedAt = DateTime.Now
-                };
-
-                var createdLog = await _logChanges.Create(logChanges);
-
-                if (createdLog == null)
-                {
-                    _logger.LogError("Failed to create audit log for CartItemId {CartItemId}.", item.CartItemsId);
-                    throw new DataRegistrationException("Failed to create audit log.");
-                }
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for clearing cart of UserId {UserId}", userId);
+                throw new DataRegistrationException("Audit log creation failed.");
             }
+            var cartItems = await _cartValidation.ValidateDeleteCartItemsByUserId(userId);
+            if (transaction != null) await transaction.CommitAsync();
 
-            await transaction.CommitAsync();
-
-            _logger.LogInformation("Successfully deleted {Count} cart item(s) for UserId {UserId}.",cartItems.Count,userId);
+            _logger.LogInformation("Successfully deleted {Count} cart item(s) for UserId {UserId}.", cartItems.Count, userId);
 
             return _mapper.Map<List<ResponseCartItemsDTO>>(cartItems);
+
+
         }
         catch (Exception ex)
         {
-            await transaction.RollbackAsync();
-            _logger.LogError(  ex,  "Error occurred while deleting all cart items for UserId {UserId}.",  userId);
+            if (transaction != null) await transaction.RollbackAsync();
+            _logger.LogError(ex, "Error occurred while deleting all cart items for UserId {UserId}.", userId);
             throw;
         }
     }

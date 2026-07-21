@@ -221,6 +221,127 @@ public partial class AuthenticationService : IAuthentication
         }
     }
 
+    public async Task<ResponseRegisterVendorUserDTO> RegisterVendorUser(RequestRegisterVendorUserDTO requestRegisterVendorUserDTO, int vendorUserId)
+    {
+        using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
+        User user;
+        string token;
+        try
+        {
+            _logger.LogInformation("Vendor UserId {VendorUserId} is registering a new vendor user with Email {Email} and VendorRoleId {VendorRoleId}",
+                vendorUserId, requestRegisterVendorUserDTO.requestRegisterUserDTO.Email, requestRegisterVendorUserDTO.VendorRoleId);
+
+            var vendorOwnerUser = await _vendorUserValidation.ValidateOwnerVendorUserByUserId(vendorUserId);
+            var vendor = await _vendorValidation.ValidateVendorIfApproved(vendorOwnerUser.VendorId);
+
+            user = await RegisterUserWithoutPassword(requestRegisterVendorUserDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
+            if (user == null)
+            {
+                _logger.LogError("User registration returned null for Email {Email}", requestRegisterVendorUserDTO.requestRegisterUserDTO.Email);
+                throw new DataRegistrationException("Failed to register user");
+            }
+            _logger.LogInformation("User created successfully. UserId {UserId}", user.UserId);
+
+            var OwnerVendor = (await _vendorUserRepsository.GetAll()).FirstOrDefault(u => u.UserId == vendorUserId);
+            if (OwnerVendor == null)
+            {
+                _logger.LogWarning("Vendor not found for UserId {VendorUserId}", vendorUserId);
+                throw new DataNotFoundException("Vendor Not Found");
+            }
+
+            VendorUser vendorUser = new VendorUser
+            {
+                VendorId = OwnerVendor.VendorId,
+                UserId = user.UserId,
+                VendorRoleId = requestRegisterVendorUserDTO.VendorRoleId,
+                AddedByVendorUserId = OwnerVendor.VendorUserId
+            };
+
+            var createdVendorUser = await _vendorUserRepsository.Create(vendorUser);
+            if (createdVendorUser == null)
+            {
+                _logger.LogError("Failed to create VendorUser for UserId {UserId} under VendorId {VendorId}", user.UserId, OwnerVendor.VendorId);
+                throw new DataRegistrationException("Failed to create vendor user");
+            }
+
+            _logger.LogInformation("VendorUser created successfully. VendorUserId {VendorUserId}, VendorId {VendorId}, UserId {UserId}",
+                createdVendorUser.VendorUserId, createdVendorUser.VendorId, createdVendorUser.UserId);
+
+            var logChanges = new LogChanges
+            {
+                TableName = nameof(VendorUser),
+                RecordId = createdVendorUser.VendorUserId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"VendorUserId={createdVendorUser.VendorUserId}, VendorId={createdVendorUser.VendorId}, UserId={createdVendorUser.UserId}, VendorRoleId={createdVendorUser.VendorRoleId}, IsActive={createdVendorUser.IsActive}",
+                UserId = vendorUserId,
+                ChangedAt = DateTime.Now
+            };
+
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for VendorUserId {VendorUserId}", createdVendorUser.VendorUserId);
+                throw new DataRegistrationException("Failed to record audit log");
+            }
+
+            token = Guid.NewGuid().ToString("N");
+            var createdToken = await _passwordSetTokenRepsository.Create(new PasswordSetToken
+            {
+                UserId = user.UserId,
+                Token = token,
+                ExpiresAt = DateTime.UtcNow.AddHours(48),
+                IsUsed = false
+            });
+            if (createdToken == null)
+            {
+                _logger.LogError("Failed to create password set token for UserId {UserId}", user.UserId);
+                throw new DataRegistrationException("Password set token creation failed");
+            }
+
+            var tokenLog = new LogChanges
+            {
+                TableName = nameof(PasswordSetToken),
+                RecordId = createdToken.PasswordSetTokenId,
+                Actions = (int)AuditAction.Created,
+                OldValue = string.Empty,
+                NewValue = $"PasswordSetTokenId={createdToken.PasswordSetTokenId}, UserId={createdToken.UserId}, ExpiresAt={createdToken.ExpiresAt}",
+                UserId = vendorUserId,
+                ChangedAt = DateTime.Now
+            };
+            var createdTokenLog = await _logChanges.Create(tokenLog);
+            if (createdTokenLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", tokenLog.TableName, tokenLog.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
+
+            await transaction.CommitAsync();
+
+            var createdVendorUserResponse = _mapper.Map<ResponseRegisterVendorUserDTO>(createdVendorUser);
+            createdVendorUserResponse.Email = user.Email;
+
+            _logger.LogInformation("Vendor user registration completed successfully by Vendor UserId {VendorUserId}. New UserId {UserId}", vendorUserId, user.UserId);
+
+            try
+            {
+                await _emailService.SendSetPasswordEmailAsync(user.Email, user.FirstName, token);
+            }
+            catch (Exception emailEx)
+            {
+                _logger.LogError(emailEx, "Vendor user created but invite email failed to send to {Email}", user.Email);
+            }
+
+            return createdVendorUserResponse;
+        }
+        catch
+        {
+            _logger.LogError("Vendor user registration failed for {Email}", requestRegisterVendorUserDTO.requestRegisterUserDTO.Email);
+            await transaction.RollbackAsync();
+            throw;
+        }
+    }
+
     public async Task<ResponseRegisterVendorDTO> RegisterVendor(RequestRegisterVendorDTO requestRegisterVendorDTO)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();

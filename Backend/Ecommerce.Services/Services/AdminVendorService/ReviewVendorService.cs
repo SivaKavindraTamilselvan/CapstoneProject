@@ -99,6 +99,45 @@ public partial class AdminVendorService : IAdminVendorService
             await transaction.CommitAsync();
             _logger.LogInformation("Vendor review process completed for VendorId {VendorId}", vendor.VendorId);
 
+            // Send review outcome email to the vendor's company email, after the transaction has
+            // committed successfully. A failed email should not roll back the review itself.
+            if (!string.IsNullOrWhiteSpace(updatedVendor.CompanyEmail))
+            {
+                try
+                {
+                    var isApproved = requestReviewOfVendorDTO.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted;
+                    var subject = isApproved ? "Your Vendor Application Has Been Approved" : "Your Vendor Application Has Been Rejected";
+
+                    var remarksHtml = string.IsNullOrWhiteSpace(requestReviewOfVendorDTO.Remark)
+                        ? string.Empty
+                        : $"<p><strong>Remarks:</strong> {requestReviewOfVendorDTO.Remark}</p>";
+
+                    var htmlBody = $@"
+                        <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto;'>
+                            <h2 style='color:#1e293b;'>Hello, {updatedVendor.VendorCompanyName}</h2>
+                            <p>Your vendor application has been reviewed by our team.</p>
+                            <p style='font-weight:bold; color:{(isApproved ? "#15803d" : "#b91c1c")};'>
+                                Status: {(isApproved ? "Approved" : "Rejected")}
+                            </p>
+                            {remarksHtml}
+                            <p style='margin-top:16px; color:#6b7280; font-size:13px;'>
+                                If you have any questions, please contact our support team.
+                            </p>
+                        </div>";
+
+                    await _emailService.SendEmailAsync(updatedVendor.CompanyEmail, subject, htmlBody);
+                    _logger.LogInformation("Vendor review email sent to CompanyEmail {CompanyEmail} for VendorId {VendorId}", updatedVendor.CompanyEmail, vendor.VendorId);
+                }
+                catch (Exception emailEx)
+                {
+                    _logger.LogError(emailEx, "Vendor reviewed but review email failed to send to {CompanyEmail}", updatedVendor.CompanyEmail);
+                }
+            }
+            else
+            {
+                _logger.LogWarning("No CompanyEmail found for VendorId {VendorId}. Skipping vendor review email", vendor.VendorId);
+            }
+
             return _mapper.Map<ResponseReviewOfVendorDTO>(vendor);
         }
         catch (Exception ex)

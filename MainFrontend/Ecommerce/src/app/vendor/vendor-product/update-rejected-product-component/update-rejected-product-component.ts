@@ -174,9 +174,10 @@ loadCategories(): void {
     this.progress.set(true);
     this.vendorProductService.updateRejectedProduct(this.updateRejectedProductModel()).subscribe({
       next: () => {
-        this.progress.set(false);
+        
         this.successMessage.set('Product updated successfully');
         setTimeout(() => {
+          this.progress.set(false);
           this.successMessage.set(null);
           this.updated.emit();
           this.close();

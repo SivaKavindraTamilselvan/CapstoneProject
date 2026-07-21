@@ -35,11 +35,6 @@ export const VendorOrderRoute: Routes = [
         data: { status: 6, title: 'Product Inspection List' }
     },
     {
-        path: 'returns/disputes',
-        component: VendorReturnOrder,
-        data: { status: 10, order: 2, title: 'Disputed Returns' }
-    },
-    {
         path: 'returns',
         component: VendorReturnOrder,
         data: { status: null, title: 'Return List' }

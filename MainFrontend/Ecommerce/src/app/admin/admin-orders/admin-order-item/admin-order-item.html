@@ -6,6 +6,17 @@
     </svg>
     Back to Order List
 </button>
+
+@if (tableLoading()) {
+<div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+  <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+  </svg>
+  <p class="text-sm font-medium">Loading order item...</p>
+</div>
+} @else {
+
 <section class="p-4 sm:px-12 mx-auto">
 
     @if (orderItem()) {
@@ -63,9 +74,39 @@
                             }
                         </span>
                     </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm">Wallet</span>
+                        <span class="text-sm">
+                            @if (orderItem()!.wallet > 0) {
+                            <span class="text-green-700 font-medium">- ₹{{ orderItem()!.wallet | number }}</span>
+                            } @else {
+                            <span class="text-gray-400">No Wallet</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm">Coupon</span>
+                        <span class="text-sm">
+                            @if (orderItem()!.coupon > 0) {
+                            <span class="text-green-700 font-medium">- ₹{{ orderItem()!.coupon | number }}</span>
+                            } @else {
+                            <span class="text-gray-400">No Coupon</span>
+                            }
+                        </span>
+                    </div>
+                    <div class="flex px-5 py-3">
+                        <span class="w-44 font-medium text-gray-500 text-sm">Shipping Charge</span>
+                        <span class="text-sm">
+                            @if (orderItem()!.shippingCharge > 0) {
+                            <span class="text-red-700 font-medium">+ ₹{{ orderItem()!.shippingCharge | number }}</span>
+                            } @else {
+                            <span class="text-gray-400">No Shipping Charge</span>
+                            }
+                        </span>
+                    </div>
                     <div class="flex px-5 py-4 bg-gray-50">
                         <span class="w-44 font-bold text-gray-700 text-sm">Item Total</span>
-                        <span class="text-gray-900 font-extrabold text-base">₹{{ orderItem()!.itemTotal | number
+                        <span class="text-gray-900 font-extrabold text-base">₹{{ orderItem()!.overallCost | number
                             }}</span>
                     </div>
                 </div>
@@ -309,9 +350,20 @@
                 </div>
 
                 <div class="flex px-5 py-3">
-                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Damage Cost</span>
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Vendor Damage Cost</span>
                     <span class="text-gray-900 text-sm">₹{{ item.damageCost | number }}</span>
                 </div>
+
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Refunded Damage Cost</span>
+                    <span class="text-gray-900 text-sm">₹{{ item.adminDamageCost | number }}</span>
+                </div>
+
+                <div class="flex px-5 py-3">
+                    <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Convenience Fee</span>
+                    <span class="text-gray-900 text-sm">₹{{ item.convenienceFee | number }}</span>
+                </div>
+
 
                 <div class="flex px-5 py-4">
                     <span class="w-44 font-medium text-gray-500 text-sm flex-shrink-0">Return Reason</span>
@@ -339,7 +391,7 @@
                         {{ item.vendorReview }}
                         }
                         @else{
-                        <span class="italic text-gray-400">Not Reviewed</span>
+                        <span class="italic text-gray-400">Nill</span>
                         }
                     </div>
                 </div>
@@ -351,7 +403,7 @@
                         {{ item.reviewRemark }}
                         }
                         @else{
-                        <span class="italic text-gray-400">No Review Remark</span>
+                        <span class="italic text-gray-400">Nill</span>
                         }
                     </div>
                 </div>
@@ -385,3 +437,4 @@
     }
     }
 </section>
+}

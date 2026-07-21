@@ -6,6 +6,6 @@ public interface IVendorProductImageService
 {
     public Task<ResponseMakeDefaultImageDTO> DeleteProductImage(int productImageId, int userid);
     public Task<ResponseAddProductVariantImage> AddProductVariantImage(RequestAddProductVariantImage requestAddProductVariantImage, int vendorUserId);
-    public Task<ResponseMakeDefaultImageDTO> MakeImageDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO);
+    public Task<ResponseMakeDefaultImageDTO> MakeImageDefault(RequestMakeDefaultImageDTO requestMakeDefaultImageDTO,int vendorUserId);
     public Task<ResponseAddProductImage> AddProductImage(RequestAddProductImage requestAddProductImage, int vendorUserId);
 }

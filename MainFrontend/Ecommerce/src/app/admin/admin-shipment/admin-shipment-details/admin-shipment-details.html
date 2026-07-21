@@ -6,6 +6,16 @@
     </svg>
     Back to Shipment List
 </button>
+@if (tableLoading()) {
+  <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+    <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+      <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+      <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+    </svg>
+    <p class="text-sm font-medium">Loading shipments...</p>
+  </div>
+  } @else {
+
 <section class="p-4 sm:px-12 mx-auto">
 
     @if (shipmentModel()) {
@@ -217,7 +227,7 @@
 
     <div class="flex items-center justify-center sm:justify-end gap-3 py-12 border-t border-gray-100 mt-6">
         @if (shipmentModel()!.currentStatus === 'Ready_For_Pick_Up') {
-        <button
+        <button (click)="openUpdatePopup(selectedId())"
             class="bg-green-700 py-2 px-5 rounded-lg font-semibold text-white text-sm cursor-pointer hover:bg-green-800 transition-colors shadow-sm">
             Update Shipment
         </button>
@@ -226,3 +236,9 @@
     }
 
 </section>
+@if (showUpdateShipmentPopup()) {
+  <app-update-admin-shipment [shipmentId]="selectedShipmentIdForUpdate()" (closed)="closeUpdateShipmentPopup()"
+    (updated)="onShipmentUpdated()">
+  </app-update-admin-shipment>
+  }
+  }

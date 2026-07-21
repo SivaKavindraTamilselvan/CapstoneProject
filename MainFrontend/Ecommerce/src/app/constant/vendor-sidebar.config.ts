@@ -99,7 +99,6 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
         children: [
             { label: 'Pending Return Requests', route: '/vendor/returns/pending', roles: ['owner'] },
             { label: 'Product Inspection', route: '/vendor/returns/inspection', roles: ['owner'] },
-            { label: 'Disputed Returns', route: '/vendor/returns/disputes', roles: ['owner'] },
             { label: 'All Returns', route: '/vendor/returns', roles: ['owner'] }
         ]
     }

@@ -8,80 +8,16 @@ public partial class VendorService : IVendorService
 {
     public async Task<ResponseRegisterVendorUserDTO> RegisterVendorUser(RequestRegisterVendorUserDTO requestRegisterVendorUserDTO, int vendorUserId)
     {
-        _logger.LogInformation("Vendor UserId {VendorUserId} is registering a new vendor user with Email {Email} and VendorRoleId {VendorRoleId}", vendorUserId, requestRegisterVendorUserDTO.requestRegisterUserDTO.Email, requestRegisterVendorUserDTO.VendorRoleId);
-        using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();
-        try
-        {
-            var vendorOwnerUser = await _vendorUserValidation.ValidateOwnerVendorUserByUserId(vendorUserId);
-            var vendor = await _vendorValidation.ValidateVendorIfApproved(vendorOwnerUser.VendorId);
+        await _vendorUserValidation.ValidateOwnerVendorUserByUserId(vendorUserId);
+        _logger.LogInformation("Vendor UserId {VendorUserId} is registering a new vendor user with Email {Email} and VendorRoleId {VendorRoleId}",
+            vendorUserId, requestRegisterVendorUserDTO.requestRegisterUserDTO.Email, requestRegisterVendorUserDTO.VendorRoleId);
 
-            // initiate the user registration
-            var user = await _authentication.RegisterUser(requestRegisterVendorUserDTO.requestRegisterUserDTO, (int)RoleEnum.Vendor);
-            if (user == null)
-            {
-                _logger.LogError("User registration returned null for Email {Email}", requestRegisterVendorUserDTO.requestRegisterUserDTO.Email);
-                throw new DataRegistrationException("Failed to register user");
-            }
-            _logger.LogInformation("User created successfully. UserId {UserId}", user.UserId);
+        var result = await _authentication.RegisterVendorUser(requestRegisterVendorUserDTO, vendorUserId);
 
-            var OwnerVendor = (await _vendorUserRepsository.GetAll()).FirstOrDefault(u => u.UserId == vendorUserId);
-            if (OwnerVendor == null)
-            {
-                _logger.LogWarning("Vendor not found for UserId {VendorUserId}", vendorUserId);
-                throw new DataNotFoundException("Vendor Not Found");
-            }
+        _logger.LogInformation("Vendor user registration completed successfully by Vendor UserId {VendorUserId}. New UserId {UserId}", vendorUserId, result.UserId);
 
-            //mapper for the vendor user
-            VendorUser vendorUser = new VendorUser();
-            vendorUser.VendorId = OwnerVendor.VendorId;
-            vendorUser.UserId = user.UserId;
-            vendorUser.VendorRoleId = requestRegisterVendorUserDTO.VendorRoleId;
-            vendorUser.AddedByVendorUserId = OwnerVendor.VendorUserId;
-
-            var createdVendorUser = await _vendorUserRepsository.Create(vendorUser);
-            if (createdVendorUser == null)
-            {
-                _logger.LogError("Failed to create VendorUser for UserId {UserId} under VendorId {VendorId}", user.UserId, OwnerVendor.VendorId);
-                throw new DataRegistrationException("Failed to create vendor user");
-            }
-
-            // logger
-            _logger.LogInformation("VendorUser created successfully. VendorUserId {VendorUserId}, VendorId {VendorId}, UserId {UserId}",
-            vendorUser.VendorUserId,
-            vendorUser.VendorId,
-            vendorUser.UserId);
-
-            // log change table 
-            var logChanges = new LogChanges
-            {
-                TableName = nameof(VendorUser),
-                RecordId = createdVendorUser.VendorUserId,
-                Actions = (int)AuditAction.Created,
-                OldValue = string.Empty,
-                NewValue = $"VendorUserId={createdVendorUser.VendorUserId}, VendorId={createdVendorUser.VendorId}, UserId={createdVendorUser.UserId}, VendorRoleId={createdVendorUser.VendorRoleId}, IsActive={createdVendorUser.IsActive}",
-                UserId = vendorUserId,
-                ChangedAt = DateTime.Now
-            };
-
-            var createdLog = await _logChanges.Create(logChanges);
-            if (createdLog == null)
-            {
-                _logger.LogError("Failed to create audit log for VendorUserId {VendorUserId}", createdVendorUser.VendorUserId);
-                throw new DataRegistrationException("Failed to record audit log");
-            }
-
-            await transaction.CommitAsync();
-            _logger.LogInformation("Vendor user registration completed successfully by Vendor UserId {VendorUserId}", vendorUserId);
-            return _mapper.Map<ResponseRegisterVendorUserDTO>(vendorUser); // authentication mapper
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Error occurred while registering vendor user by Vendor UserId {VendorUserId}", vendorUserId);
-            await transaction.RollbackAsync();
-            throw;
-        }
+        return result;
     }
-
     public async Task<ResponseGetVendorUserDTO> DeactivateAdminUser(int adminUserId, int logedusedId)
     {
         using var transaction = await _ecommerceContext.Database.BeginTransactionAsync();

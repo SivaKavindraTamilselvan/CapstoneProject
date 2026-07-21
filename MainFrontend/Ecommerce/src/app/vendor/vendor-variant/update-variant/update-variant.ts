@@ -321,7 +321,9 @@ export class UpdateVariant {
     this.reviewProductModel.set(new UpdateProductVariantStatus());
     this.errorMessage.set(null);
   }
+  progress = signal(false);
   handleReview() {
+    this.progress.set(true);
     this.errorMessage.set(null);
     this.successMessage.set(null);
     if (this.updateForm().invalid()) {
@@ -334,9 +336,10 @@ export class UpdateVariant {
     };
     this.vendorProductService.updateProductVariant(request).subscribe({
       next: (response:any) => {
-        console.log(response);
+        //console.log(response);
         this.successMessage.set("Vendor reviewed successfully");
         setTimeout(() => {
+          this.progress.set(false);
           this.closePopup();
           this.successMessage.set(null);
           this.loadProductVariant();
@@ -357,6 +360,7 @@ export class UpdateVariant {
             error.error?.message ?? "Something went wrong. Please try again."
           );
         }
+        this.progress.set(false);
       }
     });
   }

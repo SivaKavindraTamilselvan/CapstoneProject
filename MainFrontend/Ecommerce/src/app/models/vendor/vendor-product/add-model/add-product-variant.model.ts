@@ -2,7 +2,7 @@ import { AddProductVariantAttributeModel } from "./add-variant-attribute.model";
 
 export class AddProductVariantModel {
   constructor(
-    public productId: number = 0,
+    public ProductId: number = 0,
     public price: number = 0,
     public weightInKgs: number = 0,
     public lengthInCm: number = 0,

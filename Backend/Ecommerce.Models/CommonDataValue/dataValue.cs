@@ -72,58 +72,45 @@ public enum AuditAction
 
 public enum NotificationTypeEnum
 {
+    // Orders
     OrderPlaced = 1,
     OrderCancelled = 2,
     OrderPacked = 3,
     OrderReadyForPickup = 4,
-    OrderShipped = 4,
-    OutForDelivery = 5,
+    OrderShipped = 5,
     OrderDelivered = 6,
     OrderCompleted = 7,
 
-
-    ReturnRequested = 7,
+    // Returns & Refunds
     ReturnApproved = 8,
     ReturnRejected = 9,
-    ReturnDisputed = 9,
+    ReturnDisputed = 10,
+    ReturnRefunded = 11,
 
+    // Products
+    ProductAdded = 12,
+    ProductSubmitted = 13,
+    ProductReviewed = 14,
+    ProductImageAdded = 15,
+    ProductDeleted = 16,
 
-    RefundRequested = 10,
-    RefundApproved = 11,
-    RefundRejected = 12,
-    RefundCompleted = 13,
-
-
-    VendorRegistered = 14,
-    VendorApproved = 15,
-    VendorRejected = 16,
+    // Vendor
     VendorDeleted = 17,
 
+    // Inventory
+    InventoryAdded = 18,
+    InventoryDeleted = 19,
+    LowStockAlert = 20,
 
-    ProductAdded = 17,
-    ProductApproved = 18,
-    ProductRejected = 19,
-    ProductReviewed = 20,
-    ProductSubmitted = 21,
-    ProductImageAdded = 22,
-    ProductImageDeleted = 23,
+    // Warehouse
+    WarehouseAdded = 21,
+    WarehouseDeleted = 22,
 
-    LowStockAlert = 21,
-    CouponAvailable = 22,
-
-    WarehouseAdded = 23,
-    WarehouseDeleted = 23,
-
-
-    InventoryAdded = 24,
-    InventoryDeleted = 25,
-
-
-    Attribute = 26,
-    MappedAttribute = 27,
-    Category = 28,
-    SubCategory = 29,
-    ProductDeleted = 30,
+    // Master Data
+    Attribute = 23,
+    MappedAttribute = 24,
+    Category = 25,
+    SubCategory = 26
 }
 public enum ShipmentStatusEnum
 {

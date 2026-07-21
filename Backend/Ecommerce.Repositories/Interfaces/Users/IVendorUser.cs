@@ -5,7 +5,8 @@ namespace Ecommerce.Repositories.Interfaces;
 
 public interface IVendorUserRepsository : IRepository<int, VendorUser>
 {
-         public  Task<List<VendorUser>> GetOrderVendorUserByVendorId(int vendorId);
+    public Task<List<VendorUser>> GetProductVendorUserByVendorId(int vendorId);
+    public Task<List<VendorUser>> GetOrderVendorUserByVendorId(int vendorId);
     public Task<List<int>> GetAllProductVendorUserIds();
     public Task<VendorUser?> CheckUserIsVendorOwner(int userId);
     public Task<VendorUser?> GetVendorUserByVendorUserId(int userId);

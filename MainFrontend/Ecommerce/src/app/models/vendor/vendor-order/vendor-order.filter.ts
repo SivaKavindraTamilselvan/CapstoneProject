@@ -19,8 +19,8 @@ export class RequestVendorReturnFilter {
         public returnReasonId: number | null = null,
         public orderItemId: number | null = null,
         public orderId: number | null = null,
-        public fromDate: string | null = null,
-        public toDate: string | null = null,
+        public fromDate: string = '',
+        public toDate: string  = '',
         public pageNumber: number = 1,
         public pageSize: number = 10,
     ) { }

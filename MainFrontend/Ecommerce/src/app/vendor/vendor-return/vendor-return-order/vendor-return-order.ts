@@ -6,7 +6,7 @@ import { TableAction } from '../../../shared-components/data-table-component/tab
 import { ReturnListModel } from '../../../models/vendor/vendor-return/return.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorOrderService } from '../../../services/vendor-order.Service';
-import { form, min } from '@angular/forms/signals';
+import { form, FormField, min } from '@angular/forms/signals';
 import { RequestVendorReturnFilter } from '../../../models/vendor/vendor-order/vendor-order.filter';
 import { PagedResponse } from '../../../models/paged-response.model';
 import { HeaderComponent } from '../../../shared-components/header-component/header-component';
@@ -16,10 +16,24 @@ import { MobileCardComponent } from '../../../shared-components/mobile-card-comp
 import { ReviewReturnComponent } from '../review-return-component/review-return-component';
 import { AdditionalRefundPopup } from '../additional-refund-popup/additional-refund-popup';
 import { ReviewReturnProductPopup } from '../review-return-product/review-return-product';
+import { FilterComponent } from '../../../shared-components/filter-component/filter-component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-vendor-return-order',
-  imports: [HeaderComponent, PaginationComponent, DataTableComponent, MobileCardComponent, ReviewReturnComponent, AdditionalRefundPopup, ReviewReturnProductPopup],
+  imports: [
+    HeaderComponent,
+    PaginationComponent,
+    DataTableComponent,
+    MobileCardComponent,
+    ReviewReturnComponent,
+    AdditionalRefundPopup,
+    ReviewReturnProductPopup,
+    FilterComponent,
+    FormField,
+    ReactiveFormsModule,
+    FormsModule
+  ],
   providers: [DatePipe],
   templateUrl: './vendor-return-order.html',
   styleUrl: './vendor-return-order.css',
@@ -57,6 +71,16 @@ export class VendorReturnOrder extends BasePage {
   requestVendorReturnFilter = signal(new RequestVendorReturnFilter());
   totalPages = computed(() => this.returns()?.totalPages ?? 1);
 
+
+
+  returnReasonId = signal<number | null>(null);
+  orderItemId = signal<number | null>(null);
+  orderId = signal<number | null>(null);
+  fromDate = signal<string>('');
+  toDate = signal<string>('');
+
+
+
   filterForm = form(this.requestVendorReturnFilter, (path) => {
     min(path.returnStatusId, 1, { message: 'Please select a valid return status.' });
     min(path.returnReasonId, 1, { message: 'Please select a valid return reason.' });
@@ -68,6 +92,11 @@ export class VendorReturnOrder extends BasePage {
     this.requestVendorReturnFilter.update(filter => ({
       ...filter,
       returnStatusId: this.status() == null ? this.draftstatus() : this.status(),
+      returnReasonId: this.returnReasonId(),
+      orderItemId: this.orderItemId(),
+      orderId: this.orderId(),
+      fromDate: this.fromDate(),
+      toDate: this.toDate(),
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize()
     }));
@@ -75,6 +104,11 @@ export class VendorReturnOrder extends BasePage {
 
   clearFilterValues(): void {
     this.draftstatus.set(null);
+    this.returnReasonId.set(null);
+    this.orderItemId.set(null);
+    this.orderId.set(null);
+    this.fromDate.set('');
+    this.toDate.set('');
     this.requestVendorReturnFilter.set(new RequestVendorReturnFilter());
     this.requestVendorReturnFilter.update(filter => ({
       ...filter,
@@ -83,21 +117,52 @@ export class VendorReturnOrder extends BasePage {
     }));
   }
 
+  onReturnReasonChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.returnReasonId.set(value ? Number(value) : null);
+  }
+
+  onOrderItemIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.orderItemId.set(value ? Number(value) : null);
+  }
+
+  onOrderIdInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.orderId.set(value ? Number(value) : null);
+  }
+
+  onFromDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+  }
+
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+  }
+
+  onReturnStatusChange(event: Event): void {
+    const value = (event.target as HTMLSelectElement).value;
+    this.draftstatus.set(value ? Number(value) : null);
+  }
+  // --- End filter panel state ---
 
   successMessage = signal<string>('');
   errorMessage = signal<string>('');
   progress = signal(false);
 
-
-
+  tableLoading = signal(false);
   loadReturn() {
     this.buildFilters();
+    this.tableLoading.set(true);
     this.vendorOrderService.getReturnOrder(this.requestVendorReturnFilter()).subscribe({
       next: (response: any) => {
         this.returns.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
         if (error.status === 404) {
           this.returns.set({
             items: [],
@@ -112,6 +177,7 @@ export class VendorReturnOrder extends BasePage {
         } else {
           this.errorMessage.set(error.errorMessage ?? '');
         }
+        this.tableLoading.set(false);
       },
     });
   }
@@ -144,7 +210,6 @@ export class VendorReturnOrder extends BasePage {
     }
     else if (this.status() == 11) {
       return [
-
         { label: 'View', color: 'green', action: 'view' },
       ];
     }
@@ -232,5 +297,4 @@ export class VendorReturnOrder extends BasePage {
   viewReturn(returnId: number) {
     this.route.navigate(['/vendor/orders', returnId]);
   }
-
 }

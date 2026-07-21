@@ -57,26 +57,30 @@ export class VendorDetails {
       this.loadVendorUser();
     }
   }
+
+  // Rename the page-level one
+pageErrorMessage = signal<string | null>(null);
+
+// Keep this one, but now it's popup-only
+  tableLoading = signal(false);
   loadVendor() {
-    const vendorid = this.vendorId();
-    if (vendorid == null) {
-      return;
+  const vendorid = this.vendorId();
+  if (vendorid == null) return;
+  this.tableLoading.set(true);
+  this.adminVendorService.getVendorDetails(vendorid).subscribe({
+    next: (response: any) => {
+      this.vendor.set(response);
+      this.pageErrorMessage.set(null);
+      this.tableLoading.set(false);
+    },
+    error: (error) => {
+      this.pageErrorMessage.set(
+        error.status === 404 ? 'Vendor Is Not Found' : (error.error?.message ?? 'Something went wrong.')
+      );
+      this.tableLoading.set(false);
     }
-    this.adminVendorService.getVendorDetails(vendorid).subscribe({
-      next: (response: any) => {
-        this.vendor.set(response);
-        //console.log(response);
-      },
-      error: (error) => {
-        if (error.status == 404) {
-          this.errorMessage.set("Admin User Is Not Found");
-        }
-        this.errorMessage.set(
-          error.error?.message ?? 'Something went wrong.'
-        );
-      }
-    })
-  }
+  });
+}
   goToPage(pageNumber: number): void {
     if (pageNumber < 1 || pageNumber > this.totalPages()) {
       return;

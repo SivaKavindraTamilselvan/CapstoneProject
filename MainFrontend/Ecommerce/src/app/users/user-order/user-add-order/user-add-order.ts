@@ -45,6 +45,7 @@ export class UserAddOrder {
     this.loadAddresses();
     this.loadCoupons();
     this.loadCartSummary();
+    this.loadWalletBalance();
   }
 
   currentStep = signal<CheckoutStep>(1);
@@ -69,6 +70,10 @@ export class UserAddOrder {
   shipmentAvailable = signal<boolean | null>(null);
   shipmentMessage = signal<string | null>(null);
 
+  // --- Wallet ---
+  walletBalance = signal<number>(0);
+  useWallet = signal<boolean>(false);
+
   paymentMethods = PAYMENT_METHODS;
 
   selectedAddress = computed(() =>
@@ -83,7 +88,6 @@ export class UserAddOrder {
     const coupon = this.selectedCoupon();
     if (!coupon) return 0;
     return coupon.discountValue;
-
   });
 
   tax = computed(() => {
@@ -91,12 +95,25 @@ export class UserAddOrder {
     return taxableAmount * 0.18;
   });
 
-  finalTotal = computed(() =>
+  // Total before wallet is applied
+  amountPayable = computed(() =>
     Math.max(
       0,
       this.cartTotal() - this.discount() + this.tax() + this.deliveryCost()
     )
   );
+
+  // How much of the wallet balance can actually be used (capped at what's owed)
+  walletDeduction = computed(() => {
+    if (!this.useWallet()) return 0;
+    return Math.min(this.walletBalance(), this.amountPayable());
+  });
+
+  // Final amount the customer actually pays after wallet deduction
+  finalTotal = computed(() =>
+    Math.max(0, this.amountPayable() - this.walletDeduction())
+  );
+
   step1Valid = computed(() => this.selectedAddressId() !== null);
   step2Valid = computed(() => this.selectedPaymentId() !== null);
 
@@ -106,6 +123,13 @@ export class UserAddOrder {
     this.addressService.getUserAddress().subscribe({
       next: (data) => { this.addresses.set(data); this.isLoading.set(false); },
       error: () => { this.error.set('Failed to load addresses.'); this.isLoading.set(false); },
+    });
+  }
+
+  private loadWalletBalance(): void {
+    this.orderService.getWalletBalane().subscribe({
+      next: (balance: any) => this.walletBalance.set(balance),
+      error: () => this.walletBalance.set(0),
     });
   }
 
@@ -181,6 +205,11 @@ export class UserAddOrder {
   toggleCoupon(couponId: number): void {
     this.selectedCouponId.set(this.selectedCouponId() === couponId ? null : couponId);
   }
+
+  toggleWallet(): void {
+    this.useWallet.update(v => !v);
+  }
+
   placeOrderIdempotencyKey = signal<string>(crypto.randomUUID());
 
 
@@ -192,6 +221,7 @@ export class UserAddOrder {
       addressId: this.selectedAddressId()!,
       couponId: this.selectedCouponId() ?? null,
       paymentMethod: this.selectedPaymentId()!,
+      useWallet: this.useWallet(),
     };
 
     this.isLoading.set(true);
@@ -201,6 +231,14 @@ export class UserAddOrder {
     this.orderService.placeOrder(payload, this.placeOrderIdempotencyKey()).subscribe({
       next: (orderResponse) => {
         const orderId: number = orderResponse.orderId;
+
+        // If wallet fully covers the order, there's nothing left to pay online/COD
+        if (this.finalTotal() <= 0) {
+          this.isLoading.set(false);
+          this.router.navigate(['/user/order-success'], { queryParams: { orderId } });
+          return;
+        }
+
         this.initiatePayment(orderId, payload.paymentMethod);
       },
       error: (err) => {
@@ -295,4 +333,3 @@ export class UserAddOrder {
   trackByAddress(_: number, a: AddressModel): number { return a.addressId; }
   trackByCoupon(_: number, c: UserCouponModel): number { return c.couponId; }
 }
-

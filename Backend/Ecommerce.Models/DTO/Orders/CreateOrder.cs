@@ -10,6 +10,7 @@ public class RequestCreateOrderDTO
     public decimal TotalShippingAmount { get; set; } = 0;
     public decimal TotalCouponAmount { get; set; } = 0;
     public int AddressId { get; set; }
+    public bool useWallet {get;set;}
 
 }
 

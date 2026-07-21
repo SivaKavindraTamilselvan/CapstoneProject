@@ -27,7 +27,9 @@ export class VendorOrderDetails {
       this.loadOrderDetails(orderid);
     }
   }
+  tableLoading = signal(false);
   loadOrderDetails(productId: number) {
+    this.tableLoading.set(true);
     this.vendorOrderService.getOrdersDetails(productId).subscribe({
       next: (response: any) => {
         console.log(response);
@@ -39,16 +41,18 @@ export class VendorOrderDetails {
         if (this.orderItem()?.orderItemStatus == "Cancelled") {
           //this.loadCancelDetail(id);
         }
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
+        this.tableLoading.set(false);
       }
     })
   }
   cancelDetail = signal<CancelSummaryModel | null>(null);
   loading = signal(false);
   loadCancelDetail(cancelId: number) {
-    alert(cancelId);
+    //alert(cancelId);
     this.loading.set(true);
     var filter = new RequestAdminCancelFilter();
     filter.orderItemId = cancelId;

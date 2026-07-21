@@ -143,7 +143,8 @@ public class VendorProductController : ControllerBase
     {
         RequestMakeDefaultImageDTO requestMakeDefaultImageDTO = new RequestMakeDefaultImageDTO();
         requestMakeDefaultImageDTO.ProductImageId = productImageId;
-        var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO);
+        int vendorUserId = int.Parse(User.FindFirst(ClaimTypes.NameIdentifier)!.Value);
+        var result = await _vendorProductImageService.MakeImageDefault(requestMakeDefaultImageDTO,vendorUserId);
         return Ok(result);
     }
 

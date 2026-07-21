@@ -25,14 +25,19 @@ export class AdminOrderDetails {
       this.loadOrderDetails(orderid);
     }
   }
+  tableLoading = signal(false);
   loadOrderDetails(productId: number) {
+    this.tableLoading.set(true);
     this.orderService.getOrdersDetails(productId).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
+        
         this.orderModel.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
+        this.tableLoading.set(false);
       }
     })
   }

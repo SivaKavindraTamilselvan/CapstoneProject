@@ -2,6 +2,7 @@ using Ecommerce.DTOs;
 using Ecommerce.Models;
 using Ecommerce.Models.Exceptions;
 using Ecommerce.Services.Interfaces;
+using Microsoft.Extensions.Logging;
 
 public partial class OrderService : IOrderService
 {
@@ -182,21 +183,73 @@ public partial class OrderService : IOrderService
         var result = await _orderRepsository.GetOrderItemsByOrderItemId(orderId);
         if (result == null)
         {
-            Console.WriteLine("OrderItem is null");
+            _logger.LogWarning("OrderItemId {OrderId} not found", orderId);
+            throw new DataNotFoundException("Order item not found");
         }
-        else if (result.ProductVariant == null)
+
+        var shipment = await _shipmentRepsository.GetShipmentByOrderItemId(orderId);
+        if (shipment == null)
         {
-            Console.WriteLine("ProductVariant is null");
+            _logger.LogWarning("Shipment not found for OrderItemId {OrderId}", orderId);
+            throw new DataNotFoundException("Shipment not found for this order item");
         }
-        else if (result.ProductVariant.Product == null)
+
+        var shipmentItems = await _shipmentRepsository.GetShipmentItemNumber(shipment.ShipmentId);
+        if (shipmentItems == 0)
         {
-            Console.WriteLine("Product is null");
+            _logger.LogWarning("No shipment items found for ShipmentId {ShipmentId}", shipment.ShipmentId);
+            throw new DataNotFoundException("Shipment items not found");
+        }
+
+        var orderItems = await _orderRepsository.GetNumberOfOrderItems(result.OrderId);
+        if (orderItems == 0)
+        {
+            _logger.LogWarning("No order items found for OrderId {OrderId}", result.OrderId);
+            throw new DataNotFoundException("Order items not found");
+        }
+
+        var overallOrder = await _orderRepsository.Get(result.OrderId);
+        if (overallOrder == null)
+        {
+            _logger.LogWarning("OrderId {OrderId} not found", result.OrderId);
+            throw new DataNotFoundException("Order not found");
+        }
+
+        var order = _mapper.Map<OrderItemSummaryDto>(result);
+        if (order == null)
+        {
+            _logger.LogError("Mapping failed for OrderItemId {OrderId}", orderId);
+            throw new NullReferenceException("Order mapping failed");
+        }
+
+        order.ShippingCharge = shipment.ShippingCharge / shipmentItems;
+        order.Coupon = overallOrder.TotalCouponAmount / orderItems;
+        order.Wallet = overallOrder.TotalWalletAmount / orderItems;
+        order.OverallCost = order.UnitPrice * order.Quantity + order.ShippingCharge - order.Coupon - order.Wallet;
+
+        return order;
+    }
+
+    public async Task<OrderInvoiceDto> GetOrderInvoiceData(int orderId)
+    {
+        var order = await _orderRepsository.GetOrderByOrderId(orderId);
+        if (order == null)
+        {
+            throw new DataNotFoundException("Order not found");
+        }
+        var dto =  _mapper.Map<OrderInvoiceDto>(order);
+        var successfulPayment = order.Payments?
+            .FirstOrDefault(p => p.PaymentStatus.PaymentStatusName == "Success");
+
+        if (successfulPayment != null)
+        {
+            dto.PaymentMethod = successfulPayment.ModeOfPayment.ModeOfPaymentName ?? string.Empty;
         }
         else
         {
-            Console.WriteLine(result.ProductVariant.Product.ProductName);
+            dto.PaymentMethod = "Cash On Delivery";
         }
+        return dto;
 
-        return _mapper.Map<OrderItemSummaryDto>(result);
     }
 }

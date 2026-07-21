@@ -34,7 +34,6 @@ export class AddInventoryComponent {
   addForm = form(this.inventoryModel, (path) => {
     required(path.addressId, { message: 'Choose The Address' });
     required(path.availableQuantity, { message: 'Enter the available quantity' });
-    required(path.reservedQuantity, { message: 'Enter the reserved quantity' });
     required(path.productVariantId, { message: 'Choose the product variant' });
   });
 

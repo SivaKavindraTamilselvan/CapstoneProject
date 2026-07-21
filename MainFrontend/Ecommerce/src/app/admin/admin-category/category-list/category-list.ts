@@ -60,12 +60,15 @@ export class CategoryList extends BasePage {
       this.loadCategory();
     });
   }
+  tableLoading = signal(false);
   loadCategory() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.adminCategoryService.getProductCategory(this.categoryFilter()).subscribe({
       next: (response: any) => {
         this.category.set(response);
         this.scrollToTop();
+        this.tableLoading.set(false);
       },
       error: (error) => {
         console.error(error);
@@ -77,6 +80,7 @@ export class CategoryList extends BasePage {
             pageSize: this.pageSize(),
             totalPages: 1
           });
+          this.tableLoading.set(false);
         }
       }
     })

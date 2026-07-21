@@ -19,7 +19,7 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 
 @Component({
   selector: 'app-vendor-order-list',
-  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule,HeaderComponent],
+  imports: [PaginationComponent, MobileCardComponent, DataTableComponent, FilterComponent, FormField, ReactiveFormsModule, FormsModule, HeaderComponent],
   providers: [DatePipe],
   templateUrl: './vendor-order-list.html',
   styleUrl: './vendor-order-list.css',
@@ -27,10 +27,10 @@ import { HeaderComponent } from '../../../shared-components/header-component/hea
 export class VendorOrderList extends BasePage {
 
   actions = computed<TableAction<OrderItemSummaryModel>[]>(() => {
-    if (this.orderStatus()==null) {
+    if (this.orderStatus() == null) {
       return [
         {
-          label: 'view',
+          label: 'View',
           color: 'green',
           action: 'view',
         },
@@ -201,17 +201,18 @@ export class VendorOrderList extends BasePage {
     });
   }
 
-
+  tableLoading = signal(false);
   loadOrders(): void {
     this.buildFilter();
-
+    this.tableLoading.set(true);
     this.vendorOrderService.getOrders(this.orderFilter()).subscribe({
       next: (response: PagedResponse<OrderItemSummaryModel>) => {
         this.orders.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
 
         this.orders.set({
           items: [],
@@ -220,6 +221,7 @@ export class VendorOrderList extends BasePage {
           pageSize: this.pageSize(),
           totalPages: 1
         });
+        this.tableLoading.set(false);
       }
     });
   }
@@ -246,7 +248,7 @@ export class VendorOrderList extends BasePage {
       ...filter,
       pageNumber: this.pageNumber(),
       pageSize: this.pageSize(),
-      orderStatusId: this.orderStatus() ==  null ? this.orderStatusId() : this.orderStatus(),
+      orderStatusId: this.orderStatus() == null ? this.orderStatusId() : this.orderStatus(),
       orderItemStatusId: this.orderItemStatus() == null ? this.orderItemStatusId() : this.orderItemStatus(),
       orderNumber: this.orderNumber().trim(),
     }));
@@ -276,50 +278,72 @@ export class VendorOrderList extends BasePage {
   }
 
   onFromDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.fromDate.set(value);
-  this.orderFilter.update(filter => ({
-    ...filter,
-    fromDate: value || ''
-  }));
-}
+    const value = (event.target as HTMLInputElement).value;
+    this.fromDate.set(value);
+    this.orderFilter.update(filter => ({
+      ...filter,
+      fromDate: value || ''
+    }));
+  }
 
-onToDateInput(event: Event): void {
-  const value = (event.target as HTMLInputElement).value;
-  this.toDate.set(value);
-  this.orderFilter.update(filter => ({
-    ...filter,
-    toDate: value || ''
-  }));
-}
+  onToDateInput(event: Event): void {
+    const value = (event.target as HTMLInputElement).value;
+    this.toDate.set(value);
+    this.orderFilter.update(filter => ({
+      ...filter,
+      toDate: value || ''
+    }));
+  }
 
-successMessage = signal('');
+  isSubmitting = signal(false);
+  successMessage = signal('');
+  errorMessage = signal<string | null>(null);
 
   updateOrder() {
     const orderId = this.selectedOrderId();
     if (orderId === null) return;
+
+    this.errorMessage.set(null);
+    this.isSubmitting.set(true);
+
     this.vendorOrderService.updateOrder(orderId).subscribe({
       next: (response: any) => {
+
         this.loadOrders();
-        this.closePopup();
-        this.successMessage.set("Order Updated.. ");
-        this.showDeactivatePopup.set(false);
+        this.successMessage.set('Order Item Updated to packed. Closing in 3 seconds..');
+
+        setTimeout(() => {
+          this.isSubmitting.set(false);
+          this.successMessage.set('');
+          this.closeUpdatePopup();
+        }, 3000);
+      },
+      error: (error) => {
+        this.isSubmitting.set(false);
+        this.errorMessage.set(
+          error.error?.message ?? 'Something went wrong. Please try again.'
+        );
       }
-    })
+    });
   }
 
   selectedOrderId = signal<number | null>(null);
   showDeactivatePopup = signal(false);
+
   confirmActivate(id: number) {
     this.selectedOrderId.set(id);
     this.showDeactivatePopup.set(true);
   }
+
   closeUpdatePopup() {
     this.showDeactivatePopup.set(false);
     this.selectedOrderId.set(null);
+    this.successMessage.set('');
+    this.errorMessage.set(null);
+    this.isSubmitting.set(false);
   }
 
-  viewOrder(id:number){
-    this.route.navigate(['vendor/orders',id]);
+  viewOrder(id: number) {
+    this.route.navigate(['vendor/orders', id]);
   }
 }

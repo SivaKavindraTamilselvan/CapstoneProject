@@ -2,9 +2,10 @@ import { Component, signal } from '@angular/core';
 import { UserProductService } from '../../services/user-product.Service';
 import { UserProductCategoryModel } from '../../models/user/product-category/user-product-category.model';
 import { UserSubProductCategoryModel } from '../../models/user/product-category/user-sub-category.model';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { NavigationEnd, Router, RouterLink, RouterOutlet } from '@angular/router';
 import { AuthStateService } from '../../services/auth-State.Service';
 import { NgClass } from '@angular/common';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-user-navbar',
@@ -14,16 +15,35 @@ import { NgClass } from '@angular/common';
 })
 export class UserNavbar {
   mobileSearchOpen = signal(false);
+  showSearch = signal(true);
   selectedProductCategory = signal<number | null>(null);
   productCategoryModel = signal<UserProductCategoryModel[]>([]);
   subProductCategoryModel = signal<UserSubProductCategoryModel[]>([]);
-  constructor(private userProductService: UserProductService, private router: Router, public authState: AuthStateService) {
 
+  constructor(private userProductService: UserProductService, private router: Router, public authState: AuthStateService) {
+    this.router.events.pipe(
+      filter((event): event is NavigationEnd => event instanceof NavigationEnd)
+    ).subscribe((event) => {
+      const isCategoryOrSubcategoryPage =
+        event.urlAfterRedirects.includes('/user/category/') ||
+        event.urlAfterRedirects.includes('/user/subcategory/');
+
+      const isPlainProductsPage = event.urlAfterRedirects.includes('/user/products');
+
+      this.showSearch.set(isCategoryOrSubcategoryPage || isPlainProductsPage);
+
+      if (!isCategoryOrSubcategoryPage) {
+        this.selectedProductCategory.set(null);
+        this.subProductCategoryModel.set([]);
+      }
+    });
   }
+
   ngOnInit() {
     this.loadProductCategory();
     this.authState.validateSession();
   }
+
   loadProductCategory() {
     this.userProductService.getProductCategory().subscribe({
       next: (response: any) => {
@@ -40,6 +60,7 @@ export class UserNavbar {
     this.authState.logout();
     this.router.navigate(["/login"]);
   }
+
   loadSubCategory() {
     const categoryId = this.selectedProductCategory();
 
@@ -59,6 +80,10 @@ export class UserNavbar {
   onSearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
     this.userProductService.navbarSearchTerm.set(value);
+    // No forced navigation here — if a category is selected, the search stays
+    // scoped to that category (UserProduct combines searchTerm with the
+    // active category/subcategory route param). If no category is selected
+    // (plain /user/products), the search is naturally global.
   }
 
   selectCategory(categoryId: number) {
@@ -100,5 +125,14 @@ export class UserNavbar {
 
   goToProducts(subCategoryId: number): void {
     this.router.navigate(['/user/subcategory', subCategoryId, 'products']);
+  }
+
+  goToCategoryProducts(categoryId: number): void {
+    this.router.navigate(['/user/category', categoryId, 'products']);
+  }
+
+  onCategoryClick(categoryId: number): void {
+    this.selectCategory(categoryId);
+    this.goToCategoryProducts(categoryId);
   }
 }

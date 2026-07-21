@@ -27,9 +27,12 @@ export class CouponDetail {
     }
   }
 
+  tableLoading = signal(false);
   loadCoupon(couponId: number) {
+    this.tableLoading.set(true);
     this.adminCouponService.getCouponById(couponId).subscribe({
       next: (response: any) => {
+        this.tableLoading.set(false);
         this.coupon.set(response);
       }
     });

@@ -46,9 +46,14 @@ export class UserProduct {
 
     this.router.paramMap.subscribe(params => {
       const subCategoryId = params.get('subCategoryId');
+      const categoryId = params.get('categoryId');
 
       this.productSubCategoryId.set(
         subCategoryId ? Number(subCategoryId) : null
+      );
+
+      this.productCategoryId.set(
+        categoryId ? Number(categoryId) : null
       );
 
       this.pageNumber.set(1);
@@ -77,14 +82,18 @@ export class UserProduct {
     };
   }
 
+  tableLoading = signal(false);
   loadProduct(): void {
+    this.tableLoading.set(true);
     this.userProductService.getProduct(this.buildFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
-        console.log(this.products());
+        this.tableLoading.set(false);
+        //console.log(this.products());
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
+        this.tableLoading.set(false);
       },
     });
   }

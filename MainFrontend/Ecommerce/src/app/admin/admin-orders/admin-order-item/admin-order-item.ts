@@ -27,11 +27,14 @@ export class AdminOrderItem {
       this.loadOrderDetails(orderid);
     }
   }
+  tableLoading = signal(false);
   loadOrderDetails(productId: number) {
+    this.tableLoading.set(true);
     this.orderService.getOrdersItemsDetails(productId).subscribe({
       next: (response: any) => {
         console.log(response);
         this.orderItem.set(response);
+        this.tableLoading.set(false);
         const id = this.orderItem()?.orderItemsId;
         if (id == null) {
           return;
@@ -41,7 +44,8 @@ export class AdminOrderItem {
         }
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
+        this.tableLoading.set(false);
       }
     })
   }
@@ -69,7 +73,7 @@ export class AdminOrderItem {
     this.router.navigate(['/admin/order',this.orderItem()?.orderId]);
   }
   viewVariant(id: number) {
-    this.router.navigate(['/vendor/products/variant', id]);
+    this.router.navigate(['/admin/product-variant-details', id]);
   }
 
   statusClass(status: string): string {

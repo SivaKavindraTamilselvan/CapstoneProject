@@ -49,14 +49,17 @@ public partial class AddressService : IAddressService
                 OldValue = string.Empty,
                 NewValue = $"AddressId={createdAddress.AddressId}, UserId={createdAddress.UserId}, AddressLine={createdAddress.AddressLine}, City={createdAddress.City}, State={createdAddress.State}, PinCode={createdAddress.PinCode}, IsDefault={createdAddress.IsDefault}",
                 UserId = UserId,
-                ChangedAt = DateTime.UtcNow
+                ChangedAt = DateTime.Now
             };
 
-            await _logChanges.Create(logChanges);
+            var createdLog = await _logChanges.Create(logChanges);
+            if (createdLog == null)
+            {
+                _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", logChanges.TableName, logChanges.RecordId);
+                throw new DataRegistrationException("Audit log creation failed.");
+            }
 
             _logger.LogInformation("Audit log created for AddressId {AddressId}", createdAddress.AddressId);
-
-            // 
 
             if (user.RoleId == (int)RoleEnum.Vendor)
             {
@@ -79,6 +82,7 @@ public partial class AddressService : IAddressService
             throw;
         }
     }
+
     public async Task<ResponseMakeDefaultAddressDTO> MakeAddressDefault(int addressId, int userId)
     {
         _logger.LogInformation("Making AddressId {AddressId} default", addressId);
@@ -99,8 +103,13 @@ public partial class AddressService : IAddressService
         }
         selectedAddress.IsDefault = true;
         selectedAddress.UpdatedAt = DateTime.Now;
-        await _addressRepsository.Update(selectedAddress.AddressId, selectedAddress);
+        var updatedSelectedAddress = await _addressRepsository.Update(selectedAddress.AddressId, selectedAddress);
+        if (updatedSelectedAddress == null)
+        {
+            _logger.LogError("Failed to update AddressId {AddressId}", selectedAddress.AddressId);
+            throw new DataRegistrationException("Failed to update address");
+        }
         _logger.LogInformation("AddressId {AddressId} set as default successfully", selectedAddress.AddressId);
-        return _mapper.Map<ResponseMakeDefaultAddressDTO>(selectedAddress);
+        return _mapper.Map<ResponseMakeDefaultAddressDTO>(updatedSelectedAddress);
     }
 }

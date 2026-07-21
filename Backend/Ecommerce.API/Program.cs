@@ -21,10 +21,12 @@ using System.Threading.RateLimiting;
 using Azure.Identity;
 using Azure.Security.KeyVault.Secrets;
 
+
 var builder = WebApplication.CreateBuilder(args);
 
 var keyVaultName = builder.Configuration["KeyVaultName"];
-Console.WriteLine($"KeyVaultName = {builder.Configuration["KeyVaultName"]}");
+QuestPDF.Settings.License = QuestPDF.Infrastructure.LicenseType.Community;
+//Console.WriteLine($"KeyVaultName = {builder.Configuration["KeyVaultName"]}");
 if (!string.IsNullOrEmpty(keyVaultName))
 {
     var vaultUri = new Uri($"https://{keyVaultName}.vault.azure.net/");
@@ -63,6 +65,10 @@ if (!string.IsNullOrEmpty(keyVaultName))
     builder.Configuration["AiValidation:BaseUrl"] =
         secretClient.GetSecret("AiValidationServiceUrl").Value.Value;
 }
+var emailUser = builder.Configuration["EmailSettings:Username"];
+var emailPass = builder.Configuration["EmailSettings:Password"];
+Console.WriteLine($"EmailSettings:Username = {emailUser}");
+Console.WriteLine($"EmailSettings:Password length = {emailPass?.Length}, first char = {emailPass?[0]}, last char = {emailPass?[^1]}");
 
 builder.Services.AddRateLimiter(options =>
 {

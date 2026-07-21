@@ -14,7 +14,7 @@ export class VendorLayout {
   activeMenu = signal<string | null>(null);
   mobileMenuOpen = signal(false);
   menus: VendorSidebarItem[] = [];
-  constructor(private router : Router,public authState: AuthStateService) {
+  constructor(private router: Router, public authState: AuthStateService) {
     const role = this.authState.getVendorRole();
     console.log(role);
     if (role) {
@@ -38,16 +38,16 @@ export class VendorLayout {
   closeMobileMenu() {
     this.mobileMenuOpen.set(false);
   }
-   goToLogin() {
+  goToLogin() {
     this.router.navigate(["/login"]);
   }
   goToNotifications() {
     this.router.navigate(["/vendor/notifications"]);
   }
   goToProfile() {
-    this.router.navigate(["/admin/profile"]);
+    this.router.navigate(["/vendor/profile"]);
   }
-  logout(){
+  logout() {
     this.authState.logout();
     this.router.navigate(["/login"]);
   }

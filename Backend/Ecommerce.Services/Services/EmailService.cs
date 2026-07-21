@@ -22,7 +22,7 @@ namespace Ecommerce.Services
             ILogger<EmailService> logger)
         {
             _emailSettings = emailSettings.Value;
-            _frontendBaseUrl = configuration["AppSettings:FrontendBaseUrl"] ?? string.Empty;
+            _frontendBaseUrl = "https://blue-dune-032aab810.7.azurestaticapps.net" ?? string.Empty;
             _logger = logger;
         }
 

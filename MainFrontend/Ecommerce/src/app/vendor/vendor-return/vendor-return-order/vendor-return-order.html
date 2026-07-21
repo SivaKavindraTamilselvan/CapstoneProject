@@ -3,6 +3,109 @@
         (reset)="resetFilters()">
     </app-header-component>
 
+    <app-filter-component [open]="filterPanelOpen()" title="Return Filters" (close)="closeFilterPanel()"
+        [errorMessage]="filterErrorMessage()" (toggle)="toggleFilterPanel()" (apply)="applyFilters()"
+        (reset)="resetFilters()">
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Order Item ID</label>
+            <input type="number" placeholder="Order Item ID" [formField]="filterForm.orderItemId"
+                (input)="onOrderItemIdInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.orderItemId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.orderItemId().errors()[0].message }}</p>
+            }
+        </div>
+
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">Order ID</label>
+            <input type="number" placeholder="Order ID" [formField]="filterForm.orderId"
+                (input)="onOrderIdInput($event)" class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+            @if (filterForm.orderId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.orderId().errors()[0].message }}</p>
+            }
+        </div>
+
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Return Reason</label>
+            <select (change)="onReturnReasonChange($event)" [value]="returnReasonId() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+
+                <option value="">All</option>
+                <option value="1">Damaged Product</option>
+                <option value="2">Wrong Product Delivered</option>
+                <option value="3">Product Not As Described</option>
+                <option value="4">Defective Product</option>
+                <option value="5">Size Does Not Fit</option>
+                <option value="6">Color Mismatch</option>
+                <option value="7">Received Incomplete Item</option>
+                <option value="8">Ordered By Mistake</option>
+                <option value="9">Delivery Took Too Long</option>
+                <option value="10">Found Better Alternative</option>
+                <option value="11">Quality Not Satisfactory</option>
+                <option value="12">Changed Mind</option>
+            </select>
+            @if (filterForm.returnReasonId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.returnReasonId().errors()[0].message }}</p>
+            }
+        </div>
+
+        @if(status() == null){
+
+        <div>
+            <label class="text-sm font-semibold text-gray-700 mb-1">Return Status</label>
+            <select (change)="onReturnStatusChange($event)" [value]="draftstatus() ?? ''"
+                class="border border-gray-400 rounded-md px-3 py-2 w-full">
+
+                <option value="">All</option>
+                <option value="1">Requested</option>
+                <option value="2">Approved</option>
+                <option value="3">Rejected</option>
+                <option value="4">Pickup Scheduled</option>
+                <option value="5">Picked Up</option>
+                <option value="6">Received</option>
+                <option value="7">Inspection Completed</option>
+                <option value="8">Refund Processed</option>
+                <option value="9">Completed</option>
+                <option value="10">Cancelled</option>
+                <option value="11">Dispute Return</option>
+            </select>
+            @if (filterForm.returnStatusId().invalid())
+            {
+            <p class="text-red-600 text-xs mt-1">{{ filterForm.returnStatusId().errors()[0].message }}</p>
+            }
+        </div>
+        }
+        <div>
+            <label class="block text-sm font-semibold text-gray-700 mb-1">
+                Requested Date Range
+            </label>
+
+            <div class="flex gap-2">
+
+                <input type="date" placeholder="From Date" [value]="fromDate()" (input)="onFromDateInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+                <input type="date" placeholder="To Date" [value]="toDate()" (input)="onToDateInput($event)"
+                    class="border border-gray-400 rounded-md px-3 py-2 w-full" />
+
+            </div>
+        </div>
+    </app-filter-component>
+
+    @if (tableLoading()) {
+    <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+        <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+            viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+        </svg>
+        <p class="text-sm font-medium">Loading return orders...</p>
+    </div>
+    } @else {
+
     <app-data-table-component [columns]="columns" [rows]="returns()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)">
     </app-data-table-component>
@@ -10,6 +113,7 @@
     <app-mobile-card-component [columns]="mobileColumns" [rows]="returns()?.items ?? []" [actions]="actions()"
         (action)="handleAction($event)" [titleKey]="'returnId'">
     </app-mobile-card-component>
+    }
 
     <app-pagination-component [pageNumber]="pageNumber()" [totalPages]="totalPages()"
         [totalCount]="returns()?.totalCount ?? 0" [pageSize]="pageSize()" (previous)="previousPage()"

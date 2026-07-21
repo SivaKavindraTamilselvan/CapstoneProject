@@ -138,15 +138,18 @@ columns: Column[] = [
     min(path.pageSize, 1, { message: 'Page size must be at least 1.' });
   });
 
+  tableLoading = signal(false);
   loadInventory() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.inventoryService.getInventory(this.inventoryFilter()).subscribe({
       next: (response: any) => {
         this.inventoryList.set(response);
-        console.log(this.inventoryList());
+        this.tableLoading.set(false);
+        //console.log(this.inventoryList());
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
         if (error.status == 404) {
           this.inventoryList.set({
             items: [],
@@ -156,6 +159,7 @@ columns: Column[] = [
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     })
   }
@@ -180,21 +184,21 @@ columns: Column[] = [
 
  
   deleteInventory() {
-    const inventoryId = this.selectedInvetoryId();
-    if (inventoryId == null) {
-      return;
-    }
-    this.inventoryService.deleteInventory(inventoryId).subscribe({
-      next: (response: any) => {
-        alert("Inventory Deleted");
-        this.loadInventory();
-        this.closePopup();
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    })
+  const inventoryId = this.selectedId();
+  if (inventoryId == null) {
+    return;
   }
+  this.inventoryService.deleteInventory(inventoryId).subscribe({
+    next: (response: any) => {
+      alert("Inventory Deleted");
+      this.loadInventory();
+      this.closePopup();
+    },
+    error: (error) => {
+      console.error(error);
+    }
+  })
+}
 
   confirmDeactivate(id: number) {
     this.selectedInvetoryId.set(id);

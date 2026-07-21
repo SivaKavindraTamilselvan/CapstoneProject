@@ -5,6 +5,7 @@ public class ReturnSummaryDto
     public int ReturnId { get; set; }
     public int OrderItemId { get; set; }
 
+    public int AdminDamageCost {get;set;}
     public int ReviewedByVendorId { get; set; }
     public string ProductImageUrl { get; set; } = string.Empty;
     public string ProductName { get; set; } = string.Empty;
@@ -12,6 +13,8 @@ public class ReturnSummaryDto
     public string VendorName { get; set; } = string.Empty;
     public int ReturnQuantity { get; set; }
     public decimal ReturnAmount { get; set; }
+     public decimal ConvenienceFee { get; set; }
+
     public decimal DamageCost { get; set; }
 
     public string ReturnReason { get; set; } = string.Empty;

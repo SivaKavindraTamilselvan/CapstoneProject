@@ -74,4 +74,14 @@ public partial class UserOrderService : IUserOrderService
             IsShippingAvailable = true
         };
     }
+
+    public async Task<decimal> GetWalletBalance(int userId)
+    {
+        var user = await _userRepsository.Get(userId);
+        if(user == null)
+        {
+            throw new DataNotFoundException("User Not Found");
+        }
+        return user.WalletCost;
+    }
 }

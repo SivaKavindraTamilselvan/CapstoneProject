@@ -41,12 +41,15 @@ export class GetWarehouseAddress extends PopupBase {
     }
   }
 
+  tableLoading = signal(false);
   loadAddress(id: number) {
     this.loading.set(true);
+    this.tableLoading.set(true);
     this.addressService.getAddressId(id).subscribe({
       next: (response: any) => {
         this.address.set(response);
         this.loading.set(false);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         this.loading.set(false);
@@ -72,6 +75,7 @@ export class GetWarehouseAddress extends PopupBase {
         else {
           this.errorMessage.set('Failed to load address.');
         }
+        this.tableLoading.set(false);
       }
     });
   }

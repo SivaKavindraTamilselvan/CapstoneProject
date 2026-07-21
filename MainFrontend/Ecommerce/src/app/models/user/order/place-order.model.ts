@@ -3,6 +3,7 @@ export class AddUserOrderModel {
         public addressId: number,
         public couponId: number | null = null,
         public paymentMethod: number,
+        public useWallet : boolean | null = null,
     ) { }
 }
 

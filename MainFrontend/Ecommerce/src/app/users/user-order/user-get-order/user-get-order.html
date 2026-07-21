@@ -86,6 +86,17 @@
                 </button>
             </div>
 
+            @if (tableLoading()) {
+            <div class="flex flex-col items-center justify-center py-16 gap-3 text-gray-400">
+                <svg class="animate-spin w-8 h-8 text-blue-700" xmlns="http://www.w3.org/2000/svg" fill="none"
+                    viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
+                </svg>
+                <p class="text-sm font-medium">Loading user orders...</p>
+            </div>
+            } @else {
+
 
             <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8 space-y-6">
                 @for(order of orders()?.items ?? []; track order.orderId){
@@ -114,7 +125,7 @@
                         </div>
 
                         <div class="self-start sm:self-auto sm:text-right">
-                            <p class="text-lg font-bold">
+                            <p class="sm:text-lg text-xs font-bold">
                                 ₹{{ order.finalAmount | number:'1.2-2' }}
                             </p>
 
@@ -156,8 +167,7 @@
 
                                 <div
                                     class="w-20 h-20 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-slate-100 border border-slate-200 shadow-sm flex-shrink-0">
-                                    <img [src]="item.productImageUrl"
-                                        [alt]="item.productName"
+                                    <img [src]="item.productImageUrl" [alt]="item.productName"
                                         class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
                                 </div>
 
@@ -182,7 +192,7 @@
                                         </p>
                                         }
 
-                                        <p class="text-lg font-bold text-blue-800">
+                                        <p class="sm:text-lg text-sm font-bold text-blue-800">
                                             ₹{{ item.itemTotal | number:'1.2-2' }}
                                         </p>
                                     </div>
@@ -203,16 +213,16 @@
 
                             </div>
 
-                            <div class="flex flex-col sm:flex-row gap-3 sm:items-center sm:justify-end">
+                            <div class="flex flex-row sm:flex-row gap-3 py-4 sm:items-center sm:justify-end">
 
-                                <span class="w-fit px-3 py-1 rounded-md text-sm font-bold"
+                                <span class="w-fit px-3 py-1 flex items-center rounded-md text-xs sm:text-sm font-bold"
                                     [ngClass]="statusColor(item.orderItemStatus)">
                                     {{ item.orderItemStatus }}
                                 </span>
 
                                 @if(item.orderItemStatus === 'Pending'){
                                 <button type="button" (click)="openCancelPopup(item.orderItemsId)"
-                                    class="w-full sm:w-auto px-4 py-2 text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors">
+                                    class="w-fit sm:w-auto px-4 py-2 text-xs sm:text-sm font-semibold text-red-600 border border-red-600 rounded-md hover:bg-red-600 hover:text-white transition-colors">
                                     Cancel Order
                                 </button>
                                 }
@@ -257,6 +267,7 @@
 
             </div>
 
+            }
             @if(orders()){
             <div
                 class="flex flex-col sm:flex-row items-center justify-between gap-3 px-4 sm:px-6 pb-10 max-w-5xl mx-auto">
@@ -290,6 +301,7 @@
             </div>
             }
         </div>
+
     </div>
 
     @if(showActivatePopup()) {
@@ -340,6 +352,11 @@
                         <option value="9">Want to change product variant</option>
                         <option value="10">Other</option>
                     </select>
+                    @if(cancelForm.cancelReasonId().invalid() && cancelForm.cancelReasonId().touched()) {
+                    <p class="text-red-600 text-sm mt-1">
+                        {{ cancelForm.cancelReasonId().errors()[0].message }}
+                    </p>
+                    }
                 </div>
 
                 <!-- Quantity -->
@@ -365,8 +382,7 @@
                         Additional Reason
                     </label>
 
-                    <textarea rows="4" [formField]="cancelForm.additionalReason"
-                        placeholder="Enter additional details (optional)"
+                    <textarea rows="4" [formField]="cancelForm.additionalReason" placeholder="Enter additional details"
                         class="w-full rounded-lg border border-gray-300 px-4 py-3 resize-none outline-none focus:border-red-600 focus:ring-1 focus:ring-red-600">
                 </textarea>
 
@@ -379,16 +395,28 @@
                 </div>
 
                 <!-- Buttons -->
+                <!-- Buttons -->
                 <div class="flex justify-center gap-4 pt-2">
 
-                    <button type="button" (click)="closePopup()"
-                        class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400">
+                    <button type="button" (click)="closePopup()" [disabled]="isSubmitting()"
+                        class="px-5 py-2 rounded-md bg-gray-300 font-semibold hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed">
                         Cancel
                     </button>
 
-                    <button type="submit"
-                        class="px-5 py-2 rounded-md bg-red-700 text-white font-semibold hover:bg-red-800">
-                        Submit
+                    <button type="submit" [disabled]="isSubmitting()"
+                        class="px-5 py-2 rounded-md bg-red-700 text-white font-semibold hover:bg-red-800 disabled:opacity-50 flex items-center justify-center gap-2 min-w-[110px]">
+                        @if(isSubmitting()) {
+                        <svg class="animate-spin h-4 w-4 text-white" xmlns="http://www.w3.org/2000/svg" fill="none"
+                            viewBox="0 0 24 24">
+                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4">
+                            </circle>
+                            <path class="opacity-75" fill="currentColor"
+                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                        </svg>
+                        <span>Processing...</span>
+                        } @else {
+                        <span>Submit</span>
+                        }
                     </button>
 
                 </div>
@@ -398,6 +426,7 @@
         </div>
     </div>
     }
+
 
     @if (showReturnPopup() && selectedReturnOrderItemId()) {
     <app-add-return-component [orderItemId]="selectedReturnOrderItemId()!" (closed)="closeReturnPopup()"

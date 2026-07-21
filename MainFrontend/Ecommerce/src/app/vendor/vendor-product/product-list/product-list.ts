@@ -66,7 +66,7 @@ export class ProductList extends BasePage {
     { key: 'productId', header: 'ID' },
     { key: 'productName', header: 'Name' },
     { key: 'productCategoryName', header: 'Category' },
-    { key: 'productSubCategoryName', header: 'SubCategory' },
+    { key: 'productSubCategoryName', header: 'Sub Category' },
     { key: 'productApprovalStatus', header: 'Approval' },
     { key: 'productStatus', header: 'Status' }
   ];
@@ -213,11 +213,14 @@ export class ProductList extends BasePage {
     min(path.maxReservedQuantity, 0, { message: 'Maximum reserved quantity cannot be negative.' });
   });
 
+  tableLoading = signal(false);
   loadProduct(): void {
     this.buildFilters();
+    this.tableLoading.set(true);
     this.vendorProductService.getProduct(this.adminProductFilter()).subscribe({
       next: (response: any) => {
         this.products.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         console.log(error);
@@ -246,6 +249,7 @@ export class ProductList extends BasePage {
         else {
           this.errorMessage.set('Failed to load products.');
         }
+        this.tableLoading.set(false);
       },
     });
   }

@@ -39,17 +39,21 @@ export class VendorVariantDetails {
     }
   }
 
+  tableLoading = signal(false);
   loadProductDetails(productId: number) {
+    this.tableLoading.set(true);
     this.vendorProductService.getProductVariantDetails(productId).subscribe({
       next: (response: any) => {
-        console.log(response);
+        //console.log(response);
         this.variantModel.set(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         if (error.status === 401) {
           this.route.navigate(['/unauthorized']);
         }
         this.errorMessage.set(error.error.message);
+        this.tableLoading.set(false);
       }
     })
   }

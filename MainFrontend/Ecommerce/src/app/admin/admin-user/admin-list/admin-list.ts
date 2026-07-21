@@ -108,7 +108,7 @@ export class AdminList extends BasePage {
       label: 'Deactivate',
       color: 'red',
       action: 'deactivate',
-      visible: admin => admin.isActive && this.status() != null && admin.adminRoleId!=1
+      visible: admin => admin.isActive && this.status() != null && admin.adminRoleId != 1
     },
     {
       label: 'Activate',
@@ -155,12 +155,15 @@ export class AdminList extends BasePage {
     }));
   }
 
+  tableLoading = signal(false);
   loadAdminUser(): void {
     this.buildFilter();
+    this.tableLoading.set(true);
 
     this.adminUserService.getAdminUser(this.adminUserFilter()).subscribe({
       next: response => {
         this.adminUsers.set(response);
+        this.tableLoading.set(false);
       },
       error: error => {
         if (error.status === 404) {
@@ -172,6 +175,7 @@ export class AdminList extends BasePage {
             totalPages: 1
           });
         }
+        this.tableLoading.set(false);
       }
     });
   }

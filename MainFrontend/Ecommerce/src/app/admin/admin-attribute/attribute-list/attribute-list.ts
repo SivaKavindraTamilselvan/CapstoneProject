@@ -206,12 +206,15 @@ export class AttributeList extends BasePage {
     });
   }
 
+  tableLoading = signal(false);
   loadAttribute() {
     this.buildFilter();
+    this.tableLoading.set(true);
     this.adminCategoryService.getAttribute(this.attributeFilter()).subscribe({
       next: (response: any) => {
         this.attribute.set(response);
-        console.log(response);
+        //console.log(response);
+        this.tableLoading.set(false);
       },
       error: (error) => {
         console.error(error);
@@ -223,6 +226,7 @@ export class AttributeList extends BasePage {
             pageSize: this.pageSize(),
             totalPages: 1
           });
+          this.tableLoading.set(false);
         }
       }
     })

@@ -73,13 +73,16 @@ export class AdminNotificationList extends BasePage {
     };
   }
 
+  tableLoading = signal(false);
   loadNotification(): void {
+    this.tableLoading.set(true);
     this.notificationService.getNotification(this.buildFilter()).subscribe({
       next: (response: any) => {
+        this.tableLoading.set(false);
         this.notifications.set(response);
       },
       error: (error) => {
-        console.log(error);
+        //console.log(error);
         if (error.status === 404) {
           this.notifications.set({
             items: [],
@@ -99,6 +102,7 @@ export class AdminNotificationList extends BasePage {
         else {
           this.errorMessage.set(error.errorMessage);
         }
+        this.tableLoading.set(false);
       },
     });
   }

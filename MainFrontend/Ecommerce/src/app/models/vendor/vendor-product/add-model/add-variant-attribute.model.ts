@@ -1,6 +1,6 @@
 export class AddProductVariantAttributeModel {
   constructor(
-    public productSubCategoryAttributeId: number = 0,
-    public attributeValue: string = ''
+    public ProductSubCategoryAttributeId: number = 0,
+    public AttributeValue: string = ''
   ) {}
 }

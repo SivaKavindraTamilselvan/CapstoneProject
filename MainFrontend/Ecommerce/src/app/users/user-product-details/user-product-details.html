@@ -10,7 +10,7 @@
     <div class="relative flex flex-col items-center justify-center">
         @if(product()) {
         <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start py-8 w-full">
-
+            <div>
             <div>
                 @if(product()?.productImages?.length) {
                 <div class="relative group">
@@ -55,40 +55,45 @@
                     No Images Added for this Product
                 </div>
                 }
-
-                <app-product-reviews [productId]="product()!.productId" />
+            </div>
+            <div class="sm:block hidden w-full">
+            <app-product-reviews [productId]="product()!.productId" />
+        </div>
             </div>
 
 
 
             <div class="space-y-4">
 
-                <div class="space-y-2">
-                    <div class="flex">
-                        <label class="w-42 px-4 font-semibold text-gray-500">Product Name</label>
-                        <p class="px-4">:</p>
-                        <p class="text-gray-900 font-medium">{{ product()!.productName }}</p>
+                <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="flex justify-between items-center text-lg font-bold text-white bg-slate-800 px-5 py-3.5">
+                        <h2>Product Details</h2>
+                        <h1>#{{ product()!.productId }}</h1>
                     </div>
-                    <div class="flex">
-                        <label class="w-42 px-4 font-semibold text-gray-500">Category</label>
-                        <p class="px-4">:</p>
-                        <p class="text-gray-900">{{ product()!.productCategoryName }}</p>
-                    </div>
-                    <div class="flex">
-                        <label class="w-42 px-4 font-semibold text-gray-500">Sub Category</label>
-                        <p class="px-4">:</p>
-                        <p class="text-gray-900">{{ product()!.productSubCategoryName }}</p>
-                    </div>
-                    <div class="flex">
-                        <label class="w-42 px-4 font-semibold text-gray-500">Vendor</label>
-                        <p class="px-4">:</p>
-                        <p class="text-gray-900">{{ product()!.vendorName }}</p>
-                    </div>
-                    <div class="flex pb-4">
-                        <label class="w-42 px-4 font-semibold text-gray-500">Description</label>
-                        <p class="px-4">:</p>
-                        <p class="flex-1 text-gray-900 break-words leading-7 text-justify">{{ product()!.description }}
-                        </p>
+
+                    <div class="divide-y divide-gray-100">
+                        <div class="flex px-5 py-3">
+                            <span class="w-40 flex-shrink-0 font-medium text-gray-500 text-sm">Product Name</span>
+                            <span class="text-gray-900 font-medium text-sm">{{ product()!.productName }}</span>
+                        </div>
+                        <div class="flex px-5 py-3">
+                            <span class="w-40 flex-shrink-0 font-medium text-gray-500 text-sm">Category</span>
+                            <span class="text-gray-900 text-sm">{{ product()!.productCategoryName }}</span>
+                        </div>
+                        <div class="flex px-5 py-3">
+                            <span class="w-40 flex-shrink-0 font-medium text-gray-500 text-sm">Sub Category</span>
+                            <span class="text-gray-900 text-sm">{{ product()!.productSubCategoryName }}</span>
+                        </div>
+                        <div class="flex px-5 py-3">
+                            <span class="w-40 flex-shrink-0 font-medium text-gray-500 text-sm">Vendor</span>
+                            <span class="text-gray-900 text-sm">{{ product()!.vendorName }}</span>
+                        </div>
+                        <div class="flex px-5 py-4">
+                            <span class="w-40 flex-shrink-0 font-medium text-gray-500 text-sm">Description</span>
+                            <p class="flex-1 text-gray-700 text-sm leading-relaxed text-justify break-words">
+                                {{ product()!.description }}
+                            </p>
+                        </div>
                     </div>
                 </div>
 
@@ -275,6 +280,10 @@
                 </div>
                 }
             </div>
+        </div>
+
+        <div class="sm:hidden w-full">
+            <app-product-reviews [productId]="product()!.productId" />
         </div>
         }
     </div>

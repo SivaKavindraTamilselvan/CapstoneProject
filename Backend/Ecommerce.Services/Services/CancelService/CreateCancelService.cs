@@ -49,7 +49,7 @@ public partial class CancelService : ICancelService
         var refundAmount = orderItemAmount - ConvenienceFee;
         _logger.LogInformation("Calculated refund for OrderItemId {OrderItemId}: Amount {Amount}, ConvenienceFee {Fee}, RefundAmount {RefundAmount}", order.OrderItemsId, orderItemAmount, ConvenienceFee, refundAmount);
 
-        var cancelledOrderItemId = await UpdateOrderItemStatus(order.OrderItemsId, requestCancelDTO.CancelQuantity);
+        var cancelledOrderItemId = await UpdateOrderItemStatus(order.OrderItemsId, requestCancelDTO.CancelQuantity,userId);
 
         var cancel = _mapper.Map<Cancel>(requestCancelDTO);
         if (cancel == null)
@@ -90,7 +90,7 @@ public partial class CancelService : ICancelService
         _logger.LogInformation("Audit log created for TableName {TableName}, RecordId {RecordId}", cancelLog.TableName, cancelLog.RecordId);
 
         await UpdateOrder(order.OrderId);
-        await UpdateInventory(order.InventoryId, requestCancelDTO.CancelQuantity);
+        await UpdateInventory(order.InventoryId, requestCancelDTO.CancelQuantity,userId);
         await CreateRefund(order.OrderItemsId, 1, createdCancel.CancelId, refundAmount, userId);
 
         var vendorId = orderDetails.ProductVariant?.Product?.VendorId;
@@ -148,7 +148,7 @@ public partial class CancelService : ICancelService
         return _mapper.Map<ResponseCancelDTO>(createdCancel);
     }
 
-    private async Task UpdateInventory(int inventoryId, int Quantity)
+    private async Task UpdateInventory(int inventoryId, int Quantity,int userid)
     {
         _logger.LogInformation("Updating inventory InventoryId {InventoryId} for cancelled Quantity {Quantity}", inventoryId, Quantity);
 
@@ -182,7 +182,8 @@ public partial class CancelService : ICancelService
             Actions = (int)AuditAction.Updated,
             OldValue = $"InventoryId={inventoryId}, AvailableQuantity={previousAvailableQuantity}, ReservedQuantity={previousReservedQuantity}",
             NewValue = $"InventoryId={updatedInventory.InventoryId}, AvailableQuantity={updatedInventory.AvailableQuantity}, ReservedQuantity={updatedInventory.ReservedQuantity}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userid
         };
 
         var createdLog = await _logChanges.Create(inventoryLog);
@@ -194,7 +195,7 @@ public partial class CancelService : ICancelService
         _logger.LogInformation("Audit log created for TableName {TableName}, RecordId {RecordId}", inventoryLog.TableName, inventoryLog.RecordId);
     }
 
-    private async Task<int> UpdateOrderItemStatus(int orderItemId, int cancelQuantity)
+    private async Task<int> UpdateOrderItemStatus(int orderItemId, int cancelQuantity,int userId)
     {
         _logger.LogInformation("Updating OrderItemId {OrderItemId} status for CancelQuantity {CancelQuantity}", orderItemId, cancelQuantity);
 
@@ -225,7 +226,8 @@ public partial class CancelService : ICancelService
                 Actions = (int)AuditAction.Updated,
                 OldValue = $"OrderItemsId={orderItem.OrderItemsId}, OrderItemStatusId={previousStatusId}",
                 NewValue = $"OrderItemsId={updatedOrderItem.OrderItemsId}, OrderItemStatusId={updatedOrderItem.OrderItemStatusId}",
-                ChangedAt = DateTime.Now
+                ChangedAt = DateTime.Now,
+                UserId = userId
             };
             var createdFullCancelLog = await _logChanges.Create(fullCancelLog);
             if (createdFullCancelLog == null)
@@ -256,7 +258,8 @@ public partial class CancelService : ICancelService
             Actions = (int)AuditAction.Updated,
             OldValue = $"OrderItemsId={orderItem.OrderItemsId}, Quantity={previousQuantity}",
             NewValue = $"OrderItemsId={updatedPartialOrderItem.OrderItemsId}, Quantity={updatedPartialOrderItem.Quantity}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userId
         };
         var createdPartialCancelLog = await _logChanges.Create(partialCancelLog);
         if (createdPartialCancelLog == null)
@@ -292,7 +295,8 @@ public partial class CancelService : ICancelService
             Actions = (int)AuditAction.Created,
             OldValue = string.Empty,
             NewValue = $"OrderItemsId={createdCancelledItem.OrderItemsId}, OrderId={createdCancelledItem.OrderId}, Quantity={createdCancelledItem.Quantity}, OrderItemStatusId={createdCancelledItem.OrderItemStatusId}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userId
         };
         var createdSplitLog = await _logChanges.Create(splitLog);
         if (createdSplitLog == null)
@@ -338,7 +342,8 @@ public partial class CancelService : ICancelService
                 Actions = (int)AuditAction.Updated,
                 OldValue = $"OrderId={orderId}, OrderStatusId={previousStatusId}",
                 NewValue = $"OrderId={updatedOrder.OrderId}, OrderStatusId={updatedOrder.OrderStatusId}",
-                ChangedAt = DateTime.Now
+                ChangedAt = DateTime.Now,
+                UserId=order.UserId
             };
             var createdLog = await _logChanges.Create(orderLog);
             if (createdLog == null)
@@ -363,7 +368,6 @@ public partial class CancelService : ICancelService
         refund.RefundTypeId = refundtypeId;
         refund.ActualRefundAmount = refundAmount;
         refund.RequestedDate = DateTime.Now;
-        refund.ProcessedDate = DateTime.Now;
         refund.RefundStatusId = (int)RefundStatusEnum.Processed;
 
         var createdRefund = await _refundRepsository.Create(refund);
@@ -381,7 +385,8 @@ public partial class CancelService : ICancelService
             Actions = (int)AuditAction.Created,
             OldValue = string.Empty,
             NewValue = $"RefundId={createdRefund.RefundId}, OrderItemsId={createdRefund.OrderItemsId}, ActualRefundAmount={createdRefund.ActualRefundAmount}, RefundStatusId={createdRefund.RefundStatusId}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userId
         };
         var createdRefundLog = await _logChanges.Create(refundLog);
         if (createdRefundLog == null)
@@ -410,7 +415,8 @@ public partial class CancelService : ICancelService
             Actions = (int)AuditAction.Created,
             OldValue = string.Empty,
             NewValue = $"CancelRefundId={createdCancelRefund.CancelRefundId}, CancelId={createdCancelRefund.CancelId}, RefundId={createdCancelRefund.RefundId}",
-            ChangedAt = DateTime.Now
+            ChangedAt = DateTime.Now,
+            UserId = userId
         };
         var createdCancelRefundLog = await _logChanges.Create(cancelRefundLog);
         if (createdCancelRefundLog == null)
@@ -457,6 +463,15 @@ public partial class CancelService : ICancelService
             _logger.LogError("Failed to create audit log for TableName {TableName}, RecordId {RecordId}", walletLog.TableName, walletLog.RecordId);
             throw new DataRegistrationException("Audit log creation failed.");
         }
+
+        var updatedRefund = await _refundRepsository.Get(createdRefund.RefundId);
+        updatedRefund!.RefundStatusId = (int)RefundStatusEnum.Completed;
+        updatedRefund.ProcessedDate = DateTime.Now;
+        await _refundRepsository.Update(updatedRefund.RefundId, updatedRefund);
+
+        var cancel = await _cancelRepsository.Get(cancelId);
+        cancel.CancelStatusId = (int)CancelStatusEnum.Refunded;
+        await _cancelRepsository.Update(cancelId,cancel);
         _logger.LogInformation("Audit log created for TableName {TableName}, RecordId {RecordId}", walletLog.TableName, walletLog.RecordId);
     }
 }
