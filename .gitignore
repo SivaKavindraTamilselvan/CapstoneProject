@@ -18,3 +18,9 @@ yarn-error.log*
 
 # VS Code optional
 .vscode/
+
+Backend/publish.zip
+Backend/publish-clean.zip
+Backend/Ecommerce.API/publish-clean-final.zip
+Backend/Ecommerce.API/publish-cleand.zip
+Backend/Ecommerce.API/publish-cleaned.zip
