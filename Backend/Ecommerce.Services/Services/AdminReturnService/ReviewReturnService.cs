@@ -153,7 +153,7 @@ public class AdminReturnService : IAdminReturnService
     {
         var inventory = await _inventoryValidation.ValidateInventory(inventoryId);
         inventory.AvailableQuantity = inventory.AvailableQuantity + Quantity;
-        inventory.ReservedQuantity = inventory.ReservedQuantity - Quantity;
+        //inventory.ReservedQuantity = inventory.ReservedQuantity - Quantity;
         inventory.UpdatedAt = DateTime.Now;
     }
     public async Task<PagedResponse<ReturnSummaryDto>> GetAllReturnsForAdmin(RequestAdminReturnFilter request)

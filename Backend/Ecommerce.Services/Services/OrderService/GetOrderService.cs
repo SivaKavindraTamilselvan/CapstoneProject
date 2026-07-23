@@ -187,27 +187,6 @@ public partial class OrderService : IOrderService
             throw new DataNotFoundException("Order item not found");
         }
 
-        var shipment = await _shipmentRepsository.GetShipmentByOrderItemId(orderId);
-        if (shipment == null)
-        {
-            _logger.LogWarning("Shipment not found for OrderItemId {OrderId}", orderId);
-            throw new DataNotFoundException("Shipment not found for this order item");
-        }
-
-        var shipmentItems = await _shipmentRepsository.GetShipmentItemNumber(shipment.ShipmentId);
-        if (shipmentItems == 0)
-        {
-            _logger.LogWarning("No shipment items found for ShipmentId {ShipmentId}", shipment.ShipmentId);
-            throw new DataNotFoundException("Shipment items not found");
-        }
-
-        var orderItems = await _orderRepsository.GetNumberOfOrderItems(result.OrderId);
-        if (orderItems == 0)
-        {
-            _logger.LogWarning("No order items found for OrderId {OrderId}", result.OrderId);
-            throw new DataNotFoundException("Order items not found");
-        }
-
         var overallOrder = await _orderRepsository.Get(result.OrderId);
         if (overallOrder == null)
         {
@@ -222,14 +201,45 @@ public partial class OrderService : IOrderService
             throw new NullReferenceException("Order mapping failed");
         }
 
-        order.ShippingCharge = shipment.ShippingCharge / shipmentItems;
-        order.Coupon = overallOrder.TotalCouponAmount / orderItems;
-        order.Wallet = overallOrder.TotalWalletAmount / orderItems;
+        // Shipment may legitimately be missing if the order item was cancelled/returned
+        var shipment = await _shipmentRepsository.GetShipmentByOrderItemId(orderId);
+        if (shipment == null)
+        {
+            _logger.LogInformation("No shipment found for OrderItemId {OrderId} (likely cancelled/returned)", orderId);
+        }
+
+        int shipmentItems = 0;
+        if (shipment != null)
+        {
+            shipmentItems = await _shipmentRepsository.GetShipmentItemNumber(shipment.ShipmentId);
+            if (shipmentItems == 0)
+            {
+                _logger.LogInformation("No shipment items found for ShipmentId {ShipmentId}", shipment.ShipmentId);
+            }
+        }
+
+        var orderItems = await _orderRepsository.GetNumberOfOrderItems(result.OrderId);
+        if (orderItems == 0)
+        {
+            _logger.LogInformation("No order items found for OrderId {OrderId} (likely cancelled/returned)", result.OrderId);
+        }
+
+        // Safe division: default to 0 when denominators are missing/zero
+        order.ShippingCharge = (shipment != null && shipmentItems > 0)
+            ? shipment.ShippingCharge / shipmentItems
+            : 0;
+
+        order.Coupon = orderItems > 0 ? overallOrder.TotalCouponAmount / orderItems : 0;
+        order.Wallet = orderItems > 0 ? overallOrder.TotalWalletAmount / orderItems : 0;
+
         order.OverallCost = order.UnitPrice * order.Quantity + order.ShippingCharge - order.Coupon - order.Wallet;
+        if(order.OverallCost < 0)
+        {
+            order.OverallCost = 0;
+        }
 
         return order;
     }
-
     public async Task<OrderInvoiceDto> GetOrderInvoiceData(int orderId)
     {
         var order = await _orderRepsository.GetOrderByOrderId(orderId);
@@ -237,7 +247,7 @@ public partial class OrderService : IOrderService
         {
             throw new DataNotFoundException("Order not found");
         }
-        var dto =  _mapper.Map<OrderInvoiceDto>(order);
+        var dto = _mapper.Map<OrderInvoiceDto>(order);
         var successfulPayment = order.Payments?
             .FirstOrDefault(p => p.PaymentStatus.PaymentStatusName == "Success");
 

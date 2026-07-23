@@ -257,7 +257,7 @@
         </div>
 
         <!-- Wallet -->
-        @if(walletBalance() > 0 && selectedPaymentId() != 1) {
+        @if(walletBalance() > 0) {
         <div class="border rounded-2xl bg-white overflow-hidden transition-colors"
           [ngClass]="useWallet() ? 'border-amber-200' : 'border-gray-100'">
           <button (click)="toggleWallet()"

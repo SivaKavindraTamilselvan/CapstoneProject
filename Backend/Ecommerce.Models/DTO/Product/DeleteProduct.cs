@@ -7,7 +7,7 @@ public class RequestDeleteProductDTO
     [Range(1, int.MaxValue, ErrorMessage = "Product Id must be greater than 0.")]
     public int ProductId { get; set; }
 
-    public string Remarks{get;set;} = string.Empty;
+    public string? Remarks{get;set;}
 }
 
 public class RequestDeleteVariantDTO
@@ -16,7 +16,7 @@ public class RequestDeleteVariantDTO
     [Range(1, int.MaxValue, ErrorMessage = "Product Id must be greater than 0.")]
     public int ProductVariantId { get; set; }
 
-    public string Remarks{get;set;} = string.Empty;
+    public string? Remarks{get;set;}
 }
 
 public class ResponseDeleteProduct

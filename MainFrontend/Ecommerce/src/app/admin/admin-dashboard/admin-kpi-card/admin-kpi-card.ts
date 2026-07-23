@@ -21,6 +21,7 @@ export class AdminKpiCard {
     this.dashboardService.getDashboard().subscribe({
       next: (res) => {
         this.dashboard.set(res)
+        console.log(res);
       },
       error: (err) => {
         console.error(err);

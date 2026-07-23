@@ -8,6 +8,7 @@ using Microsoft.Extensions.Logging;
 
 public partial class CancelService : ICancelService
 {
+    private readonly IOrderService _orderService;
     private readonly IUserRepsository _userRepsository;
     private readonly IInventoryRepsository _inventoryRepsository;
     private readonly IAdminUserRepsository _adminUserRepsository;
@@ -24,8 +25,9 @@ public partial class CancelService : ICancelService
     private readonly ICancelRefundRepsository _cancelRefundRepsository;
     private readonly IVendorUserValidation _vendorUserValidation;
     private readonly IMapper _mapper;
-    public CancelService(IUserRepsository userRepsository,IInventoryRepsository inventoryRepsository,IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<CancelService> logger,ILogChanges logChanges,IVendorUserValidation vendorUserValidation,IOrderItemRepsository orderItemRepsository, IRefundRepsository refundRepsository, ICancelRefundRepsository cancelRefundRepsository, IOrderRepsository orderRepsository, IInventoryValidation inventoryValidation, ICancelRepsository cancelRepsository, IOrderValidation orderValidation, IMapper mapper)
+    public CancelService(IOrderService orderService,IUserRepsository userRepsository,IInventoryRepsository inventoryRepsository,IAdminUserRepsository adminUserRepsository,IVendorUserRepsository vendorUserRepsository,INotificationService notificationService,ILogger<CancelService> logger,ILogChanges logChanges,IVendorUserValidation vendorUserValidation,IOrderItemRepsository orderItemRepsository, IRefundRepsository refundRepsository, ICancelRefundRepsository cancelRefundRepsository, IOrderRepsository orderRepsository, IInventoryValidation inventoryValidation, ICancelRepsository cancelRepsository, IOrderValidation orderValidation, IMapper mapper)
     {
+        _orderService = orderService;
         _userRepsository = userRepsository;
         _inventoryRepsository = inventoryRepsository;
         _adminUserRepsository = adminUserRepsository;

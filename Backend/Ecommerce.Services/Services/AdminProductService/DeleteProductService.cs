@@ -33,6 +33,7 @@ public partial class AdminProductService : IAdminProductService
             ApprovalHistory approvalHistory = new ApprovalHistory();
             approvalHistory.PreviousStatusId = previousStatus;
             approvalHistory.EntityType = "Product";
+            approvalHistory.ReviewerType = "Admin";
             approvalHistory.EntityId = product.ProductId;
             approvalHistory.ReviewerId = adminUser.AdminUserId;
             approvalHistory.Remarks = requestDeleteProductDTO.Remarks;
@@ -128,6 +129,7 @@ public partial class AdminProductService : IAdminProductService
             approvalHistory.PreviousStatusId = previousStatus;
             approvalHistory.EntityType = "Product_Variant";
             approvalHistory.EntityId = product.ProductId;
+            approvalHistory.ReviewerType = "Admin";
             approvalHistory.ReviewerId = adminUser.AdminUserId;
             approvalHistory.Remarks = requestDeleteProductDTO.Remarks;
             approvalHistory.NewStatusId = (int)ProductApprovalStatusEnum.Deleted_By_Admin;

@@ -65,13 +65,6 @@ public class AdminRefundService : IAdminRefundService
                 throw new DataNotFoundException("Return Not Found");
             }
 
-            var existingReturnRefund = await _returnRefundRepsository.Get(returnItem.ReturnId);
-            if (existingReturnRefund != null)
-            {
-                _logger.LogWarning("Refund already exists for ReturnId {ReturnId}", returnItem.ReturnId);
-                throw new DataAlreadyRegisteredException("Refund already created for this return");
-            }
-
             var orderItem = await _orderItemRepsository.GetOrderItemByOrderItemId(returnItem.OrderItemId);
             if (orderItem == null)
             {

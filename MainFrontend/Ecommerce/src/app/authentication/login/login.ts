@@ -72,7 +72,12 @@ export class Login {
           this.errorMessage.set("To Many Request. Try after some time");
         }
         else {
-          this.errorMessage.set("Something went wrong. Please try again.");
+          this.errorMessage.set(
+            error?.error?.message ??
+            error?.error?.errorMessage ??
+            error?.message ??
+            'An unexpected error occurred.'
+          );
         }
       }
     })

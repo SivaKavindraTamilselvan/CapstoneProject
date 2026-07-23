@@ -20,7 +20,7 @@ export class Register {
   constructor(private authService: AuthService) {
 
   }
-  
+
   registerForm = form(this.registerModel, (path) => {
     required(path.email, { message: "Enter The Email" })
     required(path.firstName, { message: "Enter The FirstName" })
@@ -46,7 +46,7 @@ export class Register {
         this.progress.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
         if (error.status == 409) {
@@ -63,7 +63,12 @@ export class Register {
           this.errorMessage.set(messages);
         }
         else {
-          this.errorMessage.set("Something went wrong. Please try again.")
+          this.errorMessage.set(
+            error?.error?.message ??
+            error?.error?.errorMessage ??
+            error?.message ??
+            'An unexpected error occurred.'
+          );
         }
       }
     })

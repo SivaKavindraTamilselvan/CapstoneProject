@@ -72,7 +72,10 @@ public partial class UserProductService : IUserProductService
                     inv.IsActive &&
                     inv.AvailableQuantity > 0 &&
                     inv.Address != null &&
-                    inv.Address.IsActive);
+                    inv.Address.IsActive) &&
+            variant.Product.Vendor.ApprovalStatusId == (int)ApprovalStatusEnum.Accepted &&
+               variant.ProductApprovalStatusId == (int)ProductApprovalStatusEnum.Admin_Approved &&
+               variant.ProductVariantStatusId == (int)ProductStatusEnum.Active;
         }
 
         _logger.LogInformation("Returning full details for ProductId {ProductId}", product.ProductId);

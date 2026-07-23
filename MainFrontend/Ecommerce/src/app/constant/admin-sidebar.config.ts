@@ -25,32 +25,12 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'vendor',
     label: 'Vendor',
-    roles: ['super-admin'],
+    roles: ['super-admin','vendor-admin'],
     children: [
       { label: 'Review Vendor', route: '/admin/vendors/review' },
       { label: 'Vendor List', route: '/admin/vendors/list' },
       { label: 'Deleted Vendor', route: '/admin/vendors/delete' },
     ]
-  },
-  {
-    key: 'review-vendor',
-    label: 'Review Vendor',
-    roles: ['vendor-admin'],
-  },
-  {
-    key: 'active-vendor',
-    label: 'Active Vendor',
-    roles: ['vendor-admin'],
-  },
-  {
-    key: 'vendor-list',
-    label: 'Vendor List',
-    roles: ['vendor-admin'],
-  },
-  {
-    key: 'delete-vendor',
-    label: 'Delete Vendor',
-    roles: ['vendor-admin'],
   },
   {
     key: 'products',
@@ -115,7 +95,7 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'coupon',
     label: 'Coupons',
-    roles: ['super-admin', 'product-admin'],
+    roles: ['super-admin', 'coupon-logistic-admin'],
     children: [
       { label: 'Add Coupon', route: '/admin/coupon/add' },
       { label: 'Active Coupons', route: '/admin/coupon/list?status=active' },
@@ -126,7 +106,7 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'orders',
     label: 'Orders',
-    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    roles: ['super-admin', 'order-admin'],
     children: [
       { label: 'OnGoing Orders', route: '/admin/orders/confirmed-orders' },
       { label: 'All Orders', route: '/admin/orders/list' },
@@ -136,7 +116,7 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'shipments',
     label: 'Shipments',
-    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    roles: ['super-admin', 'coupon-logistic-admin'],
     children: [
       { label: 'Shipment List', route: '/admin/shipments/list' },
       { label: 'OnGoing Shipments List', route: '/admin/ongoing-shipments/list' },
@@ -146,7 +126,7 @@ export const SIDEBAR_MENU: SidebarItem[] = [
   {
     key: 'returns',
     label: 'Return',
-    roles: ['super-admin', 'order-admin', 'vendor-admin'],
+    roles: ['super-admin', 'return-admin'],
     children: [
       { label: 'Dispute Returns', route: '/admin/returns/dispute' },
       { label: 'OnGoing Returns', route: '/admin/returns/ongoing' },

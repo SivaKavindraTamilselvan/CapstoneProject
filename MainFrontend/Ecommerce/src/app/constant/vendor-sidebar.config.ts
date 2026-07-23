@@ -75,31 +75,31 @@ export const VENDOR_SIDEBAR_MENU: VendorSidebarItem[] = [
     {
         key: 'inventory',
         label: 'Inventory',
-        roles: ['owner'],
+        roles: ['owner','inventory-manager'],
         children: [
-            { label: 'Inventory List', route: '/vendor/inventory', roles: ['owner'] },
-            { label: 'Deleted Inventory List', route: '/vendor/deleted-inventory/', roles: ['owner'] },
-            { label: 'Add Inventory', route: '/vendor/inventory/add', roles: ['owner'] },
+            { label: 'Inventory List', route: '/vendor/inventory', roles: ['owner','inventory-manager'] },
+            { label: 'Deleted Inventory List', route: '/vendor/deleted-inventory/', roles: ['owner','inventory-manager'] },
+            { label: 'Add Inventory', route: '/vendor/inventory/add', roles: ['owner','inventory-manager'] },
         ]
     },
     {
         key: 'orders',
         label: 'Orders',
-        roles: ['owner', 'order-admin', 'vendor-admin'],
+        roles: ['owner', 'order-manager'],
         children: [
-            { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders', roles: ['owner'] },
-            { label: 'Cancelled Orders', route: '/vendor/orders/cancelled-orders', roles: ['owner'] },
-            { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner'] }
+            { label: 'OnGoing Orders', route: '/vendor/orders/confirmed-orders', roles: ['owner','order-manager'] },
+            { label: 'Cancelled Orders', route: '/vendor/orders/cancelled-orders', roles: ['owner','order-manager'] },
+            { label: 'All Orders', route: '/vendor/orders/list', roles: ['owner','order-manager'] }
         ]
     },
     {
         key: 'returns',
         label: 'Returns',
-        roles: ['owner', 'order-admin', 'vendor-admin'],
+        roles: ['owner', 'return-manager'],
         children: [
-            { label: 'Pending Return Requests', route: '/vendor/returns/pending', roles: ['owner'] },
-            { label: 'Product Inspection', route: '/vendor/returns/inspection', roles: ['owner'] },
-            { label: 'All Returns', route: '/vendor/returns', roles: ['owner'] }
+            { label: 'Pending Return Requests', route: '/vendor/returns/pending', roles: ['owner','return-manager'] },
+            { label: 'Product Inspection', route: '/vendor/returns/inspection', roles: ['owner','return-manager'] },
+            { label: 'All Returns', route: '/vendor/returns', roles: ['owner','return-manager'] }
         ]
     }
 ];

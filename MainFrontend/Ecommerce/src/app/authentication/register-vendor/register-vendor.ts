@@ -53,7 +53,7 @@ export class RegisterVendor {
         this.progress.set(false);
       },
       error: (error) => {
-        console.error(error);
+        //console.error(error);
         this.progress.set(false);
         this.errorMessage.set(null);
         if (error.status == 409) {
@@ -70,12 +70,17 @@ export class RegisterVendor {
           this.errorMessage.set(messages);
         }
         else {
-          this.errorMessage.set("Something went wrong. Please try again.")
+          this.errorMessage.set(
+            error?.error?.message ??
+            error?.error?.errorMessage ??
+            error?.message ??
+            'An unexpected error occurred.'
+          );
         }
       }
     })
   }
-  
+
   togglePasswordVisibility() {
     this.showPassword.update(v => !v);
   }

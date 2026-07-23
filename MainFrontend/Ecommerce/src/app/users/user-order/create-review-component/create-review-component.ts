@@ -45,7 +45,7 @@ export class CreateReviewComponent {
       },
       error: () => {
         this.progress.set(false);
-        this.errorMessage.set('Something went wrong.');
+        this.errorMessage.set('Already reviewed for this order item.');
       }
     });
   }

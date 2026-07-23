@@ -208,16 +208,16 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     public async Task<decimal> GetGrossSalesAsync()
     {
         return await _ecommerceContext.OrderItems
-            .Where(oi => oi.Order!.OrderStatusId == 2 &&
-                         oi.OrderItemStatusId == 4)
+            .Where(oi => oi.Order!.OrderStatusId == (int)OrderStatusEnum.Completed &&
+                         oi.OrderItemStatusId == (int)OrderItemStatusEnum.Delivered)
             .SumAsync(oi => oi.UnitPrice * oi.Quantity);
     }
 
     public async Task<decimal> GetCommissionAsync()
     {
         return await _ecommerceContext.OrderItems
-            .Where(oi => oi.Order!.OrderStatusId == 2 &&
-                         oi.OrderItemStatusId == 4)
+            .Where(oi => oi.Order!.OrderStatusId == (int)OrderStatusEnum.Completed &&
+                         oi.OrderItemStatusId == (int)OrderItemStatusEnum.Delivered)
             .SumAsync(oi =>
                 oi.ProductVariant!.Product!.ProductSubCategory!.CommissionPercentage
                 * oi.UnitPrice
@@ -230,7 +230,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         var end = start.AddDays(1);
 
         return await _ecommerceContext.OrderItems
-            .Where(oi => oi.Order!.OrderStatusId == 2 &&
+            .Where(oi => oi.Order!.OrderStatusId == 3 &&
                          oi.OrderItemStatusId == 4 &&
                          oi.Order.OrderDate >= start &&
                          oi.Order.OrderDate < end)
@@ -244,7 +244,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         var fromDate = DateTime.Today.AddDays(-30);
 
         return await _ecommerceContext.OrderItems
-            .Where(oi => oi.Order!.OrderStatusId == 2 &&
+            .Where(oi => oi.Order!.OrderStatusId == 3 &&
                          oi.OrderItemStatusId == 4 &&
                          oi.Order.OrderDate >= fromDate)
             .SumAsync(oi =>
@@ -260,7 +260,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     public async Task<int> GetPendingOrdersAsync()
     {
         return await _ecommerceContext.Order
-            .CountAsync(o => o.OrderStatusId == 1);
+            .CountAsync(o => o.OrderStatusId == 2);
     }
 
     public async Task<int> GetTotalCustomersAsync()
@@ -278,7 +278,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     public async Task<List<RevenueTrendDto>> GetRevenueTrendAsync(string period)
     {
         var query = _ecommerceContext.OrderItems
-            .Where(oi => oi.Order!.OrderStatusId == 2 &&
+            .Where(oi => oi.Order!.OrderStatusId == 3 &&
                          oi.OrderItemStatusId == 4);
 
         if (period == "7days")
@@ -420,7 +420,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
     {
         return await _ecommerceContext.OrderItems
             .Where(oi =>
-                oi.Order!.OrderStatusId == 2 &&
+                oi.Order!.OrderStatusId == 3 &&
                 oi.OrderItemStatusId == 4 &&
                 oi.ProductVariant!.Product!.VendorId == vendorId)
             .SumAsync(oi => oi.UnitPrice * oi.Quantity);
@@ -433,7 +433,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
 
         return await _ecommerceContext.OrderItems
             .Where(oi =>
-                oi.Order!.OrderStatusId == 2 &&
+                oi.Order!.OrderStatusId == 3 &&
                 oi.OrderItemStatusId == 4 &&
                 oi.ProductVariant!.Product!.VendorId == vendorId &&
                 oi.Order.OrderDate >= start &&
@@ -447,7 +447,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
 
         return await _ecommerceContext.OrderItems
             .Where(oi =>
-                oi.Order!.OrderStatusId == 2 &&
+                oi.Order!.OrderStatusId == 3 &&
                 oi.OrderItemStatusId == 4 &&
                 oi.ProductVariant!.Product!.VendorId == vendorId &&
                 oi.Order.OrderDate >= fromDate)
@@ -468,7 +468,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         return await _ecommerceContext.OrderItems
             .Where(oi =>
                 oi.ProductVariant!.Product!.VendorId == vendorId &&
-                oi.Order!.OrderStatusId == 1)
+                oi.Order!.OrderStatusId == 2)
             .Select(oi => oi.OrderId)
             .Distinct()
             .CountAsync();
@@ -485,7 +485,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         return await _ecommerceContext.Product
             .CountAsync(p =>
                 p.VendorId == vendorId &&
-                p.ProductStatusId == 1);
+                p.ProductStatusId == 2);
     }
 
     public async Task<int> GetVendorLowStockProductsAsync(int vendorId)
@@ -504,7 +504,7 @@ public class OrderRepsository : AbstractRepository<int, Order>, IOrderRepsositor
         var query = _ecommerceContext.OrderItems
             .Where(oi =>
                 oi.ProductVariant!.Product!.VendorId == vendorId &&
-                oi.Order!.OrderStatusId == 2 &&
+                oi.Order!.OrderStatusId == 3 &&
                 oi.OrderItemStatusId == 4);
 
         if (period == "7days")

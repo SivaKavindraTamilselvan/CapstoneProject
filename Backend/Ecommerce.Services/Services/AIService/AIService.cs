@@ -44,11 +44,6 @@ public class AiProductValidationService
             var bytes = await response.Content.ReadAsByteArrayAsync();
             var base64 = Convert.ToBase64String(bytes);
 
-            // Use the actual Content-Type the server reports for this image, rather than
-            // guessing from the file extension. Guessing from extension alone was mislabeling
-            // images (e.g. a ".jpg" URL that actually served WebP bytes), which Anthropic
-            // correctly rejected with a media-type mismatch error. Only fall back to extension
-            // guessing if the server didn't send a Content-Type at all.
             var mimeType = response.Content.Headers.ContentType?.MediaType;
             if (string.IsNullOrWhiteSpace(mimeType))
             {

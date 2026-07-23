@@ -18,12 +18,22 @@ public class ShipmentItemRepsository : AbstractRepository<int, ShipmentItems>, I
     }
     public async Task<List<ShipmentItems>> GetPendingPackedTheShipmentItemsByShipmentId(int shipmentId)
     {
-        var shipment = await _ecommerceContext.ShipmentItems.Include(s => s.OrderItems).Where(s => s.ShipmentId == shipmentId && s.OrderItems!.OrderItemStatusId != 2).ToListAsync();
+        var shipment = await _ecommerceContext.ShipmentItems.Include(s => s.OrderItems).ThenInclude(s => s.ProductVariant).ThenInclude(p => p.Product).Where(s => s.ShipmentId == shipmentId && s.OrderItems!.OrderItemStatusId != 2).ToListAsync();
         return shipment;
     }
     public async Task<List<OrderItems>> GetOrderItemsByShippingId(int shipmentId)
     {
-        var orderItem = await _ecommerceContext.ShipmentItems.Include(s=>s.Shipment).ThenInclude(o=>o.Order).Where(s => s.ShipmentId == shipmentId).Select(s => s.OrderItems!).ToListAsync();
+        var orderItem = await _ecommerceContext.ShipmentItems
+            .Include(s => s.Shipment)
+                .ThenInclude(o => o.Order)
+            .Include(o => o.OrderItems)
+                .ThenInclude(s => s.ProductVariant)
+                    .ThenInclude(p => p.Product)
+            .Include(o => o.OrderItems).ThenInclude(o=>o.Order)
+            .Where(s => s.ShipmentId == shipmentId)
+            .Select(s => s.OrderItems!)
+            .ToListAsync();
+
         return orderItem;
     }
     public async Task<List<Shipment>> GetAllNotDeliveredOrderByOrderId(int orderId)

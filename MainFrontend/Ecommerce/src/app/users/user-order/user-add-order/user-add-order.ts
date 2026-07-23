@@ -144,9 +144,10 @@ export class UserAddOrder {
     if (address == null) {
       return;
     }
-    var check = new AddUserOrderModel(address, null, id);
+    var check = new AddUserOrderModel(address, null, id, false);
     this.orderService.checkShipment(check).subscribe({
       next: (res) => {
+        console.log(res.totalShippingCharge);
         this.deliveryCost.set(res.totalShippingCharge);
         this.shipmentAvailable.set(res.isShippingAvailable);
         this.shipmentMessage.set('');
@@ -226,6 +227,12 @@ export class UserAddOrder {
 
     this.isLoading.set(true);
     this.error.set(null);
+
+    if (this.finalTotal() <= 0 && this.selectedPaymentId() != 1) {
+      this.error.set("Cannot place order with value 0 in razorpay.Use cash on delivery payment method.");
+      this.isLoading.set(false);
+      return;
+    }
     const headers = { 'Idempotency-Key': this.placeOrderIdempotencyKey() };
 
     this.orderService.placeOrder(payload, this.placeOrderIdempotencyKey()).subscribe({

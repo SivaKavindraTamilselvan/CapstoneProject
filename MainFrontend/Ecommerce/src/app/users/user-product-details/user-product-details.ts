@@ -62,6 +62,25 @@ export class UserProductDetails {
     );
   });
 
+  displayImages = computed(() => {
+    const p = this.product();
+    const variant = this.selectedVariant();
+    if (!p) return [];
+
+    const productImgs = p.productImages ?? [];
+    const variantImgs = variant?.productImages ?? [];
+
+    // Variant images first (more specific), then product-level images.
+    // Dedup by imageUrl in case of overlap.
+    const combined = [...variantImgs, ...productImgs];
+    const seen = new Set<string>();
+    return combined.filter(img => {
+      if (seen.has(img.imageUrl)) return false;
+      seen.add(img.imageUrl);
+      return true;
+    });
+  });
+
   hasAvailableVariantForAttr(attrValue: string): boolean {
     const p = this.product();
     if (!p) return false;
@@ -89,7 +108,7 @@ export class UserProductDetails {
     private route: ActivatedRoute,
     private userCartService: UserCartService,
     private router: Router,
-    private authService: AuthStateService 
+    private authService: AuthStateService
   ) { }
 
   ngOnInit() {
@@ -155,6 +174,7 @@ export class UserProductDetails {
     this.userProductService.getProductDetails(productId).subscribe({
       next: (response: any) => {
         this.product.set(response);
+        console.log(response);
 
         const firstMainAttr = response.productVariants
           ?.find((v: UserProductVariantModel) =>
@@ -178,24 +198,26 @@ export class UserProductDetails {
     });
   }
 
+  selectVariant(variant: UserProductVariantModel) {
+    if (!variant.isAvailableForSale) return;
+    this.selectedVariant.set(variant);
+    this.currentImageIndex.set(0);
+  }
+
   selectMainAttr(value: string) {
     this.selectedMainAttrValue.set(value);
     const firstMatch = this.filteredVariants().find(v => v.isAvailableForSale) ?? null;
     this.selectedVariant.set(firstMatch);
-  }
-
-  selectVariant(variant: UserProductVariantModel) {
-    if (!variant.isAvailableForSale) return;
-    this.selectedVariant.set(variant);
+    this.currentImageIndex.set(0);
   }
 
   prevImage() {
-    const total = this.product()?.productImages?.length ?? 0;
+    const total = this.displayImages().length;
     this.currentImageIndex.update(i => (i - 1 + total) % total);
   }
 
   nextImage() {
-    const total = this.product()?.productImages?.length ?? 0;
+    const total = this.displayImages().length;
     this.currentImageIndex.update(i => (i + 1) % total);
   }
 
